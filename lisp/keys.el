@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.17 2001-08-15 21:49:00 cvs Exp $")
+ "$Id: keys.el,v 1.18 2001-09-02 00:25:22 cvs Exp $")
 ;(require 'nums)
 
 ;; all key bindings
@@ -87,7 +87,8 @@
 (global-set-key "l" 'move-to-window-line)
 (global-set-key "m" 'chmod)
 (global-set-key "n" 'note)
-(global-set-key "r" 'vm)
+; (global-set-key "r" 'vm)
+(global-set-key "r" 'rmail)
 (global-set-key "s" 'spell-region)
 (global-set-key "v" 'html-view)
 ;(global-set-key "m" 'x-flush-mouse-queue)

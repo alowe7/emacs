@@ -1,39 +1,7 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.20 2001-07-22 16:27:14 cvs Exp $")
+ "$Id: default.el,v 1.21 2001-09-02 00:25:22 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
-
-(setq home (expand-file-name (getenv "HOME")))
-(setq emacsdir (expand-file-name (getenv "EMACSDIR")))
-(setq share (expand-file-name (or (getenv "SHARE") "/usr/share")))
-(require 'uname)
-
-(mapcar 
- '(lambda (x) (and (file-directory-p x)
-		   (not (member x load-path))
-		   (not (string-match "/CVS$" x))
-		   (nconc load-path (list (expand-file-name x)))))
-
- (nconc (list 
-	 (concat home "/emacs/config/hosts/" (hostname))
-	 (concat home "/emacs/config/os/" (uname))
-	 )
-	(directory-files (concat home "/emacs/site-lisp") t "^[a-zA-Z]")
-	(directory-files (concat emacsdir "/site-lisp") t "^[a-zA-Z]")
-	(directory-files (concat share "/emacs/site-lisp") t "^[a-zA-Z]")
-	)
- )
-
-(load "autoloads" nil t) ;automatically generated now
-
-(require 'config) ; this feature should not be required for anything up to this point
-
-(load "os-init" t t)		; load os-specific info
-
-(or 
- (load (symbol-name window-system) t t)	; window system specific
- (load (getenv "TERM") t t)		;terminal specific
-)
 
 ; emacs specific initialization
 ; epoch, lucid, and xemacs variants caused problems once upon a time, ...
@@ -137,6 +105,7 @@
 				   ) 
 	  t)
 
+(add-hook 'sh-mode-hook '(lambda () (use-local-map nil)))
 
 (put 'eval-expression 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
@@ -144,7 +113,6 @@
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (put 'upcase-region 'disabled nil)
-
 
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -159,8 +127,5 @@
     (describe-variable 'default-frame-alist)
     )
   )
-
-;; optional host-specific overrides
-(load "host-init" t t)
 
 (run-hooks 'post-load-hook)
