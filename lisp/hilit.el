@@ -1,4 +1,5 @@
-(put 'hilit 'rcsid "$Id: hilit.el,v 1.4 2000-10-03 16:44:07 cvs Exp $")
+(put 'hilit 'rcsid 
+ "$Id: hilit.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
 ;;; From awdprime.austin.ibm.com!auschs!portal.austin.ibm.com!geraldo.cc.utexas.edu!cs.utexas.edu!math.ohio-state.edu!magnus.acs.ohio-state.edu!cis.ohio-state.edu!netcom.com!stig Mon Jul 19 23:57:06 1993
 ;;; Path: awdprime.austin.ibm.com!auschs!portal.austin.ibm.com!geraldo.cc.utexas.edu!cs.utexas.edu!math.ohio-state.edu!magnus.acs.ohio-state.edu!cis.ohio-state.edu!netcom.com!stig
 ;;; From: stig@netcom.com (Stig)

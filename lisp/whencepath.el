@@ -1,4 +1,5 @@
-(put 'whencepath 'rcsid "$Id: whencepath.el,v 1.3 2000-10-03 16:44:08 cvs Exp $")
+(put 'whencepath 'rcsid 
+ "$Id: whencepath.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
 (require 'ksh-interpreter)
 (require 'cl)
 

@@ -1,4 +1,5 @@
-(put 'default-lib 'rcsid "$Id: default-lib.el,v 1.5 2000-10-03 16:44:06 cvs Exp $")
+(put 'default-lib 'rcsid 
+ "$Id: default-lib.el,v 1.6 2000-10-03 16:50:27 cvs Exp $")
 ;; this lib should contain functions that would go in pure code if possible.
 
 ; (require 'cl) ; this should definitely be pure.

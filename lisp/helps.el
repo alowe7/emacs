@@ -1,4 +1,5 @@
-(put 'helps 'rcsid "$Id: helps.el,v 1.5 2000-10-03 16:44:07 cvs Exp $")
+(put 'helps 'rcsid 
+ "$Id: helps.el,v 1.6 2000-10-03 16:50:28 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)

@@ -1,4 +1,5 @@
-(put 'todo 'rcsid "$Id: todo.el,v 1.3 2000-10-03 16:44:08 cvs Exp $")
+(put 'todo 'rcsid 
+ "$Id: todo.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
 (require 'eval-process)
 
 (defvar master-todo-file (expand-file-name "~/todo" ) 

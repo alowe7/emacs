@@ -1,4 +1,5 @@
-(put 'glimpse 'rcsid "$Id: glimpse.el,v 1.3 2000-10-03 16:44:06 cvs Exp $")
+(put 'glimpse 'rcsid 
+ "$Id: glimpse.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
 (require 'compile)
 
 (defvar glimpse-mode-map nil)

@@ -1,4 +1,5 @@
-(put 'sgml-mode 'rcsid "$Id: sgml-mode.el,v 1.3 2000-10-03 16:44:08 cvs Exp $")
+(put 'sgml-mode 'rcsid 
+ "$Id: sgml-mode.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
 ;;; sgml-mode.el --- SGML- and HTML-editing modes
 
 ;; Copyright (C) 1992, 1995, 1996 Free Software Foundation, Inc.

@@ -1,4 +1,5 @@
-(put 'eval-process 'rcsid "$Id: eval-process.el,v 1.6 2000-10-03 16:44:06 cvs Exp $")
+(put 'eval-process 'rcsid 
+ "$Id: eval-process.el,v 1.7 2000-10-03 16:50:27 cvs Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)

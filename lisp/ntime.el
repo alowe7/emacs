@@ -1,4 +1,5 @@
-(put 'ntime 'rcsid "$Id: ntime.el,v 1.3 2000-10-03 16:44:07 cvs Exp $")
+(put 'ntime 'rcsid 
+ "$Id: ntime.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
 ;; Simple implementation of mode-line/echo-area clock, using itimers.
 
 ; why?

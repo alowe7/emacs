@@ -1,4 +1,5 @@
-(put 'fapropos 'rcsid "$Id: fapropos.el,v 1.4 2000-10-03 16:44:06 cvs Exp $")
+(put 'fapropos 'rcsid 
+ "$Id: fapropos.el,v 1.5 2000-10-03 16:50:27 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)

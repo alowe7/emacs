@@ -1,4 +1,5 @@
-(put 'perl-utils 'rcsid "$Id: perl-utils.el,v 1.2 2000-10-03 16:44:07 cvs Exp $")
+(put 'perl-utils 'rcsid 
+ "$Id: perl-utils.el,v 1.3 2000-10-03 16:50:28 cvs Exp $")
 
 ; perl workalike functions
 

@@ -1,4 +1,5 @@
-(put 'w3-loads 'rcsid "$Id: w3-loads.el,v 1.4 2000-10-03 16:44:08 cvs Exp $")
+(put 'w3-loads 'rcsid 
+ "$Id: w3-loads.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
 (provide 'w3-loads)
 (addloadpath "$EMACSDIR/site-lisp/w3")
 (setq w3-default-homepage "file://d|/p/web/index.html")

@@ -1,4 +1,5 @@
-(put 'roll 'rcsid "$Id: roll.el,v 1.3 2000-10-03 16:44:07 cvs Exp $")
+(put 'roll 'rcsid 
+ "$Id: roll.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
 (provide 'roll)
 (require 'cl)
 

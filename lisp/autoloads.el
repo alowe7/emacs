@@ -1,4 +1,5 @@
-(put 'autoloads 'rcsid "$Id: autoloads.el,v 1.5 2000-10-03 16:44:06 cvs Exp $")
+(put 'autoloads 'rcsid 
+ "$Id: autoloads.el,v 1.6 2000-10-03 16:50:27 cvs Exp $")
 ; automatically generated for the most part.  see ../Makefile
 (load "../auto-autoloads" t t t )
 

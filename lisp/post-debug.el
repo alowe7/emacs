@@ -1,4 +1,5 @@
-(put 'post-debug 'rcsid "$Id: post-debug.el,v 1.6 2000-10-03 16:44:07 cvs Exp $")
+(put 'post-debug 'rcsid 
+ "$Id: post-debug.el,v 1.7 2000-10-03 16:50:28 cvs Exp $")
 ; (define-key debugger-mode-map "x" 'debug-indicated-word)
 
 ;(add-hook 'debugger-mode-hook '(lambda ()

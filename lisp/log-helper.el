@@ -1,4 +1,5 @@
-(put 'log-helper 'rcsid "$Id: log-helper.el,v 1.4 2000-10-03 16:44:07 cvs Exp $")
+(put 'log-helper 'rcsid 
+ "$Id: log-helper.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
 (defun log-timeval (&optional s)
 
 	;; this save-excursion should probably be in eval-process

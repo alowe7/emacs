@@ -1,4 +1,5 @@
-(put 'html-mode 'rcsid "$Id: html-mode.el,v 1.4 2000-10-03 16:44:07 cvs Exp $")
+(put 'html-mode 'rcsid 
+ "$Id: html-mode.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
 ;;; --------------------------------------------------------------------------
 ;;; HTML mode, based on text mode.
 ;;; Copyright (C) 1985 Free Software Foundation, Inc.

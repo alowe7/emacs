@@ -1,4 +1,5 @@
-(put 'fontview 'rcsid "$Id: fontview.el,v 1.4 2000-10-03 16:44:06 cvs Exp $")
+(put 'fontview 'rcsid 
+ "$Id: fontview.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
 (require 'view)
 
 (defvar fontview-mode-map nil "")

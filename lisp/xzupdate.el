@@ -1,4 +1,5 @@
-(put 'xzupdate 'rcsid "$Id: xzupdate.el,v 1.4 2000-10-03 16:44:08 cvs Exp $")
+(put 'xzupdate 'rcsid 
+ "$Id: xzupdate.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
 
 (defun xz-update (&optional update l)
 	"produces a list of modules in (xz-db) newer than database.

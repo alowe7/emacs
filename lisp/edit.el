@@ -1,4 +1,5 @@
-(put 'edit 'rcsid "$Id: edit.el,v 1.2 2000-10-03 16:44:06 cvs Exp $")
+(put 'edit 'rcsid 
+ "$Id: edit.el,v 1.3 2000-10-03 16:50:27 cvs Exp $")
 
 ;; edit and format functions
 

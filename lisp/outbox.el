@@ -1,4 +1,5 @@
-(put 'outbox 'rcsid "$Id: outbox.el,v 1.4 2000-10-03 16:44:07 cvs Exp $")
+(put 'outbox 'rcsid 
+ "$Id: outbox.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
 (defvar ob-mode-map nil "")
 
 (defun outbox-mode ()

@@ -1,4 +1,5 @@
-(put 'url-helpers 'rcsid "$Id: url-helpers.el,v 1.4 2000-10-03 16:44:08 cvs Exp $")
+(put 'url-helpers 'rcsid 
+ "$Id: url-helpers.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
 (setq url-automatic-cacheing nil)
 (setq url-use-viewers nil)
 

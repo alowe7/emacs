@@ -1,4 +1,5 @@
-(put 'flip 'rcsid "$Id: flip.el,v 1.4 2000-10-03 16:44:06 cvs Exp $")
+(put 'flip 'rcsid 
+ "$Id: flip.el,v 1.5 2000-10-03 16:50:27 cvs Exp $")
 
 ; microsoft has some funny ideas about these chars
 (defun flip ()

@@ -1,4 +1,5 @@
-(put 'zip-view 'rcsid "$Id: zip-view.el,v 1.4 2000-10-03 16:44:08 cvs Exp $")
+(put 'zip-view 'rcsid 
+ "$Id: zip-view.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
 (provide 'zip-view)
 
 ;(pop file-assoc-list)

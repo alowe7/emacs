@@ -1,4 +1,5 @@
-(put 'calc-loads 'rcsid "$Id: calc-loads.el,v 1.4 2000-10-03 16:44:06 cvs Exp $")
+(put 'calc-loads 'rcsid 
+ "$Id: calc-loads.el,v 1.5 2000-10-03 16:50:27 cvs Exp $")
 (provide 'calc-loads)
 (defvar var-TimeZone '(+ (var GMT var-GMT) 6))
 ;;; Variable "var-Holidays" stored by Calc on Mon May 11 20:57:43 1998

@@ -1,4 +1,5 @@
-(put 'encrypt 'rcsid "$Id: encrypt.el,v 1.3 2000-10-03 16:44:06 cvs Exp $")
+(put 'encrypt 'rcsid 
+ "$Id: encrypt.el,v 1.4 2000-10-03 16:50:27 cvs Exp $")
 (provide 'encrypt)
 (require 'comint) ; for non-echoing read
 

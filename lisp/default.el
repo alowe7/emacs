@@ -1,4 +1,5 @@
-(put 'default 'rcsid "$Id: default.el,v 1.4 2000-10-03 16:44:06 cvs Exp $")
+(put 'default 'rcsid 
+ "$Id: default.el,v 1.5 2000-10-03 16:50:27 cvs Exp $")
 
 (require 'config) ; this feature should not be required for anything up to this point
 

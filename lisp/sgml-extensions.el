@@ -1,4 +1,5 @@
-(put 'sgml-extensions 'rcsid "$Id: sgml-extensions.el,v 1.4 2000-10-03 16:44:08 cvs Exp $")
+(put 'sgml-extensions 'rcsid 
+ "$Id: sgml-extensions.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
 
 ;; some sgml extensions
 (setq html-mode-keys '(("" new-para)

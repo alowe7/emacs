@@ -1,4 +1,5 @@
-(put 'dired-advice 'rcsid "$Id: dired-advice.el,v 1.4 2000-10-03 16:44:06 cvs Exp $")
+(put 'dired-advice 'rcsid 
+ "$Id: dired-advice.el,v 1.5 2000-10-03 16:50:27 cvs Exp $")
 
 (require 'advice)
 

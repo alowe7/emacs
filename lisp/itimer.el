@@ -1,4 +1,5 @@
-(put 'itimer 'rcsid "$Id: itimer.el,v 1.3 2000-10-03 16:44:07 cvs Exp $")
+(put 'itimer 'rcsid 
+ "$Id: itimer.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
 ;;; Interval timers for GNU Emacs
 ;;; Copyright (C) 1988, 1991, 1993, 1997 Kyle E. Jones
 ;;;
