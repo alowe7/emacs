@@ -1,3 +1,5 @@
+(put 'post-bookmark 'rcsid
+ "$Id: post-bookmark.el,v 1.4 2005-02-16 23:25:15 cvs Exp $")
  
 (require 'ctl-slash)
 (define-key ctl-/-map (vector (ctl ?.)) 'bookmark-save)

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.10 2004-09-24 02:08:07 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.11 2005-02-16 23:25:15 cvs Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -76,8 +76,22 @@
 (add-to-load-path "/u/emacs-w3m-1.3.2")
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
 
+; all kinds of crap here
 (add-to-load-path "/z/el" t)
+; and some lisp here too
+(add-to-load-path "/z/pl" t)
+
+; and some here too
+(condition-case x (load "/z/soap/.autoloads") (error nil))
+(condition-case x (load "/z/pl/.autoloads") (error nil))
+
+; find-script will look along path for certain commands 
+(addpathp "/z/pl" "PATH")
+
+; this ensure calendar comes up in a frame with a fixed-width font
 (load-library "mycal")
+; xxx check out why this isn't autoloading
+(load-library "post-bookmark")
 
 (if (not (and
 	  (file-directory-p exec-directory)
