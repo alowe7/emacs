@@ -7,4 +7,9 @@
 	)
   )
 
+(defun get-scratch-buffer (x)
+  (interactive)
+  (zap-buffer (make-temp-name x) '(scratch-mode))
+  )
+
 (provide 'scratch-mode)

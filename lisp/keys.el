@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.41 2003-11-17 21:38:53 cvs Exp $")
+ "$Id: keys.el,v 1.42 2003-11-24 22:07:40 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -279,7 +279,10 @@
 
 (loop for x from 0 to 9 do
       (let ((k (format "%d" x)))
-	(define-key ctl-/-map k `(lambda () (interactive) (pop-to-buffer (zap-buffer (make-temp-name ,k) '(scratch-mode)))))))
+	(define-key ctl-/-map k 
+	  `(lambda () (interactive) (switch-to-buffer (get-scratch-buffer ,k))))
+	)
+      )
 
 (provide 'keys)
 
