@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.12 2001-04-27 11:38:00 cvs Exp $")
+ "$Id: keys.el,v 1.13 2001-07-03 13:06:35 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -29,7 +29,6 @@
 (global-set-key "c" 'calendar) ;
 
 (global-set-key "r." 'register-to-point)
-(global-set-key "Ü" 'scroll-down-1)
 
 ; ctl-x-map
 (global-set-key  "" 'kill-buffer)
@@ -57,9 +56,8 @@
 (global-set-key "" 'kill-compilation)
 
 
-
-
 (global-set-key "" 'find-file-force-refresh)
+(global-set-key "" 'find-indicated-file)
 
 (global-set-key "" 'insert-buffer)
 (global-set-key "" 'kill-rectangle)
@@ -141,18 +139,12 @@
 ;; (global-set-key "Ñ" 'backward-char)
 ;; (global-set-key "Ó" 'forward-char)
 
-
-
 (global-set-key "¿" 'scroll-down-1)
 (global-set-key "¯" 'scroll-up-1)
 (global-set-key "à" 'next-error)
 
 ;;(define-key ctl-x-4-map "s" 'fileness)
 ;;(define-key ctl-x-4-map "w" 'wordness)
-
-
-
-
 
 (define-key ctl-x-4-map "a" 'ascii-region)
 (define-key ctl-x-4-map "c" 'caesar-buffer)
