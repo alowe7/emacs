@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.14 2001-03-06 12:46:10 cvs Exp $")
+ "$Id: default.el,v 1.15 2001-06-25 10:37:29 cvs Exp $")
 
 (setq home (getenv "HOME"))
 (setq emacsdir (expand-file-name (getenv "EMACSDIR")))
@@ -8,7 +8,11 @@
 (load "autoloads" nil t) ;automatically generated now
 
 (mapcar 
- '(lambda (x) (and (file-directory-p x) (not (member x load-path)) (nconc load-path (list x))))
+ '(lambda (x) (and (file-directory-p x)
+		   (not (member x load-path))
+		   (not (string-match "/CVS$" x))
+		   (nconc load-path (list (expand-file-name x)))))
+
  (nconc (list 
 	 (concat home "/emacs/config/hosts/" (hostname))
 	 (concat home "/emacs/config/os/" (uname))
