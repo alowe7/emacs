@@ -1,5 +1,10 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.14 2002-06-06 17:17:44 cvs Exp $")
+ "$Id: post-dired.el,v 1.15 2002-06-19 13:49:02 cvs Exp $")
+(require  'eval-process)
+(require 'tar-view)
+(require 'zip-view)
+(require 'html-view)
+(require 'dired-advice)
 
 ;; dired stuff
 
@@ -290,10 +295,13 @@ see `file-assoc-list'"
     (revert-buffer))
   )
 
-(require 'tar-view)
-(require 'zip-view)
-(require 'html-view)
-(require 'dired-advice)
+(defun dired-sum-diff () (interactive)
+  (let* ((f (dired-get-filename))
+	 (fn (file-name-nondirectory f))
+	 (x (sum f))
+	 (y (save-window-excursion (other-window-1) (sum fn))))
+    (= x y))
+  )
 
 (add-hook 'dired-mode-hook '(lambda () 
 			      (define-key  dired-mode-map "\C-m" 'dired-aexec)

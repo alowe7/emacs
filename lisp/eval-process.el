@@ -1,5 +1,5 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.10 2001-08-17 14:25:41 cvs Exp $")
+ "$Id: eval-process.el,v 1.11 2002-06-19 13:49:02 cvs Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)
@@ -119,4 +119,13 @@ cleans up linefeeds in resulting output"
 see `format-time-string' and `time-stamp'"
   (interactive)
   (insert (format-time-string (string* format "%Y/%m/%d %T")))
+  )
+
+(defun sum (f) (interactive "ffile: ")
+  (car (read-from-string (car
+			  (loop for x in
+				(split (eval-shell-command (format "sum %s" f)))
+				when (string* x)
+				collect x)
+			  )))
   )

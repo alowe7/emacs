@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.22 2002-03-14 17:51:40 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.23 2002-06-19 13:49:02 cvs Exp $")
 
 (setq default-frame-alist
       '((width . 102)
@@ -51,15 +51,17 @@
 	   finally return l))
   )
 
-(require 'worlds)
-(require 'world-advice)
-(setq *shell-track-worlds* t)
+; (require 'worlds)
+; (require 'world-advice)
+; (setq *shell-track-worlds* t)
 
-(scan-file "~/.xdbrc")
+(scan-file-p "~/.xdbrc")
 
-; (setenv "XDBHOST" "kim.alowe.com")
-; (setenv "XDB" "x")
-; (setenv "XDBUSER" "a")
+(if (and (not (evilnat)) 
+	 (string* (getenv "XDBHOST"))
+	 (string* (getenv "XDBDOMAIN"))
+	 (not (string-match (getenv "XDBDOMAIN") (getenv "XDBHOST"))))
+    (setenv "XDBHOST" (concat (getenv "XDBHOST") "." (getenv "XDBDOMAIN"))))
 
 (require 'xz-loads)
 (setq *xz-show-status* nil)

@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.23 2002-03-08 18:47:02 cvs Exp $")
+ "$Id: os-init.el,v 1.24 2002-06-19 13:49:02 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 (setq doc-directory data-directory)
@@ -198,3 +198,6 @@ host must respond within optional TIMEOUT msec"
 ;; ; (ad-is-advised 'abbreviate-file-name)
 ;; ; (ad-unadvise 'abbreviate-file-name)
 ;; 
+
+(require 'perl-command)
+(defun evilnat () (not (string-match "ok" (perl-command "evilnat"))))

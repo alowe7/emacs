@@ -1,5 +1,5 @@
 (put 'cvs 'rcsid 
- "$Id: cvs.el,v 1.8 2001-09-07 21:37:15 cvs Exp $")
+ "$Id: cvs.el,v 1.9 2002-06-19 13:49:02 cvs Exp $")
 (require 'vc)
 
 (defvar *cvs-commands*
@@ -50,7 +50,7 @@
     )
   )
 
-(setq favorite-cvspservers '(("cvs@kim.technology-x.com") ("cvs@kim")))
+(setq favorite-cvspservers '(("cvs@kim.alowe.com") ("cvs@kim")))
 
 
 (defun cvsroot (&optional arg)

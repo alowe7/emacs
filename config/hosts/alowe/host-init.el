@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.16 2002-04-14 04:22:37 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.17 2002-06-19 13:49:02 cvs Exp $")
 
 (setq default-frame-alist
       '((top + -4)
@@ -39,11 +39,13 @@
 (setq *xz-show-status* nil)
 (setq *xz-squish* 4)
 
-(defun evilnat () (not (string-match "ok" (perl-command "evilnat"))))
+(scan-file-p "~/.xdbrc")
 
-(setenv "XDBHOST" (if (evilnat) "kim" "kim.alowe.com"))
-(setenv "XDB" "x")
-(setenv "XDBUSER" "a")
+(if (and (not (evilnat)) 
+	 (string* (getenv "XDBHOST"))
+	 (string* (getenv "XDBDOMAIN"))
+	 (not (string-match (getenv "XDBDOMAIN") (getenv "XDBHOST"))))
+    (setenv "XDBHOST" (concat (getenv "XDBHOST") "." (getenv "XDBDOMAIN"))))
 
 (require 'gnuserv)
 
