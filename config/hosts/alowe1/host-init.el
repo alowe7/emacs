@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.3 2003-03-19 15:26:53 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.4 2003-04-07 21:52:47 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 23)
@@ -26,7 +26,8 @@
 			      (setq *people-database*
 				    (nconc 
 ; xxx todo: put (get-directory-files (expand-file-name ...)) into xwf if F is a dir, add optional argz
-				     (last (get-directory-files (xwf "n" "broadjump") t "people.*\.csv$"))
+;				     (last (get-directory-files (xwf "n" "broadjump") t "people.*\.csv$"))
+				     (last (get-directory-files "/m" t "phone.*\.csv$"))
 				     (list "~/n/people")))))
 (add-hook 'xz-load-hook 
 	  '(lambda ()
@@ -65,7 +66,8 @@
 
 (setq *shell-track-worlds* t)
 
-(scan-file-p "~/.xdbrc")
+; this is very weird...
+; (scan-file-p "~/.xdbrc")
 
 (if (and (not (evilnat)) 
 	 (string* (getenv "XDBHOST"))
@@ -95,6 +97,7 @@
 (setq font-lock-support-mode 'lazy-lock-mode)
 
 (add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))
+(add-hook 'java-mode-hook (lambda () (lazy-lock-mode)))
 
 (defvar java-home
   (string* (getenv "JAVA_HOME")
