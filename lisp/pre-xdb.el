@@ -37,15 +37,20 @@
 
 ; put on xdb-init-hook first time through
 
-(defun xdb-login (&optional arg)
-  (interactive "P")
+(defvar *xdbuser* (getenv "XDBUSER"))
+(defvar *xdbsword* nil)
 
-  ; ask for a sword
-  ; with arg, present current login info
-  (if arg (message "(%s,%s)" *xdbuser* (make-string (length *xdbsword*) ?*))
+(defun xdb-login (&optional arg)
+  "ask for a sword, unless we already have one
+  with prefix arg, ask anyway
+"
+  (interactive "P")
+; (message "(%s,%s)" *xdbuser* (make-string (length *xdbsword*) ?*))
+
+  (if (or arg (not (or *xdbsword* *xdbuser*)))
     (progn
-      (setq *xdbuser* (string* (read-string (format "user (%s): " (getenv "XDBUSER"))) (getenv "XDBUSER")))
-      (setq *xdbsword* (comint-read-noecho (format "sword for user %s: " *xdbuser*)))
+      (setq *xdbuser* (string* (read-string (format "user (%s): "  *xdbuser*)) *xdbuser*))
+      (setq *xdbsword* (string* (comint-read-noecho (format "sword for user %s (%s): " *xdbuser* (make-string (length *xdbsword*) ?*))) *xdbsword*))
       (add-txdb-option "-u" *xdbuser*)
       (add-txdb-option "-s" *xdbsword*)
       )

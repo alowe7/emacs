@@ -1,6 +1,7 @@
 (put 'todo 'rcsid 
- "$Id: todo.el,v 1.7 2003-06-24 01:49:39 cvs Exp $")
+ "$Id: todo.el,v 1.8 2003-09-23 16:01:43 cvs Exp $")
 (require 'eval-process)
+(require 'input)
 
 (defvar master-todo-file (expand-file-name "~/.todo" ) 
   "location of master todo list")
@@ -48,18 +49,22 @@
   
   (let* ((trimlen1 (/ (frame-width) 5))
 	 (trimlen2 (- (1+ (/ trimlen1 2))))
-	 (thing (chomp (if (not arg) (apply 'buffer-substring (line-as-region))
-			 (if (not (mark)) (error "mark is not set")
-			   (buffer-substring (point) (mark)))))))
+	 (thing1 (chomp (if (not arg) (apply 'buffer-substring (line-as-region))
+			  (if (not (mark)) (error "mark is not set")
+			    (buffer-substring (point) (mark))))))
+	 (result (y-or-n-*-p
+		  (apply 'format
+			 (cons "done with \"%s ... %s\" (y/n/e)? "
+			       (if (> (length thing1) trimlen1)
+				   (list (substring thing1 0 trimlen1)
+					 (substring thing1 trimlen2))
+				 (list thing1 ""))))
+		  "e"))
+	 (thing (cond ((eq result ?e) (xa "edit thing" thing1))
+		      (result thing1))))
 
-    (if (y-or-n-p
-	 (apply 'format
-		(cons "done with \"%s ... %s\"? "
-		      (if (> (length thing) trimlen1)
-			  (list (substring thing 0 trimlen1)
-				(substring thing trimlen2))
-			(list thing "")))))
-	(progn 
+    (if thing
+	(progn
 	  (write-region 
 	   (format "%s	%s\n" (current-time-string) thing)
 	   nil (todone-file-name) t)
@@ -74,7 +79,7 @@
 	  (backup-file (buffer-file-name))
 	  (basic-save-buffer)
 
-	 ; if a window happens to be showing the done file, update it
+  ; if a window happens to be showing the done file, update it
 	  (loop for x being the windows
 		when (string= 
 		      (todone-file-name)

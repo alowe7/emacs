@@ -1,5 +1,5 @@
 (put 'qsave 'rcsid
-     "$Id: qsave.el,v 1.3 2003-08-29 16:50:28 cvs Exp $")
+     "$Id: qsave.el,v 1.4 2003-09-23 16:01:43 cvs Exp $")
 
 ;; by Andy Lowe (c) 1993, 1994, 1995, 1996, 1997, 1998
 
@@ -17,7 +17,7 @@
 
 (defstruct qsave-cell
   "qsave context cell" 
-  contents label data)
+  contents label data point)
 
 ;; currently not enforced
 
@@ -101,11 +101,13 @@ returns newly current cell data, if any
 into internal stack"
   (save-excursion
     (set-buffer b)
-    (let* ((a (intern (buffer-name)))
+    (let* ((p (point))
+	   (a (intern (buffer-name)))
 	   (v (get a 'qsave))
 	   (x (make-qsave-cell :contents (buffer-substring (point-min) (point-max))
 			       :label l
 			       :data d
+			       :point p
 			       )))
 
       (put a 'qsave (push x v))
@@ -139,8 +141,8 @@ returns data on cell, if any.
 		 (buffer-read-only nil))
 	    (erase-buffer)
 	    (insert (qsave-cell-contents x))
+	    (goto-char (qsave-cell-point x))
 	    (setq mode-line-buffer-identification (qsave-cell-label x))
-	    (beginning-of-buffer)
 	    (set-window-start (display-buffer (current-buffer)) 1)
 	    (setq mode-line-process (format " %d/%d" (- len j) len))
 	    (put a 'qsaved-index j)
@@ -174,8 +176,8 @@ returns data on cell, if any.
 		 (buffer-read-only nil))
 	    (erase-buffer)
 	    (insert (qsave-cell-contents x))
+	    (goto-char (qsave-cell-point x))
 	    (setq mode-line-buffer-identification (qsave-cell-label x))
-	    (beginning-of-buffer)
 	    (set-window-start (display-buffer (current-buffer)) 1)
 	    (setq mode-line-process (format " %d/%d" (- len j) len))
 	    (put a 'qsaved-index j)

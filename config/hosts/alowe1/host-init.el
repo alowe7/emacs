@@ -1,10 +1,10 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.9 2003-08-29 16:50:28 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.10 2003-09-23 16:01:43 cvs Exp $")
 
 (setq default-frame-alist
-      '((top . 0)
-	(left . 0)
-	(width . 90)
+      '((top . 100)
+	(left . 100)
+	(width . 114)
 	(height . 40)
 	(background-mode . light)
 	(cursor-type . box)
@@ -20,7 +20,23 @@
 	(menu-bar-lines . 0))
       )
 
-(setq initial-frame-alist default-frame-alist)
+(setq initial-frame-alist
+      '((top . 135)
+	(left . 221)
+	(width . 90)
+	(height . 40)
+	(background-mode . light)
+	(cursor-type . box)
+	(border-color . "black")
+	(cursor-color . "black")
+	(mouse-color . "black")
+	(background-color . "white")
+	(foreground-color . "black")
+	(vertical-scroll-bars)
+	(internal-border-width . 0)
+	(border-width . 2)
+	(font . "-*-lucida console-normal-r-*-*-17-nil-*-*-*-*-*-*-")
+	(menu-bar-lines . 0)))
 
 (add-hook 'people-load-hook (lambda () ; (require 'worlds)
 			      (setq *people-database*

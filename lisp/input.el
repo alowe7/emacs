@@ -1,9 +1,9 @@
 (put 'input 'rcsid 
- "$Id: input.el,v 1.3 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: input.el,v 1.4 2003-09-23 16:01:43 cvs Exp $")
 
 (defun y-or-n-*-p (prompt &optional chars &rest args)
   "display PROMPT and read characters.
-returns t for y, nil for n ?q for q, else loop
+returns t for y, nil for n (as in `y-or-n-p')
 with optional string CHARS, also matches specified characters.
 "
   (interactive)
@@ -51,3 +51,5 @@ with optional string CHARS, also matches specified characters.
       )
     )
   )
+
+(provide 'input)

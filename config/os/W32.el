@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.19 2003-08-29 16:49:45 cvs Exp $")
+ "$Id: W32.el,v 1.20 2003-09-23 16:01:43 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -132,6 +132,8 @@ if MIXED is 0, then ignore letter drive names.
 	  )
 	)))
   )
+
+(defalias 'canonify 'unix-canonify)
 
 (defun unix-canonify-region (beg end)
   (interactive "r")
@@ -418,16 +420,6 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 				    (define-key Buffer-menu-mode-map "" 'dired-cut-filename)))
 
 
-(defun eau () 
-  "visit all-users profile"
-  (interactive)
-  (dired "/WINNT/Profiles/All Users/Start Menu/Programs"))
-
-(defun eu ()
-  "visit users profile" 
-  (interactive)
-  (dired (getenv "USERPROFILE")))
-
 (defun hard-fill  (from to)
   (interactive "r")
   (goto-char from)
@@ -671,12 +663,12 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
   (expand-file-name (substitute-in-file-name "$ALLUSERSPROFILE"))
   "top level dir for all user documents and settings")
 
-(defvar userprofile
+(defvar user-profile
   (expand-file-name (substitute-in-file-name "$USERPROFILE"))
   "top level dir for current users documents and settings")
 
 (defvar my-documents
-  (expand-file-name (concat userprofile "/My Documents"))
+  (expand-file-name (concat user-profile "/My Documents"))
   "top level dir for current users documents and settings")
 
 (defvar start-menu
@@ -685,13 +677,13 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (defvar quicklaunch
   (w32-canonify 
-   (concat userprofile
+   (concat user-profile
 	   "\\Application Data\\Microsoft\\Internet Explorer\\Quick Launch"
 	   )))
 
 (mapcar '(lambda (x) 
 	   (eval (list 'defun x nil '(interactive) (list 'dired x))))
-	'(all-users-profile userprofile my-documents start-menu quicklaunch))
+	'(all-users-profile user-profile my-documents start-menu quicklaunch))
 
 (defun w32-mangle-filename (f)
   "reports default-directory as a win32 8.3 file name"
@@ -1103,6 +1095,33 @@ interactively with arg means use the contents of region instead"
       )
     )
   )
+
+;; probably redundant with lnk-view
+
+(defun w32-shortcut (f)
+  "returns an alist of the attributes of the w32 shortcut f
+keys for the alist include:
+    \"LinkName\"
+    \"Arguments\"
+    \"Target\"
+    \"Working Directory\"
+    \"Icon File\"
+    \"Icon Index\"
+"
+  (loop for x in 
+	(split
+	 (eval-process "shortcut" "-u" "all" f) "
+")
+	collect (split x ": "))
+  )
+
+;; this be broken:
+;; (assoc* "Icon File"
+;;	 (w32-shortcut
+;;	  (w32-canonify (concat  user-profile "/Desktop" "/"  "rainier.lnk")))
+;;	 :test 'string=
+;;	 )
+;;
 
 ; is windows standard for undo...
 
