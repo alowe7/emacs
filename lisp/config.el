@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.11 2001-04-27 11:37:59 cvs Exp $")
+ "$Id: config.el,v 1.12 2001-05-02 20:07:49 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -10,7 +10,7 @@
 (defvar *debug-pre-load-hook* nil)
 (defvar *debug-post-load-hook* nil)
 
-; (setq *debug-pre-load-hook* t *debug-post-load-hook* t)
+;(setq *debug-pre-load-hook* t *debug-post-load-hook* t)
 
 (defvar *disable-load-hook* nil)
 (defvar *debug-load-hook* nil)

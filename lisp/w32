@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.11 2001-04-13 20:48:57 cvs Exp $")
+ "$Id: w32,v 1.12 2001-05-02 20:07:49 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -107,12 +107,18 @@ optional DRIVE says which drive to use. "
   " expands FILENAME, using forward slashes.
 optional second arg MIXED says do not translate 
 letter drive names.
+if MIXED is 0, then ignore letter drive names.
 "
-  (let* ((f (expand-file-name f)))
-    (if mixed f
-      (if (string-match "^[a-zA-Z]:" f)
-	  (concat "//" (upcase (substring f 0 1)) (substring f (match-end 0)))))
-    )
+  (let ((f (expand-file-name f)))
+    (if (null mixed)
+	f
+      (let
+	  ((m (string-match "^[a-zA-Z]:" f)))
+	(if (eq mixed 0)
+	    (substring f (match-end 0))
+	  (concat "//" (upcase (substring f 0 1)) (substring f (match-end 0)))
+	  )
+	)))
   )
 
 (defun gsn (f) 

@@ -1,5 +1,6 @@
 (put 'shell2 'rcsid 
- "$Id: shell2.el,v 1.6 2001-03-13 18:58:36 cvs Exp $")
+ "$Id: shell2.el,v 1.7 2001-05-02 20:07:49 cvs Exp $")
+(require 'comint)
 (require 'shell)
 (defvar shell-popper 'switch-to-buffer) ; could also use pop-to-buffer
 
@@ -53,3 +54,4 @@ Otherwise, one argument `-i' is passed to the shell.
     (if other-frame 
 	(switch-to-buffer-other-frame shell-buffer-name)
       (funcall shell-popper shell-buffer-name))))
+(provide 'shell2)

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.21 2001-04-27 11:38:00 cvs Exp $")
+ "$Id: fb.el,v 1.22 2001-05-02 20:07:49 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -85,17 +85,20 @@
     )
   )
 
+(defun fb-indicated-file ()
+  (trim-white-space (indicated-word))
+  )
 
 (defun fb-dired-file ()
   (interactive)
-  (dired (indicated-word))
+  (dired (fb-indicated-file))
   )
 
 (defun fb-delete-file ()
   (interactive)
-  (let ((f (indicated-word)))
+  (let ((f (fb-indicated-file)))
     (unless (not (y-or-n-p (format "delete file %s? " f)))
-      (delete-file (indicated-word))
+      (delete-file (fb-indicated-file))
       (let ((x buffer-read-only)) 
 	(setq buffer-read-only nil)
 	(delete-region
@@ -111,27 +114,27 @@
 
 (defun fb-dired-file-other-window ()
   (interactive)
-  (dired-other-window (indicated-word))
+  (dired-other-window (fb-indicated-file))
   )
 
 (defun fb-find-file ()
   (interactive)
-  (find-file (indicated-word))
+  (find-file (fb-indicated-file))
   )
 
 (defun fb-find-file-other-window ()
   (interactive)
-  (find-file-other-window (indicated-word))
+  (find-file-other-window (fb-indicated-file))
   )
 
 (defun fb-exec-file (&optional arg)
   (interactive "P")
-  (aexec (indicated-word) arg)
+  (aexec (fb-indicated-file) arg)
   )
 
 (defun fb-w3-file ()
   (interactive)
-  (let ((f (indicated-word)))
+  (let ((f (fb-indicated-file)))
     (w3-fetch (format "file://%s" 
 		      (if (string-match "[a-z]:" f)
 			  (substring f (match-end 0)) f)))
@@ -171,20 +174,20 @@ see variable *fb-db* "
 
 (defun fb-search-forward (pat) 
   (interactive 
-   (list (read-string (format "search for (%s): " (indicated-word)))))
+   (list (read-string (format "search for (%s): " (fb-indicated-file)))))
 
   (fb-search
    (if (> (length pat) 0) pat
-     (indicated-word))))
+     (fb-indicated-file))))
 
 (defun fb-search-backward (pat) 
   (interactive 
-   (list (read-string (format "search for (%s): " (indicated-word)))))
+   (list (read-string (format "search for (%s): " (fb-indicated-file)))))
   (fb-search
    (setq fb-last-match nil
 	 fb-last-pat
 	 (if (> (length pat) 0) pat
-	   (indicated-word))) t))
+	   (fb-indicated-file))) t))
 
 
 (defun fb-file-info () (interactive)
@@ -206,7 +209,7 @@ see variable *fb-db* "
   then the low 16 bits.
 11. Device number.
 "
-  (let* ((fn (indicated-word))
+  (let* ((fn (fb-indicated-file))
 	 (a (file-attributes fn)))
   ; -rw-r--r--   1 544      everyone     2655 Mar 28  1998 woody
     (if a
@@ -335,7 +338,7 @@ w		fb-w3-file
 
 (defun fb-up () (interactive)
   " goto beginning of this directory"
-  (let ((f (concat "^" (substring (file-name-directory (indicated-word)) 0 -1) "$")))
+  (let ((f (concat "^" (substring (file-name-directory (fb-indicated-file)) 0 -1) "$")))
     (while 
 	(re-search-backward f nil t)
       )
@@ -347,7 +350,7 @@ w		fb-w3-file
   " goto beginning of this directory"
   (if (bobp) nil
     (previous-line 1)
-    (let ((f (concat "^" (substring (file-name-directory (indicated-word)) 0 -1) "$")))
+    (let ((f (concat "^" (substring (file-name-directory (fb-indicated-file)) 0 -1) "$")))
       (while 
 	  (re-search-backward f nil t)
 	)
@@ -357,7 +360,7 @@ w		fb-w3-file
 
 (defun fb-next () (interactive)
   " goto beginning of this directory"
-  (let ((f (concat "^" (substring (file-name-directory (indicated-word)) 0 -1))))
+  (let ((f (concat "^" (substring (file-name-directory (fb-indicated-file)) 0 -1))))
     (while 
 	(re-search-forward f nil t)
       )
@@ -615,6 +618,32 @@ returns a filename containing results"
     (beginning-of-buffer)
     (cd "/")
     (fb-mode)
+    )
+  )
+
+(defun fl (pat)
+  "fast find using locate"
+
+  (interactive "spat: ")
+
+  (let ((b (zap-buffer *fastfind-buffer*))
+	(top "/"))
+
+    (call-process "locate" nil
+		  b
+		  nil
+		  pat)
+
+    (set-buffer b)
+    (beginning-of-buffer)
+    (cd top)
+
+    (if (interactive-p) 
+	(progn (pop-to-buffer b)
+	       (fb-mode))
+      (split (buffer-string) "
+")
+      )
     )
   )
 
