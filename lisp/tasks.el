@@ -1,5 +1,5 @@
 (put 'tasks 'rcsid 
- "$Id: tasks.el,v 1.6 2001-01-22 18:48:30 cvs Exp $")
+ "$Id: tasks.el,v 1.7 2001-07-24 09:06:11 cvs Exp $")
 
 ; a little throw-away stack of things to do, different from todo.el
 (require 'roll)
@@ -117,17 +117,17 @@ press C-h b for local bindings.
 (add-hook 'kill-emacs-hook 'save-task-stack)
 
 (defun task-help () (interactive)
-  (describe-bindings "t")
+  (describe-bindings "k")
   )
 
 ;;; 
 (defvar task-mode-map nil)
 
-(unless (fboundp 'ctl-C-T-prefix) 
-    (define-prefix-command 'ctl-C-T-prefix))
+(unless (fboundp 'ctl-C-K-prefix) 
+    (define-prefix-command 'ctl-C-K-prefix))
 
 (unless task-mode-map
-  (setq task-mode-map (symbol-function 'ctl-C-T-prefix))
+  (setq task-mode-map (symbol-function 'ctl-C-K-prefix))
 
   (define-key task-mode-map "e" 'edit-task-stack)
   (define-key task-mode-map "h" 'task-help)
@@ -140,13 +140,13 @@ press C-h b for local bindings.
   (define-key task-mode-map " " 'roll-tasks)
   )
 
-(global-set-key "t" 'ctl-C-T-prefix)
+(global-set-key "k" 'ctl-C-K-prefix)
 
 (defun bootstrap-task ()
   (interactive)
   ; placeholder for autoload
   (init-task-stack)
-  (message "tasks loaded.  press \"^Cth\" for help")
+  (message "tasks loaded.  press \"^C-k h\" for help")
   )
 
 (provide 'tasks)
