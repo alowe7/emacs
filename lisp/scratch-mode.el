@@ -1,4 +1,8 @@
+(put 'scratch-mode 'rcsid
+ "$Id: scratch-mode.el,v 1.10 2005-02-25 04:14:24 cvs Exp $")
+
 (require 'ctl-ret)
+(require 'buff)
 
 (define-derived-mode scratch-mode fundamental-mode "scratch" "")
 
@@ -89,6 +93,11 @@
 	       (%% (1- *buffer-list-vector-index*)
 		   (length *buffer-list-vector*)))))
 
+  )
+
+(defun list-scratch-buffers ()
+  (interactive)
+  (list-buffers-mode 'scratch-mode)
   )
 
 (global-set-key (vector 'C-M-next) 'unbury-scratch-buffers)

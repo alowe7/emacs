@@ -1,4 +1,4 @@
-;; $Id: buff.el,v 1.3 2004-11-08 14:45:20 cvs Exp $
+;; $Id: buff.el,v 1.4 2005-02-25 04:14:06 cvs Exp $
 
 (defun list-buffers (&optional files-only)
   "Display a list of names of existing buffers.
@@ -163,3 +163,4 @@ The R column contains a % for buffers that are read-only."
     )
   )
 
+(provide 'buff)
