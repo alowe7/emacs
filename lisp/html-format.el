@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: html-format.el,v 1.3 2000-07-30 21:07:46 andy Exp $")
+(defconst rcs-id "$Id: html-format.el,v 1.4 2000-08-07 00:11:41 cvs Exp $")
 (provide 'html-format)
 
 (defvar *margin* 4)
@@ -6,11 +6,9 @@
 (defun html-format-region (start end buffer &optional delete)
   (interactive "r")
   (let ((b (or (bufferp buffer) (get-buffer-create buffer))))
-    (shell-command-on-region start end 
-			     (concat (find-script  "fast-html-format" )
-				     (format " -l%d" *margin*) 
-				     (format "-m%d" (- (window-width) 4)))
-			     buffer delete nil)
+    (perl-command-region start end "fast-html-format" delete buffer nil
+			 (format "-m%d" *margin*) 
+			 (format "-w%d" (- (window-width) 4)))
     (pop-to-buffer b)
     (view-mode)
     (not-modified)

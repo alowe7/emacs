@@ -1,9 +1,10 @@
-(defconst rcs-id "$Id: post-sgml-mode.el,v 1.3 2000-07-30 21:07:47 andy Exp $")
+(defconst rcs-id "$Id: post-sgml-mode.el,v 1.4 2000-08-07 00:11:41 cvs Exp $")
 ;(setq html-mode-hook '(lambda () (setq paragraph-start "<P>"))
 
 (setq sgml-mode-hook '(lambda () (run-hooks 'html-mode-hook)
-			(require 'sgml-helpers)
-			(define-key sgml-mode-map "" 'docbook-help)))
+  ;			(require 'sgml-helpers)
+  ;			(define-key sgml-mode-map "" 'docbook-help)
+			))
 
 (defun html-quick-view (fn)
   (perl-command "fast-html-format" fn)

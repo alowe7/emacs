@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: helps.el,v 1.3 2000-07-30 21:07:45 andy Exp $")
+(defconst rcs-id "$Id: helps.el,v 1.4 2000-08-07 00:11:41 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -326,12 +326,6 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 
 (defvar *howto-path* (catpath "HOWTOPATH")
   "list of directories to search for `howto'" )
-
-(loop for x in *howto-path*
-	do
-	(loop for y in (get-subdirs x)
-	      do
-	      (add-to-list '*howto-path* y)))
 
 (defun howto (name &optional exact)
   "searches for files matching NAME along environment variable *howto-path*
