@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: world-advice.el,v 1.2 2000-07-30 21:07:49 andy Exp $")
+(defconst rcs-id "$Id: world-advice.el,v 1.3 2000-09-03 18:03:04 cvs Exp $")
 (require 'advice)
 (provide 'world-advice)
 
@@ -15,10 +15,11 @@
 
   ad-do-it
 
-  (ad-disable-advice
-   'minibuffer-complete-word
-   'around
-   'interactive-world-completion)
+  (if (ad-is-advised 'minibuffer-complete-word)
+      (ad-disable-advice
+       'minibuffer-complete-word
+       'around
+       'interactive-world-completion))
 
   (ad-activate 'minibuffer-complete-word)
 
@@ -36,10 +37,11 @@
 
   ad-do-it
 
-  (ad-disable-advice
-   'minibuffer-complete-word
-   'around
-   'interactive-world-completion)
+  (if (ad-is-advised 'minibuffer-complete-word)
+      (ad-disable-advice
+       'minibuffer-complete-word
+       'around
+       'interactive-world-completion))
 
   (ad-activate 'minibuffer-complete-word)
 

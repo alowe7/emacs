@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: config.el,v 1.2 2000-07-30 21:07:45 andy Exp $")
+(defconst rcs-id "$Id: config.el,v 1.3 2000-09-03 18:03:04 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -17,14 +17,15 @@
   "hook (load f) to optionally (load pre-f) (load f) (load post-f)
 no errors if files don't exist.
  "
+  (if (ad-is-advised 'load)
+      (ad-disable-advice 
+       'load
+       'around
+       'hook-load))
 
-  (ad-disable-advice 
-   'load
-   'around
-   'hook-load)
   (ad-activate 'load)
 
-    (and *debug-pre-load-hook* (debug))
+  (and *debug-pre-load-hook* (debug))
   (load (concat "pre-" (ad-get-arg 0)) t t)
 
   ad-do-it
@@ -55,10 +56,12 @@ no errors if files don't exist.
  "
   (if (featurep (ad-get-arg 0)) nil
 
-    (ad-disable-advice 
-     'require
-     'around
-     'hook-require)
+  (if (ad-is-advised 'require)
+      (ad-disable-advice 
+       'require
+       'around
+       'hook-require))
+
     (ad-activate 'require)
 
 ; 		(and *debug-require-hook* (debug))
