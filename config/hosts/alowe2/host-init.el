@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.7 2001-07-27 14:19:22 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.8 2001-08-15 21:47:04 cvs Exp $")
 
 ;(default-font "lucida console" nil 22)
 
@@ -30,6 +30,12 @@
 (if (file-directory-p "d:/x/elisp")
     (load-file  "d:/x/elisp/.autoloads")
   )
+
+(add-hook 'people-load-hook (lambda () 
+			    (setq *people-database*
+				  (mapcar 'expand-file-name
+					  (list (concat (fw "broadjump") "/n/people")
+						"~/n/people")))))
 
 (require 'xz-loads)
 (require 'gnuserv)
