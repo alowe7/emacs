@@ -12,4 +12,8 @@
   (zap-buffer (make-temp-name x) '(scratch-mode))
   )
 
+(defun pop-to-last-scratch-buffer ()
+(let ((b (loop for x being the buffers when (eq (quote scratch-mode) (progn (set-buffer x) major-mode)) return x)))
+(if (buffer-live-p b) (pop-to-buffer b) (message "no scratch buffers found"))))
+
 (provide 'scratch-mode)

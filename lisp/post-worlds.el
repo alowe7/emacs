@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid 
- "$Id: post-worlds.el,v 1.14 2003-07-18 14:51:25 cvs Exp $")
+ "$Id: post-worlds.el,v 1.15 2004-02-20 15:54:01 cvs Exp $")
 
 (defun push-world-p (w)
   "push current context replacing with WORLD.
@@ -20,6 +20,8 @@ a null argument means pop-world from world-stack"
   (define-key map "x" 'swap-world)
   (define-key map "o" 'roll-world-stack)
   (define-key map " " 'roll-world-list)
+  (define-key map "n" 'dn)
+  (define-key map "p" 'world)
   map)
 
 ;; hmmm...

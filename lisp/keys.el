@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.44 2003-12-09 22:37:16 cvs Exp $")
+ "$Id: keys.el,v 1.45 2004-02-20 15:54:01 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -34,22 +34,14 @@
 (global-set-key  "" 'kill-buffer)
 (global-set-key "\C-m" 'compile)
 (global-set-key "" 'pwd)
-(global-set-key "" 'world)
-(global-set-key "" 'dn)
-(global-set-key (vector ? ? )  'roll-world-stack)
-(global-set-key (vector ? (char-ctrl ? ))  'roll-world-list)
 
 (global-set-key "3" 'three)
 (global-set-key "<" '(lambda () (interactive) (scroll-left horizontal-scroll-delta)))
 (global-set-key ">" '(lambda () (interactive) (scroll-right horizontal-scroll-delta)))
 ; (global-set-key "c" ' compare-windows-2)
-(global-set-key "c" ' compare-windows)
-(global-set-key "l" 'what-line)
+(global-set-key "c" 'compare-windows)
 (global-set-key "l" 'what-line)
 (global-set-key "t" 'todo)
-;(global-set-key "c" 'compare-windows)
-
-
 
 ; ctl-c-map
 (global-set-key "" 'auto-save-mode)
@@ -279,8 +271,8 @@
 (define-key ctl-/-map "s" 'specs)
 
 (require 'cl)
-(require 'scratch-mode)
 
+; \C-\\[0-9] create scratch buffers 
 (loop for x from 0 to 9 do
       (let ((k (format "%d" x)))
 	(define-key ctl-/-map k 

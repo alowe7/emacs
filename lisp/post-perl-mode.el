@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.19 2003-11-24 21:50:38 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.20 2004-02-20 15:54:01 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -69,12 +69,15 @@
 
 (add-hook 'Man-cooked-hook 'man-cooked-fn)
 
-(defun pod ()
-	"if looking at a perl script containing pod, format it as text."
-	(interactive)
-
-	(pod2text (buffer-file-name) (concat (file-name-sans-extension (buffer-name)) " *pod*"))
-	)
+(defun pod (&optional file)
+  "if looking at a perl script containing pod, format it as text.
+with optional FILE, operate on that"
+  (interactive)
+  (let ((fn (or file (buffer-file-name))))
+    (pod2text fn
+	      (concat (file-name-sans-extension fn) " *pod*"))
+    )
+  )
 
 (defun dired-pod () (interactive)
   (let ((f (dired-get-filename)))
