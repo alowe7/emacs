@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.15 2004-03-06 20:31:33 cvs Exp $")
+ "$Id: post-w3m.el,v 1.16 2004-06-21 15:53:21 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -68,13 +68,20 @@
   )
 
 
-(defvar *specsvec* '(
+(setq *specsvec* '(
 		     ("apache"  "http://apache/htdocs/manual/index.html.en")
 		     ("css" "http://localhost/usr/share/specs/css2.0/cover.html")     
 		     ("" "http://localhost/specs.nav")
   ; ...
 		     )
   )
+
+;; todo -- catch exit handler and offer to save updated specsvec
+(defun add-to-specsvec (name)
+  (interactive "sname: ")
+  (add-to-list '*specsvec* (list name w3m-current-url))
+  )
+
 (defun specs () (interactive)
   (let ((url (string* (cadr (assoc (completing-read "spec: " *specsvec*) *specsvec*))
 		      (cadr (assoc "" *specsvec*)))))

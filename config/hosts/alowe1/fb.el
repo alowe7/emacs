@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.6 2004-06-10 14:55:27 cvs Exp $")
+ "$Id: fb.el,v 1.7 2004-06-21 15:53:21 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 
@@ -30,9 +30,10 @@ pattern may also contain environment variables
 
   (condition-case err
       (setq pat 
-	    (canonify 
-	     (substitute-in-file-name pat)
-	    0))
+  ;	    (canonify 
+	    (substitute-in-file-name pat)
+  ;	    0)
+	    )
 ; attempting to substitute non-existent environment variables is a bad idea.
 ; remind me to hack the emacs source: (substitute-in-file-name FILENAME &optional noerror)
     (error pat))

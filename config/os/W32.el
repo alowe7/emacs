@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.27 2004-06-10 14:55:27 cvs Exp $")
+ "$Id: W32.el,v 1.28 2004-06-21 15:53:21 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -1088,25 +1088,22 @@ host must respond within optional TIMEOUT msec"
 
 ; (if (ad-is-advised 'w32-drag-n-drop) (ad-unadvise 'w32-drag-n-drop))
 
-(defun internet-explorer (arg) 
-  " run ie on `buffer-file-name', assuming it maps to a uri.
-interactively with arg means use the contents of region instead"
-  (interactive "P")        
+(defun iexplore-url (f) 
+  " run ie on indicated url.
+note: ie runs in a subprocess.  see `list-processes'
+"
+  (interactive (list (string* (read-string (format "args (%s): " (indicated-filename))) (indicated-filename))))
 
-  (let ((url (cond ((stringp arg) arg)
-		   (arg (buffer-substring (point) (mark)))
-		   (t (concat "localhost" 
-			      (unix-canonify (string* (buffer-file-name) "") 0))))))
-
-    (if url
-	(start-process "*ie*"
-		       (zap-buffer " *ie*")
-		       "c:/Program Files/Internet Explorer/IEXPLORE.EXE"
-		       url
-		       )
-      )
-    )
+  (start-process
+   (symbol-name (gensym "ie"))
+   nil
+   "c:\\Program Files\\Internet Explorer\\iexplore.exe" f)
+  ;  (lower-frame)
   )
+(iexplore-url "http://www.nytimes.com")
+
+(require 'ctl-slash)
+(define-key ctl-/-map "i" 'iexplore-url)
 
 ;; probably redundant with lnk-view
 
@@ -1138,3 +1135,6 @@ keys for the alist include:
 ; is windows standard for undo...
 
 (global-set-key "\C-z" 'undo)
+
+
+(provide 'w32)

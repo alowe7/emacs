@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.22 2004-05-24 21:09:36 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.23 2004-06-21 15:53:21 cvs Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-22-*-*-*-*-*-*-*-")
 
@@ -123,3 +123,7 @@
 
 (add-to-load-path "/u/emacs-w3m/emacs-w3m")
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
+
+; don't use tags too much anymore
+(define-key esc-map [?\C-.] 'bookmark-set)
+(global-set-key "\M-." 'bookmark-jump)
