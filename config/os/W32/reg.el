@@ -1,5 +1,5 @@
 (put 'reg 'rcsid
- "$Id: reg.el,v 1.10 2004-08-26 22:22:16 cvs Exp $")
+ "$Id: reg.el,v 1.11 2005-01-07 17:36:01 cvs Exp $")
 (require 'qsave)
 
 (defun reg-canonify (s)	(if (and s (stringp s) (> (length s) 0)) (replace-in-string  "/" "\\" s) ""))
@@ -110,7 +110,7 @@
 
 (defun lsreg (hive &optional key)
   (interactive (list 
-		(completing-read "hive: " *reg-hivelist* nil t)))
+		(string* (completing-read "hive: " *reg-hivelist* nil t) (cdar *reg-hivelist*))))
 
   (let* ((x (cond ((string-match "/" hive)
 		   (split hive "/")) 

@@ -1,7 +1,8 @@
 (put 'zap 'rcsid 
- "$Id: zap.el,v 1.11 2004-09-23 21:35:37 cvs Exp $")
+ "$Id: zap.el,v 1.12 2005-01-07 17:36:01 cvs Exp $")
 (provide 'zap)
-;;; 
+;;; todo -- use (get-buffer-create (generate-new-buffer-name bname))
+
 (defun zap-buffer (bname &optional postop preop)
   "set buffer BUFFER, create if necessary, erase contents if necessary
 with optional POSTOP, evaluates POSTOP in context of buffer after creation
