@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.48 2004-01-21 18:46:44 cvs Exp $")
+ "$Id: fb.el,v 1.49 2004-01-27 20:03:14 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -444,148 +444,14 @@ all other patterns (e.g. \"foo*\") remain unchanged.
 ; this hack might be suitable for systems with letter drive names
 ; (setq ff-hack-pat '(lambda (pat) (let ((pat (if (eq (aref pat 0) ?^) (substring pat 1) pat))) (concat "^(.:)*" pat))))
 
-(defun ff1 (db pat &optional b top)
-  (let ((pat (funcall ff-hack-pat pat))
-	(b (or b (zap-buffer *fastfind-buffer*)))
-	(top (or top "/"))
-	)
-    (setq *find-file-query*
-	  (setq mode-line-buffer-identification 
-		pat))
-
-    (call-process "egrep" nil
-		  b
-		  nil
-		  "-i" pat (expand-file-name
-			    db))
-
-    (set-buffer b)
-    (beginning-of-buffer)
-    (cd top)
-    (fb-mode)
-
-    (run-hooks 'after-find-file-hook)
-    b)
-  )
-
-(defun ff0 (args)
-  "fast find working dirs -- search for file matching pat in *fb-db*
-with prefix arg, prompt for `*fb-db*' to use
-if none given, uses `*default-fb-db*' 
-"
-
-  (interactive "P")
-
-  (let* ((top default-directory)
-  ; 	with prefix arg, make sure buffer is in a rational place
-	 (pat 
-	  (cond
-	   ((and (listp args) (numberp (car args)))
-	    ;; given prefix arg, read *fb-db* and pat
-	    (progn 
-	      (setq *fb-db* (read-file-name "db: " "" nil nil *fb-db*))
-	      (read-indicated-string "pat")
-	      )
-	    )
-	   ((stringp args) args) 
-	   (t (read-indicated-string "pat")))
-	  )
-	 (b (zap-buffer *fastfind-buffer* (and args '(cd top))))
-  ;	 (*fb-db* *fb-db*) 
-	 db
-	 )
-
-    (if (= (length *fb-db*) 0)
-	(progn
-	  (setq *fb-db* *default-fb-db*)
-	  (setq top "/")
-	  )
-
-      (progn 
-	(if (file-directory-p *fb-db*)
-	    (setq *fb-db* (concat *fb-db* "/f")))
-	(setq 
-	 top (file-name-directory *fb-db*)
-	 )
-	)
-      )
-
-    (ff1 *fb-db* pat b top)
-
-    (if (interactive-p) 
-	(pop-to-buffer b)
-      (split (buffer-string) "
-")
-      )
-    )
-  )
 
 ; hack to avoid auto-going to a binary file
 (require 'eval-process)
 (defun probably-binary-file (f)
+  (or (file-exists-p f) (error (format "File %s doesn't exist" f)))
   (let ((v (eval-process "head" "-4" f)))
     (loop for x across v thereis (or (= x 0) (>= x 127))))
   )
-
-(defun ff (pat)
-  "fast find files -- search for file matching PAT in `*fb-db*'"
-
-  (interactive "sfind files: ")
-
-  (let* ((top default-directory)
-	 (b (zap-buffer *fastfind-buffer*))
-	 )
-
-    (if (= (length *fb-db*) 0)
-	(progn
-	  (setq *fb-db* *default-fb-db*)
-	  (setq top "/")
-	  )
-
-      (progn 
-	(if (file-directory-p *fb-db*)
-	    (setq *fb-db* (concat *fb-db* "/f")))
-	(setq 
-	 top (file-name-directory *fb-db*)
-	 )
-	)
-      )
-
-    (ff1 *fb-db* pat b top)
-
-  ; try to avoid splitting (buffer-string) 
-    (cond ((and *fb-auto-go* 
-		(interactive-p) 
-		(= (count-lines (point-min) (point-max)) 1)
-		(not (probably-binary-file (car l))))
-  ; pop to singleton if appropriate
-	   (find-file (car (split (buffer-string) "
-"))))
-  ; else pop to listing if interactive
-	  ((interactive-p)
-	   (pop-to-buffer b))
-  ; else just return the list
-	  (t (split (buffer-string) "
-")
-	     ))
-    )
-  )
-
-
-(defun fh (pat)
-  "fast find working drive -- search for file matching pat in homedirs"
-  (interactive "spat: ")
-;  (pop-to-buffer (ff1  *fb-db* (concat "^/[abcdpx]/*" pat)))
-  (pop-to-buffer (ff1 *fb-h-db* pat))
-  )
-
-
-(defun fh2 ()
-  "fast find working drive -- search for file matching pat in *fb-h-db*"
-  (interactive)
-  (let ((*fb-db* *fb-h-db* )) (call-interactively 'ff2)
-  )
-)
 
 (defun multi-join (l)
   " multi-way join on set of files l.  
@@ -610,171 +476,50 @@ returns a filename containing results"
     )
   )
 
-(defun ff2-helper (n pat)
-  (let ((b (zap-buffer " _ff"))
-	(fn (mktemp (format "_ff%d" n))))
+(require 'advice)
 
-    (call-process "egrep" nil
-		  b
-		  nil
-		  "-i" pat *fb-db*)
-    (set-buffer b)
-    (sort-lines nil (point-min) (point-max))
-    (write-file fn)
-    (kill-buffer b)
-    fn)
-  )
+(defadvice locate (around 
+		   hook-locate
+		   first activate)
+  ""
 
-(defun ff2 (&rest pats)
-  "fast find current drive -- search for file matching pat in *fb-db*"
-  (interactive (butlast
-		(loop 
-		 with pat = nil
-		 until (and (stringp pat) (< (length pat) 1))
-		 collect (setq pat (read-string "pat: ")))
-		1))
-
-  (let* ((l (loop for pat in pats
-		  with i = 0
-		  collect (prog1 
-			      (ff2-helper i pat)
-			    (setq i (1+ i)))))
-	 (fn (multi-join l))
-	 (b (zap-buffer *fastfind-buffer*)))
-
-    (set-buffer b)
-    (insert-file fn)
+  (let ((pat (ad-get-arg 0)))
+    (and (buffer-live-p (get-buffer locate-buffer-name))
+	 (save-excursion (set-buffer locate-buffer-name) (setq buffer-read-only nil)))
+    ad-do-it
     (setq *find-file-query*
-	  (setq mode-line-buffer-identification 
-		(mapconcat '(lambda (x) x) pats "&")))
-    (goto-char (point-min))
-    (cd "/")
+	  (setq mode-line-buffer-identification (format "%-22s" pat)))
     (fb-mode)
-
-    (run-hooks 'after-find-file-hook)
-
-    (if (interactive-p) 
-	(pop-to-buffer b)
-      (split (buffer-string) "
-")
-      )
-
-    (loop
-     for x in l
-     do (delete-file x))
-    b)
+    (run-hooks 'after-find-file-hook))
   )
+; (if (ad-is-advised 'locate) (ad-unadvise 'locate))
 
-(defun fall () 
+(defun ff (&optional search-string filter)
   (interactive)
-  (let ((*fb-db* *fb-full-db*)) (call-interactively 'ff))
-  )
+  (if (interactive-p)
+      (call-interactively 'locate)
+    (save-window-excursion
+      (if (and
+	   (condition-case err (funcall 'locate search-string) (error nil))
+	   (string-match "Matches for .*: 
 
-(defun !ff (pat cmd) 
-  "like fff, but runs cmd on each file and collects the result"
-  (interactive "spat: \nscmd: ")
+" (buffer-string)))
+	  (let ((l
+		 (remove* "" (mapcar 'trim-white-space (split (buffer-substring (match-end 0) (point-max)) "
+")) :test 'string=)))
 
-  (let ((b (zap-buffer *fastfind-buffer*))
-	(p (catlist cmd ? ))
+	    (if filter
+		(loop for x in l collect (funcall filter x))
+	      l)
+	    )
 	)
-
-    (loop 
-     for d in '("c" "e") ; XXX gen from registry
-     do
-
-     (let* ((s (eval-process "egrep" "-i" pat (format "%s:%s" d *fb-db*)))
-	    (l (loop for f in (catlist s 10)
-		     collect
-		     (apply 'eval-process
-			    (car p)
-			    (nconc (cdr p) (list (format "\"%s\"" f)))))))
-
-       (set-buffer b)
-       (loop for f in l do (insert f))
-       )
-     )
-
-    (pop-to-buffer b)
-    (beginning-of-buffer)
-    (cd "/")
-    (fb-mode)
-    )
-  )
-
-(setq picpat "\"gif$\\|jpg$\\|bmp$\\|png$\\|tif$\"")
-
-(defun fpic ()
-  "fast find all drives -- search for file matching pat in *:`cat *fb-db*`"
-  (interactive)
-
-  (let ((b (zap-buffer "*fpic*")))
-    (loop 
-     for d in '("c" "e")
-     do
-
-     (let ((s (eval-process "egrep" "-i" picpat (format "%s:%s" d *fb-db*))))
-       (set-buffer b)
-       (insert s)
-       )
-     )
-
-    (pop-to-buffer b)
-    (beginning-of-buffer)
-    (cd "/")
-    (fb-mode)
-    )
-  )
-
-(defun fl (pat)
-  "fast find using locate"
-
-  (interactive "spat: ")
-
-  (let ((b (zap-buffer *fastfind-buffer*))
-	(top "/"))
-
-    (call-process "locate" nil
-		  b
-		  nil
-		  pat)
-
-    (set-buffer b)
-    (beginning-of-buffer)
-    (cd top)
-
-    (if (interactive-p) 
-	(progn (pop-to-buffer b)
-	       (fb-mode))
-      (split (buffer-string) "
-")
       )
     )
   )
 
-(defun fbf (pat)
-  "fast find files containing PAT"
-
-  (interactive "spat: ")
-
-  (let* ((top default-directory)
-	 (b (zap-buffer "*ff1*" '(lambda () (cd top))))
-	 (egrep-args (nconc '("-H") 
-			    (and *fb-case-fold* '("-i"))
-			    (and  *fb-show-lines* '("-n"))))
-	 )
-
-    (apply 'call-process 
-	   (nconc (list "find" nil b nil)
-		  (list "." "-type" "f" "-exec" "egrep")
-		  egrep-args
-		  (list pat "{}" ";")))
-    
-    (pop-to-buffer b)
-    (beginning-of-buffer)
-    (fb-mode)
-    )
-  )
-; (fbf "fbf")
+; e.g. find executable only:
+;  (ff "lff" '(lambda (x) (and (string-match "x" (elt (file-attributes x) 8)) x)))
+;  (ff "bin" '(lambda (x) (and (string-match "drwx" (elt (file-attributes x) 8)) x)))
 
 (defun fb-grep-files (s)
 "search for REGEXP in files"

@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.22 2004-01-06 21:16:27 cvs Exp $")
+ "$Id: config.el,v 1.23 2004-01-27 20:03:14 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -221,9 +221,20 @@ no errors if files don't exist.
   )
 ; (load-list "post-cc")
 
+(defvar *hostname*
+  (hostname))
+
+(defvar *host-init*
+  (and (string* *hostname*)
+       (let ((fn 
+	      (format "~/emacs/config/hosts/%s/host-init.el" *hostname*)))
+	 (and (file-exists-p fn) fn)))
+  )
+
 (defun find-host-init ()
   (interactive)
-  (find-file (format "~/emacs/config/hosts/%s/host-init.el" (downcase (getenv "COMPUTERNAME")))))
+  (and *host-init* (find-file *host-init*))
+  )
 
 ; this helper function gives init files a weak inheritance capability
 
