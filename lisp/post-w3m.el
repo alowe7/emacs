@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.20 2004-10-01 23:07:54 cvs Exp $")
+ "$Id: post-w3m.el,v 1.21 2004-10-12 21:26:35 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -83,10 +83,10 @@
   (add-to-list '*specsvec* (list name w3m-current-url))
   )
 
-(defun specs () (interactive)
+(defun specs (arg) (interactive "P")
   (let ((url (string* (cadr (assoc (completing-read "spec: " *specsvec*) *specsvec*))
 		      (cadr (assoc "" *specsvec*)))))
-    (w3m-goto-url url)
+    (funcall (if arg 'w3m-goto-url-new-session 'w3m-goto-url) url)
     )
   )
 
@@ -131,6 +131,15 @@
   )
 
 (require 'ctl-ret)
+
+(defun my-w3m-mode-hook () 
+  (defvar w3m-mode-syntax-table (make-syntax-table (syntax-table)))
+  (modify-syntax-entry ?< "("  w3m-mode-syntax-table)
+  (modify-syntax-entry ?> ")"  w3m-mode-syntax-table)
+  (set-syntax-table w3m-mode-syntax-table)
+  )
+
+(add-hook 'w3m-mode-hook 'my-w3m-mode-hook)
 
 ; ugh ?2 ?
 (define-key ctl-RET-map "w" 'w3m)

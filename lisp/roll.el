@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.27 2004-08-17 17:50:53 cvs Exp $")
+ "$Id: roll.el,v 1.28 2004-10-12 21:26:35 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -319,7 +319,7 @@ LIST may be an a-list, in which case, interpret the cars as buffers, and print t
 		      (or *last-roll-with* (indicated-word)))))
   (let ((l (collect-buffers-with pat)))
     (if l 
-	(roll-buffer-list l)
+	(roll-list (or l (real-buffer-list nil)) 'buffer-name 'kill-buffer-1 '(lambda (b) (switch-to-buffer b)(goto-char (point-min)) (search-forward pat nil t)))
       (error (format "no buffers contain %s" pat))
       )
     )

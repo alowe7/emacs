@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.30 2004-10-02 19:23:45 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.31 2004-10-12 21:26:35 cvs Exp $")
 
 (require 'default-frame-configurations)
 
@@ -72,14 +72,21 @@
 ; (setq font-lock-support-mode 'lazy-lock-mode)
 
 (add-hook 'perl-mode-hook (lambda () (font-lock-mode)))
-(add-hook 'java-mode-hook (lambda ()
-			    (font-lock-mode)
-			    (font-lock-fontify-buffer) 
+(add-hook 'java-mode-hook 'my-java-mode-hook)
+(defun my-java-mode-hook ()
   ; there's bugs handling chars like ' in comments
   ; this still screws up paren-matching
-			    (setq font-lock-keywords-only t)
-			    )
-	  )
+  (setq font-lock-defaults
+	'((java-font-lock-keywords-1
+	   java-font-lock-keywords-2
+	   java-font-lock-keywords-3))
+	font-lock-keywords-only t)
+  (font-lock-mode)
+  (font-lock-fontify-buffer) 
+  ; this ain't so swift neither 
+  ;			    (setq c-syntactic-indentation nil)
+  )
+; (pop java-mode-hook)
 
 (require 'reg)
 

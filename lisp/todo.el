@@ -1,5 +1,5 @@
 (put 'todo 'rcsid 
- "$Id: todo.el,v 1.10 2004-07-21 20:18:21 cvs Exp $")
+ "$Id: todo.el,v 1.11 2004-10-12 21:26:35 cvs Exp $")
 (require 'eval-process)
 (require 'input)
 
@@ -93,6 +93,7 @@
 		       (window-buffer x)))
 		do (progn (set-buffer (window-buffer x)) (recenter)))
 
+	  (if (looking-at "^$") (kill-line)) ; normal usage leaves an extra blank line.  kill it.
 	  )
       (message "not done.")
       )

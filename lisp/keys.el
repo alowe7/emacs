@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.49 2004-05-18 20:11:51 cvs Exp $")
+ "$Id: keys.el,v 1.50 2004-10-12 21:26:35 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -36,8 +36,10 @@
 (global-set-key "" 'pwd)
 
 (global-set-key "3" 'three)
-(global-set-key "<" '(lambda () (interactive) (scroll-left horizontal-scroll-delta)))
-(global-set-key ">" '(lambda () (interactive) (scroll-right horizontal-scroll-delta)))
+; (global-set-key "<" '(lambda () (interactive) (scroll-left horizontal-scroll-delta)))
+; (global-set-key ">" '(lambda () (interactive) (scroll-right horizontal-scroll-delta)))
+(global-set-key "<" 'scroll-left)
+(global-set-key ">" 'scroll-right)
 ; (global-set-key "c" ' compare-windows-2)
 (global-set-key "c" 'compare-windows)
 (global-set-key "l" 'what-line)
@@ -51,6 +53,7 @@
 
 (global-set-key "" 'find-file-force-refresh)
 (global-set-key "f" 'find-indicated-file)
+(global-set-key "" 'search-forward-indicated-word)
 
 (global-set-key "" 'insert-buffer)
 (global-set-key "" 'kill-rectangle)
@@ -207,6 +210,7 @@
 (define-key alt-SPC-map "l" 'roll-buffer-like)
 (define-key alt-SPC-map "m" 'roll-buffer-named)
 (define-key alt-SPC-map "/" 'roll-buffer-with)
+(define-key alt-SPC-map "\M-/" 'roll-buffer-with)
 (define-key alt-SPC-map "." 'roll-buffer-with-mode)
 (define-key alt-SPC-map "," 'roll-scratch-buffers)
 (define-key alt-SPC-map "b" '(lambda () (interactive) (list-buffers-mode 'scratch-mode)))

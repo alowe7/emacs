@@ -1,5 +1,5 @@
 (put 'post-compile 'rcsid 
- "$Id: post-compile.el,v 1.7 2003-06-05 19:35:42 cvs Exp $")
+ "$Id: post-compile.el,v 1.8 2004-10-12 21:26:35 cvs Exp $")
 
 ; (read-string "loading post-compile")
 
@@ -76,4 +76,8 @@
 
 (define-key  compilation-mode-map "p" 'roll-qsave)
 (define-key  compilation-mode-map "n" 'roll-qsave-1)
+
+(define-key ctl-x-map (vector '\C-return) 'next-error) 
+
+
 

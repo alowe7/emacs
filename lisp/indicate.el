@@ -1,5 +1,5 @@
 (put 'indicate 'rcsid 
- "$Id: indicate.el,v 1.11 2004-08-11 14:55:52 cvs Exp $")
+ "$Id: indicate.el,v 1.12 2004-10-12 21:26:35 cvs Exp $")
 (provide 'indicate)
 
 ;;
@@ -156,6 +156,10 @@ a typical use might be with (interactive) :
   )
 
 
+(defun search-forward-indicated-word () 
+  (interactive)
+  (search-forward (indicated-word))
+  )
 
 (defun replace-indicated-word (expr) (interactive "xExpr: ")
   "replace indicated word with results of evaluating EXPR
