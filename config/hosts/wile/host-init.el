@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid
- "$Id: host-init.el,v 1.2 2003-11-24 22:09:25 cvs Exp $")
+ "$Id: host-init.el,v 1.3 2004-01-23 17:17:46 cvs Exp $")
 
 (defvar process-environment-list (loop for x in  process-environment collect (split x "=")))
 
@@ -25,3 +25,8 @@
 ; somethings still wrong with the path.  meanwhile:
 (setq locate-command "/usr/local/bin/locate")
 
+(global-set-key "~" 'diff-backup)
+
+(require 'eval-process)
+
+(modify-frame-parameters (selected-frame) (list (cons 'title (format "%s@%s" (eval-process "whoami") (eval-process "uname" "-n")))))
