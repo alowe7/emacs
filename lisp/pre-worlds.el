@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: pre-worlds.el,v 1.3 2000-07-30 21:07:47 andy Exp $")
+(defconst rcs-id "$Id: pre-worlds.el,v 1.4 2000-07-31 15:00:57 cvs Exp $")
 (require 'reg)
 (require 'world-advice)
 
@@ -15,7 +15,7 @@
 
 	     (call-process "perl" nil 0 nil
 			   ($ "$PBASE/bin/world-update-registry")
-			   (win32-canonify (find-world-directory (current-world)))))
+			   (w32-canonify (find-world-directory (current-world)))))
 	   )) 
 
 
