@@ -1,5 +1,5 @@
 (put 'cvs 'rcsid 
- "$Id: cvs.el,v 1.7 2001-07-17 11:14:19 cvs Exp $")
+ "$Id: cvs.el,v 1.8 2001-09-07 21:37:15 cvs Exp $")
 (require 'vc)
 
 (defvar *cvs-commands*
@@ -107,5 +107,11 @@ non-interactive arg is a string to set it to
   )
 (define-key vc-prefix-map "." 'cvs-update) 
 
+(defun cvs-find-file (f)
+  "find a random file from the cvs tree"
+  (interactive "sfile: ")
+  (cvs "checkout" (concat "-p " f))
+  )
+(define-key vc-prefix-map "," 'cvs-find-file) 
 
 (provide 'cvs)
