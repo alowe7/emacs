@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.27 2002-06-06 10:54:36 cvs Exp $")
+ "$Id: w32,v 1.28 2002-06-26 18:38:30 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -104,10 +104,10 @@ optional DRIVE says which drive to use. "
   (replace-in-string  "/" "\\" 
 		      (if sysdrive (expand-file-name 
 				    (substitute-in-file-name
-				     (chop f ?/))
+				     (chomp f ?/))
 				    (and (string* sysdrive) (concat sysdrive "/")))
 			(substitute-in-file-name
-			 (chop f ?/))
+			 (chomp f ?/))
 			)
 		      )
   )
@@ -188,7 +188,7 @@ if MIXED is 0, then ignore letter drive names.
 
 (defun explore (&optional f)  
   (interactive "P")
-  (shell-command (w32-canonify (format "explorer %s" (or f "."))))
+  (shell-command (format "explorer %s" (w32-canonify (or f "."))))
   (run-hooks 'explore-hooks)
 )
 
