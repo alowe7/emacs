@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.20 2003-07-30 21:34:44 cvs Exp $")
+ "$Id: roll.el,v 1.21 2004-02-29 01:55:44 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -151,20 +151,21 @@ calling SELECTFN to choose one
   (delete* b l)
   )
 
-(defun roll-buffer-mode (&optional arg)
+(defun roll-buffer-mode (mode)
   "apply `list-mode-buffers' to specified major mode (in `atoms-like' \"-mode\")
 "
-  (interactive "P")
-  (let ((m (if arg
-	       (intern (completing-read "mode: " (mapcar '(lambda (x) 
-							    (cons
-							     (format "%s" x) x))
-							 (atoms-like "-mode"))))
-	     major-mode)))
+  (interactive 
+   (list 
+    (let ((m (completing-read (format "mode (%s): " major-mode)
+			      (mapcar '(lambda (x) 
+					 (cons
+					  (format "%s" x) x))
+				      (atoms-like "-mode")))))
+      (if (string* m) (intern m) major-mode))))
 
-    (roll-list (buffer-list-mode (if (atom m) m (or (string* m) major-mode))) 'buffer-name 'kill-buffer-1 'switch-to-buffer
-	       '((?o (lambda (v i) (switch-to-buffer-other-window (aref v i)) (throw 'done nil)))))
-    )
+  (roll-list (buffer-list-mode mode) 'buffer-name 'kill-buffer-1 'switch-to-buffer
+	     '((?o (lambda (v i) (switch-to-buffer-other-window (aref v i)) (throw 'done nil)))))
+
   )
 
 
