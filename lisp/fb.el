@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.60 2005-01-24 21:50:14 cvs Exp $")
+ "$Id: fb.el,v 1.61 2005-02-08 15:01:40 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -281,13 +281,16 @@ see variable *fb-db* "
 (defun fb (&optional buf)
   "view file listing from current directory"
   (interactive)
-  (let ((b (or buf
+  (let* ((b (or buf
 	       (get-buffer-create
 		(generate-new-buffer-name
-		 (expand-file-name (pwd)))))))
+		 (expand-file-name (pwd))))))
+	(whatever (shell-command "find . -print" b))
+	(w (get-buffer-window b)))
+    
+    (or (and w (select-window w))
+	(switch-to-buffer-other-window b))
 
-    (shell-command "find . -print" b)
-    (switch-to-buffer b)
     (beginning-of-buffer)
     (fb-mode))
   )
