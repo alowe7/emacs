@@ -1,5 +1,5 @@
 (put 'mru-shell 'rcsid
- "$Id: mru-shell.el,v 1.3 2004-10-12 21:26:35 cvs Exp $")
+ "$Id: mru-shell.el,v 1.4 2004-12-22 16:38:03 cvs Exp $")
 
 (defun mru-shell () (interactive)
   "grab the most recently used extant shell buffer, pop to it and cd to the current directory"
@@ -17,6 +17,8 @@
 	    (comint-send-string (buffer-process) (format "pushd \"%s\"\n" d))
 	    )
 	  )
+  ; if no shells are found, just fire one up
+      (call-interactively 'shell)
       )
     )
   )
