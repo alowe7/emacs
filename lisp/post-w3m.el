@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.13 2003-12-15 22:46:31 cvs Exp $")
+ "$Id: post-w3m.el,v 1.14 2004-03-03 15:15:18 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -61,6 +61,10 @@
 
 (defun w3m-copy-current-url () (interactive)
   (kill-new w3m-current-url)
+  )
+
+(defun w3m-display-current-url () (interactive)
+  (message w3m-current-url)
   )
 
 (defun css-spec () (interactive)
@@ -159,4 +163,5 @@
 (define-key ctl-/-map "w" 'w3m-goto-this-url-new-session)
 (define-key ctl-/-map "z" 'w3m-copy-current-url)
 (define-key ctl-/-map "g" 'w3m-goto-url-new-session)
-
+; 
+(define-key w3m-mode-map "i" 'w3m-display-current-url)

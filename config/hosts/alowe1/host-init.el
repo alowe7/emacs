@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.16 2004-01-30 14:47:04 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.17 2004-03-03 15:15:18 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 100)
@@ -67,7 +67,7 @@
 ;; 				     finally return l)
 ;; 				    )
 
-			      (load "world-advice")
+; 			      (load "world-advice")
 			      (load "post-worlds")
 			      )
 	  )

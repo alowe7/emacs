@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.45 2004-02-20 15:54:01 cvs Exp $")
+ "$Id: keys.el,v 1.46 2004-03-03 15:15:18 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -57,7 +57,8 @@
 (global-set-key "" 'goto-line)
 ; (global-set-key "" 'manual-entry)
 
-(global-set-key "." 'find-tag-on-key)
+; (global-set-key "." 'find-tag-on-key)
+(global-set-key "." 'modify-syntax-entry)
 
 (global-set-key "" '(lambda () (interactive) (roll-buffer-list t)))	
 
@@ -183,28 +184,6 @@
 
 
 (global-set-key "\M-;" (quote eval-expression))
-
-(defun unbury-buffer () (interactive) 
-  (unless (member last-command '(unbury-buffer bury-buffer-1))
-    (setq *buffer-list-vector* (apply 'vector (real-buffer-list))
-	  *buffer-list-vector-length* (length *buffer-list-vector*)
-	  *buffer-list-vector-index* 0))
-  (let ((next (% (1+ *buffer-list-vector-index*) (length *buffer-list-vector*))))
-    (switch-to-buffer (aref *buffer-list-vector* next))
-    (setq *buffer-list-vector-index* next)
-    )
-  )
-
-(defun bury-buffer-1 () (interactive) 
-  (unless (member last-command '(unbury-buffer bury-buffer-1))
-    (setq *buffer-list-vector* (apply 'vector (real-buffer-list))
-	  *buffer-list-vector-length* (length *buffer-list-vector*)
-	  *buffer-list-vector-index* 0))
-  (let ((next (max (1- *buffer-list-vector-index*) 0)))
-    (switch-to-buffer (aref *buffer-list-vector* next))
-    (setq *buffer-list-vector-index* next)
-    )
-  )
 
 (global-set-key (vector '\M-prior) 'bury-buffer-1)
 (global-set-key (vector '\M-next) 'unbury-buffer)

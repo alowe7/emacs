@@ -1,5 +1,7 @@
 (put 'define 'rcsid 
- "$Id: define.el,v 1.7 2003-06-05 19:35:42 cvs Exp $")
+ "$Id: define.el,v 1.8 2004-03-03 15:15:18 cvs Exp $")
+
+(require 'w3m)
 
 (defun define0 (term) (interactive "sterm: ")
   (perl-command "define" term)

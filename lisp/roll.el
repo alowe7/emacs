@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.21 2004-02-29 01:55:44 cvs Exp $")
+ "$Id: roll.el,v 1.22 2004-03-03 15:17:38 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -320,7 +320,7 @@ LIST may be an a-list, in which case, interpret the cars as buffers, and print t
 
 (defun roll-buffer-with (pat)
   "roll buffers with contents matching PAT"
-  (interactive "spat: ")
+  (interactive "sroll buffer with: ")
 
   (roll-buffer-list (buffer-list-with pat))
   )

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.4 2004-01-30 14:47:04 cvs Exp $")
+ "$Id: fb.el,v 1.5 2004-03-03 15:15:18 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 
@@ -12,7 +12,6 @@
   (setq pat (if (eq (aref pat 0) ?^) (substring pat 1) (concat "%" pat)))
   (setq pat (if (eq (aref pat (1- (length pat))) ?$) (substring pat 0 -1) (concat pat "%")))
   (tr pat '((?* "%")))
-  pat
   )
 
 (defun ffsql (pat)

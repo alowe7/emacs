@@ -1,5 +1,5 @@
 (put 'todo 'rcsid 
- "$Id: todo.el,v 1.8 2003-09-23 16:01:43 cvs Exp $")
+ "$Id: todo.el,v 1.9 2004-03-03 15:15:18 cvs Exp $")
 (require 'eval-process)
 (require 'input)
 
@@ -27,7 +27,9 @@
 (defvar add-todone-date t " if set, a date is prepended to todone entry")
 
 
-(defun todone-file-name () (expand-file-name (concat (file-name-directory (buffer-file-name)) ".done")))
+(defun todone-file-name ()
+  (expand-file-name (concat (file-name-directory (buffer-file-name)) ".done"))
+  )
 
 (defun todo (com &optional b)
   "make a line to master-todo-file"

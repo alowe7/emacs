@@ -1,5 +1,5 @@
 (put 'indicate 'rcsid 
- "$Id: indicate.el,v 1.9 2003-08-29 16:50:28 cvs Exp $")
+ "$Id: indicate.el,v 1.10 2004-03-03 15:15:18 cvs Exp $")
 (provide 'indicate)
 
 ;;
@@ -54,9 +54,11 @@ in the current buffer
 
     (save-restriction 
       (narrow-to-region (or from (point-min)) (or to (point-max)))
-      (setq *indicated-word-region* (indicated-word-region))
+      (setq *indicated-word-region* (bounds-of-thing-at-point 'word))
       (setq w
-	    (apply 'buffer-substring *indicated-word-region*)
+	    (if *indicated-word-region*
+		(buffer-substring (car *indicated-word-region*) (cdr *indicated-word-region*))
+	      "")
 	    )
       )
 
@@ -65,26 +67,6 @@ in the current buffer
 			   (cadr (assoc (cadr x) syntax-ref))
 			   (syntax-table)))
     (if (interactive-p) (message w) w))
-  )
-
-
-(defun indicated-word-region ()
-  "returns region bounding word under cursor"
-  (interactive)
-  (save-excursion
-
-    (cond ((eolp)
-	   (backward-word 1))
-
-	  ;; possible exception case:
-	  ;;      (looking-at "[ 	(, ;/]") ; should search syntax-table for punctuation chars
-
-	  (t (progn (forward-word 1) (backward-word 1))))
-    (list (point) 
-	  (progn
-	    (forward-word 1)
-	    (point)))
-    )
   )
 
 
@@ -149,12 +131,6 @@ indicated-word is the default. remaining args are applied to prompt"
       (setq e (point))
       (buffer-substring b e))))
 
-
-(defun find-indicated-file () 
-  " point is on the name of a file.  find that file."
-  (interactive)
-  (find-file (indicated-word))
-  )
 
 (defmacro complete-indicated-word (prompt table &rest args)
   "complete indicated word using PROMPT and completing in TABLE.

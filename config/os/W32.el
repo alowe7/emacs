@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.23 2003-12-15 22:46:30 cvs Exp $")
+ "$Id: W32.el,v 1.24 2004-03-03 15:15:18 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -675,6 +675,14 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
   (expand-file-name (concat user-profile "/My Documents"))
   "top level dir for current users documents and settings")
 
+(defvar my-favorites
+  (expand-file-name (concat user-profile "/Favorites"))
+  "top level dir for ie bookmarks")
+
+(defvar my-links
+  (expand-file-name (concat my-favorites "/Links"))
+  "top level dir for ie quick links")
+
 (defvar start-menu
   (expand-file-name (substitute-in-file-name "$USERPROFILE/Start Menu"))
   "top level dir for current users documents and settings")
@@ -687,7 +695,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (mapcar '(lambda (x) 
 	   (eval (list 'defun x nil '(interactive) (list 'dired x))))
-	'(all-users-profile user-profile my-documents start-menu quicklaunch))
+	'(all-users-profile user-profile my-documents my-favorites my-links start-menu quicklaunch))
 
 (defun w32-mangle-filename (f)
   "reports default-directory as a win32 8.3 file name"
@@ -973,14 +981,6 @@ host must respond within optional TIMEOUT msec"
 
 
 ; xxx todo: catch shell command w <world> for shell-cd
-
-
-(defun delete-all-other-frames ()
-	(interactive)
-	"delete all frames except the currently focused one."
-	(dolist (a (frame-list))
-		(if (not (eq a (selected-frame)))
-				(delete-frame a))))
 
 ;; where does this really belong?
 (defun ftime () (interactive)
