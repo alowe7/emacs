@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid 
- "$Id: post-worlds.el,v 1.7 2001-08-20 02:09:14 cvs Exp $")
+ "$Id: post-worlds.el,v 1.8 2003-02-24 14:46:21 cvs Exp $")
 
 
 (defun push-world-p (w)
@@ -43,7 +43,7 @@ a null argument means pop-world from world-stack"
 (global-set-key "	" 'swap-world)
 (global-set-key "" 'lastdir)
 (global-set-key "" 'wn)
-
+(global-set-key "d" 'setdn)
 
 (setq *world-goto-lastdir* t)
 (setq *shell-track-worlds* nil)

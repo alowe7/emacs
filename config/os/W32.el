@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.5 2003-02-11 23:11:51 cvs Exp $")
+ "$Id: W32.el,v 1.6 2003-02-24 14:46:21 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -327,6 +327,22 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
     (if interprogram-cut-function
 	(funcall interprogram-cut-function txt t))
     txt))
+
+(defun dired-yank-dos-filename ()
+  "this function translates the region between BEGIN and END using `w32-canonify' and copies the result into the kill-ring.
+if `interprogram-cut-function' is defined, it is invoked with the canonified result.
+when called from a program, if BEGIN is a string, then use it as the kill text instead of the region
+"
+  (interactive)
+  (condition-case x
+      (let ((txt (w32-canonify (dired-get-filename))))
+	(kill-new txt)
+	(if interprogram-cut-function
+	    (funcall interprogram-cut-function txt t))
+	txt)
+    (error (call-interactively 'yank-dos-filename)))
+  )
+(add-hook 'dired-mode-hook '(lambda () (define-key dired-mode-map "\C-cw" 'dired-yank-dos-filename)))
 
 (defun yank-unix-filename (begin end)
   "this function translates the region between BEGIN and END using `unix-canonify' and copies the result into the kill-ring.

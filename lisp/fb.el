@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.34 2003-01-25 22:50:37 cvs Exp $")
+ "$Id: fb.el,v 1.35 2003-02-24 14:46:21 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -443,7 +443,7 @@ if none given, uses `*default-fb-db*'
 
   (interactive "P")
 
-  (let* ((top "/")
+  (let* ((top default-directory)
   ; 	with prefix arg, make sure buffer is in a rational place
 	 (b (zap-buffer *fastfind-buffer* (and args '(cd top))))
   ;	 (*fb-db* *fb-db*) 
