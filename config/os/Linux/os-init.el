@@ -1,5 +1,5 @@
 (put 'Linux 'rcsid 
- "$Id: os-init.el,v 1.4 2001-08-20 02:10:55 cvs Exp $")
+ "$Id: os-init.el,v 1.5 2002-02-21 05:05:44 cvs Exp $")
 (put 'os-init 'rcsid  'Linux)
 
 (message "Linux")
@@ -53,3 +53,13 @@ if optional VISIT is non-nil and no file association can be found just visit fil
     )
   )
 
+(defun linux-howto (what) (interactive "swhat: ")
+  (let ((s (eval-process "locate" (format "HOWTO/%s" what)))
+	(b (zap-buffer "*howto*")))
+    (set-buffer b)
+    (insert s)
+    (fb-mode)
+    (pop-to-buffer b)
+    (beginning-of-buffer)
+    ))
+(global-set-key (vector 'kp-f1) 'linux-howto)
