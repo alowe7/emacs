@@ -1,8 +1,6 @@
 (put 'zip-view 'rcsid 
- "$Id: zip-view.el,v 1.6 2001-02-09 14:29:51 cvs Exp $")
+ "$Id: zip-view.el,v 1.7 2001-08-20 02:09:14 cvs Exp $")
 (provide 'zip-view)
-
-;(pop file-assoc-list)
 
 (defun dired-zip-view () (interactive)
 	(zip-view (dired-get-filename)) 
@@ -24,13 +22,4 @@
     )
   )
 
-(or (assoc "zip"  file-assoc-list)
-		(push
-		 '("zip" . zip-view)
-		 file-assoc-list))
-
-
-
-
-
-
+(add-file-association "zip"  file-assoc-list)

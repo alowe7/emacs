@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.4 2001-06-25 15:32:39 cvs Exp $")
+ "$Id: post-dired.el,v 1.5 2001-08-20 02:09:14 cvs Exp $")
 
 ;; dired stuff
 
@@ -189,7 +189,6 @@ warns if more than one file is to be moved and target is not a directory"
 	)
   )
 
-
 (defun execute-indicated-file ()
   (interactive)
   (let ((cmd  (indicated-word))
@@ -237,7 +236,44 @@ warns if more than one file is to be moved and target is not a directory"
 
 (define-key dired-mode-map (vector 'C-return ? ) 'dired-unmark-all-files)
 
+(defvar file-assoc-list nil
+  "assoc mapping of downcased file extensions to handlers")
+
+(defun add-file-association (type handler)
+  "add assoc mapping of downcased file extension to handler.
+see `file-assoc-list'"
+  (or (assoc type file-assoc-list)
+      (push
+       (cons type . handler)
+       file-assoc-list))
+  )
+
+(defun file-association (f &optional notrim)
+  "find command associated with filetype of specified file"
+  (interactive "sFile: ")
+  (let ((cmd (perl-command "plassoc" (concat "." (file-name-extension f)) )))
+    ;; sometimes command line args are appended to ocmd.
+    ;; we usually want just the executable
+    (if cmd 
+	(if notrim cmd
+	  (car (catlist cmd ?\"))
+	  )
+      )
+    )
+  )
+
+(defun dired-aexec () (interactive)
+  (aexec
+   (replace-in-string "/" "\\" 
+		      (expand-file-name 
+		       (dired-get-filename)))))
+
 (require 'tar-view)
 (require 'zip-view)
 (require 'html-view)
 
+(add-hook 'dired-mode-hook '(lambda () 
+			      (define-key  dired-mode-map "\C-m" 'dired-aexec)
+			      (define-key  dired-mode-map "P" '(lambda () (interactive) (dos-print (dired-get-filename))))
+			      (define-key dired-mode-map "|" 'dired-pipe-file)
+			      ))

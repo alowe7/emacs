@@ -1,5 +1,5 @@
 (put 'tar-view 'rcsid 
- "$Id: tar-view.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: tar-view.el,v 1.5 2001-08-20 02:09:14 cvs Exp $")
 (provide 'tar-view)
 (require 'cl)
 
@@ -21,11 +21,7 @@
 	)
 
 
-(or (assoc "tar"  file-assoc-list)
-		(push
-		 '("tar" . tar-view)
-		 file-assoc-list))
-
+(add-file-association "tar"  file-assoc-list)
 
 (defvar tar-mode-map nil "")
 (if tar-mode-map

@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.8 2001-06-26 08:01:08 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.9 2001-08-20 02:09:14 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -46,7 +46,12 @@
   (let ((f (dired-get-filename)))
 	(pod2text f (concat (file-name-sans-extension f) " *pod*"))))
 
-(define-key  dired-mode-map (vector 'f9) 'dired-pod)
+(add-hook 'dired-load-hook
+	  '(lambda () 
+	     (define-key  dired-mode-map (vector 'f9) 'dired-pod)
+	     )
+	  )
+
 
 ; do a perl debug
 
