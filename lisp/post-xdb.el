@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid 
- "$Id: post-xdb.el,v 1.8 2003-04-03 04:30:07 cvs Exp $")
+ "$Id: post-xdb.el,v 1.9 2003-04-03 15:56:29 cvs Exp $")
 
 (require 'advice)
 (require 'cat-utils)
@@ -54,13 +54,27 @@
 
 ; first time through, ask for a sword
 
-(let ((sword  (comint-read-noecho "sword: ")))
-  (if (string* sword)
-      (setq *txdb-options* 
-	    (nconc
-	     (list "-s" sword)
-	     *txdb-options* 
-	     )
-	    )
-    )
+(setq *xdbuser* (string* (read-string (format "user (%s): " (getenv "XDBUSER"))) (getenv "XDBUSER")))
+(setq *xdbsword* (comint-read-noecho (format "sword for user %s: " *xdbuser*)))
+
+;; todo: (unless (member "-s" *txdb-options* ) ...
+; (setq *txdb-options*  nil)
+
+(if (string* *xdbuser*)
+    (setq *txdb-options* 
+	  (nconc
+	   (list "-u" *xdbuser*)
+	   *txdb-options* 
+	   )
+	  )
   )
+
+(if (string* *xdbsword*)
+    (setq *txdb-options* 
+	  (nconc
+	   (list "-s" *xdbsword*)
+	   *txdb-options* 
+	   )
+	  )
+  )
+
