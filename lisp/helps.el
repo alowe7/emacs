@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.16 2004-03-06 20:31:33 cvs Exp $")
+ "$Id: helps.el,v 1.17 2004-03-15 03:52:26 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -262,7 +262,7 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 	(set-buffer b)
 	(switch-to-buffer b)
 	(message "uncompressing %s" fn)
-	(insert-eval-process "gzcat" a))
+	(insert-eval-process "gzcat" a)
 	(beginning-of-buffer)
 	(set-buffer-modified-p nil) 
 	)
