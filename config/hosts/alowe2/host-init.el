@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.14 2001-10-25 21:27:22 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.15 2001-11-08 22:20:24 cvs Exp $")
 
 (setq default-frame-alist
       '((top + -4)
@@ -31,6 +31,8 @@
 (mapcar 
  '(lambda (x) (load x t t)) 
  '("kill" "buff" "msvc" "syntax" "key" "show"))
+
+(setq *key-program* "/a/bin/key")
 
 (add-hook 'xz-load-hook 
 	  '(lambda ()
