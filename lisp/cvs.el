@@ -1,5 +1,5 @@
 (put 'cvs 'rcsid 
- "$Id: cvs.el,v 1.3 2001-02-09 14:29:51 cvs Exp $")
+ "$Id: cvs.el,v 1.4 2001-04-07 20:08:01 cvs Exp $")
 (provide 'cvs)
 
 (defvar *cvs-commands*
@@ -16,7 +16,7 @@
     ))
 
 (defun cvs (cmd args)
-"execute a random cvs command"
+  "execute a random cvs command"
   (interactive (list 
 		(completing-read "CVS command: " *cvs-commands*)
 		(read-string "args: ")))
@@ -35,7 +35,7 @@
 	)
 	    
 
-      (let ((b (zap-buffer "*CVS")))
+      (let ((b (get-buffer-create "*CVS*")))
 	(shell-command (format "cvs %s %s" cmd args) b)
 	(pop-to-buffer b)
 	(beginning-of-buffer)
