@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.10 2001-06-25 15:32:39 cvs Exp $")
+ "$Id: helps.el,v 1.11 2001-10-29 00:05:43 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -337,15 +337,37 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
    finally return l)
   " completion alist for `howto'")
 
-(defun howto (name)
-  (interactive 
-   (list
-    (completing-read "what? " *howto-alist*)))
 
-  (let ((hit (assoc name *howto-alist*)))
-    (find-file (concat  (cadr hit) "/" (car hit)))
+;; (defun howto (name)
+;;   (interactive 
+;;    (list
+;;     (completing-read "what? " *howto-alist*)))
+;; 
+;;   (let ((hit (assoc name *howto-alist*)))
+;;     (find-file (concat  (cadr hit) "/" (car hit)))
+;;     )
+;;   )
+
+(defun howto (pat)
+  (interactive "spat: ")
+  (catch 'done
+    (let* ((matches (loop for x in *howto-alist* 
+			  when (string-match pat (car x))
+			  collect x))
+	   (hit (cond
+		 ((= 1 (length matches)) (car matches))
+		 ((= 0 (length matches)) (message "no matches") (throw 'done t))
+		 (t 
+		  (assoc* (completing-read "what? " matches) *howto-alist*  :test '(lambda (x y) (string-match x y))))))
+	   (where (concat  (cadr hit) "/" (car hit))))
+
+      (and (file-exists-p where) (view-file where)))
     )
   )
+
+; (howto "DNS")
+
+; another attempt at the same thing
 
 (defun howto-1 (name &optional exact)
   "searches for files matching NAME along environment variable *howto-path*
