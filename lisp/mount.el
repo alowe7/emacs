@@ -1,5 +1,5 @@
 (put 'mount 'rcsid 
- "$Id: mount.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: mount.el,v 1.5 2001-05-05 13:12:09 cvs Exp $")
 (require 'untranslate)
 (require 'comint)
 (provide 'mount)
@@ -53,3 +53,4 @@ if optional USER is given, logon as that user
 
 ; (mount "f:" "freefall:/projects")
 ; (add-untranslated-filesystem "f:")
+; (describe-variable 'untranslated-filesystem-list)
