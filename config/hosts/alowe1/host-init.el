@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.24 2004-07-24 17:07:43 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.25 2004-07-24 18:28:12 cvs Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-22-*-*-*-*-*-*-*-")
 
@@ -119,8 +119,13 @@
 (and  *log-file-save*
       (add-hook 'after-save-hook 'world-file-save-hook))
 
-(load-library "post-help")
+; (load-library "post-help")
+(load-library "fixframe")
+(load-library "unbury")
 
 (add-to-load-path "/u/emacs-w3m/emacs-w3m")
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
+
+(add-to-load-path "/z/el")
+(load-library "mycal")
 
