@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: people.el,v 1.4 2000-09-15 20:37:29 cvs Exp $")
+(defconst rcs-id "$Id: people.el,v 1.5 2000-09-29 20:22:34 cvs Exp $")
 (provide 'people)
 (require 'data)
 ;; manage people databases
@@ -33,38 +33,37 @@ to find the text that grep hits refer to."
     (find-person name db)
     ))
 
-(defvar contact-cache nil "cache of contact files. computed on first use")
-(defvar filecache "/tmp/f" "nih file directory")
+(defvar *contact-cache* nil "cache of contact files. computed on first use")
+(defvar *filecache* "/var/spool/f" "nih file directory")
 
 (defun contact-cachep (&optional force)
-  ; recompute the database if:
-  ; we don't have a cache, or
-  ; we force it, or
-  ; /tmp/f is older than the last time we computed contact-cache, or
-  ; at least one file in contact-cache doesn't exist
+  "recompute `*contact-cache*' if:
+	we don't have a cache, or
+	we force it, or
+	`*filecache*' is older than the last time we computed `*contact-cache*', or
+	at least one file in `*contact-cache*' doesn't exist"
 
-  (let ((filecache "/tmp/f")) 
-    (cond ((and contact-cache
+    (cond ((and *contact-cache*
 		(not force)
 		(>= 0 (compare-filetime
-		       (filemodtime filecache)
-		       (get 'contact-cache 'computed)))
+		       (filemodtime *filecache*)
+		       (get '*contact-cache* 'computed)))
 		(loop for x
-		      in contact-cache
+		      in *contact-cache*
 		      if (not (file-exists-p x))
-		      return (contact-cachep t)
+		      return (*contact-cachep* t)
 		      )
 		)
 	   )
 	  (t 
-	   (setq contact-cache
+	   (setq *contact-cache*
 		 (nconc *people-database*
-			(catlist (perl-command "contact-cache" filecache) ?
+			(catlist (perl-command "contact-cache" *filecache*) ?
 				 )
 			))
-	   (put 'contact-cache 'computed (elt (file-attributes filecache) 5)))
+	   (put '*contact-cache* 'computed (elt (file-attributes *filecache*) 5)))
 	  )
-    contact-cache)
+    *contact-cache*
   )
 
 (defvar people-mode-map	nil "keymap for hit buffer")
@@ -176,7 +175,7 @@ to find the text that grep hits refer to."
 
 ; todo: concoct list, read key for more.
 (defun find-person (name &optional db)
-  " search people database for regexp NAME
+  " search `*people-database*' for regexp NAME
     if optional DB is specified, search it.
 
 	runs find-person-hook after search
@@ -188,7 +187,7 @@ to find the text that grep hits refer to."
 	 (e (apply 'call-process 
 		   (nconc (list "egrep" nil b nil "-i" "-n" name) db)))
 	 n)
-    (run-hooks 'after-find-person-hook)
+    (run-hooks 'find-person-hook)
     (save-excursion
       (set-buffer b)
       ;; if result is one-line & buffer isn't already showing in a window, 
@@ -212,22 +211,22 @@ to find the text that grep hits refer to."
     )
   )
 
-(defun find-person-1 (name &optional db)
-  " search people database for regexp NAME
-    if optional DB is specified, search it.
+(defvar *note-program* "note" "external program used to find notes")
 
+(defun find-person-1 (name &optional db)
+  " call external process `*note-program*' to find people and notes
 	runs find-person-hook after search
 "
   (interactive "swho? ")
   (let* ((b (prog1 (zap-buffer "*people*") (people-mode)))
 	 (cmd (if db 
-		  (format "note -f %s %s" db name) 
-		(format "note %s" name)))
+		  (format "%s -f %s %s" *note-program* db name) 
+		(format "%s %s" *note-program* name)))
 	 (e (apply 'call-process
 		   (nconc (list "egrep" nil b nil "-i" "-n" name) db)))
 	 n)
 
-    (run-hooks 'after-find-person-hook)
+    (run-hooks 'find-person-hook)
     (save-excursion
       (set-buffer b)
       ;; if result is one-line & buffer isn't already showing in a window, 
