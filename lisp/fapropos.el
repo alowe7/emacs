@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.5 2000-10-03 16:50:27 cvs Exp $")
+ "$Id: fapropos.el,v 1.6 2001-07-24 10:58:14 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -263,3 +263,18 @@ unless it is already there
 ; (function-help-string  'cscope-mode "  t to toggle tpath searching
 ;  d to debug tpath searching
 ;")
+
+
+; xxx todo roll results
+(defun fapropos3 (pat)
+  "find symbol function with documentation property matching PAT"
+  (interactive "spat: ")
+  (loop
+   for x being the symbols of obarray 
+   with docx = nil
+   when (setq docx (and (functionp x) (documentation x)))
+   collect x
+  )
+)
+
+; (fapropos3 "profile")
