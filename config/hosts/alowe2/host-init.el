@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.27 2003-02-11 23:11:51 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.28 2003-02-12 22:59:36 cvs Exp $")
 
 (setq default-frame-alist
       '((width . 102)
@@ -22,10 +22,10 @@
 
 (add-hook 'people-load-hook (lambda () ; (require 'worlds)
 			      (setq *people-database*
-				    (list 
+				    (nconc 
 ; xxx todo: put (get-directory-files (expand-file-name ...)) into xwf if F is a dir, add optional argz
-(car (reverse (get-directory-files (expand-file-name (xwf "n" "broadjump")) t "people.*\.csv$")))
-					  "~/n/people"))))
+				     (last (get-directory-files (xwf "n" "broadjump") t "people.*\.csv$"))
+				     (list "~/n/people")))))
 (add-hook 'xz-load-hook 
 	  '(lambda ()
 	     (mapcar

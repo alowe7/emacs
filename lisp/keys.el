@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.31 2003-01-22 15:40:01 cvs Exp $")
+ "$Id: keys.el,v 1.32 2003-02-12 23:00:00 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -182,11 +182,6 @@
 ; "\C-c\C-/"
 ; (dec "0x400002f")
 (global-set-key (vector 3 67108911)	'fb/)
-
-(defvar compilation-mode-map (make-sparse-keymap))
-
-(define-key  compilation-mode-map "p" '(lambda () (interactive) (previous-qsave-search (get-buffer "*compilation*"))))
-(define-key  compilation-mode-map "n" '(lambda () (interactive) (next-qsave-search (get-buffer "*compilation*"))))
 
 (global-set-key  "" 'decrypt-find-file)
 (global-set-key  "" 'encrypt-save-buffer)

@@ -1,5 +1,5 @@
 (put 'world-advice 'rcsid 
- "$Id: world-advice.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: world-advice.el,v 1.6 2003-02-12 23:00:01 cvs Exp $")
 (require 'advice)
 (provide 'world-advice)
 
@@ -60,3 +60,21 @@
     (insert (maybe-complete-world s)))
   ad-do-it)
 
+(defadvice xwf (around xwf-hook activate)
+  ad-do-it
+  (let* ((d ad-return-value)
+	 (d1 (unless (string-match "^//\\|^~\\|^[a-zA-`]:" d)
+	       (loop for y in cygmounts 
+		     if (or
+			 (string-match (concat "^" (car y) "/") d)
+			 (string-match (concat "^" (car y) "$") d))
+		     return (expand-file-name (replace-in-string (concat "^" (car y)) (cadr y) d))
+		     ))))
+    (cond
+     (d1 (setq ad-return-value d1))
+     (t d)
+     )
+    )
+  )
+
+; (if (ad-is-advised 'xwf) (ad-unadvise 'xwf))
