@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.47 2004-03-25 17:16:16 cvs Exp $")
+ "$Id: keys.el,v 1.48 2004-03-26 20:53:50 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -251,6 +251,7 @@
 (define-key ctl-/-map "p" 'perlmodhtml)
 (define-key ctl-/-map "p" 'phpmanual)
 (define-key ctl-/-map "s" 'specs)
+(define-key ctl-/-map "/" 'vars-like-with)
 
 (require 'cl)
 

@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.35 2004-03-25 17:19:53 cvs Exp $")
+ "$Id: default.el,v 1.36 2004-03-26 20:52:46 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -176,6 +176,12 @@
 
 (defun region ()
   (buffer-substring (region-beginning) (region-end))
+  )
+
+(defun modify-alist (x y z)
+  (set x (loop for w in (eval x) collect 
+	       (if (eq (car w) y) (cons y z) w))
+       )
   )
 
 (run-hooks 'post-load-hook)

@@ -1,11 +1,11 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.21 2004-03-16 04:02:52 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.22 2004-03-26 20:52:33 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 50)
 	(left . 100)
-	(width . 102)
-	(height . 44)
+	(width . 142)
+	(height . 30)
 	(background-mode . light)
 	(cursor-type . box)
 	(border-color . "black")
@@ -19,6 +19,14 @@
 	(font . "-*-lucida console-normal-r-*-*-14-nil-*-*-*-*-*-*-")
 	(menu-bar-lines . 0))
       )
+(if (= 0 (string-match "21"  emacs-version))
+    (set-face-attribute 'default nil :font  (default-font 
+					      (setq default-font-family "tahoma")
+					      (setq default-style "normal")
+					      (setq default-point-size 14))
+			)
+  (modify-alist 'default-frame-alist 'font default-fontspec)
+  )
 
 (setq initial-frame-alist default-frame-alist)
 
@@ -86,3 +94,4 @@
 	       )
 	     )
 	  )
+
