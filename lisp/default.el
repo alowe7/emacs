@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.7 2000-10-30 19:11:43 cvs Exp $")
+ "$Id: default.el,v 1.8 2000-11-01 15:53:38 cvs Exp $")
 
 (require 'config) ; this feature should not be required for anything up to this point
 
@@ -112,5 +112,5 @@
 
 
 ;; optional host-specific overrides
-(load "host-init" t t t)
+(load "host-init" t t)
 

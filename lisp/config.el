@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.5 2000-10-03 16:50:27 cvs Exp $")
+ "$Id: config.el,v 1.6 2000-11-01 15:53:38 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -98,11 +98,11 @@ no errors if files don't exist.
 
 (defmacro hookfn (fn &optional file)
 
-  "this macro hooks the first invocation of fn and attempts to load a
-pair of libraries before proceeding with the call.  
+  "this macro hooks the first invocation of FUNCTION from optional FILE.
+it attempts to load a pair of libraries before proceeding with the call.  
 
-the library names are like: pre-<file>.el and post-<file>.el where <file>
-is the pname of the hooked function.  after loading the library, this
+the library names are constructed like: pre-<file>.el and post-<file>.el where
+<file> defaults to the pname of the hooked function.  after loading the library, this
 advice removes itself."
 
   (let* ((f (eval fn))
@@ -138,7 +138,8 @@ advice removes itself."
 	  dired-mode
 	  perl-mode
 	  sgml-mode
-	  shell-mode))
+	  shell-mode
+	  help-mode))
 
 ; (ad-is-advised 'dired-mode)
 ; (ad-is-advised 'shell-mode)
@@ -159,7 +160,7 @@ advice removes itself."
     )
   )
 
-; advice apparently misses some predefined autoloads 
+; we need to apply some here on first invocation, since some functions come preloaded.
 
 (defun post-wrap (f) 
   (load (format "post-%s" f) t t)
