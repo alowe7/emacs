@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.16 2003-03-05 22:59:02 cvs Exp $")
+ "$Id: roll.el,v 1.17 2003-03-06 22:16:19 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -190,18 +190,18 @@ with optional ARG, returns in reverse order
 
   (loop for x being the buffers
 	when
-	(or (and mode
+	(and (or (not mode)
 		 (eq (progn (set-buffer x) major-mode) mode))
-	    (and named
+	     (or (not named)
 		 (string-match named (buffer-name x)))
-	    (and in
+	     (or (not in)
 		 (let ((d (if (buffer-file-name x) (buffer-file-name x) (save-excursion (set-buffer x) default-directory))))
 		   (and d (string-match in d))))
-	    (and modified
+	     (or (not modified)
 		 (buffer-modified-p x))
-	    (and notmodified
+	     (or (not notmodified)
 		 (not (buffer-modified-p x)))
-	    (and withpat
+	     (or (not withpat)
 		 (string-match withpat (save-excursion (set-buffer x) (buffer-string)))))
 	collect x)
   )
@@ -286,3 +286,43 @@ LIST may be an a-list, in which case, interpret the cars as buffers, and print t
   ) 
 
 (defun first-shell () (interactive) (let ((b (first 'shell-mode))) (if b (switch-to-buffer b) (message "not found"))))
+
+
+(defun roll-buffer-list-2 (mode named in modified notmodified withpat)
+  (interactive
+   (let* ((mode (intern (completing-read "mode: " (mapcar '(lambda (x) (list (symbol-name x) x)) (symbols-like "-mode$")))))
+	  (named (string* (read-string "named: ")))
+	  (in (string* (read-string "in: ")))
+	  (modified (not (not (string* (read-string "modified: ")))))
+	  (notmodified (and (not modified) 
+			    (not (not (string* (read-string "notmodified: "))))))
+	  (withpat (string* (read-string "withpat: "))))
+     (list mode named in modified notmodified withpat)))
+  (let ((fn '(lambda (x)
+	       (setq fn 
+		     '(lambda (x)
+			(switch-to-buffer x)
+			(if withpat (search-forward withpat))
+			(buffer-name x)))
+	       (switch-to-buffer-other-window x)
+	       (if withpat (progn (goto-char (point-min)) (search-forward withpat)))
+	       (buffer-name x))))
+    (roll-list
+     (buffer-list-2 
+      :mode mode 
+      :named named
+      :in in
+      :modified modified  
+      :notmodified notmodified
+      :withpat withpat)
+     '(lambda (x) (funcall fn x)) 'kill-buffer-1 '(lambda (x) (message (buffer-name x)))
+     )
+    )
+  )
+
+(fset 'qurol 'roll-buffer-list-2)
+
+; (qurol 'shell-mode nil "/l" nil nil "insight")
+; (qurol "emacs-lisp-mode" nil nil nil nil "doit")
+; (qurol "" nil nil nil nil "doit")
+; (roll-list (buffer-list-2 :mode 'shell-mode :in "/l") 'buffer-name)
