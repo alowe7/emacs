@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.11 2004-06-10 14:55:27 cvs Exp $")
+ "$Id: perl-command.el,v 1.12 2004-08-29 22:35:09 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -9,7 +9,7 @@
 
 (defvar *perl-command* "perl")
 (defvar *perl-stdout* " *stdout*")
-(defvar *perl-stderr* "/tmp/perl.stderr")
+(defvar *perl-stderr* (concat (string* (getenv "TMP") "/tmp") "/" (make-temp-name "err")))
 
 (defun find-script (s &optional processor l)
   (interactive "sscript: ")
