@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: w32-oblist.el,v 1.2 2000-07-30 21:07:48 andy Exp $")
+(put 'w32-oblist 'rcsid "$Id: w32-oblist.el,v 1.3 2000-10-03 16:44:08 cvs Exp $")
 (provide 'w32-oblist)
 (require 'fapropos)
 

@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: unix-oblist.el,v 1.3 2000-07-30 21:07:48 andy Exp $")
+(put 'unix-oblist 'rcsid "$Id: unix-oblist.el,v 1.4 2000-10-03 16:44:08 cvs Exp $")
 ;; these are the obarrays for machine sunstar
 
 (defvar shell-obarray (mapcar 'list '(

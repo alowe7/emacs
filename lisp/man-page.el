@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: man-page.el,v 1.3 2000-07-30 21:07:46 andy Exp $")
+(put 'man-page 'rcsid "$Id: man-page.el,v 1.4 2000-10-03 16:44:07 cvs Exp $")
 
 ;; like browse mode, but format man page first
 (defvar man-page-mode-map nil "")

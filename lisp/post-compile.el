@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-compile.el,v 1.2 2000-07-30 21:07:47 andy Exp $")
+(put 'post-compile 'rcsid "$Id: post-compile.el,v 1.3 2000-10-03 16:44:07 cvs Exp $")
 
 ; (read-string "loading post-compile")
 

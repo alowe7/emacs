@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: hcl.el,v 1.3 2000-07-30 21:07:45 andy Exp $")
+(put 'hcl 'rcsid "$Id: hcl.el,v 1.4 2000-10-03 16:44:06 cvs Exp $")
 
 (defun hcl (pat) (interactive "spat: ")
 (egrep (format "-i %s f:/support/hcl.txt" pat)))

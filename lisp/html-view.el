@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: html-view.el,v 1.3 2000-07-30 21:07:46 andy Exp $")
+(put 'html-view 'rcsid "$Id: html-view.el,v 1.4 2000-10-03 16:44:07 cvs Exp $")
 (provide 'html-view)
 
 (defun dired-html-view () (interactive)

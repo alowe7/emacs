@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-man.el,v 1.1 2000-08-07 15:59:32 cvs Exp $")
+(put 'post-man 'rcsid "$Id: post-man.el,v 1.2 2000-10-03 16:44:07 cvs Exp $")
 
 (defun fix-man-page ()
   (interactive)

@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: define.el,v 1.3 2000-07-30 21:07:45 andy Exp $")
+(put 'define 'rcsid "$Id: define.el,v 1.4 2000-10-03 16:44:06 cvs Exp $")
 (defun define (term) (interactive "sterm: ")
   (perl-command "define" term)
   (pop-to-buffer " *perl*")

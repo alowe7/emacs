@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: keys.el,v 1.4 2000-08-29 04:03:58 cvs Exp $")
+(put 'keys 'rcsid "$Id: keys.el,v 1.5 2000-10-03 16:44:07 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings

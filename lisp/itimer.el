@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: itimer.el,v 1.2 2000-07-30 21:07:46 andy Exp $")
+(put 'itimer 'rcsid "$Id: itimer.el,v 1.3 2000-10-03 16:44:07 cvs Exp $")
 ;;; Interval timers for GNU Emacs
 ;;; Copyright (C) 1988, 1991, 1993, 1997 Kyle E. Jones
 ;;;

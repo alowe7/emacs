@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: lnote.el,v 1.3 2000-07-30 21:07:46 andy Exp $")
+(put 'lnote 'rcsid "$Id: lnote.el,v 1.4 2000-10-03 16:44:07 cvs Exp $")
 (require 'log)
 
 (defun lnote (comment &optional buf)

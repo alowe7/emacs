@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: html.el,v 1.3 2000-07-30 21:07:46 andy Exp $")
+(put 'html 'rcsid "$Id: html.el,v 1.4 2000-10-03 16:44:07 cvs Exp $")
 (defun clean-html ()
   "extract all html elements from buffer"
   (interactive)

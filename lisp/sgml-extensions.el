@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: sgml-extensions.el,v 1.3 2000-07-30 21:07:48 andy Exp $")
+(put 'sgml-extensions 'rcsid "$Id: sgml-extensions.el,v 1.4 2000-10-03 16:44:08 cvs Exp $")
 
 ;; some sgml extensions
 (setq html-mode-keys '(("" new-para)

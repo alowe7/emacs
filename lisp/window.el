@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: window.el,v 1.2 2000-07-30 21:07:49 andy Exp $")
+(put 'window 'rcsid "$Id: window.el,v 1.3 2000-10-03 16:44:08 cvs Exp $")
 (defun top-of-window ()
   (interactive)
   (move-to-window-line 0))

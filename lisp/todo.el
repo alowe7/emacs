@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: todo.el,v 1.2 2000-07-30 21:07:48 andy Exp $")
+(put 'todo 'rcsid "$Id: todo.el,v 1.3 2000-10-03 16:44:08 cvs Exp $")
 (require 'eval-process)
 
 (defvar master-todo-file (expand-file-name "~/todo" ) 
@@ -24,19 +24,6 @@
 (defvar add-todo-date nil " if set, a date is prepended to todo entry")
 (defvar add-todone-date t " if set, a date is prepended to todone entry")
 
-;; does this really belong here.
-(defun shortdate ()
-  "report a brief date sans time"
-  (interactive)
-  (let ((d (if (and display-time-process
-	   (eq (process-status display-time-process) 'run))
-      (let ((s (current-time-string)))
-	(format "%s %s %s" (substring s 0 10) (substring s 22) (substring s 11 16)))
-    (clean-string (eval-process "shortdate"))
-    )))
-    (if (interactive-p) (message d) d))
-  )
-
 (defun todo (com &optional b)
   "make a line to master-todo-file"
   (interactive "scomment: ")
@@ -49,42 +36,32 @@
     )
   )
 
-(defun todone (arg)
-  "mark todo entry as done.  
-   should be on a line in master-todo-file.
-   with prefix arg, takes current line & arg subsequent
-"
-  (interactive "*p")
-  (if (not (string= (buffer-file-name) master-todo-file))
-      (message "not visiting todo file.  try vt.")
-    (save-excursion
-      (let* ((p (progn (beginning-of-line) (point)))
-	     (s (buffer-substring p (progn (next-line (or arg 1)) (beginning-of-line) (point)))))
-      	(kill-region p (point))
-	(vtd)
-	(if add-todone-date (insert (format "%s " (shortdate))))
-	(insert s)
-	))))
+(defun todone (p1 p2)
+  "move region to `master-todone-file'"
 
+  (interactive "r")
 
-;; todo tickle from region a/o buffer
-(defun tickle (subject message time)
-  "send a reminder to myself at the specified time.
-	args are mail SUBJECT, MESSAGE and TIME.
-	format for time is like the at(1) command:
-	for example, 
-	  3:00  pm  January  24
-	  3  pm  Jan  24
-	  1500  jan  24
-"
-  (interactive "ssubject: \nsmessage: \nstime: ")
-  (let ((z (zap-buffer "*tickle*"))
-	(cmd (format "tickle  \"%s\" \"%s\" \"%s\"" subject time message)))
+  (let ((trimlen 20)
+	(thing (buffer-substring p1 p2)))
 
-    (call-process shell-file-name nil t nil "-c" cmd)
-    (message (clean-string (buffer-substring (point-min) (point-max))))
-    (kill-buffer z)
+    (if (y-or-n-p
+	 (apply 'format
+		(cons "done with \"%s...%s\"? "
+		      (if (> (length thing) trimlen)
+			  (list (substring thing 0 trimlen)
+				(substring thing -1))
+			(list thing nil)))))
+	(progn 
+	  (write-region 
+	   (format "%s %s" (current-time-string) thing)
+	   nil master-todone-file t)
+	  (kill-region p1 p2)
+	  )
+      (message "not done.")
+      )
     )
   )
+
+
 
 (run-hooks 'todo-when-loaded-hook)

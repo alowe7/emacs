@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-debug.el,v 1.5 2000-08-10 21:13:12 cvs Exp $")
+(put 'post-debug 'rcsid "$Id: post-debug.el,v 1.6 2000-10-03 16:44:07 cvs Exp $")
 ; (define-key debugger-mode-map "x" 'debug-indicated-word)
 
 ;(add-hook 'debugger-mode-hook '(lambda ()

@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-sgml-mode.el,v 1.4 2000-08-07 00:11:41 cvs Exp $")
+(put 'post-sgml-mode 'rcsid "$Id: post-sgml-mode.el,v 1.5 2000-10-03 16:44:07 cvs Exp $")
 ;(setq html-mode-hook '(lambda () (setq paragraph-start "<P>"))
 
 (setq sgml-mode-hook '(lambda () (run-hooks 'html-mode-hook)

@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: w3-loads.el,v 1.3 2000-07-30 21:07:48 andy Exp $")
+(put 'w3-loads 'rcsid "$Id: w3-loads.el,v 1.4 2000-10-03 16:44:08 cvs Exp $")
 (provide 'w3-loads)
 (addloadpath "$EMACSDIR/site-lisp/w3")
 (setq w3-default-homepage "file://d|/p/web/index.html")

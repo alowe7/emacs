@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-info.el,v 1.2 2000-07-30 21:07:47 andy Exp $")
+(put 'post-info 'rcsid "$Id: post-info.el,v 1.3 2000-10-03 16:44:07 cvs Exp $")
 (read-string "post info")
 
 (let ((dir "//neo/info" ))

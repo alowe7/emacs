@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: fb.el,v 1.6 2000-10-02 21:17:28 cvs Exp $")
+(put 'fb 'rcsid "$Id: fb.el,v 1.7 2000-10-03 16:44:06 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -309,7 +309,9 @@ w		fb-w3-file
   (let ((b (zap-buffer "fastfind"))
 	(pat args))
 
-    (setq *find-file-query* pat)
+    (setq *find-file-query*
+	  (setq mode-line-buffer-identification 
+		pat))
 
     (call-process "egrep" nil
 		  b

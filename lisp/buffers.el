@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: buffers.el,v 1.1 2000-08-07 15:59:31 cvs Exp $")
+(put 'buffers 'rcsid "$Id: buffers.el,v 1.2 2000-10-03 16:44:06 cvs Exp $")
 
 ;; walk mru list of buffers
 

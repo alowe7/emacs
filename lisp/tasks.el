@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: tasks.el,v 1.3 2000-08-29 04:03:59 cvs Exp $")
+(put 'tasks 'rcsid "$Id: tasks.el,v 1.4 2000-10-03 16:44:08 cvs Exp $")
 
 ; a little throw-away stack of things to do, different from todo.el
 (require 'roll)

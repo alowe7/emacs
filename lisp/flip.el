@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: flip.el,v 1.3 2000-07-30 21:07:45 andy Exp $")
+(put 'flip 'rcsid "$Id: flip.el,v 1.4 2000-10-03 16:44:06 cvs Exp $")
 
 ; microsoft has some funny ideas about these chars
 (defun flip ()

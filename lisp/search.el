@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: search.el,v 1.1 2000-08-07 15:59:32 cvs Exp $")
+(put 'search 'rcsid "$Id: search.el,v 1.2 2000-10-03 16:44:08 cvs Exp $")
 
 (defvar search-last-string "" "\
 Last string search for by a non-regexp search command.

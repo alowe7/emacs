@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: sgml-mode.el,v 1.2 2000-07-30 21:07:48 andy Exp $")
+(put 'sgml-mode 'rcsid "$Id: sgml-mode.el,v 1.3 2000-10-03 16:44:08 cvs Exp $")
 ;;; sgml-mode.el --- SGML- and HTML-editing modes
 
 ;; Copyright (C) 1992, 1995, 1996 Free Software Foundation, Inc.

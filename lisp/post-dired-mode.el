@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-dired-mode.el,v 1.3 2000-10-02 18:49:23 cvs Exp $")
+(put 'post-dired-mode 'rcsid "$Id: post-dired-mode.el,v 1.4 2000-10-03 16:44:07 cvs Exp $")
 
 ;; dired stuff
 

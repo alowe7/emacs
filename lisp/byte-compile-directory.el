@@ -1,2 +1,2 @@
-(defconst rcs-id "$Id: byte-compile-directory.el,v 1.2 2000-07-30 21:07:44 andy Exp $")
+(put 'byte-compile-directory 'rcsid "$Id: byte-compile-directory.el,v 1.3 2000-10-03 16:44:06 cvs Exp $")
 (mapcar 'byte-compile-file (directory-files "." nil "\.el$"))

@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: encrypt.el,v 1.2 2000-07-30 21:07:45 andy Exp $")
+(put 'encrypt 'rcsid "$Id: encrypt.el,v 1.3 2000-10-03 16:44:06 cvs Exp $")
 (provide 'encrypt)
 (require 'comint) ; for non-echoing read
 

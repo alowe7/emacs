@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-cc-mode.el,v 1.2 2000-07-30 21:07:47 andy Exp $")
+(put 'post-cc-mode 'rcsid "$Id: post-cc-mode.el,v 1.3 2000-10-03 16:44:07 cvs Exp $")
 
 (defun narrow-to-fn ()
   " narrow to region surrounding current function"

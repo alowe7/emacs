@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: apache.el,v 1.3 2000-07-30 21:07:44 andy Exp $")
+(put 'apache 'rcsid "$Id: apache.el,v 1.4 2000-10-03 16:44:06 cvs Exp $")
 (provide 'apache)
 ; (perl-command "wf")
 

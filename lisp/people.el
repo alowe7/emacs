@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: people.el,v 1.8 2000-10-03 16:22:17 cvs Exp $")
+(put 'people 'rcsid "$Id: people.el,v 1.9 2000-10-03 16:44:07 cvs Exp $")
 (provide 'people)
 (require 'data)
 ;; manage people databases

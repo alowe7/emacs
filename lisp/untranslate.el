@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: untranslate.el,v 1.2 2000-07-30 21:07:48 andy Exp $")
+(put 'untranslate 'rcsid "$Id: untranslate.el,v 1.3 2000-10-03 16:44:08 cvs Exp $")
 (provide 'untranslate)
 
 (defun find-buffer-file-type (filename)

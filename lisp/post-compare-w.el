@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-compare-w.el,v 1.3 2000-07-30 21:07:47 andy Exp $")
+(put 'post-compare-w 'rcsid "$Id: post-compare-w.el,v 1.4 2000-10-03 16:44:07 cvs Exp $")
 
 (defun compare-windows-2 (&optional whitespace)
   (interactive)

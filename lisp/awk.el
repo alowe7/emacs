@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: awk.el,v 1.1 2000-08-07 15:59:31 cvs Exp $")
+(put 'awk 'rcsid "$Id: awk.el,v 1.2 2000-10-03 16:44:06 cvs Exp $")
 
 
 (defvar *last-awk-script* nil)

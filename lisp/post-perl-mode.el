@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-perl-mode.el,v 1.3 2000-07-30 21:07:47 andy Exp $")
+(put 'post-perl-mode 'rcsid "$Id: post-perl-mode.el,v 1.4 2000-10-03 16:44:07 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook

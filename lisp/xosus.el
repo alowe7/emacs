@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: xosus.el,v 1.3 2000-08-06 04:34:41 cvs Exp $")
+(put 'xosus 'rcsid "$Id: xosus.el,v 1.4 2000-10-03 16:44:08 cvs Exp $")
 ;; not really required, but..
 (defvar xosust-file (expand-file-name (getenv "XOSUST")))
 

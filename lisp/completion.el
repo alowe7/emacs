@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: completion.el,v 1.3 2000-07-30 21:07:45 andy Exp $")
+(put 'completion 'rcsid "$Id: completion.el,v 1.4 2000-10-03 16:44:06 cvs Exp $")
 
 (provide 'completion)
 

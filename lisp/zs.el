@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: zs.el,v 1.3 2000-07-30 21:03:34 andy Exp $")
+(put 'zs 'rcsid "$Id: zs.el,v 1.4 2000-10-03 16:44:08 cvs Exp $")
 (require 'cl)
 (require 'indicate)
 (require 'eval-process)

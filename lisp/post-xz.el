@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-xz.el,v 1.1 2000-08-07 15:59:32 cvs Exp $")
+(put 'post-xz 'rcsid "$Id: post-xz.el,v 1.2 2000-10-03 16:44:07 cvs Exp $")
 
 (require 'advice)
 (require 'long-comment)

@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: sh-utils.el,v 1.1 2000-08-07 15:59:32 cvs Exp $")
+(put 'sh-utils 'rcsid "$Id: sh-utils.el,v 1.2 2000-10-03 16:44:08 cvs Exp $")
 
 ;; sh and c workalikes
 

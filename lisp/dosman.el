@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: dosman.el,v 1.2 2000-07-30 21:07:45 andy Exp $")
+(put 'dosman 'rcsid "$Id: dosman.el,v 1.3 2000-10-03 16:44:06 cvs Exp $")
 (provide 'dosman)
 
 (setq doshelp '(

@@ -1,3 +1,4 @@
+(put 'gnuserv 'rcsid "$Id: gnuserv.el,v 1.3 2000-10-03 16:44:06 cvs Exp $")
 ; Lisp Interface code between GNU Emacs and gnuserv.
 ;
 ; This file is part of GNU Emacs.
@@ -49,7 +50,7 @@
 
 
 
-(defconst gnuserv-rcs-header-id "$Header: /var/cvs/emacs/lisp/gnuserv.el,v 1.2 2000-07-30 20:43:20 cvs Exp $")
+(defconst gnuserv-rcs-header-id "$Header: /var/cvs/emacs/lisp/gnuserv.el,v 1.3 2000-10-03 16:44:06 cvs Exp $")
 
 
 ;; server.el and gnuserv.el can't coexist because of conflicting defvar's and

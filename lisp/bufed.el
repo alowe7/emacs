@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: bufed.el,v 1.3 2000-07-30 21:07:44 andy Exp $")
+(put 'bufed 'rcsid "$Id: bufed.el,v 1.4 2000-10-03 16:44:06 cvs Exp $")
 ;;; bufed stuff
 
 (defvar bufed-mode-syntax-table (let ((s (copy-syntax-table))) 

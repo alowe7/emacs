@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-etags.el,v 1.3 2000-08-07 15:59:32 cvs Exp $")
+(put 'post-etags 'rcsid "$Id: post-etags.el,v 1.4 2000-10-03 16:44:07 cvs Exp $")
 
 ; find-tag-hook
 

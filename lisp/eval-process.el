@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: eval-process.el,v 1.5 2000-08-07 15:59:31 cvs Exp $")
+(put 'eval-process 'rcsid "$Id: eval-process.el,v 1.6 2000-10-03 16:44:06 cvs Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)

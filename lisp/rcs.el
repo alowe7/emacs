@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: rcs.el,v 1.3 2000-07-30 21:07:48 andy Exp $")
+(put 'rcs 'rcsid "$Id: rcs.el,v 1.4 2000-10-03 16:44:07 cvs Exp $")
 (provide 'rcs)
 
 (defvar *checkin-verify* nil)

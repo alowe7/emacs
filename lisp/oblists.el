@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: oblists.el,v 1.2 2000-07-30 21:07:47 andy Exp $")
+(put 'oblists 'rcsid "$Id: oblists.el,v 1.3 2000-10-03 16:44:07 cvs Exp $")
 (provide 'oblists)
 
 (require 'shell-oblist)

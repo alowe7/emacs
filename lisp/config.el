@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: config.el,v 1.3 2000-09-03 18:03:04 cvs Exp $")
+(put 'config 'rcsid "$Id: config.el,v 1.4 2000-10-03 16:44:06 cvs Exp $")
 (require 'advice)
 (require 'cl)
 

@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: isearch.el,v 1.2 2000-07-30 21:07:46 andy Exp $")
+(put 'isearch 'rcsid "$Id: isearch.el,v 1.3 2000-10-03 16:44:07 cvs Exp $")
 ;;; isearch.el --- incremental search minor mode.
 
 ;; Copyright (C) 1992, 1993, 1994, 1995 Free Software Foundation, Inc.

@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: myman.el,v 1.2 2000-07-30 21:07:46 andy Exp $")
+(put 'myman 'rcsid "$Id: myman.el,v 1.3 2000-10-03 16:44:07 cvs Exp $")
 (autoload 'man-page-mode "man-page")
 (require 'dosman)
 

@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: shell-oblist.el,v 1.2 2000-07-30 21:07:48 andy Exp $")
+(put 'shell-oblist 'rcsid "$Id: shell-oblist.el,v 1.3 2000-10-03 16:44:08 cvs Exp $")
 (provide 'shell-oblist)
 (setq shell-obarray (mapcar 'list '(
 "ARP.EXE"
