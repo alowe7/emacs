@@ -1,8 +1,9 @@
-(defconst rcs-id "$Id: fb.el,v 1.5 2000-08-08 03:29:25 cvs Exp $")
+(defconst rcs-id "$Id: fb.el,v 1.6 2000-10-02 21:17:28 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
-(provide 'fb)
+(require 'qsave)
+
 
 (defvar fb-mode-map nil "")
 (defvar fb-mode-syntax-table nil "")
@@ -20,6 +21,14 @@
   (or (getenv "FBFULLDB")
       "/var/spool/fall")
   "cache of file list.  like output from find . -print")
+
+;; these add qsave capability to fb-search buffer
+(defvar *find-file-query* nil)
+(defun find-file-save-search ()
+  (qsave-search (current-buffer) *find-file-query*)
+  )
+(defvar after-find-person-hook nil)
+(add-hook 'after-find-file-hook 'find-file-save-search)
 
 (defun fb-match-file (pat &optional direction)
   "find file matching PAT in optional DIRECTION"
@@ -212,19 +221,22 @@ w		fb-w3-file
 
 		     (define-key fb-mode-map [up] 'fb-up)
 
-		     (define-key fb-mode-map "n" 
-		       '(lambda () (interactive) 
-			  (fb-search nil)))
-
-		     (define-key fb-mode-map "p" 
-		       '(lambda () (interactive) 
-			  (fb-search nil t)))
-
 		     (define-key fb-mode-map "/" 'fb-search-forward)
 		     (define-key fb-mode-map "?" 'fb-search-backward)
 
 		     (define-key fb-mode-map "/" 'fb-match-file-forward)
 		     (define-key fb-mode-map "?" 'fb-match-file-backward)
+
+		     (define-key  fb-mode-map "p" 
+		       '(lambda () 
+			  (interactive)
+			  (previous-qsave-search (current-buffer))))
+
+		     (define-key  fb-mode-map "n" 
+		       '(lambda ()
+			  (interactive)
+			  (next-qsave-search (current-buffer))))
+
 		     )
        )
    )
@@ -296,17 +308,23 @@ w		fb-w3-file
   (interactive "sargs: ")
   (let ((b (zap-buffer "fastfind"))
 	(pat args))
+
+    (setq *find-file-query* pat)
+
     (call-process "egrep" nil
 		  b
 		  nil
 		  "-i" pat *fb-db*)
+
+    (set-buffer b)
+    (beginning-of-buffer)
+    (cd "/")
+    (fb-mode)
+
+    (run-hooks 'after-find-file-hook)
+
     (if (interactive-p) 
-	(progn
 	  (pop-to-buffer b)
-	  (beginning-of-buffer)
-	  (cd "/")
-	  (fb-mode)
-	  )
       (split (buffer-string) "
 ")
       )
@@ -434,3 +452,4 @@ applies ls -l to args"
     )
   )
 
+(provide 'fb)

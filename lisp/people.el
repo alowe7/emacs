@@ -1,9 +1,9 @@
-(defconst rcs-id "$Id: people.el,v 1.6 2000-10-02 15:16:33 cvs Exp $")
+(defconst rcs-id "$Id: people.el,v 1.7 2000-10-02 21:17:28 cvs Exp $")
 (provide 'people)
 (require 'data)
 ;; manage people databases
 (require 'compile)
-
+(require 'qsave)
 
 (defun note (&optional arg) 
   "find person in database.
