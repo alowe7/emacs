@@ -1,9 +1,11 @@
 (put 'sword 'rcsid
- "$Id: sword.el,v 1.2 2001-02-19 21:52:12 cvs Exp $")
+ "$Id: sword.el,v 1.3 2002-04-14 04:22:37 cvs Exp $")
 
 (require 'comint)
 
+(defvar *key-program* "key")
 (defvar *default-swordfile* "~/.private/swords")
+
 (defvar *cache-sword-key* t 
   "if set, keys are cached on the 'key property of the interned filename.
 see `get-key' and `sword'")

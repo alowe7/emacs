@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.15 2002-03-08 18:50:22 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.16 2002-04-14 04:22:37 cvs Exp $")
 
 (setq default-frame-alist
       '((top + -4)
@@ -16,7 +16,7 @@
 	(vertical-scroll-bars)
 	(internal-border-width . 0)
 	(border-width . 2)
-	(font . "-*-lucida console-normal-r-*-*-17-nil-*-*-*-*-*-*-")
+	(font . "-*-lucida console-normal-r-*-*-14-nil-*-*-*-*-*-*-")
 	(menu-bar-lines . 0))
       )
 

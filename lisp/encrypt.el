@@ -1,5 +1,5 @@
 (put 'encrypt 'rcsid 
- "$Id: encrypt.el,v 1.5 2001-04-27 11:38:00 cvs Exp $")
+ "$Id: encrypt.el,v 1.6 2002-04-14 04:22:37 cvs Exp $")
 (provide 'encrypt)
 (require 'comint) ; for non-echoing read
 
@@ -100,10 +100,9 @@ backup versions are not kept."
   " read encrypted file into buffer using specified key"
   (interactive (list (read-file-name "decrypt find file: ")
 		     (comint-read-noecho "key: " t)))
-
-  (let ((b (zap-buffer (file-name-nondirectory fn))))
+  (let ((b (create-file-buffer fn)))
     (call-process *key-program* nil b nil "-d" "-k" key (expand-file-name fn))
-    (pop-to-buffer b)
+    (switch-to-buffer b)
     (beginning-of-buffer)
     (setq buffer-file-name fn)
     (cd (file-name-directory (expand-file-name fn)))

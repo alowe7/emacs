@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.24 2002-04-09 03:55:43 cvs Exp $")
+ "$Id: w32,v 1.25 2002-04-14 04:22:37 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -85,10 +85,14 @@
 ;(default-font nil "*" "100")
 
 (defun font-1 (arg) (interactive "p")
-	(default-font default-font-family default-style (- default-point-size (or arg 1)) nil))
+  (default-font default-font-family default-style (- default-point-size (or arg 1)) nil)
+  (if (interactive-p) (message default-fontspec))
+  )
 
 (defun font+1 (arg) (interactive "p")
-	(default-font default-font-family default-style (+ default-point-size (or arg 1)) nil))
+  (default-font default-font-family default-style (+ default-point-size (or arg 1)) nil)
+  (if (interactive-p) (message default-fontspec))
+  )
 
 (global-set-key "]" 'font+1)
 (global-set-key "[" 'font-1)

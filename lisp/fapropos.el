@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.12 2001-11-28 23:24:27 cvs Exp $")
+ "$Id: fapropos.el,v 1.13 2002-04-14 04:22:37 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -167,6 +167,7 @@ fapropos will only find symbols which have already been interned
 ; 								'(lambda (e) (interactive) (debug))))
 
 (defun fapropos3 (s) (interactive "sString: ")
+"Show all symbols whose names match REGEXP."
   (let* ((ss (completing-read "Complete: " 
 			      (loop for x in (symbols-like s t)
 				    collect

@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.10 2002-03-29 22:56:19 cvs Exp $")
+ "$Id: post-dired.el,v 1.11 2002-04-14 04:22:37 cvs Exp $")
 
 ;; dired stuff
 
@@ -295,7 +295,7 @@ see `file-assoc-list'"
 			      (define-key  dired-mode-map "P" '(lambda () (interactive) (dos-print (dired-get-filename))))
 			      (define-key  dired-mode-map "" '(lambda () (interactive) (kill-new (w32-canonify (dired-get-filename)))))
 			      (define-key dired-mode-map "|" 'dired-pipe-file)
-			      (define-key dired-mode-map (vector 'f7) 'dired-cvs-log)
+			      (define-key dired-mode-map "\C-xvl" 'dired-cvs-log)
 			      (define-key  dired-mode-map "\C-cx" 'dired-copy-filename-as-kill)
 			      (define-key  dired-mode-map "\C-c~" 'dired-backup-file)
 			      ))
