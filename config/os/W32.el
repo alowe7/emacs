@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.34 2004-08-20 14:54:46 cvs Exp $")
+ "$Id: W32.el,v 1.35 2004-09-17 18:45:35 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -1082,13 +1082,15 @@ host must respond within optional TIMEOUT msec"
 
 ; (if (ad-is-advised 'w32-drag-n-drop) (ad-unadvise 'w32-drag-n-drop))
 
-(defun iexplore-url (f) 
+(defun iexplore-url (f &optional new-window) 
   " run ie on indicated url.
 note: ie runs in a subprocess.  see `list-processes'
 returns process handle
 "
   (interactive (list (string* (read-string (format "args (%s): " (indicated-filename))) (indicated-filename))))
 
+  ; new-window isn't used here, just there for compatibility with `browse-url-browser-function'
+ 
   (start-process
    (symbol-name (gensym "ie"))
    nil

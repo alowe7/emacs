@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.11 2004-05-27 19:52:04 cvs Exp $
+;; $Id: perl-helpers.el,v 1.12 2004-09-17 18:45:35 cvs Exp $
 
 (require 'perl-command)
 
@@ -20,7 +20,10 @@
 
 
 (defun perlfunc (func)
-  (interactive "sperl func: ")
+  (interactive (list
+		(let ((w (indicated-word))) (string* (read-string (format "perl function (%s): " w)) w))
+	       ))
+
   (if (string-match "::" func)
       (let ((module (substring func 0 (match-beginning 0)))
 	    (func (substring func (match-end 0))))
@@ -48,6 +51,8 @@
 
 ; (perlfunc "open")
 ; (perlfunc "CGI::start_html")
+
+; XXX todo completing read on oblist of operators
 
 (defun perlop (op)
   (interactive "sop: ")
