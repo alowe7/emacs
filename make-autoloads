@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.28 2005-01-24 22:41:51 cvs Exp $
+#      $Id: make-autoloads,v 1.29 2005-01-28 23:16:12 cvs Exp $
 
 =pod
 =head1 NAME
@@ -46,7 +46,7 @@ $opt_help && pod2usage( { -verbose => 2 });
 
 if ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.28 $";
+#    $version="$Revision: 1.29 $";
     print "make-autoloads version 1.24\n";
     exit;
 }
@@ -114,6 +114,6 @@ print "))\n";
 # clause to cause (car x) to be loaded from (cadr x)
 $aload_clause="(autoload (car x) (cadr x) nil t)";
 # guard clause to avoid overwriting something thats already declared autoload from elsewhere unless forcing
-$aload_clause="(let ((fn (condition-case x (symbol-function  (car x)) (error nil)))) (and (not (null fn)) (listp fn)  (not (eq (car fn) 'autoload)) $aload_clause))" unless $opt_force;
+$aload_clause="(let ((fn (condition-case x (symbol-function  (car x)) (error nil)))) (and (null fn) $aload_clause))" unless $opt_force;
 
 print "(mapcar '(lambda (x) $aload_clause) $alist_symbol)\n";

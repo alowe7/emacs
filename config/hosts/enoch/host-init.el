@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.10 2005-01-20 22:25:56 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.11 2005-01-28 23:16:12 cvs Exp $")
 
 ; enoch
 ; (require 'xz-loads)
@@ -54,7 +54,7 @@
 ; (require 'xz-loads)
 ; (define-key xz-map "" 'xz-query-format)
 
-(setq *perl-libs* (split (perl-command-2 "map {print \"$_ \"} @INC")))
+; (setq *perl-libs* (split (perl-command-2 "map {print \"$_ \"} @INC")))
 
 (defvar perldir "/usr/lib/perl5/5.6.0")
 
