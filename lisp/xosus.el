@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: xosus.el,v 1.2 2000-07-30 21:07:49 andy Exp $")
+(defconst rcs-id "$Id: xosus.el,v 1.3 2000-08-06 04:34:41 cvs Exp $")
 ;; not really required, but..
 (defvar xosust-file (expand-file-name (getenv "XOSUST")))
 
@@ -513,7 +513,7 @@
   )
 
 ; recompute oblist if necessary
-(defvar *xosust-oblist* "xosus-oblist.el")
+(defvar *xosust-oblist* "~/emacs/lisp/xosus-oblist.el")
 
 (if (< (compare-filetime
 	(filemodtime *xosust-oblist*)
