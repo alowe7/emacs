@@ -1,6 +1,5 @@
-(put 'CYGWIN_NT-4.0 'rcsid 
- "$Id: os-init.el,v 1.3 2001-02-09 14:29:51 cvs Exp $")
-(put 'os-init 'rcsid 'CYGWIN_NT-4.0)
+(put 'CYGWIN_NT-4.0 'rcsid
+ "$Id: CYGWIN_NT-4.0.el,v 1.1 2002-12-02 03:12:31 cvs Exp $")
 
 ;; config file for gnuwin-1.0
 (autoload 'shell2 "shell2" t)
@@ -59,3 +58,4 @@ host must respond within optional TIMEOUT msec"
 ;; (host-ok "//deadite/C" t)
 ;; (host-ok "c:/")
 
+(load "w32" t)

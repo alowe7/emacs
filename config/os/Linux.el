@@ -1,6 +1,5 @@
 (put 'Linux 'rcsid 
- "$Id: os-init.el,v 1.6 2002-11-28 17:28:33 cvs Exp $")
-(put 'os-init 'rcsid  'Linux)
+ "$Id: Linux.el,v 1.1 2002-12-02 03:12:31 cvs Exp $")
 
 ; (message "Linux")
 

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.17 2002-06-19 13:49:02 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.18 2002-12-02 03:12:31 cvs Exp $")
 
 (setq default-frame-alist
       '((top + -4)
@@ -52,3 +52,4 @@
 (mount-hook-file-commands)
 
 (defvar grep-command "grep -n -i -e ")
+(setenv "PERL5LIB" "/usr/local/site-lib/perl")
