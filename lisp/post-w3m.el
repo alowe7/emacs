@@ -1,3 +1,5 @@
+(require 'w3m)
+
 ;; from emacs-w3m/TIPS
 ;; 
 ;; ** browse-url
@@ -95,6 +97,8 @@
     (if (> (count-windows) 1) (progn (switch-to-buffer-other-window b) (other-window-1)))
     )
   )
+
+(require 'ctl-ret)
 
 ; ugh ?2 ?
 (define-key ctl-RET-map "w" 'w3m)
