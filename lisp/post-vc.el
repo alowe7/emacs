@@ -1,5 +1,5 @@
 (put 'post-vc 'rcsid
- "$Id: post-vc.el,v 1.6 2001-11-02 16:59:35 cvs Exp $")
+ "$Id: post-vc.el,v 1.7 2001-12-06 19:57:59 cvs Exp $")
 
 (defun identify () 
   "insert a sccs ID string at head of file."
@@ -22,8 +22,10 @@ else if ARG, read file name. "
 		  ((and arg (symbolp arg)) (symbol-name arg))
 		  (arg (read-file-name "file: "))
 		  (t (buffer-file-name))))
-	 (id (get (intern (file-name-sans-extension (file-name-nondirectory f))) (quote rcsid))))
-    (message (or id (format "no rcsid for library %s" f)))
+	 (id (and f (get (intern (file-name-sans-extension (file-name-nondirectory f))) (quote rcsid)))))
+    (if (interactive-p)
+	(message (or id (format "no rcsid for library %s" f)))
+      id)
     )
   )
 

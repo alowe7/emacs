@@ -1,5 +1,5 @@
 (put 'post-sgml-mode 'rcsid 
- "$Id: post-sgml-mode.el,v 1.8 2001-11-28 23:24:27 cvs Exp $")
+ "$Id: post-sgml-mode.el,v 1.9 2001-12-06 19:57:59 cvs Exp $")
 ;(setq html-mode-hook '(lambda () (setq paragraph-start "<P>"))
 
 (setq sgml-mode-hook '(lambda () (run-hooks 'html-mode-hook)
@@ -52,10 +52,12 @@
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (replace-regexp "^[ 	]*" "")
-    (replace-string "><" ">
-<")
-    (loop for x in '("<worknodes" "<downloadfile")
+    (while (re-search-forward "^[ 	]+" nil t)
+      (replace-match "" nil t))
+    (while (search-forward  "><" nil t)
+      (replace-match ">
+<" nil t))
+    (loop for x in '("<worknodes") 
 	  with n = 0
 	  do
 	  (setq n (+ n 4))
@@ -68,6 +70,17 @@
 	    ))
     )
   (lazy-lock-mode)
+  (set-buffer-modified-p nil)
   )
 
 (define-key sgml-mode-map (vector 'f10) 'beautify-config)
+
+(defun maybe-beautify ()
+  (save-excursion
+    (goto-char (point-min))
+    (if (search-forward "<IDictionaryRoot" nil t)
+  ; yep, its a config, beautify it
+	(beautify-config)
+      )))
+
+(add-hook 'sgml-mode-hook 'maybe-beautify)

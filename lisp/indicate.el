@@ -1,5 +1,5 @@
 (put 'indicate 'rcsid 
- "$Id: indicate.el,v 1.5 2001-02-09 14:29:51 cvs Exp $")
+ "$Id: indicate.el,v 1.6 2001-12-06 19:57:59 cvs Exp $")
 (provide 'indicate)
 
 ;;
@@ -73,17 +73,18 @@ in the current buffer
   (interactive)
   (save-excursion
 
-    (if (and (not (eolp)) 
-	     (not (looking-at "[ 	(,;/]")))
-	(forward-word 1))
-    (if (not (bolp))
-	(backward-word 1))
+    (if (not (eolp))
+  ; should search syntax-table for punctuation chars
+	(looking-at "[ 	(,;/]") 
+      (progn (forward-word 1) (backward-word 1)))
+
     (list (point) 
 	  (progn
 	    (forward-word 1)
 	    (point)))
     )
   )
+
 
 (defun op-arg (prompt &rest args)
   "acquire an argument using prompt.  default to indicated word.

@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.23 2001-11-13 22:29:40 cvs Exp $")
+ "$Id: keys.el,v 1.24 2001-12-06 19:57:59 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -58,7 +58,7 @@
 
 
 (global-set-key "" 'find-file-force-refresh)
-(global-set-key "" 'find-indicated-file)
+(global-set-key "f" 'find-indicated-file)
 
 (global-set-key "" 'insert-buffer)
 (global-set-key "" 'kill-rectangle)
