@@ -1,11 +1,13 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.22 2004-03-26 20:52:33 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.23 2004-03-27 21:50:29 cvs Exp $")
 
-(setq default-frame-alist
-      '((top . 50)
-	(left . 100)
-	(width . 142)
-	(height . 30)
+(setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
+
+(setq initial-frame-alist
+      `((top . 40)
+ 	(left . 0)
+ 	(width . 142)
+ 	(height . 30)
 	(background-mode . light)
 	(cursor-type . box)
 	(border-color . "black")
@@ -16,20 +18,13 @@
 	(vertical-scroll-bars)
 	(internal-border-width . 0)
 	(border-width . 2)
-	(font . "-*-lucida console-normal-r-*-*-14-nil-*-*-*-*-*-*-")
+	(font . ,default-fontspec)
 	(menu-bar-lines . 0))
       )
-(if (= 0 (string-match "21"  emacs-version))
-    (set-face-attribute 'default nil :font  (default-font 
-					      (setq default-font-family "tahoma")
-					      (setq default-style "normal")
-					      (setq default-point-size 14))
-			)
-  (modify-alist 'default-frame-alist 'font default-fontspec)
-  )
 
-(setq initial-frame-alist default-frame-alist)
+(setq default-frame-alist  initial-frame-alist)
 
+ 
 ; tweak load-path to use working versions. will this stuff ever stabilize?
 (let ((r '(
 	   ("site-lisp/tw-3.01" "/x/tw/site-lisp")
@@ -59,7 +54,7 @@
 (display-time)
 
 (require 'trim)
-(require 'ksh-interpreter)
+(require 'sh)
 
 ; (require 'worlds)
 ; (require 'world-advice)
@@ -81,7 +76,6 @@
 (mount-hook-file-commands)
 
 (defvar grep-command "grep -n -i -e ")
-(setenv "PERL5LIB" "/usr/local/site-lib/perl")
 
 (add-hook 'xdb-init-hook
 	  '(lambda ()

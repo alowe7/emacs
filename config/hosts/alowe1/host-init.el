@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.19 2004-03-25 17:19:53 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.20 2004-03-27 21:50:29 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 100)
@@ -140,3 +140,5 @@
 
 (load-library "post-help")
 
+(add-to-load-path 'load-path "/u/emacs-w3m/emacs-w3m")
+(autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
