@@ -1,0 +1,10 @@
+
+(defun w3-hack (url)
+  (call-process-1
+   (format
+    "cmd /c \"perl /a/bin/get -p http://10.132.10.1:3128 %s | perl /a/bin/html-format\"" url)
+   (zap-buffer "foo"))
+  (pop-to-buffer "foo")
+  (beginning-of-buffer))
+
+(w3-hack "http://alowe/p/web/index.html")

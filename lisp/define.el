@@ -1,0 +1,6 @@
+(defun define (term) (interactive "sterm: ")
+  (perl-command "define" term)
+  (pop-to-buffer " *perl*")
+  (rename-buffer (format "*define %s" term))
+  (beginning-of-buffer)
+  )
