@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid 
- "$Id: post-worlds.el,v 1.8 2003-02-24 14:46:21 cvs Exp $")
+ "$Id: post-worlds.el,v 1.9 2003-04-02 21:34:53 cvs Exp $")
 
 
 (defun push-world-p (w)
@@ -49,3 +49,8 @@ a null argument means pop-world from world-stack"
 (setq *shell-track-worlds* nil)
 
 (setq *log-pre-log* t  *log-post-log* t)
+
+(add-hook 'world-post-change-hook
+	  (lambda () 
+	    (write-region 
+	     (concat "cd " (w32-canonify (expand-file-name (fw)))) nil (expand-file-name "/w.cmd"))))

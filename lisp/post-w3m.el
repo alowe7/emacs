@@ -84,7 +84,7 @@
   )
 ; ( phpmanual)
 
-(defun html-spec () (interactive)   
+(defun html40 () (interactive)   
   (w3m-goto-url-new-session "http://localhost/usr/share/specs/html4.0/cover.html")
   )
 

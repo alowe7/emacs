@@ -1,5 +1,5 @@
 (put 'indicate 'rcsid 
- "$Id: indicate.el,v 1.7 2001-12-07 21:52:04 cvs Exp $")
+ "$Id: indicate.el,v 1.8 2003-04-02 21:34:53 cvs Exp $")
 (provide 'indicate)
 
 ;;
@@ -197,3 +197,10 @@ EXPR may be a function of zero or one argument, the indicated-word"
 ;  (beginning-of-line)
 ;
 ;  )
+
+;; hm.  see `current-word'
+(defun read-indicated-string (prompt)
+  "read a string with PROMPT default to `indicated-word'"
+  (interactive "sprompt: ")
+  (let ((s (indicated-word))) (string* (read-string (format "%s (%s): " prompt s)) s))
+  )

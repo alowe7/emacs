@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.35 2003-02-24 14:46:21 cvs Exp $")
+ "$Id: fb.el,v 1.36 2003-04-02 21:34:53 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -411,8 +411,13 @@ all other patterns (e.g. \"foo*\") remain unchanged.
     )
   )
 
+(setq ff-hack-pat 'identity)
+; (setq ff-hack-pat 'ff-hack-pat)
+; this hack might be suitable for systems with letter drive names
+; (setq ff-hack-pat '(lambda (pat) (let ((pat (if (eq (aref pat 0) ?^) (substring pat 1) pat))) (concat "^(.:)*" pat))))
+
 (defun ff1 (db pat &optional b top)
-  (let ((pat (ff-hack-pat pat))
+  (let ((pat (funcall ff-hack-pat pat))
 	(b (or b (zap-buffer *fastfind-buffer*)))
 	(top (or top "/"))
 	)
@@ -445,21 +450,22 @@ if none given, uses `*default-fb-db*'
 
   (let* ((top default-directory)
   ; 	with prefix arg, make sure buffer is in a rational place
-	 (b (zap-buffer *fastfind-buffer* (and args '(cd top))))
-  ;	 (*fb-db* *fb-db*) 
-	 db
 	 (pat 
 	  (cond
 	   ((and (listp args) (numberp (car args)))
 	    ;; given prefix arg, read *fb-db* and pat
 	    (progn 
 	      (setq *fb-db* (read-file-name "db: " "" nil nil *fb-db*))
-	      (read-string "pat: ")
+	      (read-indicated-string "pat")
 	      )
 	    )
 	   ((stringp args) args) 
-	   (t (read-string "pat: ")))
-	  ))
+	   (t (read-indicated-string "pat")))
+	  )
+	 (b (zap-buffer *fastfind-buffer* (and args '(cd top))))
+  ;	 (*fb-db* *fb-db*) 
+	 db
+	 )
 
     (if (= (length *fb-db*) 0)
 	(progn
@@ -492,8 +498,9 @@ if none given, uses `*default-fb-db*'
   (let* ((top "/")
 	 (b (zap-buffer *fastfind-buffer*))
 	 (pat (format 
-	       (concat "^/[" (mapconcat '(lambda (x) (substring x 1)) wdirs "") "]/*%s*") pat)))
-
+	       (concat (if (eq window-system 'w32) "^(.:)*" "^")
+		       "/[" (mapconcat '(lambda (x) (substring x 1)) wdirs "") "]/.*%s*")
+	       pat)))
     (ff1 *fb-db* pat b top)
 
     (if (interactive-p) 

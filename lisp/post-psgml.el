@@ -1,12 +1,12 @@
 (put 'post-psgml 'rcsid
- "$Id: post-psgml.el,v 1.4 2003-03-03 14:55:55 cvs Exp $")
+ "$Id: post-psgml.el,v 1.5 2003-04-02 21:34:53 cvs Exp $")
 
-(define-key xml-mode-map (vector '\C-right) 'sgml-forward-element)
-(define-key xml-mode-map (vector '\C-left) 'sgml-backward-element)
-(define-key xml-mode-map (vector '\C-down) 'sgml-fold-element)
-(define-key xml-mode-map (vector '\C-up) 'sgml-unfold-element)
-(modify-syntax-entry ?< "(" xml-mode-syntax-table)
-(modify-syntax-entry ?> ")" xml-mode-syntax-table)
+(define-key sgml-mode-map (vector '\C-right) 'sgml-forward-element)
+(define-key sgml-mode-map (vector '\C-left) 'sgml-backward-element)
+(define-key sgml-mode-map (vector '\C-down) 'sgml-fold-element)
+(define-key sgml-mode-map (vector '\C-up) 'sgml-unfold-element)
+(modify-syntax-entry ?< "(" sgml-mode-syntax-table)
+(modify-syntax-entry ?> ")" sgml-mode-syntax-table)
 
 
 (define-key sgml-mode-map "\C-c\C-f\C-f" 'find-file-force-refresh)
