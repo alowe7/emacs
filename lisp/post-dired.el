@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.15 2002-06-19 13:49:02 cvs Exp $")
+ "$Id: post-dired.el,v 1.16 2002-06-27 03:28:04 cvs Exp $")
 (require  'eval-process)
 (require 'tar-view)
 (require 'zip-view)
@@ -272,6 +272,10 @@ see `file-assoc-list'"
 	  )
       )
     )
+  )
+
+(defun dired-explore-file () (interactive)
+  (explore-file (dired-get-filename))
   )
 
 (defun dired-aexec () (interactive)

@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.28 2002-06-26 18:38:30 cvs Exp $")
+ "$Id: w32,v 1.29 2002-06-27 03:28:04 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -258,6 +258,11 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 (defun md (&optional arg) (interactive "P") 
   (explore  (if arg 
 		(read-file-name "Directory to browse: " (pwd) nil t)))
+  )
+
+(defun explore-file (f) (interactive "ffile: ")
+  (shell-command (format "explorer %s" (file-name-nondirectory f)))
+  (lower-frame)
   )
 
 (make-variable-buffer-local 'explicit-shell-file-name)
