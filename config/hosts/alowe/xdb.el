@@ -1,12 +1,12 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.1 2004-08-10 02:38:55 cvs Exp $")
+ "$Id: xdb.el,v 1.2 2005-02-16 22:20:10 cvs Exp $")
 
 (put 'post-xdb 'host-init (this-load-file))
 
 (chain-parent-file t)
 
 (require 'ctl-slash)
-(define-key ctl-/-map "x" 'xdb)
+(define-key ctl-/-map "x" 'txdbi)
 (define-key ctl-/-map "q" 'xq)
 (define-key ctl-/-map "t" 'xt)
 (define-key ctl-/-map "l" 'xl)
