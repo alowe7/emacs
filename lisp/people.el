@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: people.el,v 1.3 2000-07-30 21:07:47 andy Exp $")
+(defconst rcs-id "$Id: people.el,v 1.4 2000-09-15 20:37:29 cvs Exp $")
 (provide 'people)
 (require 'data)
 ;; manage people databases
@@ -85,13 +85,26 @@ to find the text that grep hits refer to."
 
 (defvar *find-person-vector* nil)
 (make-variable-buffer-local '*find-person-vector*)
+(defvar *find-person-query* nil)
+(make-variable-buffer-local '*find-person-query*)
 
-(defvar find-person-hook 'make-person-vector)
+(defvar after-find-person-hook nil)
+(defvar before-find-person-hook nil)
+
+(add-hook 'after-find-person-hook 'make-person-vector)
+(add-hook 'after-find-person-hook 'find-person-save-search)
+
+
+(defun find-person-save-search ()
+  (qsave-search (current-buffer) *find-person-query* *find-person-vector*)
+)
 
 (defun make-person-vector ()
   (save-excursion
     (set-buffer "*people*")
     (beginning-of-buffer)
+
+    (setq *find-person-query* name)
     (setq *find-person-vector*
 	  (apply 'vector
 		 (loop 
@@ -131,7 +144,8 @@ to find the text that grep hits refer to."
   (define-key people-mode-map "\C-m" 'people-goto-hit)
   (define-key  people-mode-map "o" '(lambda () (interactive) (people-goto-hit t)))
   (define-key  people-mode-map "?" 'people-show-hit)
-
+  (define-key  people-mode-map "p" '(lambda () (interactive) (previous-qsave-search (current-buffer))))
+  (define-key  people-mode-map "n" '(lambda () (interactive) (next-qsave-search (current-buffer))))
 )
 
 (defun people-goto-hit (&optional other-window) 
@@ -174,7 +188,7 @@ to find the text that grep hits refer to."
 	 (e (apply 'call-process 
 		   (nconc (list "egrep" nil b nil "-i" "-n" name) db)))
 	 n)
-    (run-hooks 'find-person-hook)
+    (run-hooks 'after-find-person-hook)
     (save-excursion
       (set-buffer b)
       ;; if result is one-line & buffer isn't already showing in a window, 
@@ -213,7 +227,7 @@ to find the text that grep hits refer to."
 		   (nconc (list "egrep" nil b nil "-i" "-n" name) db)))
 	 n)
 
-    (run-hooks 'find-person-hook)
+    (run-hooks 'after-find-person-hook)
     (save-excursion
       (set-buffer b)
       ;; if result is one-line & buffer isn't already showing in a window, 
