@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.7 2001-03-06 12:46:10 cvs Exp $")
+ "$Id: roll.el,v 1.8 2001-03-16 12:13:04 cvs Exp $")
 (provide 'roll)
 (require 'cl)
 
@@ -226,6 +226,28 @@ LIST may be an a-list, in which case, interpret the cars as buffers, and print t
 	     nil
 	     'kill-buffer-1 
 	     'switch-to-buffer)
+  )
+
+
+(defun list-buffers-named (pat)
+  "list buffers with names matching PAT"
+  (interactive "spat: ")
+  (loop for x in (get-real-buffer-list nil)
+	when (string-match pat (buffer-name x))
+	collect x )
+  )
+
+(defun list-buffers-with (pat)
+  (loop for x in (get-real-buffer-list nil)
+	when (string-match pat (save-excursion (set-buffer x) (buffer-string)))
+	collect x )
+  )
+
+(defun roll-buffers-with (pat)
+  "roll buffers with contents matching PAT"
+  (interactive "spat: ")
+
+  (roll-buffer-list (list-buffers-with pat))
   )
 
 
