@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.33 2003-01-22 15:40:01 cvs Exp $")
+ "$Id: fb.el,v 1.34 2003-01-25 22:50:37 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -442,20 +442,24 @@ if none given, uses `*default-fb-db*'
 "
 
   (interactive "P")
+
   (let* ((top "/")
-	 (b (zap-buffer *fastfind-buffer*))
+  ; 	with prefix arg, make sure buffer is in a rational place
+	 (b (zap-buffer *fastfind-buffer* (and args '(cd top))))
   ;	 (*fb-db* *fb-db*) 
 	 db
 	 (pat 
-	  (progn
-	    (cond
-	     ((and (listp args) (numberp (car args)))
-	      ;; given prefix arg, read *fb-db*
-	      (progn (setq *fb-db* (read-file-name "db: " "" nil nil *fb-db*))
-		     (read-string "pat: ")))
-	     ((stringp args) args)
-	     ((interactive-p) (read-string "pat: ")))))
-	 )
+	  (cond
+	   ((and (listp args) (numberp (car args)))
+	    ;; given prefix arg, read *fb-db* and pat
+	    (progn 
+	      (setq *fb-db* (read-file-name "db: " "" nil nil *fb-db*))
+	      (read-string "pat: ")
+	      )
+	    )
+	   ((stringp args) args) 
+	   (t (read-string "pat: ")))
+	  ))
 
     (if (= (length *fb-db*) 0)
 	(progn

@@ -1,10 +1,11 @@
 (put 'zap 'rcsid 
- "$Id: zap.el,v 1.5 2001-08-24 19:20:58 cvs Exp $")
+ "$Id: zap.el,v 1.6 2003-01-25 22:50:59 cvs Exp $")
 (provide 'zap)
 ;;; 
 (defun zap-buffer (bname &optional postop preop)
   "set buffer BUFFER, create if necessary, erase contents if necessary
-with optional SEXP, evaluates sexp in context of buffer
+with optional PREOP, evaluates PREOP in context of buffer after creation
+with optional POSTOP, evaluates POSTOP before calling `get-buffer-create'
 "
   (interactive "Bbuffer: ")
   (let (v)
