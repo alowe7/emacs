@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.20 2002-09-17 17:55:53 cvs Exp $
+# $Id: Makefile,v 1.21 2003-02-25 17:19:01 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
@@ -10,7 +10,7 @@ hostname := $(shell hostname)
 
 # XZFLAGS = -t1
 
-SOURCES := $(shell find ./lisp ./site-lisp -type f -a ! -name "*~" -a ! -name "*,v" -a ! -path "*CVS*")
+SOURCES := $(shell find ./lisp -type f -a ! -name "*~" -a ! -name "*,v" -a ! -path "*CVS*")
 #CONFIGS := config/os/$(uname) config/hosts/$(hostname)
 # config/version/$(shell emacs --batch --version)
 #
