@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.18 2003-05-15 21:00:02 cvs Exp $")
+ "$Id: post-comint.el,v 1.19 2003-05-20 13:35:25 cvs Exp $")
 
 ;; used to initialize `comint-mode-hook'
 (mapcar '(lambda (f) (apply f '(comint-prompt-regexp "^[a-zA-Z0-9]*[>$%] *"))) '(set-default set))
@@ -25,4 +25,5 @@
 (define-key comint-mode-map "	" 'comint-dynamic-complete-filename)
 (define-key comint-mode-map "	" 'comint-dynamic-complete)
 
-(define-key ctl-RET-map (vector ?\C-7) 'mru-shell)
+(define-key ctl-RET-map (vector ?\C-7) 'lru-shell)
+(define-key ctl-RET-map (vector ?\C-8) 'mru-shell)
