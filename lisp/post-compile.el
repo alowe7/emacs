@@ -1,5 +1,5 @@
 (put 'post-compile 'rcsid 
- "$Id: post-compile.el,v 1.8 2004-10-12 21:26:35 cvs Exp $")
+ "$Id: post-compile.el,v 1.9 2004-10-14 21:37:58 cvs Exp $")
 
 ; (read-string "loading post-compile")
 
@@ -57,7 +57,7 @@
 (add-hook 'compilation-completion-hook
 	  '(lambda () 
 	     (set-buffer (compilation-find-buffer))
-	     (qsave-search (current-buffer) compile-command)
+	     (qsave-search (current-buffer) compile-command default-directory)
 	     (use-local-map compilation-mode-map)
 	     ))
 
@@ -73,9 +73,21 @@
 ; (if (ad-is-advised 'compilation-sentinel) (ad-unadvise 'compilation-sentinel))
 
 ; (defvar compilation-mode-map (make-sparse-keymap))
+(defun roll-compilation ()
+  (interactive)
+  (let ((d (previous-qsave-search (current-buffer))))
+    (and d (file-directory-p d) (setq default-directory d))
+    )
+  )
+(defun roll-compilation-1 ()
+  (interactive)
+  (let ((d (next-qsave-search (current-buffer))))
+    (and d (file-directory-p d) (setq default-directory d))
+    )
+  )
 
-(define-key  compilation-mode-map "p" 'roll-qsave)
-(define-key  compilation-mode-map "n" 'roll-qsave-1)
+(define-key  compilation-mode-map "p" 'roll-compilation)
+(define-key  compilation-mode-map "n" 'roll-compilation-1)
 
 (define-key ctl-x-map (vector '\C-return) 'next-error) 
 

@@ -1,5 +1,5 @@
 (put 'trim 'rcsid
- "$Id: trim.el,v 1.3 2004-08-11 14:55:52 cvs Exp $")
+ "$Id: trim.el,v 1.4 2004-10-14 21:37:58 cvs Exp $")
 (provide 'trim)
 
 (defun trim-trailing-white-space (&optional s) (interactive)
@@ -40,7 +40,7 @@
       s)
     )
   )
-
+(fset 'trim 'trim-white-space)
 
 (defun trim-buffer ()
   (replace-regexp "[ ]*$" "" nil)

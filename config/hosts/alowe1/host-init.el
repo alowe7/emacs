@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.31 2004-10-12 21:26:35 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.32 2004-10-14 21:37:58 cvs Exp $")
 
 (require 'default-frame-configurations)
 
@@ -81,8 +81,17 @@
 	   java-font-lock-keywords-2
 	   java-font-lock-keywords-3))
 	font-lock-keywords-only t)
-  (font-lock-mode)
-  (font-lock-fontify-buffer) 
+  (condition-case err
+      (font-lock-mode 1)
+    (error 
+  ; (debug)
+     )
+    )
+
+  ; font locking is broken in java mode
+  (set-buffer-modified-p nil)
+
+;  (font-lock-fontify-buffer) 
   ; this ain't so swift neither 
   ;			    (setq c-syntactic-indentation nil)
   )
@@ -118,7 +127,11 @@
 (add-to-load-path "/u/emacs-w3m/emacs-w3m")
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
 
+; all kinds of crap here
 (add-to-load-path "/z/el" t)
+; and some lisp here too
+(add-to-load-path "/z/pl" t)
+; this ensure calendar comes up in a frame with a fixed-width font
 (load-library "mycal")
 
 ; xxx check out why this isn't autoloading

@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.21 2004-10-12 21:26:35 cvs Exp $")
+ "$Id: post-w3m.el,v 1.22 2004-10-14 21:37:58 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -67,26 +67,120 @@
   (message w3m-current-url)
   )
 
-
-(setq *specsvec* '(
-		   ("apache"  "http://apache/htdocs/manual/index.html.en")
-		   ("css" "http://localhost/usr/share/specs/css2.0/cover.html")     
-		   ("html" "http://localhost/usr/share/specs/html4.0/cover.html")
-		   ("" "http://localhost/specs.nav")
-  ; ...
-		   )
+(defun w3m-yank-current-url-other-buffer () (interactive)
+  (let ((u (save-window-excursion (other-window 1) (and (eq major-mode 'w3m-mode)) w3m-current-url)))
+    (if u (progn
+	    (kill-new u)
+	    (push-mark)
+	    (insert u))
+      (message "other buffer isn't in w3m-mode")
       )
-
-;; todo -- catch exit handler and offer to save updated specsvec
-(defun add-to-specsvec (name)
-  (interactive "sname: ")
-  (add-to-list '*specsvec* (list name w3m-current-url))
+    )
   )
 
-(defun specs (arg) (interactive "P")
-  (let ((url (string* (cadr (assoc (completing-read "spec: " *specsvec*) *specsvec*))
-		      (cadr (assoc "" *specsvec*)))))
-    (funcall (if arg 'w3m-goto-url-new-session 'w3m-goto-url) url)
+(defun w3m-yank-current-url-other-buffer () (interactive)
+  (let ((u (save-window-excursion (other-window 1) (and (eq major-mode 'w3m-mode)) w3m-current-url)))
+    (if u (progn
+	    (kill-new u)
+	    (push-mark)
+	    (insert u))
+      (message "other buffer isn't in w3m-mode")
+      )
+    )
+  )
+
+(defun w3m-yank-current-url () (interactive)
+  (kill-new w3m-current-url)
+  )
+
+; todo -- externalize to xml a/o links?  rationalize with all-docs
+(setq *all-docs-alist* '(
+			    ("apache"  "http://apache/htdocs/manual/index.html.en")
+			    ("css" "http://localhost/usr/share/specs/css2.0/cover.html")     
+			    ("html" "http://localhost/usr/share/specs/html4.0/cover.html")
+			    ("" "http://localhost/specs.nav")
+  ; ...
+			    ("w3m" "http://localhost/u/w3m-0.3/doc/MANUAL.html")
+  ; ...
+			    ("ant" "/usr/local/lib/ant-1.5.3-1/docs/manual/index.html")
+			    ("struts" "http://struts.apache.org/api/overview-summary.html")
+			    ("beans:" "http://struts.apache.org/api/org/apache/struts/taglib/bean/package-summary.html")
+			    ("logic:" "http://struts.apache.org/api/org/apache/struts/taglib/logic/package-summary.html")
+			    ("html:" "http://struts.apache.org/api/org/apache/struts/taglib/html/package-summary.html")
+			    ("struts examples" "http://j2ee.masslight.com/Chapter5.html")
+			    ("struts form examples" "http://javaboutique.internet.com/tutorials/strutsform/")
+			    )
+      )
+(require 'pluck)
+
+;; this depends on remove duplicates removing the first occurrence
+(setq 
+ *all-docs-alist*
+ (sort
+  (remove-duplicates
+   (nconc
+    *all-docs-alist*
+    (pluck "http://localhost/specs.nav")
+    )
+   :test (lambda (x y) (string= (car x) (car y))))
+  '(lambda (x y) (string< (car x) (car y))))
+ )
+
+
+(defun head (url)
+  "send a http head to URL.  return nil if there's an error, t otherwise"
+  (let* ((l (split (perl-command "get" "-m" "head" "-t" "1" url)))
+	 (stat (read (car l))))
+    (= 200 stat)
+    )
+  )
+; (head "http://localhost/")
+; (head "http://localhost/notthere")
+
+;; todo -- catch exit handler and offer to save updated specsvec
+(defun add-to-docs-helper-alist (name)
+  (interactive "sname: ")
+  (add-to-list '*all-docs-alist* (list name w3m-current-url))
+  )
+
+(defun all-docs-helper (thing) 
+  (let ((x (assoc thing *all-docs-alist*)))
+    (if x (cadr x)
+      (let* ((l (ff (format "*doc*%s.html" thing)))
+	     (it (if l 
+		     (completing-read (format "%d matches for %s: " (length l) thing) (mapcar '(lambda (x) (list x x)) l))
+		   thing
+		   )))
+	it)
+      )
+    )
+  )
+; (all-docs-helper "ant")
+; (all-docs-helper "beans")
+; (all-docs-helper "w3m")
+; (all-docs-helper "HttpSession")
+
+(defun all-docs (arg) 
+  (interactive "P")
+  (let* ((thing (completing-read "find doc: " *all-docs-alist*))
+	 (url (string* (cadr (assoc thing *all-docs-alist*))
+		       (all-docs-helper thing)))
+	 (navigator (if arg 'w3m-goto-url-new-session 'w3m-goto-url)))
+
+    (if 
+	(catch 'err  
+	  (cond 
+	   ((not (string* url)) (throw 'err t))
+	   ((string-match *url-regexp* url) (funcall navigator url))
+	   ; allow specs relative to localhost
+	   ((head (concat "http://localhost" url)) (funcall navigator (concat "http://localhost" url)))
+	   ((file-exists-p url) (aexec url))
+	   ((file-exists-p thing) (aexec thing))
+	   (t (throw 'err t))
+	   )
+	  )
+	(message "no help for %s" thing)
+      )
     )
   )
 
@@ -199,6 +293,9 @@
 (define-key ctl-/-map "z" 'w3m-copy-current-url)
 (define-key ctl-/-map "g" 'w3m-goto-url-new-session)
 ; 
+(define-key ctl-/-map "y" 'w3m-yank-current-url-other-buffer)
+(define-key  w3m-mode-map "y" 'w3m-yank-current-url)
+;
 (define-key w3m-mode-map "i" 'w3m-display-current-url)
 
 (mapcar '(lambda (x) (add-file-association x 'w3m-goto-url-new-session)) '("html" "htm"))
