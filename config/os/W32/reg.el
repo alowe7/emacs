@@ -1,5 +1,5 @@
 (put 'reg 'rcsid
- "$Id: reg.el,v 1.1 2003-03-26 21:12:29 cvs Exp $")
+ "$Id: reg.el,v 1.2 2003-04-07 21:52:54 cvs Exp $")
 (require 'qsave)
 
 (defun reg-canonify (s)	(if (and s (stringp s) (> (length s) 0)) (replace-in-string  "/" "\\" s) ""))
@@ -11,7 +11,12 @@
 
 (defun reg-query (hive key val) 
   " evaluates to the contents of HIVE stored in KEY"
-  (interactive "sHive: \nsKey: ")
+
+  (interactive (list 
+		(completing-read "hive: " '(("machine" "machine") ("users" "users") ("user" "user") ("config" "config")) nil t)
+		(read-string "key: ")
+		(read-string "value: ")))
+
   (perl-command
    "queryvalue" 
    "-v" 
@@ -89,7 +94,10 @@
   )
 
 (defun lsreg (hive key)
-  (interactive "shive: \nskey: ")
+  (interactive (list 
+		(completing-read "hive: " '(("machine" "machine") ("users" "users") ("user" "user") ("config" "config")) nil t)
+		(read-string "key: ")))
+
   (if (and (not (string* key)) (buffer-exists-p "*reg*"))
       (pop-to-buffer "*reg*")
     (reg-command "lsreg" hive key)

@@ -1,9 +1,11 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.10 2003-03-25 17:36:51 cvs Exp $")
+ "$Id: W32.el,v 1.11 2003-04-07 21:52:54 cvs Exp $")
 
 (require 'cat-utils)
+(require 'file-association)
+
 (load "frames" t t)
 
 
@@ -1031,9 +1033,6 @@ host must respond within optional TIMEOUT msec"
 ; make sure post-man gets loaded the first time man is called.
 (global-set-key "\C-h\C-m" '(lambda () (interactive) (load-library "post-man") (global-set-key "\C-h\C-m" 'man) (call-interactively 'man)))
 
-; (load-library "lnk-view")
-
-
 ;; this works, but breaks host-ok...
 
 ;; advise expand-file-name to be aware of cygmounts
@@ -1077,3 +1076,17 @@ host must respond within optional TIMEOUT msec"
   )
 
 ; (if (ad-is-advised 'w32-drag-n-drop) (ad-unadvise 'w32-drag-n-drop))
+
+; run ie on file in current buffer, assuming it maps to a uri
+(defun ie () (interactive)        
+  (let ((f (buffer-file-name)))
+    (if f
+	(start-process "*ie*"
+		       (zap-buffer " *ie*")
+		       "c:/Program Files/Internet Explorer/IEXPLORE.EXE"
+		       (concat "localhost" (unix-canonify f 0)
+			       )
+		       )
+      )
+    )
+  )

@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.1 2003-04-04 05:33:29 cvs Exp $")
+ "$Id: perl-command.el,v 1.2 2003-04-07 21:52:54 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
 
@@ -33,11 +33,11 @@ if LIST is specified, it is used instead of default PATH
 
 (defun get-buffer-create-1 (bn &optional dir)
   (let ((d default-directory) b)
-    (condition-case nil (kill-buffer bn) (error nil)) 
-    (cd (or dir "/"))
-    (setq b (get-buffer-create bn))
-    (cd d)
-    b)
+    (condition-case nil (kill-buffer bn) (error nil))
+    (let ((default-directory dir))
+      (setq b (get-buffer-create bn))
+      b)
+    )
   )
 
 (defun* perl-command-1 (s &key show args)

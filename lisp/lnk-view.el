@@ -1,6 +1,10 @@
 (put 'lnk-view 'rcsid 
- "$Id: lnk-view.el,v 1.4 2003-03-03 14:55:55 cvs Exp $")
+ "$Id: lnk-view.el,v 1.5 2003-04-07 21:52:54 cvs Exp $")
 (require 'cl)
+
+; usage: add the following lines to your .emacs
+; (add-file-association "lnk" 'lnk-view)
+; (autoload 'lnk-view "lnk-view.el")
 
 (defun dired-lnk-view () (interactive)
 	(lnk-view (dired-get-filename)) 
@@ -18,9 +22,6 @@
 		(beginning-of-buffer)
 		)
 	)
-
-
-(add-file-association "lnk" 'lnk-view)
 
 (defvar lnk-mode-map nil "")
 (if lnk-mode-map

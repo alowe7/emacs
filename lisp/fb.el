@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.38 2003-04-05 20:40:13 cvs Exp $")
+ "$Id: fb.el,v 1.39 2003-04-07 21:52:54 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -738,8 +738,8 @@ returns a filename containing results"
     (pop-to-buffer b)
     (beginning-of-buffer)
     (fb-mode)
-    (define-key fb-mode-map "f" 'fb-find-file-1)
-    (define-key fb-mode-map "d" 'fb-dired-file-1)
+    (local-set-key "f" 'fb-find-file-1)
+    (local-set-key "d" 'fb-dired-file-1)
     )
   )
 ; (fbf "fbf")
