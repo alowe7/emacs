@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.28 2002-05-08 15:35:21 cvs Exp $")
+ "$Id: fb.el,v 1.29 2002-11-22 17:02:12 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -427,12 +427,15 @@ all other patterns (e.g. \"foo*\") remain unchanged.
 
 (defun ff (args)
   "fast find working dirs -- search for file matching pat in *fb-db*
-with prefix arg, prompt for *fb-db* to use"
+with prefix arg, prompt for `*fb-db*' to use
+if none given, uses `*default-fb-db*' 
+"
 
   (interactive "P")
   (let* ((top "/")
 	 (b (zap-buffer *fastfind-buffer*))
   ;	 (*fb-db* *fb-db*) 
+	 db
 	 (pat 
 	  (progn
 	    (cond
@@ -441,16 +444,23 @@ with prefix arg, prompt for *fb-db* to use"
 	      (setq *fb-db* (read-file-name "db: " "" nil nil *fb-db*)
 		    ))
 	     ((stringp args) args)
-	     ((interactive-p) (read-string "pat: "))))))
-	    (if (= (length *fb-db*) 0)
-		(progn
-		  (setq *fb-db* *default-fb-db*)
-		  (setq top "/"))
-	      (progn 
-		(if (file-directory-p *fb-db*)
-		    (setq *fb-db* (concat *fb-db* "/f")))
-		(setq top (file-name-directory *fb-db*)))
-	      )
+	     ((interactive-p) (read-string "pat: ")))))
+	 )
+
+    (if (= (length *fb-db*) 0)
+	(progn
+	  (setq *fb-db* *default-fb-db*)
+	  (setq top "/")
+	  )
+
+      (progn 
+	(if (file-directory-p *fb-db*)
+	    (setq *fb-db* (concat *fb-db* "/f")))
+	(setq 
+	 top (file-name-directory *fb-db*)
+	 )
+	)
+      )
 
     (ff1 *fb-db* pat b top)
 
@@ -462,18 +472,22 @@ with prefix arg, prompt for *fb-db* to use"
     )
   )
 
-(defun fff (pat)
-  (interactive "sPat: ")
-  (let ((b (zap-buffer "*ff*")))
-; xxx broken
-    (shell-command (format "find . -name \"%s\"" pat) b nil)
-    (pop-to-buffer b)
-    (beginning-of-buffer)
-    (run-hooks 'after-find-file-hook)
-    (fb-mode)
+(defun wf (pat)
+  (interactive "spat: ")
+  (let* ((top "/")
+	 (b (zap-buffer *fastfind-buffer*))
+	 (pat (format 
+	       (concat "^/[" (mapconcat '(lambda (x) (substring x 1)) wdirs "") "]/*%s*") pat)))
+
+    (ff1 *fb-db* pat b top)
+
+    (if (interactive-p) 
+	(pop-to-buffer b)
+      (split (buffer-string) "
+")
+      )
     )
   )
-; (fff "Config.ini")
 
 (defun fh (pat)
   "fast find working drive -- search for file matching pat in homedirs"

@@ -1,5 +1,5 @@
 (put 'apache 'rcsid 
- "$Id: apache.el,v 1.5 2000-10-03 16:50:27 cvs Exp $")
+ "$Id: apache.el,v 1.6 2002-11-22 17:02:12 cvs Exp $")
 (provide 'apache)
 ; (perl-command "wf")
 
@@ -9,14 +9,6 @@
 "))
   )
 
-(defun wf (fn)
-  (interactive "sFilename: ")
-  (let ((f (fwf fn)))
-    (if f 
-	(find-file f)
-      (message "%s not found" f))
-    )
-  )
 
 
 
