@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.7 2003-11-17 21:38:53 cvs Exp $
+;; $Id: perl-helpers.el,v 1.8 2004-03-25 17:19:53 cvs Exp $
 
 (require 'perl-command)
 
@@ -54,7 +54,7 @@
 
 (defun perldoc (thing)
   "find perldoc for THING"
-  (interactive "sthing: ")
+  (interactive "sperldoc: ")
   (let* ((b (zap-buffer (format "*perldoc %s*" thing)))
 	 (s (perl-command perldoc-cmd thing)))
     (set-buffer b)
@@ -65,6 +65,7 @@
     )
   )
 ; (perldoc "perlfaq1")
+; (perldoc "CGI")
 
 ;; assumes this has been run:
 ;; for a in *.pod; do b=${a%%.pod}; pod2text $a > ../doc/$b; done

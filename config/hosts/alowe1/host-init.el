@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.18 2004-03-04 05:00:47 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.19 2004-03-25 17:19:53 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 100)
@@ -74,11 +74,9 @@
 
 (setq *shell-track-worlds* t)
 
-(if (and (not (evilnat)) 
-	 (string* (getenv "XDBHOST"))
-	 (string* (getenv "XDBDOMAIN"))
-	 (not (string-match (getenv "XDBDOMAIN") (getenv "XDBHOST"))))
-    (setenv "XDBHOST" (concat (getenv "XDBHOST") "." (getenv "XDBDOMAIN"))))
+(add-hook 'xdb-init-hook
+	  '(lambda () (load-library "post-xdb"))
+	  )
 
 (require 'xz-loads)
 (setq *xz-show-status* nil)

@@ -25,13 +25,27 @@
 	  collect x))
   )
 
+;; (defun roll-scratch-buffers ()
+;;   (interactive)
+;;   (let ((l (collect-scratch-buffers)))
+;;     (roll-buffer-list l)
+;;     )
+;;   )
+
+;; alternative version that prompts with some of the buffer contents, since the names are unhelpful
 (defun roll-scratch-buffers ()
   (interactive)
-  (let ((l (collect-scratch-buffers)))
-    (roll-buffer-list l)
+  (let ((l (collect-scratch-buffers))
+	(x (/ (window-width) 2)))
+    (roll-list l 
+	       '(lambda (b)
+		  (format "%s\t\t%s..." (buffer-name b) (save-excursion (set-buffer b) (tr (buffer-substring (point-min) (min (1- (point-max)) x)) '((?
+																		      "\\n"))))))
+	       'kill-buffer-1 
+	       'switch-to-buffer)
     )
   )
-
+ 
 ; todo: factor with bury-buffer (see buffers.el)
 (defun unbury-scratch-buffers () 
   (interactive)
@@ -69,8 +83,5 @@
 
 (global-set-key (vector 'C-M-next) 'unbury-scratch-buffers)
 (global-set-key (vector 'C-M-prior) 'unbury-scratch-buffers-1)
-
-(define-key ctl-/-map " " (lambda () (interactive) (roll-buffer-mode 'scratch-mode)))
-(define-key ctl-/-map "b" (lambda () (interactive) (list-buffers-mode 'scratch-mode)))
 
 (provide 'scratch-mode)

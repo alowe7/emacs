@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.46 2004-03-03 15:15:18 cvs Exp $")
+ "$Id: keys.el,v 1.47 2004-03-25 17:16:16 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -156,6 +156,7 @@
 (define-key help-map "" 'fapropos3)
 (define-key help-map "" 'refine-apropos)
 (define-key help-map "" 'help-for-map)
+(define-key help-map "d" 'perldoc)
 
 ;; (global-set-key "Å∫" 'tags-apropos)
 ;; (global-set-key "Å¢" 'tags-search)
@@ -207,6 +208,8 @@
 (define-key alt-SPC-map "m" 'roll-buffer-named)
 (define-key alt-SPC-map "/" 'roll-buffer-with)
 (define-key alt-SPC-map "." 'roll-buffer-with-mode)
+(define-key alt-SPC-map "," 'roll-scratch-buffers)
+(define-key alt-SPC-map "b" '(lambda () (interactive) (list-buffers-mode 'scratch-mode)))
 (define-key alt-SPC-map "" 'roll-buffer-no-files)
 (define-key alt-SPC-map " " 'roll-server-clients)
 (define-key alt-SPC-map "s" 'first-shell)
