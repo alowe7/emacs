@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.25 2002-09-17 17:55:53 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.26 2002-12-02 18:47:11 cvs Exp $")
 
 (setq default-frame-alist
       '((width . 102)
@@ -38,23 +38,24 @@
 				(cd "/")
 				)))
 
-(setq *howto-path* 
- (loop for w in (la) 
-       when (file-exists-p (fwf "n" w))
-       collect (fwf "n" w)))
+(add-hook 'world-init-hook '(lambda ()
+			      (setq *howto-path* 
+				    (loop for w in (la) 
+					  when (file-exists-p (fwf "n" w))
+					  collect (fwf "n" w)))
 
-(setq *howto-alist* 
-      (loop
-       for x in *howto-path*
-       with l = nil
-       nconc (loop for y in (get-directory-files x)
-		   collect (list y x)) into l
-       finally return l)
-      )
-
-(require 'worlds)
-(require 'world-advice)
-(load "post-worlds")
+			      (setq *howto-alist* 
+				    (loop
+				     for x in *howto-path*
+				     with l = nil
+				     nconc (loop for y in (get-directory-files x)
+						 collect (list y x)) into l
+				     finally return l)
+				    )
+			      (load "world-advice")
+			      (load "post-worlds")
+			      )
+	  )
 
 (setq *shell-track-worlds* t)
 
@@ -78,3 +79,8 @@
 
 (set-default 'comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *")
 (setq *default-swordfile* "~/.private/bj")
+
+; man don't work with default path
+(load-library "post-man")
+
+(setq grep-command "grep -n -i -e ")

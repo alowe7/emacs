@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.30 2002-12-02 03:14:22 cvs Exp $")
+ "$Id: fb.el,v 1.31 2002-12-02 18:47:11 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -483,6 +483,7 @@ if none given, uses `*default-fb-db*'
   )
 
 (defun wf (pat)
+  "fastfind within `wdirs'.  see `ff'"
   (interactive "spat: ")
   (let* ((top "/")
 	 (b (zap-buffer *fastfind-buffer*))

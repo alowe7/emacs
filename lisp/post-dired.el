@@ -1,6 +1,6 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.17 2002-06-28 15:21:49 cvs Exp $")
-(require  'eval-process)
+ "$Id: post-dired.el,v 1.18 2002-12-02 18:47:11 cvs Exp $")
+(require 'eval-process)
 (require 'tar-view)
 (require 'zip-view)
 (require 'html-view)
