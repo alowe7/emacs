@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.9 2001-04-05 12:39:35 cvs Exp $")
+ "$Id: w32,v 1.10 2001-04-13 20:44:53 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -153,8 +153,14 @@ letter drive names.
     )
   )
 
-(defvar file-assoc-list nil
-	"alist of downcased file extensions to internal handlers")
+(defvar file-assoc-list
+  '(("lnk" . lnk-view)
+    ("tar" . tar-view)
+    ("jar" . jar-view)
+    ("zip" . zip-view)
+    ("html" . html-view)
+    ("htm" . html-view))
+  "alist of downcased file extensions to internal handlers")
 
 
 (defun aexec (f &optional visit)
@@ -573,35 +579,10 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
     )
   )
 
-(defun shortcut-view (f &optional arg) 
-  "describe shortcut F"
-  (interactive "fshortcut: ")
-
-  (let ((s (eval-process "shortcut" "-u" "all" (expand-file-name f))))
-    (if arg
-	(split s ?
-	       )
-      (let ((b (zap-buffer (concat "*Shortcut* " (file-name-nondirectory f)))))
-	(set-buffer b)
-	(insert s)
-	(pop-to-buffer b)
-	(beginning-of-buffer)
-	(help-mode)
-	)
-      )
-    )
-  )
-
-(or (assoc "lnk"  file-assoc-list) (push '("lnk" . shortcut-view) file-assoc-list))
 
 (defun domainname () 
   (clean-string (reg-query "machine" 
 			   "system/currentcontrolset/services/tcpip/parameters" "domain"))
-  )
-
-(defun update-shortcut (target name)
-  (call-process 
-   "shortcut" nil nil nil "-c" "-t" target "-n" name)
   )
 
 (defvar w32-documents "/Documents and Settings" 
@@ -628,46 +609,6 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 (mapcar '(lambda (x) 
 	   (eval (list 'defun x nil '(interactive) (list 'dired x))))
 	'(w32-documents my-documents start-menu quicklaunch))
-
-
-(defun query-shortcut (name &optional attr)
- 
-  (let ((a (loop
-	    for x in (split  (eval-process
-			      "shortcut" "-u" "all" "-n" name) "
-")
-	    collect 
-	    (let ((l (split x ":")))
-	      (list (intern (car l)) (trim-white-space (cadr l))))
-	    )))
-    (if attr (cadr (assoc attr a)) a)
-    )
-  )
-
-(defun target (lnk)
-(let ((f (cond ((file-exists-p lnk) lnk)
-	       ((file-exists-p (concat lnk ".lnk")) (concat lnk ".lnk")))))
- (query-shortcut f 'Target)))
-
-; (find-file (target "/f.lnk"))
-
-(defvar *wordkeys* "/a/n/howto/wordkeys.txt")
-
-(defun wordkey (pat)
-  (interactive "scommand: ")
-  (let* ((s (eval-process "egrep" "-i" pat *wordkeys*))
-	 (n (length (split s "
-"))))
-
-    (if (< n 2)
-	(message (buffer-string))
-      (let ((b  (zap-buffer "*wordkeys*")))
-	(insert s)
-	(pop-to-buffer b)
-	(not-modified)
-	(setq buffer-read-only t)
-	(beginning-of-buffer) 
-	(view-mode)))))
 
 (defun w32-mangle-filename (f)
   "reports default-directory as a win32 8.3 file name"
@@ -723,3 +664,19 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (defvar semicolon (read "?;"))
 (defvar w32 'w32)
+
+
+(defun messagebox (msg &optional title flags)
+  "put up a messagebox"
+  (interactive "smessage: ")
+  (let ((l (list msg)))
+    (if (string* title)
+	(setq l (nconc (list "-t" title) l)))
+    (if (string* flags)
+	(setq l (nconc (list "-f" flags) l)))
+
+    (message (clean-string (perl-command "messagebox" "-t" title "-f" flags msg)))
+    )
+  )
+
+; (messagebox "every good boy does fine" "r u there?" "MB_OKCANCEL|MB_ICONINFORMATION|MB_SETFOREGROUND")
