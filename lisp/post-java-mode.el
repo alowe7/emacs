@@ -1,5 +1,5 @@
 (put 'post-java-mode 'rcsid
- "$Id: post-java-mode.el,v 1.4 2005-01-28 19:37:47 cvs Exp $")
+ "$Id: post-java-mode.el,v 1.5 2005-02-11 23:46:04 cvs Exp $")
 
 (require 'proof-compat)
 
@@ -7,9 +7,8 @@
 (define-key java-mode-map "\M-\C-e" `java-end-of-defun)
 
 (defun java-beginning-of-defun (&optional arg)
-  "Move point to beginning of current line.
-With argument ARG not nil or 1, move forward ARG - 1 lines first.
-If scan reaches end of buffer, stop there without error."
+  "Move point to beginning of current method definition.
+"
   (interactive "p")
   (or arg (setq arg 1))
 
@@ -63,15 +62,19 @@ the open-parenthesis that starts a defun; see `beginning-of-defun`."
 
     (while (> arg 0)
 
-      (down-list 1)			; move to somewhere in next defun-block
-      (forward-line 1)			; don`t be on the first line
+      (condition-case x
+	  (down-list 1) ; move to somewhere in next defun-block
+	(forward-line 1) ; don`t be on the first line
+	(error nil))
 
-      (java-beginning-of-defun 1)	; find its head
+      (java-beginning-of-defun 1) ; find its head
 
-      (down-list 1)	; into arg list
-      (up-list 1)	; out and over arg list
-      (down-list 1)	; into body
-      (up-list 1)	; out and over body
+      (condition-case x
+	  (down-list 1)	; into arg list
+	(up-list 1) ; out and over arg list
+	(down-list 1) ; into body
+	(up-list 1) ; out and over body
+	(error nil))
 
       (setq arg (1- arg)))
     nil))

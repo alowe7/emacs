@@ -1,5 +1,5 @@
 (put 'todo 'rcsid 
- "$Id: todo.el,v 1.11 2004-10-12 21:26:35 cvs Exp $")
+ "$Id: todo.el,v 1.12 2005-02-11 23:46:04 cvs Exp $")
 (require 'eval-process)
 (require 'input)
 
@@ -47,6 +47,11 @@
     )
   )
 
+(defun fudge-format (format stuff)
+  "just apply FORMAT to list STUFF, but quote any % characters in elements of stuff"
+  (apply 'format (nconc (list format) (mapcar '(lambda (x) (replace-in-string "%" "%%" x)) stuff)))
+  )
+
 (defun done (&optional arg)
   " move todo under point to per-world done list with prefix ARG, move region"
   (interactive "P")
@@ -59,12 +64,12 @@
 			  (if (not (mark)) (error "mark is not set")
 			    (buffer-substring (point) (mark))))))
 	 (result (y-or-n-*-p
-		  (apply 'format
-			 (cons "done with \"%s ... %s\" (y/n/e)? "
-			       (if (> (length thing1) trimlen1)
-				   (list (substring thing1 0 trimlen1)
-					 (substring thing1 trimlen2))
-				 (list thing1 ""))))
+		  (fudge-format
+			  "done with \"%s ... %s\" (y/n/e)? "
+			  (if (> (length thing1) trimlen1)
+			      (list (substring thing1 0 trimlen1)
+				    (substring thing1 trimlen2))
+			    (list thing1 "")))
 		  "e"))
 	 (thing (cond ((eq result ?e) (xa "edit thing" thing1))
 		      (result thing1))))
