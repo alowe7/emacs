@@ -1,6 +1,7 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.9 2001-06-27 09:07:31 cvs Exp $
+#      $Id: make-autoloads,v 1.10 2001-09-03 00:15:59 cvs Exp $
 use getopt;
+binmode STDOUT;
 
 getopt('-');
 if ($opt_help) {
@@ -19,7 +20,7 @@ if ($opt_help) {
 }
 elsif ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.9 $";
+#    $version="$Revision: 1.10 $";
     print "make-autoloads version 1.9\n";
     exit;
 }
