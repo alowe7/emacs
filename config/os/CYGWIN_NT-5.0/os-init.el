@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.19 2001-10-28 20:09:01 cvs Exp $")
+ "$Id: os-init.el,v 1.20 2001-10-28 20:17:42 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 (setq doc-directory data-directory)
@@ -183,10 +183,3 @@ host must respond within optional TIMEOUT msec"
 	      )
   )
 
-; make sure load-history is correct
-(unless (loop for x in load-history
-	      thereis (string-match (concat "fns-" emacs-version) (car x)))
-  (load
-   (format "%s/fns-%s" 
-	   (getenv "EMACSPATH")
-	   emacs-version)))
