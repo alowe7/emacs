@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.2 2002-12-02 18:54:53 cvs Exp $")
+ "$Id: W32.el,v 1.3 2002-12-07 21:49:07 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -766,9 +766,9 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 (autoload 'shell2 "shell2" t)
 
 (setq binary-process-input t
-			explicit-shell-file-name "bash"
-			shell-command-switch "-c"
-			)
+      explicit-shell-file-name "bash"
+      shell-command-switch "-c"
+      )
 
 ; this treats all files on z:\\foo as binary
 ;(add-untranslated-filesystem "Z:")

@@ -1,4 +1,4 @@
-(put 'CYGWIN_NT-5.1 'rcsid
- "$Id: CYGWIN_NT-5.0.el,v 1.1 2002-12-02 03:12:31 cvs Exp $")
+(put 'CYGWIN_NT-5.0 'rcsid
+ "$Id: CYGWIN_NT-5.0.el,v 1.2 2002-12-07 21:53:12 cvs Exp $")
 
 (load-library "w32")
