@@ -73,22 +73,22 @@
 (define-key w3m-mode-map "" 'w3m-copy-current-url)
 
 (defun specs () (interactive)
-  (w3m-goto-url "http://alowe2/specs.nav")
+  (w3m-goto-url "http://localhost/specs.nav")
   )
 
 (defun perlmodhtml (mod) (interactive "smod: ")
-(let ((res  (w3m-goto-url (format "http://alowe2/perl/html/site/lib/%s" (replace-in-string "::" "/" mod)) nil nil)))
+(let ((res  (w3m-goto-url (format "http://localhost/perl/html/site/lib/%s" (replace-in-string "::" "/" mod)) nil nil)))
 ; (debug)
   )
 )
 
 (defun phpmanual () (interactive)
-  (w3m-goto-url-new-session "http://alowe2/php/manual")
+  (w3m-goto-url-new-session "http://localhost/php/manual")
   )
 ; ( phpmanual)
 
 (defun html-spec () (interactive)   
-  (w3m-goto-url-new-session "http://alowe2/usr/share/specs/html4.0/cover.html")
+  (w3m-goto-url-new-session "http://localhost/usr/share/specs/html4.0/cover.html")
   )
 
 ; ugh ?2 ?
