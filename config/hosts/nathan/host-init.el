@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.9 2004-09-09 04:52:36 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.10 2004-09-24 02:08:07 cvs Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -91,7 +91,11 @@
 (if (string-match "21" emacs-version)
     (fonty "tahoma"))
 
-(setq Info-default-directory-list '())
+; (setq Info-default-directory-list '())
+; (let (Info-dir-contents Info-directory-list) (info "/usr/share/info/dir"))
+
+(setq Info-default-directory-list '("/usr/share/info" "/usr/share/emacs/info" "/usr/local/info"))
+(setq Info-directory-list  Info-default-directory-list)
 
 (defun flush-info-cache (dir)
   (setq Info-dir-contents-directory nil
@@ -99,9 +103,10 @@
 	Info-directory-list nil)
   (info dir)
   )
-; (flush-info-cache "/usr/share/emacs/info/dir")
+; (flush-info-cache "/usr/share/info/dir")
 
-(setenv "INFOPATH" "/usr/share/emacs/info/")
+(setenv "INFOPATH" "/usr/share/info")
+; (setenv "INFOPATH" "/usr/share/emacs/info/")
 
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
