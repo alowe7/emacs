@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.2 2001-02-09 14:29:51 cvs Exp $")
+ "$Id: os-init.el,v 1.3 2001-02-27 12:46:03 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 ;; config file for gnuwin-1.0
@@ -58,7 +58,7 @@ host must respond within optional TIMEOUT msec"
 
 
   (let ((host (and (> (length filename) 1)
-		   (string-match "//\\([a-zA-Z0-9\.]+\\)/" filename)
+		   (string-match "//\\([a-zA-Z0-9\.]+\\)" filename)
 		   (= (match-beginning 0) 0)
 		   (substring filename (match-beginning 1) (match-end 1) ))))
     (or (not host)

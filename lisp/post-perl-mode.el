@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.6 2001-02-27 12:46:03 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -30,7 +30,7 @@
     (not-modified)
     (setq buffer-read-only t)
     (beginning-of-buffer)
-    )
+    b)
   )
 
 (defun pod ()

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.19 2001-01-22 21:13:48 cvs Exp $")
+ "$Id: fb.el,v 1.20 2001-02-27 12:46:03 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -367,12 +367,6 @@ w		fb-w3-file
     )
   )
 
-(defun fh ()
-  "fast find working drive -- search for file matching pat in *fb-h-db*"
-  (interactive)
-  (let ((*fb-db* *fb-h-db* )) (call-interactively 'ff))
-  )
-
 
 
 (defun ff-hack-pat (pat)
@@ -381,7 +375,7 @@ e.g. convert \"foo*bar\" to \"foo[^b]*bar\"
 all other patterns (e.g. \"foo*\") remain unchanged.
 "
   (let* ((sp 0)
-	 (oldstr str)
+	 (oldstr pat)
 	 (newstr ""))
     (loop 
      while
@@ -395,6 +389,31 @@ all other patterns (e.g. \"foo*\") remain unchanged.
 	   oldstr (substring oldstr (1+ (match-beginning 0))))
      finally return (concat newstr oldstr)
      )
+    )
+  )
+
+(defun ff1 (db pat &optional b top)
+  (let ((pat (ff-hack-pat pat))
+	(b (or b (zap-buffer *fastfind-buffer*)))
+	(top (or top "/"))
+	)
+
+    (setq *find-file-query*
+	  (setq mode-line-buffer-identification 
+		pat))
+
+    (call-process "egrep" nil
+		  b
+		  nil
+		  "-i" pat (expand-file-name
+			    *fb-db*))
+
+    (set-buffer b)
+    (beginning-of-buffer)
+    (cd top)
+    (fb-mode)
+
+    (run-hooks 'after-find-file-hook)
     )
   )
 
@@ -424,22 +443,7 @@ with prefix arg, prompt for *fb-db* to use"
 	    (read-string "pat: ")
 	    )))
 
-    (setq *find-file-query*
-	  (setq mode-line-buffer-identification 
-		pat))
-
-    (call-process "egrep" nil
-		  b
-		  nil
-		  "-i" pat (expand-file-name
-			    *fb-db*))
-
-    (set-buffer b)
-    (beginning-of-buffer)
-    (cd top)
-    (fb-mode)
-
-    (run-hooks 'after-find-file-hook)
+    (ff1 *fb-db* pat b top)
 
     (if (interactive-p) 
 	(pop-to-buffer b)
@@ -448,6 +452,13 @@ with prefix arg, prompt for *fb-db* to use"
       )
     )
   )
+
+(defun fh (pat)
+  "fast find working drive -- search for file matching pat in homedirs"
+  (interactive "spat: ")
+  (pop-to-buffer (ff1  *fb-db* (concat "^/[abcdpx]/*" pat)))
+  )
+
 
 (defun fh2 ()
   "fast find working drive -- search for file matching pat in *fb-h-db*"
