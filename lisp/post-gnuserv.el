@@ -1,5 +1,7 @@
 (put 'post-gnuserv 'rcsid 
- "$Id: post-gnuserv.el,v 1.4 2001-05-02 20:07:49 cvs Exp $")
+ "$Id: post-gnuserv.el,v 1.5 2001-07-18 22:18:18 cvs Exp $")
+
+(condition-case x (gnuserv-start) (error nil)) ; if there's a problem don't try to restart.
 
 (defadvice server-find-file (after 
 			     hook-server-find-file
@@ -49,8 +51,10 @@
     )
   )
 
-(require 'keys)
-(define-key alt-SPC-map " " 'roll-server-clients)
+;; set default frame for gnuserving
+(setq gnuserv-frame
+      (caadr (current-frame-configuration)))
 
-
-
+(if (string-match "NT" (uname))
+    (require 'msvc)
+  )

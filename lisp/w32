@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.13 2001-07-17 11:14:19 cvs Exp $")
+ "$Id: w32,v 1.14 2001-07-18 22:18:18 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -674,6 +674,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 (defvar semicolon (read "?;"))
 (defvar w32 'w32)
 
+(defvar *mesagebox-default-flags* "MB_OK|MB_ICONINFORMATION|MB_SETFOREGROUND")
 
 (defun messagebox (msg &optional title flags)
   "put up a messagebox"
@@ -681,8 +682,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
   (let ((l (list msg)))
     (if (string* title)
 	(setq l (nconc (list "-t" title) l)))
-    (if (string* flags)
-	(setq l (nconc (list "-f" flags) l)))
+    (setq l (nconc (list "-f" (string* flags *mesagebox-default-flags*)) l))
     (setq l (cons "messagebox" l))
 
     (message (clean-string (apply 'perl-command l)))

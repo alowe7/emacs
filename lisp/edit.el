@@ -1,5 +1,5 @@
 (put 'edit 'rcsid 
- "$Id: edit.el,v 1.4 2000-11-20 01:03:02 cvs Exp $")
+ "$Id: edit.el,v 1.5 2001-07-18 22:18:18 cvs Exp $")
 
 ;; edit and format functions
 
@@ -112,11 +112,15 @@ if optional arg N is specified deletes additional N subsequent chars also"
 
 
 (defun find-file-force-refresh ()
+  "revisit file, forcing a refresh from disk"
   (interactive)
-  (let ((fn (buffer-file-name)))
+  (let ((fn (buffer-file-name))
+	(p (point)))
     (kill-buffer (current-buffer))
     (find-file fn)
-    ))
+    (goto-char p)
+    )
+  )
 
 (defun insert-eval-environment-variable (v)
   "insert value of specified environment VARIABLE"

@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.12 2001-07-13 22:11:35 cvs Exp $")
+ "$Id: os-init.el,v 1.13 2001-07-18 22:18:18 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 ;; config file for gnuwin-1.0
@@ -198,3 +198,13 @@ host must respond within optional TIMEOUT msec"
 	)
     )
   )
+
+(add-hook 'after-init-hook
+	  '(lambda () 
+	     (let ((s (string* (condition-case x (read-file "~/.tickle") (error nil)))))
+	       (and s
+		    (messagebox s "don't forget")
+		    )
+	       )
+	     )
+	  )

@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.14 2001-07-17 11:14:19 cvs Exp $")
+ "$Id: keys.el,v 1.15 2001-07-18 22:18:18 cvs Exp $")
 ;(require 'nums)
 
 ;; all key bindings
@@ -24,6 +24,7 @@
 
 
 ;(global-set-key "y" 'clipboard-yank)	;; emacs works as a clipboard viewer
+(global-set-key "" 'goto-char)
 
 (global-set-key "" 'auto-fill-mode) ; gets clobbered when cscope comes in
 (global-set-key "c" 'calendar) ;
@@ -210,5 +211,8 @@
 (define-key alt-SPC-map "/" 'roll-buffers-with)
 (define-key alt-SPC-map "l" 'roll-buffer-like)
 (define-key alt-SPC-map "o" 'roll-buffer-mode)
+(define-key alt-SPC-map " " 'roll-server-clients)
+
+(global-set-key "" '(lambda () (interactive) (describe-key (read-key-sequence "key sequence: "))))
 
 (provide 'keys)
