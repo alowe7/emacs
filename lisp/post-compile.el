@@ -1,5 +1,5 @@
 (put 'post-compile 'rcsid 
- "$Id: post-compile.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: post-compile.el,v 1.5 2003-02-12 20:23:29 cvs Exp $")
 
 ; (read-string "loading post-compile")
 
@@ -52,3 +52,28 @@
 ; 
 (defvar compilation-old-error-list nil
   "Value of `compilation-error-list' after errors were parsed.")
+
+
+(add-hook 'compilation-completion-hook
+	  '(lambda () 
+	     (set-buffer "*compilation*")
+	     (qsave-search (current-buffer) compile-command)
+	     (use-local-map compilation-mode-map)
+	     ))
+
+(defadvice compilation-sentinel (around 
+				 hook-compile
+				 first activate)
+  ""
+
+  ad-do-it
+  (run-hooks 'compilation-completion-hook)
+  )
+
+; (if (ad-is-advised 'compilation-sentinel) (ad-unadvise 'compilation-sentinel))
+
+; (defvar compilation-mode-map (make-sparse-keymap))
+
+(define-key  compilation-mode-map "p" '(lambda () (interactive) (previous-qsave-search (get-buffer "*compilation*"))))
+(define-key  compilation-mode-map "n" '(lambda () (interactive) (next-qsave-search (get-buffer "*compilation*"))))
+
