@@ -1,5 +1,5 @@
 (put 'nums 'rcsid 
- "$Id: nums.el,v 1.6 2001-08-15 21:49:00 cvs Exp $")
+ "$Id: nums.el,v 1.7 2001-11-02 21:30:28 cvs Exp $")
 (provide 'nums)
 
 (defun exp (n m)
@@ -125,30 +125,24 @@ with arg, prompt for number.
   "convert region of text to hex"
   (ascii2 (buffer-substring beg end)))
 
-(defvar number-lines-goal-column 0 "target column where line numbers are inserted")
-(defvar number-lines-base 0 "initial value for line numbers")
-(defvar number-lines-seperator " " "this string seperates the numbers from text (usually TAB or SPC)")
-
-(defun number-lines (&optional arg)
+(defun number-lines (&optional base column separator)
   " insert line numbers in region starting at optional number BASE.
-  line numbers are inserted at the column specified by the variable 
-  number-goal-column (default 0)"
+  if called interactively line numbers are inserted at the current column (default 0)"
   (interactive "P")
   (save-excursion
     (let* 
-	((i (or (and (numberp arg) arg) number-lines-base))
+	((i (if (and (interactive-p) (not (null base)) (listp base)) (car base) 0))
 	 (z (+ i (count-lines (point) (mark))))
-	 (old-goal-column goal-column)
+	 (goal-column (if (interactive-p) (current-column) column))
+	 (separator (or separator " "))
 	 )
-      (narrow-to-region (point) (mark))
+      (narrow-to-region (save-excursion (beginning-of-line) (point)) (mark))
       (beginning-of-buffer)
-      (setq goal-column number-lines-goal-column)
       (while (< i z)
-	(insert (concat (format "%03d" i) number-lines-seperator)) 
+	(insert (concat (format "%03d" i) separator)) 
 	(next-line 1)
 	(setq i (1+ i))
 	)
-      (setq goal-column old-goal-column)
       )
     (widen)
     )
