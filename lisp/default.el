@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.46 2005-02-16 23:25:15 cvs Exp $")
+ "$Id: default.el,v 1.47 2005-03-01 20:13:12 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -131,6 +131,8 @@
     (or v d)))
 
 (defun add-auto-mode (extension mode)
+"add EXTENSION as a filetype for MODE, if not already defined on `auto-mode-alist'
+"
   (if (not (assoc extension auto-mode-alist))
       (let ((na (list (cons extension mode))))
 	(append na (copy-alist auto-mode-alist)))))

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.34 2005-01-24 21:50:14 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.35 2005-03-01 20:13:12 cvs Exp $")
 
 (require 'default-frame-configurations)
 
@@ -144,13 +144,6 @@
 
 ; xxx check out why this isn't autoloading
 (load-library "post-bookmark")
-
-(require 'worlds)
-
-(let ((lw (read-file (concat wbase "/" *lastworld-file-name*)))) (and lw (world lw)))
-(setq *log-file-save* t)
-(and  *log-file-save*
-      (add-hook 'after-save-hook 'world-file-save-hook))
 
 ; (load-library "post-help")
 (load-library "fixframe")

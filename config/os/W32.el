@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.38 2005-01-03 19:56:59 cvs Exp $")
+ "$Id: W32.el,v 1.39 2005-03-01 20:13:12 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -983,32 +983,6 @@ host must respond within optional TIMEOUT msec"
 
 
 ; xxx todo: catch shell command w <world> for shell-cd
-
-;; where does this really belong?
-(defun ftime () (interactive)
-	"display formatted time string last modification time of file for current buffer"
-  (let* ((fn (buffer-file-name))
-	(f (and fn (elt (file-attributes fn) 5))))
-    (message (if f
-	(clean-string (eval-process "mktime" (format "%d" (car f)) (format "%d" (cadr f))))
-	"no file")
-	)
-    )
-  )
-
-(defvar do-tickle nil)
-(if do-tickle
-    (add-hook 'after-init-hook
-	      '(lambda () 
-		 (let ((s (string* (condition-case x (read-file "~/.tickle") (error nil)))))
-		   (and s
-			(messagebox s "don't forget")
-			)
-		   )
-		 )
-	      )
-  )
-
 
 ;; (defadvice abbreviate-file-name (around 
 ;; 				 hook-abbreviate-file-name

@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid 
- "$Id: post-worlds.el,v 1.17 2004-08-17 17:50:53 cvs Exp $")
+ "$Id: post-worlds.el,v 1.18 2005-03-01 20:13:12 cvs Exp $")
 
 (defun push-world-p (w)
   "push current context replacing with WORLD.
@@ -83,29 +83,6 @@ a null argument means pop-world from world-stack"
       (split (buffer-string) "
 ")
       )
-    )
-  )
-
-(defun wfw (pat world)
-  "fastfind within `fw'.  see `ff'"
-  (interactive (list (read-string "pat: ") (string* (completing-read "world: " world-vector nil t))))
-  (catch 'ret
-    (or  (let* ((top (or (fw world) (throw 'done nil)))
-		(b (zap-buffer *fastfind-buffer*))
-		(pat (format 
-		      (concat (if (eq window-system 'w32) "^(.:)*" "^") 
-			      (fw world) "/.*%s*")
-		      pat)))
-	   (ff1 *fb-db* pat b top)
-
-	   (if (interactive-p) 
-	       (pop-to-buffer b)
-	     (split (buffer-string) "
-")
-	     )
-	   )
-	 (message "no world")
-	 )
     )
   )
 

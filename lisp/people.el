@@ -1,5 +1,5 @@
 (put 'people 'rcsid 
- "$Id: people.el,v 1.15 2003-10-27 15:34:44 cvs Exp $")
+ "$Id: people.el,v 1.16 2005-03-01 20:13:12 cvs Exp $")
 (provide 'people)
 ;; manage people databases
 (require 'compile)
@@ -250,7 +250,7 @@ to find the text that grep hits refer to."
 		  (format "%s -f %s %s" *note-program* db name) 
 		(format "%s %s" *note-program* name)))
 	 (e (apply 'call-process
-		   (nconc (list "egrep" nil b nil "-i" "-n" name) db)))
+		   (nconc (list "grep" nil b nil "-i" "-n" name) db)))
 	 n)
 
     (make-person-vector name b)
@@ -300,7 +300,7 @@ to find the text that grep hits refer to."
   "look up NAME in optional DB.
 default is *people-database*"
   (interactive "sName: ")
-  (let ((s  (eval-process  "egrep" "-i" name
+  (let ((s  (eval-process  "grep" "-i" name
 			   (or db *people-database*))))
     (if (interactive-p) (message s) s)
     )
