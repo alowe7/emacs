@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.8 2003-03-05 22:59:02 cvs Exp $")
+ "$Id: W32.el,v 1.9 2003-03-25 15:56:06 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -137,6 +137,10 @@ if MIXED is 0, then ignore letter drive names.
   (insert (unix-canonify (expand-file-name (car kill-ring))))
   )
 
+(defun split-path (path)
+  (split (unix-canonify-path path) ":")
+  )
+
 (defun unix-canonify-env (name)
   "`unix-canonify-path' on value of environment variable NAME and push result onto `process-environment'"
   (push 
@@ -243,6 +247,30 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 		 last-dosexec cmd)))
     (setq last-dosexec cmd)
     (start-process (format "dosexec %s" cmd) nil "cmd" "/c" cmd f))
+  )
+
+(defvar *pf* "/program files" "location of windows style program files")
+(defvar *ulb* "/usr/local/lib" "location of unix style installed programs")
+
+(defun find-file-in-dir (dir)
+  (expand-file-name
+   (concat dir "/"
+	   (completing-read "dir: " (mapcar 'list (get-directory-files dir)) nil t)
+	   ))
+  )
+
+(defun pf  (dir)
+  "dired in `*pf*'"
+  (interactive (list 
+		(find-file-in-dir *pf*)))
+  (dired dir)
+  )
+
+(defun ulb  (dir)
+  "dired in `*ulb*'"
+  (interactive (list 
+		(find-file-in-dir *ulb*)))
+  (dired dir)
   )
 
 
@@ -1028,3 +1056,22 @@ host must respond within optional TIMEOUT msec"
 ; (expand-file-name (fw "broadjump"))
 ; (funcall 'ad-Orig-expand-file-name (fw "broadjump"))
 
+
+(defadvice w32-drag-n-drop (around 
+			    hook-w32-drag-n-drop
+			    first activate)
+  ""
+
+  ; apply file association, if exist
+
+  (if (file-association-1 (caar (cddr (ad-get-arg 0))))
+      (progn 
+	(aexec (caar (cddr (ad-get-arg 0))))
+	(raise-frame))
+
+  ; otherwise, just do it.
+    ad-do-it
+    )
+  )
+
+; (if (ad-is-advised 'w32-drag-n-drop) (ad-unadvise 'w32-drag-n-drop))
