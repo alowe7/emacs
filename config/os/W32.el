@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.13 2003-06-13 14:05:27 cvs Exp $")
+ "$Id: W32.el,v 1.14 2003-06-13 14:36:35 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -1105,5 +1105,6 @@ host must respond within optional TIMEOUT msec"
     )
   )
 
-; (ctl ?Z)  is windows standard for undo...
-(global-set-key "
+; is windows standard for undo...
+
+(global-set-key "\C-z" 'undo)
