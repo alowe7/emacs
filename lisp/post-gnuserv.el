@@ -1,5 +1,5 @@
 (put 'post-gnuserv 'rcsid 
- "$Id: post-gnuserv.el,v 1.5 2001-07-18 22:18:18 cvs Exp $")
+ "$Id: post-gnuserv.el,v 1.6 2001-08-24 20:16:00 cvs Exp $")
 
 (condition-case x (gnuserv-start) (error nil)) ; if there's a problem don't try to restart.
 
@@ -55,6 +55,3 @@
 (setq gnuserv-frame
       (caadr (current-frame-configuration)))
 
-(if (string-match "NT" (uname))
-    (require 'msvc)
-  )
