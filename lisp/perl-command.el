@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.14 2005-02-11 23:46:04 cvs Exp $")
+ "$Id: perl-command.el,v 1.15 2005-03-04 23:26:19 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -81,7 +81,15 @@ args is a list with car = 'eval
 
 
 (defun* perl-command-2 (s &key show args)
-  " run immediate perl script S on ARGS" 
+  " run immediate perl script S on ARGS
+keyword args :show  :args
+if show=eval reads results from string into retval
+elsif show=split returns results as a split list from string into retval
+else unless (null :show) pops to buffer
+else returns result as a string
+:args are passed along unevaluated to script unless
+args is a list with car = 'eval
+" 
   (save-excursion
     (let ((b (get-buffer-create-1 *perl-stdout*)))
       (apply 'call-process

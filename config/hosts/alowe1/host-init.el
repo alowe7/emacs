@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.35 2005-03-01 20:13:12 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.36 2005-03-04 23:26:19 cvs Exp $")
 
 (require 'default-frame-configurations)
 
@@ -14,8 +14,8 @@
 				    (nconc 
   ; xxx todo: put (get-directory-files (expand-file-name ...)) into xwf if F is a dir, add optional argz
   ;				     (last (get-directory-files (xwf "n" "broadjump") t "people.*\.csv$"))
-				     (last (get-directory-files "/m" t "phone.*\.csv$"))
-				     (list "~/n/people")))))
+				     (last (get-directory-files (fw "m") t "phone.*.csv$"))
+				     (and (file-exists-p "~/n/people") (list "~/n/people"))))))
 (add-hook 'xz-load-hook 
 	  '(lambda ()
 	     (mapcar
@@ -133,6 +133,7 @@
 (add-to-load-path "/z/pl" t)
 
 ; and some here too
+(condition-case x (load "/z/el/.autoloads") (error nil))
 (condition-case x (load "/z/soap/.autoloads") (error nil))
 (condition-case x (load "/z/pl/.autoloads") (error nil))
 

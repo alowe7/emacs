@@ -1,5 +1,5 @@
 (put 'people 'rcsid 
- "$Id: people.el,v 1.16 2005-03-01 20:13:12 cvs Exp $")
+ "$Id: people.el,v 1.17 2005-03-04 23:26:19 cvs Exp $")
 (provide 'people)
 ;; manage people databases
 (require 'compile)
@@ -203,38 +203,45 @@ to find the text that grep hits refer to."
 "
   (interactive "swho? ")
   (let* ((b (prog1 (zap-buffer "*people*") (people-mode)))
+	 (tmpfilename (make-temp-file "note"))
 	 (db (or db 
 		 *people-database*))
 	 (gcl (split grep-command))
 	 (e (progn (apply 'call-process 
-		   (nconc (list (car gcl) nil b nil "-H") (cdr gcl) (list name) db))))
+			  (nconc (list (car gcl) nil (list b tmpfilename) nil "-H") (cdr gcl) (list name) db))))
 	 n)
 
-    (make-person-vector name b)
-    (run-hooks 'after-find-person-hook)
+    (cond ((> (nth 7 (file-attributes tmpfilename)) 0)
+	   (message (read-file tmpfilename))
+	   (delete-file tmpfilename))
+	  (t
+	   (make-person-vector name b)
+	   (run-hooks 'after-find-person-hook)
 
-    (set-buffer b)
+	   (set-buffer b)
 
-    ;; if result is one-line & buffer isn't already showing in a window, 
-    ;; then message it.  otherwise, just display in buffer
-    (setq n (count-lines (point-min) (point-max)))
-    (unless (cond 
-	     ((zerop n) ; if not found try harder
-	      (find-person-1 name db))
+	   ;; if result is one-line & buffer isn't already showing in a window, 
+	   ;; then message it.  otherwise, just display in buffer
+	   (setq n (count-lines (point-min) (point-max)))
+	   (unless (cond 
+		    ((zerop n) ; if not found try harder
+		     (find-person-1 name db))
 	   
-	     ((and (not (get-buffer-window b))
-		   (= 1 n)
-		   *minibuffer-display-unique-hit*)
-	      (progn
+		    ((and (not (get-buffer-window b))
+			  (= 1 n)
+			  *minibuffer-display-unique-hit*)
+		     (progn
 	      
-		(message "%s" (clean-string (buffer-string)))
-		(kill-buffer b)
-		t)))
-      (pop-to-buffer b)
-      (beginning-of-buffer)
-      (set-buffer-modified-p nil)
-      (setq buffer-read-only t)
-      )
+		       (message "%s" (clean-string (buffer-string)))
+		       (kill-buffer b)
+		       t)))
+	     (pop-to-buffer b)
+	     (beginning-of-buffer)
+	     (set-buffer-modified-p nil)
+	     (setq buffer-read-only t)
+	     )
+	   )
+	  )
     )
   )
 
@@ -246,37 +253,41 @@ to find the text that grep hits refer to."
 "
   (interactive "swho? ")
   (let* ((b (prog1 (zap-buffer "*people*") (people-mode)))
-	 (cmd (if db 
-		  (format "%s -f %s %s" *note-program* db name) 
-		(format "%s %s" *note-program* name)))
+	 (tmpfilename (make-temp-file "note"))
 	 (e (apply 'call-process
-		   (nconc (list "grep" nil b nil "-i" "-n" name) db)))
+		   (nconc (list "grep" nil (list b tmpfilename) nil "-i" "-n" name) db)))
 	 n)
 
-    (make-person-vector name b)
-    (run-hooks 'after-find-person-hook)
+    (cond ((> (nth 7 (file-attributes tmpfilename)) 0)
+	   (message (read-file tmpfilename))
+	   (delete-file tmpfilename))
+	  (t
+	   (make-person-vector name b)
+	   (run-hooks 'after-find-person-hook)
 
-    ;; if result is one-line & buffer isn't already showing in a window, 
-    ;; then message it.  otherwise, just display in buffer
-    (setq n (count-lines (point-min) (point-max)))
-    (unless (cond 
-	     ;;	 ((and (null db) (zerop n)) (find-person name *tkg-people*))
-	     ((zerop n) ; if not found locally, and w3 is loaded, try a dbquery
-	      (if (and (boundp 'w3-version) (functionp 'w3-find-person)
-		       (y-or-n-p (format "lookup %s on the web?" name)))
-		  (w3-find-person name)
-		(message "%s not found" name)))
-	     ((and (not (get-buffer-window b)) (= 1 n))
-	      (progn
+	   ;; if result is one-line & buffer isn't already showing in a window, 
+	   ;; then message it.  otherwise, just display in buffer
+	   (setq n (count-lines (point-min) (point-max)))
+	   (unless (cond 
+		    ;;	 ((and (null db) (zerop n)) (find-person name *tkg-people*))
+		    ((zerop n) ; if not found locally, and w3 is loaded, try a dbquery
+		     (if (and (boundp 'w3-version) (functionp 'w3-find-person)
+			      (y-or-n-p (format "lookup %s on the web?" name)))
+			 (w3-find-person name)
+		       (message "%s not found" name)))
+		    ((and (not (get-buffer-window b)) (= 1 n))
+		     (progn
 	      
-		(message "%s" (clean-string (buffer-string)))
-		(kill-buffer b)
-		t)))
-      (pop-to-buffer b)
-      (beginning-of-buffer)
-      (set-buffer-modified-p nil)
-      (setq buffer-read-only t)
-      )
+		       (message "%s" (clean-string (buffer-string)))
+		       (kill-buffer b)
+		       t)))
+	     (pop-to-buffer b)
+	     (beginning-of-buffer)
+	     (set-buffer-modified-p nil)
+	     (setq buffer-read-only t)
+	     )
+	   )
+	  )
     )
   )
 

@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.39 2005-03-01 20:13:12 cvs Exp $")
+ "$Id: W32.el,v 1.40 2005-03-04 23:26:19 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -142,8 +142,7 @@ if MIXED is 0, then ignore letter drive names.
 
 
 (defun arun (f) (interactive "sCommand: ")
-  (start-process f nil f ))
-;; this depends on the query.bat being on your path
+(fset 'run 'arun)
 
 ; (aexec-handler "jar")
 

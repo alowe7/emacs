@@ -170,6 +170,7 @@ except if PAT is not specifed, splits on newline, rather than all whitespace
     )
   )
 
+;; xxx this has a bug for the case: (split "a\ b" c")
 (defun split (s &optional pat)
   "split STRING at optional PAT, returning resulting substrings in a list.
 tries to behave like perl's split function.
