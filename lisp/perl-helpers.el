@@ -1,11 +1,15 @@
-;; $Id: perl-helpers.el,v 1.9 2004-04-05 15:30:41 cvs Exp $
+;; $Id: perl-helpers.el,v 1.10 2004-05-27 19:39:30 cvs Exp $
 
 (require 'perl-command)
 
 (require 'fb)
 (require 'cl)
 
-(defvar perldir (expand-file-name (clean-string (reg-query "machine" "software/perl" ""))))
+; ask perl where it lives
+(defvar perldir (expand-file-name (eval-process "perl" "-MConfig" "-e" "print  $Config{prefix}")))
+;; alternative methods:
+; (expand-file-name (eval-process "perl" "/usr/local/bin/perl-config" "prefix")))
+; (clean-string (reg-query "machine" "software/perl" "")) ; windows only
 (defvar perldocdir (expand-file-name "doc" perldir))
 (defvar perldoc-cmd (whence "perldoc"))
 (defvar perlfunc-file (expand-file-name "perlfunc" perldocdir))
@@ -214,3 +218,5 @@ F is a function taking one arg, the line as a string"
 ")
 	  )
   )
+
+(define-key help-map "" 'perlmod)
