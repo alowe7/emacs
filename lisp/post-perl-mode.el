@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.15 2002-04-14 04:22:37 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.16 2002-06-06 17:17:44 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -131,6 +131,17 @@
 
 (global-set-key "" 'find-indicated-perl-module)
 
+(defun pod-perl-module (module) 
+  (interactive "smodule: ")
+  (let* ((l (ff (concat module ".pm")))
+	 (m (and (> (length l) 0) (car l))))
+    (if m
+	(pod2text m)
+      )
+    )
+  )
+
+(global-set-key "" ' pod-perl-module)
 
 ; defvar
 (addloadpath "$HOME/emacs/site-lisp/perl")

@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.13 2002-06-06 10:54:36 cvs Exp $")
+ "$Id: post-dired.el,v 1.14 2002-06-06 17:17:44 cvs Exp $")
 
 ;; dired stuff
 
@@ -246,6 +246,13 @@ see `file-assoc-list'"
       (push
        (cons type handler)
        file-assoc-list))
+  )
+
+
+(defun file-association-1 (f &optional notrim)
+  "find command associated with filetype of specified file"
+  (interactive "sFile: ")
+  (cdr (assoc (file-name-extension f) file-assoc-list))
   )
 
 (defun file-association (f &optional notrim)

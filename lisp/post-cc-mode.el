@@ -1,5 +1,5 @@
 (put 'post-cc-mode 'rcsid 
- "$Id: post-cc-mode.el,v 1.11 2002-05-08 15:35:21 cvs Exp $")
+ "$Id: post-cc-mode.el,v 1.12 2002-06-06 17:17:44 cvs Exp $")
 
 (defun narrow-to-fn ()
   " narrow to region surrounding current function"
@@ -105,7 +105,7 @@ The expansion is entirely correct because it uses the C preprocessor."
   )
 (define-key c++-mode-map (vector (char-ctrl ?<)) 'langle)
 
-(defvar *grep-source-file-types* '("c" "cpp" "h" "rc" "idl" "java" "pl"))
+(defvar *grep-source-file-types* '("c" "cpp" "h" "rc" "idl" "java" "pl" "el"))
 (defun grep-source (arg)
   (interactive (list (read-string (format "grep source for (%s): " (indicated-word)))))
   (grep (format "%s %s %s" grep-command (string* arg (indicated-word))  (mapconcat '(lambda (x) (concat "\*\." x)) *grep-source-file-types* " ")))
@@ -118,6 +118,7 @@ The expansion is entirely correct because it uses the C preprocessor."
 	  '(lambda () 
 	     (modify-syntax-entry ?_ "w")
 	     (setq comment-column 2)
+	     (setq c-tab-always-indent t)
 	     (setq tab-width 4)
 	     (local-set-key "" 'current-word-search-forward)
 	     (turn-on-lazy-lock)
