@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id: post-xdb.el,v 1.4 2004-04-08 01:27:25 cvs Exp $")
+ "$Id: xdb.el,v 1.1 2004-08-10 02:38:55 cvs Exp $")
 
 (put 'post-xdb 'host-init (this-load-file))
 
