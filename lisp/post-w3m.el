@@ -59,6 +59,14 @@
   (kill-new w3m-current-url)
   )
 
+(defun css-spec () (interactive)
+  (w3m-goto-url "http://localhost/usr/share/specs/css2.0/cover.html")
+  )
+
+(defun apache-manual () (interactive)
+  (w3m-goto-url "http:///apache/htdocs/manual/index.html.en")
+  )
+
 (defun specs () (interactive)
   (w3m-goto-url "http://localhost/specs.nav")
   )
