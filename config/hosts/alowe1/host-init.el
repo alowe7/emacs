@@ -1,13 +1,33 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.27 2004-09-25 21:14:26 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.28 2004-09-27 22:02:41 cvs Exp $")
 
-(setq default-fontspec "-*-tahoma-normal-r-*-*-22-*-*-*-*-*-*-*-")
+;; (setq default-fontspec "-*-tahoma-normal-r-*-*-22-*-*-*-*-*-*-*-")
+;; (setq initial-frame-alist
+;;       `((top . 0)
+;; 	(left . 0)
+;; 	(width . 125)
+;; 	(height . 35)
+;; 	(background-mode . light)
+;; 	(cursor-type . box)
+;; 	(border-color . "black")
+;; 	(cursor-color . "black")
+;; 	(mouse-color . "black")
+;; 	(background-color . "white")
+;; 	(foreground-color . "black")
+;; 	(vertical-scroll-bars)
+;; 	(internal-border-width . 0)
+;; 	(border-width . 2)
+;; 	(font . ,default-fontspec)
+;; 	(menu-bar-lines . 0))
+;;       )
 
+; new favorite
+(setq default-fontspec "-*-arial-normal-r-*-*-17-normal-*-*-*-*-*-*-")
 (setq initial-frame-alist
-      `((top . 0)
-	(left . 0)
-	(width . 125)
-	(height . 35)
+      `((top . 20)
+	(left . 23)
+	(width . 150)
+	(height . 45)
 	(background-mode . light)
 	(cursor-type . box)
 	(border-color . "black")
@@ -84,7 +104,14 @@
 (setq font-lock-support-mode 'lazy-lock-mode)
 
 (add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))
-(add-hook 'java-mode-hook (lambda () (lazy-lock-mode)))
+(add-hook 'java-mode-hook (lambda ()
+			    (font-lock-mode)
+			    (font-lock-fontify-buffer) 
+  ; there's bugs handling chars like ' in comments
+  ; this still screws up paren-matching
+			    (setq font-lock-keywords-only t)
+			    )
+	  )
 
 (require 'reg)
 
@@ -131,3 +158,4 @@
 
 ; xxx check out why this isn't autoloading
 (load-library "post-bookmark")
+

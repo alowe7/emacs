@@ -1,5 +1,5 @@
 (put 'filetime 'rcsid 
- "$Id: filetime.el,v 1.5 2003-10-24 13:30:31 cvs Exp $")
+ "$Id: filetime.el,v 1.6 2004-09-27 22:02:41 cvs Exp $")
 
 
 (defun filemodtime (f)
@@ -42,8 +42,9 @@
 
     (let ((u (- (car t1) (car t2)))
 	  (l (- (cadr t1) (cadr t2)))
-	  (m (- (caddr t1) (caddr t2))))
-      (if (< m 0) (setq l (1- l)
+  ; allow either microsecond count to be nil, meaning 0
+	  (m (- (or (caddr t1) 0) (or (caddr t2) 0))))
+      (if (< m 0) (setq l (1- l) 
 			m (- 1000000 m)))
       (if (< l 0) (setq u (1- u)
 			l (- 65535 l)))

@@ -1,5 +1,5 @@
 (put 'post-vc 'rcsid
- "$Id: post-vc.el,v 1.14 2004-01-06 21:17:25 cvs Exp $")
+ "$Id: post-vc.el,v 1.15 2004-09-27 22:02:42 cvs Exp $")
 
 (defun identify () 
   "insert a sccs ID string at head of file."
@@ -10,7 +10,7 @@
    (if (eq major-mode 'emacs-lisp-mode)
        (format "(put '%s 'rcsid\n \"\$Id\$\")\n" 
 	       (intern (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))))
-     (format "%s \$Id\$\n" (or comment-start "#"))
+     (format "%s \$Id\$ %s\n" (or comment-start "#") (or comment-end ""))
      )
    )
   )

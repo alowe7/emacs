@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.27 2004-09-25 21:14:26 cvs Exp $")
+ "$Id: post-comint.el,v 1.28 2004-09-27 22:02:42 cvs Exp $")
 
 (setq explicit-bash-args '("-i"))
 
@@ -34,6 +34,8 @@
 (define-key ctl-/-map "0" '(lambda () (interactive) (insert (save-window-excursion (other-window-1) (canonify (or (buffer-file-name) default-directory) 0)))))
 
 (defun my-comint-mode-hook ()
-  (setq shell-prompt-pattern "^[a-zA-Z0-9]+[>$%] *"))
+  (setq comint-use-prompt-regexp-instead-of-fields t)
+  (setq shell-prompt-pattern "^[a-zA-Z0-9]+[$%] *")
+)
 
 (add-hook 'comint-mode-hook 'my-comint-mode-hook)

@@ -1,10 +1,16 @@
 #!/usr/local/bin/perl
-#  $Id: find-configs,v 1.6 2004-08-24 00:37:33 cvs Exp $
+#  $Id: find-configs,v 1.7 2004-09-27 22:02:41 cvs Exp $
 
 use Sys::Hostname;
 use POSIX qw(uname);
+use Getopt::Long;
 
 my($hostname)= hostname();
+
+GetOptions(
+ 	   'dir|d=s' => \$dir);
+
+$dir="." unless $dir;
 
 my($sysname, $nodename, $release, $version, $machine) = uname();
 # XXX
@@ -25,7 +31,7 @@ else {
 $cmd="$emacs --batch --eval \"(message (format \\\"%d.%d\\\" emacs-major-version emacs-minor-version))\"";
 $emacscfg=`$cmd 2>&1`;
 chomp $emacscfg;
-$cmd="find ./config -type f -name \"*.el\" -a \\( -path \"*$sysname*\" -o -path \"*/$hostname/*\" -o -path \"*$emacscfg*\" \\)";
+$cmd="find $dir/config -type f -name \"*.el\" -a \\( -path \"*$sysname*\" -o -path \"*/$hostname/*\" -o -path \"*$emacscfg*\" \\)";
 map {print} (`$cmd`);
 
 
