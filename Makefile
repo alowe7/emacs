@@ -1,5 +1,4 @@
-#all: xz.dat TAGS
-# $Id: Makefile,v 1.2 2000-07-17 21:01:39 a Exp $
+# $Id: Makefile,v 1.3 2000-07-18 00:26:26 a Exp $
 
 SHELL=/bin/sh
 FIND=/bin/find
