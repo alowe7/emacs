@@ -1,5 +1,5 @@
 (put 'tasks 'rcsid 
- "$Id: tasks.el,v 1.8 2002-12-24 22:02:29 cvs Exp $")
+ "$Id: tasks.el,v 1.9 2004-08-11 14:55:52 cvs Exp $")
 
 ; a little throw-away stack of things to do, different from todo.el
 (require 'roll)
@@ -49,7 +49,7 @@
     (map nil 'writeln  task-stack)
     (pop-to-buffer b)
     (beginning-of-buffer)
-    (not-modified)
+    (set-buffer-modified-p nil)
     (edit-task-mode)
     )
   )
@@ -60,7 +60,7 @@
 		     (zap-buffer "*tasks*")))))
     (map nil 'writeln  task-stack)
     (pop-to-buffer b)
-    (not-modified)
+    (set-buffer-modified-p nil)
     (beginning-of-buffer)
     (setq buffer-read-only t)
     (view-mode)

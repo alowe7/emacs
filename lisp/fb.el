@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.55 2004-08-08 19:25:39 cvs Exp $")
+ "$Id: fb.el,v 1.56 2004-08-11 14:55:52 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -207,7 +207,7 @@
 	(delete-region
 	 (progn (beginning-of-line) (point)) 
 	 (progn (forward-line 1) (point)))
-	(not-modified)
+	(set-buffer-modified-p nil)
 	(setq buffer-read-only x)
 	)
       )
@@ -266,9 +266,10 @@
   (fb-shell-command "pod2text")
   )
 
-(defun fb/ () (interactive)
+(defun fb/ () 
   "produce recursive dired like listing on slash.
 see variable *fb-db* "
+  (interactive)
   (let ((b (find-file-read-only *fb-db*)))
     (pop-to-buffer b)
     (cd-absolute (expand-file-name "/"))

@@ -1,5 +1,5 @@
 (put 'w32-oblist 'rcsid 
- "$Id: w32-oblist.el,v 1.5 2001-01-10 15:22:03 cvs Exp $")
+ "$Id: w32-oblist.el,v 1.6 2004-08-11 14:55:53 cvs Exp $")
 (provide 'w32-oblist)
 (require 'fapropos)
 
@@ -1892,7 +1892,7 @@
 			  (or (file-exists-p w32t-file) (error "file %s not found" w32t-file))
 			  (insert-file-contents w32t-file)
 			  (toggle-read-only)
-			  (not-modified)
+			  (set-buffer-modified-p nil)
 			  ))
 	    (set-buffer b)
 	    (widen)
@@ -1901,7 +1901,7 @@
 	    (pop-to-buffer hbn)
 	    (insert-buffer-substring b)
 	    (view-mode)
-	    (not-modified)
+	    (set-buffer-modified-p nil)
 	    (toggle-read-only)
 	    (beginning-of-buffer)
 	    t
@@ -1924,7 +1924,7 @@
 		  (setq b (zap-buffer bn))
 		  (insert-file-contents w32t-sigs-file)
 		  (toggle-read-only)
-		  (not-modified)
+		  (set-buffer-modified-p nil)
 		  ))
     (mapcar '(lambda (p)
 	       (insert-buffer-substring b 
@@ -1933,7 +1933,7 @@
 		    (catlist  (fapropos1 fn  (list w32-oblist)) ?
 			      )))
     (pop-to-buffer hb)
-    (not-modified)
+    (set-buffer-modified-p nil)
     (toggle-read-only)
     (beginning-of-buffer)
     ))
@@ -1951,7 +1951,7 @@
 	  (pop-to-buffer standard-output)
 	  (beginning-of-buffer)
 	  (toggle-read-only)
-	  (not-modified)
+	  (set-buffer-modified-p nil)
 	  )
       v)
     )

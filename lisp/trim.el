@@ -1,5 +1,5 @@
 (put 'trim 'rcsid
- "$Id: trim.el,v 1.2 2004-03-27 22:26:53 cvs Exp $")
+ "$Id: trim.el,v 1.3 2004-08-11 14:55:52 cvs Exp $")
 (provide 'trim)
 
 (defun trim-trailing-white-space (&optional s) (interactive)
@@ -12,15 +12,18 @@
 
 (defun trim-leading-white-space (&optional s) 
   " trim leading white space from STRING"
-	(interactive)
+  (interactive)
   (if (interactive-p)
-      (replace-regexp "^[ 	]*" "")
+      (save-excursion
+	(replace-regexp "^[ 	]*" "")
+	)
     (and s 
-      (replace-in-string "^[ 	]+" "" 
-												 (replace-in-string "
+	 (replace-in-string "^[ 	]+" "" 
+			    (replace-in-string "
 [ 	]+" "
 " s)
-))))
+			    )))
+  )
 
 (defun trim-white-space (&optional s) 
 	"trim white-space in string.  when called interactively, trims region."

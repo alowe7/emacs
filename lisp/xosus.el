@@ -1,5 +1,5 @@
 (put 'xosus 'rcsid 
- "$Id: xosus.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: xosus.el,v 1.6 2004-08-11 14:55:53 cvs Exp $")
 ;; not really required, but..
 (defvar xosust-file (expand-file-name (getenv "XOSUST")))
 
@@ -556,7 +556,7 @@
 			  (setq b (zap-buffer bn))
 			  (insert-file-contents xosust-file)
 			  (toggle-read-only)
-			  (not-modified)
+			  (set-buffer-modified-p nil)
 			  ))
 	    (set-buffer b)
 	    (widen)
@@ -569,7 +569,7 @@
 		(html-format-region (point-min) (point-max) hbn t)
 	      )
 
-	    (not-modified)
+	    (set-buffer-modified-p nil)
 	    (toggle-read-only)
 	    (view-mode)
 	    (beginning-of-buffer)

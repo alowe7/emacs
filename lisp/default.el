@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.39 2004-04-18 23:39:57 cvs Exp $")
+ "$Id: default.el,v 1.40 2004-08-11 14:55:52 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -180,6 +180,25 @@
 	       (if (eq (car w) y) (cons y z) w))
        )
   )
+
+(defun add-association (mapping list &optional clobber)
+  "add an assoc MAPPING to a-list LIST.
+clobber an existing mapping if optional CLOBBER is nonnil
+"
+  (let ((l (eval list)))
+    (cond ((not (assoc (car mapping) l))
+	   (push mapping l))
+	  (clobber
+	   (setq l (remove* mapping l :test '(lambda (x y)     
+					       (equal (car x) (car y)))))
+	   (push mapping l))
+	  )
+    (set list l)
+    )
+  )
+; (setq x '((a 1) (b 2) (c 3)))
+; (add-association '(d 4) 'x t)
+
 
 (defun replace-in-string (from to str)
   "replace occurrences of REGEXP with TO in  STRING" 

@@ -1,5 +1,5 @@
 (put 'gnuserv 'rcsid 
- "$Id: gnuserv.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: gnuserv.el,v 1.5 2004-08-11 14:55:52 cvs Exp $")
 ; Lisp Interface code between GNU Emacs and gnuserv.
 ;
 ; This file is part of GNU Emacs.
@@ -51,7 +51,7 @@
 
 
 
-(defconst gnuserv-rcs-header-id "$Header: /var/cvs/emacs/lisp/gnuserv.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
+(defconst gnuserv-rcs-header-id "$Header: /var/cvs/emacs/lisp/gnuserv.el,v 1.5 2004-08-11 14:55:52 cvs Exp $")
 
 
 ;; server.el and gnuserv.el can't coexist because of conflicting defvar's and
@@ -250,46 +250,47 @@ creating one if none already exists."
 		       ", write buffer to file? "))
 	      (write-file file))))
 
-;; cleaned up this logic -- pruned old versions, preserve frames
+    ;; cleaned up this logic -- pruned old versions, preserve frames
 
     (cond 
-		 ((and window-system
-		gnuserv-frame (fboundp 'frame-live-p)    ;; v19 & Xemacs 19.12+
-		(frame-live-p gnuserv-frame))
-	   (select-frame gnuserv-frame)
-	   (find-file file))
+     ((and window-system
+	   gnuserv-frame (fboundp 'frame-live-p) ;; v19 & Xemacs 19.12+
+	   (frame-live-p gnuserv-frame))
+      (select-frame gnuserv-frame)
+      (find-file file)
+      )
 
-	  ((and window-system
-		gnuserv-frame (fboundp 'live-screen-p)   ;; XEmacs 19.9+
-		(live-screen-p gnuserv-frame))
-	   (select-screen gnuserv-frame)          
-	   (find-file file))
+     ((and window-system
+	   gnuserv-frame (fboundp 'live-screen-p) ;; XEmacs 19.9+
+	   (live-screen-p gnuserv-frame))
+      (select-screen gnuserv-frame)          
+      (find-file file))
 	  
-	  ((and window-system
-		(fboundp 'select-frame))                 ;; v19 & XEmacs 19.12+
-	   (setq gnuserv-frame (select-frame (make-frame)))
-	   (find-file file))
+     ((and window-system
+	   (fboundp 'select-frame)) ;; v19 & XEmacs 19.12+
+      (setq gnuserv-frame (select-frame (make-frame)))
+      (find-file file))
 
-	  ((and window-system
-		(fboundp 'select-screen)                 ;; XEmacs 19.10+
-		(fboundp 'make-screen))
-	   (select-screen (make-screen))
-	   (find-file file))
+     ((and window-system
+	   (fboundp 'select-screen) ;; XEmacs 19.10+
+	   (fboundp 'make-screen))
+      (select-screen (make-screen))
+      (find-file file))
 	  
-	  ((and (eq window-system 'x)                    ;; XEmacs 19.9-
-		(fboundp 'select-screen)
-		(fboundp 'x-create-screen))
-	   (select-screen (x-create-screen nil))
-	   (find-file file))
+     ((and (eq window-system 'x) ;; XEmacs 19.9-
+	   (fboundp 'select-screen)
+	   (fboundp 'x-create-screen))
+      (select-screen (x-create-screen nil))
+      (find-file file))
 
-	  ((and window-system
-		(fboundp 'create-screen))                ;; epoch
-	   (if (screenp gnuserv-frame)
-	       (progn (select-screen gnuserv-frame)
-		      (find-file file))
-	     (select-screen (create-screen (find-file-noselect file)))))
+     ((and window-system
+	   (fboundp 'create-screen)) ;; epoch
+      (if (screenp gnuserv-frame)
+	  (progn (select-screen gnuserv-frame)
+		 (find-file file))
+	(select-screen (create-screen (find-file-noselect file)))))
 
-	  (t (find-file file)))))                        ;; emacs18+
+     (t (find-file file))))) ;; emacs18+
 
 
 (defun server-edit-files-quickly (list)

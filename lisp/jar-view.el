@@ -1,5 +1,5 @@
 (put 'jar-view 'rcsid 
- "$Id: jar-view.el,v 1.8 2004-07-24 17:07:43 cvs Exp $")
+ "$Id: jar-view.el,v 1.9 2004-08-11 14:55:52 cvs Exp $")
 (provide 'jar-view)
 (require 'cl)
 
@@ -21,7 +21,7 @@
 		(pop-to-buffer b)
 		(setq jar-file f)
 		(jar-view-mode)
-		(not-modified)
+		(set-buffer-modified-p nil)
 		(beginning-of-buffer)
 		)
 	)

@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.38 2004-07-27 22:20:26 cvs Exp $")
+ "$Id: config.el,v 1.39 2004-08-11 14:55:52 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -240,6 +240,18 @@ returns nil otherwise.
   (mapconcat 'identity (loop for x in load-history when (string-match pat (car x)) collect (car x)) " ")
   )
 ; (load-list "post-cc")
+
+(defun which (func)
+  "display and return initial load-file for FUNC.
+"
+  (interactive "afunction: ")
+  (and (boundp 'emacs-autoload-alist) 
+       (apply 
+	'(lambda (func loadfile) (message (format "%s loads from file %s" func loadfile))  loadfile)
+	(assoc func emacs-autoload-alist))
+       )
+  )
+; (setq x (which 'rfo))
 
 ; this helper function gives init files a weak inheritance capability
 

@@ -1,5 +1,5 @@
 (put 'html-view 'rcsid 
- "$Id: html-view.el,v 1.13 2004-04-04 16:24:27 cvs Exp $")
+ "$Id: html-view.el,v 1.14 2004-08-11 14:55:52 cvs Exp $")
 (provide 'html-view)
 
 (defun dired-html-view () 
@@ -16,7 +16,7 @@
     (pop-to-buffer b)
     (insert s)
     (beginning-of-buffer)
-    (not-modified)
+    (set-buffer-modified-p nil)
     (view-mode)
     )
   )

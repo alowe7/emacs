@@ -1,5 +1,5 @@
 (put 'glimpse2 'rcsid 
- "$Id: glimpse2.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: glimpse2.el,v 1.5 2004-08-11 14:55:52 cvs Exp $")
 (require 'compile)
 
 (defvar glimpse-mode-map nil)
@@ -79,7 +79,7 @@
     (beginning-of-buffer)
     (glimpse-mode)
     (wrap)
-    (not-modified)
+    (set-buffer-modified-p nil)
     (setq buffer-read-only t)
     (setq mode-line-buffer-identification pat)
     )

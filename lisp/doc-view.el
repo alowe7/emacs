@@ -1,5 +1,5 @@
 (put 'doc-view 'rcsid 
- "$Id: doc-view.el,v 1.2 2004-07-27 22:20:26 cvs Exp $")
+ "$Id: doc-view.el,v 1.3 2004-08-11 14:55:52 cvs Exp $")
 
 (add-to-list 'auto-mode-alist '("\\.doc\\'" . no-word))
 
@@ -19,7 +19,7 @@
     (pop-to-buffer b)
     (insert s)
     (beginning-of-buffer)
-    (not-modified)
+    (set-buffer-modified-p nil)
     (view-mode)
     )
   )

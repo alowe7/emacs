@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.31 2004-07-24 17:07:43 cvs Exp $")
+ "$Id: W32.el,v 1.32 2004-08-11 14:55:52 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -1015,13 +1015,15 @@ host must respond within optional TIMEOUT msec"
 
   ; apply file association, if exist
 
-  (if (file-association-1 (caar (cddr (ad-get-arg 0))))
-      (progn 
-	(aexec (caar (cddr (ad-get-arg 0))))
-	(raise-frame))
+  (let ((f (caar (cddr (ad-get-arg 0)))))
+    (if (file-association-1 f)
+	(progn 
+	  (aexec f)
+	  (raise-frame))
 
   ; otherwise, just do it.
-    ad-do-it
+      ad-do-it
+      )
     )
   )
 

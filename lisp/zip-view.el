@@ -1,5 +1,5 @@
 (put 'zip-view 'rcsid 
- "$Id: zip-view.el,v 1.10 2002-01-11 13:29:02 cvs Exp $")
+ "$Id: zip-view.el,v 1.11 2004-08-11 14:55:53 cvs Exp $")
 (provide 'zip-view)
 
 (defun zip-view (f) (interactive)
@@ -13,7 +13,7 @@
 				     )
 		  )
     (pop-to-buffer b)
-    (not-modified)
+    (set-buffer-modified-p nil)
     (beginning-of-buffer)
     )
   )
@@ -33,7 +33,7 @@
 		  )
     (save-excursion
       (set-buffer b)
-      (not-modified)
+      (set-buffer-modified-p nil)
       (beginning-of-buffer)
       )
     )
@@ -53,7 +53,7 @@
 	   )
     (save-excursion
       (set-buffer b)
-      (not-modified)
+      (set-buffer-modified-p nil)
       (beginning-of-buffer)
       )
     )

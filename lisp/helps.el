@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.18 2004-05-18 20:11:51 cvs Exp $")
+ "$Id: helps.el,v 1.19 2004-08-11 14:55:52 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -424,7 +424,7 @@ if *howto-path* is not set, searches in current directory
 	       (> (save-excursion (set-buffer output-buffer) (buffer-size)) 0))
 	  (progn 
 	    (pop-to-buffer output-buffer)
-	    (not-modified)
+	    (set-buffer-modified-p nil)
 	    (setq buffer-read-only t)
 	    )
 	)
@@ -479,9 +479,8 @@ if *howto-path* is not set, searches in current directory
 
 (defun find-function-or-variable (w)
   (interactive (list
-		(string* (read-string (format "find function or variable (%s): " (indicated-word)))
-			 (indicated-word))))
-
+		(string* (read-string (format "find function or variable (%s): " (indicated-word "-")))
+			 (indicated-word "-"))))
   (let ((w (intern w )))
 
     (cond ((functionp w)
@@ -493,5 +492,7 @@ if *howto-path* is not set, searches in current directory
 	    (read-string
 	     (format "%s not a function or variable.  enter a function or variable: " w))))))
   )
+
+; (fmakunbound 'find-function-or-variable)
 
 (load-library "post-view")

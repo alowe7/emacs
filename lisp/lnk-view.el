@@ -1,5 +1,5 @@
 (put 'lnk-view 'rcsid 
- "$Id: lnk-view.el,v 1.7 2004-02-29 19:32:55 cvs Exp $")
+ "$Id: lnk-view.el,v 1.8 2004-08-11 14:55:52 cvs Exp $")
 (require 'cl)
 
 (defun dired-lnk-view () (interactive)
@@ -14,7 +14,7 @@
 		(switch-to-buffer b)
 		(lnk-mode)
 		(setq lnk-file f)
-		(not-modified)
+		(set-buffer-modified-p nil)
 		(beginning-of-buffer)
 		)
 	)

@@ -1,5 +1,5 @@
 (put 'edit 'rcsid 
- "$Id: edit.el,v 1.11 2004-04-26 21:54:43 cvs Exp $")
+ "$Id: edit.el,v 1.12 2004-08-11 14:55:52 cvs Exp $")
 
 ;; edit and format functions
 
@@ -133,6 +133,7 @@ if optional arg N is specified deletes additional N subsequent chars also"
 (defun find-file-force-refresh ()
   "revisit file, forcing a refresh from disk"
   (interactive)
+
   (let ((fn (buffer-file-name))
 	(p (point)))
     (if (or (not (buffer-modified-p)) 
@@ -140,7 +141,7 @@ if optional arg N is specified deletes additional N subsequent chars also"
 	(progn
 	  (push-mark p t)
 	  (revert-buffer nil t t)
-	  (goto-char (max p (point-max)))
+	  (goto-char (min p (point-max)))
 	  )
       )
     )

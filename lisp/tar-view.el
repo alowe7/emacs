@@ -1,5 +1,5 @@
 (put 'tar-view 'rcsid 
- "$Id: tar-view.el,v 1.9 2003-10-24 13:24:53 cvs Exp $")
+ "$Id: tar-view.el,v 1.10 2004-08-11 14:55:52 cvs Exp $")
 (provide 'tar-view)
 (require 'cl)
 
@@ -15,7 +15,7 @@
 		(pop-to-buffer b)
 		(setq tar-file f)
 		(tar-view-mode)
-		(not-modified)
+		(set-buffer-modified-p nil)
 		(beginning-of-buffer)
 		)
 	)
@@ -56,7 +56,7 @@
     (pop-to-buffer b)
     (setq tar-file f)
     (tar-view-mode)
-    (not-modified)
+    (set-buffer-modified-p nil)
     (cd-absolute (expand-file-name (file-name-directory f)))
     (beginning-of-buffer)
     )
@@ -77,7 +77,7 @@
 	  (call-process "gunzip" nil b nil "-dc"  (canonify f 0))
 	  (pop-to-buffer b)
 	  (fundamental-mode)
-	  (not-modified)
+	  (set-buffer-modified-p nil)
 	  (beginning-of-buffer)
 	  )
 	)

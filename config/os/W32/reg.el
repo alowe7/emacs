@@ -1,5 +1,5 @@
 (put 'reg 'rcsid
- "$Id: reg.el,v 1.8 2004-07-27 22:20:26 cvs Exp $")
+ "$Id: reg.el,v 1.9 2004-08-11 14:55:52 cvs Exp $")
 (require 'qsave)
 
 (defun reg-canonify (s)	(if (and s (stringp s) (> (length s) 0)) (replace-in-string  "/" "\\" s) ""))
@@ -67,7 +67,7 @@
 	    "regdmp" "-v" hive (reg-canonify key)))
 	(b (zap-buffer "*Perl*")))		
     (insert s)
-    (not-modified)
+    (set-buffer-modified-p nil)
     (setq buffer-read-only t)
     (beginning-of-buffer)
     (pop-to-buffer b)

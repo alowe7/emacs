@@ -1,5 +1,5 @@
 (put 'indicate 'rcsid 
- "$Id: indicate.el,v 1.10 2004-03-03 15:15:18 cvs Exp $")
+ "$Id: indicate.el,v 1.11 2004-08-11 14:55:52 cvs Exp $")
 (provide 'indicate)
 
 ;;
@@ -80,9 +80,12 @@ indicated-word is the default. remaining args are applied to prompt"
      ))
   )
 
+; also see comint-file-name-chars
+(defvar *filename-chars* (if (eq window-system 'w32)  ":/.\\"   "/."))
+
 (defun indicated-filename ()
   "evaluates to filename indicated by cursor"
- (indicated-word ":/.")
+ (indicated-word *filename-chars*)
 )
 
 (defun find-indicated-file () 

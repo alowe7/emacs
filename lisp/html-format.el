@@ -1,5 +1,5 @@
 (put 'html-format 'rcsid 
- "$Id: html-format.el,v 1.6 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: html-format.el,v 1.7 2004-08-11 14:55:52 cvs Exp $")
 (provide 'html-format)
 
 (defvar *margin* 4)
@@ -12,7 +12,7 @@
 			 (format "-w%d" (- (window-width) 4)))
     (pop-to-buffer b)
     (view-mode)
-    (not-modified)
+    (set-buffer-modified-p nil)
     )
   )
 
@@ -28,7 +28,7 @@
      b)
     (pop-to-buffer b)
     (beginning-of-buffer)
-    (not-modified)
+    (set-buffer-modified-p nil)
     (view-mode))
   )
 
