@@ -1,5 +1,5 @@
 (put 'post-vc 'rcsid
- "$Id: post-vc.el,v 1.3 2003-09-23 16:01:43 cvs Exp $")
+ "$Id: post-vc.el,v 1.4 2004-02-04 18:36:35 cvs Exp $")
 
 (chain-parent-file t)
 
@@ -18,13 +18,15 @@ with interactive arg, prompts for alternate version"
 		     (t (buffer-file-name))))
 	 (repository (cvs-repository))
 	 (root (elt (split (cvs-root) ":") 3))
-	 (revision (or revision (vc-workfile-version file))))
-    (if (string-match root repository)
-	(ie 
-	 (format
-	  *vc-graph-version-url*
-	  (substring repository (match-end 0)) (file-name-nondirectory file) revision))
-      )))
+	 (revision (or revision (vc-workfile-version file)))
+	 (pos (if (and (string* root) (string* repository) (string-match root repository))
+		  (match-end 0)
+		0)))
+    (internet-explorer 
+     (format
+      *vc-graph-version-url*
+      (substring repository pos) (file-name-nondirectory file) revision))
+    ))
 (define-key vc-prefix-map "2" 'vc-graph-version)
 
 (defun vc-info () 
