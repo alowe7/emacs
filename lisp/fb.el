@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.22 2001-05-02 20:07:49 cvs Exp $")
+ "$Id: fb.el,v 1.23 2001-05-05 12:03:26 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -597,7 +597,7 @@ returns a filename containing results"
     )
   )
 
-(setq picpat  "\"gif$\\|jpg$\"")
+(setq picpat "\"gif$\\|jpg$\\|bmp$\\|png$\\|tif$\"")
 
 (defun fpic ()
   "fast find all drives -- search for file matching pat in *:`cat *fb-db*`"
