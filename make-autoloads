@@ -1,17 +1,19 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.10 2001-09-03 00:15:59 cvs Exp $
+#      $Id: make-autoloads,v 1.11 2002-01-22 16:13:49 cvs Exp $
 use getopt;
 binmode STDOUT;
 
-getopt('-');
+getopt('-p:');
 if ($opt_help) {
     print "
 	usage: make-autoloads [options] | <filelist>
 	
 	options:
 		--help		print usage
-		--version	print versoin
-	
+		--version	print version
+		--prefix
+		-p <prefix>	optional previx for alist
+
 	<filelist> is a list of emacs lisp modules.
 	produce an expression on STDOUT which can be evaluated to autoload
 	all functions and macros defined in those modules.
@@ -20,13 +22,21 @@ if ($opt_help) {
 }
 elsif ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.10 $";
+#    $version="$Revision: 1.11 $";
     print "make-autoloads version 1.9\n";
     exit;
 }
+elsif ($opt_prefix) {
+    $prefix=$opt_prefix . "-";
+}
+elsif ($opt_p) {
+    $prefix=$opt_p . "-";
+}
+
+$alist_symbol=$prefix . "autoload-alist";
 
 # todo: grab doc strings too
-print "(setq autoload-alist `( ";
+print "(setq $alist_symbol `( ";
 
 foreach $fn (@ARGV) {
     foreach $def ("defun", "defmacro") {
@@ -48,5 +58,5 @@ foreach $fn (@ARGV) {
 }
 print "))\n";
 
-print "(mapcar '(lambda (x) (autoload (car x) (cadr x) nil t)) autoload-alist)\n";
+print "(mapcar '(lambda (x) (autoload (car x) (cadr x) nil t)) $alist_symbol)\n";
 
