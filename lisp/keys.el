@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.39 2003-10-24 13:30:31 cvs Exp $")
+ "$Id: keys.el,v 1.40 2003-10-27 15:34:44 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -274,13 +274,13 @@
 (define-key ctl-/-map "s" 'specs)
 
 (require 'cl)
-(define-derived-mode scratch-mode fundamental-mode "scratch" "")
+(require 'scratch-mode)
+
 (loop for x from 0 to 9 do
       (let ((k (format "%d" x)))
 	(define-key ctl-/-map k `(lambda () (interactive) (pop-to-buffer (zap-buffer (make-temp-name ,k) '(scratch-mode)))))))
 
 (provide 'keys)
-
 
 (global-set-key "\M-" 'backward-word)
 (global-set-key "\M-\\" 'forward-word)

@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.23 2003-08-29 16:50:28 cvs Exp $")
+ "$Id: post-dired.el,v 1.24 2003-10-27 15:34:44 cvs Exp $")
 (require 'eval-process)
 (require 'tar-view)
 (require 'zip-view)
@@ -105,6 +105,28 @@ warns if more than one file is to be moved and target is not a directory"
     (or no-update (revert-buffer))
     )
   )
+
+(defun dired-canonify-filename (fromstr tostr &optional no-update)
+  (interactive (list (string* (read-string (format "replace (%s): " "SPC")) " ")
+		     (string* (read-string (format "replace space with char (%s): " "-")) "-")))
+
+  "rename selected file to replace spaces with CHAR (default '-')."
+
+  (let* ((fn (dired-get-filename))
+	 (newfn (replace-in-string fromstr tostr (file-name-nondirectory fn))))
+
+    (if (or 
+	 (not (file-exists-p newfn))
+	 (y-or-n-p
+	  (format "File already exists: %s.  Replace? " newfn)))
+	(rename-file fn newfn t))
+
+    )
+
+  (or no-update (revert-buffer))
+
+  )
+(define-key dired-mode-map (vector '\C-return ?\C--) 'dired-canonify-filename)
 
 ;(defun dired-move-marked-files (to) (interactive "Ddir: ")
 ;  (mapcar '(lambda (x) (dired-move-file to x)) (dired-get-marked-files)))

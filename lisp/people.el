@@ -1,5 +1,5 @@
 (put 'people 'rcsid 
- "$Id: people.el,v 1.14 2003-06-05 19:35:42 cvs Exp $")
+ "$Id: people.el,v 1.15 2003-10-27 15:34:44 cvs Exp $")
 (provide 'people)
 ;; manage people databases
 (require 'compile)
@@ -205,8 +205,9 @@ to find the text that grep hits refer to."
   (let* ((b (prog1 (zap-buffer "*people*") (people-mode)))
 	 (db (or db 
 		 *people-database*))
+	 (gcl (split grep-command))
 	 (e (progn (apply 'call-process 
-		   (nconc (list "egrep" nil b nil "-H" "-i" "-n" name) db))))
+		   (nconc (list (car gcl) nil b nil "-H") (cdr gcl) (list name) db))))
 	 n)
 
     (make-person-vector name b)

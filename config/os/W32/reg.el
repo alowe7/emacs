@@ -1,5 +1,5 @@
 (put 'reg 'rcsid
- "$Id: reg.el,v 1.4 2003-10-24 13:30:31 cvs Exp $")
+ "$Id: reg.el,v 1.5 2003-10-27 15:34:44 cvs Exp $")
 (require 'qsave)
 
 (defun reg-canonify (s)	(if (and s (stringp s) (> (length s) 0)) (replace-in-string  "/" "\\" s) ""))
@@ -21,7 +21,8 @@
    "queryvalue" 
    "-v" 
    hive
-   (concat key "/"  val)
+   key 
+   val
    )
   )
 
