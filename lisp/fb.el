@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.52 2004-05-24 23:13:32 cvs Exp $")
+ "$Id: fb.el,v 1.53 2004-05-27 18:25:06 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -529,13 +529,37 @@ returns a filename containing results"
 ;  (ff "lff" '(lambda (x) (and (string-match "x" (elt (file-attributes x) 8)) x)))
 ;  (ff "bin" '(lambda (x) (and (string-match "drwx" (elt (file-attributes x) 8)) x)))
 
-(defun fb-grep-files (s)
-"search for REGEXP in files"
-  (interactive "sSearch for: ")
-  (shell-command-on-region
-   (point-min)
-   (point-max)
-   (concat "xargs " grep-command s) (get-buffer-create (format "*egrep %s*" s)))
+(defun fb-grep-files (arg)
+  "search for REGEXP in files in region
+with prefix argument, prompt for additional args for grep
+"
+  (interactive "p")
+  (let* ((s (read-string "Search for: "))
+	 (grep-command (if (> arg 1) (read-string "grep command : " grep-command grep-command) grep-command))
+	 (p1 (min (point) (mark)))
+	 (p2 (max (point) (mark)))
+	 (b (get-buffer-create (format "*%s %s*" grep-command s)))
+	 (err  "*Shell-Command-Error*")
+	 )
+
+    (shell-command-on-region
+     p1
+     p2
+     (format "xargs %s %s" grep-command s)
+     b
+     nil
+     err
+     )
+
+    (cond ((save-excursion
+	     (set-buffer b)
+	     (> (length (buffer-string)) 1))
+	   (switch-to-buffer b))
+	  ((save-excursion
+	     (set-buffer err)
+	     (> (length (buffer-string)) 1))
+	   (message err)))
+    )
   )
 
 (provide 'fb)

@@ -1,5 +1,5 @@
 (put 'post-simple 'rcsid
- "$Id: post-simple.el,v 1.1 2004-05-24 21:31:32 cvs Exp $")
+ "$Id: post-simple.el,v 1.2 2004-05-27 18:25:06 cvs Exp $")
 
 (require 'advice)
 (require 'qsave)
@@ -26,8 +26,9 @@
   ""
 
   (let 
-      ((output-buffer  (or (ad-get-arg 1) (zap-buffer shell-command-default-output-buffer)))
-       (error-buffer  (or (ad-get-arg 2) (zap-buffer  shell-command-default-error-buffer))))
+      ((output-buffer  (zap-buffer (or (ad-get-arg 1) shell-command-default-output-buffer)))
+       (error-buffer (zap-buffer (or (ad-get-arg 2) shell-command-default-error-buffer)))
+       output-len)
 
     ad-do-it
 
@@ -39,14 +40,18 @@
 
     (save-excursion
       (set-buffer output-buffer)
+      (setq output-len (length (chomp (buffer-string))))
       (shell-command-mode)
       (set-buffer-modified-p nil)
       (run-hooks 'post-shell-command-hook)
       )
 
-    (display-buffer output-buffer)
+    (if (> output-len 0)
+	(display-buffer output-buffer))
     )
   )
 
 ; (if (ad-is-advised 'shell-command) (ad-unadvise 'shell-command) )
+
+; (if (ad-is-advised 'shell-command-on-region) (ad-unadvise 'shell-command-on-region) )
 
