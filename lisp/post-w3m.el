@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.28 2005-03-11 16:33:38 cvs Exp $")
+ "$Id: post-w3m.el,v 1.29 2005-04-04 23:40:18 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -286,8 +286,13 @@
 ;
 (define-key w3m-mode-map "i" 'w3m-display-current-url)
 
+; xxx finish this...
+(defun w3m-view-file-url (f)
+  (shell-command 
+   (format "w3m %s" (gsn f)))
+  )
+(mapcar '(lambda (x) (add-file-association x 'w3m-view-file-url)) '("html" "htm"))
 
-(mapcar '(lambda (x) (add-file-association x 'w3m-goto-url-new-session)) '("html" "htm"))
 
 (add-hook 'dired-mode-hook
 	  '(lambda ()

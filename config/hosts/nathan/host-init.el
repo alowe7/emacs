@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.11 2005-02-16 23:25:15 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.12 2005-04-04 23:40:18 cvs Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -69,9 +69,23 @@
 (add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))
 (add-hook 'java-mode-hook (lambda () (lazy-lock-mode)))
 
-; (load-library "post-help")
-(load-library "fixframe")
-(load-library "unbury")
+; use working versions. will this stuff ever stabilize?
+(let ((r '(
+	   ("site-lisp/tw-3.01" "/x/tw/site-lisp")
+	   ("site-lisp/db-1.0" "/x/db/site-lisp")
+	   ("site-lisp/xz-3.1" "/x/xz/site-lisp")
+	   ("site-lisp/tx-1.0" "/x/elisp")
+	   ))
+      )
+  (loop for e in r do 
+	(setq load-path
+  ; first remove published versions, if any
+	      (nconc (remove-if '(lambda (x) (string-match (car e) x)) load-path)
+  ; then add working versions
+		     (cdr e))
+	      )
+	)
+  )
 
 (add-to-load-path "/u/emacs-w3m-1.3.2")
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
@@ -82,6 +96,7 @@
 (add-to-load-path "/z/pl" t)
 
 ; and some here too
+(condition-case x (load "/z/el/.autoloads") (error nil))
 (condition-case x (load "/z/soap/.autoloads") (error nil))
 (condition-case x (load "/z/pl/.autoloads") (error nil))
 
@@ -90,8 +105,13 @@
 
 ; this ensure calendar comes up in a frame with a fixed-width font
 (load-library "mycal")
+
 ; xxx check out why this isn't autoloading
 (load-library "post-bookmark")
+
+; (load-library "post-help")
+(load-library "fixframe")
+(load-library "unbury")
 
 (if (not (and
 	  (file-directory-p exec-directory)
@@ -124,3 +144,5 @@
 
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
+
+(scan-file-p "~/.private/.xdbrc")
