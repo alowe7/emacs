@@ -38,6 +38,14 @@
 	)
   )
 
+(defun xh* (thing)
+  " lookup something like thing in x.howto"
+  (interactive "showto: ")
+	(let ((*txdb-options* *txdb-options*))
+		(add-txdb-option "-v" "2")
+		(x-query-1 (format  "select * from howto where what like '%%%s%%' or how like '%%%s%%'" thing thing))
+		)
+  )
 
 ; put on xdb-init-hook first time through
 (require 'comint)

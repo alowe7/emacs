@@ -196,7 +196,7 @@ default is ':'
 
 (defun shift-word (s)
   "break string into (first-word . rest)"
-  (if (string-match "\\w" s)
+  (if (string-match "\\W" s)
       (cons (substring s 0 (match-beginning 0)) (substring s (match-end 0))))
   )
 

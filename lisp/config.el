@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.28 2004-03-27 22:26:53 cvs Exp $")
+ "$Id: config.el,v 1.29 2004-04-08 01:27:25 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -138,27 +138,41 @@ no errors if files don't exist.
   )
 ; (make-hook-name 'dired-mode)
 
-(defun add-to-load-path (x &optional append subdirs)
-  (if (file-directory-p x)
-      (progn
-	(if (and
-	     (not (member x load-path))
-	     (not (string-match "/CVS$" x)))
-	    (funcall 
-	     (if append
-		 'append-to-list 'add-to-list)
-	     'load-path (expand-file-name x)))
-
-	(if subdirs
-	    (mapcar '(lambda (y) 
-		       (if (and (file-directory-p (concat x "/" y)) (not (string= y ".")) (not (string= y "..")))
-			   (add-to-load-path (concat x "/" y))))
-		    (directory-files x)))
-
-	(if (file-exists-p (concat x "/.autoloads"))
+(defvar add-to-load-path-hook nil)
+(defun load-autoloads (x)
+  (if (file-exists-p (concat x "/.autoloads"))
   ; maybe automatically generated 
-	    (load (concat x "/.autoloads") nil t))
-	)
+      (load (concat x "/.autoloads") nil t))
+  )
+(add-hook 'add-to-load-path-hook 'load-autoloads)
+
+
+(defun add-to-load-path (x &optional append subdirs)
+  "add ELEMENT to `load-path` if it exists, and isn't already there.
+by default add to the head of the list.  with optional arg APPEND add at the end of the list
+with optional second arg SUBDIRS, add all subdirectories as well.
+
+if successful, runs the value of `add-to-load-path-hook` and returns the new value of load-path.
+returns nil otherwise.
+"
+  (if (and
+       (file-directory-p x)
+       (not (member x load-path))
+       (not (string-match "/CVS$" x))
+       (funcall 
+	(if append
+	    'append-to-list 'add-to-list)
+	'load-path (expand-file-name x)))
+
+      (if subdirs
+	  (mapcar '(lambda (y) 
+		     (if (and (file-directory-p (concat x "/" y)) (not (string= y ".")) (not (string= y "..")))
+			 (add-to-load-path (concat x "/" y))))
+		  (directory-files x)))
+
+    (run-hooks  'add-to-load-path-hook)
+	
+    load-path
     )
   )
 
@@ -178,6 +192,8 @@ no errors if files don't exist.
 
 ; this helper function gives init files a weak inheritance capability
 
+(defun this-load-file () (if load-in-progress load-file-name (buffer-file-name)))
+
 (defun chain-parent-file (&optional arg)
   "return the parent of a load file.
 this will be the one following it in load-path, if any.
@@ -191,7 +207,7 @@ this mechanism allows a sort of inheritance among load files.
 a load file sitting in front of its 'parent' on the load-path can extend its settings by pre-chaining
 or override them by post-chaining.
 "
-  (let ((f (if load-in-progress load-file-name (buffer-file-name))))
+  (let ((f (this-load-file)))
     (and f
 	 (let* (z
 		(y (file-name-nondirectory f))

@@ -1,5 +1,5 @@
 (put 'post-gnuserv 'rcsid 
- "$Id: post-gnuserv.el,v 1.8 2004-03-06 20:31:33 cvs Exp $")
+ "$Id: post-gnuserv.el,v 1.9 2004-04-08 01:27:25 cvs Exp $")
 
 (condition-case x (gnuserv-start) 
   (error 
@@ -91,6 +91,7 @@
 ; override this function as its broken
 (defun server-process-filter (proc string)
   "Process client gnuserv requests to execute Emacs commands."
+;  (debug)
   (setq server-string (concat server-string string))
   (if (string-match "\^D$" server-string) ; requests end with ctrl-D
       (if (string-match "^[0-9]+" server-string) ; client request id
@@ -113,3 +114,24 @@
 	(progn				;error string from server
 	  (server-process-display-error server-string)
 	  (setq server-string "")))))
+
+(setq *gnuserv-buffer-lim* 255)
+
+(defun server-write-to-client (client form)
+  "Write the given form to the given client via the server process."
+
+  (if (and client
+	   (eq (process-status server-process) 'run))
+      (let* ((result (format "%s" form))
+	     (s      (format "%s/%d:%s\n" client (length result) result)))
+  ; logic to bunch up server output is broken.
+  ;	(debug)
+	(while (> (length s)  *gnuserv-buffer-lim*)
+	  (setq s1 (substring s 0  *gnuserv-buffer-lim*)
+		s (substring s  *gnuserv-buffer-lim*))
+	  (process-send-string server-process s1))
+	(process-send-string server-process s)
+
+	(server-log s))))
+
+; (length (format "%s" load-path))

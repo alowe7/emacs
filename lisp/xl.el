@@ -29,6 +29,7 @@
 ; e.g. '("-h" "-" "-b" "fx" "-u" "a"))
 
 (defun xlq (s)  (interactive "squery: ")
+  "perform a query against a local instance of mysql"
   (let ((*txdb-options* *local-txdb-options*))
     (clean-string (x-query s)))
   )

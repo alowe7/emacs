@@ -1,5 +1,5 @@
 (put 'eval-utils 'rcsid
- "$Id: eval-utils.el,v 1.2 2003-04-15 16:32:15 cvs Exp $")
+ "$Id: eval-utils.el,v 1.3 2004-04-08 01:27:25 cvs Exp $")
 (provide 'eval-utils)
 (require 'cat-utils)
 
@@ -7,15 +7,17 @@
 
 ;; file and directory handling utilities
 
-(defun read-file (f &optional all)
-  "returns contents of FILE as a string" 
+(defun read-file (f &optional chomp)
+  "returns contents of FILE as a string
+with optional second arg CHOMP, applies `chomp' to the result
+" 
   (and f (file-exists-p f)
        (save-window-excursion
 	 (let ((b (zap-buffer " *tmp*")) s)
 	   (insert-file-contents f)
 	   (setq s (buffer-string))
 	   (kill-buffer b)
-	   (if all s (chomp s)))
+	   (if chomp s (chomp s)))
 	 )
        )
   )

@@ -1,8 +1,9 @@
 (put 'w3-loads 'rcsid 
- "$Id: w3-loads.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: w3-loads.el,v 1.6 2004-04-08 01:27:25 cvs Exp $")
 (provide 'w3-loads)
-(addloadpath "$EMACSDIR/site-lisp/w3")
-(setq w3-default-homepage "file://d|/p/web/index.html")
+(add-to-load-path (substitute-in-file-name "$EMACS_DIR/site-lisp/w3"))
+
+(setq w3-default-homepage "http://alowe")
 (setq url-be-asynchronous t)
 
 (autoload 'w3-preview-this-buffer "w3" "WWW Previewer" t)
