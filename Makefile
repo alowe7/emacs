@@ -1,6 +1,10 @@
-# $Id: Makefile,v 1.12 2001-06-26 08:01:08 cvs Exp $
+# $Id: Makefile,v 1.13 2001-06-27 09:11:52 cvs Exp $
 
 SHELL=/bin/sh
+INSTALL = install
+LOCALBIN = /usr/local/bin
+.PHONY: FORCE
+
 uname := $(shell uname)
 hostname := $(shell hostname)
 
@@ -17,8 +21,7 @@ SITE_LISP := $(shell find /usr/share/emacs/site-lisp -type f -name "*.el")
 
 ETAGS=etags
 
-all: .autoloads .xz.dat
-
+all: .autoloads
 
 .autoloads: $(SOURCES) $(CONFIGS)
 	@./make-autoloads $(SOURCES) $(CONFIGS) > .autoloads
@@ -33,3 +36,8 @@ TAGS: $(SOURCES) $(CONFIGS)
 
 clean:
 	rm -f .xz.dat TAGS .autoloads
+
+ship: $(LOCALBIN)/make-autoloads
+
+$(LOCALBIN)/make-autoloads: make-autoloads
+	$(INSTALL) -m 555 $^ $(LOCALBIN)
