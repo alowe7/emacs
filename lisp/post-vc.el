@@ -1,5 +1,5 @@
 (put 'post-vc 'rcsid
- "$Id: post-vc.el,v 1.11 2002-06-06 10:46:55 cvs Exp $")
+ "$Id: post-vc.el,v 1.12 2003-01-16 06:33:15 cvs Exp $")
 
 (defun identify () 
   "insert a sccs ID string at head of file."
@@ -60,3 +60,5 @@ else if ARG, read file name. "
       (setq diff-switches (list diff-switches)))
   (loop for x in new-diff-switches do (add-to-list 'diff-switches x))
   diff-switches)
+
+(define-key vc-prefix-map "?" '(lambda () (interactive) (message "file %s is %s" (buffer-file-name) (vc-cvs-status (buffer-file-name)))))
