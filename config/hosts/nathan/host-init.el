@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.1 2002-09-23 01:58:50 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.2 2003-05-17 18:18:32 cvs Exp $")
 
 (setq default-frame-alist
       '((top + -4)
@@ -44,4 +44,5 @@
 ;(load-library "xdb")
 (scan-file-p "~/.xdbrc")
 
+(setq Info-default-directory-list '("/usr/share/emacs/info/"))
 
