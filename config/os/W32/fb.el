@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.2 2004-05-14 00:42:02 cvs Exp $")
+ "$Id: fb.el,v 1.3 2004-06-28 02:18:50 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 ; by default on windows platforms, locate via grep 
@@ -18,7 +18,7 @@
 	  (setq mode-line-buffer-identification 
 		pat))
 
-    (call-process "egrep" nil
+    (call-process "grep" nil
 		  b
 		  nil
 		  "-i" pat (expand-file-name
@@ -152,7 +152,7 @@ if none given, uses `*default-fb-db*'
   (let ((b (zap-buffer " _ff"))
 	(fn (mktemp (format "_ff%d" n))))
 
-    (call-process "egrep" nil
+    (call-process "grep" nil
 		  b
 		  nil
 		  "-i" pat *fb-db*)
@@ -221,7 +221,7 @@ if none given, uses `*default-fb-db*'
      for d in '("c" "e") ; XXX gen from registry
      do
 
-     (let* ((s (eval-process "egrep" "-i" pat (format "%s:%s" d *fb-db*)))
+     (let* ((s (eval-process "grep" "-i" pat (format "%s:%s" d *fb-db*)))
 	    (l (loop for f in (catlist s 10)
 		     collect
 		     (apply 'eval-process
@@ -247,15 +247,15 @@ if none given, uses `*default-fb-db*'
 
   (let* ((top default-directory)
 	 (b (zap-buffer "*ff1*" '(lambda () (cd top))))
-	 (egrep-args (nconc '("-H") 
+	 (grep-args (nconc '("-H") 
 			    (and *fb-case-fold* '("-i"))
 			    (and  *fb-show-lines* '("-n"))))
 	 )
 
     (apply 'call-process 
 	   (nconc (list "find" nil b nil)
-		  (list "." "-type" "f" "-exec" "egrep")
-		  egrep-args
+		  (list "." "-type" "f" "-exec" "grep")
+		  grep-args
 		  (list pat "{}" ";")))
     
     (pop-to-buffer b)
