@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.19 2003-07-18 14:51:25 cvs Exp $")
+ "$Id: config.el,v 1.20 2003-08-28 19:16:36 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -214,28 +214,12 @@ no errors if files don't exist.
   "list of functions that may be preloaded, invoke `post-wrap' at startup, also push onto `after-load-alist'"
   )
 
-(loop for x in hooked-preloaded-modules
-      do
-      (or (member
-	   `(,x (post-wrap ,x)) after-load-alist)
-	  (push 
-	   `(,x (post-wrap ,x)) after-load-alist))
-      )
-; (pop after-load-alist)
 
 (defun load-list (pat)
   (interactive "spat: ")
   (mapconcat 'identity (loop for x in load-history when (string-match pat (car x)) collect (car x)) " ")
   )
 ; (load-list "post-cc")
-
-; make sure load-history is correct
-(unless (loop for x in load-history
- 	      thereis (string-match (concat "fns-" emacs-version) (car x)))
-  (load
-   (format "%s/fns-%s" 
- 	   (getenv "EMACSPATH")
- 	   emacs-version)))
 
 (defun find-host-init ()
   (interactive)
@@ -270,4 +254,30 @@ a load file sitting in front of its 'parent' on the load-path can extend or over
 	 )
     )
   )
+
+(defvar *debug-config-error* nil)
+
+(condition-case x
+
+    (loop for x in hooked-preloaded-modules
+	  do
+	  (or (member
+	       `(,x (post-wrap ,x)) after-load-alist)
+	      (push 
+	       `(,x (post-wrap ,x)) after-load-alist))
+	  )
+  ; (pop after-load-alist)
+
+  ; make sure load-history is correct
+  (unless (loop for x in load-history
+		thereis (string-match (concat "fns-" emacs-version) (car x)))
+    (load
+     (format "%s/fns-%s" 
+	     (getenv "EMACSPATH")
+	     emacs-version)))
+
+  (error (progn (message "some kind of random error in %s" (if load-in-progress load-file-name (buffer-file-name))) 
+		(if *debug-config-error* (debug))))
+  )
+
 
