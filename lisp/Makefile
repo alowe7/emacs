@@ -1,4 +1,4 @@
-#all: xz.dat TAGS
+# $Id: Makefile,v 1.2 2000-07-30 20:43:20 cvs Exp $
 
 SHELL=/bin/sh
 EMACS=/usr/local/lib/emacs-19.34/bin/emax

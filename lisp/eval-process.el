@@ -9,14 +9,18 @@
   "execute CMD as a process, giving it optional ARGS.
 this function evaluates to the process output  "
   (let
-      ((buffer (zap-buffer "*eval*"))
+      ((buffer (get-buffer-create " *eval*"))
        v)
-    (save-excursion (set-buffer buffer) (erase-buffer))
-    (apply 'call-process (nconc (list cmd nil (list buffer nil) nil) args))
-    (set-buffer buffer)
-    (setq v (buffer-string))
-    (kill-buffer buffer) ; may be faster not to bother with this.
-    v
+    (save-excursion
+      (set-buffer buffer)
+      (erase-buffer)
+      (apply 'call-process (nconc (list cmd nil (list buffer nil) nil) args))
+  ;    (set-buffer buffer)
+  ;    (setq v (buffer-string))
+  ;    (kill-buffer buffer) ; may be faster not to bother with this.
+  ;    v
+      (buffer-string)
+      )
     )
   )
 

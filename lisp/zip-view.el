@@ -9,8 +9,7 @@
 (defun zip-view (f) (interactive)
   (let* ((b (zap-buffer (format "%s *zip*" f))))
 
-    (call-process "pkzip" nil b nil "-view" (format "\"%s\"" 
-						    f))
+    (call-process "pkzip" nil b nil "-view" (format "\"%s\"" f))
     (pop-to-buffer b)
     (not-modified)
     (beginning-of-buffer)

@@ -14,6 +14,16 @@ with optional arg, add line to database"
 
 (defvar compilation-process nil)
 
+(defun egrep (args)
+  "Run egrep, with user-specified args, and collect output in a buffer.
+While grep runs asynchronously, you can use the \\[next-error] command
+to find the text that grep hits refer to."
+  (interactive "sRun grep (with args): ")
+  (compile1 (concat "egrep -n " args " " grep-null-device)
+	    "No more grep hits" "grep"))
+
+(global-set-key "g" 'egrep)
+
 (defvar *find-person-egrep-switches*  '("-w" "-h"  "-i"))
 
 (defun find-person-2 (name &optional db)
@@ -47,7 +57,7 @@ with optional arg, add line to database"
 	   )
 	  (t 
 	   (setq contact-cache
-		 (nconc (list *people-database* *psw-people*)
+		 (nconc *people-database*
 			(catlist (perl-command "contact-cache" filecache) ?
 				 )
 			))

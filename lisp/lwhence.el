@@ -2,17 +2,21 @@
 (provide 'lwhence)
 
 (defun fwhence (fn) 
+  "find function F along load-path"
   (interactive "aFunction: ")
-
-  (let* ((s (documentation fn))
-	 (f (substring s (1+ (string-match "`" s))
-		       (string-match "'" s))))
-    (loop
-     for x in load-path by 'cdr
-     do
-     (if (file-exists-p (concat x "/" f ".el")) 
-	 (return (concat x "/" f ".el"))))))
-
+  (or (and (boundp 'autoload-alist)
+	   (cadr (assoc fn autoload-alist)))
+      (let* ((s (documentation fn))
+	     (f (and (string* s)
+		     (substring s (1+ (string-match "`" s))
+				(string-match "'" s)))))
+	(loop
+	 for x in load-path by 'cdr
+	 do
+	 (if (file-exists-p (concat x "/" f ".el")) 
+	     (return (concat x "/" f ".el")))))
+      )
+  )
 ; (fwhence 'lpr-buffer)
 
 
@@ -63,11 +67,14 @@
 			return (car x))
 		  (throw 'done (format "%s not loaded" fn))))
 	   (f (loop for x in load-path
-		    thereis (-a (format "%s/%s" x b))))
+		    thereis (or (-a (format "%s/%s" x b))
+				(-a (format "%s/%s.el" x b)))))
 	   )
 
       (if (interactive-p)
-	  (find-file f)
+	  (progn
+	    (find-file f)
+	    (search-forward thing))
 	f)
       )
     )

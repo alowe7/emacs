@@ -266,7 +266,7 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 
 	(if  (buffer-modified-p b)
 	    (let ((doit 
-		   (y-or-n-q-p " buffer %s exists and is modified.  delete (y/n/q/RET)? " ""  bname)))
+		   (y-or-n-q-p " buffer %s exists and is modified.  delete (y/n/q/RET)? " "\C-m"  bname)))
 	      (if (or (not doit ) (eq doit ?q))
 		  (throw 'done t) )))
 

@@ -31,15 +31,18 @@
       )
     val))
 
+(defun fapropos4-helper ()
+  (nconc (list
+	  (read-string "pattern: ")
+	  (eval (intern (string* (read-string "obarray: ")))))
+	 (let (x) (loop
+		   while (string* (setq x (read-string "pattern: ")))
+		   collect x)))
+  )
+
 (defun fapropos4 (pat array &rest args)
-  (interactive (nconc (list
-		       (read-string "pattern: ")
-		       (eval (intern (string* (read-string "obarray: ")))))
-		      (let (x) (loop
-				while (string* (setq x (read-string "pattern: ")))
-				collect x))))
-  " return matches for PAT in ARRAY.
-  if specified remaining args are joined"
+  "return matches for PAT in ARRAY"
+  (interactive (fapropos4-helper)) ;; if specified remaining args are joined
 
   (let ((array (or array obarray)))
     (loop 
@@ -160,22 +163,6 @@ fapropos will only find symbols which have already been interned
     )
   )
 
-(defun fapropos4 (s) (interactive "sString: ")
-
-  (loop for ss in (symbols-like s t)
-	do
-	(let ((ssi (intern ss)))
-
-	  (cond ((fboundp ssi) 
-		 (describe-function ssi))
-		((boundp ssi)
-		 (describe-variable ssi))
-		)
-	  )
-	)
-
-  (pop-to-buffer "*Help*")
-  )
 
 (defun vars-with (s)
   "list variables where value is a string matching regexp PAT"
@@ -196,8 +183,11 @@ fapropos will only find symbols which have already been interned
 			(string* (lwhence x) "") "\n" "\t")
 		(pp (eval x))
 		(insert "\n")
-		(pop-to-buffer b)
-		(fapropos-mode))))
+		)
+
+	  (pop-to-buffer b)
+	  (fapropos-mode)
+	  ))
     v)
   )
 
@@ -229,8 +219,10 @@ and value is a string matching regexp PAT"
 			(string* (lwhence x) "") "\n" "\t")
 		(pp (eval x))
 		(insert "\n")
-		(pop-to-buffer b)
-		(fapropos-mode))))
+
+		)
+	  (pop-to-buffer b)
+	  (fapropos-mode)))
     v)
   )
 

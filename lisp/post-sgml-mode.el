@@ -1,6 +1,8 @@
 ;(setq html-mode-hook '(lambda () (setq paragraph-start "<P>"))
 
-(setq sgml-mode-hook '(lambda () (run-hooks 'html-mode-hook)))
+(setq sgml-mode-hook '(lambda () (run-hooks 'html-mode-hook)
+			(require 'sgml-helpers)
+			(define-key sgml-mode-map "" 'docbook-help)))
 
 (defun html-quick-view (fn)
   (perl-command "fast-html-format" fn)

@@ -49,7 +49,7 @@
 
 
 
-(defconst gnuserv-rcs-header-id "$Header: /var/cvs/emacs/lisp/gnuserv.el,v 1.1.1.1 2000-07-28 02:12:47 andy Exp $")
+(defconst gnuserv-rcs-header-id "$Header: /var/cvs/emacs/lisp/gnuserv.el,v 1.2 2000-07-30 20:43:20 cvs Exp $")
 
 
 ;; server.el and gnuserv.el can't coexist because of conflicting defvar's and
