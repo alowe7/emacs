@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.15 2001-11-08 22:20:24 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.16 2001-11-21 19:37:34 cvs Exp $")
 
 (setq default-frame-alist
       '((top + -4)
@@ -22,15 +22,24 @@
 
 (setq initial-frame-alist default-frame-alist)
 
-(if (file-directory-p "d:/x/elisp")
-    (load "d:/x/elisp/.autoloads" t t t)
-  )
-
-(add-to-list 'load-path "/x/elisp")
-
-(mapcar 
- '(lambda (x) (load x t t)) 
- '("kill" "buff" "msvc" "syntax" "key" "show"))
+; 
+;     
+;   )
+; 
+(loop for x in '("/x/elisp")
+      do 
+      (if (file-directory-p x)
+	  (let ((xloads (format "%s/.loads" x)))
+	    (cond ((file-exists-p xloads)
+		   (progn
+		     (add-to-list 'load-path x)
+		     (load-file xloads)
+		     ))
+		  ((file-exists-p (setq xloads (format "%s/.autoloads" x)))
+		   (load xloads t t t)))
+	    )
+	)
+      )
 
 (setq *key-program* "/a/bin/key")
 
