@@ -1,5 +1,5 @@
 (put 'Emacs21 'rcsid
- "$Id: Emacs21.el,v 1.10 2004-02-03 19:36:21 cvs Exp $")
+ "$Id: Emacs21.el,v 1.11 2004-03-16 21:58:01 cvs Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -12,6 +12,8 @@
 
 (defvar default-fontspec-format  "-*-%s-%s-r-*-*-%s-%s-*-*-*-*-*-*-")
 (defvar default-weight "*")
+(defvar *default-font-family* "tahoma")
+(defvar *default-point-size* 16)
 
 (defun window-system-faces ()
   (and (boundp 'window-system)
@@ -19,9 +21,9 @@
   ;	      (setq font-height 104)
   ;	      (set-face-attribute 'default nil :family "arial" :height font-height :weight 'ultra-light))
 	      (setq
-	       default-font-family "verdana"
+	       default-font-family  *default-font-family*
 	       default-style "normal"
-	       default-point-size 16
+	       default-point-size *default-point-size*
 	       default-fontspec
 	       (format default-fontspec-format   
 		       default-font-family 
@@ -50,7 +52,7 @@
   )
 ; XXX this is overridden somewhere, and besides should be window system dependent
 ; (window-system-faces)
-; (add-hook 'after-init-hook ' window-system-faces)
+; (add-hook 'after-init-hook 'window-system-faces)
 
 (defun indicated-font () (interactive)
   (set-face-attribute 'default nil :font (indicated-word)))
