@@ -1,9 +1,9 @@
 (put 'SunOS 'rcsid 
- "$Id: os-init.el,v 1.3 2003-05-20 01:07:05 cvs Exp $")
+ "$Id: os-init.el,v 1.4 2004-01-26 22:42:03 cvs Exp $")
 
-(message "SunOS")
 (add-to-list 'load-path "~/x/elisp")
 
-(defun shell-2 nil (interactive) (shell2 2))
-(global-set-key "2" (quote shell-2))
 (defun host-ok (arg) t)
+
+(setq comint-prompt-regexp "^[0-9]+% *")
+(set-default-font "-*-*-Medium-R-normal-sans-18-*-*-*-m-*-*-*")
