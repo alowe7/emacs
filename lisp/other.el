@@ -1,5 +1,5 @@
 (put 'other 'rcsid
- "$Id: other.el,v 1.2 2004-08-11 14:55:52 cvs Exp $")
+ "$Id: other.el,v 1.3 2004-09-13 04:20:47 cvs Exp $")
 
 (defun other-lastline (&optional p) 
   (cond ((< p (point-max))
@@ -31,7 +31,10 @@
 	)
   )
 
+(defvar *wide-screen* 1280 "if `display-pixel-width` is greater than this, assume you have two monitors")
+
 (defun other-zero () 
+" find the zero coordinate of the other screen, if there is one.  tolerates multiple monitors"
   (if (and (> (display-pixel-width) *wide-screen*)
   ; its a wide-screen
 	   (not (> (frame-parameter nil 'left)  *wide-screen*) ))
