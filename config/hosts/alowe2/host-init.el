@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.17 2002-01-04 21:28:33 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.18 2002-01-10 18:47:23 cvs Exp $")
 
 (setq default-frame-alist
       '((top + -4)
@@ -111,3 +111,6 @@
 (setq initial-frame-alist default-frame-alist)
 
 (mount-hook-file-commands)
+
+;; hack process environment to minimal path so that man will work as expected
+(setq process-environment (nconc (list "PATH=d:usr\\local\\bin;d:contrib\\bin;d:\\usr\\bin;d:\\bin;d:a\\bin")  process-environment))

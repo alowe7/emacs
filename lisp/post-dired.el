@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.7 2002-01-04 21:28:33 cvs Exp $")
+ "$Id: post-dired.el,v 1.8 2002-01-10 18:47:23 cvs Exp $")
 
 ;; dired stuff
 
@@ -275,6 +275,7 @@ see `file-assoc-list'"
 (require 'tar-view)
 (require 'zip-view)
 (require 'html-view)
+(require 'dired-advice)
 
 (add-hook 'dired-mode-hook '(lambda () 
 			      (define-key  dired-mode-map "\C-m" 'dired-aexec)
