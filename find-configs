@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#  $Id: find-configs,v 1.8 2004-10-13 17:38:17 cvs Exp $
+#  $Id: find-configs,v 1.9 2004-10-14 02:36:36 cvs Exp $
 
 use Sys::Hostname;
 use POSIX qw(uname);
@@ -26,8 +26,8 @@ else {
     chomp $emacs;
 }
 
-
-die "you lose ($emacs)" unless (-x $emacs);
+# this fails under cygwin
+# die "you lose ($emacs)" unless (-x $emacs);
 
 $cmd="$emacs --batch --eval \"(message (format \\\"%d.%d\\\" emacs-major-version emacs-minor-version))\"";
 $emacscfg=`$cmd 2>&1`;
