@@ -1,3 +1,5 @@
+(put 'michael 'rcsid 
+ "$Id")
 (setq binary-process-input t
       binary-process-output nil)
 (require 'xz-loads)
