@@ -1,5 +1,5 @@
 (put 'buffers 'rcsid 
- "$Id: buffers.el,v 1.4 2001-04-27 11:37:59 cvs Exp $")
+ "$Id: buffers.el,v 1.5 2001-07-08 17:59:06 cvs Exp $")
 
 ;; walk mru list of buffers
 
@@ -51,5 +51,13 @@ when called interactively, displays a pretty list"
 	     (goto-char (point-min))
 	     (search-forward s nil t))
 	collect x))
+
+(defun kill-buffers-mode (mode)
+  "kill all buffers in mode"
+  (interactive "Smode: ")
+  (loop for x in (list-buffers-mode mode)
+	do
+	(kill-buffer x))
+  )
 
 (provide 'buffers)
