@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.10 2001-07-11 18:19:26 cvs Exp $")
+ "$Id: os-init.el,v 1.11 2001-07-11 18:27:16 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 ;; config file for gnuwin-1.0
@@ -186,3 +186,15 @@ host must respond within optional TIMEOUT msec"
 	(dolist (a (frame-list))
 		(if (not (eq a (selected-frame)))
 				(delete-frame a))))
+
+;; where does this really belong?
+(defun ftime () (interactive)
+	"display formatted time string last modification time of file for current buffer"
+  (let* ((fn (buffer-file-name))
+	(f (and fn (elt (file-attributes fn) 5))))
+    (message (if f
+	(clean-string (eval-process "mktime" (format "%d" (car f)) (format "%d" (cadr f))))
+	"no file")
+	)
+    )
+  )
