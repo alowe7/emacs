@@ -1,5 +1,5 @@
 (put 'tasks 'rcsid 
- "$Id: tasks.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: tasks.el,v 1.6 2001-01-22 18:48:30 cvs Exp $")
 
 ; a little throw-away stack of things to do, different from todo.el
 (require 'roll)
@@ -7,7 +7,7 @@
 (defvar task-stack nil)
 
 (defvar *edit-task-stack-buffer* nil)
-(defvar task-stack-clean t)
+(defvar task-stack-clean t "set if task stack does not require saving")
 
 (make-variable-buffer-local '*edit-task-stack-buffer*)
 
@@ -134,7 +134,8 @@ press C-h b for local bindings.
   (define-key task-mode-map "|" 'edit-task)
   ; (key-description (vector (char-ctrl ?c)))
   (define-key task-mode-map "" 'pop-task)
-  (define-key task-mode-map "d" '(lambda () (call-interactively 'debug)))
+;  (define-key task-mode-map "d" 'delete-task)
+;  (define-key task-mode-map "m" 'mark-task) ; as done, pending, etc.
   (define-key task-mode-map (vector 'return) 'push-task)
   (define-key task-mode-map " " 'roll-tasks)
   )

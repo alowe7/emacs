@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.16 2000-12-14 20:01:14 cvs Exp $")
+ "$Id: fb.el,v 1.17 2001-01-22 18:48:30 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -360,11 +360,46 @@ w		fb-w3-file
   )
 
 
+
+(defun ff-hack-pat (pat)
+  " modify a regular expression with wildcards to match minimally. 
+e.g. convert \"foo*bar\" to \"foo[^b]*bar\"
+all other patterns (e.g. \"foo*\") remain unchanged.
+"
+  (let* ((sp 0)
+	 (oldstr str)
+	 (newstr ""))
+    (loop 
+     while
+     (string-match "*." oldstr)
+     do
+     (setq newstr
+	   (concat newstr (substring oldstr 0 (match-beginning 0))
+		   "[^" 
+		   (substring oldstr (1+ (match-beginning 0)) (+ (match-beginning 0) 2))
+		   "]*")
+	   oldstr (substring oldstr (1+ (match-beginning 0))))
+     finally return (concat newstr oldstr)
+     )
+    )
+  )
+
 (defun ff (args)
-  "fast find working dirs -- search for file matching pat in *fb-db*"
-  (interactive "sargs: ")
-  (let ((b (zap-buffer *fastfind-buffer*))
-	(pat args))
+  "fast find working dirs -- search for file matching pat in *fb-db*
+with prefix arg, prompt for *fb-db* to use"
+
+  (interactive "P")
+  (let* ((b (zap-buffer *fastfind-buffer*))
+	 (*fb-db* *fb-db*) 
+	 (pat 
+	  (progn
+	    (if (and (listp args) (numberp (car args)))
+		;; given prefix arg, read *fb-db*
+		(setq *fb-db* (expand-file-name
+			       (read-file-name "db: " "" nil nil *fb-db*)
+			       )))
+	    (read-string "pat: ")
+	    )))
 
     (setq *find-file-query*
 	  (setq mode-line-buffer-identification 
@@ -383,7 +418,7 @@ w		fb-w3-file
     (run-hooks 'after-find-file-hook)
 
     (if (interactive-p) 
-	  (pop-to-buffer b)
+	(pop-to-buffer b)
       (split (buffer-string) "
 ")
       )
