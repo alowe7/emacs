@@ -1,5 +1,5 @@
 (put 'edit 'rcsid 
- "$Id: edit.el,v 1.5 2001-07-18 22:18:18 cvs Exp $")
+ "$Id: edit.el,v 1.6 2001-07-26 09:23:36 cvs Exp $")
 
 ;; edit and format functions
 
@@ -13,12 +13,21 @@
 	  (goto-char x)
 	  (list y z)))
 
-
-(defun set-tabs (n)
-  "set variable tab-width to N"
-  (interactive "ntab width: ")
-  (set-variable (quote tab-width) n)
+(defvar *fat-tab-width* 8)
+(defvar *thin-tab-width* 2)
+(defun set-tabs (arg)
+  "toggle tab-width between `*thin-tab-width*' and `*fat-tab-width*'
+with optional prefix ARG set to ARG"
+  (interactive "P")
+  (setq tab-width
+	(cond ((and (listp arg) (not (null arg))) (car arg))
+	      ((integerp arg) arg)
+	      ((eq tab-width *fat-tab-width*) *thin-tab-width*)
+	      (t *fat-tab-width*)))
+  (message "tab-width: %d" tab-width)
+  (recenter)
   )
+
 
 (defun kill-pattern (pat &optional n)
   "delete all ocurrences of PAT in current buffer.
