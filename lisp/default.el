@@ -1,11 +1,12 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.15 2001-06-25 10:37:29 cvs Exp $")
+ "$Id: default.el,v 1.16 2001-07-01 09:15:36 cvs Exp $")
+
+(defvar post-load-hook nil "hook to run after initialization is complete")
 
 (setq home (getenv "HOME"))
 (setq emacsdir (expand-file-name (getenv "EMACSDIR")))
 (setq doc-directory data-directory)
-
-(load "autoloads" nil t) ;automatically generated now
+(require 'uname)
 
 (mapcar 
  '(lambda (x) (and (file-directory-p x)
@@ -19,9 +20,11 @@
 	 )
 	(directory-files (concat home "/emacs/site-lisp") t "^[a-zA-Z]")
 	(directory-files (concat emacsdir "/site-lisp") t "^[a-zA-Z]")
-	(directory-files "/usr/share/emacs/site-lisp" t "^[a-zA-Z]")
+	(directory-files "c:/usr/share/emacs/site-lisp" t "^[a-zA-Z]")
 	)
  )
+
+(load "autoloads" nil t) ;automatically generated now
 
 (require 'config) ; this feature should not be required for anything up to this point
 
@@ -145,3 +148,5 @@
 
 ;; optional host-specific overrides
 (load "host-init" t t)
+
+(run-hooks 'post-load-hook)
