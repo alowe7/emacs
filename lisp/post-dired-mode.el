@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-dired-mode.el,v 1.2 2000-07-30 21:07:47 andy Exp $")
+(defconst rcs-id "$Id: post-dired-mode.el,v 1.3 2000-10-02 18:49:23 cvs Exp $")
 
 ;; dired stuff
 
@@ -71,6 +71,8 @@ warns if more than one file is to be moved and target is not a directory"
 
   (let* (fns 
 	 newfn
+	 (todir (and last-dired-move-to 
+		     (file-name-directory last-dired-move-to)))
 	 (to
 	  (read-file-name 
 	   (format "move %s to (%s): " 
@@ -78,7 +80,10 @@ warns if more than one file is to be moved and target is not a directory"
 		       (progn (setq fns (dired-get-marked-files)) "(marked files ...)" )
 		     (progn (setq fns (list (dired-get-filename))) 
 			    (file-name-nondirectory (dired-get-filename))))
-		   (or last-dired-move-to (pwd))))))
+		   (or todir (pwd)))
+	   )))
+
+    (unless (> (length to) 0) (setq to todir))
 
     (if (or (<= (length fns) 1)
 	    (file-directory-p to)
@@ -87,6 +92,7 @@ warns if more than one file is to be moved and target is not a directory"
 	(loop 
 	 for fn in fns
 	 do
+
 	 (setq newfn
 	       (if (file-directory-p to)
 		   (concat (expand-file-name to)
