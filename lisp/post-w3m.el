@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.17 2004-06-28 14:11:01 cvs Exp $")
+ "$Id: post-w3m.el,v 1.18 2004-07-21 20:18:21 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -59,8 +59,8 @@
     )
   )
 
-(defun w3m-copy-current-url () (interactive)
-  (kill-new w3m-current-url)
+(defun w3m-copy-current-url (&optional arg) (interactive "P")
+  (kill-new (if (and arg (w3m-anchor)) (w3m-anchor) w3m-current-url))
   )
 
 (defun w3m-display-current-url () (interactive)
@@ -107,9 +107,12 @@
   (w3m-goto-url-new-session "http://localhost/php/manual")
   )
 ; ( phpmanual)
-
+; xxx todo generalize this ala bookmarks
 (defun html40 () (interactive)   
   (w3m-goto-url-new-session "http://localhost/usr/share/specs/html4.0/cover.html")
+  )
+(defun html-forms () (interactive)   
+  (w3m-goto-url-new-session  "http://localhost/usr/share/specs/html4.0/interact/forms.html")
   )
 
 
@@ -146,20 +149,27 @@
 
 
 (defun w3m-goto-current-file-as-url-new-session () (interactive)
-  (let ((b (current-buffer))
-	(url (format "http://%s%s"  
-		     (downcase (hostname))
-		     (canonify
-		      (if (eq major-mode 'dired-mode)
-			  (dired-get-filename) 
-			(buffer-file-name)) 0)
-		     )))
-    (catch 'done
-      (unless (or (string-match "\.htm" url) (y-or-n-p (format "visit %s as url? " url)))
-	(progn (message "") (throw 'done t)))
+  (let* (
+	 (fn (cond ((eq major-mode 'dired-mode)
+		    (dired-get-filename))
+		   ((eq major-mode 'fb-mode)
+		    (fb-indicated-file))
+		   (t (buffer-file-name))
+		   ))
+	 (url (and fn (format "http://%s%s"  
+			      (downcase (hostname))
+			      (canonify fn 0)
+			      )))
+	 )
+    (if fn
+	(catch 'done
+	  (unless (or (string-match "\.htm" url) (y-or-n-p (format "visit %s as url? " url)))
+	    (progn (message "") (throw 'done t)))
 
-      (w3m-goto-url-new-session url)
-      (if (> (count-windows) 1) (progn (switch-to-buffer-other-window b) (other-window-1)))
+	  (w3m-goto-url-new-session url)
+	  (if (> (count-windows) 1) (progn (switch-to-buffer-other-window b) (other-window-1)))
+	  )
+      (message "can't figure out filename")
       )
     )
   )

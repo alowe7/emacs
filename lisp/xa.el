@@ -1,5 +1,5 @@
 (put 'xa 'rcsid
- "$Id: xa.el,v 1.2 2003-10-24 13:30:31 cvs Exp $")
+ "$Id: xa.el,v 1.3 2004-07-21 20:18:21 cvs Exp $")
 
 (defun xa (&optional prompt initial-input buffer cancel-message)
   "switch to a temp buffer to edit an entry.
@@ -7,10 +7,11 @@ giving optional PROMPT
 return the bufferstring"
 
   (condition-case v
-      (let (s b)
+      (let ((b (or buffer (get-buffer-create "*j*"))) 
+	    s)
 	(save-excursion
 	  (if (catch 'done
-		(setq b (switch-to-buffer (or buffer (get-buffer-create "*j*"))))
+		(switch-to-buffer b)
 		(if prompt (setq mode-line-buffer-identification prompt))
 		(if initial-input (progn (insert initial-input) (beginning-of-buffer)))
 		(local-set-key "" '(lambda () (interactive)
@@ -25,8 +26,8 @@ return the bufferstring"
 				   (sit-for 0 500)
 				   (message "")))
 	    ))
-	(kill-buffer b)
-	(xdb-cleanup s))
+	(unless buffer (kill-buffer b)) ; kill b only if we created it
+	s)
     (error nil)
     )
   )

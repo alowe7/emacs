@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.25 2004-06-28 14:11:01 cvs Exp $")
+ "$Id: post-dired.el,v 1.26 2004-07-21 20:18:21 cvs Exp $")
 (require 'eval-process)
 (require 'tar-view)
 (require 'zip-view)
@@ -370,9 +370,9 @@ see `file-assoc-list'"
 
 
 ; todo generesize
-(defun dired-yank-filename ()
-  (interactive)
-  (yank-dos-filename
+(defun dired-yank-filename (&optional arg)
+  (interactive "P")
+  (funcall (if arg 'yank-unix-filename 'yank-dos-filename)
    (condition-case x
        (dired-get-filename)
      (error default-directory)))

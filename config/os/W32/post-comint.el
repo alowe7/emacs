@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid
- "$Id: post-comint.el,v 1.2 2004-03-16 04:02:52 cvs Exp $")
+ "$Id: post-comint.el,v 1.3 2004-07-21 20:18:21 cvs Exp $")
 
 (chain-parent-file t)
 
@@ -42,3 +42,5 @@
   )
 
 (add-hook 'shell-mode-hook '(lambda () (define-key shell-mode-map "" 'interrupt-subjob)))
+
+(add-to-list 'comint-output-filter-functions 'comint-watch-for-password-prompt)

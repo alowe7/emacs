@@ -1,5 +1,5 @@
 (put 'post-psgml 'rcsid
- "$Id: post-psgml.el,v 1.6 2004-05-14 00:42:02 cvs Exp $")
+ "$Id: post-psgml.el,v 1.7 2004-07-21 20:18:21 cvs Exp $")
 
 (define-key sgml-mode-map (vector '\C-right) 'sgml-forward-element)
 (define-key sgml-mode-map (vector '\C-left) 'sgml-backward-element)
@@ -11,6 +11,7 @@
 
 (define-key sgml-mode-map "\C-c\C-f\C-f" 'find-file-force-refresh)
 
+(add-hook 'sgml-mode-hook '(lambda () (define-key sgml-mode-map "\C-c\C-l" 'goto-line)))
 
 (setq-default sgml-set-face t)
   ;;

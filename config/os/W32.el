@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.29 2004-06-28 14:11:01 cvs Exp $")
+ "$Id: W32.el,v 1.30 2004-07-21 20:18:21 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -320,7 +320,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
   )
 (add-hook 'dired-mode-hook '(lambda () (define-key dired-mode-map "\C-cw" 'dired-yank-dos-filename)))
 
-(defun yank-unix-filename (begin end)
+(defun yank-unix-filename (begin &optional end)
   "this function translates the region between BEGIN and END using `unix-canonify' and copies the result into the kill-ring.
 if `interprogram-cut-function' is defined, it is invoked with the canonified result.
 when called from a program, if BEGIN is a string, then use it as the kill text instead of the region"
@@ -1042,8 +1042,20 @@ returns process handle
   )
 ; (setq v (iexplore-url "http://www.nytimes.com"))
 
+(defun iexplore-current-directory  ()
+  "treat current directory (sans letter-drive-name) as a uri on http://localhost, and run iexplorer on it.
+ guaranteed to work only where it makes sense.
+"
+  (interactive)
+  (let ((u (substring (canonify default-directory 0) 0 -1)))
+    (iexplore-url (format "http://%s%s" (hostname) u))
+    )
+  )
+; (iexplore-current-directory)
+
 (require 'ctl-slash)
-(define-key ctl-/-map "i" 'iexplore-url)
+(define-key ctl-/-map "	" 'iexplore-url)
+(define-key ctl-/-map "" 'iexplore-current-directory)
 
 ;; probably redundant with lnk-view
 
