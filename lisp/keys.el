@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.7 2000-10-30 19:11:43 cvs Exp $")
+ "$Id: keys.el,v 1.8 2001-01-17 19:12:56 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -187,8 +187,6 @@
 
 (global-set-key "\C-h\C-m" 'myman)
 (global-set-key "\215"  'cmd) ; alt-ret
-
-(global-set-key "." 'safe-find-tag)
 
 ; "\C-c\C-/"
 ; (dec "0x400002f")
