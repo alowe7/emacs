@@ -1,5 +1,5 @@
 (put 'buffers 'rcsid 
- "$Id: buffers.el,v 1.12 2003-06-13 14:05:27 cvs Exp $")
+ "$Id: buffers.el,v 1.13 2004-03-03 04:16:41 cvs Exp $")
 
 ;; walk mru list of buffers
 
@@ -96,6 +96,28 @@ when called interactively, displays a pretty list"
        (loop for x in (buffer-list-not-modified)
 	     do
 	     (kill-buffer x)))
+  )
+
+(defun unbury-buffer () (interactive) 
+  (unless (member last-command '(unbury-buffer bury-buffer-1))
+    (setq *buffer-list-vector* (apply 'vector (real-buffer-list))
+	  *buffer-list-vector-length* (length *buffer-list-vector*)
+	  *buffer-list-vector-index* 0))
+  (let ((next (% (1+ *buffer-list-vector-index*) (length *buffer-list-vector*))))
+    (switch-to-buffer (aref *buffer-list-vector* next))
+    (setq *buffer-list-vector-index* next)
+    )
+  )
+
+(defun bury-buffer-1 () (interactive) 
+  (unless (member last-command '(unbury-buffer bury-buffer-1))
+    (setq *buffer-list-vector* (apply 'vector (real-buffer-list))
+	  *buffer-list-vector-length* (length *buffer-list-vector*)
+	  *buffer-list-vector-index* 0))
+  (let ((next (abs (% (1- *buffer-list-vector-index*) (length *buffer-list-vector*)))))
+    (switch-to-buffer (aref *buffer-list-vector* next))
+    (setq *buffer-list-vector-index* next)
+    )
   )
 
 (provide 'buffers)
