@@ -1,5 +1,5 @@
 (put 'post-locate 'rcsid 
- "$Id: post-locate.el,v 1.2 2002-12-02 03:14:22 cvs Exp $")
+ "$Id: post-locate.el,v 1.3 2002-12-28 01:10:13 cvs Exp $")
 
 (require 'fb)
 
@@ -26,9 +26,7 @@
   ""
 
   ad-do-it
-
   (run-hooks 'after-find-file-hook)
-
   )
 
 ; (if (ad-is-advised 'locate) (ad-unadvise 'locate))

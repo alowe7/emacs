@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.17 2002-12-15 02:01:16 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.18 2002-12-28 01:10:13 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -133,7 +133,7 @@
 
 (defun pod-perl-module (module) 
   (interactive "smodule: ")
-  (let* ((l (ff (concat module ".pm")))
+  (let* ((l (ff (concat (replace-in-string "::" "/" module) ".pm")))
 	 (m (and (> (length l) 0) (car l))))
     (if m
 	(pod2text m)
@@ -150,6 +150,8 @@
 (unless perl-helper-map
   (setq perl-helper-map (symbol-function 'ctl-C-ctl-P-prefix))
   (define-key perl-helper-map "m" 'pod-perl-module)
+  (define-key perl-helper-map "" 'help-for-perl)
+  (define-key perl-helper-map "" 'perlfunc)
 
   )
 

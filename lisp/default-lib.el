@@ -1,5 +1,5 @@
 (put 'default-lib 'rcsid 
- "$Id: default-lib.el,v 1.10 2002-12-10 17:22:11 cvs Exp $")
+ "$Id: default-lib.el,v 1.11 2002-12-28 01:10:13 cvs Exp $")
 
 (defun buffer-exists-p (bname)
   " return buffer with specified NAME or nil"
@@ -105,3 +105,4 @@ does not affect currently running environment"
 	  finally return ret)
     )
   )
+
