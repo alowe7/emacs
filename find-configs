@@ -1,0 +1,11 @@
+#!perl
+use Sys::Hostname;
+#use POSIX qw(uname);
+$uname=`uname`;
+chomp $uname;
+$hostname= hostname();
+
+$cmd="find ./config -type f -name \"*.el\" -a \( -path \"*$uname*\" -o -path \"*$hostname*\" \)";
+map {print} (`$cmd`);
+
+
