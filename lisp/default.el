@@ -1,5 +1,11 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.9 2000-11-20 01:03:02 cvs Exp $")
+ "$Id: default.el,v 1.10 2000-11-20 01:56:42 cvs Exp $")
+
+(setq home (getenv "HOME"))
+(setq emacsdir (expand-file-name (getenv "EMACSDIR")))
+(setq doc-directory data-directory)
+
+(load "autoloads" nil t) ;automatically generated now
 
 (mapcar 
  '(lambda (x) (and (file-directory-p x) (not (member x load-path)) (nconc load-path (list x))))
@@ -28,9 +34,6 @@
      (load (concat "Emacs" emacs-major-version) t t))
 
 (load "keys" nil t) ;key bindings
-(load "autoloads" nil t) ;automatically generated now
-
-(setq doc-directory data-directory)
 
 (modify-syntax-entry ?- "w")
 

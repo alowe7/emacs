@@ -1,5 +1,5 @@
 (put 'w32 'rcsid 
- "$Id: w32,v 1.3 2000-11-20 01:03:02 cvs Exp $")
+ "$Id: w32,v 1.1 2000-11-20 01:56:42 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -39,7 +39,7 @@
 (defvar default-weight nil)
 (defvar default-fontspec nil)
 
-(defun default-font (font-family style point-size weight)
+(defun default-font (&optional font-family style point-size weight)
   (interactive (list
 		(completing-read "Family: " default-family-table)
 		(read-string "Style: ")
@@ -81,16 +81,12 @@
 
 ;(default-font nil "*" "100")
 
-; (insert (win32-select-font))
-; -*-Lucida Console-normal-r-*-*-11-82-*-*-c-*-*-ansi-
-
-;		(set-default-font (format default-fontspec-format   default-font-family "*" "100"))
-; (font-1)
-
 (defun font-1 (arg) (interactive "p")
 	(default-font default-font-family default-style (- default-point-size (or arg 1)) nil))
+
 (defun font+1 (arg) (interactive "p")
 	(default-font default-font-family default-style (+ default-point-size (or arg 1)) nil))
+
 (global-set-key "]" 'font+1)
 (global-set-key "[" 'font-1)
 
