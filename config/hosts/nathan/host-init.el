@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.2 2003-05-17 18:18:32 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.3 2004-01-03 16:25:55 cvs Exp $")
 
 (setq default-frame-alist
       '((top + -4)
@@ -46,3 +46,21 @@
 
 (setq Info-default-directory-list '("/usr/share/emacs/info/"))
 
+; use working versions. will this stuff ever stabilize?
+(let ((r '(
+	   ("site-lisp/tw-3.01" "/x/tw/site-lisp")
+	   ("site-lisp/db-1.0" "/x/db/site-lisp")
+	   ("site-lisp/xz-3.1" "/x/xz/site-lisp")
+	   ("site-lisp/tx-1.0" "/x/elisp")
+	   ))
+      )
+  (loop for e in r do 
+	(setq load-path
+  ; first remove published versions, if any
+	      (nconc (remove-if '(lambda (x) 
+				   (string-match (car e) x)) load-path)
+  ; then add working versions
+		     (cdr e))
+	      )
+	)
+  )
