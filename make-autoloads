@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.21 2004-01-14 18:29:41 cvs Exp $
+#      $Id: make-autoloads,v 1.22 2004-04-26 03:04:07 cvs Exp $
 
 =pod
 =head1 NAME
@@ -18,19 +18,24 @@ make-autoloads
 
 	options:
 		--help		print usage
-		--prefix <prefix>	optional prefix for alist (default=basename(pwd()))
+		--top		top of directory tree
+		--prefix <prefix>	optional prefix for alist (default=basename($top))
 		--version	print version
 
 =cut
 
 use Getopt::Long;
 use Pod::Text;
+use Cwd;
+use File::Spec::Unix qw(catfile);
+#use File::Spec;
 
 binmode STDOUT;
 
 GetOptions(
 	   'help' => \$opt_help,
 	   'version' => \$opt_version,
+	   'top|d=s' => \$opt_top,
 	   'prefix=s' => \$opt_prefix
 	   );
 
@@ -38,18 +43,18 @@ $opt_h && pod2usage( { -verbose => 2 });
 
 if ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.21 $";
+#    $version="$Revision: 1.22 $";
     print "make-autoloads version 1.15\n";
     exit;
 }
+
+$top=$opt_top || getcwd;
 
 if ($opt_prefix) {
     $prefix=$opt_prefix . "-";
 }
 else {
-    $PWD=`pwd`;
-    chop $PWD; 
-    split('/',$PWD);
+    split('/',$top);
     $prefix=$_[-1] . "-";
 }
 
@@ -61,25 +66,27 @@ print "(setq $alist_symbol `( \n";
 
 foreach $fn (@ARGV) {
     if ($fn =~ /\.autoloads$/) {
-				print "(load-file \"$fn\")\n";
+	print "(load-file \"$fn\")\n";
     }
     else {
-				@path=split(?/?, $fn);
-				$f=pop(@path);
-				if (open(F, $fn)) {
-						binmode F;
-						print ";  $fn\n";
-						foreach (<F>) {
-								foreach $def ("defun", "defmacro", "define-derived-mode") {
-										if (/^\($def/) {
-												($pat, $func)=split;
-												$func =~ s/[()]//g;
-												print "($func \"$f\")\n";
-										}
-										close(F);
-								}
-						}
-				}
+#	@path=split(?/?, $fn);
+#	$f=pop(@path);
+	$f=File::Spec::Unix->catfile($top,$fn);
+
+	if (open(F, $fn)) {
+	    binmode F;
+	    print ";  $fn\n";
+	    foreach (<F>) {
+		foreach $def ("defun", "defmacro", "define-derived-mode") {
+		    if (/^\($def/) {
+			($pat, $func)=split;
+			$func =~ s/[()]//g;
+			print "($func \"$f\")\n";
+		    }
+		    close(F);
+		}
+	    }
+	}
     }
 }
 print "))\n";

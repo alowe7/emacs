@@ -1,10 +1,11 @@
-# $Id: Makefile,v 1.31 2004-01-21 18:46:44 cvs Exp $
+# $Id: Makefile,v 1.32 2004-04-26 03:04:07 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
 LOCALBIN = /usr/local/bin
 SHARE=/usr/share/emacs/site-lisp
 EMACS=$(EMACS_DIR)/bin/emacs
+TOP := $(shell pwd)
 
 .PHONY: FORCE
 
@@ -28,7 +29,7 @@ ETAGS=etags
 all: .autoloads
 
 .autoloads: FORCE $(SOURCES) $(CONFIGS) 
-	./make-autoloads $^ > .autoloads
+	./make-autoloads --top $(TOP) $^ > .autoloads
 	[ -z "$(SITE_LOADS)" ] || cat $(SITE_LOADS) >> .autoloads
 	@echo .autoloads rebuilt
 
