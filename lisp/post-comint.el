@@ -1,10 +1,9 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.8 2001-03-19 10:41:53 cvs Exp $")
+ "$Id: post-comint.el,v 1.9 2001-05-02 18:42:22 cvs Exp $")
 
 (setq comint-prompt-regexp "^[0-9a-zA-Z]*% *")
 
-(setq explicit-bash-args '("-login" "-i"))
-
+(setq explicit-bash-args '("-i"))
 
 (defun comint-last-arg () 
   "insert last arg from `comint-previous-input-string`"
