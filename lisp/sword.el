@@ -1,9 +1,9 @@
 (put 'sword 'rcsid
- "$Id: sword.el,v 1.1 2000-10-12 17:32:17 cvs Exp $")
+ "$Id: sword.el,v 1.2 2001-02-19 21:52:12 cvs Exp $")
 
 (require 'comint)
 
-(defvar *default-swordfile* "~/n/private/swords")
+(defvar *default-swordfile* "~/.private/swords")
 (defvar *cache-sword-key* t 
   "if set, keys are cached on the 'key property of the interned filename.
 see `get-key' and `sword'")
@@ -32,7 +32,7 @@ otherwise if `*cache-sword-key*' is set and a key is cached, use that.
 
 (defun sword (arg)
   "suck an encrypted password out of a swordfile.
-if prefix arg is set, prompt for filename and key, else use the default `*swordfile*'.
+if prefix arg is set, prompt for filename and key, else use the default `*default-swordfile*'.
 if `*cache-sword-key*' is set and a key is cached, return it, otherwise use read-noecho.
 "
   (interactive "P")
