@@ -1,5 +1,5 @@
 (put 'people 'rcsid 
- "$Id: people.el,v 1.12 2001-08-15 21:49:00 cvs Exp $")
+ "$Id: people.el,v 1.13 2001-11-12 22:53:06 cvs Exp $")
 (provide 'people)
 ;; manage people databases
 (require 'compile)
@@ -137,9 +137,15 @@ to find the text that grep hits refer to."
 (if people-mode-map ()
   (setq people-mode-map (make-sparse-keymap))
   (define-key people-mode-map "\C-m" 'people-goto-hit)
-  (define-key  people-mode-map "o" '(lambda () (interactive) (people-goto-hit t)))
+  ; (define-key  people-mode-map "o" '(lambda () (interactive) (people-goto-hit t)))
   (define-key  people-mode-map "?" 'people-describe-hit-briefly)
   (define-key  people-mode-map "s" 'people-show-hit)
+  (define-key  people-mode-map "e" '(lambda () (interactive)
+				      (let* ((l (count-lines (point-min) (point)))
+					     (v (aref *find-person-vector* (if (bolp) l (1- l)))))
+					(unless (not v)
+					  (find-file (car v))
+					  (goto-line (cadr v))))))
   (define-key  people-mode-map "p" '(lambda () (interactive) (previous-qsave-search (current-buffer))))
   (define-key  people-mode-map "n" '(lambda () (interactive) (next-qsave-search (current-buffer))))
   (define-key  people-mode-map ""
