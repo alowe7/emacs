@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.10 2001-04-13 20:44:53 cvs Exp $")
+ "$Id: w32,v 1.11 2001-04-13 20:48:57 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -674,8 +674,9 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 	(setq l (nconc (list "-t" title) l)))
     (if (string* flags)
 	(setq l (nconc (list "-f" flags) l)))
+    (setq l (cons "messagebox" l))
 
-    (message (clean-string (perl-command "messagebox" "-t" title "-f" flags msg)))
+    (message (clean-string (apply 'perl-command l)))
     )
   )
 
