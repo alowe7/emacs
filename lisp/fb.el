@@ -1,7 +1,7 @@
-(defconst rcs-id "$Id: fb.el,v 1.4 2000-08-01 18:58:01 cvs Exp $")
+(defconst rcs-id "$Id: fb.el,v 1.5 2000-08-08 03:29:25 cvs Exp $")
 (require 'view)
 (require 'isearch)
-(provide 'cat-utils)
+(require 'cat-utils)
 (provide 'fb)
 
 (defvar fb-mode-map nil "")
