@@ -1,5 +1,5 @@
 (put 'w32 'rcsid 
- "$Id: w32,v 1.2 2000-11-02 17:40:45 cvs Exp $")
+ "$Id: w32,v 1.3 2000-11-20 01:03:02 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -147,6 +147,10 @@ letter drive names.
       )
     )
   )
+
+(defvar file-assoc-list nil
+	"alist of downcased file extensions to internal handlers")
+
 
 (defun aexec (f &optional visit)
   "apply command associated with filetype to specified FILE

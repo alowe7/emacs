@@ -1,5 +1,5 @@
 (put 'w3-helpers 'rcsid 
- "$Id: w3-helpers.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: w3-helpers.el,v 1.6 2000-11-20 01:03:02 cvs Exp $")
 (require  'html-format)
 
 ; we want this file to load after w3, because it contains overloads
@@ -446,25 +446,6 @@ buffer, does no formatting. with optional BUFFER, uses that buffer to format"
 	  )
     (and bl (roll-buffer-list-2 bl))))
 
-(defun roll-buffer-list-2 (l) 
-  "like roll buffer list, but only list buffers in list
-list may be an a-list, in which case, use the cars, and print the cadrs"
- 
-  (loop for x in l
-	with b = nil
-	with m = nil
-	do
-	(setq b (if (listp x) (car x) x))
-	(setq m (if (listp x) (cadr x) ""))
-	(set-buffer b)
-	(message "%s -- %s" (buffer-name) m)
-	(let ((c (read-char)))
-	  (cond 
-	   ((eq c ?\C-m) (return (pop-to-buffer b)))
-	   ((eq c ?o) (return (switch-to-buffer-other-window b)))
-	   ((eq c ?/) (return (pop-to-buffer b)))
-	   )
-	  )))
 
 ; added condition-case to ignore  loopy http specs
 (defun url-store-in-cache (&optional buff)

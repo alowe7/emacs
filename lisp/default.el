@@ -1,12 +1,25 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.8 2000-11-01 15:53:38 cvs Exp $")
+ "$Id: default.el,v 1.9 2000-11-20 01:03:02 cvs Exp $")
+
+(mapcar 
+ '(lambda (x) (and (file-directory-p x) (not (member x load-path)) (nconc load-path (list x))))
+ (nconc (list 
+	 (concat home "/emacs/config/hosts/" (hostname))
+	 (concat home "/emacs/config/os/" (uname))
+	 )
+	(directory-files (concat home "/emacs/site-lisp") t "^[a-zA-Z]")
+	(directory-files (concat emacsdir "/site-lisp") t "^[a-zA-Z]")
+	)
+ )
 
 (require 'config) ; this feature should not be required for anything up to this point
 
-; when is this not true?
-(setq user-full-name "Andrew J. Lowe")
-
 (load "os-init" t t)		; load os-specific info
+
+(or 
+ (load (symbol-name window-system) t t)	; window system specific
+ (load (getenv "TERM") t t)		;terminal specific
+)
 
 ; emacs specific initialization
 ; epoch, lucid, and xemacs variants caused problems once upon a time, ...
@@ -17,15 +30,14 @@
 (load "keys" nil t) ;key bindings
 (load "autoloads" nil t) ;automatically generated now
 
+(setq doc-directory data-directory)
+
 (modify-syntax-entry ?- "w")
 
-(defvar list-directory-verbose-switches	"-alt")
+(setq list-directory-verbose-switches "-alt")
 
-(defvar horizontal-scroll-delta 20)
+(setq horizontal-scroll-delta 20)
 
-(defvar file-assoc-list nil	"alist of downcased file extensions to internal handlers")
-
-;;; todo: c++ mode for .C files?
 (setq auto-mode-alist '(
 			("\\.l$" . c++-mode) ; lex
 			("\\.java$" . java-mode)
@@ -43,7 +55,7 @@
 			("\\.txt$" . text-mode)
 			("\\.s$" . c-mode)
 			("\\.c$" . c++-mode)
-;			("\\.lst$" . list-mode)
+  ;			("\\.lst$" . list-mode)
 			("\\.h$" . c++-mode)
 			("\\.tex$" . TeX-mode)
 			("\\.el$" . emacs-lisp-mode)
@@ -110,7 +122,22 @@
 	  t)
 
 
+(require 'worlds)
+
+(put 'eval-expression 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'set-goal-column 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
+(setq inhibit-startup-message t)
+(setq inhibit-startup-echo-area-message t)
+(setq display-time-day-and-date t)
+
+
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;; optional host-specific overrides
 (load "host-init" t t)
-

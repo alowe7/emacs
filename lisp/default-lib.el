@@ -1,32 +1,5 @@
 (put 'default-lib 'rcsid 
- "$Id: default-lib.el,v 1.6 2000-10-03 16:50:27 cvs Exp $")
-;; this lib should contain functions that would go in pure code if possible.
-
-; (require 'cl) ; this should definitely be pure.
-
-(defun loadq (x)
-  (and x (load x nil t nil)))
-
-(defun loads (x)
-  (load-library (symbol-name x)))
-
-(defun insert-date () (interactive) (insert (eval-process "date")))
-
-;;; overloaded functions
-
-(defun insert-eval-environment-variable (v)
-  "insert value of specified environment VARIABLE"
-  (interactive "sName of variable:")
-  (insert (getenv v)))
-
-(defun find-file-force-refresh ()
-  (interactive)
-  (let ((fn (buffer-file-name)))
-    (kill-buffer (current-buffer))
-    (find-file fn)
-    ))
-
-;;;
+ "$Id: default-lib.el,v 1.7 2000-11-20 01:03:02 cvs Exp $")
 
 (defun buffer-exists-p (bname)
   " return buffer with specified NAME or nil"
@@ -43,23 +16,10 @@
   (let ((v (cdr (assoc a l))))
     (or v d)))
 
-(defun get-real-buffer-list (arg)
-  (let* ((rbl (buffer-list))
-	 (bl (append (cdr rbl) (list (car rbl))))
-	 bn val x)
-    (dolist (x (if arg bl (reverse bl)))
-      (setq bn (buffer-name x))
-  ;skip killed buffers & those whose name begins with a space
-      (and bn (> (length bn) 0) (not (eq ?  (aref bn 0))) (push x val)))
-    val))
-
-;;(setq x (get-real-buffer-list nil))
-
 (defun add-auto-mode (extension mode)
   (if (not (assoc extension auto-mode-alist))
       (let ((na (list (cons extension mode))))
 	(append na (copy-alist auto-mode-alist)))))
-
 
 
 (defmacro ifp (ifp-s ifp-a ifp-b)
@@ -126,7 +86,3 @@
 				     (eval **default**))))
 
 
-(defun unhighlight-buffer () (interactive) 
-  (hilit-unhighlight-region (point-min) (point-max) t))
-
-(provide 'default-lib)

@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: roll.el,v 1.5 2000-11-20 01:03:02 cvs Exp $")
 (provide 'roll)
 (require 'cl)
 
@@ -159,7 +159,19 @@ calling SELECTFN to choose one
   (roll-list (list-mode-buffers major-mode) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
   )
 
-(defun roll-buffer-list (&optional l) (interactive)
+(defun get-real-buffer-list (arg)
+  (let* ((rbl (buffer-list))
+	 (bl (append (cdr rbl) (list (car rbl))))
+	 bn val x)
+    (dolist (x (if arg bl (reverse bl)))
+      (setq bn (buffer-name x))
+  ;skip killed buffers & those whose name begins with a space
+      (and bn (> (length bn) 0) (not (eq ?  (aref bn 0))) (push x val)))
+    val))
+
+(defun roll-buffer-list (&optional l) 
+  "roll visible buffers.  if optional LIST is specified, use that as the list of buffers to roll"
+  (interactive)
   (roll-list (or l (get-real-buffer-list nil)) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
   )
 
@@ -179,6 +191,26 @@ calling SELECTFN to choose one
     )
    'buffer-name 'kill-buffer 'switch-to-buffer)
   )
+
+(defun roll-buffer-list-2 (l) 
+  "like `roll-buffer-list`, but require LIST
+LIST may be an a-list, in which case, interpret the cars as buffers, and print the cadrs as lables"
+ 
+  (loop for x in l
+	with b = nil
+	with m = nil
+	do
+	(setq b (if (listp x) (car x) x))
+	(setq m (if (listp x) (cadr x) ""))
+	(set-buffer b)
+	(message "%s -- %s" (buffer-name) m)
+	(let ((c (read-char)))
+	  (cond 
+	   ((eq c ?\C-m) (return (pop-to-buffer b)))
+	   ((eq c ?o) (return (switch-to-buffer-other-window b)))
+	   ((eq c ?/) (return (pop-to-buffer b)))
+	   )
+	  )))
 
 (defun buffer-list-no-files ()
   (loop for x being the buffers

@@ -1,5 +1,5 @@
 (put 'edit 'rcsid 
- "$Id: edit.el,v 1.3 2000-10-03 16:50:27 cvs Exp $")
+ "$Id: edit.el,v 1.4 2000-11-20 01:03:02 cvs Exp $")
 
 ;; edit and format functions
 
@@ -109,3 +109,16 @@ if optional arg N is specified deletes additional N subsequent chars also"
     (insert s)
     (call-process-region begin (+ begin (length s))  "tr" t t nil "-s" "\" 	\"")
     ))
+
+
+(defun find-file-force-refresh ()
+  (interactive)
+  (let ((fn (buffer-file-name)))
+    (kill-buffer (current-buffer))
+    (find-file fn)
+    ))
+
+(defun insert-eval-environment-variable (v)
+  "insert value of specified environment VARIABLE"
+  (interactive "sName of variable:")
+  (insert (getenv v)))
