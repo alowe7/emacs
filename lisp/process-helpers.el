@@ -1,5 +1,5 @@
 (put 'process-helpers 'rcsid 
- "$Id: process-helpers.el,v 1.3 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: process-helpers.el,v 1.4 2001-08-28 22:11:39 cvs Exp $")
 
 
 (defun buffer-process (&optional ib)
@@ -14,3 +14,12 @@
     )
   )
 
+;; zap a hung process from its buffer
+(global-set-key (vector '\C-pause) 
+		'(lambda ()
+		   (interactive)
+		   (let ((p (buffer-process)))
+		     (and 
+		      (y-or-n-p (format "really kill process %s " (process-name p)))
+		      (kill-process p))))
+		)

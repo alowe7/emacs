@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.13 2001-07-17 11:14:19 cvs Exp $")
+ "$Id: config.el,v 1.14 2001-08-28 22:11:39 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -214,6 +214,7 @@ no errors if files don't exist.
 
 (defun post-wrap (f) 
   "load any post-* modules for module F"
+  (interactive "smodule: ")
   (load (format "post-%s" f) t t)
   )
 

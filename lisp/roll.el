@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.12 2001-08-24 19:20:58 cvs Exp $")
+ "$Id: roll.el,v 1.13 2001-08-28 22:11:39 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -62,8 +62,8 @@ optional DISPATCH is an a-list:
 	((char fn) ...)
 
 each association dispatches a keyboard character to a function.  if
-the key is pressed, the function of one arg is applied to the
-subject element of l
+the key is pressed, the function of one arg is applied to the list: (b i)
+where b is the subject element of l and i is the relative position of the element
 
 calling DISPLAYFN to display the element (returns a string)
 	if DISPLAYFN is nil, then l is assumed to be a list of strings, and the element is simply displayed
@@ -162,10 +162,14 @@ calling SELECTFN to choose one
   (roll-list (list-buffers-mode (if (atom m) m (or (string* m) major-mode))) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
   )
 
-(defun roll-buffer-like () 
-" roll buffers with mode like current buffer"
-  (interactive) 
-  (roll-list (roll (list-buffers-mode major-mode)) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
+(defun roll-buffer-like (arg) 
+  " roll buffers with mode like current buffer"
+  (interactive "P") 
+  (let ((displayfn (if arg '(lambda (b) (switch-to-buffer b) (message (buffer-name b))) 'buffer-name)))
+    (roll-list (roll (list-buffers-mode major-mode)) displayfn 'kill-buffer-1 'switch-to-buffer
+	       '((?l (lambda (v i) (message "%d/%d" i (length x)) (sit-for 2))))
+	       )
+    )
   )
 
 (defun real-buffer-list (&optional arg)

@@ -1,31 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.11 2001-08-24 03:59:17 cvs Exp $")
-
-;(default-font "lucida console" nil 22)
-
-;(set-frame-size (selected-frame) 72 30)
-;(set-frame-position (selected-frame) 10 10)
-
-(setq default-frame-alist
-      '((top + -4)
-	(left + -4)
-	(width . 102)
-	(height . 44)
-	(background-mode . light)
-	(cursor-type . box)
-	(border-color . "black")
-	(cursor-color . "black")
-	(mouse-color . "black")
-	(background-color . "white")
-	(foreground-color . "black")
-	(vertical-scroll-bars)
-	(internal-border-width . 0)
-	(border-width . 2)
-	(font . "-*-lucida console-normal-r-*-*-17-nil-*-*-*-*-*-*-")
-	(menu-bar-lines . 0))
-      )
-
-(setq initial-frame-alist default-frame-alist)
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.12 2001-08-28 22:12:39 cvs Exp $")
 
 (display-time)
 ; (require 'worlds)

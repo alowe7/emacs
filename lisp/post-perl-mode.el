@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.9 2001-08-20 02:09:14 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.10 2001-08-28 22:11:39 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -11,11 +11,13 @@
 
 ; see reg.el
 
+(defvar pod2text "d:/usr/local/bin/pod2text")
+
 (defun pod2text (f &optional buffer-name)
   (interactive "ffile: ")
   (let* ((b (zap-buffer (or buffer-name "*pod*"))))
     (insert 
-     (perl-command "pod2text" f))
+     (perl-command pod2text f))
 
 ; if window is visible in another frame, then raise it
     (if (and (not (get-buffer-window b))  

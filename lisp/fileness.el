@@ -1,5 +1,5 @@
 (put 'fileness 'rcsid 
- "$Id: fileness.el,v 1.3 2000-10-03 16:50:27 cvs Exp $")
+ "$Id: fileness.el,v 1.4 2001-08-28 22:11:39 cvs Exp $")
 
 (defun wordness ()
   (interactive)
@@ -14,8 +14,7 @@
 (defun fileness ()
   (interactive)
   (modify-syntax-entry ?/ "." (syntax-table))
-  (modify-syntax-entry ?_ "." (syntax-table))
-  (modify-syntax-entry ?- "." (syntax-table))
+  (modify-syntax-entry ?: "." (syntax-table))
   (modify-syntax-entry ?. "." (syntax-table))
   (message "fileness")
   )

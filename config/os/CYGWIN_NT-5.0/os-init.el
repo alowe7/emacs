@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.15 2001-08-24 19:20:58 cvs Exp $")
+ "$Id: os-init.el,v 1.16 2001-08-28 22:12:39 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 (setq doc-directory data-directory)

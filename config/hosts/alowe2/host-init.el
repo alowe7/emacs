@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.11 2001-08-28 21:51:57 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.12 2001-08-28 22:12:39 cvs Exp $")
 
 (if (file-directory-p "d:/x/elisp")
     (load "d:/x/elisp/.autoloads" t t t)
@@ -32,6 +32,9 @@
 (require 'world-advice)
 
 (require 'xz-loads)
+(setq *xz-show-status* nil)
+(setq *xz-squish* 4)
+
 (require 'gnuserv)
 
 (setenv "XDBHOST" "kim.alowe.com")
