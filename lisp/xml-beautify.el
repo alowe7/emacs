@@ -1,5 +1,5 @@
 (put 'xml-beautify 'rcsid
- "$Id: xml-beautify.el,v 1.1 2002-06-06 17:17:25 cvs Exp $")
+ "$Id: xml-beautify.el,v 1.2 2004-10-01 23:07:54 cvs Exp $")
 
 (setq xml-beautify-tags '("<worknodes" "<rawData" "<IDictionaryRoot"))
 
@@ -54,7 +54,7 @@
 	    )
 	  )
     )
-  (lazy-lock-mode)
+  (font-lock-mode)
   (set-buffer-modified-p nil)
   )
 
@@ -86,6 +86,6 @@
 	    )
 	  )
     )
-  (lazy-lock-mode)
+  (font-lock-mode)
   (set-buffer-modified-p nil)
   )

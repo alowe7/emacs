@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.35 2004-09-17 18:45:35 cvs Exp $")
+ "$Id: W32.el,v 1.36 2004-10-01 23:07:54 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -1151,5 +1151,15 @@ keys for the alist include:
 
 ;; ignore case when determining whether a filename is a member of a list
 (setq *file-name-member* 'member-ignore-case)
- 	 
+
+(defun toggle-coding-system () (interactive)
+  (cond ((eq buffer-file-coding-system 'undecided-unix)
+	 (set-buffer-file-coding-system 'undecided-dos))
+	((eq buffer-file-coding-system 'undecided-dos)
+	 (set-buffer-file-coding-system 'undecided-unix))
+	)
+  ;       (t (or (read-coding-system (format "(%s): " buffer-file-coding-system)) buffer-file-coding-system))
+  (find-file-force-refresh)
+  )
+
 (provide 'w32)

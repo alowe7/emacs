@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.42 2004-09-03 15:12:33 cvs Exp $")
+ "$Id: default.el,v 1.43 2004-10-01 23:07:54 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -106,12 +106,12 @@
 				   (modify-syntax-entry ?* "w")
   ;				   (set-tabs 2)
 				   (setq comment-column 2)
-				   (lazy-lock-mode)
+				   (font-lock-mode)
 				   ) 
 	  t)
 
 (add-hook 'sh-mode-hook '(lambda () (use-local-map nil)))
-(add-hook 'css-mode-hook '(lambda () (lazy-lock-mode)))
+(add-hook 'css-mode-hook '(lambda () (font-lock-mode)))
 
 ;; from default-lib
 

@@ -1,79 +1,44 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.28 2004-09-27 22:02:41 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.29 2004-10-01 23:07:54 cvs Exp $")
 
-;; (setq default-fontspec "-*-tahoma-normal-r-*-*-22-*-*-*-*-*-*-*-")
-;; (setq initial-frame-alist
-;;       `((top . 0)
-;; 	(left . 0)
-;; 	(width . 125)
-;; 	(height . 35)
-;; 	(background-mode . light)
-;; 	(cursor-type . box)
-;; 	(border-color . "black")
-;; 	(cursor-color . "black")
-;; 	(mouse-color . "black")
-;; 	(background-color . "white")
-;; 	(foreground-color . "black")
-;; 	(vertical-scroll-bars)
-;; 	(internal-border-width . 0)
-;; 	(border-width . 2)
-;; 	(font . ,default-fontspec)
-;; 	(menu-bar-lines . 0))
-;;       )
+(require 'default-frame-configurations)
 
-; new favorite
-(setq default-fontspec "-*-arial-normal-r-*-*-17-normal-*-*-*-*-*-*-")
-(setq initial-frame-alist
-      `((top . 20)
-	(left . 23)
-	(width . 150)
-	(height . 45)
-	(background-mode . light)
-	(cursor-type . box)
-	(border-color . "black")
-	(cursor-color . "black")
-	(mouse-color . "black")
-	(background-color . "white")
-	(foreground-color . "black")
-	(vertical-scroll-bars)
-	(internal-border-width . 0)
-	(border-width . 2)
-	(font . ,default-fontspec)
-	(menu-bar-lines . 0))
-      )
+; (default-frame-configuration "tahoma")
+; (default-frame-configuration "arial")
+(default-frame-configuration "courier new")
 
-(setq default-frame-alist  initial-frame-alist)
+(setq default-frame-alist initial-frame-alist)
 
 (add-hook 'people-load-hook (lambda () ; (require 'worlds)
 			      (setq *people-database*
 				    (nconc 
-; xxx todo: put (get-directory-files (expand-file-name ...)) into xwf if F is a dir, add optional argz
-;				     (last (get-directory-files (xwf "n" "broadjump") t "people.*\.csv$"))
+  ; xxx todo: put (get-directory-files (expand-file-name ...)) into xwf if F is a dir, add optional argz
+  ;				     (last (get-directory-files (xwf "n" "broadjump") t "people.*\.csv$"))
 				     (last (get-directory-files "/m" t "phone.*\.csv$"))
 				     (list "~/n/people")))))
 (add-hook 'xz-load-hook 
 	  '(lambda ()
 	     (mapcar
 	      '(lambda (x) (load x t t)) 
-		     '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
+	      '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
 
 (add-hook 'world-init-hook '(lambda ()
-;; 
-;; 			      (setq *howto-path* 
-;; 				    (loop for w in (la) 
-;; 					  when (file-exists-p (fwf "n" w))
-;; 					  collect (fwf "n" w)))
-;; 
-;; 			      (setq *howto-alist* 
-;; 				    (loop
-;; 				     for x in *howto-path*
-;; 				     with l = nil
-;; 				     nconc (loop for y in (get-directory-files x)
-;; 						 collect (list y x)) into l
-;; 				     finally return l)
-;; 				    )
+			      ;; 
+			      ;; 			      (setq *howto-path* 
+			      ;; 				    (loop for w in (la) 
+			      ;; 					  when (file-exists-p (fwf "n" w))
+			      ;; 					  collect (fwf "n" w)))
+			      ;; 
+			      ;; 			      (setq *howto-alist* 
+			      ;; 				    (loop
+			      ;; 				     for x in *howto-path*
+			      ;; 				     with l = nil
+			      ;; 				     nconc (loop for y in (get-directory-files x)
+			      ;; 						 collect (list y x)) into l
+			      ;; 				     finally return l)
+			      ;; 				    )
 
-; 			      (load "world-advice")
+  ; 			      (load "world-advice")
 			      (load "post-worlds")
 			      )
 	  )
@@ -101,9 +66,10 @@
 
 (setq grep-command "grep -n -i -e ")
 
-(setq font-lock-support-mode 'lazy-lock-mode)
+(setq font-lock-support-mode 'fast-lock-mode)
+; (setq font-lock-support-mode 'lazy-lock-mode)
 
-(add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))
+(add-hook 'perl-mode-hook (lambda () (font-lock-mode)))
 (add-hook 'java-mode-hook (lambda ()
 			    (font-lock-mode)
 			    (font-lock-fontify-buffer) 
@@ -140,16 +106,6 @@
 	)
   )
 
-(require 'worlds)
-(let ((lw (read-file (concat wbase "/" *lastworld-file-name*)))) (and lw (world lw)))
-(setq *log-file-save* t)
-(and  *log-file-save*
-      (add-hook 'after-save-hook 'world-file-save-hook))
-
-; (load-library "post-help")
-(load-library "fixframe")
-(load-library "unbury")
-
 (add-to-load-path "/u/emacs-w3m/emacs-w3m")
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
 
@@ -158,4 +114,15 @@
 
 ; xxx check out why this isn't autoloading
 (load-library "post-bookmark")
+
+(require 'worlds)
+
+(let ((lw (read-file (concat wbase "/" *lastworld-file-name*)))) (and lw (world lw)))
+(setq *log-file-save* t)
+(and  *log-file-save*
+      (add-hook 'after-save-hook 'world-file-save-hook))
+
+; (load-library "post-help")
+(load-library "fixframe")
+(load-library "unbury")
 

@@ -1,5 +1,5 @@
 (put 'eval-utils 'rcsid
- "$Id: eval-utils.el,v 1.3 2004-04-08 01:27:25 cvs Exp $")
+ "$Id: eval-utils.el,v 1.4 2004-10-01 23:07:54 cvs Exp $")
 (provide 'eval-utils)
 (require 'cat-utils)
 
@@ -24,7 +24,9 @@ with optional second arg CHOMP, applies `chomp' to the result
 
 ; directory-files appears to have a bug matching arbitrary regexps.
 (defun get-directory-files (&optional directory full match)
-  "return directory contents as a list of strings, excluding . and .."
+  "return directory contents as a list of strings, excluding . and ..
+see `directory-files'
+"
   (interactive "sName: ")
 
   (loop for x in 

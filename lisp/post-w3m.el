@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.19 2004-09-08 21:07:54 cvs Exp $")
+ "$Id: post-w3m.el,v 1.20 2004-10-01 23:07:54 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -69,12 +69,13 @@
 
 
 (setq *specsvec* '(
-		     ("apache"  "http://apache/htdocs/manual/index.html.en")
-		     ("css" "http://localhost/usr/share/specs/css2.0/cover.html")     
-		     ("" "http://localhost/specs.nav")
+		   ("apache"  "http://apache/htdocs/manual/index.html.en")
+		   ("css" "http://localhost/usr/share/specs/css2.0/cover.html")     
+		   ("html" "http://localhost/usr/share/specs/html4.0/cover.html")
+		   ("" "http://localhost/specs.nav")
   ; ...
-		     )
-  )
+		   )
+      )
 
 ;; todo -- catch exit handler and offer to save updated specsvec
 (defun add-to-specsvec (name)
@@ -190,3 +191,6 @@
 (define-key ctl-/-map "g" 'w3m-goto-url-new-session)
 ; 
 (define-key w3m-mode-map "i" 'w3m-display-current-url)
+
+(mapcar '(lambda (x) (add-file-association x 'w3m-goto-url-new-session)) '("html" "htm"))
+

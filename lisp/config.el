@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.39 2004-08-11 14:55:52 cvs Exp $")
+ "$Id: config.el,v 1.40 2004-10-01 23:07:54 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -309,6 +309,20 @@ or override them by post-chaining.
 	do (let ((afn (format "%s/%s" a fn)))
 	  (if (-f afn) (scan-file afn))
 	  )))
+
+(defun find-config-file (fn)
+  (interactive "sconfig file: ")
+  (let ((afn (loop for a in load-path
+		   thereis (let ((afn (format "%s/%s.el" a fn)))
+			     (and (-f afn) afn)
+			     )
+		   )))
+    (if afn (find-file afn) 
+      (message "%s not found along load-path" fn)
+      )
+    )
+  )
+(defun host-init () (interactive) (find-config-file "host-init"))
 
 ; these go at the head of the list
 (mapcar 

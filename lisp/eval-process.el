@@ -1,5 +1,5 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.16 2004-03-11 21:37:37 cvs Exp $")
+ "$Id: eval-process.el,v 1.17 2004-10-01 23:07:54 cvs Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)
@@ -11,6 +11,13 @@
   "execute CMD as a process, giving it optional ARGS.
 CMD may be a string evaluating to a command, or a space separated list of strings indicating the command and arguments
 ARGS may be a space separated string or a list of string arguments
+
+Kludgy feature: performs `split' on cmd before calling `call-process', so 
+	(eval-process \"command -switch arg1 arg2\")
+is equivalent to 
+	(eval-process \"command\" \"-switch\" \"arg1\" \"arg2\")
+or even 
+	(eval-process \"command -switch arg1\" \"arg2\")
 
 this function evaluates to the process output  "
   (let*

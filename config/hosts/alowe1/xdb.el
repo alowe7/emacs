@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.4 2004-09-03 15:12:33 cvs Exp $")
+ "$Id: xdb.el,v 1.5 2004-10-01 23:07:54 cvs Exp $")
 
 (chain-parent-file t)
 
@@ -77,7 +77,11 @@
 
   (interactive "sname: ")
   (condition-case x
-      (x-query-1 (format  "select * from people where item like '%%%s%%'" name))
+      (let* ((s (x-query-1 (format  "select id,item from people where item like '%%%s%%'" name)))
+	     (l (split s "
+"))
+	     (id (car (split (car l)))))
+	(xe-set 'people id 'id))
     (error (xmn name))
     )
   )

@@ -1,5 +1,5 @@
 (put 'frames 'rcsid 
- "$Id: frames.el,v 1.9 2004-09-27 22:02:41 cvs Exp $")
+ "$Id: frames.el,v 1.10 2004-10-01 23:07:54 cvs Exp $")
 ;; simple frame abstraction functions
 
 (defun name-frame (name &optional f)
@@ -12,7 +12,7 @@
 
 
 ;; this might not be so smart
-(defvar *clone-frames* nil)
+(defvar *clone-frames* t)
 (defvar *clone-frame-parameters* '(
 				  ; window-id
 				  ; top
