@@ -1,9 +1,9 @@
 (put 'shell2 'rcsid 
- "$Id: shell2.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: shell2.el,v 1.5 2001-02-27 12:44:48 cvs Exp $")
 (require 'shell)
 (defvar shell-popper 'switch-to-buffer) ; could also use pop-to-buffer
 
-(defun shell2 (&optional shell-num &optional other-frame)
+(defun shell2 (&optional shell-num &optional other-frame specific-shell-file-name)
   "Run an inferior shell, with I/O through buffer *shell*.
 If buffer exists but shell process is not running, make new shell.
 If buffer exists and shell process is running, just switch to buffer `*shell*'.
@@ -28,7 +28,8 @@ Otherwise, one argument `-i' is passed to the shell.
 	  (concat "shell" (and shell-num (format "%d" shell-num))))
 	 (shell-buffer-name (concat "*" shell-name "*")))
     (or (comint-check-proc shell-buffer-name)
-	(let* ((prog (or explicit-shell-file-name
+	(let* ((prog (or specific-shell-file-name
+			 explicit-shell-file-name
 			 (getenv "ESHELL")
 			 (getenv "SHELL")
 			 "/bin/sh"))		     
@@ -43,7 +44,12 @@ Otherwise, one argument `-i' is passed to the shell.
 				   (symbol-value xargs-name)
 				 '("-i"))))
 	    (setq shell-buffer (current-buffer))
-	    (shell-mode))))
+
+	    (shell-mode)
+
+	    ;; this is now buffer-local
+	    (setq explicit-shell-file-name prog)
+	    )))
     (if other-frame 
 	(switch-to-buffer-other-frame shell-buffer-name)
       (funcall shell-popper shell-buffer-name))))
