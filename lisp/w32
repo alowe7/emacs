@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.16 2001-08-20 02:08:16 cvs Exp $")
+ "$Id: w32,v 1.17 2001-08-24 19:20:58 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -37,7 +37,7 @@
 (defvar  default-family-table 
 	(mapcar 'list (list "Roman" "MS LineDraw" "Lucida Console" "fixed" "courier")))
 (defvar default-font-family "lucida console")
-(defvar default-point-size 22)
+(defvar default-point-size 17)
 (defvar default-style "normal")
 (defvar default-weight nil)
 (defvar default-fontspec nil)

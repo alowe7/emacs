@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.14 2001-07-22 16:26:40 cvs Exp $")
+ "$Id: os-init.el,v 1.15 2001-08-24 19:20:58 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 (setq doc-directory data-directory)
@@ -109,7 +109,7 @@ host must respond within optional TIMEOUT msec"
        )
       )
 
-(add-hook 'after-init-hook 'cygmounts)
+(cygmounts)
 
 (defadvice cd (around 
 		     hook-cd
@@ -201,12 +201,15 @@ host must respond within optional TIMEOUT msec"
     )
   )
 
-(add-hook 'after-init-hook
-	  '(lambda () 
-	     (let ((s (string* (condition-case x (read-file "~/.tickle") (error nil)))))
-	       (and s
-		    (messagebox s "don't forget")
-		    )
-	       )
-	     )
-	  )
+(defvar do-tickle nil)
+(if do-tickle
+    (add-hook 'after-init-hook
+	      '(lambda () 
+		 (let ((s (string* (condition-case x (read-file "~/.tickle") (error nil)))))
+		   (and s
+			(messagebox s "don't forget")
+			)
+		   )
+		 )
+	      )
+  )

@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.16 2001-07-17 11:14:19 cvs Exp $
+# $Id: Makefile,v 1.17 2001-08-24 19:20:58 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
@@ -28,7 +28,7 @@ all: .autoloads
 	@echo .autoloads rebuilt
 
 .xz.dat: $(SOURCES) $(CONFIGS) $(SITE_LISP)
-	@$(XZ) $(XZFLAGS) -ywqn $(SOURCES) $(CONFIGS) $(SITE_LISP)
+	$(XZ) $(XZFLAGS) -ywqn $(SOURCES) $(CONFIGS) $(SITE_LISP)
 	@echo .xz.dat rebuilt
 
 .emacs.dat: 

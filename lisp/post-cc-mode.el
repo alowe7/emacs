@@ -1,5 +1,5 @@
 (put 'post-cc-mode 'rcsid 
- "$Id: post-cc-mode.el,v 1.6 2001-07-26 17:13:00 cvs Exp $")
+ "$Id: post-cc-mode.el,v 1.7 2001-08-24 19:20:58 cvs Exp $")
 
 (defun narrow-to-fn ()
   " narrow to region surrounding current function"
@@ -85,6 +85,25 @@ The expansion is entirely correct because it uses the C preprocessor."
 	    (delete-region (point-min) (point))))
       )
     (display-buffer outbuf)))
+
+
+(defun langle ()
+	"toggle langleness"
+	(interactive)
+
+	(if (eq (char-syntax ?<) ?.)
+			(modify-syntax-entry ?< "(" c++-mode-syntax-table)
+		(modify-syntax-entry ?< "." c++-mode-syntax-table))
+
+	(if (eq (char-syntax ?>) ?.)
+			// bug: this makes -> operator a paren terminator
+			(modify-syntax-entry ?> ")" c++-mode-syntax-table)
+			(modify-syntax-entry ?> "." c++-mode-syntax-table)
+			)
+
+	(message (format "langle %s" (if (eq (char-syntax ?<) ?.) "disabled" "enabled")))
+  )
+(define-key c++-mode-map (vector (char-ctrl ?<)) 'langle)
 
 
 (add-hook 'c++-mode-hook 

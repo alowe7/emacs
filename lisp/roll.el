@@ -1,8 +1,15 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.11 2001-08-15 21:49:00 cvs Exp $")
+ "$Id: roll.el,v 1.12 2001-08-24 19:20:58 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
+
+(defun roll (l)
+  "roll LIST as a ring"
+  (let ((h (pop l)))
+    (nconc l (list h)))
+  )
+; (roll (roll (roll '(a b c))))
 
 (defun roll-search (a pat displayfn i)
   (position pat a 
@@ -158,7 +165,7 @@ calling SELECTFN to choose one
 (defun roll-buffer-like () 
 " roll buffers with mode like current buffer"
   (interactive) 
-  (roll-list (list-buffers-mode major-mode) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
+  (roll-list (roll (list-buffers-mode major-mode)) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
   )
 
 (defun real-buffer-list (&optional arg)

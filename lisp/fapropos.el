@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.8 2001-07-26 09:22:32 cvs Exp $")
+ "$Id: fapropos.el,v 1.9 2001-08-24 19:20:58 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -266,7 +266,7 @@ unless it is already there
 
 
 ; xxx todo roll results
-(defun fapropos3 (pat)
+(defun fapropos5 (pat)
   "find symbol function with documentation property matching PAT"
   (interactive "spat: ")
   (loop

@@ -1,5 +1,5 @@
 (put 'zap 'rcsid 
- "$Id: zap.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: zap.el,v 1.5 2001-08-24 19:20:58 cvs Exp $")
 (provide 'zap)
 ;;; 
 (defun zap-buffer (bname &optional postop preop)
@@ -7,7 +7,6 @@
 with optional SEXP, evaluates sexp in context of buffer
 "
   (interactive "Bbuffer: ")
-; (default-directory "/") 
   (let (v)
     (and preop (eval preop))
     (setq v (set-buffer (get-buffer-create bname)))
