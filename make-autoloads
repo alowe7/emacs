@@ -1,0 +1,35 @@
+#!/usr/local/bin/perl
+#      $Id: make-autoloads,v 1.1 2000-07-17 20:56:21 a Exp $
+
+map {print STDERR "$_\n";} @ARGV;
+
+print "(setq autoload-alist `( ";
+
+foreach $fn (@ARGV) {
+    foreach $def ("defun", "defmacro") {
+	$cmd="egrep -H \"^\\($def\" $fn";
+	print STDERR "$cmd\n"; 
+	@list=`$cmd`;
+	foreach $hit (@list) {
+	    print STDERR "$hit\n";
+	    @hit=split(/:/, $hit);
+	    $path=shift @hit;
+	    @path=split(?/?, $path);
+	    $f=pop(@path);
+	    print STDERR "$f\n";
+	    $_ = shift @hit;
+	    @g=split;
+	    map {print STDERR} @g;
+	    next unless ($g[1] cmp "(defun");
+	    print "($g[1] \"$f\")\n";
+	    print STDERR "($g[1] \"$f\")\n";
+	}
+    }
+}
+
+print "))\n";
+
+print STDERR "(mapcar '(lambda (x) (autoload (car x) (cadr x) nil t)) autoload-alist)\n";
+
+print "(mapcar '(lambda (x) (autoload (car x) (cadr x) nil t)) autoload-alist)\n";
+
