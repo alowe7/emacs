@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.18 2002-09-17 17:55:53 cvs Exp $")
+ "$Id: config.el,v 1.19 2003-07-18 14:51:25 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -240,3 +240,34 @@ no errors if files don't exist.
 (defun find-host-init ()
   (interactive)
   (find-file (format "~/emacs/config/hosts/%s/host-init.el" (downcase (getenv "COMPUTERNAME")))))
+
+; this helper function gives init files a weak inheritance capability
+
+(defun chain-parent-file (&optional arg)
+  "return the parent of a load file.
+this will be the one following it in load-path, if any.
+with optional ARG evals the file
+
+the load file is determined by testing `load-in-progress'
+if this is set, then the load file is given by `load-file-name',
+otherwise it is given by `buffer-file-name'
+
+this mechanism allows a sort of inheritance among load files.
+a load file sitting in front of its 'parent' on the load-path can extend or override its settings
+"
+  (let ((f (if load-in-progress load-file-name (buffer-file-name))))
+    (and f
+	 (let* (z
+		(y (file-name-nondirectory f))
+		(l 
+		 (loop for x in load-path when (file-exists-p (setq z (concat x "/" y))) collect z))
+		(tail (member f l))
+		(parent (and tail (cadr tail))))
+	   (if (and arg parent)
+	       (load parent)
+	     parent)
+	   )
+	 )
+    )
+  )
+

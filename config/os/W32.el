@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.15 2003-06-27 14:52:13 cvs Exp $")
+ "$Id: W32.el,v 1.16 2003-07-18 14:51:25 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -275,16 +275,6 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   (dired dir)
   )
 
-
-;; world helpers ;;
-(defun ewn  (&optional w go sub)
-  "expore file in W named F"
-  (interactive "P")
-  (wn w go 'explore))
-
-(defun ewd  (&optional w go sub)
-  (interactive "P")
-  (wd w 'explore))
 
 (defun md (&optional arg) (interactive "P") 
   (explore  (if arg 
@@ -669,30 +659,27 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 			   "system/currentcontrolset/services/tcpip/parameters" "domain"))
   )
 
-(add-hook 'post-load-hook 
-	  '(lambda () 
-	     (defvar all-users-profile
-	       (expand-file-name (substitute-in-file-name "$ALLUSERSPROFILE"))
-	       "top level dir for all user documents and settings")
+(defvar all-users-profile
+  (expand-file-name (substitute-in-file-name "$ALLUSERSPROFILE"))
+  "top level dir for all user documents and settings")
 
-	     (defvar userprofile
-	       (expand-file-name (substitute-in-file-name "$USERPROFILE")
-	       "top level dir for current users documents and settings"))
+(defvar userprofile
+  (expand-file-name (substitute-in-file-name "$USERPROFILE"))
+  "top level dir for current users documents and settings")
 
-	     (defvar my-documents
-	       (expand-file-name (concat userprofile "/My Documents"))
-	       "top level dir for current users documents and settings")
+(defvar my-documents
+  (expand-file-name (concat userprofile "/My Documents"))
+  "top level dir for current users documents and settings")
 
-	     (defvar start-menu
-	       (expand-file-name (substitute-in-file-name "$USERPROFILE/Start Menu"))
-	       "top level dir for current users documents and settings")
+(defvar start-menu
+  (expand-file-name (substitute-in-file-name "$USERPROFILE/Start Menu"))
+  "top level dir for current users documents and settings")
 
-	     (defvar quicklaunch
-	       (w32-canonify 
-		(concat userprofile
-		 "\\Application Data\\Microsoft\\Internet Explorer\\Quick Launch"
-		 )))
-	     ))
+(defvar quicklaunch
+  (w32-canonify 
+   (concat userprofile
+	   "\\Application Data\\Microsoft\\Internet Explorer\\Quick Launch"
+	   )))
 
 (mapcar '(lambda (x) 
 	   (eval (list 'defun x nil '(interactive) (list 'dired x))))

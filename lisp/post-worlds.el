@@ -1,6 +1,5 @@
 (put 'post-worlds 'rcsid 
- "$Id: post-worlds.el,v 1.13 2003-06-27 21:39:32 cvs Exp $")
-
+ "$Id: post-worlds.el,v 1.14 2003-07-18 14:51:25 cvs Exp $")
 
 (defun push-world-p (w)
   "push current context replacing with WORLD.
@@ -32,10 +31,13 @@ a null argument means pop-world from world-stack"
 	   (lambda () (lastworld)
 	     (add-hook 'after-save-hook 'world-file-save-hook))))
 
-(add-hook 'after-save-hook
-	  (function
-	   (lambda () 
-	     (log (format "saving %s" (buffer-file-name))))))
+(defvar *log-all-saves* nil "set to t to log all file writes")
+(if *log-all-saves*
+    (add-hook 'after-save-hook
+	      (function
+	       (lambda () 
+		 (log (format "saving %s" (buffer-file-name)))))))
+
 
 (global-set-key "\C-c\C-m" 'world)
 (global-set-key (vector ? 'C-return) 'push-world)
@@ -49,18 +51,6 @@ a null argument means pop-world from world-stack"
 (setq *shell-track-worlds* nil)
 
 (setq *log-pre-log* t  *log-post-log* t)
-
-(add-hook 'world-create-hook
-	  '(lambda ()
-	     (message "hi")
-	     ; create a quicklaunch to the dir
-	     (shell-command 
-	      (format "shortcut -f -t \"%s\" -n \"%s/%s\"" (w32-canonify (fw) t) quicklaunch (wa))
-	      )
-	     )
-)
-
-(defvar *tw-ico-file* (w32-canonify "/x/tw/util/tw.ico"))
 
 ; (setq world-post-change-hook nil)
 
@@ -119,3 +109,4 @@ a null argument means pop-world from world-stack"
 
 (define-key ctl-x-3-map "f" 'wn)
 (define-key ctl-x-3-map "d" '(lambda () (interactive) (dired (fw))))
+

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.6 2003-05-15 21:00:01 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.7 2003-07-18 14:51:25 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 0)
@@ -109,10 +109,10 @@
   )
 
 ; use working versions. will this stuff ever stabilize?
-(add-to-list 'load-path  "/x/tw/site-lisp")
-(add-to-list 'load-path  "/x/db/site-lisp")
-(add-to-list 'load-path  "/x/xz/site-lisp")
-(add-to-list 'load-path  "/x/elisp")
+(append-to-list 'load-path  "/x/tw/site-lisp")
+(append-to-list 'load-path  "/x/db/site-lisp")
+(append-to-list 'load-path  "/x/xz/site-lisp")
+(append-to-list 'load-path  "/x/elisp")
 
 
 (require 'worlds)
