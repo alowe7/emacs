@@ -1,9 +1,9 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.18 2002-12-02 03:12:31 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.19 2003-11-01 15:18:05 cvs Exp $")
 
 (setq default-frame-alist
-      '((top + -4)
-	(left + -4)
+      '((top . 50)
+	(left . 100)
 	(width . 102)
 	(height . 44)
 	(background-mode . light)
@@ -22,6 +22,24 @@
 
 (setq initial-frame-alist default-frame-alist)
 
+; tweak load-path to use working versions. will this stuff ever stabilize?
+(let ((r '(
+	   ("site-lisp/tw-3.01" "/x/tw/site-lisp")
+	   ("site-lisp/db-1.0" "/x/db/site-lisp")
+	   ("site-lisp/xz-3.1" "/x/xz/site-lisp")
+	   ("site-lisp/tx-1.0" "/x/elisp")
+	   ))
+      )
+  (loop for e in r do 
+	(setq load-path
+  ; first remove published versions, if any
+	      (nconc (remove-if '(lambda (x) (string-match (car e) x)) load-path)
+  ; then add working versions
+		     (cdr e))
+	      )
+	)
+  )
+
 (add-hook 'xz-load-hook 
 	  '(lambda ()
 	     (mapcar
@@ -32,8 +50,10 @@
 
 (display-time)
 
-; (require 'worlds)
-; (require 'world-advice)
+(require 'trim)
+(require 'ksh-interpreter)
+(require 'worlds)
+(require 'world-advice)
 
 (require 'xz-loads)
 (setq *xz-show-status* nil)
@@ -53,3 +73,4 @@
 
 (defvar grep-command "grep -n -i -e ")
 (setenv "PERL5LIB" "/usr/local/site-lib/perl")
+
