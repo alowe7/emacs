@@ -1,5 +1,5 @@
 (put 'default-lib 'rcsid 
- "$Id: default-lib.el,v 1.9 2001-09-02 22:47:06 cvs Exp $")
+ "$Id: default-lib.el,v 1.10 2002-12-10 17:22:11 cvs Exp $")
 
 (defun buffer-exists-p (bname)
   " return buffer with specified NAME or nil"
@@ -93,9 +93,15 @@
 
 (defun unset (v)
   "remove environment variable V from `process-environment'
+if V is a list, remove all elements of the list
+returns a copy of process-environment
 does not affect currently running environment"
   (interactive "svar: ")
-  (loop for x in process-environment
-	unless (string= (car (split (car process-environment) "=")) "POSIXLY_CORRECT")
-	collect x )
+
+  (let ((vl (if (stringp v) (list v) v)))
+    (loop for v in vl
+	  with ret = process-environment
+	  do (setq ret (remove* v ret :test '(lambda (x y) (string= x (car (split y "="))))))
+	  finally return ret)
+    )
   )

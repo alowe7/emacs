@@ -1,5 +1,5 @@
 (put 'tar-view 'rcsid 
- "$Id: tar-view.el,v 1.6 2001-08-20 04:24:43 cvs Exp $")
+ "$Id: tar-view.el,v 1.7 2002-12-10 17:22:11 cvs Exp $")
 (provide 'tar-view)
 (require 'cl)
 
@@ -11,7 +11,7 @@
 (defun tar-view (f) (interactive)
 	(let* ((b (zap-buffer (format "%s *tar*" f))))
 
-		(call-process "tar" nil b nil "tf"  (unix-canonify f))
+		(call-process "tar" nil b nil "tf"  (unix-canonify f 0))
 		(pop-to-buffer b)
 		(setq tar-file f)
 		(tar-view-mode)

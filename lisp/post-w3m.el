@@ -43,6 +43,24 @@
 
 (define-key w3m-mode-map "u" 'w3m-view-parent-page)
 (define-key w3m-mode-map "n" 'w3m-view-next-page)
+
+;; mainly for docbook style pages
+(defun find-anchor-named (pat) (interactive "spat: ")
+  (let ((p (point)))
+    (beginning-of-buffer)
+    (loop 
+     do (w3m-next-anchor)
+     while (and (< (w3m-anchor-sequence) w3m-max-anchor-sequence) (not (looking-at pat)))
+     )
+    (if (looking-at pat) (w3m-view-this-url) (goto-char p) (message "anchor %s not found" pat))
+    )
+  )
+
+(define-key w3m-mode-map "/" 'find-anchor-named)
+(define-key w3m-mode-map "U" '(lambda () (interactive) (find-anchor-named "Up")))
+(define-key w3m-mode-map "N" '(lambda () (interactive) (find-anchor-named "Next")))
+(define-key w3m-mode-map "P" '(lambda () (interactive) (find-anchor-named "Prev")))
+
 (define-key w3m-mode-map [prior] 'w3m-scroll-down-or-previous-url)
 (define-key w3m-mode-map [next] 'w3m-scroll-up-or-next-url)
 ; (define-key w3m-mode-map [up] 'fb-up)
@@ -60,7 +78,7 @@
 
 (defun perlmodhtml (mod) (interactive "smod: ")
 (let ((res  (w3m-goto-url (format "http://alowe2/perl/html/site/lib/%s" (replace-in-string "::" "/" mod)) nil nil)))
-(debug)
+; (debug)
   )
 )
 
@@ -68,3 +86,13 @@
   (w3m-goto-url-new-session "http://alowe2/php/manual")
   )
 ; ( phpmanual)
+
+(defun html-spec () (interactive)   
+  (w3m-goto-url-new-session "http://alowe2/usr/share/specs/html4.0/cover.html")
+  )
+
+; ugh ?2 ?
+(define-key ctl-RET-map "w" 'w3m)
+
+
+ 

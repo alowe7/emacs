@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid 
- "$Id: post-xdb.el,v 1.6 2002-07-03 21:41:12 cvs Exp $")
+ "$Id: post-xdb.el,v 1.7 2002-12-10 17:22:11 cvs Exp $")
 
 (require 'advice)
 (require 'cat-utils)
@@ -47,7 +47,7 @@
 
 (add-hook 'x-query-mode-hook '(lambda ()
 				(loop for x across "/:\.-" do (modify-syntax-entry x "w"))
-				(define-key x-query-mode-map "\C-m" '(lambda () (interactive) (or (iexplore) (newline))))))
+				))
 
 ; (pop x-query-mode-hook)
 ; (run-hooks (quote x-query-mode-hook))
