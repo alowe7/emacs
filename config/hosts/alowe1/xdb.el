@@ -1,19 +1,7 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.5 2004-10-01 23:07:54 cvs Exp $")
+ "$Id: xdb.el,v 1.6 2005-01-18 03:06:19 cvs Exp $")
 
 (chain-parent-file t)
-
-(require 'ctl-slash)
-
-(define-key ctl-/-map "q" 'xq)
-(define-key ctl-/-map "t" 'xt)
-(define-key ctl-/-map "n" 'xn)
-(define-key ctl-/-map "b" 'txdbi)
-
-(define-key ctl-RET-map "l" 'xl)
-(define-key ctl-RET-map "=" 'xl=)
-(define-key ctl-RET-map "-" 'xl*)
-(define-key ctl-RET-map (vector (ctl ?/)) 'xl/)
 
 ; make sure we have a login
 ; (call-interactively 'xdb-login)
@@ -87,13 +75,5 @@
   )
 
 ; (add-hook 'xdb-init-hook 'xdb-login)
-
-(if (scan-file-p "~/.private/.xdbrc")
-    (progn
-      (add-txdb-option "-b" ($ "$XDB"))
-      (add-txdb-option "-h" ($ "$XDBHOST"))
-      *txdb-options*
-      )
-  )
 
 (setq *local-txdb-options* '("-b" "a@fx" "-h" "localhost"))
