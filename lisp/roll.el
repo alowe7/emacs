@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.18 2003-05-15 21:00:02 cvs Exp $")
+ "$Id: roll.el,v 1.19 2003-06-13 14:05:27 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -162,6 +162,47 @@ calling SELECTFN to choose one
 
     (roll-list (buffer-list-mode (if (atom m) m (or (string* m) major-mode))) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
     )
+  )
+
+
+(defun roll-buffer-mode-1 (&optional arg)
+  "apply `list-mode-buffers' to specified major mode (in `atoms-like' \"-mode\")
+see `roll-list'
+applies `switch-to-buffer' as displayfn
+"
+  (interactive "P")
+  (let ((m (if arg
+	       (intern (completing-read "mode: " (mapcar '(lambda (x) 
+							    (cons
+							     (format "%s" x) x))
+							 (atoms-like "-mode"))))
+	     major-mode)))
+    
+    (roll-list (buffer-list-mode (if (atom m) m (or (string* m) major-mode))) '(lambda (x) (progn (switch-to-buffer x) (buffer-name x))) 'kill-buffer-1 'switch-to-buffer)
+    )
+  )
+
+(defun read-mode (prompt)
+  "read something that might be a mode with completion"
+  (let ((s (completing-read prompt (mapcar '(lambda (x) 
+					      (cons
+					       (format "%s" x) x))
+					   (atoms-like "-mode$")))))
+    (and (string* s) (intern s)))
+  )
+
+(defun roll-buffer-with-mode (pat &optional mode)
+  "apply `roll-list' to buffers containing PAT and with optional MODE
+if MODE is nil, uses current `major-mode' 
+applies `switch-to-buffer' as displayfn
+"
+  (interactive (list
+		(read-string "pat: ")
+		(read-mode  "mode: ")))
+  (roll-list (buffer-list-with-mode pat (or mode major-mode))
+	     '(lambda (x) (progn (switch-to-buffer x) (buffer-name x)))
+	     'kill-buffer-1
+	     'switch-to-buffer)
   )
 
 (defun roll-buffer-like (arg) 

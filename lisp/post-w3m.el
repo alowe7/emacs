@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.9 2003-04-24 15:02:55 cvs Exp $")
+ "$Id: post-w3m.el,v 1.10 2003-06-13 14:05:27 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -121,3 +121,42 @@
 (define-key w3m-mode-map "b" 'w3m-view-previous-page)
 
 (define-key w3m-mode-map "" 'w3m-copy-current-url)
+
+
+(defun w3m-goto-current-file-as-url-new-session () (interactive)
+  (let ((b (current-buffer))
+	(url (format "http://%s%s"  
+		     (downcase (hostname))
+		     (unix-canonify
+		      (if (eq major-mode 'dired-mode)
+			  (dired-get-filename) 
+			(buffer-file-name)) 0)
+		     )))
+    (catch 'done
+      (unless (or (string-match "\.htm" url) (y-or-n-p (format "visit %s as url? " url)))
+	(progn (message "") (throw 'done t)))
+
+      (w3m-goto-url-new-session url)
+      (if (> (count-windows) 1) (progn (switch-to-buffer-other-window b) (other-window-1)))
+      )
+    )
+  )
+
+
+(require 'ctl-slash)
+
+(define-key ctl-/-map (vector (ctl ?/)) 'w3m-goto-current-file-as-url-new-session)
+(define-key ctl-/-map "a" 'apache-manual)
+(define-key ctl-/-map "c" 'css-spec)
+(define-key ctl-/-map "d" 'dired-w3m-find-file)
+(define-key ctl-/-map "" 'find-anchor-named)
+(define-key ctl-/-map "h" 'html40)
+(define-key ctl-/-map "p" 'perlmodhtml)
+(define-key ctl-/-map "p" 'phpmanual)
+(define-key ctl-/-map "s" 'specs)
+(define-key ctl-/-map "w" 'w3m-goto-this-url-new-session)
+(define-key ctl-/-map "z" 'w3m-copy-current-url)
+(define-key ctl-/-map "g" 'w3m-goto-url-new-session)
+
+(define-key ctl-/-map "f" 'ff)
+
