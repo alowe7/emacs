@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.4 2001-04-27 11:37:59 cvs Exp $")
+ "$Id: os-init.el,v 1.5 2001-04-27 12:10:19 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 ;; config file for gnuwin-1.0
@@ -104,3 +104,24 @@ host must respond within optional TIMEOUT msec"
 
 ; xxx todo: catch shell command w <world> for shell-cd
 
+(defadvice dired (around 
+		     hook-dired
+		     first activate)
+  ""
+
+  ; check cygmounts for drive changes
+
+  (let* ((d (ad-get-arg 0))
+	 (d1 (loop for x in cygmounts when 
+		   (string-match (concat "^" (car x)) d)
+		   return 
+		   (replace-in-string (concat "^" (car x)) (cadr x) d)
+		   ))
+	 (d2 (and d1 (expand-file-name d1))))
+    (and d2 (ad-set-arg 0 d2))
+    ad-do-it
+    )
+  )
+
+; (ad-is-advised 'dired)
+; (ad-unadvise 'dired)
