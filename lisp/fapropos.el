@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.6 2001-07-24 10:58:14 cvs Exp $")
+ "$Id: fapropos.el,v 1.7 2001-07-24 11:44:23 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -277,4 +277,4 @@ unless it is already there
   )
 )
 
-; (fapropos3 "profile")
+; (fapropos5 "profile")
