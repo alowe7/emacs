@@ -1,5 +1,5 @@
 (put 'perl-utils 'rcsid 
- "$Id: perl-utils.el,v 1.3 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: perl-utils.el,v 1.4 2001-04-05 17:34:41 cvs Exp $")
 
 ; perl workalike functions
 
@@ -7,6 +7,11 @@
   "maybe chop trailing linefeed"
   (if (eq (aref (substring s -1) 0) (or c ?
 					)	  ) (substring s 0 -1) s)
+  )
+
+(defun chomp (s)
+  " chop trailing char"
+  (substring s 0 -1)
   )
 
 ;; I think these are obsolete
