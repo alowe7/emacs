@@ -1,5 +1,5 @@
 (put 'reg 'rcsid
- "$Id: reg.el,v 1.9 2004-08-11 14:55:52 cvs Exp $")
+ "$Id: reg.el,v 1.10 2004-08-26 22:22:16 cvs Exp $")
 (require 'qsave)
 
 (defun reg-canonify (s)	(if (and s (stringp s) (> (length s) 0)) (replace-in-string  "/" "\\" s) ""))
@@ -77,10 +77,22 @@
 
 ;(reg-dump "machine" "software/digitalequipmentcorporation")
 
-;; xxx what is the difference with reg-query?
+; (makunbound '*reg-hivelist*)
+(defvar *reg-hivelist* '(
+			 ("machine" . "machine")
+			 ("HKEY_LOCAL_MACHINE" . "machine")
+			 ("HKLM" . "machine")
+			 ("users" . "users")
+			 ("HKEY_USERS" . "users")
+			 ("user" . "user")
+			 ("HKCU" . "user")
+			 ("config" . "config")
+			 ("classes" . "classes")))
 
+;; xxx what is the difference with reg-query?
 (defun reg-command (command hive &optional key value)
-  (let* ((b (get-buffer-create "*reg*"))
+  (let* ((hive (cdr (assoc hive *reg-hivelist*)))
+	 (b (get-buffer-create "*reg*"))
 	 (s (perl-command command "-v" hive key value)))
     (set-buffer b)
     (setq buffer-read-only nil)
@@ -96,16 +108,24 @@
     b)
   )
 
-(defun lsreg (hive key)
+(defun lsreg (hive &optional key)
   (interactive (list 
-		(completing-read "hive: " '(("machine" "machine") ("users" "users") ("user" "user") ("config" "config") ("classes" "classes")) nil t)
-		(read-string "key: ")))
+		(completing-read "hive: " *reg-hivelist* nil t)))
 
+  (let* ((x (cond ((string-match "/" hive)
+		   (split hive "/")) 
+		  ((string-match "\\\\" hive)
+		   (split hive  "\\\\"))))
+	 (hive (if x (car x) hive))
+	 (key (or key (if x (join (cdr x) "/") 
+			(if (interactive-p)
+			    (read-string "key: ")))))
   ; if key is empty and *reg* exists, just show it.
 
-  (let ((b (or  
-	    (and (string* key) (reg-command "lsreg" hive key))
-	    (buffer-exists-p "*reg*"))))
+	 (b (or  
+	     (and (string* key) (reg-command "lsreg" hive key))
+	     (buffer-exists-p "*reg*"))))
+				       
     (and b
 	 (unless (get-buffer-window b)
 	   (pop-to-buffer b)))
