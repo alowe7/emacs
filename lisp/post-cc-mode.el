@@ -1,5 +1,5 @@
 (put 'post-cc-mode 'rcsid 
- "$Id: post-cc-mode.el,v 1.10 2001-10-24 01:16:07 cvs Exp $")
+ "$Id: post-cc-mode.el,v 1.11 2002-05-08 15:35:21 cvs Exp $")
 
 (defun narrow-to-fn ()
   " narrow to region surrounding current function"
@@ -104,6 +104,14 @@ The expansion is entirely correct because it uses the C preprocessor."
 	(message (format "langle %s" (if (eq (char-syntax ?<) ?.) "disabled" "enabled")))
   )
 (define-key c++-mode-map (vector (char-ctrl ?<)) 'langle)
+
+(defvar *grep-source-file-types* '("c" "cpp" "h" "rc" "idl" "java" "pl"))
+(defun grep-source (arg)
+  (interactive (list (read-string (format "grep source for (%s): " (indicated-word)))))
+  (grep (format "%s %s %s" grep-command (string* arg (indicated-word))  (mapconcat '(lambda (x) (concat "\*\." x)) *grep-source-file-types* " ")))
+  )
+
+(global-set-key "g" 'grep-source)
 
 
 (add-hook 'c++-mode-hook 

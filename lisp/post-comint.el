@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.14 2002-04-09 03:31:51 cvs Exp $")
+ "$Id: post-comint.el,v 1.15 2002-05-08 15:35:21 cvs Exp $")
 
 ;; used to initialize `comint-mode-hook'
 (setq shell-prompt-pattern "^[0-9]+% *")
@@ -35,3 +35,5 @@
 (define-key comint-mode-map "." 'comint-last-arg)
 (define-key comint-mode-map "	" 'comint-dynamic-complete-filename)
 (define-key comint-mode-map "	" 'comint-dynamic-complete)
+
+(define-key ctl-RET-map (vector ?\C-7) 'mru-shell)

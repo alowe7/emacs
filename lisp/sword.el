@@ -1,5 +1,5 @@
 (put 'sword 'rcsid
- "$Id: sword.el,v 1.3 2002-04-14 04:22:37 cvs Exp $")
+ "$Id: sword.el,v 1.4 2002-05-08 15:35:21 cvs Exp $")
 
 (require 'comint)
 
@@ -39,13 +39,13 @@ if `*cache-sword-key*' is set and a key is cached, return it, otherwise use read
 "
   (interactive "P")
 
-  (let* ((word (read-string "word: "))
-	 (swordfile
+  (let* ((swordfile
 	  (if arg
 	      (read-file-name "file: " 
 			      (file-name-directory *default-swordfile*)
 			      *default-swordfile*)
 	    *default-swordfile*))
+	 (word (read-string "word: "))
 	 (key 
 	  (get-key swordfile arg))
 	 (b (zap-buffer " *keyout*"))

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.27 2002-03-05 06:10:13 cvs Exp $")
+ "$Id: fb.el,v 1.28 2002-05-08 15:35:21 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -653,5 +653,25 @@ returns a filename containing results"
       )
     )
   )
+
+(defun fbf (pat)
+  "fast find files containing PAT"
+
+  (interactive "spat: ")
+
+  (let ((b (zap-buffer *fastfind-buffer*))
+	(top "/"))
+
+    (call-process "find" nil
+		  b
+		  nil
+
+		  "." "-type" "f" "-exec" "egrep" "-H" pat "{}" ";")
+  (pop-to-buffer b)
+  (next-error)
+  )
+)
+; (fbf "fbf")
+
 
 (provide 'fb)

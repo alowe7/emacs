@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.11 2002-04-14 04:22:37 cvs Exp $")
+ "$Id: post-dired.el,v 1.12 2002-05-08 15:35:21 cvs Exp $")
 
 ;; dired stuff
 
@@ -298,4 +298,6 @@ see `file-assoc-list'"
 			      (define-key dired-mode-map "\C-xvl" 'dired-cvs-log)
 			      (define-key  dired-mode-map "\C-cx" 'dired-copy-filename-as-kill)
 			      (define-key  dired-mode-map "\C-c~" 'dired-backup-file)
+
+			      (define-key  dired-mode-map "\C-cu" 'dired-zip-extract)
 			      ))
