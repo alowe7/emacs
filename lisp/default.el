@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.10 2000-11-20 01:56:42 cvs Exp $")
+ "$Id: default.el,v 1.11 2000-12-07 17:57:34 cvs Exp $")
 
 (setq home (getenv "HOME"))
 (setq emacsdir (expand-file-name (getenv "EMACSDIR")))
@@ -133,10 +133,6 @@
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (put 'upcase-region 'disabled nil)
-
-(setq inhibit-startup-message t)
-(setq inhibit-startup-echo-area-message t)
-(setq display-time-day-and-date t)
 
 
 (menu-bar-mode -1)
