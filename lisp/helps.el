@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.6 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: helps.el,v 1.7 2000-12-07 17:00:23 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -325,15 +325,36 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 ;; 	     (m (rplacd z (cddr z))))
 ;; 	(cons munge l))))))
 
-(defvar *howto-path* (catpath "HOWTOPATH")
+(defvar *howto-path* (split ($ "$HOWTOPATH") ":")
   "list of directories to search for `howto'" )
 
-(defun howto (name &optional exact)
+(defvar *howto-alist* 
+  (loop
+   for x in *howto-path*
+   with l = nil
+   nconc (loop for y in (get-directory-files x)
+	       collect (list y x)) into l
+   finally return l)
+  " completion alist for `howto'")
+
+(defun howto (name)
+  (interactive 
+   (list
+    (completing-read "what? " *howto-alist*)))
+
+  (let ((hit (assoc name *howto-alist*)))
+    (find-file (concat  (cadr hit) "/" (car hit)))
+    )
+  )
+
+(defun howto-1 (name &optional exact)
   "searches for files matching NAME along environment variable *howto-path*
 does regexp matching unless optional EXACT is set
 if *howto-path* is not set, searches in current directory
 "
   (interactive "swhat? ")
+
+
   (catch 'done
     (let ((*howto-path* (or *howto-path* (list (pwd))))
 	  (output-buffer (and  *howto-search* "*Help*")))
@@ -357,24 +378,24 @@ if *howto-path* is not set, searches in current directory
 
 	    (and (string* name)
 		 (loop for x in  *howto-path*
-		  do
-		  (let ((fn (concat x "/" name)))
-		    (if (file-exists-p fn)
-			(throw 'done
-			       (howto-find-file fn))
+		       do
+		       (let ((fn (concat x "/" name)))
+			 (if (file-exists-p fn)
+			     (throw 'done
+				    (howto-find-file fn))
 
   ; not found.  try contents file
-		      (let ((fn (concat x "/contents")))
-			(if (and output-buffer (file-exists-p fn))
-			    (progn
-			      (shell-command (format "grep %s %s" name fn) output-buffer)
-			      (if (> (point-max) 1)
-				  (throw 'done
-					 (pop-to-buffer output-buffer)
-					 )))))
-		      )
-		    )
-		  ))
+			   (let ((fn (concat x "/contents")))
+			     (if (and output-buffer (file-exists-p fn))
+				 (progn
+				   (shell-command (format "grep %s %s" name fn) output-buffer)
+				   (if (> (point-max) 1)
+				       (throw 'done
+					      (pop-to-buffer output-buffer)
+					      )))))
+			   )
+			 )
+		       ))
 	    )
 
 	  (message "")
