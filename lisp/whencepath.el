@@ -1,5 +1,5 @@
 (put 'whencepath 'rcsid 
- "$Id: whencepath.el,v 1.8 2003-02-23 23:41:54 cvs Exp $")
+ "$Id: whencepath.el,v 1.9 2003-03-17 15:07:20 cvs Exp $")
 (require 'ksh-interpreter)
 (require 'cat-utils)
 (require 'cl)
@@ -12,41 +12,30 @@
   " look for cmd along path (path is a list of strings)"
   (interactive "scmd: \nspath: ")
   (let ((abscmd
-	 (loop for x in (split (getenv (or path "PATH")) ":")
-	       thereis
-	       (let ((fx (concat x "/" cmd)))
-		 (if regexp
-		   (loop for y in (get-directory-files x)
-			 thereis
-			 (and (string-match cmd y) (concat x "/" y))
-			 )
-		     (if executable
-			 (if (-x fx) fx)
-		       (if (-f fx) fx))
-		   )
-		 )
-	       )
-	 ))
+				 (loop for x in (split-path (getenv (or path "PATH")))
+							 thereis
+							 (loop for fx in 
+										 (nconc (list (concat x "/" cmd))
+														(unless (or
+																		 (not (eq window-system 'w32))
+																		 (string-match "\.exe$" cmd))
+																		 (list (concat x "/" cmd ".exe"))))
+										 when
+										 (if regexp
+												 (loop for y in (get-directory-files x)
+															 thereis
+															 (and (string-match cmd y) (concat x "/" y))
+															 )
+											 (if executable
+													 (if (-x fx) fx)
+												 (if (-f fx) fx))
+											 )
+										 return fx
+										 )
+							 )
+				 ))
     (and abscmd
-	 (if (interactive-p) (message abscmd) abscmd))
-    )
-  )
-
-(defun whencepath1 (cmd path &optional executable)
-  " look for cmd along path (path is a list of strings)"
-  (let ((*ext* (or (and (eq window-system 'w32) ".exe") "")))
-
-    (loop for x in path
-	  with test = (if executable '-x '-f)
-	  with fn
-	  when (or 
-		(and (setq fn (format "%s/%s%s" x cmd *ext*))
-		     (funcall test fn))
-		(and (eq window-system 'w32)
-		     (setq fn (format "%s/%s" x cmd))
-		     (funcall test fn)))
-	  return (expand-file-name fn)
-	  )
+				 (if (interactive-p) (message abscmd) abscmd))
     )
   )
 
