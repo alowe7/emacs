@@ -1,8 +1,10 @@
-# $Id: Makefile,v 1.11 2001-04-27 11:37:32 cvs Exp $
+# $Id: Makefile,v 1.12 2001-06-26 08:01:08 cvs Exp $
 
 SHELL=/bin/sh
 uname := $(shell uname)
 hostname := $(shell hostname)
+
+# XZFLAGS = -t1
 
 SOURCES := $(shell find ./lisp ./site-lisp -type f -a ! -name "*~" -a ! -name "*,v" -a ! -path "*CVS*")
 #CONFIGS := config/os/$(uname) config/hosts/$(hostname)
@@ -23,7 +25,7 @@ all: .autoloads .xz.dat
 	@echo .autoloads rebuilt
 
 .xz.dat: $(SOURCES) $(CONFIGS) $(SITE_LISP)
-	@$(XZ) -ywqn $(SOURCES) $(CONFIGS) $(SITE_LISP)
+	@$(XZ) $(XZFLAGS) -ywqn $(SOURCES) $(CONFIGS) $(SITE_LISP)
 	@echo .xz.dat rebuilt
 
 TAGS: $(SOURCES) $(CONFIGS)

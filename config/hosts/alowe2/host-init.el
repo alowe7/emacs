@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.2 2001-05-18 12:15:34 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.3 2001-06-26 08:01:08 cvs Exp $")
 
 ;(default-font "lucida console" nil 22)
 
@@ -21,5 +21,6 @@
 
 ;; (global-set-key "n" 'x-note)
 
+;; weird hangs?
 (require 'gnuserv)
 (gnuserv-start)
