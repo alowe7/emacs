@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.6 2001-02-09 14:29:51 cvs Exp $")
+ "$Id: roll.el,v 1.7 2001-03-06 12:46:10 cvs Exp $")
 (provide 'roll)
 (require 'cl)
 
@@ -214,12 +214,18 @@ LIST may be an a-list, in which case, interpret the cars as buffers, and print t
 	   )
 	  )))
 
-(defun buffer-list-no-files ()
+(defun buffer-list-no-files (&optional modified)
   (loop for x being the buffers
-	when (not (progn (set-buffer x) (buffer-file-name)))
+	when (and 
+	      (not (progn (set-buffer x) (buffer-file-name)))
+	      (or (not modified) (buffer-modified-p x)))
 	collect (buffer-name)))
 
-(defun roll-buffers-no-files () (interactive)
-(roll-list (buffer-list-no-files) nil 'kill-buffer-1 'switch-to-buffer))
+(defun roll-buffers-no-files (&optional mugger) (interactive "smodified? ") 
+  (roll-list (buffer-list-no-files (string* mugger))
+	     nil
+	     'kill-buffer-1 
+	     'switch-to-buffer)
+  )
 
 

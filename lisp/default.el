@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.13 2001-02-09 14:29:51 cvs Exp $")
+ "$Id: default.el,v 1.14 2001-03-06 12:46:10 cvs Exp $")
 
 (setq home (getenv "HOME"))
 (setq emacsdir (expand-file-name (getenv "EMACSDIR")))
@@ -127,8 +127,6 @@
 				   ) 
 	  t)
 
-
-(require 'worlds)
 
 (put 'eval-expression 'disabled nil)
 (put 'narrow-to-region 'disabled nil)

@@ -1,10 +1,10 @@
-# $Id: Makefile,v 1.8 2001-01-22 19:47:07 cvs Exp $
+# $Id: Makefile,v 1.9 2001-03-06 12:46:10 cvs Exp $
 
 SHELL=/bin/sh
 uname := $(shell uname)
 hostname := $(shell hostname)
 
-SOURCES := $(shell find ./lisp ./site-lisp -type f -a ! -name "*~" -a ! -name "*,v" -a ! -path "*CVS*")
+SOURCES := $(shell find ./lisp ./site-lisp z:/usr/local/lib/emacs-20.7/site-lisp -type f -a ! -name "*~" -a ! -name "*,v" -a ! -path "*CVS*")
 #CONFIGS := config/os/$(uname) config/hosts/$(hostname)
 # config/version/$(shell emacs --batch --version)
 #
@@ -16,7 +16,7 @@ all: .autoloads .xz.dat
 
 
 .autoloads: $(SOURCES) $(CONFIGS)
-	@./make-autoloads $(SOURCES) $(CONFIGS) > .autoloads
+	./make-autoloads $(SOURCES) $(CONFIGS) > .autoloads
 	@echo .autoloads rebuilt
 
 .xz.dat: $(SOURCES) $(CONFIGS)
