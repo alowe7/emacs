@@ -31,7 +31,7 @@
 (defun xlq (s)  (interactive "squery: ")
   "perform a query against a local instance of mysql"
   (let ((*txdb-options* *local-txdb-options*))
-    (clean-string (x-query s)))
+    (chomp (x-query s)))
   )
 
 ; (xl "select count(*) from f")
@@ -52,6 +52,7 @@
   )
 
 (defun xlbi ()  (interactive)
+"run txdbi on localhost"
   (let ((*txdb-options* *local-txdb-options*))
     (call-interactively 'txdbi)
     )

@@ -1,5 +1,5 @@
 (put 'w32-oblist 'rcsid 
- "$Id: w32-oblist.el,v 1.7 2004-08-17 17:50:53 cvs Exp $")
+ "$Id: w32-oblist.el,v 1.8 2004-08-20 14:54:46 cvs Exp $")
 (provide 'w32-oblist)
 (require 'fapropos)
 
@@ -1918,6 +1918,7 @@
 (defun find-w32-sig (fn)
   "find the signature for win32 functions matching fn" 
   (interactive (op-arg "Win32 Function (%s): "))
+
   (let* ((bn "*win32sig*")
 	 (b (buffer-exists-p bn))
 	 (hb (zap-buffer "*Help*")))
@@ -1937,25 +1938,22 @@
     (set-buffer-modified-p nil)
     (toggle-read-only)
     (beginning-of-buffer)
-    ))
-
-
+    )
+  )
 
 (defun w32-apropos (w)
-  (interactive (op-arg "w32-apropos (%s): "))
-  (let ((v (loop for x in w32-oblist
-		 when (string-match w (car x))
-		 collect (car x))))
-    (if (interactive-p)
-	(let ((standard-output (zap-buffer "*vars*")))
-	  (display-completion-list v)
-	  (pop-to-buffer standard-output)
-	  (beginning-of-buffer)
-	  (toggle-read-only)
-	  (set-buffer-modified-p nil)
-	  )
-      v)
-    )
+  (interactive (list 
+		(let* (
+		       (ww (read-string "w32 api function like: " ))
+		       (v (loop for x in w32-oblist
+				when (string-match ww (car x))
+				collect x))
+		       (s (completing-read "complete: " v nil ))
+		       )
+		  s)
+		)
+	       )
+  (find-w32-sig w)
   )
 
 (global-set-key "" 'w32-apropos)

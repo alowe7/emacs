@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.33 2004-08-17 17:50:53 cvs Exp $")
+ "$Id: W32.el,v 1.34 2004-08-20 14:54:46 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -150,6 +150,31 @@ if MIXED is 0, then ignore letter drive names.
        )
   )
 
+(defun aexec-sentinel (p s)
+  "sentinel called from when processes created by `aexec-start-process' change state
+if the new state is 'finished', deletes the associated buffer
+"
+  (cond ((string= (chomp s) "finished")
+	 (let ((b (process-buffer p)))
+	   (if (buffer-live-p b)
+	       (kill-buffer b))
+	   ))
+	(t  (debug))
+	)
+  )
+
+(defun aexec-start-process (cmd f)
+  "create process running COMMAND on input FILE
+name is generated from basename of command
+process is given an output buffer matching its name and a sentinel `aexec-sentinel'
+"
+  (let* ((name (symbol-name (gensym (downcase (basename cmd)))))
+	(p (start-process name (generate-new-buffer-name name)
+			  "cmd" "/c" (gsn cmd) (gsn f))))
+    (set-process-sentinel p 'aexec-sentinel)		 
+    )
+  )
+
 (defun aexec (f &optional visit)
   "apply command associated with filetype to specified FILE
 filename may have spaces in it, so double-quote it.
@@ -159,11 +184,11 @@ if optional VISIT is non-nil and no file association can be found just visit fil
  display a message  "
   (interactive "sFile: ")
   (let* ((ext (file-name-extension f))
-	(handler (aexec-handler ext)))
+	 (handler (aexec-handler ext)))
     (if handler (funcall (cdr handler) f)
       (let ((cmd (file-association f)))
-	(cond (cmd 
-	       (start-process f nil "cmd" "/c" cmd (format "\"%s\"" f)))
+	(cond (cmd
+	       (aexec-start-process cmd f))
 	      (visit (find-file f))
 	      (t (progn
 		   (message

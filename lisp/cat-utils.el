@@ -109,16 +109,20 @@ string s (default \":\")"
 	  (setq result (concat result x ps)))
     (substring result 0 (- (length ps)))))
 
-(defun addpathp (path element)
-  " add element to path if not already on it"
-  (let ((pl (catpath path)))
-    (if (not (catch 'done
-	       (dolist (x (catpath path))
-		 (if (string-equal x element)
-		     (throw 'done t)))))
-	  (setenv path (uncatlist (append pl (list element))))
+(defun addpathp (element path)
+  " add ELEMENT to environment variable named PATH if not already on it
+for example: (addpathp \"/bin\" \"PATH\")
+"
+  (let ((element (expand-file-name element))
+	(element1
+	 (if (and (boundp 'window-system) (eq window-system 'w32))
+	     (w32-canonify element)
+	   element)))
+    (unless 
+	(loop for x in (split (getenv path) path-separator) thereis (string-equal x element1))
+   	     (setenv path (concat (getenv path) path-separator element1))
+	     )
       )
-    )
   )
 
 ;; perl like apis 
@@ -228,6 +232,10 @@ default is ':'
 					   )	  )
 	 (substring s 0 -1))
 	(t s))
+  )
+
+(defun basename (f)
+  (file-name-sans-extension (file-name-nondirectory f))
   )
 
 (provide 'cat-utils)
