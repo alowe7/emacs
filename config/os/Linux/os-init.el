@@ -1,8 +1,8 @@
 (put 'Linux 'rcsid 
- "$Id: os-init.el,v 1.5 2002-02-21 05:05:44 cvs Exp $")
+ "$Id: os-init.el,v 1.6 2002-11-28 17:28:33 cvs Exp $")
 (put 'os-init 'rcsid  'Linux)
 
-(message "Linux")
+; (message "Linux")
 
 ; overloads 
 
@@ -63,3 +63,5 @@ if optional VISIT is non-nil and no file association can be found just visit fil
     (beginning-of-buffer)
     ))
 (global-set-key (vector 'kp-f1) 'linux-howto)
+
+(require 'locate)
