@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: default-lib.el,v 1.3 2000-08-07 15:59:31 cvs Exp $")
+(defconst rcs-id "$Id: default-lib.el,v 1.4 2000-08-30 19:29:52 cvs Exp $")
 ;; this lib should contain functions that would go in pure code if possible.
 
 ; (require 'cl) ; this should definitely be pure.
@@ -111,6 +111,19 @@
 	      (if pat (lambda (x) (string-match pat (format "%s" x)))))))
     (if (string* sym) sym default))
   )
+
+(defmacro read-from-string* (**s** &optional **default**)
+  "evaluates to intern STRING if non-null and nonzero length, else DEFAULT.
+ arguments are evaluated only once"
+  (let ((*s* (eval **s**))) (if (and (sequencep *s*) (> (length *s*) 0)) (car (read-from-string *s*))
+				     (eval **default**))))
+
+(defmacro read-from-env (**v** &optional **default**)
+  "evaluates to intern STRING if non-null and nonzero length, else DEFAULT.
+ arguments are evaluated only once"
+  (let ((*s* (getenv (eval **v**)))) (if (and (sequencep *s*) (> (length *s*) 0)) (car (read-from-string *s*))
+				     (eval **default**))))
+
 
 (defun unhighlight-buffer () (interactive) 
   (hilit-unhighlight-region (point-min) (point-max) t))
