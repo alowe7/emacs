@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.25 2002-04-14 04:22:37 cvs Exp $")
+ "$Id: w32,v 1.26 2002-05-28 01:26:47 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -188,9 +188,10 @@ if MIXED is 0, then ignore letter drive names.
 
 (defun explore (&optional f)  
   (interactive "P")
-  (start-process (format "*explorer %s*" f) nil "explorer" (w32-canonify f))
+  (shell-command (w32-canonify (format "explorer %s" (or f "."))))
   (run-hooks 'explore-hooks)
-  )
+)
+
 
 (defun arun (f) (interactive "sCommand: ")
   (start-process f nil f ))
@@ -255,9 +256,9 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   (wd w 'explore))
 
 (defun md (&optional arg) (interactive "P") 
-  (explore  (expand-file-name (if arg 
-				  (read-file-name "Directory to browse: " (pwd) nil t)
-				default-directory))))
+  (explore  (if arg 
+		(read-file-name "Directory to browse: " (pwd) nil t)))
+  )
 
 (make-variable-buffer-local 'explicit-shell-file-name)
 (defun cmd (&optional num)
