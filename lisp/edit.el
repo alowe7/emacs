@@ -1,5 +1,5 @@
 (put 'edit 'rcsid 
- "$Id: edit.el,v 1.8 2002-08-24 23:00:33 cvs Exp $")
+ "$Id: edit.el,v 1.9 2003-05-15 21:00:01 cvs Exp $")
 
 ;; edit and format functions
 
@@ -137,6 +137,8 @@ if optional arg N is specified deletes additional N subsequent chars also"
 	(p (point)))
     (kill-buffer (current-buffer))
     (find-file fn)
+; there's some weirdness here.  sometimes the buffer gets buried or disappears
+;    (debug)
     (goto-char p)
     )
   )

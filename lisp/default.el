@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.26 2003-04-02 21:34:53 cvs Exp $")
+ "$Id: default.el,v 1.27 2003-05-15 21:00:01 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -33,7 +33,7 @@
 			("\\.l$" . c++-mode) ; lex
 			("\\.java$" . java-mode)
 			("\\.js$" . java-mode)
-			("\\.jsp$" . java-mode)
+;			("\\.jsp$" . java-mode)
 			("\\.pl$" . perl-mode)
 			("\\.pm$" . perl-mode)
 			("\\.pod$" . perl-mode)
@@ -87,6 +87,26 @@
 			("\\.f$" . fortran-mode)
 			("\\.mss$" . scribe-mode)
 			))
+
+
+;;multi-mode
+(autoload 'multi-mode
+  "multi-mode"
+  "Allowing multiple major modes in a buffer."
+  t)
+
+(defun jsp-mode () (interactive)
+  (java-mode) ; hack to get lazy-lock-mode to initialize
+  (multi-mode 1
+	      'html-mode
+	      ;;your choice of modes for java and html
+	      '("<%" java-mode)
+	      ;;'("<%" jde-mode)
+	      '("%>" html-mode)))
+
+(add-to-list 'auto-mode-alist
+	     '("\\.jsp$" . jsp-mode))
+
 
 ;;(add-auto-mode "\\.sh$" 'shell-mode)
 (setq next-line-add-newlines nil)

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.41 2003-04-24 15:02:55 cvs Exp $")
+ "$Id: fb.el,v 1.42 2003-05-15 21:00:01 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -185,23 +185,29 @@
     )
   )
 
+; sometimes filelists include letter drive names like c:/foo/bar, sometimes they contain line numbers like /foo/bar:20
 (defun fb-indicated-file ()
-  (trim-white-space (indicated-word))
+  (trim-white-space
+   (let* ((s (bgets))
+	  (l (split s ":"))
+	  (file (elt l 0))
+	  (line (int* (elt l 1))))
+     (if line file s)))
+  )
+
+
+
+(defun fb-indicated-line ()
+  (let* ((s (bgets))
+	 (l (split s ":"))
+	 (file (elt l 0))
+	 (line (int* (elt l 1))))
+    (or line 0))
   )
 
 (defun fb-dired-file ()
   (interactive)
   (dired (fb-indicated-file))
-  )
-
-(defun fb-dired-file-1 ()
-  (interactive)
-
-  (let* ((l (split (bgets) ":"))
-	 (file (elt l 0))
-	 (b (dired-noselect file)))
-    (switch-to-buffer b)
-    )
   )
 
 (defun fb-delete-file ()
@@ -232,15 +238,14 @@
   (find-file (fb-indicated-file))
   )
 
-(defun fb-find-file-1 ()
+
+(defun fb-dired-file-1 ()
   (interactive)
 
   (let* ((l (split (bgets) ":"))
 	 (file (elt l 0))
-	 (line (elt l 1))
-	 (b (find-file-noselect file)))
+	 (b (dired-noselect file)))
     (switch-to-buffer b)
-    (and line (goto-line line))
     )
   )
 
@@ -728,8 +733,6 @@ returns a filename containing results"
     (pop-to-buffer b)
     (beginning-of-buffer)
     (fb-mode)
-    (local-set-key "f" 'fb-find-file-1)
-    (local-set-key "d" 'fb-dired-file-1)
     )
   )
 ; (fbf "fbf")

@@ -1,5 +1,5 @@
 (put 'default-lib 'rcsid 
- "$Id: default-lib.el,v 1.11 2002-12-28 01:10:13 cvs Exp $")
+ "$Id: default-lib.el,v 1.12 2003-05-15 21:00:01 cvs Exp $")
 
 (defun buffer-exists-p (bname)
   " return buffer with specified NAME or nil"
@@ -56,6 +56,14 @@
   (let ((*n* (eval **n**))) (cond ((numberp *n*) *n*)
 				  ((string* *n*) (car (read-from-string *n*)))
 				  (t (eval **default**)))))
+
+; alternative implementation:
+(defun int* (str)
+  "evaluates to integer value of STR if STR represents an integer, nil otherwise"
+
+  (and (stringp str) (string-match "^[0-9]+" str) (eq (match-end 0) (length str)) (string-to-number str))
+  )
+
 
 ; apply message to args iff non-nil
 (defun message* (&rest args)

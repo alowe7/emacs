@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.19 2003-01-16 22:32:07 cvs Exp $")
+ "$Id: post-dired.el,v 1.20 2003-05-15 21:00:02 cvs Exp $")
 (require 'eval-process)
 (require 'tar-view)
 (require 'zip-view)
@@ -353,4 +353,5 @@ see `file-assoc-list'"
 			      (define-key  dired-mode-map "\C-cu" 'dired-zip-extract)
 
 			      (define-key dired-mode-map "\C-xv" 'ctl-x-v-prefix)
+			      (define-key dired-mode-map "V" 'dired-html-view)
 			      ))

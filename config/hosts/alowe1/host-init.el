@@ -1,11 +1,11 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.5 2003-04-15 16:32:15 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.6 2003-05-15 21:00:01 cvs Exp $")
 
 (setq default-frame-alist
-      '((top . 23)
-	(left . 33)
-	(width . 116)
-	(height . 48)
+      '((top . 0)
+	(left . 0)
+	(width . 90)
+	(height . 40)
 	(background-mode . light)
 	(cursor-type . box)
 	(border-color . "black")
@@ -114,9 +114,11 @@
 (add-to-list 'load-path  "/x/xz/site-lisp")
 (add-to-list 'load-path  "/x/elisp")
 
-; (setq debug-on-error t)
-(require 'worlds)
-; (debug)
-(let ((lw (read-file (concat wbase "/" *lastworld-file-name*)))) (and lw (world lw)))
-; ; (lastworld)
 
+(require 'worlds)
+(let ((lw (read-file (concat wbase "/" *lastworld-file-name*)))) (and lw (world lw)))
+(setq *log-file-save* t)
+(and  *log-file-save*
+      (add-hook 'after-save-hook 'world-file-save-hook))
+
+(load-library "post-help")

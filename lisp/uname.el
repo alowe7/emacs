@@ -1,5 +1,5 @@
 (put 'uname 'rcsid 
- "$Id: uname.el,v 1.5 2001-07-01 09:16:23 cvs Exp $")
+ "$Id: uname.el,v 1.6 2003-05-15 21:00:02 cvs Exp $")
 (require 'eval-process)
 
 ;; misc stuff that uses eval process
@@ -12,15 +12,18 @@
      (substring s 0 (match-beginning 0)))))
 
 
-(defun uname ()
+(defun uname (&optional arg)
   "return os"
-  (interactive)
-  (clean-string (eval-process "uname"  "-s"))
+  (interactive "sargs: ")
+  (let* ((uarg (or arg "-s"))
+	 (s (clean-string (eval-process "uname"  uarg))))
+    (if (interactive-p) (message s) s))
   )
 
 (defun hostname ()
   (interactive)
-  (message (clean-string (eval-process "hostname")))
+  (let ((s (clean-string (eval-process "hostname"))))
+    (if (interactive-p) (message s) s))
   )
 
 (defun displayhost ()

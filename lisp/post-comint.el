@@ -1,9 +1,8 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.17 2003-03-13 17:51:11 cvs Exp $")
+ "$Id: post-comint.el,v 1.18 2003-05-15 21:00:02 cvs Exp $")
 
 ;; used to initialize `comint-mode-hook'
-; (setq shell-prompt-pattern "^[0-9]+% *")
-(setq shell-prompt-pattern "^[0-9]+[#%] *")
+(mapcar '(lambda (f) (apply f '(comint-prompt-regexp "^[a-zA-Z0-9]*[>$%] *"))) '(set-default set))
 
 (setq explicit-bash-args '("-i"))
 

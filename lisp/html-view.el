@@ -1,8 +1,10 @@
 (put 'html-view 'rcsid 
- "$Id: html-view.el,v 1.11 2002-03-14 17:56:13 cvs Exp $")
+ "$Id: html-view.el,v 1.12 2003-05-15 21:00:01 cvs Exp $")
 (provide 'html-view)
 
-(defun dired-html-view () (interactive)
+(defun dired-html-view () 
+  "run `html-view' on indicated file in `dired-mode'"
+  (interactive)
   (html-view (dired-get-filename)))
 
 (defun html-view (&optional fn) 
