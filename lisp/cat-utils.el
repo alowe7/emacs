@@ -1,12 +1,12 @@
 (put 'cat-utils 'rcsid
- "$Id: cat-utils.el,v 1.4 2004-03-11 19:01:01 cvs Exp $")
+ "$id: cat-utils.el,v 1.4 2004/03/11 19:01:01 cvs exp $")
 ;; utilities for converting between strings and lists or vectors of strings
 
 (require 'cl)
 
 ;;; todo generalize this by adding fn to apply
 (defun catvectorint (s &optional c)
-  "LIST is a string of integers separated by character C (default ':')
+  "list is a string of integers separated by character c (default ':')
   return its value as a vector of ints"
   (interactive "spath: ")
   (apply 'vector (catlistint s c))
@@ -14,21 +14,21 @@
 
 
 (defun catlistint (s &optional c)
-  "LIST is a string of ints separated by character C (default ':')
+  "list is a string of ints separated by character c (default ':')
   return its value as a list of ints"
   (interactive "spath: ")
   (mapcar 'string-to-int (catlist s c))
   )
 
 (defun catvector (s &optional c)
-  "LIST is a string of words separated by character C (default ':')
+  "list is a string of words separated by character c (default ':')
   return its value as a list of strings"
   (interactive "spath: ")
   (apply 'vector (mapcar 'intern (catlist s c)))
   )
 
 (defun catlist (s &optional c)
-  "STRING is a string of words separated by character C (default ':')
+  "string is a string of words separated by character c (default ':')
   return its value as a list of strings"
   (interactive "spath: ")
   (let* ((cc (or c ?:))
@@ -50,7 +50,7 @@
 )
 
 (defun catfile (f &optional c)
-  "FILE is a file containing a list of words separated by character C (default '\n')
+  "file is a file containing a list of words separated by character c (default '\n')
   return its value as a list of strings"
   (interactive "spath: ")
   (catlist (read-file f) (or c ?
@@ -58,7 +58,7 @@
 )
 
 (defun catalist (s &optional c)
-  "LIST is a string of words separated by character C (default ':')
+  "list is a string of words separated by character c (default ':')
   return its value as an alist of strings"
   (interactive "spath: ")
   (let* ((cc (or c ?:))
@@ -80,9 +80,9 @@
 )
 
 (defun catpath (path &optional c)
-  "PATH is an environment variable representing a path.  
+  "path is an environment variable representing a path.  
   return its value as a list of strings
-  elements of path are separated by character C (default ':')
+  elements of path are separated by character c (default ':')
 "
   (interactive "spath: ")
 
@@ -97,8 +97,8 @@
   )
 
 (defun uncatlist (list &optional s)
-  " LIST is a list of strings.  concat them separated by optional
-string S (default \":\")"
+  " list is a list of strings.  concat them separated by optional
+string s (default \":\")"
 
   (let (result (ps (or s ":")))
     (loop for x in list do
@@ -120,7 +120,7 @@ string S (default \":\")"
 ;; perl like apis 
 
 (defun join (v &optional pat)
-  "concat SEQUENCE as strings with optional SEPARATOR
+  "concat sequence as strings with optional separator
 sequence may be a vector or list.
 separator may be a string, or charcode
 default is ':'
@@ -193,6 +193,14 @@ default is ':'
   )
 
 ; (let ((l '(a b c)))  (unshift l 'd) l)
+
+(defun shift-word (s)
+  "break string into (first-word . rest)"
+  (if (string-match "\\w" s)
+      (cons (substring s 0 (match-beginning 0)) (substring s (match-end 0))))
+  )
+
+; (shift-word "foo;bar baz bo")
 
 (defun chop (s)
   " chop trailing char"
