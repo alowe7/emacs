@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.10 2003-09-23 16:01:43 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.11 2003-09-26 22:04:05 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 100)
@@ -137,7 +137,8 @@
   (loop for e in r do 
 	(setq load-path
   ; first remove published versions, if any
-	      (nconc (remove-if '(lambda (x) (string-match (car e) x)) load-path)
+	      (nconc (remove-if '(lambda (x) 
+				   (string-match (car e) x)) load-path)
   ; then add working versions
 		     (cdr e))
 	      )

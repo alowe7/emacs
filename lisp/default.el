@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.27 2003-05-15 21:00:01 cvs Exp $")
+ "$Id: default.el,v 1.28 2003-09-26 22:04:05 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -7,7 +7,7 @@
 ; epoch, lucid, and xemacs variants caused problems once upon a time, ...
 
 (and (boundp 'emacs-major-version)
-     (load (concat "Emacs" emacs-major-version) t t))
+     (load (concat "Emacs" (int-to-string emacs-major-version)) t t))
 
 (load "keys" nil t) ;key bindings
 
