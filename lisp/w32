@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.19 2001-11-28 23:24:27 cvs Exp $")
+ "$Id: w32,v 1.20 2002-01-04 21:28:33 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -306,8 +306,9 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 (global-set-key "y" 'yank-unix-filename)
 
 (defun dired-cut-filename ()
+  "yank expanded filename under point"
   (interactive)
-  (yank-dos-filename (buffer-substring (point) (mark)))
+  (yank-dos-filename (dired-get-filename))
   )
 
 (add-hook 'dired-mode-hook '(lambda () 

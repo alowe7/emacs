@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.6 2001-08-20 04:24:43 cvs Exp $")
+ "$Id: post-dired.el,v 1.7 2002-01-04 21:28:33 cvs Exp $")
 
 ;; dired stuff
 
@@ -268,6 +268,10 @@ see `file-assoc-list'"
 		      (expand-file-name 
 		       (dired-get-filename)))))
 
+(defun dired-cvs-log () (interactive)
+  (cvs "log" (format "-h %s" (dired-get-filename)))
+  )
+
 (require 'tar-view)
 (require 'zip-view)
 (require 'html-view)
@@ -275,5 +279,7 @@ see `file-assoc-list'"
 (add-hook 'dired-mode-hook '(lambda () 
 			      (define-key  dired-mode-map "\C-m" 'dired-aexec)
 			      (define-key  dired-mode-map "P" '(lambda () (interactive) (dos-print (dired-get-filename))))
+			      (define-key  dired-mode-map "" '(lambda () (interactive) (kill-new (w32-canonify (dired-get-filename)))))
 			      (define-key dired-mode-map "|" 'dired-pipe-file)
+			      (define-key dired-mode-map (vector 'f7) 'dired-cvs-log)
 			      ))

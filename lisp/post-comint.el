@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.12 2001-08-20 00:28:34 cvs Exp $")
+ "$Id: post-comint.el,v 1.13 2002-01-04 21:28:33 cvs Exp $")
 
 (setq comint-prompt-regexp "^[0-9a-zA-Z]*% *")
 
@@ -32,5 +32,5 @@
       )
 
 (define-key comint-mode-map "." 'comint-last-arg)
-(define-key comint-mode-map " 	" 'comint-dynamic-complete-filename)
+(define-key comint-mode-map "	" 'comint-dynamic-complete-filename)
 (define-key comint-mode-map "	" 'comint-dynamic-complete)

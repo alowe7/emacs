@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.16 2001-11-21 19:37:34 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.17 2002-01-04 21:28:33 cvs Exp $")
 
 (setq default-frame-alist
       '((top + -4)
@@ -41,7 +41,7 @@
 	)
       )
 
-(setq *key-program* "/a/bin/key")
+(setq *key-program* "d:/a/bin/key.exe")
 
 (add-hook 'xz-load-hook 
 	  '(lambda ()
@@ -63,7 +63,7 @@
 
 (add-hook 'people-load-hook (lambda () ; (require 'worlds)
 			      (setq *people-database*
-				    (list (xwf "n/people" "broadjump")
+				    (list (xwf "n/people.csv" "broadjump")
 					  "~/n/people"))))
 
 (setq *shell-track-worlds* t)

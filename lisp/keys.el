@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.24 2001-12-06 19:57:59 cvs Exp $")
+ "$Id: keys.el,v 1.25 2002-01-04 21:28:33 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -233,5 +233,7 @@
 (define-key ctl-\?-map "	" '(lambda () (interactive)   (message "tab-width: %d" tab-width)))
 ; mail-quote
 (global-set-key ">" '(lambda () (interactive) (save-excursion (goto-char (point-min)) (replace-regexp "^" "> " nil))))
+
+(define-key ctl-x-4-map "" 'bury-buffer)
 
 (provide 'keys)
