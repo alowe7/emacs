@@ -1,12 +1,12 @@
 (put 'post-gnuserv 'rcsid 
- "$Id: post-gnuserv.el,v 1.2 2001-04-27 11:38:00 cvs Exp $")
+ "$Id: post-gnuserv.el,v 1.3 2001-04-27 12:49:07 cvs Exp $")
 
 (defadvice server-find-file (after 
 			     hook-server-find-file
 			     first 
 			     nil
 			     activate)
-  (raise-frame) (debug)
+  (raise-frame)
   )
 
 ; (ad-is-advised 'server-find-file)
