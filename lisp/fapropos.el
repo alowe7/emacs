@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.19 2004-05-29 23:55:03 cvs Exp $")
+ "$Id: fapropos.el,v 1.20 2005-02-09 16:36:24 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -283,6 +283,7 @@ if `*string-lists-with*' is a number, don't descend into lists any deeper than t
 	(let* ((b (zap-buffer "*vars*"))
 	       (standard-output b))
 	  (loop for x in v
+		when (boundp x) ; not sure why this test is necessary again
 		do 
 		(insert "\n" (symbol-name x) "\t" 
 			(string* (lwhence x) "") "\n" "\t")

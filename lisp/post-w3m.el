@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.26 2005-01-28 19:37:47 cvs Exp $")
+ "$Id: post-w3m.el,v 1.27 2005-02-09 16:36:24 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -170,19 +170,9 @@
     )
   )
 
-(defun headlines () (interactive)
-  (w3m-goto-url "http://localhost/cgi-bin/headlines.cgi")
-  )
-
 (defun emacswiki () (interactive)
   (w3m-goto-url "http://www.emacswiki.org/cgi-bin/wiki")
   )
-
-(defun perlmodhtml (mod) (interactive "smod: ")
-(let ((res  (w3m-goto-url (format "http://localhost/perl/html/site/lib/%s" (replace-in-string "::" "/" mod)) nil nil)))
-; (debug)
-  )
-)
 
 (defun modperlmanual () (interactive)
   (w3m-goto-url-new-session "http://alowe1/usr/local/lib/mod_perl-1.99_08/docs/")

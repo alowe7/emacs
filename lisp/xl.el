@@ -1,5 +1,5 @@
 (put 'xl 'rcsid
- "$Id: xl.el,v 1.7 2005-01-28 19:37:47 cvs Exp $")
+ "$Id: xl.el,v 1.8 2005-02-09 16:36:24 cvs Exp $")
 
 (require 'xdb)
 
@@ -29,13 +29,13 @@
 ; 
 
 (defvar *local-txdb-options* nil)
-; e.g. '("-h" "-" "-b" "fx" "-u" "a"))
+; e.g. '("-h" "-" "-b" "fx" "-u" "a")
 
 (defun xlq (s)
   "perform a query against a local instance of mysql"
   (interactive "squery: ")
   (let ((*txdb-options* *local-txdb-options*))
-    (chomp (x-query s)))
+    (chomp (funcall (if (interactive-p) 'x-query-1 'x-query) s)))
   )
 
 ; (xlq "select count(*) from f")
@@ -60,7 +60,13 @@
 (defun lxdbi () (interactive)
 "run txdbi on localhost"
   (let ((*txdb-options* *local-txdb-options*))
-    (call-interactively 'txdbi)
+    (txdbi nil "lxdbi")
+    )
+  )
+
+(defun fxdbi () (interactive)
+  (let ((*txdb-options*  '("-h" "-" "-b" "fx" "-u" "a")))
+    (txdbi nil "fxdbi")
     )
   )
 

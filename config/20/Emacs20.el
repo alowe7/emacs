@@ -1,3 +1,6 @@
+(put 'Emacs20 'rcsid
+ "$Id: Emacs20.el,v 1.2 2005-02-09 16:36:24 cvs Exp $")
+
 (defmacro read-from-env (**v** &optional **default**)
   "evaluates to intern STRING if non-null and nonzero length, else DEFAULT.
  arguments are evaluated only once"

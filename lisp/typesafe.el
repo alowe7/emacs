@@ -1,5 +1,7 @@
 (put 'typesafe 'rcsid
- "$Id: typesafe.el,v 1.2 2004-01-30 14:47:04 cvs Exp $")
+ "$Id: typesafe.el,v 1.3 2005-02-09 16:36:24 cvs Exp $")
+
+(require 'trim)
 
 ; todo: go back and fix all refs
 (defmacro string* (**s** &optional **default**)
@@ -13,11 +15,17 @@
   otherwise returns optional DEFAULT.
  arguments are evaluated only once"
   (let ((*n* (eval **n**)))
- (cond
- ((numberp *n*) *n*)
- ((and (sequencep *n*) (> (length *n*) 0)) (car (read-from-string *n*)))
- (t (eval **default**))
-)))
+    (cond
+     ((numberp *n*) *n*)
+     ((sequencep *n*)
+      (let ((*n* (trim *n*)))
+	(cond ((> (length *n*) 0)
+	       (car (read-from-string (trim *n*))))
+	      (t (eval **default**)))))
+     (t (eval **default**))
+     )
+    )
+  )
 
 ; alternative implementation:
 (defun int* (str)
