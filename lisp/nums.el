@@ -1,5 +1,5 @@
 (put 'nums 'rcsid 
- "$Id: nums.el,v 1.8 2002-05-27 01:51:20 cvs Exp $")
+ "$Id: nums.el,v 1.9 2003-03-16 21:43:01 cvs Exp $")
 (provide 'nums)
 
 (defun exp (n m)
@@ -56,6 +56,15 @@ S may also be a string representation of a decimal number "
     )
   )
 
+(defun oct (s)
+  "interpret string ARG as an octal number and return the integer equivalent base 10
+arg may be a number or a string.
+"
+  (interactive "soctal: ")
+  (let ((v (string-to-number (if (integerp s) (format "%d" s ) s) 8)))
+    (if (interactive-p) (message (format "%d" v)) v)
+    )
+  )
 
 (defun indicated-float ()
   "convert indicated word from a hex number to floating point"
