@@ -1,13 +1,13 @@
 (put 'post-sgml-mode 'rcsid 
- "$Id: post-sgml-mode.el,v 1.11 2002-06-06 17:17:44 cvs Exp $")
+ "$Id: post-sgml-mode.el,v 1.12 2002-06-07 11:11:53 cvs Exp $")
 ;(setq html-mode-hook '(lambda () (setq paragraph-start "<P>"))
 
-(setq sgml-mode-hook '(lambda () (run-hooks 'html-mode-hook)
-  ;			(require 'sgml-helpers)
-  ;			(define-key sgml-mode-map "" 'docbook-help)
-	     (setq tab-width 4)
-	     (turn-on-lazy-lock)
-			))
+;; (setq sgml-mode-hook '(lambda () (run-hooks 'html-mode-hook)
+;;   ;			(require 'sgml-helpers)
+;;   ;			(define-key sgml-mode-map "" 'docbook-help)
+;; 	     (setq tab-width 4)
+;; 	     (turn-on-lazy-lock)
+;; 			))
 
 (defun html-quick-view (fn)
   (perl-command "fast-html-format" fn)
