@@ -1,5 +1,5 @@
 (put 'cvs 'rcsid 
- "$Id: cvs.el,v 1.9 2002-06-19 13:49:02 cvs Exp $")
+ "$Id: cvs.el,v 1.10 2003-06-24 01:49:39 cvs Exp $")
 (require 'vc)
 
 (defvar *cvs-commands*
@@ -14,6 +14,8 @@
     ("release")
     ("update")
     ))
+
+(defvar cvs-command-history nil)
 
 (defun cvs (cmd args)
   "execute a random cvs command"
@@ -37,8 +39,10 @@
 	    
 
       (let* ((bname "*CVS*")
-	     (b (get-buffer-create bname)))
-	(shell-command (format "cvs %s %s" cmd args) b)
+	     (b (get-buffer-create bname))
+	     (cmd (format "cvs %s %s" cmd args)))
+	(shell-command cmd b)
+	(push cmd cvs-command-history)
 	(if (buffer-exists-p bname) 
 	    (progn (pop-to-buffer b)
 		   (beginning-of-buffer)
@@ -96,9 +100,13 @@ non-interactive arg is a string to set it to
 ; (cvsroot)
 
 (defun cvs-diff-version (v)
+  "run cvs diff between the version in the current buffer and the specified REVISION"
   (interactive "sversion: ")
-  (cvs "diff" (format "-r %s %s" v (file-name-nondirectory (buffer-file-name))))
+  (let ((f (file-name-nondirectory (buffer-file-name))))
+    (cvs "diff" (format "-r %s %s" v f))
+    )
   )
+
 (define-key vc-prefix-map "1" 'cvs-diff-version) 
 
 (defun cvs-update ()

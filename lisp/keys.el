@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.35 2003-05-14 18:26:30 cvs Exp $")
+ "$Id: keys.el,v 1.36 2003-06-24 01:49:39 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -161,6 +161,7 @@
 ; (define-key help-map "" 'indicated-manual-entry)
 
 (define-key help-map "" 'fapropos3)
+(define-key help-map "" 'refine-apropos)
 (define-key help-map "" 'help-for-map)
 
 ;; (global-set-key "Å∫" 'tags-apropos)
@@ -260,6 +261,19 @@
 
 (define-key ctl-x-4-map "" 'bury-buffer)
 
+
+(require 'ctl-slash)
+(define-key ctl-/-map "f" 'ff)
+
+(define-key ctl-/-map "a" 'apache-manual)
+(define-key ctl-/-map "c" 'css-spec)
+(define-key ctl-/-map "h" 'html40)
+(define-key ctl-/-map "p" 'perlmodhtml)
+(define-key ctl-/-map "p" 'phpmanual)
+(define-key ctl-/-map "s" 'specs)
+
 (provide 'keys)
 
 
+(global-set-key "\M-" 'backward-word)
+(global-set-key "\M-\\" 'forward-word)

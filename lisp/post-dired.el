@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.20 2003-05-15 21:00:02 cvs Exp $")
+ "$Id: post-dired.el,v 1.21 2003-06-24 01:49:39 cvs Exp $")
 (require 'eval-process)
 (require 'tar-view)
 (require 'zip-view)
@@ -12,21 +12,7 @@
 (setq dired-listing-switches "-alt")
 
 (defun dired-diff-backup () (interactive)
-  (let* ((f (dired-get-filename))
-	 (b (concat f "~")))
-
-    (if (file-exists-p b)
-	(let ((d (eval-process "diff" f b)))
-	  (if (= (length d) 0)
-	      (message "no differences")
-	    (let ((buf (zap-buffer "*diff*")))
-	      (insert d)
-	      (pop-to-buffer buf)
-	      )))
-
-      (message "no backup for %s" f)
-      )
-    )
+  (diff-backup (dired-get-filename))
   )
 
 

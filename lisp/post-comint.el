@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.20 2003-06-13 14:05:27 cvs Exp $")
+ "$Id: post-comint.el,v 1.21 2003-06-24 01:49:39 cvs Exp $")
 
 ;; used to initialize `comint-mode-hook'
 (mapcar '(lambda (f) (apply f '(comint-prompt-regexp "^[a-zA-Z0-9]*[$%] *"))) '(set-default set))
@@ -27,3 +27,8 @@
 
 (define-key ctl-RET-map (vector ?\C-7) 'lru-shell)
 (define-key ctl-RET-map (vector ?\C-8) 'mru-shell)
+
+(require 'ctl-slash)
+
+; grab dir from context of other window and insert it here.  if only one window showing, then current dir
+(define-key ctl-/-map "0" '(lambda () (interactive) (insert (save-window-excursion (other-window-1) (unix-canonify (or (buffer-file-name) default-directory) 0)))))

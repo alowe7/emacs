@@ -1,5 +1,5 @@
 (put 'todo 'rcsid 
- "$Id: todo.el,v 1.6 2003-05-25 20:55:11 cvs Exp $")
+ "$Id: todo.el,v 1.7 2003-06-24 01:49:39 cvs Exp $")
 (require 'eval-process)
 
 (defvar master-todo-file (expand-file-name "~/.todo" ) 
@@ -73,6 +73,15 @@
   ; assert still in todo buffer
 	  (backup-file (buffer-file-name))
 	  (basic-save-buffer)
+
+	 ; if a window happens to be showing the done file, update it
+	  (loop for x being the windows
+		when (string= 
+		      (todone-file-name)
+		      (buffer-file-name
+		       (window-buffer x)))
+		do (progn (set-buffer (window-buffer x)) (recenter)))
+
 	  )
       (message "not done.")
       )

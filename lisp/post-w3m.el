@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.10 2003-06-13 14:05:27 cvs Exp $")
+ "$Id: post-w3m.el,v 1.11 2003-06-24 01:49:39 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -68,7 +68,7 @@
   )
 
 (defun apache-manual () (interactive)
-  (w3m-goto-url "http:///apache/htdocs/manual/index.html.en")
+  (w3m-goto-url "http://apache/htdocs/manual/index.html.en")
   )
 
 (defun specs () (interactive)
@@ -146,17 +146,9 @@
 (require 'ctl-slash)
 
 (define-key ctl-/-map (vector (ctl ?/)) 'w3m-goto-current-file-as-url-new-session)
-(define-key ctl-/-map "a" 'apache-manual)
-(define-key ctl-/-map "c" 'css-spec)
 (define-key ctl-/-map "d" 'dired-w3m-find-file)
 (define-key ctl-/-map "" 'find-anchor-named)
-(define-key ctl-/-map "h" 'html40)
-(define-key ctl-/-map "p" 'perlmodhtml)
-(define-key ctl-/-map "p" 'phpmanual)
-(define-key ctl-/-map "s" 'specs)
 (define-key ctl-/-map "w" 'w3m-goto-this-url-new-session)
 (define-key ctl-/-map "z" 'w3m-copy-current-url)
 (define-key ctl-/-map "g" 'w3m-goto-url-new-session)
-
-(define-key ctl-/-map "f" 'ff)
 

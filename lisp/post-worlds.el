@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid 
- "$Id: post-worlds.el,v 1.11 2003-04-22 21:33:43 cvs Exp $")
+ "$Id: post-worlds.el,v 1.12 2003-06-24 01:49:39 cvs Exp $")
 
 
 (defun push-world-p (w)
@@ -101,3 +101,8 @@ a null argument means pop-world from world-stack"
 	 )
     )
   )
+
+(require 'ctl-x-n)
+
+(define-key ctl-x-3-map "f" 'wn)
+(define-key ctl-x-3-map "d" '(lambda () (interactive) (dired (fw))))

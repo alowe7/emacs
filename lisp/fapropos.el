@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.13 2002-04-14 04:22:37 cvs Exp $")
+ "$Id: fapropos.el,v 1.14 2003-06-24 01:49:39 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -160,16 +160,47 @@ fapropos will only find symbols which have already been interned
       v)
     )
   )
+
+(defun functions-like* (&rest args)
+  "apply `functions-like' to all elements of LIST"
+  (let ((l (functions-like (pop args))))
+    (loop for x in args do 
+	  (setq l (intersection l (functions-like x))))
+    l)
+  )
+
+
+(functions-like* "buffer" "window")
+
 ; (add-hook 'completion-setup-hook 'apropos-completion-setup-function)
 
 ; (defun apropos-completion-setup-function ()
 ;  (local-set-key (vector (quote down-mouse-1))
 ; 								'(lambda (e) (interactive) (debug))))
 
+(defvar *fapropos3-cache* nil)
+
 (defun fapropos3 (s) (interactive "sString: ")
 "Show all symbols whose names match REGEXP."
   (let* ((ss (completing-read "Complete: " 
-			      (loop for x in (symbols-like s t)
+			      (loop for x in (setq *fapropos3-cache* (symbols-like s t))
+				    collect
+				    (list x)) nil t))
+	 (ssi (intern ss)))
+
+    (cond ((fboundp ssi) 
+	   (describe-function ssi))
+	  ((boundp ssi)
+	   (describe-variable ssi))
+	  )
+    )
+  )
+
+(defun refine-apropos (s) (interactive "sString: ")
+  "Show all subset of last `fapropos3' call that also match REGEXP."
+  (let* ((ss (completing-read "Complete: " 
+			      (loop for x in *fapropos3-cache*
+				    when (string-match s x)
 				    collect
 				    (list x)) nil t))
 	 (ssi (intern ss)))
