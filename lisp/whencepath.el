@@ -1,5 +1,5 @@
 (put 'whencepath 'rcsid 
- "$Id: whencepath.el,v 1.10 2004-01-30 17:05:45 cvs Exp $")
+ "$Id: whencepath.el,v 1.11 2005-02-02 22:35:00 cvs Exp $")
 (require 'sh)
 (require 'cat-utils)
 (require 'cl)
@@ -12,30 +12,30 @@
   " look for cmd along path (path is a list of strings)"
   (interactive "scmd: \nspath: ")
   (let ((abscmd
-				 (loop for x in (split-path (getenv (or path "PATH")))
-							 thereis
-							 (loop for fx in 
-										 (nconc (list (concat x "/" cmd))
-														(unless (or
-																		 (not (eq window-system 'w32))
-																		 (string-match "\.exe$" cmd))
-																		 (list (concat x "/" cmd ".exe"))))
-										 when
-										 (if regexp
-												 (loop for y in (get-directory-files x)
-															 thereis
-															 (and (string-match cmd y) (concat x "/" y))
-															 )
-											 (if executable
-													 (if (-x fx) fx)
-												 (if (-f fx) fx))
-											 )
-										 return fx
-										 )
-							 )
-				 ))
+	 (loop for x in (split-path (getenv (or path "PATH")))
+	       thereis
+	       (loop for fx in 
+		     (nconc (list (concat x "/" cmd))
+			    (unless (or
+				     (not (eq window-system 'w32))
+				     (string-match "\.exe$" cmd))
+			      (list (concat x "/" cmd ".exe"))))
+		     when
+		     (if regexp
+			 (loop for y in (get-directory-files x)
+			       thereis
+			       (and (string-match cmd y) (concat x "/" y))
+			       )
+		       (if executable
+			   (if (-x fx) fx)
+			 (if (-f fx) fx))
+		       )
+		     return fx
+		     )
+	       )
+	 ))
     (and abscmd
-				 (if (interactive-p) (message abscmd) abscmd))
+	 (if (interactive-p) (message abscmd) abscmd))
     )
   )
 
@@ -69,3 +69,5 @@
       )
     )
   )
+
+(provide 'whencepath)

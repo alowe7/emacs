@@ -1,5 +1,11 @@
 (put 'input 'rcsid 
- "$Id: input.el,v 1.5 2004-12-10 18:15:17 cvs Exp $")
+ "$Id: input.el,v 1.6 2005-02-02 22:35:00 cvs Exp $")
+
+(defun read-char-p ()
+  (condition-case err
+      (read-char)
+    (error nil))
+  )
 
 (defun y-or-n-*-p (prompt &optional chars &rest args)
   "display PROMPT and read characters.
@@ -10,15 +16,18 @@ with optional string CHARS, also matches specified characters.
   (catch 'done
     (while t
       (apply 'message (cons prompt args))
-      (let ((c (read-char)) x)
+      (let ((c (read-char-p)) x)
+	(message "")
 	(cond 
-	 ((char-equal c ?y) (throw 'done t))
-	 ((char-equal c ?n) (throw 'done nil))
+	 ((or (null c) (char-equal c ?n))
+	  (throw 'done nil))
+	 ((char-equal c ?y)
+	  (throw 'done t))
 	 (chars
 	  (dotimes (x (length chars)) 
 	    (let ((c2 (aref chars x))) 
 	      (and (char-equal c c2) (throw 'done c2)))))
-	 (t (setq prompt (format "%s (y %s to continue, n for next): " prompt 
+	 (t (setq prompt (format "%s (y [%s] to continue, n for next): " prompt 
 				 (string* chars "")
 				 )))
 	 )
@@ -26,6 +35,8 @@ with optional string CHARS, also matches specified characters.
       )
     )
   )
+
+; (y-or-n-*-p "test: ")
 
 (defun remove-text-properties-from-string (str)
   (with-temp-buffer 

@@ -232,7 +232,7 @@ if PAT is not specieifed, splits on all white space: [SPC, TAB, RET]
 (defun shift-word (s)
   "break string into (first-word . rest)"
   (if (string-match "\\W" s)
-      (cons (substring s 0 (match-beginning 0)) (substring s (match-end 0))))
+      (list (substring s 0 (match-beginning 0)) (substring s (match-end 0))))
   )
 
 ; (shift-word "foo;bar baz bo")

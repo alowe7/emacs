@@ -1,10 +1,16 @@
 (put 'post-comint 'rcsid
- "$Id: post-comint.el,v 1.3 2004-07-21 20:18:21 cvs Exp $")
+ "$Id: post-comint.el,v 1.4 2005-02-02 22:35:00 cvs Exp $")
+
+(require 'whencepath)
 
 (chain-parent-file t)
 
+(defvar *ps-command*)
+(set-default '*ps-command* (whence "ps"))
+(make-variable-buffer-local '*ps-command*)
+
 (defun processes ()
-  (let ((l1 (split (eval-process "/bin/ps") "
+  (let ((l1 (split (eval-process  *ps-command*) "
 ")))
     (loop for x in (cdr l1)
 	  collect 
