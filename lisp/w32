@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.8 2001-03-30 10:06:40 cvs Exp $")
+ "$Id: w32,v 1.9 2001-04-05 12:39:35 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -690,20 +690,28 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (defun net (cmd) 
   "implement net command"
-  (interactive (list
-		(completing-read "cmd: " '(("use")))))
+  (interactive "scmd: ")
 
-  (cond
-   ((string-equal cmd "use")
-    (let* ((host (read-string "host: " ))
-	   (user (read-string (format "username for %s: " host)))
-	   (sword (comint-read-noecho "password: " ))
-	   (res (eval-process "net" "use" 
-			      (format "\\\\%s" host)
-			      sword 
-			      (format "/user:%s" user))))
-      (message res)))
-   (t (message "you lose")))
+  (let ((b (zap-buffer "*net*")))
+    (set-buffer b)
+    (insert-eval-process
+     (cond
+      ((string-equal cmd "use")
+       (let* ((host (read-string "host: " )))
+	 (cond ((string* host)
+		(let* ((user (read-string (format "username for %s: " host)))
+		       (sword (comint-read-noecho "password: " )))
+		  (format "net use \\\\%s %s /user:%s"
+			  host sword user)))
+	       (t "net use"))))
+      (t
+       (format "net %s" cmd))
+      )
+     )
+    (pop-to-buffer b)
+    (view-mode)
+    (beginning-of-buffer)
+    )
   )
 
 (defun host (n) 
