@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.4 2000-10-30 19:11:42 cvs Exp $
+# $Id: Makefile,v 1.5 2000-11-20 02:36:16 cvs Exp $
 
 SHELL=/bin/sh
 uname := $(shell uname)
@@ -12,12 +12,12 @@ CONFIGS := $(shell find ./config  -type f -a ! -name "*~" -a ! -name "*,v")
 XZ=xz
 ETAGS=etags
 
-all: auto-autoloads .xz.dat
+all: .autoloads .xz.dat
 
 
-auto-autoloads: $(SOURCES)
-	@./make-autoloads $(SOURCES) > auto-autoloads
-	@echo auto-autoloads rebuilt
+.autoloads: $(SOURCES)
+	@./make-autoloads $(SOURCES) > .autoloads
+	@echo .autoloads rebuilt
 
 .xz.dat: $(SOURCES) $(CONFIGS)
 	@$(XZ) -ywqn $(SOURCES) $(CONFIGS)
@@ -26,4 +26,4 @@ TAGS: $(SOURCES) $(CONFIGS)
 	$(ETAGS) $(SOURCES) $(CONFIGS)
 
 clean:
-	rm -f xz.dat TAGS auto-autoloads
+	rm -f .xz.dat TAGS .autoloads

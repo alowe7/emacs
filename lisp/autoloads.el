@@ -1,7 +1,7 @@
 (put 'autoloads 'rcsid 
- "$Id: autoloads.el,v 1.6 2000-10-03 16:50:27 cvs Exp $")
+ "$Id: autoloads.el,v 1.7 2000-11-20 02:36:16 cvs Exp $")
 ; automatically generated for the most part.  see ../Makefile
-(load "../auto-autoloads" t t t )
+(load "../.autoloads" t t t )
 
 ;; a few outliers
 (mapcar '(lambda (x) (autoload (car x) (car (cdr x)) "via autoload.el" t))
