@@ -1,5 +1,5 @@
 (put 'edit 'rcsid 
- "$Id: edit.el,v 1.6 2001-07-26 09:23:36 cvs Exp $")
+ "$Id: edit.el,v 1.7 2001-09-08 19:25:35 cvs Exp $")
 
 ;; edit and format functions
 
@@ -13,17 +13,19 @@
 	  (goto-char x)
 	  (list y z)))
 
-(defvar *fat-tab-width* 8)
-(defvar *thin-tab-width* 2)
+(defvar *tab-width-ring* (vector 2 4 8))
+(defvar *tab-width-ring-index* 1)
+
 (defun set-tabs (arg)
-  "toggle tab-width between `*thin-tab-width*' and `*fat-tab-width*'
+  "roll tab-width through `*thin-tab-width*' and `*fat-tab-width*'
 with optional prefix ARG set to ARG"
   (interactive "P")
   (setq tab-width
 	(cond ((and (listp arg) (not (null arg))) (car arg))
 	      ((integerp arg) arg)
-	      ((eq tab-width *fat-tab-width*) *thin-tab-width*)
-	      (t *fat-tab-width*)))
+	      (t (aref *tab-width-ring* 
+		       (setq *tab-width-ring-index* (% (1+ *tab-width-ring-index*) (length *tab-width-ring*)))))
+	      ))
   (message "tab-width: %d" tab-width)
   (recenter)
   )
