@@ -1,5 +1,5 @@
 (put 'jar-view 'rcsid 
- "$Id: jar-view.el,v 1.3 2001-08-20 02:09:14 cvs Exp $")
+ "$Id: jar-view.el,v 1.4 2001-08-20 04:24:43 cvs Exp $")
 (provide 'jar-view)
 (require 'cl)
 
@@ -21,7 +21,7 @@
 	)
 
 
-(add-file-association "jar" jar-view)
+(add-file-association "jar" 'jar-view)
 
 (defvar jar-mode-map nil "")
 (if jar-mode-map

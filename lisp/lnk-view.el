@@ -1,5 +1,5 @@
 (put 'lnk-view 'rcsid 
- "$Id: lnk-view.el,v 1.2 2001-08-20 02:09:14 cvs Exp $")
+ "$Id: lnk-view.el,v 1.3 2001-08-20 04:24:43 cvs Exp $")
 (require 'cl)
 
 (defun dired-lnk-view () (interactive)
@@ -20,7 +20,7 @@
 	)
 
 
-(add-file-association "lnk"  file-assoc-list)
+(add-file-association "lnk" 'lnk-view)
 
 (defvar lnk-mode-map nil "")
 (if lnk-mode-map

@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.5 2001-08-20 02:09:14 cvs Exp $")
+ "$Id: post-dired.el,v 1.6 2001-08-20 04:24:43 cvs Exp $")
 
 ;; dired stuff
 
@@ -244,7 +244,7 @@ warns if more than one file is to be moved and target is not a directory"
 see `file-assoc-list'"
   (or (assoc type file-assoc-list)
       (push
-       (cons type . handler)
+       (cons type handler)
        file-assoc-list))
   )
 
