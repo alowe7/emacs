@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.2 2003-03-13 17:51:11 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.3 2003-03-19 15:26:53 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 23)
@@ -83,7 +83,8 @@
 (require 'gnuserv)
 (display-time)
 
-(set-default 'comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *")
+(mapcar '(lambda (f) (apply f '(comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *"))) '(set-default set))
+
 (setq *default-swordfile* "~/.private/bj")
 
 ; man don't work with default path
@@ -94,3 +95,10 @@
 (setq font-lock-support-mode 'lazy-lock-mode)
 
 (add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))
+
+(defvar java-home
+  (string* (getenv "JAVA_HOME")
+	   (expand-file-name
+	    (chomp (queryvalue "machine" "software/javasoft/java development kit/1.4" "javahome")))
+	   )
+  )
