@@ -41,3 +41,30 @@
         (w3m-find-file file))))
 
 
+(define-key w3m-mode-map "u" 'w3m-view-parent-page)
+(define-key w3m-mode-map "n" 'w3m-view-next-page)
+(define-key w3m-mode-map [prior] 'w3m-scroll-down-or-previous-url)
+(define-key w3m-mode-map [next] 'w3m-scroll-up-or-next-url)
+; (define-key w3m-mode-map [up] 'fb-up)
+(define-key w3m-mode-map [left] 'w3m-view-previous-page)
+
+(defun w3m-copy-current-url () (interactive)
+  (kill-new w3m-current-url)
+  )
+
+(define-key w3m-mode-map "" 'w3m-copy-current-url)
+
+(defun specs () (interactive)
+  (w3m-goto-url "http://alowe2/specs.nav")
+  )
+
+(defun perlmodhtml (mod) (interactive "smod: ")
+(let ((res  (w3m-goto-url (format "http://alowe2/perl/html/site/lib/%s" (replace-in-string "::" "/" mod)) nil nil)))
+(debug)
+  )
+)
+
+(defun phpmanual () (interactive)
+  (w3m-goto-url-new-session "http://alowe2/php/manual")
+  )
+; ( phpmanual)

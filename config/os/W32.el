@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
-(put 'w32 'rcsid 
- "$Id: W32.el,v 1.1 2002-12-02 03:12:31 cvs Exp $")
+(put 'W32 'rcsid 
+ "$Id: W32.el,v 1.2 2002-12-02 18:54:53 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
