@@ -1,0 +1,4 @@
+(setenv "EMACSDIR" "/usr/share/emacs")
+(set-background-color "white")
+(set-foreground-color "black")
+
