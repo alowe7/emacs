@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.25 2004-03-16 04:02:52 cvs Exp $")
+ "$Id: config.el,v 1.26 2004-03-26 20:46:06 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -224,12 +224,12 @@ no errors if files don't exist.
 (defvar *hostname*
   (hostname))
 
-(defvar *host-init*
-  (and (string* *hostname*)
-       (let ((fn 
-	      (format "~/emacs/config/hosts/%s/host-init.el" *hostname*)))
-	 (and (file-exists-p fn) fn)))
-  )
+;; (defvar *host-init*
+;;   (and (string* *hostname*)
+;;        (let ((fn 
+;; 	      (format "~/emacs/config/hosts/%s/host-init.el" *hostname*)))
+;; 	 (and (file-exists-p fn) fn)))
+;;   )
 
 (defun find-host-init ()
   (interactive)
