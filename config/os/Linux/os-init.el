@@ -1,5 +1,5 @@
 (put 'Linux 'rcsid 
- "$Id: os-init.el,v 1.3 2001-02-09 14:29:51 cvs Exp $")
+ "$Id: os-init.el,v 1.4 2001-08-20 02:10:55 cvs Exp $")
 (put 'os-init 'rcsid  'Linux)
 
 (message "Linux")
@@ -37,3 +37,19 @@ t)
 
 ; (ad-is-advised 'find-file-noselect)
 ; (ad-unadvise 'find-file-noselect)
+
+(defun aexec (f &optional visit)
+  "apply command associated with filetype to specified FILE
+filename may have spaces in it, so double-quote it.
+handlers may be found from the variable `file-assoc-list' or 
+failing that, via `file-association' 
+if optional VISIT is non-nil and no file association can be found just visit file, otherwise
+ display a message  "
+  (interactive "sFile: ")
+  (let* ((ext (file-name-extension f))
+	 (handler (and ext (assoc (downcase ext) file-assoc-list))))
+    (if handler (funcall (cdr handler) f)
+      (message "handler not found"))
+    )
+  )
+
