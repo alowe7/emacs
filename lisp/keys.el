@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.32 2003-02-12 23:00:00 cvs Exp $")
+ "$Id: keys.el,v 1.33 2003-02-22 17:36:43 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -233,8 +233,6 @@
 (global-set-key ">" '(lambda () (interactive) (save-excursion (goto-char (point-min)) (replace-regexp "^" "> " nil))))
 
 (define-key ctl-x-4-map "" 'bury-buffer)
-
-(global-set-key "r" 'lsreg)
 
 (provide 'keys)
 
