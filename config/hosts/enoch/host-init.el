@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.8 2005-01-03 15:46:58 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.9 2005-01-04 03:26:57 cvs Exp $")
 
 ; enoch
 ; (require 'xz-loads)
@@ -76,3 +76,4 @@
 
 ; (setq comint-use-prompt-regexp-instead-of-fields nil)
 ; (add-to-load-path "/usr/local/src/emacs-w3m/emacs-w3m" t)
+(load-library "ctl-slash")
