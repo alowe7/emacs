@@ -1,6 +1,5 @@
 (put 'post-xz-loads 'rcsid 
- "$Id: post-xz-loads.el,v 1.5 2001-07-18 22:18:18 cvs Exp $")
-
+ "$Id: post-xz-loads.el,v 1.6 2001-08-10 15:25:12 cvs Exp $")
 
 (define-key xz-map "" 
   '(lambda (string) (interactive (list (complete-indicated-word "goto function definition (%s): " obarray)))
