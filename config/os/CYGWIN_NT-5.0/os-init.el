@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.16 2001-08-28 22:12:39 cvs Exp $")
+ "$Id: os-init.el,v 1.17 2001-09-28 22:15:35 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 (setq doc-directory data-directory)
@@ -109,78 +109,48 @@ host must respond within optional TIMEOUT msec"
        )
       )
 
-(cygmounts)
-
-(defadvice cd (around 
-		     hook-cd
-		     first activate)
-  ""
-
-  ; check cygmounts for drive changes
-
-  (let* ((d (ad-get-arg 0))
-	 (d1 (unless (string-match "^//" d)
-	       (loop for x in cygmounts 
-		   if (string-match (concat "^" (car x)) d)
-		   return (replace-in-string (concat "^" (car x)) (cadr x) d)
-		   )))
-	 (d2 (and d1 (expand-file-name d1))))
-    (and d2 (ad-set-arg 0 d2))
-    ad-do-it
-    )
+(defmacro expand-pseudo-mount-p (n)
+  " given a file or directory at arg position n, expand contained pseudo-mounts, if any"
+  
   )
 
-; (ad-is-advised 'cd)
-; (ad-unadvise 'cd)
+; initialize mount table
+(cygmounts)
+
+(setq mount-hook-file-commands '(cd dired find-file-noselect file-exists-p))
+
+(defun mount-unhook-file-commands ()
+  (loop for x in mount-hook-file-commands do
+	(eval `(if (ad-is-advised (quote ,x)) (ad-unadvise (quote ,x))))))
+
+
+(defun mount-hook-file-commands ()
+  (mount-unhook-file-commands)
+  (loop for x in mount-hook-file-commands do
+	(let ((hook-name (intern (concat "hook-" (symbol-name x)))))
+	  (eval `(defadvice ,x (around ,hook-name first activate) 
+		   (let* ((d (ad-get-arg 0))
+			  (d1 (unless (string-match "^//" d)
+				(loop for x in cygmounts 
+				      if (string-match (concat "^" (car x)) d)
+				      return (replace-in-string (concat "^" (car x)) (cadr x) d)
+				      )))
+			  (d2 (and d1 (expand-file-name d1))))
+		     (and d2 (ad-set-arg 0 d2))
+		     ad-do-it
+		     )
+		   )
+		)
+	  )
+	)
+  )
+
+; (mount-hook-file-commands)
+
+
 
 ; xxx todo: catch shell command w <world> for shell-cd
 
-(defadvice dired (around 
-		  hook-dired
-		  first activate)
-  ""
-
-  ; check cygmounts for drive changes
-  
-  (let* ((d (ad-get-arg 0))
-	 (d1 (unless (string-match "^//" d)
-	       (loop for x in cygmounts when 
-		     (string-match (concat "^" (car x)) d)
-		     return 
-		     (replace-in-string (concat "^" (car x)) (cadr x) d)
-		     )))
-	 (d2 (and d1 (expand-file-name d1))))
-    (and d2 (ad-set-arg 0 d2))
-    ad-do-it
-    )
-  )
-
-; (ad-is-advised 'dired)
-; (ad-unadvise 'dired)
-
-
-(defadvice find-file-noselect (around 
-			       hook-find-file-noselect
-			       first activate)
-  ""
-
-  ; check cygmounts for drive changes
-  
-  (let* ((d (ad-get-arg 0))
-	 (d1 (unless (string-match "^//" d)
-	       (loop for x in cygmounts when 
-		     (string-match (concat "^" (car x)) d)
-		     return 
-		     (replace-in-string (concat "^" (car x)) (cadr x) d)
-		     )))
-	 (d2 (and d1 (expand-file-name d1))))
-    (and d2 (ad-set-arg 0 d2))
-    ad-do-it
-    )
-  )
-
-; (ad-is-advised 'find-file-noselect)
-; (ad-unadvise 'find-file-noselect)
 
 (defun delete-all-other-frames ()
 	(interactive)
