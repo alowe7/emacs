@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.7 2004-05-01 03:13:14 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.8 2005-01-03 15:46:58 cvs Exp $")
 
 ; enoch
 ; (require 'xz-loads)
@@ -72,3 +72,7 @@
   (call-process "/usr/bin/nautilus" nil nil nil default-directory)
   )
 (global-set-key (vector 'f12) 'nautilus)
+(global-set-key (vector 'f2) '(lambda () (interactive) (shell2 2)))
+
+; (setq comint-use-prompt-regexp-instead-of-fields nil)
+; (add-to-load-path "/usr/local/src/emacs-w3m/emacs-w3m" t)
