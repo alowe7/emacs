@@ -1,5 +1,5 @@
 (put 'edit 'rcsid 
- "$Id: edit.el,v 1.9 2003-05-15 21:00:01 cvs Exp $")
+ "$Id: edit.el,v 1.10 2003-05-25 20:55:11 cvs Exp $")
 
 ;; edit and format functions
 
@@ -135,11 +135,13 @@ if optional arg N is specified deletes additional N subsequent chars also"
   (interactive)
   (let ((fn (buffer-file-name))
 	(p (point)))
-    (kill-buffer (current-buffer))
-    (find-file fn)
-; there's some weirdness here.  sometimes the buffer gets buried or disappears
-;    (debug)
-    (goto-char p)
+    (if (or (not (buffer-modified-p)) 
+	    (y-or-n-p (format "buffer %s is modified. discard changes? " (buffer-name))))
+	(progn
+	  (revert-buffer nil t t)
+	  (goto-char (min p (point-max)))
+	  )
+      )
     )
   )
 
