@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.3 2004-08-26 18:12:34 cvs Exp $")
+ "$Id: xdb.el,v 1.4 2004-09-03 15:12:33 cvs Exp $")
 
 (chain-parent-file t)
 
@@ -9,6 +9,11 @@
 (define-key ctl-/-map "t" 'xt)
 (define-key ctl-/-map "n" 'xn)
 (define-key ctl-/-map "b" 'txdbi)
+
+(define-key ctl-RET-map "l" 'xl)
+(define-key ctl-RET-map "=" 'xl=)
+(define-key ctl-RET-map "-" 'xl*)
+(define-key ctl-RET-map (vector (ctl ?/)) 'xl/)
 
 ; make sure we have a login
 ; (call-interactively 'xdb-login)

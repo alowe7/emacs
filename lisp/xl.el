@@ -34,12 +34,14 @@
     (chomp (x-query s)))
   )
 
-; (xl "select count(*) from f")
-; (xl "describe f")
+; (xlq "select count(*) from f")
+; (xlq "describe f")
 
 ;; run query on contents of current buffer (i.e. sql code)
 
-(defun xlb () (interactive)
+(defun xlb ()
+"`buffer-string' is assumed to contain a blob of sql code.  send it to the db pointed to by `*local-txdb-options*'"
+ (interactive)
   (let ((*txdb-options* *local-txdb-options*)
 	(b (zap-buffer *x*)))
     (insert (x-query (setq *x-query* query)))
@@ -57,3 +59,38 @@
     (call-interactively 'txdbi)
     )
   )
+
+(defun* xll (arg)
+  " lookup a thing matching PAT in links (on db `*local-txdb-options*')
+
+interactive with arg is like calling with :all t
+
+when called from a program, takes optional keywords
+ :all BOOL
+ :keywords KEYWORDS
+
+if all is nonnil, show matches in name, url or keywords fields 
+if KEYWORDS is nonnil, it is a string representing keywords.  matches are like any words in string
+"
+
+  (interactive "P")
+
+  (let ((name (read-string "find local links like: ")))
+
+    (let ((*txdb-options* *local-txdb-options*))
+      (xl name :all arg)
+      )
+    )
+  )
+
+(defun xall (link url &optional keywords)
+  " local version of `xal' 
+add a record to x.links"
+
+  (interactive "snew local link: \nsurl: \nskeywords: ")
+
+  (let ((*txdb-options* *local-txdb-options*))
+    (xal link url keywords)
+    )
+  )
+

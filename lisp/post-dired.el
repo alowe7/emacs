@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.26 2004-07-21 20:18:21 cvs Exp $")
+ "$Id: post-dired.el,v 1.27 2004-09-03 15:12:33 cvs Exp $")
 (require 'eval-process)
 (require 'tar-view)
 (require 'zip-view)
@@ -256,10 +256,13 @@ warns if more than one file is to be moved and target is not a directory"
 (defun add-file-association (type handler)
   "add assoc mapping of downcased file extension to handler.
 see `file-assoc-list'"
-  (or (assoc type file-assoc-list)
-      (push
-       (cons type handler)
-       file-assoc-list))
+
+  (let ((v (assoc* type file-assoc-list :test 'string=)))
+    (and v (setq file-assoc-list (remove* v file-assoc-list)))
+
+    (push
+     (cons type handler)
+     file-assoc-list))
   )
 
 

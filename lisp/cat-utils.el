@@ -234,8 +234,9 @@ default is ':'
 	(t s))
   )
 
-(defun basename (f)
-  (file-name-sans-extension (file-name-nondirectory f))
+(defun basename (f &optional ext)
+  (file-name-sans-extension (file-name-nondirectory f) ext)
   )
+
 
 (provide 'cat-utils)

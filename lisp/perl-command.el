@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.12 2004-08-29 22:35:09 cvs Exp $")
+ "$Id: perl-command.el,v 1.13 2004-09-03 15:12:33 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -144,7 +144,7 @@ so for example use (read-file *perl-stderr*) to inspect it.
 
 (defun perl-command-region (start end s delete buffer display &rest args)
   " run perl script S on REGION with ARGS.
-see call-process-region" 
+see `call-process-region'" 
 
   (apply 'call-process-region
 	 (nconc 
