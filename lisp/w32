@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.6 2001-02-27 12:39:47 cvs Exp $")
+ "$Id: w32,v 1.7 2001-03-13 18:58:36 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -249,7 +249,7 @@ a null argument means pop-world from world-stack"
 
 (make-variable-buffer-local 'explicit-shell-file-name)
 (defun cmd (&optional num)
-  (interactive)
+  (interactive "p")
   (shell2 (or num -1) nil "cmd")
   )
 
