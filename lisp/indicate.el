@@ -1,6 +1,7 @@
 (put 'indicate 'rcsid 
- "$Id: indicate.el,v 1.13 2004-12-10 18:15:17 cvs Exp $")
-(provide 'indicate)
+ "$Id: indicate.el,v 1.14 2005-04-03 22:56:11 cvs Exp $")
+
+(require 'thingatpt) ; which see
 
 ;;
 ;; returns the word before point.
@@ -220,3 +221,7 @@ EXPR may be a function of zero or one argument, the indicated-word"
   (interactive "sprompt: ")
   (let ((s (indicated-word))) (string* (read-string (format "%s (%s): " prompt s)) s))
   )
+
+(fset 'indicated 'thing-at-point)
+
+(provide 'indicate)
