@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.14 2001-08-28 22:11:39 cvs Exp $")
+ "$Id: config.el,v 1.15 2001-09-08 20:50:36 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -230,3 +230,9 @@ no errors if files don't exist.
 	   `(,x (post-wrap ,x)) after-load-alist))
       )
 ; (pop after-load-alist)
+
+(defun load-list (pat)
+  (interactive "spat: ")
+  (mapconcat 'identity (loop for x in load-history when (string-match pat (car x)) collect (car x)) " ")
+  )
+; (load-list "post-cc")

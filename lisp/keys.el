@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.18 2001-09-02 00:25:22 cvs Exp $")
+ "$Id: keys.el,v 1.19 2001-09-08 20:50:36 cvs Exp $")
 ;(require 'nums)
 
 ;; all key bindings
@@ -216,5 +216,20 @@
 
 (global-set-key (vector '\C-tab) 'set-tabs)
 (global-set-key "" 'describe-key-sequence)
+
+(defvar ctl (dec "0x4000000"))
+(defun ctl (c) (+ ctl c))
+; (hex (ctl ??))
+
+; use generally for info commands
+(unless (fboundp 'ctl-\?-prefix)
+    (define-prefix-command 'ctl-\?-prefix))
+
+(unless (and (boundp 'ctl-\?-map) ctl-\?-map)
+  (setq ctl-\?-map (symbol-function 'ctl-\?-prefix)))
+
+(global-set-key (vector (ctl ??)) 'ctl-\?-prefix)
+
+(define-key ctl-\?-prefix "	" '(lambda () (interactive)   (message "tab-width: %d" tab-width)))
 
 (provide 'keys)

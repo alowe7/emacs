@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.9 2001-08-24 19:20:58 cvs Exp $")
+ "$Id: fapropos.el,v 1.10 2001-09-08 20:50:36 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -144,6 +144,14 @@ fapropos will only find symbols which have already been interned
     )
   )
 
+(defun functions-like (pat)
+  "list functions with names matching regexp PAT"
+  (interactive "sString: ")
+  (loop for x being the symbols 
+	when (and (string-match pat (symbol-name x))
+		  (condition-case nil (symbol-function x) (error nil))) 
+	collect x)
+  )
 ; (add-hook 'completion-setup-hook 'apropos-completion-setup-function)
 
 ; (defun apropos-completion-setup-function ()

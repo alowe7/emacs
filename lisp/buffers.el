@@ -1,5 +1,5 @@
 (put 'buffers 'rcsid 
- "$Id: buffers.el,v 1.7 2001-08-15 21:44:28 cvs Exp $")
+ "$Id: buffers.el,v 1.8 2001-09-08 20:50:36 cvs Exp $")
 
 ;; walk mru list of buffers
 
@@ -12,7 +12,7 @@
   )
 
 
-(defun list-buffers-mode (mode)
+(defun buffer-list-mode (mode)
   (interactive "Smode: ")
   "returns a list of buffers with specified MODE
 when called interactively, displays a pretty list"
@@ -28,7 +28,7 @@ when called interactively, displays a pretty list"
 	  (pop-to-buffer b))
       l)))
 
-(defun list-buffers-named (pat)
+(defun buffer-list-named (pat)
   "list buffers with names matching PAT"
   (interactive "spat: ")
   (loop for x in (real-buffer-list nil)
@@ -36,18 +36,17 @@ when called interactively, displays a pretty list"
 	collect x )
   )
 
-
-(defun list-buffers-with (pat)
+(defun buffer-list-with (pat)
   (loop for x in (real-buffer-list nil)
 	when (string-match pat (save-excursion (set-buffer x) (buffer-string)))
 	collect x )
   )
-(defun list-buffers-modified (&optional arg)
+(defun buffer-list-modified (&optional arg)
   "list buffers that are modified.  with optional ARG, restrict to only buffers with files"
   (loop for x in (real-buffer-list) when (and (buffer-modified-p x) (or (not arg) (buffer-file-name x)) ) collect x)
   )
 
-(defun list-buffers-not-modified (&optional arg)
+(defun buffer-list-not-modified (&optional arg)
   "list buffers that are not modified.  with optional ARG, restrict to only buffers with files"
   (loop for x in (real-buffer-list) when (and (not (buffer-modified-p x)) (or (not arg) (buffer-file-name x)) ) collect x)
   )
@@ -64,7 +63,7 @@ when called interactively, displays a pretty list"
 (defun kill-buffers-mode (mode)
   "kill all buffers in mode"
   (interactive "Smode: ")
-  (loop for x in (list-buffers-mode mode)
+  (loop for x in (buffer-list-mode mode)
 	do
 	(kill-buffer x))
   )

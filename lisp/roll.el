@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.13 2001-08-28 22:11:39 cvs Exp $")
+ "$Id: roll.el,v 1.14 2001-09-08 20:50:36 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -159,14 +159,14 @@ calling SELECTFN to choose one
 						  (format "%s" x) x))
 					      (atoms-like "-mode"))))))
 
-  (roll-list (list-buffers-mode (if (atom m) m (or (string* m) major-mode))) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
+  (roll-list (buffer-list-mode (if (atom m) m (or (string* m) major-mode))) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
   )
 
 (defun roll-buffer-like (arg) 
   " roll buffers with mode like current buffer"
   (interactive "P") 
   (let ((displayfn (if arg '(lambda (b) (switch-to-buffer b) (message (buffer-name b))) 'buffer-name)))
-    (roll-list (roll (list-buffers-mode major-mode)) displayfn 'kill-buffer-1 'switch-to-buffer
+    (roll-list (roll (buffer-list-mode major-mode)) displayfn 'kill-buffer-1 'switch-to-buffer
 	       '((?l (lambda (v i) (message "%d/%d" i (length x)) (sit-for 2))))
 	       )
     )
@@ -247,14 +247,14 @@ LIST may be an a-list, in which case, interpret the cars as buffers, and print t
   "roll buffers with names matching PAT"
   (interactive "spat: ")
 
-  (roll-buffer-list (list-buffers-named pat))
+  (roll-buffer-list (buffer-list-named pat))
   )
 
 (defun roll-buffer-with (pat)
   "roll buffers with contents matching PAT"
   (interactive "spat: ")
 
-  (roll-buffer-list (list-buffers-with pat))
+  (roll-buffer-list (buffer-list-with pat))
   )
 
 
