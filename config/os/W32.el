@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.9 2003-03-25 15:56:06 cvs Exp $")
+ "$Id: W32.el,v 1.10 2003-03-25 17:36:51 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -1015,6 +1015,8 @@ host must respond within optional TIMEOUT msec"
 ;; 
 
 (require 'perl-command)
+(provide 'unicode) ; adds a hook to hammer unicode files
+
 (defun evilnat () (not (string-match "ok" (perl-command "evilnat"))))
 
 
