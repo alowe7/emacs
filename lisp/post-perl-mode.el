@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.20 2004-02-20 15:54:01 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.21 2004-04-05 15:30:41 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -156,9 +156,6 @@ with optional FILE, operate on that"
   )
 
 (global-set-key "" 'ctl-C-ctl-P-prefix)
-
-; defvar
-(addloadpath "$HOME/emacs/site-lisp/perl")
 
 (autoload 'perlfunc "perl-helpers" "help for perl functions" 'interactive)
 

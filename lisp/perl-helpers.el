@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.8 2004-03-25 17:19:53 cvs Exp $
+;; $Id: perl-helpers.el,v 1.9 2004-04-05 15:30:41 cvs Exp $
 
 (require 'perl-command)
 
@@ -16,7 +16,7 @@
 
 
 (defun perlfunc (func)
-  (interactive "sfunc: ")
+  (interactive "sperl func: ")
   (if (string-match "::" func)
       (let ((module (substring func 0 (match-beginning 0)))
 	    (func (substring func (match-end 0))))

@@ -3,7 +3,30 @@
 ;
 ; local xdb query
 ;
-(defvar *local-txdb-options* '("-h" "-" "-b" "fx" "-u" "a"))
+(defun list-db ()
+  (let* ((out (zap-buffer-1 "*stdout*"))
+	 (err (zap-buffer-1 "*stderr*"))
+	 (res (and out err (shell-command "mysql --batch --execute=\"show databases\"" out err))))
+    (if
+	(= res 0) 
+	(progn
+	  (set-buffer out)
+	  (cdr (split (buffer-string) "
+")
+	       ))
+      (error
+       (progn
+	 (set-buffer err)
+	 (buffer-string)
+	 )
+       )
+      )
+    )
+  )
+; 
+
+(defvar *local-txdb-options* nil)
+; e.g. '("-h" "-" "-b" "fx" "-u" "a"))
 
 (defun xlq (s)  (interactive "squery: ")
   (let ((*txdb-options* *local-txdb-options*))
@@ -27,4 +50,8 @@
     )
   )
 
-(global-set-key "" 'xlb)
+(defun xlbi ()  (interactive)
+  (let ((*txdb-options* *local-txdb-options*))
+    (call-interactively 'txdbi)
+    )
+  )

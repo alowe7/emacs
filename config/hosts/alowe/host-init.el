@@ -1,7 +1,12 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.23 2004-03-27 21:50:29 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.24 2004-04-05 15:30:41 cvs Exp $")
 
-(setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
+(setq default-fontspec
+      (default-font 
+	(setq default-font-family "tahoma")
+	(setq default-style "normal")
+	(setq default-point-size 16))
+      )
 
 (setq initial-frame-alist
       `((top . 40)
