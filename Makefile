@@ -1,10 +1,15 @@
-# $Id: Makefile,v 1.34 2004-10-13 17:38:17 cvs Exp $
+# $Id: Makefile,v 1.35 2004-10-18 15:29:54 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
 LOCALBIN = /usr/local/bin
 SHARE=/usr/share/emacs/site-lisp
-EMACS := $(shell which emacs)
+
+EMACS := $(shell which emacs  2> /dev/null)
+ifeq ($(strip $(EMACS)),)
+EMACS := $(EMACSPATH)/emacs
+endif
+
 TOP := $(shell pwd)
 
 .PHONY: FORCE
