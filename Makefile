@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.14 2001-07-06 07:28:45 cvs Exp $
+# $Id: Makefile,v 1.15 2001-07-07 08:53:34 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
@@ -17,7 +17,7 @@ SOURCES := $(shell find ./lisp ./site-lisp -type f -a ! -name "*~" -a ! -name "*
 CONFIGS := $(shell find ./config -type f -a ! -name "*~" -a ! -name "*,v" -a ! -path "*CVS*")
 XZ=xz
 
-SITE_LISP := $(shell find c:/usr/share/emacs/site-lisp -type f -name "*.el")
+SITE_LISP := $(shell find /usr/share/emacs/site-lisp -type f -name "*.el")
 
 ETAGS=etags
 
