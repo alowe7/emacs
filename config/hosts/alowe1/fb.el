@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.12 2004-11-08 14:45:20 cvs Exp $")
+ "$Id: fb.el,v 1.13 2004-12-10 18:15:17 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 
@@ -44,14 +44,22 @@ pattern may also contain environment variables
 ; (regexp-to-sql "$NOTTHERE")
 
 
-(defun ffsql (pat)
+(defun ffsql (pat &optional filter show)
   "find files matching REGEXP.
 this version of ff queries a sql db somewhere using `xq*'
 regexp is converted from regular expression syntax to sql syntax internally.
 if regexp contains environment variables, they are expanded.
+
+optional arg FILTER is a function applied to matching files.
+this function accepts a string and returns a string or nil.
+
+when called from a program, this function merely returns the results as a list.
+with optional arg SHOW, displays the list as if it had been called interactively.
 "
 
-  (interactive (list (string* (read-string (format "find files matching pattern (%s): " (indicated-filename))) (indicated-filename))))
+  (interactive (list 
+		(let ((default-filename (indicated-filename)))
+		  (string* (read-string (format "find files matching pattern (%s): " default-filename)) default-filename))))
 
   (let* ((ff-hack-pat 'regexp-to-sql)
   ; hack pat first to avoid collision with regexp $ and environment variable substitution
@@ -59,6 +67,17 @@ if regexp contains environment variables, they are expanded.
 	 (query (format "select name from f where name like '%s'" pat))
 	 (s (xq* query))
 	 )
+
+    (if filter
+	(setq s (join
+		 (remove* nil 
+			  (loop for x in (split s "
+")
+				collect (funcall filter x)))
+		 "
+")
+	      )
+      )
 
     (cond ((string* s)
 	   (let ((b (zap-buffer-2 *fastfind-buffer*)))
@@ -76,23 +95,21 @@ if regexp contains environment variables, they are expanded.
 
   ; try to avoid splitting (buffer-string) 
 	     (cond ((and *fb-auto-go* 
-			 (interactive-p) 
+			 (or show (interactive-p))
 			 (= (count-lines (point-min) (point-max)) 1)
 			 (not (probably-binary-file (bgets))))
   ; pop to singleton if appropriate
 		    (find-file (car (split (buffer-string) "
 "))))
   ; else pop to listing if interactive
-		   ((interactive-p)
+		   ((or show (interactive-p))
 		    (let ((w (get-buffer-window b)))
 		      (or (and w (select-window w))
 			  (pop-to-buffer b))))
   ; else just return the list
-		   (t (split (buffer-string) "
-")
-		      ))
+		   (t l))
 	     ))
-	  ((interactive-p)
+	  ((or show (interactive-p))
   ; not (string* s)
 	   (message "no files matching <%s> found." pat))
 	  )

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.57 2004-09-10 15:21:43 cvs Exp $")
+ "$Id: fb.el,v 1.58 2004-12-10 18:15:17 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -504,9 +504,9 @@ returns a filename containing results"
   )
 ; (if (ad-is-advised 'locate) (ad-unadvise 'locate))
 
-(defun ff (&optional search-string filter)
+(defun ff (&optional search-string filter show)
   (interactive)
-  (if (interactive-p)
+  (if (or show (interactive-p))
       (call-interactively 'locate)
     (save-window-excursion
       (if (and
@@ -519,7 +519,8 @@ returns a filename containing results"
 ")) :test 'string=)))
 
 	    (if filter
-		(loop for x in l collect (funcall filter x))
+		(remove* nil 
+			 (loop for x in l collect (funcall filter x)))
 	      l)
 	    )
 	)

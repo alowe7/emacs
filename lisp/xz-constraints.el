@@ -1,11 +1,12 @@
 (put 'xz-constraints 'rcsid
- "$Id: xz-constraints.el,v 1.1 2004-03-27 19:03:09 cvs Exp $")
+ "$Id: xz-constraints.el,v 1.2 2004-12-10 18:15:17 cvs Exp $")
 
-(defvar *xz-constrain-queries* t)
+(defvar *xz-constrain-queries* t "if set, enables constrained queries.  see `xz-issue-query' for constraints")
 (defvar *xz-last-constraint* nil)
 
 
 (defun xz-fancy-constraints (s)
+"document me"
   (cond ((or (not s) (<= (length s) 0))
 	 *xz-last-constraint*)
 	((string= s "?") 
@@ -22,10 +23,13 @@
   )
 
 (defun xz-constrained-query-format (string &optional constraint)
-  "frame an xz query on STRING, format and pop to hit buffer"
+  "frame an xz query on STRING, with optional CONSTRAINT.
+format and pop to hit buffer.
+see `xz-issue-query' for descriptions of string and constraint
+"
   (interactive (list 
-		(let ((s (read-string (format "constrained query (%s): " (indicated-word)))))
-		  (or (and (> (length s) 0) s) (indicated-word)))
+		(let ((n (debug)) (s (read-string (format "constrained query (%s): " (indicated 'symbol)))))
+		  (or (and (> (length s) 0) s) (indicated 'symbol)))
 		(let* ((splat (reverse (split (buffer-file-name) "/")))
 		       (f (car splat))
 		       (d (cadr splat))
@@ -56,10 +60,23 @@
     )
   )
 
-(defun xz-constrained-query-format-1 (arg) (interactive "P") 
+(defun xz-query-format-1 (query &optional query-function) 
+
+  (interactive (list 
+		(let ((s (read-string (format "query (%s): " (indicated 'symbol)))))
+		  (or (and (> (length s) 0) s) (indicated 'symbol)))))
+
+  (xz-query-format query query-function)
+  )
+
+(defun xz-constrained-query-format-1 (arg) 
+  "if `*xz-constrain-queries*' is set, calls `xz-constrained-query-format'
+with optional prefix arg, prompts to specify the constraint.
+otherwise calls `xz-query-format'"
+  (interactive "P") 
   (call-interactively (if (and *xz-constrain-queries* arg)
 			  'xz-constrained-query-format
-			'xz-query-format))
+			'xz-query-format-1))
   )
 
 (define-key xz-map (vector 67108896) 'xz-constrained-query-format-1)

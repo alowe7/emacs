@@ -1,5 +1,5 @@
 (put 'filetime 'rcsid 
- "$Id: filetime.el,v 1.6 2004-09-27 22:02:41 cvs Exp $")
+ "$Id: filetime.el,v 1.7 2004-12-10 18:15:17 cvs Exp $")
 
 
 (defun filemodtime (f)
@@ -52,3 +52,5 @@
       )
     )
   )
+
+(provide 'filetime)

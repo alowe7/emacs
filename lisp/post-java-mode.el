@@ -1,3 +1,6 @@
+(put 'post-java-mode 'rcsid
+ "$Id: post-java-mode.el,v 1.3 2004-12-10 18:15:17 cvs Exp $")
+
 (require 'proof-compat)
 
 (define-key java-mode-map "\M-\C-a" `java-beginning-of-defun)

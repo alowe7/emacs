@@ -1,5 +1,5 @@
 (put 'post-xz-loads 'rcsid 
- "$Id: post-xz-loads.el,v 1.11 2003-03-26 22:51:20 cvs Exp $")
+ "$Id: post-xz-loads.el,v 1.12 2004-12-10 18:15:17 cvs Exp $")
 
 (require 'advice)
 (require 'long-comment)
@@ -248,14 +248,9 @@ if in shell mode, assume an interactive xz process
   (xz-query-format (concat "./id" (or (and (> (length string) 0) string)  (indicated-word))))
   )
 
-(defun xz-goto-module (string)
-  (interactive (list (read-string (format "goto module (%s): " (indicated-word)))))
-  (xz-query-format (concat "./md" (or (and (> (length string) 0) string)  (indicated-word))))
-  )
-
 (define-key xz-map "f" 'xz-goto-function-definition)
 (define-key xz-map "v" 'xz-goto-variable-declaration)
-(define-key xz-map "m" 'xz-goto-module)
+
 (define-key xz-map (vector 67108914) 'any-xz)   ; \C-2
 (define-key xz-map (vector 67108925) 'xz-sum-fields)  ; \C-=
 

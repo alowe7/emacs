@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.19 2004-08-11 14:55:52 cvs Exp $")
+ "$Id: helps.el,v 1.20 2004-12-10 18:15:17 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -50,10 +50,8 @@
   display a relatively nice wall chart of keys on map.
 MAP may be also be a string or symbol name of a map
 "
-  (interactive (list (completing-read "mapname: " obarray)))
-  (let* ((m (if (symbolp map) (eval map)
-	      (if (stringp map) (eval (intern map)) 
-		map)))
+  (interactive (list (intern (completing-read "mode: "  (mapcar 'list (symbols-like "-map" t))))))
+  (let* ((m (if (symbolp map) (eval map) map))
 	 (b (or buf (zap-buffer "*Help*"))))
     (if buf (set-buffer b) (switch-to-buffer-other-window b))
     (buffer-flush-undo b)
@@ -443,39 +441,32 @@ if *howto-path* is not set, searches in current directory
 
 ;(format "%d" ?a)
 
-(defun prettify-keymap (map)
-  (cond ((listp map)
-	 (loop for element in map 
-	       collect
-	       (progn
-		 (cond ((listp element)
-			(if (consp (cdr element)) (prettify-keymap element)
-			  (cons (prettify-keymap (car element)) (prettify-keymap (cdr element)))
-			  ))
-		       ((numberp element) (format "%c" element))
-		       (t element)))))
-	((numberp map) (format "%c" map))
-	(t map)))
+(defun integerify (x)
+  (cond ((null x) x)
+	((integerp x) (format "%c" x))
+	((listp x) 
+	 (cond ((eq (car x) 'lambda) x)
+	       (t (cons (integerify (car x)) (integerify (cdr x))))))
+	(t x))
+  )
 
-; another way to do the same thing
-(defun pp-help-for-map (m)
-  (interactive "smap: ")
-  (let ((b (zap-buffer "*Help*"))
-	(m (eval (intern m))))
-    (pp 
-     (loop for x in m
-	   collect
-	   (cond 
-	    ((atom x) x)
-	    ((integerp (car x)) (cons (format "%c" (car x)) (cdr x)))
-	    ((eq (car x) 'keymap) (pp-help-for-map x))
-	    (t x)))
-     b)
-    (pop-to-buffer b)
+
+(defun prettify-keymap (m)
+  (interactive (intern (completing-read "map: "  (mapcar 'list (symbols-like "-map" t)))))
+
+  (let* ((m 
+	  (cond ((and (symbolp m) (boundp m)) (eval m))
+		(t m)))
+	 (b (zap-buffer "*Help*"))
+	 )
+    (pp (mapcar 'integerify m) b)
+    (switch-to-buffer b)
     (beginning-of-buffer)
     (help-mode)
     )
   )
+; (prettify-keymap 'xz-mode-map)
+
 
 (defun find-function-or-variable (w)
   (interactive (list

@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.12 2004-09-17 18:45:35 cvs Exp $
+;; $Id: perl-helpers.el,v 1.13 2004-12-10 18:15:17 cvs Exp $
 
 (require 'perl-command)
 
@@ -18,11 +18,12 @@
 ; (assert (file-exists-p perlfunc-file))
 ; run pod on perlfunc.pod
 
+(define-derived-mode perldoc-mode view-mode "perldoc" "")
 
 (defun perlfunc (func)
   (interactive (list
 		(let ((w (indicated-word))) (string* (read-string (format "perl function (%s): " w)) w))
-	       ))
+		))
 
   (if (string-match "::" func)
       (let ((module (substring func 0 (match-beginning 0)))
@@ -30,18 +31,31 @@
 	(perlmod module)
 	(search-forward func)
 	)
-    (let* ((b (find-file-noselect perlfunc-file))
-	   (p (save-excursion 
+    (let* ((b (or
+	       (find-buffer-visiting perlfunc-file)
+	       (find-file-noselect perlfunc-file)
+	       ))
+	   (funcpat (format "^    %s[^a-z]" func))
+	   (p (save-excursion
 		(set-buffer b)
-		(goto-char (point-min))
-		(and (re-search-forward (format "^    %s[^a-z]" func) nil t)
+		(if (looking-at func)
+		    (and 
+		     (re-search-forward funcpat nil t)
 		     (backward-word 1)
 		     (point))
-		)))
+		  (progn
+		    (goto-char (point-min))
+		    (and (re-search-forward funcpat nil t)
+			 (backward-word 1)
+			 (point))))))
+	   (w (and p (get-buffer-window b)))
+	   )
       (if p 
-	  (progn 
-	    (unless (eq b (current-buffer))
+	  (progn
+	    (if w
+		(select-window w)
 	      (switch-to-buffer-other-window b))
+	    (unless (eq major-mode 'perldoc-mode) (perldoc-mode))
 	    (goto-char p))
 	(message (format "%s not found" func))
 	)
@@ -225,4 +239,13 @@ F is a function taking one arg, the line as a string"
 	  )
   )
 
+; apparently C-RET is not a good prefix key if you're on telnet session
+(if window-system
+    (define-key perldoc-mode-map  (vector 'C-return) 'perlfunc)
+  (global-set-key perldoc-mode-map "\C-j" 'perlfunc)
+  )
+
 (define-key help-map "" 'perlmod)
+(define-key help-map "p" 'perlfunc)
+(define-key help-map "" 'perldoc)
+(define-key help-map "" 'perlfaq)

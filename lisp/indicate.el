@@ -1,5 +1,5 @@
 (put 'indicate 'rcsid 
- "$Id: indicate.el,v 1.12 2004-10-12 21:26:35 cvs Exp $")
+ "$Id: indicate.el,v 1.13 2004-12-10 18:15:17 cvs Exp $")
 (provide 'indicate)
 
 ;;
@@ -21,6 +21,8 @@
   "holds region containing most recent indicated-word.
 see `indicated-word-region'")
 
+(if nil
+;; something about this sets up a time bomb that really breaks fontlock and java-mode down the road somehow...
 (defun indicated-word (&optional include-chars from to)
   "evaluates to word indicated by cursor
    if string  INCLUDE-CHARS is specified, 
@@ -47,6 +49,9 @@ in the current buffer
     (if (and (syntax-table) include-chars)
 	(dotimes (i (length include-chars))
 	  (let ((char (aref include-chars i)))
+	    (if (> (car (aref (syntax-table) char)) 12) 
+		(debug) ; what's up?
+	      )
 	    (push (cons char (aref (syntax-table) char)) syntax-chars)
 	    (modify-syntax-entry char "w" (syntax-table)))
 	  )
@@ -63,11 +68,34 @@ in the current buffer
       )
 
     (dolist (x syntax-chars)
-      (modify-syntax-entry (car x)
-			   (cadr (assoc (cadr x) syntax-ref))
-			   (syntax-table)))
+      (let ((ref (cadr (assoc (cadr x) syntax-ref))))
+	(if ref
+	    (modify-syntax-entry (car x)
+				 ref
+				 (syntax-table))
+	  (debug) ;; what's up?
+	  )
+	))
+
     (if (interactive-p) (message w) w))
   )
+
+(defun indicated-word (&optional include-chars from to)
+  "evaluates to word indicated by cursor
+   if string  INCLUDE-CHARS is specified, 
+temporarily change the syntax entry for each char in the string to \"w\"
+in the current buffer
+" 
+  (interactive)
+  (setq *indicated-word-region* (bounds-of-thing-at-point 'word))
+  (let ((w (if *indicated-word-region*
+	       (buffer-substring (car *indicated-word-region*) (cdr *indicated-word-region*))
+	     "")))
+    (if (interactive-p) (message w) w)
+    )
+  )
+
+)
 
 
 (defun op-arg (prompt &rest args)

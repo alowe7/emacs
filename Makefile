@@ -1,6 +1,7 @@
-# $Id: Makefile,v 1.35 2004-10-18 15:29:54 cvs Exp $
+# $Id: Makefile,v 1.36 2004-12-10 18:15:17 cvs Exp $
 
 SHELL=/bin/sh
+
 INSTALL = install
 LOCALBIN = /usr/local/bin
 SHARE=/usr/share/emacs/site-lisp
