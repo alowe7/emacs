@@ -1,5 +1,5 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.9 2001-04-27 11:38:00 cvs Exp $")
+ "$Id: eval-process.el,v 1.10 2001-08-17 14:25:41 cvs Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)
@@ -45,6 +45,23 @@ cleans up linefeeds in resulting output"
 	(clean-string (eval-process cmd arg))
 	)
 
+(defun eval-shell-command (cmd)
+  "execute string CMD as a shell. return results as a string"
+  (let
+      ((dir default-directory)
+       (buffer (get-buffer-create " *eval*"))
+       )
+    (save-window-excursion
+      (set-buffer buffer)
+      (erase-buffer)
+      (setq default-directory dir)
+      (apply 'shell-command (list cmd buffer nil))
+      (cond ((= 1 (count-lines (point-min) (point-max)))
+	 (clean-string (buffer-string)))
+	(t (buffer-string)))
+      )
+    )
+  )
 ;; this is here because it is mostly used to clean up ^J's from eval-process output
 
 (defun replace-letter (s old-letter &optional new-letter)
