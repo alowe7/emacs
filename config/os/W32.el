@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.3 2002-12-07 21:49:07 cvs Exp $")
+ "$Id: W32.el,v 1.4 2002-12-23 17:48:57 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -266,7 +266,6 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   (lower-frame)
   )
 
-(make-variable-buffer-local 'explicit-shell-file-name)
 (defun cmd (&optional num)
   (interactive "p")
   (shell2 (or num -1) nil "cmd")
@@ -573,16 +572,19 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
   )
 
-(defun browse-path () 
+(defun browse-path (arg) 
   "pringle path in a browser buffer"
-  (interactive)
+  (interactive "P")
   (let ((temp-buffer-show-function '(lambda (buf)
-				      (debug)
-				      (set-buffer buf)
-				      (fb-mode)))))
+				      (switch-to-buffer buf)
+				      (fb-mode)))
+	(l (if arg 
+	       (eval (read-variable "path var: "))
+	     (catpath "PATH" (if (eq window-system 'win32) semicolon)))))
 
-  (with-output-to-temp-buffer "foo"
-    (mapcar '(lambda (x) (princ (expand-file-name x)) (princ "\n")) (catpath "PATH" (if (eq window-system 'win32) semicolon)))
+    (with-output-to-temp-buffer "*Path*"
+      (mapcar '(lambda (x) (princ (expand-file-name x)) (princ "\n")) l)
+      )
     )
   )
 
@@ -765,10 +767,12 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 ;; config file for gnuwin-1.0
 (autoload 'shell2 "shell2" t)
 
-(setq binary-process-input t
-      explicit-shell-file-name "bash"
-      shell-command-switch "-c"
-      )
+(make-variable-buffer-local 'explicit-shell-file-name)
+(make-variable-buffer-local 'shell-command-switch)
+(make-variable-buffer-local 'binary-process-input)
+(set-default 'shell-command-switch "-c")
+(set-default 'binary-process-input t)
+(set-default 'explicit-shell-file-name "bash")
 
 ; this treats all files on z:\\foo as binary
 ;(add-untranslated-filesystem "Z:")

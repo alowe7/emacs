@@ -11,6 +11,8 @@
 (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
 (global-set-key "\C-xm" 'browse-url-at-point)
 
+;; xxx todo -- use i.e.
+
 ;;   If you want to use the other browser than emacs-w3m when "C-x m" is
 ;;   typed in w3m-mode buffers, you can put the following setting to your
 ;;   ~/.emacs.
@@ -41,9 +43,6 @@
         (w3m-find-file file))))
 
 
-(define-key w3m-mode-map "u" 'w3m-view-parent-page)
-(define-key w3m-mode-map "n" 'w3m-view-next-page)
-
 ;; mainly for docbook style pages
 (defun find-anchor-named (pat) (interactive "spat: ")
   (let ((p (point)))
@@ -56,21 +55,9 @@
     )
   )
 
-(define-key w3m-mode-map "/" 'find-anchor-named)
-(define-key w3m-mode-map "U" '(lambda () (interactive) (find-anchor-named "Up")))
-(define-key w3m-mode-map "N" '(lambda () (interactive) (find-anchor-named "Next")))
-(define-key w3m-mode-map "P" '(lambda () (interactive) (find-anchor-named "Prev")))
-
-(define-key w3m-mode-map [prior] 'w3m-scroll-down-or-previous-url)
-(define-key w3m-mode-map [next] 'w3m-scroll-up-or-next-url)
-; (define-key w3m-mode-map [up] 'fb-up)
-(define-key w3m-mode-map [left] 'w3m-view-previous-page)
-
 (defun w3m-copy-current-url () (interactive)
   (kill-new w3m-current-url)
   )
-
-(define-key w3m-mode-map "" 'w3m-copy-current-url)
 
 (defun specs () (interactive)
   (w3m-goto-url "http://localhost/specs.nav")
@@ -91,8 +78,31 @@
   (w3m-goto-url-new-session "http://localhost/usr/share/specs/html4.0/cover.html")
   )
 
+
+(defun w3m-goto-this-url-new-session () (interactive)
+  (let ((b (current-buffer)))
+    (if (w3m-anchor) (w3m-goto-url-new-session (w3m-anchor))
+      (call-interactively 'w3m-goto-this-url-new-session)
+      )
+    (if (> (count-windows) 1) (progn (switch-to-buffer-other-window b) (other-window-1)))
+    )
+  )
+
 ; ugh ?2 ?
 (define-key ctl-RET-map "w" 'w3m)
 
+(define-key w3m-mode-map "G" 'w3m-goto-this-url-new-session)
+(define-key w3m-mode-map "/" 'find-anchor-named)
+(define-key w3m-mode-map "U" '(lambda () (interactive) (find-anchor-named "Up")))
+(define-key w3m-mode-map "N" '(lambda () (interactive) (find-anchor-named "Next")))
+(define-key w3m-mode-map "P" '(lambda () (interactive) (find-anchor-named "Prev")))
 
- 
+(define-key w3m-mode-map [prior] 'w3m-scroll-down-or-previous-url)
+(define-key w3m-mode-map [next] 'w3m-scroll-up-or-next-url)
+; (define-key w3m-mode-map [up] 'fb-up)
+(define-key w3m-mode-map [\M-left] 'w3m-view-previous-page)
+(define-key w3m-mode-map [\M-right] 'w3m-view-next-page)
+(define-key w3m-mode-map "u" 'w3m-view-parent-page)
+(define-key w3m-mode-map "n" 'w3m-view-next-page)
+
+(define-key w3m-mode-map "" 'w3m-copy-current-url)
