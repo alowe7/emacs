@@ -1,10 +1,11 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.16 2001-07-01 09:15:36 cvs Exp $")
+ "$Id: default.el,v 1.17 2001-07-16 17:47:19 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
-(setq home (getenv "HOME"))
+(setq home (expand-file-name (getenv "HOME")))
 (setq emacsdir (expand-file-name (getenv "EMACSDIR")))
+(setq share  (expand-file-name (getenv "SHARE")))
 (setq doc-directory data-directory)
 (require 'uname)
 
@@ -20,7 +21,7 @@
 	 )
 	(directory-files (concat home "/emacs/site-lisp") t "^[a-zA-Z]")
 	(directory-files (concat emacsdir "/site-lisp") t "^[a-zA-Z]")
-	(directory-files "c:/usr/share/emacs/site-lisp" t "^[a-zA-Z]")
+	(directory-files (concat share "/emacs/site-lisp") t "^[a-zA-Z]")
 	)
  )
 
@@ -49,33 +50,29 @@
 
 (setq horizontal-scroll-delta 20)
 
+;; sort in order of decreasing frequency
 (setq auto-mode-alist '(
+			("\\.HTM$" . html-mode)
+			("\\.htm$" . html-mode)
+			("\\.HTML$" . html-mode)
+			("\\.html$" . html-mode)
+			("\\.txt$" . text-mode)
+			("\\.el$" . emacs-lisp-mode)
+			("\\.c$" . c++-mode)
+			("\\.h$" . c++-mode)
+			("\\.idl$" . c++-mode) ; lex
 			("\\.l$" . c++-mode) ; lex
 			("\\.java$" . java-mode)
 			("\\.pl$" . perl-mode)
 			("\\.pm$" . perl-mode)
 			("\\.pod$" . perl-mode)
-			("\\.HTM$" . html-mode)
-			("\\.htm$" . html-mode)
-			("\\.HTML$" . html-mode)
-			("\\.html$" . html-mode)
+			("\\.shtml$" . html-mode)
 			("\\.sgm$" . sgml-mode)
 			("\\.SGML$" . sgml-mode)
 			("\\.sgml$" . sgml-mode)
 			("\\.xml$" . sgml-mode)
 			("\\.xsl$" . sgml-mode)
-			("\\.text$" . text-mode)
-			("\\.txt$" . text-mode)
 			("\\.s$" . c-mode)
-			("\\.c$" . c++-mode)
-  ;			("\\.lst$" . list-mode)
-			("\\.h$" . c++-mode)
-			("\\.tex$" . TeX-mode)
-			("\\.el$" . emacs-lisp-mode)
-			("\\.scm$" . scheme-mode) 
-			("\\.lisp$" . lisp-mode)
-			("\\.f$" . fortran-mode)
-			("\\.mss$" . scribe-mode)
 			("\\.TeX$" . TeX-mode)
 			("\\.sty$" . LaTeX-mode)
 			("\\.bbl$" . LaTeX-mode)
@@ -85,6 +82,7 @@
 			("\\.texinfo$" . texinfo-mode)
 			("\\.lsp$" . lisp-mode)
 			("\\.prolog$" . prolog-mode)
+			("\\.text$" . text-mode)
 			("^/tmp/Re" . text-mode)
 			("^/tmp/fol/" . text-mode) 
 			("/Message[0-9]*$" . text-mode)
@@ -110,6 +108,12 @@
 			("\\.Z$" . uncompress-while-visiting)
 			("\\.gz$" . uncompress-while-visiting)
 			("\\.tar$" . tar-mode)
+  ;			("\\.lst$" . list-mode)
+			("\\.tex$" . TeX-mode)
+			("\\.scm$" . scheme-mode) 
+			("\\.lisp$" . lisp-mode)
+			("\\.f$" . fortran-mode)
+			("\\.mss$" . scribe-mode)
 			))
 
 ;;(add-auto-mode "\\.sh$" 'shell-mode)
