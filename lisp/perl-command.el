@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.8 2004-03-16 04:02:52 cvs Exp $")
+ "$Id: perl-command.el,v 1.9 2004-03-18 00:39:22 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -111,17 +111,26 @@ args is a list with car = 'eval
 ; (loop for x in (perl-command-2 "map {print \"$_ \"} @INC" :show 'split) collect (canonify x 0))
 
 (defun perl-command (s &rest args)
-  " run perl script S on ARGS" 
+  " run perl script S on ARGS returning stdout as a string.
+stderr is available on the file `*perl-stderr*' 
+so for example use (read-file *perl-stderr*) to inspect it.
+" 
   (save-excursion
     (let* ((b (get-buffer-create-1 *perl-stdout*))
 	   (e *perl-stderr*)
 	   (fs (find-script s)))
       (if (not fs)
 	  (progn (message "warning: script %s not found" s) "")
-	(apply 'call-process
-	       (nconc
-		(list "perl" nil (list b e) nil fs)
-		(remove* nil args)))
+	(progn
+	  (condition-case x
+	      (delete-file *perl-stderr*)
+	    (error nil))
+
+	  (apply 'call-process
+		 (nconc
+		  (list "perl" nil (list b e) nil fs)
+		  (remove* nil args)))
+	  )
 	(chomp (buffer-string)))
       )
     )
