@@ -1,5 +1,5 @@
 (put 'Linux 'rcsid 
- "$Id: Linux.el,v 1.4 2003-03-28 14:45:40 cvs Exp $")
+ "$Id: Linux.el,v 1.5 2003-09-28 21:55:49 cvs Exp $")
 
 ; (message "Linux")
 
@@ -45,8 +45,8 @@ failing that, via `file-association'
 if optional VISIT is non-nil and no file association can be found just visit file, otherwise
  display a message  "
   (interactive "sFile: ")
-  (let* ((ext (file-name-extension f))
-	 (handler (and ext (assoc (downcase ext) file-assoc-list))))
+  (let* ((ext (condition-case x (downcase (file-name-extension f)) (wrong-type-argument nil)))
+	 (handler (assoc ext file-assoc-list)))
     (if handler (funcall (cdr handler) f)
       (message "handler not found"))
     )
