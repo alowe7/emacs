@@ -1,9 +1,9 @@
 (put 'http 'rcsid 
- "$Id: http.el,v 1.2 2001-11-15 17:36:59 cvs Exp $")
+ "$Id: http.el,v 1.3 2001-11-21 19:37:54 cvs Exp $")
 (provide 'http)
 
 (defun http-get (url)
-  (interactive (list (let* ((word (indicated-word ":/._")) (u (read-string (format "tag (%s): " word)))) (if (string* u) u word))))
+  (interactive (list (let* ((word (indicated-word ":/._")) (u (read-string (format "url (%s): " word)))) (if (string* u) u word))))
   ; (debug)
   (perl-command "get" url)
   (let ((fn (expand-file-name (format "%s/%s.htm" (getenv "TMP") (gensym)))))
