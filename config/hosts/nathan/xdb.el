@@ -1,7 +1,7 @@
 (put 'xdb 'rcsid
- "$Id: xdb.el,v 1.1 2004-08-10 02:38:55 cvs Exp $")
+ "$Id: xdb.el,v 1.2 2004-08-24 01:59:57 cvs Exp $")
 
 (chain-parent-file t)
 
-(setq *txdb-options* '("-b" "a/q-1pzl@x" "-h" "enoch"))
-
+(if (scan-file-p "~/.private/.xdbrc")
+    (setq *txdb-options* (list "-b" ($ "$XDB") "-h" ($ "$XDBHOST"))))
