@@ -1,5 +1,5 @@
 (put 'zip-view 'rcsid 
- "$Id: zip-view.el,v 1.9 2002-01-10 18:47:23 cvs Exp $")
+ "$Id: zip-view.el,v 1.10 2002-01-11 13:29:02 cvs Exp $")
 (provide 'zip-view)
 
 (defun zip-view (f) (interactive)
@@ -39,6 +39,27 @@
     )
   )
 
+
+(defun zip-add (zipfile &rest files) (interactive)
+  (let* ((b (zap-buffer (format "%s *zip*" zipfile))))
+
+    (debug)
+    (apply 'call-process (nconc (list "pkzip" nil b nil "-add" 
+				      (replace-in-string " " "\\ " 
+							 (w32-canonify 
+							  (file-name-sans-extension zipfile)
+							  )
+							 )) files)
+	   )
+    (save-excursion
+      (set-buffer b)
+      (not-modified)
+      (beginning-of-buffer)
+      )
+    )
+  )
+
+
 (defun dired-zip-view () (interactive)
 	(zip-view (dired-get-filename)) 
 	)
@@ -47,3 +68,6 @@
 	(zip-extract (dired-get-filename)) 
 	)
 
+(defun dired-zip-add (fn) (interactive "szip file: ")
+  (apply 'zip-add (nconc (list fn) (dired-get-marked-files t)))
+  )
