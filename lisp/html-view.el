@@ -1,5 +1,5 @@
 (put 'html-view 'rcsid 
- "$Id: html-view.el,v 1.12 2003-05-15 21:00:01 cvs Exp $")
+ "$Id: html-view.el,v 1.13 2004-04-04 16:24:27 cvs Exp $")
 (provide 'html-view)
 
 (defun dired-html-view () 
@@ -12,7 +12,7 @@
   (interactive)
   (let* ((fn (or fn (buffer-file-name)))
 	 (b (zap-buffer (format "%s *html* " (file-name-sans-extension fn))))
-	 (s (eval-process "perl" (find-script "fast-html-format") fn)))
+	 (s (perl-command "fast-html-format" fn)))
     (pop-to-buffer b)
     (insert s)
     (beginning-of-buffer)
