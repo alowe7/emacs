@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.21 2001-09-02 00:25:22 cvs Exp $")
+ "$Id: default.el,v 1.22 2002-02-13 21:48:11 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -37,8 +37,9 @@
 			("\\.sgm$" . sgml-mode)
 			("\\.SGML$" . sgml-mode)
 			("\\.sgml$" . sgml-mode)
-			("\\.xml$" . sgml-mode)
-			("\\.xsl$" . sgml-mode)
+			("\\.xml$" . xml-mode)
+			("\\.xsl$" . xml-mode)
+			("\\.wsdl$" . xml-mode)
 			("\\.s$" . c-mode)
 			("\\.TeX$" . TeX-mode)
 			("\\.sty$" . LaTeX-mode)

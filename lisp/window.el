@@ -1,5 +1,5 @@
 (put 'window 'rcsid 
- "$Id: window.el,v 1.5 2001-04-27 11:38:00 cvs Exp $")
+ "$Id: window.el,v 1.6 2002-02-13 21:48:11 cvs Exp $")
 
 (defun top-of-window ()
   (interactive)
@@ -34,16 +34,18 @@
 
 (defun replace-in-string (from to str)
   "replace occurrences of REGEXP with TO in  STRING" 
-  (if (string= from "^")
-      (concat to (replace-in-string "
+  (save-match-data
+    (if (string= from "^")
+	(concat to (replace-in-string "
 " (concat "
 " to) str)) 
-    (let (new-str
-	  (sp 0)
-	  )
-      (while (string-match from str sp)
-	(setq new-str (concat new-str (substring str sp (match-beginning 0)) to))
-	(setq sp (match-end 0)))
-      (setq new-str (concat new-str (substring str sp)))
-      new-str))
+      (let (new-str
+	    (sp 0)
+	    )
+	(while (string-match from str sp)
+	  (setq new-str (concat new-str (substring str sp (match-beginning 0)) to))
+	  (setq sp (match-end 0)))
+	(setq new-str (concat new-str (substring str sp)))
+	new-str))
+    )
   )

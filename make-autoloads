@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.12 2002-01-22 16:26:54 cvs Exp $
+#      $Id: make-autoloads,v 1.13 2002-02-13 21:48:11 cvs Exp $
 use getopt;
 binmode STDOUT;
 
@@ -22,7 +22,7 @@ if ($opt_help) {
 }
 elsif ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.12 $";
+#    $version="$Revision: 1.13 $";
     print "make-autoloads version 1.9\n";
     exit;
 }
@@ -45,7 +45,7 @@ $alist_symbol=$prefix . "autoload-alist";
 print "(setq $alist_symbol `( ";
 
 foreach $fn (@ARGV) {
-    foreach $def ("defun", "defmacro") {
+    foreach $def ("defun", "defmacro", "define-derived-mode") {
 	@path=split(?/?, $fn);
 	$f=pop(@path);
 	open(F, $fn);

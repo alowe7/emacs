@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.20 2001-10-28 20:17:42 cvs Exp $")
+ "$Id: os-init.el,v 1.21 2002-02-13 21:48:11 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 (setq doc-directory data-directory)
@@ -122,6 +122,7 @@ host must respond within optional TIMEOUT msec"
 (defun mount-unhook-file-commands ()
   (loop for x in mount-hook-file-commands do
 	(eval `(if (ad-is-advised (quote ,x)) (ad-unadvise (quote ,x))))))
+; (mount-unhook-file-commands)
 
 (defun mount-hook-file-commands ()
   (mount-unhook-file-commands)
@@ -129,7 +130,7 @@ host must respond within optional TIMEOUT msec"
 	(let ((hook-name (intern (concat "hook-" (symbol-name x)))))
 	  (eval `(defadvice ,x (around ,hook-name first activate) 
 		   (let* ((d (ad-get-arg 0))
-			  (d1 (unless (string-match "^//" d)
+			  (d1 (unless (string-match "^//\\|^~\\|^[a-zA-`]:" d)
 				(loop for x in cygmounts 
 				      if (string-match (concat "^" (car x)) d)
 				      return (replace-in-string (concat "^" (car x)) (cadr x) d)
@@ -183,3 +184,15 @@ host must respond within optional TIMEOUT msec"
 	      )
   )
 
+
+;; (defadvice abbreviate-file-name (around 
+;; 				 hook-abbreviate-file-name
+;; 				 first activate)
+;;   "is a noop on this platform"
+;; 
+;;   (let ((ad-return-value (ad-get-arg 0))) ad-return-value)
+;;   )
+;; 
+;; ; (ad-is-advised 'abbreviate-file-name)
+;; ; (ad-unadvise 'abbreviate-file-name)
+;; 

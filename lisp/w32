@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.20 2002-01-04 21:28:33 cvs Exp $")
+ "$Id: w32,v 1.21 2002-02-13 21:48:11 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -230,8 +230,18 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 (make-variable-buffer-local 'explicit-shell-file-name)
 (defun cmd (&optional num)
   (interactive "p")
-  (shell2 (or num -1) nil "cmd")
+;; make sure system dirs are on path
+  (let ((process-environment 
+	 (nconc (list (concat "PATH=" (join (mapcar '(lambda (x) (w32-canonify (expand-file-name x))) 
+						    (nconc
+						     (split (getenv "PATH") ":")
+						     (list "c:/winnt/system32" "c:/winnt"))
+						    ) ";"))) process-environment)))
+    (shell2 (or num -1) nil "cmd")
+    )
   )
+
+; (setenv "PATH" (join (mapcar '(lambda (x) (unix-canonify (expand-file-name x) 0)) (split (getenv "PATH") ";")) ":"))
 
 (global-set-key (vector -8388595) 'cmd)
 
