@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.19 2001-09-08 20:50:36 cvs Exp $")
+ "$Id: keys.el,v 1.20 2001-09-10 22:37:10 cvs Exp $")
 ;(require 'nums)
 
 ;; all key bindings
@@ -14,9 +14,8 @@
 
 (global-set-key "" 'shell2)
 (define-key ctl-x-5-map "-" 'delete-all-other-frames)
+(define-key ctl-x-5-map "\C-m" '(lambda () (interactive) (switch-to-buffer-other-frame (current-buffer)))) 
 
-(define-key ctl-x-5-map "\C-m" '(lambda () (interactive) 
-																 (shell2 nil t)))
 (global-set-key (vector 24 67108923) 'indent-for-comment) ; C-x C-;
 
 ;; ugh!
@@ -219,7 +218,6 @@
 
 (defvar ctl (dec "0x4000000"))
 (defun ctl (c) (+ ctl c))
-; (hex (ctl ??))
 
 ; use generally for info commands
 (unless (fboundp 'ctl-\?-prefix)
@@ -230,6 +228,6 @@
 
 (global-set-key (vector (ctl ??)) 'ctl-\?-prefix)
 
-(define-key ctl-\?-prefix "	" '(lambda () (interactive)   (message "tab-width: %d" tab-width)))
+(define-key ctl-\?-map "	" '(lambda () (interactive)   (message "tab-width: %d" tab-width)))
 
 (provide 'keys)
