@@ -1,13 +1,15 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.10 2001-08-28 21:37:58 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.11 2001-08-28 21:51:57 cvs Exp $")
 
 (if (file-directory-p "d:/x/elisp")
     (load "d:/x/elisp/.autoloads" t t t)
   )
 
 (let ((d "d:/x/elisp/play"))
-      (mapcar '(lambda (x) (load x t t)) 
-	      (get-directory-files d t "\.el$")))
+      (mapcar '(lambda (x) (load (concat d "/" x) t t)) 
+	      '("kill" "buff" "msvc" "syntax" "key" "show")))
+
+;(get-directory-files d t "\.el$")
 
 (add-hook 'after-init-hook '(lambda () 
 			      (defadvice info (before 
