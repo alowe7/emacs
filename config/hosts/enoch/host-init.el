@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.6 2004-04-29 02:36:38 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.7 2004-05-01 03:13:14 cvs Exp $")
 
 ; enoch
 ; (require 'xz-loads)
@@ -22,9 +22,15 @@
   ; hummingbird sets up different fonts from xfree86
       (if (string-match "Hummingbird Ltd."  (cadr (xdpyinfo "vendor string")))
 	  (progn
-	    (setq initial-frame-alist '( (top . 72) (left . 43) (width . 70) (height . 45)))
-	    (set-frame-width nil 70)
-	    (set-frame-height nil 45)
+	    (setq initial-frame-alist 
+		  '(
+		    (top . 56)
+		    (left . 70)
+		    (width . 47)
+		    (height . 28)
+		    (font . "-adobe-helvetica-medium-r-normal--17-120-100-100-p-88-iso8859-1")))
+	    (set-frame-width nil 47)
+	    (set-frame-height nil 28)
 	    (set-face-attribute 'default nil :font "-adobe-helvetica-medium-r-normal--17-120-100-100-p-88-iso8859-1")
 	    )
 	(progn
