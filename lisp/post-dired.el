@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.24 2003-10-27 15:34:44 cvs Exp $")
+ "$Id: post-dired.el,v 1.25 2004-06-28 14:11:01 cvs Exp $")
 (require 'eval-process)
 (require 'tar-view)
 (require 'zip-view)
@@ -305,7 +305,7 @@ see `file-assoc-list'"
 (defun dired-copy-filename-as-kill (arg) 
   "apply `kill-new' to `dired-get-filename' with optional ARG, canonify first"
   (interactive "P")
-  (let ((s (dired-get-filename)))
+  (let ((s (canonify (dired-get-filename) 0)))
     (and arg (setq s (w32-canonify s)))
     (kill-new s)
     (message s))

@@ -1,5 +1,5 @@
 (put 'fontview 'rcsid 
- "$Id: fontview.el,v 1.6 2000-11-19 20:22:06 cvs Exp $")
+ "$Id: fontview.el,v 1.7 2004-06-28 14:11:01 cvs Exp $")
 (require 'view)
 
 (defvar fontview-mode-map nil "")
@@ -29,27 +29,28 @@ see fontview-mode-map keymap & fontview-mode-syntax-table
 				   (setq fontview-mode-map (copy-keymap view-mode-map)
 					 (define-key fontview-mode-map "" 
 					   '(lambda () (interactive) (set-indicated-font) (next-line 1)))
-				)
+					 )
+				 )
 	     )
-	 )
 
-	(set-syntax-table 
-	 (or fontview-mode-syntax-table
-	     (prog1
-		 (setq fontview-mode-syntax-table (make-syntax-table))
-	       (modify-syntax-entry ?_ "w" fontview-mode-syntax-table)
-	       (modify-syntax-entry ?, "w" fontview-mode-syntax-table)
-	       (modify-syntax-entry ?- "w" fontview-mode-syntax-table)
-	       (modify-syntax-entry ?* "w" fontview-mode-syntax-table)
-	       (modify-syntax-entry ?  "w" fontview-mode-syntax-table)
-	       )
-	     )
-	 )
+	 (set-syntax-table 
+	  (or fontview-mode-syntax-table
+	      (prog1
+		  (setq fontview-mode-syntax-table (make-syntax-table))
+		(modify-syntax-entry ?_ "w" fontview-mode-syntax-table)
+		(modify-syntax-entry ?, "w" fontview-mode-syntax-table)
+		(modify-syntax-entry ?- "w" fontview-mode-syntax-table)
+		(modify-syntax-entry ?* "w" fontview-mode-syntax-table)
+		(modify-syntax-entry ?  "w" fontview-mode-syntax-table)
+		)
+	      )
+	  )
 
-	(setq mode-name "Fontview")
-	(setq major-mode 'fontview-mode)
-	(setq mode-line-process nil)
-	(run-hooks 'fontview-mode-hook)
+	 (setq mode-name "Fontview")
+	 (setq major-mode 'fontview-mode)
+	 (setq mode-line-process nil)
+	 (run-hooks 'fontview-mode-hook)
+	 )
 	)
       )
   )

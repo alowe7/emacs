@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.16 2004-06-21 15:53:21 cvs Exp $")
+ "$Id: post-w3m.el,v 1.17 2004-06-28 14:11:01 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -170,7 +170,8 @@
 (define-key ctl-/-map (vector (ctl ?/)) 'w3m-goto-current-file-as-url-new-session)
 (define-key ctl-/-map "d" 'dired-w3m-find-file)
 (define-key ctl-/-map "" 'find-anchor-named)
-(define-key ctl-/-map "w" 'w3m-goto-this-url-new-session)
+(define-key ctl-/-map "w" 'w3m-goto-url)
+(define-key ctl-/-map "" 'w3m-goto-this-url-new-session)
 (define-key ctl-/-map "z" 'w3m-copy-current-url)
 (define-key ctl-/-map "g" 'w3m-goto-url-new-session)
 ; 

@@ -58,7 +58,7 @@
       (switch-to-buffer
        (aref *buffer-list-vector* 
 	     (setq *buffer-list-vector-index* 
-		   (% (1+ *buffer-list-vector-index*)
+		   (%% (1+ *buffer-list-vector-index*)
 		      (length *buffer-list-vector*)))))
     (message "no more scratch buffers")
     )

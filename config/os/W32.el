@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.28 2004-06-21 15:53:21 cvs Exp $")
+ "$Id: W32.el,v 1.29 2004-06-28 14:11:01 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -33,73 +33,6 @@
 
 ;; (global-set-key "\C-:" (quote indent-for-comment))
 (global-set-key (vector 'C-backspace) 'iconify-frame)
-
-;; jean-luc fonty
-
-(defvar default-fontspec-format  "-*-%s-%s-r-*-*-%s-%s-*-*-*-*-*-*-")
-(defvar  default-family-table 
-	(mapcar 'list (list "Roman" "MS LineDraw" "Lucida Console" "fixed" "courier")))
-(defvar default-font-family "lucida console")
-(defvar default-point-size 17)
-(defvar default-style "normal")
-(defvar default-weight "*")
-(defvar default-fontspec nil)
-
-(defun default-font (&optional font-family style point-size weight)
-  (interactive (list
-		(completing-read "Family: " default-family-table)
-		(read-string "Style: ")
-		(read-string "Point-size: ")
-		(read-string "Weight: ")))
-
-  (and (stringp point-size) 
-       (> (length point-size) 0)
-       (setq point-size (read point-size)))
-
-  (cond ((eq point-size '*)
-	 (setq default-point-size nil))
-	((integerp point-size) 
-	 (setq default-point-size point-size)))
-
-  (and (stringp style)
-       (> (length style) 0)
-       (setq default-style style))
-
-  (and (stringp weight)
-       (> (length weight) 0)
-       (setq weight (read weight)))
-
-  (cond ((eq weight '*)
-	 (setq default-weight nil))
-	((integerp weight)
-	 (setq default-weight weight)))
-
-  (and font-family (setq default-font-family font-family))
-	
-  (set-default-font (setq default-fontspec
-			  (format default-fontspec-format   
-				  font-family 
-				  default-style
-				  default-point-size
-				  default-weight)))
-  default-fontspec
-  )
-
-;(default-font nil "*" "100")
-
-(defun font-1 (arg) (interactive "p")
-  (default-font default-font-family default-style (- default-point-size (or arg 1)) nil)
-  (if (interactive-p) (message default-fontspec))
-  )
-
-(defun font+1 (arg) (interactive "p")
-  (default-font default-font-family default-style (+ default-point-size (or arg 1)) nil)
-  (if (interactive-p) (message default-fontspec))
-  )
-
-(global-set-key "]" 'font+1)
-(global-set-key "[" 'font-1)
-
 
 (defun w32-canonify (f &optional sysdrive)
   " expands FILENAME, using backslashes
@@ -866,6 +799,10 @@ TIMEOUT may be an integer or a string representation of an integer.
 ; (host-exists "10.132.10.1") ; nil
 ; (host-exists "deadite" 2)
 
+(defvar host-ok-hook nil "list of functions to run before checking `host-ok'  
+ file is bound to variable `filename'
+ if any hookfn returns non-nil host-ok checking passes immediately")
+
 (defun host-ok (filename &optional noerror timeout) 
   "FILENAME is a filename or directory
 it is ok if it doesn't contain a host name
@@ -873,15 +810,17 @@ or if the host exists.
 signal file-error unless optional NOERROR is set.
 host must respond within optional TIMEOUT msec"
 
+  (unless (run-hooks 'host-ok-hook)
 
-  (let ((host (and (> (length filename) 1)
-		   (string-match "//\\([a-zA-Z0-9\.]+\\)" filename)
-		   (= (match-beginning 0) 0)
-		   (substring filename (match-beginning 1) (match-end 1) ))))
-    (or (not host)
-	(host-exists host timeout)
-	(and (not noerror)
-	     (signal 'file-error (list "host not found" host))))
+    (let ((host (and (> (length filename) 1)
+		     (string-match "//\\([a-zA-Z0-9\.]+\\)" filename)
+		     (= (match-beginning 0) 0)
+		     (substring filename (match-beginning 1) (match-end 1) ))))
+      (or (not host)
+	  (host-exists host timeout)
+	  (and (not noerror)
+	       (signal 'file-error (list "host not found" host))))
+      )
     )
   )
 
@@ -1091,6 +1030,7 @@ host must respond within optional TIMEOUT msec"
 (defun iexplore-url (f) 
   " run ie on indicated url.
 note: ie runs in a subprocess.  see `list-processes'
+returns process handle
 "
   (interactive (list (string* (read-string (format "args (%s): " (indicated-filename))) (indicated-filename))))
 
@@ -1100,7 +1040,7 @@ note: ie runs in a subprocess.  see `list-processes'
    "c:\\Program Files\\Internet Explorer\\iexplore.exe" f)
   ;  (lower-frame)
   )
-(iexplore-url "http://www.nytimes.com")
+; (setq v (iexplore-url "http://www.nytimes.com"))
 
 (require 'ctl-slash)
 (define-key ctl-/-map "i" 'iexplore-url)

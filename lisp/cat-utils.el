@@ -175,6 +175,16 @@ default is ':'
 
 ; (split "abcd efgh, ijkl	mnop  " )
 
+(defun splice (l1 l2)
+  "join two lists L1 and L2 into an a-list consisting of the cars in each"
+  (let* ((v1 (apply 'vector l1))
+	 (v2 (apply 'vector l2))
+	 (n (1- (min (length v1) (length v2)))))
+    (loop for i from 0 to n collect (cons (aref v1 i) (aref v2 i)))
+    )
+  )
+; (splice '(a b c) '(1 2 3))
+
 ;; perl push and pop operate on the tail of the list
 ;; perl shift and unshift operate on the head
 
