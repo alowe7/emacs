@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.9 2001-07-09 16:16:07 cvs Exp $")
+ "$Id: os-init.el,v 1.10 2001-07-11 18:19:26 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 ;; config file for gnuwin-1.0
@@ -179,3 +179,10 @@ host must respond within optional TIMEOUT msec"
 
 ; (ad-is-advised 'find-file-noselect)
 ; (ad-unadvise 'find-file-noselect)
+
+(defun delete-all-other-frames ()
+	(interactive)
+	"delete all frames except the currently focused one."
+	(dolist (a (frame-list))
+		(if (not (eq a (selected-frame)))
+				(delete-frame a))))
