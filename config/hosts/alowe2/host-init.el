@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.6 2001-07-18 22:18:18 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.7 2001-07-27 14:19:22 cvs Exp $")
 
 ;(default-font "lucida console" nil 22)
 
@@ -27,10 +27,11 @@
 
 (setq initial-frame-alist default-frame-alist)
 
-(display-time)
-(require 'worlds)
+(if (file-directory-p "d:/x/elisp")
+    (load-file  "d:/x/elisp/.autoloads")
+  )
+
 (require 'xz-loads)
 (require 'gnuserv)
 
 (lastworld)
-
