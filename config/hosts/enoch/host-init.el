@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.2 2004-01-27 20:03:14 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.3 2004-02-17 23:44:44 cvs Exp $")
 
 ; enoch
 (add-to-load-path "~x/elisp")
@@ -8,11 +8,29 @@
 (require 'cat-utils)
 (display-time)
 
+(defvar *xdpyinfo* nil)
+
+(defun xdpyinfo (&optional attr)
+  (unless *xdpyinfo*  (setq *xdpyinfo* (loop for x in  (split (eval-process "xdpyinfo") "
+") collect (split x ":"))))
+  (if attr (assoc attr *xdpyinfo*) *xdpyinfo*))
+
+; (string-match "Hummingbird Ltd."  (cadr (xdpyinfo "vendor string")))
+
 (if (eq window-system 'x)
     (progn
       (set-background-color "white")
       (set-foreground-color "black")
-      (set-face-attribute 'default nil :font "-adobe-helvetica-medium-r-normal--14-140-75-75-p-77-iso10646-1")
+; hummingbird sets up different fonts from xfree86
+      (if (string-match "Hummingbird Ltd."  (cadr (xdpyinfo "vendor string")))
+	  (progn
+	    (setq initial-frame-alist '( (top . 72) (left . 43) (width . 70) (height . 45)))
+	    (set-frame-width nil 70)
+	    (set-frame-height nil 45)
+	    (set-face-attribute 'default nil :font "-adobe-helvetica-medium-r-normal--17-120-100-100-p-88-iso8859-1")
+	    )
+	(set-face-attribute 'default nil :font "-adobe-helvetica-medium-r-normal--14-140-75-75-p-77-iso10646-1")
+	)
       )
   )
 
@@ -33,3 +51,4 @@
 (defun evilnat () t)
 
 (setq mail-default-reply-to "a@alowe.com")
+
