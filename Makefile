@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.6 2000-12-05 15:38:10 cvs Exp $
+# $Id: Makefile,v 1.7 2000-12-07 17:49:22 cvs Exp $
 
 SHELL=/bin/sh
 uname := $(shell uname)
@@ -21,6 +21,7 @@ all: .autoloads .xz.dat
 
 .xz.dat: $(SOURCES) $(CONFIGS)
 	@$(XZ) -ywqn $(SOURCES) $(CONFIGS)
+	@echo .autoloads rebuilt
 
 TAGS: $(SOURCES) $(CONFIGS)
 	$(ETAGS) $(SOURCES) $(CONFIGS)
