@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.34 2004-05-14 00:42:02 cvs Exp $")
+ "$Id: config.el,v 1.35 2004-05-18 20:11:51 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -90,6 +90,47 @@ no errors if files don't exist.
 	 'around
 	 'hook-load)
 	(ad-activate 'load)
+	))
+  )
+
+(defadvice load-with-code-conversion (around 
+		 hook-load-with-code-conversion
+		 first 
+		 activate)
+
+  "hook (load-with-code-conversion f) to optionally (load pre-f) (load-with-code-conversion f) (load post-f)
+no errors if files don't exist.
+ "
+  (if (ad-has-enabled-advice 'load-with-code-conversion 'around)
+      (progn
+	(ad-disable-advice 
+	 'load-with-code-conversion
+	 'around
+	 'hook-load-with-code-conversion)
+
+	(ad-activate 'load-with-code-conversion))
+    )
+
+  (unless *disable-load-hook*
+    (and *debug-pre-load-hook* (debug))
+    (loadp "pre-" (ad-get-arg 0))
+    )
+
+  ad-do-it
+
+  (unless *disable-load-hook*
+    (and *debug-post-load-hook* (debug))
+    (loadp "post-" (ad-get-arg 0))
+    )
+
+  (if (and (ad-has-any-advice 'load-with-code-conversion)
+	   (not (ad-has-enabled-advice 'load-with-code-conversion 'around)))
+      (progn
+	(ad-enable-advice 
+	 'load-with-code-conversion
+	 'around
+	 'hook-load-with-code-conversion)
+	(ad-activate 'load-with-code-conversion)
 	))
   )
 

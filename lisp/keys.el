@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.48 2004-03-26 20:53:50 cvs Exp $")
+ "$Id: keys.el,v 1.49 2004-05-18 20:11:51 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -134,8 +134,8 @@
 ;; (global-set-key "Å—" 'backward-char)
 ;; (global-set-key "Å”" 'forward-char)
 
-(global-set-key (vector '\M-down) 'scroll-down-1)
-(global-set-key (vector '\M-up) 'scroll-up-1)
+(global-set-key (vector '\M-up) 'scroll-down-1)
+(global-set-key (vector '\M-down) 'scroll-up-1)
 ;; (global-set-key "Å‡" 'next-error)
 
 ;;(define-key ctl-x-4-map "s" 'fileness)

@@ -1,10 +1,10 @@
 (put 'lru-shell 'rcsid
- "$Id: lru-shell.el,v 1.1 2004-03-27 19:03:09 cvs Exp $")
+ "$Id: lru-shell.el,v 1.2 2004-05-18 20:11:51 cvs Exp $")
 
 (defun lru-shell () (interactive)
   "grab the least recently used extant shell buffer, pop to it and cd to the current directory"
   (let* ((d default-directory)
-	 (l (reverse (buffer-list-mode 'shell-mode)))
+	 (l (reverse (collect-buffers-mode 'shell-mode)))
 	 (b (and l (pop l)))
 	 )
     (if b (progn

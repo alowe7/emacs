@@ -1,9 +1,9 @@
 (put 'post-midnight 'rcsid
- "$Id: post-midnight.el,v 1.2 2002-03-08 18:35:03 cvs Exp $")
+ "$Id: post-midnight.el,v 1.3 2004-05-18 20:11:51 cvs Exp $")
 
 (defun cleanup-some-buffers ()
   (interactive)
-  (mapcar 'kill-buffer (buffer-list-mode 'dired-mode))
-  (mapcar 'kill-buffer (buffer-list-not-modified))
+  (mapcar 'kill-buffer (collect-buffers-mode 'dired-mode))
+  (mapcar 'kill-buffer (collect-buffers-not-modified))
   )
 

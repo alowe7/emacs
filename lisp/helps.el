@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.17 2004-03-15 03:52:26 cvs Exp $")
+ "$Id: helps.el,v 1.18 2004-05-18 20:11:51 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -493,3 +493,5 @@ if *howto-path* is not set, searches in current directory
 	    (read-string
 	     (format "%s not a function or variable.  enter a function or variable: " w))))))
   )
+
+(load-library "post-view")
