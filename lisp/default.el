@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.31 2004-01-30 14:47:04 cvs Exp $")
+ "$Id: default.el,v 1.32 2004-01-30 17:21:49 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -88,27 +88,6 @@
 			("\\.mss$" . scribe-mode)
 			))
 
-
-
-;;multi-mode
-(autoload 'multi-mode
-  "multi-mode"
-  "Allowing multiple major modes in a buffer."
-  t)
-
-(defun jsp-mode () (interactive)
-  (java-mode) ; hack to get lazy-lock-mode to initialize
-  (multi-mode 1
-	      'html-mode
-	      ;;your choice of modes for java and html
-	      '("<%" java-mode)
-	      ;;'("<%" jde-mode)
-	      '("%>" html-mode)))
-
-(add-to-list 'auto-mode-alist
-	     '("\\.jsp$" . jsp-mode))
-
-
 ;;(add-auto-mode "\\.sh$" 'shell-mode)
 (setq next-line-add-newlines nil)
 (setq c-tab-always-indent nil)
@@ -134,15 +113,65 @@
 
 (add-hook 'sh-mode-hook '(lambda () (use-local-map nil)))
 
-(put 'eval-expression 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(put 'set-goal-column 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'narrow-to-page 'disabled nil)
-(put 'upcase-region 'disabled nil)
+;; from default-lib
 
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
+(defun buffer-exists-p (bname)
+  " return buffer with specified NAME or nil"
+  (interactive "Bbuffer name:") 
+  (let ((bl (buffer-list)))
+    (while (and bl  (not (string-equal bname  (buffer-name (car bl))))
+		(setq bl (cdr bl))))
+    (and bl (car bl))
+    ))
+
+
+(defun assocd (a l d)
+  " like assoc, but return d if a is not on l"
+  (let ((v (cdr (assoc a l))))
+    (or v d)))
+
+(defun add-auto-mode (extension mode)
+  (if (not (assoc extension auto-mode-alist))
+      (let ((na (list (cons extension mode))))
+	(append na (copy-alist auto-mode-alist)))))
+
+
+(defmacro ifp (ifp-s ifp-a ifp-b)
+  "if EXPRESSION is a non-empty string eval A else eval B" 
+  (if (and ifp-s (> (length (eval ifp-s)) 0)) ifp-a ifp-b))
+
+(autoload '/* "long-comment")
+
+(defmacro condlet (expr &rest body)
+  "like:
+ (let ((*v* (eval EXPR))) (cond BODY))
+ evals EXPR only once, bound to local var *v*"
+  (let ((*v* (eval expr))) (eval (cons 'cond body)))
+  )
+
+(defmacro directory* (**f** &optional **sub**)
+  "canonicalizes f with optional subdir"
+  (let ((*f* (eval **f**))
+	(*sub* (eval **sub**)))
+    (concat *f* (if (not (string= (substring *f* -1) "/")) "/") *sub*))
+  )
+
+; apply message to args iff non-nil
+(defun message* (&rest args)
+  (and args (apply 'message args)))
+
+
+(defmacro complete*  (prompt &optional pat default)
+  "read a symbol with completion.
+ prompting with PROMPT, complete in obarry for symbols matching regexp PAT,
+ default to DEFAULT"  
+  (let ((sym (completing-read  
+	      (format prompt (eval default))
+	      obarray
+	      (if pat (lambda (x) (string-match pat (format "%s" x)))))))
+    (if (and (sequencep sym) (> (length sym) 0)) sym default))
+  )
+
 
 (run-hooks 'post-load-hook)
 
