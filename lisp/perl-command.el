@@ -1,12 +1,13 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.7 2003-10-24 13:24:53 cvs Exp $")
+ "$Id: perl-command.el,v 1.8 2004-03-16 04:02:52 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
 (require `backquote)
 
 (defvar semicolon (read "?;"))
-(defvar *perl-buffer-name* " *perl*")
+(defvar *perl-stdout* " *stdout*")
+(defvar *perl-stderr* "/tmp/perl.stderr")
 
 (defun find-script (s &optional processor l)
   (interactive "sscript: ")
@@ -48,7 +49,7 @@ args is a list with car = 'eval
 " 
 
   (save-excursion
-    (let ((b (get-buffer-create-1 *perl-buffer-name*))
+    (let ((b (get-buffer-create-1 *perl-stdout*))
 	  (fs (find-script s)))
       (if (not fs)
 	  (message "script %s not found" s)
@@ -80,7 +81,7 @@ args is a list with car = 'eval
 (defun* perl-command-2 (s &key show args)
   " run immediate perl script S on ARGS" 
   (save-excursion
-    (let ((b (get-buffer-create-1 *perl-buffer-name*)))
+    (let ((b (get-buffer-create-1 *perl-stdout*)))
       (apply 'call-process
 	     (nconc
 	      (list "perl" nil (list b t) nil "-e" s)
@@ -112,13 +113,14 @@ args is a list with car = 'eval
 (defun perl-command (s &rest args)
   " run perl script S on ARGS" 
   (save-excursion
-    (let* ((b (zap-buffer *perl-buffer-name*))
+    (let* ((b (get-buffer-create-1 *perl-stdout*))
+	   (e *perl-stderr*)
 	   (fs (find-script s)))
-      (if (not fs) 
+      (if (not fs)
 	  (progn (message "warning: script %s not found" s) "")
 	(apply 'call-process
 	       (nconc
-		(list "perl" nil (list b t) nil fs)
+		(list "perl" nil (list b e) nil fs)
 		(remove* nil args)))
 	(chomp (buffer-string)))
       )

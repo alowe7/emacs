@@ -1,7 +1,28 @@
 (put 'post-comint 'rcsid
- "$Id: post-comint.el,v 1.1 2004-03-14 21:50:05 cvs Exp $")
+ "$Id: post-comint.el,v 1.2 2004-03-16 04:02:52 cvs Exp $")
 
 (chain-parent-file t)
+
+(defun processes ()
+  (let ((l1 (split (eval-process "/bin/ps") "
+")))
+    (loop for x in (cdr l1)
+	  collect 
+	  (let ((l (split x "[ 	]+")))
+	    (nconc (list 
+		    (car (read-from-string (elt l 1)))
+		    (car (read-from-string (elt l 2)))
+		    (car (read-from-string (elt l 3)))
+		    (car (read-from-string (elt l 4)))
+		    (car (read-from-string (elt l 5)))
+		    (car (read-from-string (elt l 6))))
+		   (nthcdr 6 l))
+	    )
+	  )
+    )
+  )
+; (processes)
+
 
 ; workaround issues with cygwin signal passing
 (defun interrupt-subjob () (interactive)
@@ -20,4 +41,4 @@
        )
   )
 
-(define-key shell-mode-map "" 'interrupt-subjob)
+(add-hook 'shell-mode-hook '(lambda () (define-key shell-mode-map "" 'interrupt-subjob)))

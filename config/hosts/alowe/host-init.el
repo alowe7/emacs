@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.20 2004-03-04 05:33:17 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.21 2004-03-16 04:02:52 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 50)
@@ -52,7 +52,8 @@
 
 (require 'trim)
 (require 'ksh-interpreter)
-(require 'worlds)
+
+; (require 'worlds)
 ; (require 'world-advice)
 
 (require 'xz-loads)
@@ -74,3 +75,14 @@
 (defvar grep-command "grep -n -i -e ")
 (setenv "PERL5LIB" "/usr/local/site-lib/perl")
 
+(add-hook 'xdb-init-hook
+	  '(lambda ()
+	     (require 'ctl-slash)
+	     (define-key ctl-/-map "x" 'xdb)
+
+	     (if (evilnat)
+		 (setq *txdb-options* '("-b" "a/q-1pzl@x" "-h" "enoch:3306"))
+	       (setq *txdb-options* '("-b" "a/q-1pzl@x" "-h" "localhost:13306"))
+	       )
+	     )
+	  )
