@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.5 2003-03-03 15:28:01 cvs Exp $
+;; $Id: perl-helpers.el,v 1.6 2003-03-26 22:51:20 cvs Exp $
 
 (require 'perl-command)
 
@@ -92,7 +92,7 @@
 	nconc 
 	(split (perl-command-2 "map {print \"$_ \"} @INC"))
 	into l
-	finally return l)
+	finally return (mapcar 'expand-file-name l))
   "list of known perl libraries"
   )
 

@@ -1,5 +1,5 @@
 (put 'jar-view 'rcsid 
- "$Id: jar-view.el,v 1.5 2003-03-03 14:55:55 cvs Exp $")
+ "$Id: jar-view.el,v 1.6 2003-03-26 22:51:20 cvs Exp $")
 (provide 'jar-view)
 (require 'cl)
 
@@ -7,7 +7,11 @@
 	(jar-view (dired-get-filename)) 
 	)
 
-(defvar jar-command "c:/j2sdk1.4.1_01/bin/jar")
+(defvar jar-command
+  (string* (whence "jar") 
+	   (if (boundp 'java-home) (concat java-home "/bin/jar")
+	     "c:/j2sdk1.4.1_01/bin/jar")))
+
 
 (make-variable-buffer-local 'jar-file)
 (defun jar-view (f) (interactive)
@@ -43,6 +47,7 @@
   )
 
 (defun jar-visit-file ()
+  "visit indicated file inside a jar"
   (interactive)
   (let ((f (bgets)))
     (message f)
