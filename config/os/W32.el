@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.24 2004-03-03 15:15:18 cvs Exp $")
+ "$Id: W32.el,v 1.25 2004-03-04 02:35:21 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -1023,8 +1023,10 @@ host must respond within optional TIMEOUT msec"
 (require 'perl-command)
 (provide 'unicode) ; adds a hook to hammer unicode files
 
-(defun evilnat () (not (string-match "ok" (perl-command "evilnat"))))
-
+(defun evilnat ()
+  "returns t if we are running from behind a nat device, nil otherwise"
+  (not (string-match "ok" (perl-command "evilnat")))
+  )
 
 (defun cygwin-find-file-hook ()
   "automatically follow symlink unless prefix is given"

@@ -40,6 +40,7 @@
 
 
 ; put on xdb-init-hook first time through
+(require 'comint)
 
 (defvar *xdbuser* (getenv "XDBUSER"))
 (defvar *xdbsword* nil)
