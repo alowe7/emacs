@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.17 2001-08-24 19:20:58 cvs Exp $
+# $Id: Makefile,v 1.18 2001-09-03 23:25:38 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
@@ -45,3 +45,6 @@ ship: $(LOCALBIN)/make-autoloads
 
 $(LOCALBIN)/make-autoloads: make-autoloads
 	$(INSTALL) -m 555 $^ $(LOCALBIN)
+
+compile:
+	(cd lisp; emacs --batch --load ~/emacs/lisp/byte-compile-directory.el)
