@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.30 2004-01-06 21:17:14 cvs Exp $")
+ "$Id: default.el,v 1.31 2004-01-30 14:47:04 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -143,17 +143,6 @@
 
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
-
-(defun select-frame-parameters ()
-  "build a default frame alist with selected values from current frame's parameters"
-  (interactive)
-  (let ((l (loop for x in default-frame-alist
-		 collect
-		 (cons (car x) (frame-parameter nil (car x))))))
-    (setq default-frame-alist l)
-    (describe-variable 'default-frame-alist)
-    )
-  )
 
 (run-hooks 'post-load-hook)
 

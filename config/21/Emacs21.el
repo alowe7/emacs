@@ -1,5 +1,5 @@
 (put 'Emacs21 'rcsid
- "$Id: Emacs21.el,v 1.8 2004-01-14 18:29:41 cvs Exp $")
+ "$Id: Emacs21.el,v 1.9 2004-01-30 14:47:04 cvs Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -54,3 +54,11 @@
 
 (defun indicated-font () (interactive)
   (set-face-attribute 'default nil :font (indicated-word)))
+
+(defun fonty (font) (interactive "sfont: ")
+  (set-face-attribute 'default nil :font  (default-font 
+					    (setq default-font-family (string* font "verdana"))
+					    (setq default-style "normal")
+					    (setq default-point-size 16))
+		      )
+)

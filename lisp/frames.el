@@ -1,5 +1,5 @@
 (put 'frames 'rcsid 
- "$Id: frames.el,v 1.6 2003-09-23 16:01:43 cvs Exp $")
+ "$Id: frames.el,v 1.7 2004-01-30 14:47:04 cvs Exp $")
 ;; simple frame abstraction functions
 
 (defun name-frame (name &optional f)
@@ -34,3 +34,15 @@ appearance to the current frame "
 )
 
 ; (if (ad-is-advised 'switch-to-buffer-other-frame) (ad-unadvise 'switch-to-buffer-other-frame))
+
+;; more frame helper functions
+(defun select-frame-parameters ()
+  "build a default frame alist with selected values from current frame's parameters"
+  (interactive)
+  (let ((l (loop for x in default-frame-alist
+		 collect
+		 (cons (car x) (frame-parameter nil (car x))))))
+    (setq default-frame-alist l)
+    (describe-variable 'default-frame-alist)
+    )
+  )

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.15 2003-12-15 22:46:30 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.16 2004-01-30 14:47:04 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 100)
@@ -147,3 +147,4 @@
       (add-hook 'after-save-hook 'world-file-save-hook))
 
 (load-library "post-help")
+

@@ -1,11 +1,14 @@
 #!/usr/local/bin/perl
 use Sys::Hostname;
-#use POSIX qw(uname);
-$uname=`uname`;
-chomp $uname;
-$hostname= hostname();
+use POSIX qw(uname);
 
-$cmd="find ./config -type f -name \"*.el\" -a \\( -path \"*$uname*\" -o -path \"*$hostname*\" \\)";
+my($hostname)= hostname();
+
+my($sysname, $nodename, $release, $version, $machine) = uname();
+# XXX
+$sysname="W32" unless ($sysname cmp "Windows NT");
+
+$cmd="find ./config -type f -name \"*.el\" -a \\( -path \"*$sysname*\" -o -path \"*$hostname*\" \\)";
 map {print} (`$cmd`);
 
 
