@@ -1,6 +1,7 @@
-(defconst rcs-id "$Id: fb.el,v 1.3 2000-07-30 21:07:45 andy Exp $")
+(defconst rcs-id "$Id: fb.el,v 1.4 2000-08-01 18:58:01 cvs Exp $")
 (require 'view)
 (require 'isearch)
+(provide 'cat-utils)
 (provide 'fb)
 
 (defvar fb-mode-map nil "")
@@ -299,10 +300,16 @@ w		fb-w3-file
 		  b
 		  nil
 		  "-i" pat *fb-db*)
-    (pop-to-buffer b)
-    (beginning-of-buffer)
-    (cd "/")
-    (fb-mode)
+    (if (interactive-p) 
+	(progn
+	  (pop-to-buffer b)
+	  (beginning-of-buffer)
+	  (cd "/")
+	  (fb-mode)
+	  )
+      (split (buffer-string) "
+")
+      )
     )
   )
 
