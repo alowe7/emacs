@@ -1,5 +1,5 @@
 (put 'xz-helpers 'rcsid 
- "$Id: xz-helpers.el,v 1.12 2001-07-18 22:18:18 cvs Exp $")
+ "$Id: xz-helpers.el,v 1.13 2001-08-26 21:40:35 cvs Exp $")
 
 (require 'advice)
 (require 'long-comment)
@@ -207,3 +207,50 @@ if in shell mode, assume an interactive xz process
   xz-map 
   (vector 67108925) ; \C-=
   'xz-sum-fields) 
+
+;; where should this go?
+
+(defun xz-qsave-search () 
+  ; save output of each xz search on a stack for retrieval
+  (cond (*xz-vec*
+	 (qsave-search (xz-hit-buffer)
+		       *xz-query* (list (xz-process) *xz-result* *xz-vec*))
+
+	 (let ((l (count-lines (point-min) (point-max))))
+	   (if (and (> l 0) 
+		    (or xz-always-go 
+			(<= l xz-auto-go)))
+	       (xz-goto-hits))))
+	)
+  )
+
+(add-hook 'xz-after-search-hook 'xz-qsave-search)
+
+(defun previous-xz-search () (interactive) 
+  (let ((d (previous-qsave-search (xz-hit-buffer))))
+    (if d 
+	(setq *xz-result* (cadr d)
+	      *xz-vec* (caddr d)))))
+
+(defun next-xz-search () (interactive) 
+  (let ((d (next-qsave-search (xz-hit-buffer))))
+    (if d 
+	(setq *xz-result* (cadr d)
+	      *xz-vec* (caddr d)))))
+
+(defun prune-xz-search (n) 
+  (interactive "nprune history to depth: ")
+  (setq buffer-read-only nil)
+  (prune-search n (xz-hit-buffer))
+  (setq buffer-read-only t))
+
+(add-hook 'xz-load-hook '(lambda () 
+			   (require 'xz-stacks)
+			   (require 'qsave)
+			   (define-key xz-mode-map "p" 'previous-xz-search)
+			   (define-key xz-mode-map "n" 'next-xz-search)
+			   (define-key xz-mode-map "d" 'prune-xz-search)
+			   ))
+
+(add-hook 'stop-xz-process-hook '(lambda ()
+				   (put (intern (buffer-name (xz-hit-buffer))) 'qsave nil)))
