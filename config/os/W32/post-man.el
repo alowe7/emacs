@@ -1,5 +1,5 @@
 (put 'post-man 'rcsid 
- "$Id: post-man.el,v 1.3 2004-01-30 14:47:04 cvs Exp $")
+ "$Id: post-man.el,v 1.4 2004-02-12 16:34:36 cvs Exp $")
 
 (require 'advice)
 
@@ -42,14 +42,26 @@
   ""
   (condition-case x
       ad-do-it
-    (error (debug))
-    ;;      (let* ((p1 (and (string-match "Can't find the " (cadr x)) (match-end 0)))
-    ;; 	    (p2 (and p1 (string-match " manpage" (cadr x)) (match-beginning 0)))
-    ;; 	    (arg (and p2 (substring (cadr x) p1 p2))))
-    ;;   ; try a shot in the dark
-    ;;        (eval-process arg "/?")
-    ;;        )
+    (error 
+     (message "not found")
     )
   )
- 
+)
+
 ; (if (ad-is-advised 'Man-goto-page) (ad-unadvise 'Man-goto-page)) 
+
+(defadvice man (around 
+		hook-man
+		first activate)
+  ""
+
+  (let* ((arg (ad-get-arg 0) )
+	 (l (or (ff (format "/%s.pod" arg)) (ff (format "/%s.pod" arg))))
+	 (podfn (loop for p in l thereis (-f p))))
+    (if podfn (pod podfn)
+      ad-do-it)
+    )
+  )
+
+; (if (ad-is-advised 'man) (ad-unadvise 'man)) 
+
