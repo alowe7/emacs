@@ -1,3 +1,5 @@
+(put 'post-vc 'rcsid
+ "$Id: post-vc.el,v 1.2 2003-09-02 13:44:23 cvs Exp $")
 
 (chain-parent-file t)
 
