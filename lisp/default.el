@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.5 2000-10-03 16:50:27 cvs Exp $")
+ "$Id: default.el,v 1.6 2000-10-18 20:13:42 cvs Exp $")
 
 (require 'config) ; this feature should not be required for anything up to this point
 
@@ -29,6 +29,7 @@
 			("\\.java$" . java-mode)
 			("\\.pl$" . perl-mode)
 			("\\.pm$" . perl-mode)
+			("\\.pod$" . perl-mode)
 			("\\.HTM$" . html-mode)
 			("\\.htm$" . html-mode)
 			("\\.HTML$" . html-mode)

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.11 2000-10-17 21:01:27 cvs Exp $")
+ "$Id: fb.el,v 1.12 2000-10-18 20:13:42 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -354,54 +354,81 @@ w		fb-w3-file
   )
 )
 
-(defun ff2 (pat1 pat2)
-  "fast find current drive -- search for file matching pat in *fb-db*"
-  (interactive "spat1: \nspat2: ")
-  (let ((b (zap-buffer *fastfind-buffer*))
-	(b1 (zap-buffer " _ff1"))
-	(fn1 (mktemp "_ff1"))
-	(b2 (zap-buffer " _ff2"))
-	(fn2 (mktemp "_ff2")))
+(defun multi-join (l)
+  " multi-way join on set of files l.  
+returns a filename containing results"
+  (save-excursion
+    (let ((fn1 (pop l))
+	  (b (zap-buffer " *multi-join*")))
+      (loop 
+       for f in l
+       do
+       (call-process "join" nil
+		     b
+		     nil
+		     f fn1)
+       (set-buffer b)
+       (write-file fn1)
+       (erase-buffer)
+       (set-buffer-modified-p nil)
+       )
+      (kill-buffer b)
+      fn1)
+    )
+  )
 
-    (setq *find-file-query*
-	  (setq mode-line-buffer-identification 
-		(concat pat1 "&" pat2)))
+(defun ff2-helper (n pat)
+  (let ((b (zap-buffer " _ff"))
+	(fn (mktemp (format "_ff%d" n))))
 
     (call-process "egrep" nil
-		  b1
-		  nil
-		  "-i" pat1 *fb-db*)
-    (set-buffer b1)
-    (sort-lines nil (point-min) (point-max))
-    (write-file fn1)
-    (kill-buffer b1)
-
-    (call-process "egrep" nil
-		  b2
-		  nil
-		  "-i" pat2 *fb-db*)
-    (sort-lines nil (point-min) (point-max))
-    (set-buffer b2)
-    (write-file fn2)
-    (kill-buffer b2)
-
-    (call-process "join" nil
 		  b
 		  nil
-		  fn1 fn2)
+		  "-i" pat *fb-db*)
+    (set-buffer b)
+    (sort-lines nil (point-min) (point-max))
+    (write-file fn)
+    (kill-buffer b)
+    fn)
+  )
+
+(defun ff2 (&rest pats)
+  "fast find current drive -- search for file matching pat in *fb-db*"
+  (interactive (butlast
+		(loop 
+		 with pat = nil
+		 until (and (stringp pat) (< (length pat) 1))
+		 collect (setq pat (read-string "pat: ")))
+		1))
+
+  (let* ((l (loop for pat in pats
+		  with i = 0
+		  collect (prog1 
+			      (ff2-helper i pat)
+			    (setq i (1+ i)))))
+	 (fn (multi-join l))
+	 (b (zap-buffer *fastfind-buffer*)))
 
     (set-buffer b)
-    (beginning-of-buffer)
+    (insert-file fn)
+    (setq *find-file-query*
+	  (setq mode-line-buffer-identification 
+		(mapconcat '(lambda (x) x) pats "&")))
+    (goto-char (point-min))
     (cd "/")
     (fb-mode)
 
     (run-hooks 'after-find-file-hook)
 
     (if (interactive-p) 
-	  (pop-to-buffer b)
+	(pop-to-buffer b)
       (split (buffer-string) "
 ")
       )
+
+    (loop
+     for x in l
+     do (delete-file x))
     )
   )
 
