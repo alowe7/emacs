@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.20 2002-02-25 23:24:53 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.21 2002-02-27 21:22:17 cvs Exp $")
 
 (setq default-frame-alist
       '((top + -4)
@@ -84,31 +84,6 @@
 (require 'world-advice)
 
 (lastworld)
-
-
-;; these need to be here until host-init moves prior to default.el  
-;; see before-init-hook.
-
-(setq default-frame-alist
-      '((top + -4)
-	(left + -4)
-	(width . 128)
-	(height . 55)
-	(background-mode . light)
-	(cursor-type . box)
-	(border-color . "black")
-	(cursor-color . "black")
-	(mouse-color . "black")
-	(background-color . "white")
-	(foreground-color . "black")
-	(vertical-scroll-bars)
-	(internal-border-width . 0)
-	(border-width . 2)
-	(font . "-*-lucida console-normal-r-*-*-17-nil-*-*-*-*-*-*-")
-	(menu-bar-lines . 0))
-      )
-
-(setq initial-frame-alist default-frame-alist)
 
 (mount-hook-file-commands)
 
