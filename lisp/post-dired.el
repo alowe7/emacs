@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.1 2001-01-10 15:22:03 cvs Exp $")
+ "$Id: post-dired.el,v 1.2 2001-02-20 17:17:12 cvs Exp $")
 
 ;; dired stuff
 
@@ -222,33 +222,6 @@ warns if more than one file is to be moved and target is not a directory"
 (autoload 'dired-html-view "html-view")
 
 (define-key  dired-mode-map "e" 'dired-decrypt-find-file)
-
-(defadvice dired-noselect (around 
-			   hook-dired-noselect
-			   first activate)
-  ""
-
-  ; make sure host exists
-  (host-ok (ad-get-arg 0)) ; non-local exit?
-  ; otherwise, just do it.
-  ad-do-it
-  )
-
-; (ad-unadvise 'dired-noselect)
-
-(defadvice find-file-noselect (around 
-			       hook-find-file-noselect
-			       first activate)
-  ""
-
-  ; make sure host exists
-  (host-ok (ad-get-arg 0))
-  ; otherwise, just do it.
-  ad-do-it
-  )
-
-; (ad-unadvise 'find-file-noselect)
-; (dired "//deadite/C")
 
 (require 'tar-view)
 (require 'zip-view)
