@@ -1,5 +1,5 @@
-(put 'dired-advice 'rcsid 
- "$Id: post-xdb.el,v 1.1 2002-03-08 18:15:30 cvs Exp $")
+(put 'post-xdb 'rcsid 
+ "$Id: post-xdb.el,v 1.2 2002-03-08 18:26:44 cvs Exp $")
 
 (require 'advice)
 
