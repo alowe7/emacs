@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.3 2001-06-26 08:01:08 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.4 2001-07-09 16:18:16 cvs Exp $")
 
 ;(default-font "lucida console" nil 22)
 
@@ -21,6 +21,10 @@
 
 ;; (global-set-key "n" 'x-note)
 
-;; weird hangs?
 (require 'gnuserv)
 (gnuserv-start)
+;; set default frame for gnuserving
+(setq gnuserv-frame
+      (caadr (current-frame-configuration)))
+
+(lastworld)
