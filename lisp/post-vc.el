@@ -1,5 +1,5 @@
 (put 'post-vc 'rcsid
- "$Id: post-vc.el,v 1.13 2003-02-23 23:43:18 cvs Exp $")
+ "$Id: post-vc.el,v 1.14 2004-01-06 21:17:25 cvs Exp $")
 
 (defun identify () 
   "insert a sccs ID string at head of file."
@@ -50,7 +50,6 @@ else if ARG, read file name. "
 ; (ad-unadvise 'vc-diff)
 
 (defun cvshack () (interactive) (perl-command-1 "cvshack" :show t :args '("-r" "-v")))
-(define-key vc-prefix-map "!" 'cvshack)
 
 ;; non-terse makes more sense for cvs 
 (setq vc-dired-terse-display nil)
@@ -61,4 +60,8 @@ else if ARG, read file name. "
   (loop for x in new-diff-switches do (add-to-list 'diff-switches x))
   diff-switches)
 
+(define-key vc-prefix-map "!" 'cvshack)
 (define-key vc-prefix-map "?" '(lambda () (interactive) (message "file %s is %s" (buffer-file-name) (vc-cvs-status (buffer-file-name)))))
+
+(autoload 'ediff-revision "ediff")
+(define-key vc-prefix-map "@" 'ediff-revision)

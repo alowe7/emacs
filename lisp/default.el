@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.29 2003-12-09 17:23:18 cvs Exp $")
+ "$Id: default.el,v 1.30 2004-01-06 21:17:14 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -156,4 +156,4 @@
   )
 
 (run-hooks 'post-load-hook)
-(message "done with default")
+
