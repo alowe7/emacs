@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.23 2002-03-13 18:54:48 cvs Exp $")
+ "$Id: w32,v 1.24 2002-04-09 03:55:43 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -593,17 +593,16 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (add-hook 'post-load-hook 
 	  '(lambda () 
-	     (defvar w32-documents "/Documents and Settings" 
+	     (defvar all-users-profile
+	       (expand-file-name (substitute-in-file-name "$ALLUSERSPROFILE"))
 	       "top level dir for all user documents and settings")
 
 	     (defvar my-documents
-	       (w32-canonify 
-		(concat w32-documents "/$USERNAME"))
+	       (expand-file-name (substitute-in-file-name "$USERPROFILE"))
 	       "top level dir for current users documents and settings")
 
 	     (defvar start-menu
-	       (w32-canonify 
-		(concat w32-documents "/$USERNAME" "/Start Menu"))
+	       (expand-file-name (substitute-in-file-name "$USERPROFILE/Start Menu"))
 	       "top level dir for current users documents and settings")
 
 	     (defvar quicklaunch
@@ -706,3 +705,28 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
     (goto-char p)
     )
   )
+
+(require 'long-comment)
+(/*
+(mapcar 'makunbound '(
+		      *systemroot*
+		      *systemdrive*
+		      *username*
+		      default-fontspec-format
+		      default-family-tabledefault-font-family
+		      default-point-size
+		      default-style
+		      default-weight
+		      default-fontspec
+		      explore-hooks
+		      last-dosexec
+		      catalogs
+		      print-processes
+		      grep-null-device
+		      w32-documents
+		      my-documents
+		      start-menu
+		      w32
+		      *mesagebox-default-flags*
+		      ))
+)
