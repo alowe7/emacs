@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.11 2003-06-24 01:49:39 cvs Exp $")
+ "$Id: post-w3m.el,v 1.12 2003-10-24 13:24:53 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -127,7 +127,7 @@
   (let ((b (current-buffer))
 	(url (format "http://%s%s"  
 		     (downcase (hostname))
-		     (unix-canonify
+		     (canonify
 		      (if (eq major-mode 'dired-mode)
 			  (dired-get-filename) 
 			(buffer-file-name)) 0)

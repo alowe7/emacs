@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.6 2003-08-29 16:50:28 cvs Exp $")
+ "$Id: perl-command.el,v 1.7 2003-10-24 13:24:53 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -107,7 +107,7 @@ args is a list with car = 'eval
 ; (perl-command-2 "map {print \"$_ \"} @ARGV" :show 'split :args '("a" "b" "c"))
 ; (perl-command-2 "map {print \"$_ \"} @INC" :show 'split)
 ; (split (perl-command-2 "map {print \"$_ \"} @INC"))
-; (loop for x in (perl-command-2 "map {print \"$_ \"} @INC" :show 'split) collect (unix-canonify x 0))
+; (loop for x in (perl-command-2 "map {print \"$_ \"} @INC" :show 'split) collect (canonify x 0))
 
 (defun perl-command (s &rest args)
   " run perl script S on ARGS" 

@@ -1,5 +1,5 @@
 (put 'tar-view 'rcsid 
- "$Id: tar-view.el,v 1.8 2003-03-26 22:51:20 cvs Exp $")
+ "$Id: tar-view.el,v 1.9 2003-10-24 13:24:53 cvs Exp $")
 (provide 'tar-view)
 (require 'cl)
 
@@ -11,7 +11,7 @@
 (defun tar-view (f) (interactive)
 	(let* ((b (zap-buffer (format "%s *tar*" f))))
 
-		(call-process "tar" nil b nil "tf"  (unix-canonify f 0))
+		(call-process "tar" nil b nil "tf"  (canonify f 0))
 		(pop-to-buffer b)
 		(setq tar-file f)
 		(tar-view-mode)
@@ -52,7 +52,7 @@
 (defun tgz-view (f) (interactive)
   (let ((b (zap-buffer (format "%s *tar*" f)))
 	(d (file-name-directory f)))
-    (call-process "tar" nil b nil "tzf"  (unix-canonify f 0))
+    (call-process "tar" nil b nil "tzf"  (canonify f 0))
     (pop-to-buffer b)
     (setq tar-file f)
     (tar-view-mode)
@@ -74,7 +74,7 @@
   ; something-else.gz
 	(let* ((b (zap-buffer (format "%s *gz*" f))))
 	  (cd-absolute (expand-file-name (file-name-directory f)))
-	  (call-process "gunzip" nil b nil "-dc"  (unix-canonify f 0))
+	  (call-process "gunzip" nil b nil "-dc"  (canonify f 0))
 	  (pop-to-buffer b)
 	  (fundamental-mode)
 	  (not-modified)

@@ -1,5 +1,5 @@
 (put 'Linux 'rcsid 
- "$Id: Linux.el,v 1.5 2003-09-28 21:55:49 cvs Exp $")
+ "$Id: Linux.el,v 1.6 2003-10-24 13:24:53 cvs Exp $")
 
 ; (message "Linux")
 
@@ -73,4 +73,9 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 (require 'cat-utils)
 (defun split-path (path)
   (split path ":")
+  )
+
+(defun canonify (f &optional mixed)
+" on unix `identity' see `unix-canonify'."
+  f
   )

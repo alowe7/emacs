@@ -1,5 +1,5 @@
 (put 'lnk-view 'rcsid 
- "$Id: lnk-view.el,v 1.5 2003-04-07 21:52:54 cvs Exp $")
+ "$Id: lnk-view.el,v 1.6 2003-10-24 13:24:53 cvs Exp $")
 (require 'cl)
 
 ; usage: add the following lines to your .emacs
@@ -44,12 +44,12 @@
 
 (defun lnk-visit-file ()
   (interactive)
-  (find-file (unix-canonify (target lnk-file) t))
+  (find-file (canonify (target lnk-file) t))
   )
 
 (defun lnk-dired-file ()
   (interactive)
-  (dired (unix-canonify (target lnk-file) t))
+  (dired (canonify (target lnk-file) t))
   )
 
 (defun target (lnk)

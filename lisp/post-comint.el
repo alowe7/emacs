@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.22 2003-08-29 16:50:28 cvs Exp $")
+ "$Id: post-comint.el,v 1.23 2003-10-24 13:24:53 cvs Exp $")
 
 (setq explicit-bash-args '("-i"))
 
@@ -28,4 +28,4 @@
 (require 'ctl-slash)
 
 ; grab dir from context of other window and insert it here.  if only one window showing, then current dir
-(define-key ctl-/-map "0" '(lambda () (interactive) (insert (save-window-excursion (other-window-1) (unix-canonify (or (buffer-file-name) default-directory) 0)))))
+(define-key ctl-/-map "0" '(lambda () (interactive) (insert (save-window-excursion (other-window-1) (canonify (or (buffer-file-name) default-directory) 0)))))
