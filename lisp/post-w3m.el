@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.18 2004-07-21 20:18:21 cvs Exp $")
+ "$Id: post-w3m.el,v 1.19 2004-09-08 21:07:54 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -102,6 +102,10 @@
 ; (debug)
   )
 )
+
+(defun modperlmanual () (interactive)
+  (w3m-goto-url-new-session "http://alowe1/usr/local/lib/mod_perl-1.99_08/docs/")
+  )
 
 (defun phpmanual () (interactive)
   (w3m-goto-url-new-session "http://localhost/php/manual")

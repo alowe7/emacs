@@ -1,11 +1,13 @@
 (put 'xz-compound 'rcsid
- "$Id: xz-compound.el,v 1.1 2004-03-27 19:03:09 cvs Exp $")
+ "$Id: xz-compound.el,v 1.2 2004-09-08 21:07:54 cvs Exp $")
 
 (defvar *default-proximity-limit* 5)
 (defvar *proximity-limit* *default-proximity-limit*) 
 
 (defun xz-compound-query (q1 q2 &optional constraint limit)
-  "perform a compound query"
+  "perform a compound query, joining on QUERY1 and QUERY2.
+see `xz-query-format`
+"
   (interactive "scompound query1: \nsquery2: ")
   (xz-query-format
    (let ((l1 (xz-issue-query q1 constraint))
