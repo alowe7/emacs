@@ -1,5 +1,5 @@
 (put 'qsave 'rcsid
-     "$Id: qsave.el,v 1.5 2005-02-23 00:44:42 cvs Exp $")
+     "$Id: qsave.el,v 1.6 2005-03-11 16:33:38 cvs Exp $")
 
 ;; by Andy Lowe (c) 1993, 1994, 1995, 1996, 1997, 1998
 
@@ -77,7 +77,7 @@ returns newly current cell data, if any
 		      (x (nth (1- j) v)))
 		 (erase-buffer)
 		 (insert (qsave-cell-contents x))
-		 (setq mode-line-buffer-identification (pp (qsave-cell-label x)))
+		 (setq mode-line-buffer-identification (pp (qsave-cell-label x) t))
 		 (set-window-start (display-buffer (current-buffer)) 1)
 		 (setq mode-line-process (format " %d/%d" j j))
 		 (put a 'qsaved-index j)
@@ -101,6 +101,7 @@ returns newly current cell data, if any
 into internal stack"
   (save-excursion
     (set-buffer b)
+
     (let* ((p (point))
 	   (a (intern (buffer-name)))
 	   (v (get a 'qsave))
@@ -116,7 +117,7 @@ into internal stack"
       (put a 'qsaved-index 0)
       (setq mode-line-process (format " %d/%d" (length v) (length v)))
       ;; ensure mode-line-buffer-identification is a string
-      (setq mode-line-buffer-identification (pp l))
+      (setq mode-line-buffer-identification (pp l t))
       )
     )
   )
@@ -143,7 +144,7 @@ returns data on cell, if any.
 	    (erase-buffer)
 	    (insert (qsave-cell-contents x))
 	    (goto-char (qsave-cell-point x))
-	    (setq mode-line-buffer-identification (pp (qsave-cell-label x)))
+	    (setq mode-line-buffer-identification (pp (qsave-cell-label x) t))
 	    (set-window-start (display-buffer (current-buffer)) 1)
 	    (setq mode-line-process (format " %d/%d" (- len j) len))
 	    (put a 'qsaved-index j)
@@ -178,7 +179,7 @@ returns data on cell, if any.
 	    (erase-buffer)
 	    (insert (qsave-cell-contents x))
 	    (goto-char (qsave-cell-point x))
-	    (setq mode-line-buffer-identification (pp (qsave-cell-label x)))
+	    (setq mode-line-buffer-identification (pp (qsave-cell-label x) t))
 	    (set-window-start (display-buffer (current-buffer)) 1)
 	    (setq mode-line-process (format " %d/%d" (- len j) len))
 	    (put a 'qsaved-index j)

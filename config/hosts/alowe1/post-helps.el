@@ -1,3 +1,6 @@
+(put 'post-helps 'rcsid
+ "$Id: post-helps.el,v 1.4 2005-03-11 16:33:38 cvs Exp $")
+
 ; build up an alist for howto
 
 ; what were you thinking?

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.36 2005-03-04 23:26:19 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.37 2005-03-11 16:33:38 cvs Exp $")
 
 (require 'default-frame-configurations)
 
@@ -49,7 +49,9 @@
 (setq *xz-show-status* nil)
 (setq *xz-squish* 4)
 
-(setq gnus-select-method '(nntp "news.inhouse.broadjump.com"))
+(setq gnus-select-method '(nntp "news.eclipse.org"))
+; (gnus-fetch-group "eclipse.tools")
+; '(nntp "news.inhouse.broadjump.com"))
 ; (setenv "NNTPSERVER" "news.inhouse.broadjump.com")
 
 (require 'gnuserv)
@@ -128,14 +130,13 @@
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
 
 ; all kinds of crap here
-(add-to-load-path "/z/el" t)
-; and some lisp here too
-(add-to-load-path "/z/pl" t)
+(loop for d in '("/z/el" "/z/pl" "/z/soap" "/z/gpg")
+      do
+      (add-to-load-path d t)
 
-; and some here too
-(condition-case x (load "/z/el/.autoloads") (error nil))
-(condition-case x (load "/z/soap/.autoloads") (error nil))
-(condition-case x (load "/z/pl/.autoloads") (error nil))
+  ; and some here too
+      (condition-case x (load (concat d "/.autoloads")) (error nil))
+      )
 
 ; find-script will look along path for certain commands 
 (addpathp "/z/pl" "PATH")

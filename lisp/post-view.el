@@ -1,5 +1,5 @@
 (put 'post-view 'rcsid 
- "$Id: post-view.el,v 1.6 2004-12-10 18:15:17 cvs Exp $")
+ "$Id: post-view.el,v 1.7 2005-03-11 16:33:38 cvs Exp $")
 
 ;;; use this to get qsave capability on help buffer
 ;;; should put on post-help, but use post-view instead to make sure keymap gets set correctly
@@ -13,7 +13,14 @@
   (toggle-read-only 1))
 
 (defvar post-view-hook nil "hook to run after view mode.  mostly for help history")
-(defun save-help-history () (interactive) (let ((b (get-buffer "*Help*"))) (and (buffer-live-p b) (qsave-search b (cadr item)))))
+(defun save-help-history ()
+  (interactive)
+  (let ((b (get-buffer "*Help*")))
+    (and (buffer-live-p b)
+	 (qsave-search b (cadr item))
+	 )
+    )
+  )
 
 (define-key view-mode-map "p" 'roll-qsave)
 (define-key view-mode-map "n" 'roll-qsave-1)
@@ -26,9 +33,13 @@
 			    hook-help
 			    first activate)
   ""
+
+
   (run-hooks 'post-view-hook)
+
   ad-do-it
+
   )
 
-; (ad-unadvise 'help-setup-xref)
+; (if (ad-is-advised 'help-setup-xref) (ad-unadvise 'help-setup-xref))
 

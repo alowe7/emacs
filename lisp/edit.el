@@ -1,5 +1,5 @@
 (put 'edit 'rcsid 
- "$Id: edit.el,v 1.14 2005-01-07 17:36:01 cvs Exp $")
+ "$Id: edit.el,v 1.15 2005-03-11 16:33:38 cvs Exp $")
 
 ;; edit and format functions
 
@@ -126,24 +126,12 @@ interactive with ARG says reverse whole buffer"
     )
   )
 
-(defun squish (begin end &optional replace)
+(defun squish (begin end)
   "compress all whitespace regexps in region to a single space.
-with optional arg REPLACE, replace region
 "
   (interactive "r")
-  (let* ((b (get-buffer-create (generate-new-buffer-name " *temp*")))
-	 (s (progn 
-	      (call-process-region begin end "tr" nil b nil "-s" "\" 	\"")
-	      (save-excursion
-		(set-buffer b)
-		(buffer-string)))))
-    (kill-buffer b)
-    (if replace (progn
-		  (kill-region begin end)
-		  (insert s)))
-    s
+  (call-process-region begin end "tr" t t nil "-s" "\" 	\"")
   )
-)
 
 (defun squeeze (begin end)
   "compress all unnecessary white space from region.

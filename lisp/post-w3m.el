@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.27 2005-02-09 16:36:24 cvs Exp $")
+ "$Id: post-w3m.el,v 1.28 2005-03-11 16:33:38 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -86,26 +86,29 @@
   )
 
 ; todo -- externalize to xml a/o links?  rationalize with all-docs
-(setq *all-docs-alist* '(
-			    ("apache"  "http://apache/htdocs/manual/index.html.en")
-			    ("css" "http://localhost/usr/share/specs/css2.0/cover.html")     
-			    ("html" "http://localhost/usr/share/specs/html4.0/cover.html")
-			    ("forms" "http://localhost/usr/share/specs/html4.0/interact/forms.html")
-			    ("" "http://localhost/specs.nav")
+(defvar *all-docs-alist* nil "alist mapping quick references to urls.  see `all-docs'")
+(loop for x in '(
+		 ("apache"  "http://alowe1/manual/")
+		 ("css" "http://localhost/usr/share/specs/css2.0/cover.html")     
+		 ("html" "http://localhost/usr/share/specs/html4.0/cover.html")
+		 ("forms" "http://localhost/usr/share/specs/html4.0/interact/forms.html")
+		 ("" "http://localhost/specs.nav")
   ; ...
-			    ("w3m" "http://localhost/u/w3m-0.3/doc/MANUAL.html")
+		 ("w3m" "http://localhost/u/w3m-0.3/doc/MANUAL.html")
   ; ...
-			    ("ant" "/usr/local/lib/ant-1.5.3-1/docs/manual/index.html")
-			    ("xerces" "/xerces/docs/api.html")
-			    ("struts" "http://struts.apache.org/api/overview-summary.html")
-			    ("beans:" "http://struts.apache.org/api/org/apache/struts/taglib/bean/package-summary.html")
-			    ("logic:" "http://struts.apache.org/api/org/apache/struts/taglib/logic/package-summary.html")
-			    ("html:" "http://struts.apache.org/api/org/apache/struts/taglib/html/package-summary.html")
-			    ("struts examples" "http://j2ee.masslight.com/Chapter5.html")
-			    ("struts form examples" "http://javaboutique.internet.com/tutorials/strutsform/")
-			    )
+		 ("ant" "/usr/local/lib/ant-1.5.3-1/docs/manual/index.html")
+		 ("xerces" "/xerces/docs/api.html")
+		 ("struts" "http://struts.apache.org/api/overview-summary.html")
+		 ("beans:" "http://struts.apache.org/api/org/apache/struts/taglib/bean/package-summary.html")
+		 ("logic:" "http://struts.apache.org/api/org/apache/struts/taglib/logic/package-summary.html")
+		 ("html:" "http://struts.apache.org/api/org/apache/struts/taglib/html/package-summary.html")
+		 ("struts examples" "http://j2ee.masslight.com/Chapter5.html")
+		 ("struts form examples" "http://javaboutique.internet.com/tutorials/strutsform/")
+		 )
+      do
+      (add-association x '*all-docs-alist* t)
+      finally return *all-docs-alist*
       )
-
 
 (defun head (url)
   "send a http head to URL.  return nil if there's an error, t otherwise"
@@ -142,6 +145,7 @@
 ; (all-docs-helper "HttpSession")
 
 (defun all-docs (arg) 
+  "shortcut to documentation defined in `*all-docs-alist*'"
   (interactive "P")
   (let* ((thing 
 	  (string*
@@ -158,7 +162,7 @@
 	  (cond 
 	   ((not (string* url)) (throw 'err t))
 	   ((string-match *url-regexp* url) (funcall navigator url))
-	   ; allow specs relative to localhost
+  ; allow specs relative to localhost
 	   ((head (concat "http://localhost" url)) (funcall navigator (concat "http://localhost" url)))
 	   ((file-exists-p url) (aexec url))
 	   ((file-exists-p thing) (aexec thing))
