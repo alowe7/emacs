@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid 
- "$Id: post-xdb.el,v 1.9 2003-04-03 15:56:29 cvs Exp $")
+ "$Id: post-xdb.el,v 1.10 2003-04-08 15:39:45 cvs Exp $")
 
 (require 'advice)
 (require 'cat-utils)
@@ -52,29 +52,19 @@
 ; (pop x-query-mode-hook)
 ; (run-hooks (quote x-query-mode-hook))
 
-; first time through, ask for a sword
-
-(setq *xdbuser* (string* (read-string (format "user (%s): " (getenv "XDBUSER"))) (getenv "XDBUSER")))
-(setq *xdbsword* (comint-read-noecho (format "sword for user %s: " *xdbuser*)))
-
-;; todo: (unless (member "-s" *txdb-options* ) ...
 ; (setq *txdb-options*  nil)
 
-(if (string* *xdbuser*)
-    (setq *txdb-options* 
-	  (nconc
-	   (list "-u" *xdbuser*)
-	   *txdb-options* 
-	   )
-	  )
-  )
+;; todo: (unless (member "-s" *txdb-options* ) ...
+;; todo: this should be an assoc of some kind to override duplicates
 
-(if (string* *xdbsword*)
-    (setq *txdb-options* 
-	  (nconc
-	   (list "-s" *xdbsword*)
-	   *txdb-options* 
-	   )
-	  )
+(defun add-txdb-option (option value)
+  (if (string* value)
+      (setq *txdb-options* 
+	    (nconc
+	     (list option value)
+	     *txdb-options* 
+	     )
+	    )
+    )
   )
 

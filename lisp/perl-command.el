@@ -1,7 +1,9 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.2 2003-04-07 21:52:54 cvs Exp $")
+ "$Id: perl-command.el,v 1.3 2003-04-08 15:39:45 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
+(require 'zap)
+(require `backquote)
 
 (defvar semicolon (read "?;"))
 (defvar *perl-buffer-name* " *perl*")
@@ -29,15 +31,9 @@ if LIST is specified, it is used instead of default PATH
     )
   )
 
-(defun zap-buffer-1 (bn) (get-buffer-create-1 bn) (set-buffer bn))
 
 (defun get-buffer-create-1 (bn &optional dir)
-  (let ((d default-directory) b)
-    (condition-case nil (kill-buffer bn) (error nil))
-    (let ((default-directory dir))
-      (setq b (get-buffer-create bn))
-      b)
-    )
+  (zap-buffer bn `(lambda () (cd ,dir)))
   )
 
 (defun* perl-command-1 (s &key show args)
