@@ -1,5 +1,5 @@
 (put 'xz-helpers 'rcsid 
- "$Id: xz-helpers.el,v 1.5 2001-07-11 08:38:14 cvs Exp $")
+ "$Id: xz-helpers.el,v 1.6 2001-07-11 09:54:07 cvs Exp $")
 (require 'advice)
 (require 'long-comment)
 
@@ -164,7 +164,7 @@ if found, pop that to top of stack"
   (if (= b 0) 0 (/ a b))
   )
 
-(defvar *xz-shell-prompt-regexp* "#")
+(defvar *x-shell-prompt-regexp* "#")
 
 (defun xz-sum-fields ()
   "sum the numeric fields of an appropriate length or statement xz query.
