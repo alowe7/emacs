@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.26 2004-12-10 23:38:02 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.27 2004-12-22 23:56:07 cvs Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -95,4 +95,5 @@
 
 (setq *advise-help-mode-finish* t)
 
+(setq xosust-file "/usr/share/specs/xosus3.htm")
 
