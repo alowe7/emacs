@@ -1,5 +1,5 @@
 (put 'reg 'rcsid
- "$Id: reg.el,v 1.5 2003-10-27 15:34:44 cvs Exp $")
+ "$Id: reg.el,v 1.6 2004-02-23 06:36:01 cvs Exp $")
 (require 'qsave)
 
 (defun reg-canonify (s)	(if (and s (stringp s) (> (length s) 0)) (replace-in-string  "/" "\\" s) ""))
@@ -80,14 +80,17 @@
 ;; xxx what is the difference with reg-query?
 
 (defun reg-command (command hive &optional key value)
-  (let* ((b (zap-buffer "*reg*"))
+  (let* ((b (get-buffer-create "*reg*"))
 	 (s (perl-command command "-v" hive key value)))
     (set-buffer b)
+    (setq buffer-read-only nil)
+    (erase-buffer)
     (insert s)
     (setq
      mode-line-buffer-identification (format "%s/%s *reg*" hive key)
      *reg-query* (list hive key value))
-    (pop-to-buffer b)
+    (unless (eq (current-buffer) (get-buffer "*reg*"))
+      (pop-to-buffer b))
     (beginning-of-buffer)
     (reg-view-mode)
     )
@@ -99,7 +102,7 @@
 		(read-string "key: ")))
 
   (if (and (not (string* key)) (buffer-exists-p "*reg*"))
-      (pop-to-buffer "*reg*")
+	(pop-to-buffer "*reg*")
     (reg-command "lsreg" hive key)
     )
   )
