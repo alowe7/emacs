@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.17 2001-08-24 19:20:58 cvs Exp $")
+ "$Id: w32,v 1.18 2001-11-13 22:29:40 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -98,10 +98,15 @@
   " expands FILENAME, using backslashes
 optional DRIVE says which drive to use. "
   (replace-in-string  "/" "\\" 
-		      (expand-file-name 
-	(substitute-in-file-name
-		       (chop f ?/))
-		       (concat sysdrive "/"))))
+		      (if sysdrive (expand-file-name 
+				    (substitute-in-file-name
+				     (chop f ?/))
+				    (concat sysdrive "/"))
+			(substitute-in-file-name
+			 (chop f ?/))
+			)
+		      )
+  )
 
 (defun unix-canonify (f &optional mixed)
   " expands FILENAME, using forward slashes.

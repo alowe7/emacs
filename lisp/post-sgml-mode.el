@@ -1,10 +1,12 @@
 (put 'post-sgml-mode 'rcsid 
- "$Id: post-sgml-mode.el,v 1.6 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: post-sgml-mode.el,v 1.7 2001-11-13 22:29:40 cvs Exp $")
 ;(setq html-mode-hook '(lambda () (setq paragraph-start "<P>"))
 
 (setq sgml-mode-hook '(lambda () (run-hooks 'html-mode-hook)
   ;			(require 'sgml-helpers)
   ;			(define-key sgml-mode-map "" 'docbook-help)
+	     (setq tab-width 4)
+	     (turn-on-lazy-lock)
 			))
 
 (defun html-quick-view (fn)

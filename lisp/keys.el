@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.22 2001-10-25 22:27:20 cvs Exp $")
+ "$Id: keys.el,v 1.23 2001-11-13 22:29:40 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -35,6 +35,7 @@
 (global-set-key "\C-m" 'compile)
 (global-set-key "" 'pwd)
 (global-set-key "" 'world)
+(global-set-key "" 'dn)
 (global-set-key (vector ? ? )  'roll-world-stack)
 (global-set-key (vector ? (char-ctrl ? ))  'roll-world-list)
 
@@ -230,5 +231,7 @@
 (global-set-key (vector (ctl ??)) 'ctl-\?-prefix)
 
 (define-key ctl-\?-map "	" '(lambda () (interactive)   (message "tab-width: %d" tab-width)))
+; mail-quote
+(global-set-key ">" '(lambda () (interactive) (save-excursion (goto-char (point-min)) (replace-regexp "^" "> " nil))))
 
 (provide 'keys)
