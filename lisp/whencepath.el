@@ -1,14 +1,14 @@
 (put 'whencepath 'rcsid 
- "$Id: whencepath.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: whencepath.el,v 1.5 2000-10-30 19:35:54 cvs Exp $")
 (require 'ksh-interpreter)
 (require 'cl)
 
 (defvar *ext*
-  (cond ((eq window-system 'w32)  ".exe")
-	(t nil)))
+  (cond ((eq window-system 'w32) ".exe")
+	(t "")))
 
 ;; examples
-;; (whencepath "pwd" (catpath "PATH"))
+;; (whencepath "ls" (catpath "PATH"))
 
 (defun whencepath (cmd path &optional executable)
   " look for cmd along path (path is a list of strings)"

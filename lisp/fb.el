@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.13 2000-10-30 19:22:52 cvs Exp $")
+ "$Id: fb.el,v 1.14 2000-10-30 19:35:54 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -291,7 +291,7 @@ w		fb-w3-file
    (or fb-mode-syntax-table
        (prog1
 	   (setq fb-mode-syntax-table (make-syntax-table))
-	 (if (eq window-system w32) 
+	 (if (eq window-system 'w32)
 	     (loop for x across "#:+ ./-_~!\\"
 		   do
 		   (modify-syntax-entry x "w" fb-mode-syntax-table)
