@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.46 2003-12-02 16:15:25 cvs Exp $")
+ "$Id: fb.el,v 1.47 2003-12-13 03:24:45 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -10,6 +10,7 @@
 
 (defvar *fb-case-fold* t)
 (defvar *fb-show-lines* t)
+(defvar *fb-auto-go* t)
 
 (defvar fb-mode-map    
   (prog1
@@ -518,6 +519,13 @@ if none given, uses `*default-fb-db*'
     )
   )
 
+; hack to avoid auto-going to a binary file
+(require 'eval-process)
+(defun probably-binary-file (f)
+  (let ((v (eval-process "head" "-4" f)))
+    (loop for x across v thereis (or (= x 0) (>= x 127))))
+  )
+
 (defun ff (pat)
   "fast find working dirs -- search for file matching PAT in `*fb-db*'"
 
@@ -546,7 +554,7 @@ if none given, uses `*default-fb-db*'
 
     (let ((l (split (buffer-string) "
 ")))
-      (cond ((and (interactive-p) (= (length l) 1))
+      (cond ((and *fb-auto-go* (interactive-p) (= (length l) 1) (not (probably-binary-file (car l))))
 	     (find-file (car l)))
 	    ((interactive-p)
 	     (pop-to-buffer b))
