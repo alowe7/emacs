@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.14 2003-11-24 21:50:38 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.15 2003-12-15 22:46:30 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 100)
@@ -78,7 +78,7 @@
 ; (scan-file-p "~/.xdbrc")
 (setq *txdb-options* '("-b" "a/q-1pzl@x" "-h" "localhost:13306"))
 
-(add-hook 'xdb-init-hook 'xdb-login)
+; (add-hook 'xdb-init-hook 'xdb-login)
 
 (if (and (not (evilnat)) 
 	 (string* (getenv "XDBHOST"))
@@ -147,7 +147,3 @@
       (add-hook 'after-save-hook 'world-file-save-hook))
 
 (load-library "post-help")
-
-(add-hook 'fb-load-hook
-	  '(lambda () 
-	     (unless (featurep 'ffsql) (load-file "/z/db/ffsql.el"))))

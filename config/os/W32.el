@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.22 2003-11-17 21:38:52 cvs Exp $")
+ "$Id: W32.el,v 1.23 2003-12-15 22:46:30 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -784,7 +784,8 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 		      *systemdrive*
 		      *username*
 		      default-fontspec-format
-		      default-family-tabledefault-font-family
+		      default-family-table
+		      default-font-family
 		      default-point-size
 		      default-style
 		      default-weight

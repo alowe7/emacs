@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.12 2003-10-24 13:24:53 cvs Exp $")
+ "$Id: post-w3m.el,v 1.13 2003-12-15 22:46:31 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -73,6 +73,14 @@
 
 (defun specs () (interactive)
   (w3m-goto-url "http://localhost/specs.nav")
+  )
+
+(defun headlines () (interactive)
+  (w3m-goto-url "http://localhost/cgi-bin/headlines.cgi")
+  )
+
+(defun emacswiki () (interactive)
+  (w3m-goto-url "http://www.emacswiki.org/cgi-bin/wiki")
   )
 
 (defun perlmodhtml (mod) (interactive "smod: ")

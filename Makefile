@@ -1,10 +1,10 @@
-# $Id: Makefile,v 1.29 2003-12-09 17:23:18 cvs Exp $
+# $Id: Makefile,v 1.30 2003-12-15 22:46:30 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
 LOCALBIN = /usr/local/bin
-EMACS = $(shell which emacs)
-EMACSDIR = /usr/share/emacs
+SITE_LISP=/usr/share/emacs/site-lisp
+EMACS=$(EMACS_DIR)/bin/emacs
 
 .PHONY: FORCE
 
@@ -18,10 +18,10 @@ CONFIGS := $(shell ./find-configs)
 # search all configs
 # CONFIGS := $(shell find ./config -type f -name "*.el")
 
-SITE_LISP := $(shell find $(EMACSDIR)/site-lisp -type f -name "*.el")
+SITE_LISP := $(shell find $(SITE_LISP) -type f -name "*.el")
 
 # search for autoloads among site lisps
-SITE_LOADS := $(shell find $(EMACSDIR)/site-lisp -type f -name ".autoloads")
+SITE_LOADS := $(shell find $(SITE_LISP) -type f -name ".autoloads")
 
 ETAGS=etags
 
@@ -36,7 +36,7 @@ all: .autoloads
 	@echo .xz.dat rebuilt
 
 .emacs.dat: 
-	@$(XZ) $(XZFLAGS) -a -ywqn -f$@  < $(shell find $EMACS_DIR/lisp  -type f -name "*.el")
+	@$(XZ) $(XZFLAGS) -a -ywqn -f$@  < $(shell find $(EMACS_DIR)/lisp  -type f -name "*.el")
 	@echo .emacs.dat rebuilt
 
 TAGS: $(SOURCES) $(CONFIGS)
