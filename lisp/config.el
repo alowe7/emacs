@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.44 2005-01-28 19:37:47 cvs Exp $")
+ "$Id: config.el,v 1.45 2005-02-14 22:47:40 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -9,7 +9,14 @@
     (load-file  "~/emacs/.autoloads")
   )
 
-(defvar *hostname* (or (getenv "COMPUTERNAME") (getenv "HOSTNAME")))
+(defvar *hostname* (or 
+		    (getenv "COMPUTERNAME") 
+		    (getenv "HOSTNAME")
+		    (progn 
+		      (require 'uname)
+		      (hostname)
+		      ))
+  )
 
 ; XXX this is redundant with "~/config/.fns"
 (defvar *config-load-path*

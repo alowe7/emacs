@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.21 2005-01-19 18:26:57 cvs Exp $")
+ "$Id: helps.el,v 1.22 2005-02-14 22:47:40 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -229,7 +229,7 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 (defun file-name-extension (fn &optional ext)
   (if (rstring-match (concat "\\." ext)	fn) 
       (substring fn (match-end 0))
-    fn)
+    "")
   )
 
 (defun file-name-sans-extension (fn &optional ext)

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.11 2005-01-28 23:16:12 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.12 2005-02-14 22:47:49 cvs Exp $")
 
 ; enoch
 ; (require 'xz-loads)
@@ -9,7 +9,7 @@
 (defvar *xdpyinfo* nil)
 
 (defun xdpyinfo (&optional attr)
-  (unless *xdpyinfo*  (setq *xdpyinfo* (loop for x in  (split (eval-process "xdpyinfo") "
+  (unless *xdpyinfo*  (setq *xdpyinfo* (loop for x in  (split (eval-process "/usr/X11R6/bin/xdpyinfo") "
 ") collect (split x ":"))))
   (if attr (assoc attr *xdpyinfo*) *xdpyinfo*))
 
@@ -77,3 +77,10 @@
 (setq w3m-home-page "http://enoch")
 (load-library "w3m")
 (load-library "ctl-slash")
+
+(load-library "bookmark")
+; xxx todo: figure out why post-bookmark doesn't get loaded
+(load-library "post-bookmark")
+
+(global-set-key "r" 'rmail)
+
