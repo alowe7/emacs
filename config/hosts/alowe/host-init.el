@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.10 2001-07-18 22:18:18 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.11 2001-08-24 03:59:17 cvs Exp $")
 
 ;(default-font "lucida console" nil 22)
 
@@ -28,8 +28,7 @@
 (setq initial-frame-alist default-frame-alist)
 
 (display-time)
-(require 'worlds)
+; (require 'worlds)
 (require 'xz-loads)
 (require 'gnuserv)
 
-(lastworld)
