@@ -1,10 +1,11 @@
 (put 'people 'rcsid 
- "$Id: people.el,v 1.11 2001-07-17 11:14:19 cvs Exp $")
+ "$Id: people.el,v 1.12 2001-08-15 21:49:00 cvs Exp $")
 (provide 'people)
-(require 'data)
 ;; manage people databases
 (require 'compile)
 (require 'qsave)
+
+(defvar *people-database* "" "list of contact files")
 
 (defun note (&optional arg) 
   "find person in database.
@@ -137,7 +138,8 @@ to find the text that grep hits refer to."
   (setq people-mode-map (make-sparse-keymap))
   (define-key people-mode-map "\C-m" 'people-goto-hit)
   (define-key  people-mode-map "o" '(lambda () (interactive) (people-goto-hit t)))
-  (define-key  people-mode-map "?" 'people-show-hit)
+  (define-key  people-mode-map "?" 'people-describe-hit-briefly)
+  (define-key  people-mode-map "s" 'people-show-hit)
   (define-key  people-mode-map "p" '(lambda () (interactive) (previous-qsave-search (current-buffer))))
   (define-key  people-mode-map "n" '(lambda () (interactive) (next-qsave-search (current-buffer))))
   (define-key  people-mode-map ""
@@ -160,7 +162,19 @@ to find the text that grep hits refer to."
     )
   )
 
-(defun people-show-hit () 
+(defun people-show-hit (arg) 
+  "show file and line number for a hit."
+  (interactive "P")
+  (let* ((l (count-lines (point-min) (point)))
+	 (v (aref *find-person-vector* (if (bolp) l (1- l))))
+	 (n (car (split (caddr v) ","))))
+
+    (start-process (format "show-%s" n) nil "run" "show" (if arg (read-string "name: ") n))
+
+    )
+  )
+
+(defun people-describe-hit-briefly () 
   "show file and line number for a hit."
   (interactive)
   (let* ((l (count-lines (point-min) (point)))
@@ -184,9 +198,8 @@ to find the text that grep hits refer to."
   (let* ((b (prog1 (zap-buffer "*people*") (people-mode)))
 	 (db (or db 
 		 *people-database*))
-	 (e (progn (debug)
-		   (apply 'call-process 
-		   (nconc (list "egrep" nil b nil "-i" "-n" name) db))))
+	 (e (progn (apply 'call-process 
+		   (nconc (list "egrep" nil b nil "-H" "-i" "-n" name) db))))
 	 n)
 
     (make-person-vector name b)
@@ -317,4 +330,4 @@ with prefix arg, prompt for a line to add"
     (edit-people-database))
   )
 
-(run-hooks 'people-hook)
+(run-hooks 'people-load-hook)

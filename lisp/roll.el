@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.10 2001-07-17 11:14:19 cvs Exp $")
+ "$Id: roll.el,v 1.11 2001-08-15 21:49:00 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -158,7 +158,6 @@ calling SELECTFN to choose one
 (defun roll-buffer-like () 
 " roll buffers with mode like current buffer"
   (interactive) 
-
   (roll-list (list-buffers-mode major-mode) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
   )
 

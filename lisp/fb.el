@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.23 2001-05-05 12:03:26 cvs Exp $")
+ "$Id: fb.el,v 1.24 2001-08-15 21:49:00 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -400,7 +400,6 @@ all other patterns (e.g. \"foo*\") remain unchanged.
 	(b (or b (zap-buffer *fastfind-buffer*)))
 	(top (or top "/"))
 	)
-
     (setq *find-file-query*
 	  (setq mode-line-buffer-identification 
 		pat))
@@ -430,10 +429,13 @@ with prefix arg, prompt for *fb-db* to use"
   ;	 (*fb-db* *fb-db*) 
 	 (pat 
 	  (progn
-	    (if (and (listp args) (numberp (car args)))
-		;; given prefix arg, read *fb-db*
-		(setq *fb-db* (read-file-name "db: " "" nil nil *fb-db*)
-		      ))
+	    (cond
+	     ((and (listp args) (numberp (car args)))
+	      ;; given prefix arg, read *fb-db*
+	      (setq *fb-db* (read-file-name "db: " "" nil nil *fb-db*)
+		    ))
+	     ((stringp args) args)
+	     ((interactive-p) (read-string "pat: "))))))
 	    (if (= (length *fb-db*) 0)
 		(progn
 		  (setq *fb-db* *default-fb-db*)
@@ -443,8 +445,6 @@ with prefix arg, prompt for *fb-db* to use"
 		    (setq *fb-db* (concat *fb-db* "/f")))
 		(setq top (file-name-directory *fb-db*)))
 	      )
-	    (read-string "pat: ")
-	    )))
 
     (ff1 *fb-db* pat b top)
 

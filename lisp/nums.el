@@ -1,5 +1,5 @@
 (put 'nums 'rcsid 
- "$Id: nums.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: nums.el,v 1.6 2001-08-15 21:49:00 cvs Exp $")
 (provide 'nums)
 
 (defun exp (n m)
@@ -28,12 +28,12 @@ S may also be a string representation of a decimal number "
   with optional second arg, display result.
 " 
   (interactive "shex number: ")
-  (let* 
-      ((al '(("0" . 0) ("1" . 1) ("2" . 2) ("3" . 3) ("4" . 4) ("5" . 5) ("6" . 6) ("7" . 7) ("8" . 8) ("9" . 9) 
-	     ("a" . 10) ("b" . 11) ("c" . 12) ("d" . 13) ("e" . 14) ("f" . 15)
-	     ("A" . 10) ("B" . 11) ("C" . 12) ("D" . 13) ("E" . 14) ("F" . 15)
-	     ))
-       (v 0) (p 0) (b 16) (n (length s)))
+  (let* ((s (cond ((stringp s) s) ((atom s) (symbol-name s)) ((integerp s) (format "%d" s))))
+	 (al '(("0" . 0) ("1" . 1) ("2" . 2) ("3" . 3) ("4" . 4) ("5" . 5) ("6" . 6) ("7" . 7) ("8" . 8) ("9" . 9) 
+	       ("a" . 10) ("b" . 11) ("c" . 12) ("d" . 13) ("e" . 14) ("f" . 15)
+	       ("A" . 10) ("B" . 11) ("C" . 12) ("D" . 13) ("E" . 14) ("F" . 15)
+	       ))
+	 (v 0) (p 0) (b 16) (n (length s)))
 
     (while (> n 0)
       (let

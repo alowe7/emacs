@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.16 2001-07-26 09:22:21 cvs Exp $")
+ "$Id: keys.el,v 1.17 2001-08-15 21:49:00 cvs Exp $")
 ;(require 'nums)
 
 ;; all key bindings
@@ -159,7 +159,7 @@
 
 ; (define-key help-map "" 'indicated-manual-entry)
 
-(define-key help-map "" '(lambda () (interactive) (call-interactively (if current-prefix-arg 'fapropos4 'fapropos3))))
+(define-key help-map "" 'fapropos3)
 (define-key help-map "" 'help-for-map)
 
 ;; (global-set-key "Å∫" 'tags-apropos)

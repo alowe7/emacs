@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.14 2001-07-18 22:18:18 cvs Exp $")
+ "$Id: w32,v 1.15 2001-08-15 21:49:00 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -202,8 +202,8 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 
 (defvar last-dosexec "")
 (defun dosexec (cmd) 
-  (interactive (list (read-string (format "scommand (%s): " last-dosexec))))
   "run as a dos parented program"
+  (interactive (list (read-string (format "scommand (%s): " last-dosexec))))
   (let ((f (if (eq major-mode (quote dired-mode))
 	       (dired-get-filename)
 	     (read-file-name "input file: ")))
@@ -224,6 +224,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 
 ;; world helpers ;;
 (defun ewn  (&optional w go sub)
+  "expore file in W named F"
   (interactive "P")
   (wn w go 'explore))
 
@@ -246,18 +247,20 @@ a null argument means pop-world from world-stack"
 	(t (message "world stack is empty")))
   )
 
-(add-hook 'world-init-hook '(lambda () (global-set-key "p" 'push-world-p)))
+(add-hook 'world-init-hook '(lambda ()
 
-(if (not (fboundp 'esc-p-prefix)) 
-    (define-prefix-command 'esc-p-prefix))
-(global-set-key "p" 'esc-p-prefix)
-(let ((map (symbol-function  'esc-p-prefix)))
-  (define-key map "p" 'push-world-p)
-  (define-key map "u" 'pop-world)
-  (define-key map "x" 'swap-world)
-  (define-key map "o" 'roll-world-stack)
-  (define-key map " " 'roll-world-list)
-  map)
+			      (if (not (fboundp 'esc-p-prefix)) 
+				  (define-prefix-command 'esc-p-prefix))
+			      (global-set-key "p" 'esc-p-prefix)
+			      (let ((map (symbol-function  'esc-p-prefix)))
+				(define-key map "p" 'push-world-p)
+				(define-key map "u" 'pop-world)
+				(define-key map "x" 'swap-world)
+				(define-key map "o" 'roll-world-stack)
+				(define-key map " " 'roll-world-list)
+				map)
+			      )
+	  )
 
 (make-variable-buffer-local 'explicit-shell-file-name)
 (defun cmd (&optional num)
@@ -331,10 +334,10 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
     txt))
 
 (defun yank-unix-filename (begin end)
-  (interactive "r")
   "this function translates the region between BEGIN and END using `unix-canonify' and copies the result into the kill-ring.
 if `interprogram-cut-function' is defined, it is invoked with the canonified result.
 when called from a program, if BEGIN is a string, then use it as the kill text instead of the region"
+  (interactive "r")
   (let* ((txt
 	  (unix-canonify (string* begin (buffer-substring begin end)) t)))
     (kill-new txt)
@@ -356,8 +359,15 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 				    (define-key Buffer-menu-mode-map "" 'dired-cut-filename)))
 
 
-(defun eau () (interactive) (dired "/WINNT/Profiles/All Users/Start Menu/Programs"))
-(defun eu () (interactive) (dired (getenv "USERPROFILE")))
+(defun eau () 
+  "visit all-users profile"
+  (interactive)
+  (dired "/WINNT/Profiles/All Users/Start Menu/Programs"))
+
+(defun eu ()
+  "visit users profile" 
+  (interactive)
+  (dired (getenv "USERPROFILE")))
 
 (defun hard-fill  (from to)
   (interactive "r")
@@ -399,8 +409,9 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (defvar catalogs '("c:/tmp/f")) ;  "d:/f"
 
-(defun fastfind (pat) (interactive "spattern to find: ")
+(defun fastfind (pat) 
   "find files matching PATTERN in catalogs"
+  (interactive "spattern to find: ")
   (let ((b (zap-buffer "*fastfind*")))
     (dolist (f catalogs)
       (if (file-exists-p f)
@@ -516,7 +527,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 (defvar grep-null-device "nul")
 
 (add-hook 
- 'people-hook 
+ 'people-load-hook 
  '(lambda ()
     (require 'advice)
   ; some goofy advice to handle lists of filenames that may have spaces in them
@@ -538,21 +549,24 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (setq file-name-buffer-file-type-alist nil)
 (standard-display-8bit 129 255)
-(setq-default buffer-file-coding-system 'undecided-unix)
-(setq coding-system-for-write 'no-conversion)
+; (setq-default buffer-file-coding-system 'undecided-unix)
+(setq-default buffer-file-coding-system nil)
+; (setq coding-system-for-write 'no-conversion)
+(setq coding-system-for-write nil)
 
 ; todo: (alldrives) returns enumeration of drives in use
 
 (defun vp (&optional user)
-  (interactive)
   "visit profile directory for USER.  default is current user"
+  (interactive)
   (dired  (expand-file-name
 	   (concat *systemroot* "/profiles/" (or user *username*) "/Personal/" nil)))
 
   )
 
-(defun browse-path () (interactive)
+(defun browse-path () 
   "pringle path in a browser buffer"
+  (interactive)
   (let ((temp-buffer-show-function '(lambda (buf)
 				      (debug)
 				      (set-buffer buf)

@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.10 2001-07-17 11:14:19 cvs Exp $")
+ "$Id: post-comint.el,v 1.11 2001-08-15 21:49:00 cvs Exp $")
 
 (setq comint-prompt-regexp "^[0-9a-zA-Z]*% *")
 
@@ -20,7 +20,7 @@
 
 (global-set-key  (vector 'C-return) 'ctl-RET-prefix)
 
-(defvar *max-ret-shells* 5)
+(defvar *max-ret-shells* 9)
 (loop for x from 0 to *max-ret-shells* do 
       (eval
        `(define-key ctl-RET-map ,(format "%d" x)
