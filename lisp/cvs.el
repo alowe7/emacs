@@ -1,5 +1,5 @@
 (put 'cvs 'rcsid 
- "$Id: cvs.el,v 1.4 2001-04-07 20:08:01 cvs Exp $")
+ "$Id: cvs.el,v 1.5 2001-04-08 14:41:04 cvs Exp $")
 (provide 'cvs)
 
 (defvar *cvs-commands*
@@ -46,4 +46,33 @@
     )
   )
 
+(setq favorite-cvspservers '(("cvs@kim.technology-x.com") ("cvs@kim")))
 
+
+(defun cvsroot (arg)
+  (interactive "P")
+
+  (cond ((! (-d "CVS"))
+	 (message "error: no CVS version here"))
+	((! (-f "CVS/Root"))
+	 (message "error: no CVS/Root here"))
+	(arg
+	 (let* ((cvsroot 
+		 (apply 'vector (split (read-file "CVS/Root") ":")))
+		(newroot
+		 (completing-read
+		  (format "new root [%s]: " (aref cvsroot 2))
+		  favorite-cvspservers nil t "cvs@")))
+
+	   (if (string* newroot)
+	       (progn
+		 (aset cvsroot 2 newroot)
+		 (write-region (join cvsroot ":") nil "CVS/Root"))
+	     (message (join cvsroot ":")))
+	   )
+	 )
+	    
+	(t
+	 (message (read-file "CVS/Root")))
+	)
+  )
