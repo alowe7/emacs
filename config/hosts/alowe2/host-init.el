@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.1 2001-03-06 12:46:10 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.2 2001-05-18 12:15:34 cvs Exp $")
 
 ;(default-font "lucida console" nil 22)
 
@@ -20,3 +20,6 @@
 ;; (require 'xz-loads)
 
 ;; (global-set-key "n" 'x-note)
+
+(require 'gnuserv)
+(gnuserv-start)
