@@ -1,6 +1,6 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.20 2001-09-10 22:37:10 cvs Exp $")
-;(require 'nums)
+ "$Id: keys.el,v 1.21 2001-10-16 02:38:35 cvs Exp $")
+(require 'nums)
 
 ;; all key bindings
 
