@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.34 2003-04-15 16:32:15 cvs Exp $")
+ "$Id: keys.el,v 1.35 2003-05-14 18:26:30 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -144,8 +144,6 @@
 (global-set-key (vector '\M-down) 'scroll-down-1)
 (global-set-key (vector '\M-up) 'scroll-up-1)
 ;; (global-set-key "à" 'next-error)
-(global-set-key (vector '\M-next) '(lambda () (interactive) (if (> (count-windows) 1) (call-interactively 'scroll-other-window) (call-interactively 'bury-buffer))))
-(global-set-key (vector '\M-prior) '(lambda () (interactive) (if (> (count-windows) 1) (call-interactively 'scroll-other-window-down) (switch-to-buffer (car (last (buffer-list)))))))
 
 ;;(define-key ctl-x-4-map "s" 'fileness)
 ;;(define-key ctl-x-4-map "w" 'wordness)
@@ -193,9 +191,33 @@
 
 (global-set-key "\M-;" (quote eval-expression))
 
-; these are broken...
-(global-set-key "\M-n" '(lambda () (interactive) (let* ((l (real-buffer-list)) (b (pop l))) (switch-to-buffer b))))
-(global-set-key "\M-p" '(lambda () (interactive) (let* ((l (real-buffer-list t)) (b (pop l))) (switch-to-buffer b))))
+(defun unbury-buffer () (interactive) 
+  (unless (member last-command '(unbury-buffer bury-buffer-1))
+    (setq *buffer-list-vector* (apply 'vector (real-buffer-list))
+	  *buffer-list-vector-length* (length *buffer-list-vector*)
+	  *buffer-list-vector-index* 0))
+  (let ((next (% (1+ *buffer-list-vector-index*) (length *buffer-list-vector*))))
+    (switch-to-buffer (aref *buffer-list-vector* next))
+    (setq *buffer-list-vector-index* next)
+    )
+  )
+
+(defun bury-buffer-1 () (interactive) 
+  (unless (member last-command '(unbury-buffer bury-buffer-1))
+    (setq *buffer-list-vector* (apply 'vector (real-buffer-list))
+	  *buffer-list-vector-length* (length *buffer-list-vector*)
+	  *buffer-list-vector-index* 0))
+  (let ((next (max (1- *buffer-list-vector-index*) 0)))
+    (switch-to-buffer (aref *buffer-list-vector* next))
+    (setq *buffer-list-vector-index* next)
+    )
+  )
+
+(global-set-key (vector '\M-prior) 'bury-buffer-1)
+(global-set-key (vector '\M-next) 'unbury-buffer)
+
+;(global-set-key "\M-n" '(lambda () (interactive) (let* ((l (real-buffer-list)) (b (pop l))) (switch-to-buffer b))))
+;(global-set-key "\M-p" '(lambda () (interactive) (let* ((l (real-buffer-list t)) (b (pop l))) (switch-to-buffer b))))
 
 (unless (fboundp 'alt-SPC-prefix) 
     (define-prefix-command 'alt-SPC-prefix))
@@ -207,7 +229,6 @@
 
 (define-key alt-SPC-map " " 'roll-buffer-list)
 (define-key ctl-x-map " " 'roll-buffer-list)
-(define-key alt-SPC-map "\C-m" '(lambda (arg) (interactive "P") (switch-to-buffer (nth (or arg 0) (real-buffer-list nil)))))
 (define-key alt-SPC-map "n" 'iconify-frame)
 (define-key alt-SPC-map "o" 'roll-buffer-mode)
 (define-key alt-SPC-map "l" 'roll-buffer-like)
