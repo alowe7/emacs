@@ -1,5 +1,5 @@
 (put 'calc-loads 'rcsid 
- "$Id: calc-loads.el,v 1.6 2001-04-27 11:37:59 cvs Exp $")
+ "$Id: calc-loads.el,v 1.7 2001-09-02 22:47:06 cvs Exp $")
 (provide 'calc-loads)
 (defvar var-TimeZone '(+ (var GMT var-GMT) 6))
 ;;; Variable "var-Holidays" stored by Calc on Mon May 11 20:57:43 1998
@@ -21,6 +21,7 @@
 (autoload 'calc-embedded-activate  "calc" "Activate =>'s in buffer" t)
 (autoload 'calc-grab-region	   "calc" "Grab region of Calc data" t)
 (autoload 'calc-grab-rectangle	   "calc" "Grab rectangle of data" t)
-(setq load-path (nconc load-path (list "c:/usr/share/emacs/site-lisp/calc-2.02f")))
+(add-to-list 'load-path
+	     (expand-file-name (concat (getenv "USERDRIVE") "/usr/share/emacs/site-lisp/calc-2.02f")))
 (global-set-key "\e#" 'calc-dispatch)
 ;;; End of Calc autoloads.

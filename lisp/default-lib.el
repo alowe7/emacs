@@ -1,5 +1,5 @@
 (put 'default-lib 'rcsid 
- "$Id: default-lib.el,v 1.8 2001-07-10 08:17:17 cvs Exp $")
+ "$Id: default-lib.el,v 1.9 2001-09-02 22:47:06 cvs Exp $")
 
 (defun buffer-exists-p (bname)
   " return buffer with specified NAME or nil"
@@ -90,3 +90,12 @@
   "insert value of environment variable V"
   (interactive "svar: ")
   (insert (getenv v)))
+
+(defun unset (v)
+  "remove environment variable V from `process-environment'
+does not affect currently running environment"
+  (interactive "svar: ")
+  (loop for x in process-environment
+	unless (string= (car (split (car process-environment) "=")) "POSIXLY_CORRECT")
+	collect x )
+  )
