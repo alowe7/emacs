@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.28 2003-02-12 22:59:36 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.29 2003-03-05 22:59:02 cvs Exp $")
 
 (setq default-frame-alist
       '((width . 102)
@@ -88,3 +88,7 @@
 (load-library "post-man")
 
 (setq grep-command "grep -n -i -e ")
+
+(setq font-lock-support-mode 'lazy-lock-mode)
+
+(add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))

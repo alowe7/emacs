@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.24 2002-09-17 17:55:53 cvs Exp $")
+ "$Id: default.el,v 1.25 2003-03-05 22:59:02 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -104,8 +104,9 @@
 (add-hook 'emacs-lisp-mode-hook '(lambda ()
 				   (modify-syntax-entry ?- "w")
 				   (modify-syntax-entry ?* "w")
-;				   (set-tabs 2)
+  ;				   (set-tabs 2)
 				   (setq comment-column 2)
+				   (lazy-lock-mode)
 				   ) 
 	  t)
 

@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.7 2003-03-03 14:55:55 cvs Exp $")
+ "$Id: W32.el,v 1.8 2003-03-05 22:59:02 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -279,6 +279,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 
 (global-set-key (vector -8388595) 'cmd)
 
+(global-set-key (vector 'f9) '(lambda () (interactive) (switch-to-buffer (symbol-name (gensym "tmp")))))
 (global-set-key (vector 'f10) 'ewn)
 (global-set-key (vector 'f11) 'ewd)
 (global-set-key (vector 'f12) 'md)

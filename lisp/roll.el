@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.15 2002-11-22 17:02:12 cvs Exp $")
+ "$Id: roll.el,v 1.16 2003-03-05 22:59:02 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -184,6 +184,27 @@ with optional ARG, returns in reverse order
   ;skip killed buffers & those whose name begins with a space
       (and bn (> (length bn) 0) (not (eq ?  (aref bn 0))) (push x val)))
     val))
+
+(defun* buffer-list-2 (&key mode named in modified notmodified withpat)
+  ; (assert (or (not (or modified notmodified)) (not (and modified notmodified))))
+
+  (loop for x being the buffers
+	when
+	(or (and mode
+		 (eq (progn (set-buffer x) major-mode) mode))
+	    (and named
+		 (string-match named (buffer-name x)))
+	    (and in
+		 (let ((d (if (buffer-file-name x) (buffer-file-name x) (save-excursion (set-buffer x) default-directory))))
+		   (and d (string-match in d))))
+	    (and modified
+		 (buffer-modified-p x))
+	    (and notmodified
+		 (not (buffer-modified-p x)))
+	    (and withpat
+		 (string-match withpat (save-excursion (set-buffer x) (buffer-string)))))
+	collect x)
+  )
 
 (defun roll-buffer-list (&optional l) 
   "roll visible buffers.  if optional LIST is specified, use that as the list of buffers to roll"
