@@ -9,10 +9,21 @@ my($sysname, $nodename, $release, $version, $machine) = uname();
 $sysname="W32" unless ($sysname cmp "Windows NT");
 
 # XXX this reflects config.el paths.  should just ask it to tell me, or let emacs compute it.
-$cmd="emacs --batch --eval \"(message (format \\\"%d.%d\\\" emacs-major-version emacs-minor-version))\"";
+
+if (defined $ENV{EMACSPATH}) {
+    $emacs= $ENV{EMACSPATH} . "/emacs";
+}
+else {
+    $emacs=`which emacs`;
+}
+
+
+# die "you lose" unless (-x $emacs);
+
+$cmd="$emacs --batch --eval \"(message (format \\\"%d.%d\\\" emacs-major-version emacs-minor-version))\"";
 $emacscfg=`$cmd 2>&1`;
 chomp $emacscfg;
-$cmd="find ./config -type f -name \"*.el\" -a \\( -path \"*$sysname*\" -o -path \"*$hostname*\" -o -path \"*$emacscfg*\" \\)";
+$cmd="find ./config -type f -name \"*.el\" -a \\( -path \"*$sysname*\" -o -path \"*/$hostname/*\" -o -path \"*$emacscfg*\" \\)";
 map {print} (`$cmd`);
 
 
