@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.17 2001-01-22 18:48:30 cvs Exp $")
+ "$Id: fb.el,v 1.18 2001-01-22 20:55:23 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -14,7 +14,12 @@
 
 (defvar *fastfind-buffer* "*ff*")
 
-(defconst *fb-db* 
+(defconst *default-fb-db* 
+  (or (getenv "FBDB")
+      "/var/spool/f")
+  "cache of working file list.")
+
+(defvar *fb-db* 
   (or (getenv "FBDB")
       "/var/spool/f")
   "cache of working file list.")
@@ -32,9 +37,10 @@
 ;; these add qsave capability to fb-search buffer
 (defvar *find-file-query* nil)
 (defun find-file-save-search ()
-  (qsave-search (current-buffer) *find-file-query*)
+  (qsave-search (current-buffer) *find-file-query* default-directory)
   )
-(defvar after-find-person-hook nil)
+
+(defvar after-find-file-hook nil)
 (add-hook 'after-find-file-hook 'find-file-save-search)
 
 (defun fb-match-file (pat &optional direction)
@@ -275,12 +281,12 @@ w		fb-w3-file
 		     (define-key  fb-mode-map "p" 
 		       '(lambda () 
 			  (interactive)
-			  (previous-qsave-search (current-buffer))))
+			  (cd (previous-qsave-search (current-buffer)))))
 
 		     (define-key  fb-mode-map "n" 
 		       '(lambda ()
 			  (interactive)
-			  (next-qsave-search (current-buffer))))
+			  (cd (next-qsave-search (current-buffer)))))
 
 		     (define-key fb-mode-map "i" 'fb-file-info)
 		     )
@@ -389,15 +395,24 @@ all other patterns (e.g. \"foo*\") remain unchanged.
 with prefix arg, prompt for *fb-db* to use"
 
   (interactive "P")
-  (let* ((b (zap-buffer *fastfind-buffer*))
-	 (*fb-db* *fb-db*) 
+  (let* ((top "/")
+	 (b (zap-buffer *fastfind-buffer*))
+  ;	 (*fb-db* *fb-db*) 
 	 (pat 
 	  (progn
 	    (if (and (listp args) (numberp (car args)))
 		;; given prefix arg, read *fb-db*
-		(setq *fb-db* (expand-file-name
-			       (read-file-name "db: " "" nil nil *fb-db*)
-			       )))
+		(setq *fb-db* (read-file-name "db: " "" nil nil *fb-db*)
+		      ))
+	    (if (= (length *fb-db*) 0)
+		(progn
+		  (setq *fb-db* *default-fb-db*)
+		  (setq top "/"))
+	      (progn 
+		(if (file-directory-p *fb-db*)
+		    (setq *fb-db* (concat *fb-db* "/f")))
+		(setq top (file-name-directory *fb-db*)))
+	      )
 	    (read-string "pat: ")
 	    )))
 
@@ -408,11 +423,12 @@ with prefix arg, prompt for *fb-db* to use"
     (call-process "egrep" nil
 		  b
 		  nil
-		  "-i" pat *fb-db*)
+		  "-i" pat (expand-file-name
+			    *fb-db*))
 
     (set-buffer b)
     (beginning-of-buffer)
-    (cd "/")
+    (cd top)
     (fb-mode)
 
     (run-hooks 'after-find-file-hook)
