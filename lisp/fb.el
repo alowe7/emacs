@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.10 2000-10-17 20:53:11 cvs Exp $")
+ "$Id: fb.el,v 1.11 2000-10-17 21:01:27 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -374,6 +374,7 @@ w		fb-w3-file
     (set-buffer b1)
     (sort-lines nil (point-min) (point-max))
     (write-file fn1)
+    (kill-buffer b1)
 
     (call-process "egrep" nil
 		  b2
@@ -382,6 +383,7 @@ w		fb-w3-file
     (sort-lines nil (point-min) (point-max))
     (set-buffer b2)
     (write-file fn2)
+    (kill-buffer b2)
 
     (call-process "join" nil
 		  b
