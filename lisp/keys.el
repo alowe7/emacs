@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.21 2001-10-16 02:38:35 cvs Exp $")
+ "$Id: keys.el,v 1.22 2001-10-25 22:27:20 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -84,7 +84,7 @@
 (global-set-key "g" 'grep)
 (global-set-key "h" 'howto)
 (global-set-key "l" 'move-to-window-line)
-(global-set-key "m" 'chmod)
+(global-set-key "m" '(lambda (dir) (interactive "screate dir: ") (shell-command (format "mkdir %s" dir)) (and (eq major-mode 'dired-mode) (revert-buffer))))
 (global-set-key "n" 'note)
 ; (global-set-key "r" 'vm)
 (global-set-key "r" 'rmail)
@@ -207,10 +207,11 @@
 (define-key ctl-x-map " " 'roll-buffer-list)
 (define-key alt-SPC-map "\C-m" '(lambda (arg) (interactive "P") (switch-to-buffer (nth (or arg 0) (real-buffer-list nil)))))
 (define-key alt-SPC-map "m" 'iconify-frame)
-(define-key alt-SPC-map "n" 'roll-buffers-named)
-(define-key alt-SPC-map "/" 'roll-buffers-with)
-(define-key alt-SPC-map "l" 'roll-buffer-like)
 (define-key alt-SPC-map "o" 'roll-buffer-mode)
+(define-key alt-SPC-map "l" 'roll-buffer-like)
+(define-key alt-SPC-map "n" 'roll-buffer-named)
+(define-key alt-SPC-map "/" 'roll-buffer-with)
+(define-key alt-SPC-map "" 'roll-buffer-no-files)
 (define-key alt-SPC-map " " 'roll-server-clients)
 
 (global-set-key (vector '\C-tab) 'set-tabs)

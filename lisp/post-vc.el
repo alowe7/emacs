@@ -1,5 +1,5 @@
 (put 'post-vc 'rcsid
- "$Id: post-vc.el,v 1.4 2001-08-28 22:11:39 cvs Exp $")
+ "$Id: post-vc.el,v 1.5 2001-10-25 22:27:20 cvs Exp $")
 
 (defun identify () 
   "insert a sccs ID string at head of file."
@@ -19,3 +19,18 @@
     (message (or id "no rcsid"))
     )
   )
+
+(require 'advice)
+
+(defadvice vc-diff (after 
+		    hook-vc-diff
+		    first activate)
+  ""
+
+  (turn-on-lazy-lock)
+  (setq tab-width 4)
+  (recenter)
+  )
+
+; (ad-is-advised 'vc-diff)
+; (ad-unadvise 'vc-diff)

@@ -1,5 +1,5 @@
 (put 'post-xz-loads 'rcsid 
- "$Id: post-xz-loads.el,v 1.8 2001-09-08 20:50:36 cvs Exp $")
+ "$Id: post-xz-loads.el,v 1.9 2001-10-25 22:27:20 cvs Exp $")
 
 (define-key xz-map "" 
   '(lambda (string) (interactive (list (complete-indicated-word "goto function definition (%s): " obarray)))
@@ -18,6 +18,7 @@
 
 (add-hook 'xz-load-hook '(lambda () 
 			   (load-library "xz-helpers.el")
-			   (define-key xz-mode-map "f" 'xz-goto-hits)))
-
-
+			   (define-key xz-mode-map "f" 'xz-goto-hits)
+			   (define-key xz-mode-map "p" 'previous-xz-search)
+			   (define-key xz-mode-map "n" 'next-xz-search)
+			   ))

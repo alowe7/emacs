@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.18 2001-09-03 23:25:38 cvs Exp $
+# $Id: Makefile,v 1.19 2001-10-25 22:27:20 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
@@ -23,12 +23,12 @@ ETAGS=etags
 
 all: .autoloads
 
-.autoloads: $(SOURCES) $(CONFIGS)
-	@./make-autoloads $(SOURCES) $(CONFIGS) $(SITE_LISP) > .autoloads
+.autoloads: $(SOURCES) $(CONFIGS) $(SITE_LISP)
+	@./make-autoloads $^ > .autoloads
 	@echo .autoloads rebuilt
 
-.xz.dat: $(SOURCES) $(CONFIGS) $(SITE_LISP)
-	$(XZ) $(XZFLAGS) -ywqn $(SOURCES) $(CONFIGS) $(SITE_LISP)
+.xz.dat: $(SOURCES) $(CONFIGS) $(SITE_LISP) ~/.emacs
+	$(XZ) $(XZFLAGS) -ywqn $^
 	@echo .xz.dat rebuilt
 
 .emacs.dat: 
@@ -36,7 +36,7 @@ all: .autoloads
 	@echo .emacs.dat rebuilt
 
 TAGS: $(SOURCES) $(CONFIGS)
-	$(ETAGS) $(SOURCES) $(CONFIGS)
+	$(ETAGS) $^
 
 clean:
 	rm -f .xz.dat TAGS .autoloads

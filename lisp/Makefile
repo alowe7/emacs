@@ -1,7 +1,7 @@
-# $Id: Makefile,v 1.3 2000-07-30 21:07:44 andy Exp $
+# $Id: Makefile,v 1.4 2001-10-25 22:27:20 cvs Exp $
 
 SHELL=/bin/sh
-EMACS=emacs
+EMACS=$(EMACS_DIR)/bin/emacs
 
 #SOURCES=$(shell -c ls -t *.el)
 SOURCES=*.el

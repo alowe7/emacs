@@ -1,5 +1,5 @@
 (put 'buffers 'rcsid 
- "$Id: buffers.el,v 1.8 2001-09-08 20:50:36 cvs Exp $")
+ "$Id: buffers.el,v 1.9 2001-10-25 22:27:20 cvs Exp $")
 
 ;; walk mru list of buffers
 
@@ -37,10 +37,19 @@ when called interactively, displays a pretty list"
   )
 
 (defun buffer-list-with (pat)
+"list buffers with contents matching PAT"
   (loop for x in (real-buffer-list nil)
 	when (string-match pat (save-excursion (set-buffer x) (buffer-string)))
 	collect x )
   )
+
+(defun buffer-list-in (pat)
+  "list buffers with files matching PAT" 
+  (loop for x in (real-buffer-list nil)
+	when (and (buffer-file-name x) (string-match pat (buffer-file-name x)))
+	collect x )
+  )
+
 (defun buffer-list-modified (&optional arg)
   "list buffers that are modified.  with optional ARG, restrict to only buffers with files"
   (loop for x in (real-buffer-list) when (and (buffer-modified-p x) (or (not arg) (buffer-file-name x)) ) collect x)

@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.17 2001-09-28 22:15:35 cvs Exp $")
+ "$Id: os-init.el,v 1.18 2001-10-25 22:27:20 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 (setq doc-directory data-directory)
@@ -119,13 +119,12 @@ host must respond within optional TIMEOUT msec"
 
 (setq mount-hook-file-commands '(cd dired find-file-noselect file-exists-p))
 
-(defun mount-unhook-file-commands ()
+(defun unmount-unhook-file-commands ()
   (loop for x in mount-hook-file-commands do
 	(eval `(if (ad-is-advised (quote ,x)) (ad-unadvise (quote ,x))))))
 
-
 (defun mount-hook-file-commands ()
-  (mount-unhook-file-commands)
+  (unmount-unhook-file-commands)
   (loop for x in mount-hook-file-commands do
 	(let ((hook-name (intern (concat "hook-" (symbol-name x)))))
 	  (eval `(defadvice ,x (around ,hook-name first activate) 
@@ -145,8 +144,8 @@ host must respond within optional TIMEOUT msec"
 	)
   )
 
+; this is best done in host-init
 ; (mount-hook-file-commands)
-
 
 
 ; xxx todo: catch shell command w <world> for shell-cd
