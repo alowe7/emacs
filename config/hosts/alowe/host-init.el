@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.14 2002-02-27 21:18:05 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.15 2002-03-08 18:50:22 cvs Exp $")
 
 (setq default-frame-alist
       '((top + -4)
@@ -22,6 +22,12 @@
 
 (setq initial-frame-alist default-frame-alist)
 
+(add-hook 'xz-load-hook 
+	  '(lambda ()
+	     (mapcar
+	      '(lambda (x) (load x t t)) 
+		     '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
+
 (defvar *people-database* '("~/n/people") "list of contact files")
 
 (display-time)
@@ -42,3 +48,5 @@
 (require 'gnuserv)
 
 (mount-hook-file-commands)
+
+(defvar grep-command "grep -n -i -e ")
