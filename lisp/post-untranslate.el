@@ -1,9 +1,10 @@
 (put 'post-untranslate 'rcsid 
- "$Id: post-untranslate.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: post-untranslate.el,v 1.6 2001-07-11 18:10:01 cvs Exp $")
 
 (defun fix-dos-file ()
   (interactive)
   (save-excursion
+    (goto-char (point-min))
     (while
         (search-forward "\C-m" nil t)
       (backward-delete-char 1)
