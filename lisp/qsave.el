@@ -1,5 +1,5 @@
 (put 'qsave 'rcsid
-     "$Id: qsave.el,v 1.4 2003-09-23 16:01:43 cvs Exp $")
+     "$Id: qsave.el,v 1.5 2005-02-23 00:44:42 cvs Exp $")
 
 ;; by Andy Lowe (c) 1993, 1994, 1995, 1996, 1997, 1998
 
@@ -77,7 +77,7 @@ returns newly current cell data, if any
 		      (x (nth (1- j) v)))
 		 (erase-buffer)
 		 (insert (qsave-cell-contents x))
-		 (setq mode-line-buffer-identification (qsave-cell-label x))
+		 (setq mode-line-buffer-identification (pp (qsave-cell-label x)))
 		 (set-window-start (display-buffer (current-buffer)) 1)
 		 (setq mode-line-process (format " %d/%d" j j))
 		 (put a 'qsaved-index j)
@@ -115,7 +115,8 @@ into internal stack"
       ;; now looking at most recent one
       (put a 'qsaved-index 0)
       (setq mode-line-process (format " %d/%d" (length v) (length v)))
-      (setq mode-line-buffer-identification l)
+      ;; ensure mode-line-buffer-identification is a string
+      (setq mode-line-buffer-identification (pp l))
       )
     )
   )
@@ -142,7 +143,7 @@ returns data on cell, if any.
 	    (erase-buffer)
 	    (insert (qsave-cell-contents x))
 	    (goto-char (qsave-cell-point x))
-	    (setq mode-line-buffer-identification (qsave-cell-label x))
+	    (setq mode-line-buffer-identification (pp (qsave-cell-label x)))
 	    (set-window-start (display-buffer (current-buffer)) 1)
 	    (setq mode-line-process (format " %d/%d" (- len j) len))
 	    (put a 'qsaved-index j)
@@ -177,7 +178,7 @@ returns data on cell, if any.
 	    (erase-buffer)
 	    (insert (qsave-cell-contents x))
 	    (goto-char (qsave-cell-point x))
-	    (setq mode-line-buffer-identification (qsave-cell-label x))
+	    (setq mode-line-buffer-identification (pp (qsave-cell-label x)))
 	    (set-window-start (display-buffer (current-buffer)) 1)
 	    (setq mode-line-process (format " %d/%d" (- len j) len))
 	    (put a 'qsaved-index j)

@@ -1,5 +1,5 @@
 (put 'xa 'rcsid
- "$Id: xa.el,v 1.4 2004-10-12 21:26:35 cvs Exp $")
+ "$Id: xa.el,v 1.5 2005-02-23 00:44:42 cvs Exp $")
 
 (define-derived-mode xa-mode fundamental-mode "xa" "")
 
@@ -9,7 +9,7 @@ giving optional PROMPT
 return the bufferstring"
 
   (condition-case v
-      (let ((b (or buffer (get-buffer-create "*j*"))) 
+      (let ((b (or buffer (get-buffer-create "*edit new entry*"))) 
 	    s)
 	(save-excursion
 	  (if (catch 'done

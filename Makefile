@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.36 2004-12-10 18:15:17 cvs Exp $
+# $Id: Makefile,v 1.37 2005-02-23 00:44:42 cvs Exp $
 
 SHELL=/bin/sh
 
@@ -53,10 +53,8 @@ TAGS: $(SOURCES) $(CONFIGS)
 clean:
 	rm -f .xz.dat TAGS .autoloads
 
-ship: $(LOCALBIN)/make-autoloads
-
-$(LOCALBIN)/make-autoloads: make-autoloads
-	$(INSTALL) -m 555 $^ $(LOCALBIN)
+ship: FORCE
+	$(INSTALL) -m 555 make-autoloads $(LOCALBIN)
 
 compile:
 	$(shell cd lisp; $(EMACS) --batch --load ~/emacs/lisp/byte-compile-directory.el)
