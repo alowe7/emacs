@@ -1,5 +1,5 @@
 (put 'post-cc-mode 'rcsid 
- "$Id: post-cc-mode.el,v 1.13 2004-03-06 20:31:33 cvs Exp $")
+ "$Id: post-cc-mode.el,v 1.14 2004-03-11 19:01:02 cvs Exp $")
 
 (defun narrow-to-fn ()
   " narrow to region surrounding current function"
@@ -125,4 +125,8 @@ The expansion is entirely correct because it uses the C preprocessor."
 	     )
 	  )
 
-(require 'post-java-mode)
+; tolerate errors
+(condition-case e
+    (require 'post-java-mode)
+  (error nil)
+  )

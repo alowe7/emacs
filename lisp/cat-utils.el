@@ -1,8 +1,8 @@
 (put 'cat-utils 'rcsid
- "$Id: cat-utils.el,v 1.3 2004-02-03 19:36:21 cvs Exp $")
+ "$Id: cat-utils.el,v 1.4 2004-03-11 19:01:01 cvs Exp $")
 ;; utilities for converting between strings and lists or vectors of strings
 
-(provide 'cat-utils)
+(require 'cl)
 
 ;;; todo generalize this by adding fn to apply
 (defun catvectorint (s &optional c)
@@ -207,3 +207,5 @@ default is ':'
 	 (substring s 0 -1))
 	(t s))
   )
+
+(provide 'cat-utils)

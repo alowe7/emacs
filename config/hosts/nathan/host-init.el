@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.4 2004-02-07 20:38:39 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.5 2004-03-11 19:01:01 cvs Exp $")
 
 (setq default-frame-alist
       '((top + 80)
@@ -30,7 +30,6 @@
 (add-hook 'xz-load-hook '(lambda () 
 			   (xz-squish 2)
 			   (setq *xz-lastdb* "~/emacs/.xz.dat")
-			   (load-library "xz-helpers")
 			   )
 	  )
 
@@ -64,3 +63,7 @@
 	      )
 	)
   )
+
+(let ((dir "D:/usr/local/lib/emacs-21.3/bin"))
+(and (y-or-n-p (format "set exec dir (%s) to %s?" exec-directory dir))
+     (setq exec-directory	dir)))
