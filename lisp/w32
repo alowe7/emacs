@@ -1,5 +1,5 @@
 (put 'w32 'rcsid 
- "$Id: w32,v 1.1 2000-11-20 01:56:42 cvs Exp $")
+ "$Id: w32,v 1.2 2000-12-14 15:04:08 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -111,13 +111,18 @@ letter drive names.
     )
   )
 
+(defun gsn (f) 
+  "get short name for f"
+  (clean-string (eval-process "gsn" f))
+  )
 
 (defvar explore-hooks nil "hooks to run after exploring a directory")
 
 (defun explore (&optional f)  (interactive "P")
   (let ((root *systemroot*)
-	(f (w32-canonify (string* f (string* (read-string "Directory: ") (pwd)))) 
+	(f (gsn (w32-canonify (string* f (string* (read-string "Directory: ") (pwd))))) 
 	   ))
+
     (call-process 
      (concat root "\\system32\\cmd") nil nil nil "/c" 
      (concat root "\\explorer ") f)
