@@ -1,3 +1,6 @@
+(put 'pre-xdb 'rcsid
+ "$Id: pre-xdb.el,v 1.8 2004-04-15 19:34:12 cvs Exp $")
+
 ;; this is so wrong
 
 (defun remove2* (item seq)

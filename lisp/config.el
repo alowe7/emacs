@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.29 2004-04-08 01:27:25 cvs Exp $")
+ "$Id: config.el,v 1.30 2004-04-15 19:34:12 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -35,11 +35,18 @@
 
 (defvar *disable-load-hook* nil)
 
+; (defvar *debug-config-list* '(xdb))
+(defvar *debug-config-list* nil
+  "list of atoms or strings representing names of functions to trap on pre- or post- load
+specify string to trap an explicit load, specify an atom to trap a require") 
+
 (defun loadp (prefix file)
   (let* ((f0 (file-name-nondirectory (format "%s" file)))
 	 (f1 (format "%s%s" prefix f0))
 	 (f2 (loop for x in load-path thereis (if (file-exists-p (format "%s/%s.el" x f1)) (format "%s/%s.el" x f1)))))
-;    (debug)
+    (if (and (atom file) (member file *debug-config-list*))
+	(debug)
+      )
     (and f2 (load f2 t t)))
   )
 

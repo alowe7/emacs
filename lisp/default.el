@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.37 2004-03-27 22:26:53 cvs Exp $")
+ "$Id: default.el,v 1.38 2004-04-15 19:34:12 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -12,6 +12,8 @@
 (setq horizontal-scroll-delta 20)
 
 (fset 'html-mode 'sgml-mode)
+
+(autoload 'css-mode "css-mode")
 
 ;; sort in order of decreasing frequency
 (setq auto-mode-alist '(
@@ -82,6 +84,7 @@
 			("\\.lisp$" . lisp-mode)
 			("\\.f$" . fortran-mode)
 			("\\.mss$" . scribe-mode)
+			("\\.css\\'" . css-mode)
 			))
 
 ;;(add-auto-mode "\\.sh$" 'shell-mode)
