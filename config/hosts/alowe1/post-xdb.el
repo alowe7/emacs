@@ -28,8 +28,7 @@
 (if (service "mysqls")
   ; we're tunneling mysql access, so use localhost
     (progn
-      (add-txdb-option "-p" (*service-port* "mysqls"))
-      (add-txdb-option "-h" "localhost")
+      (add-txdb-option "-h" (concat "localhost" ":" (*service-port* "mysqls")))
       (message (chomp (pp *txdb-options*)))
       (sit-for 2)
       (message "")

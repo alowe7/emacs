@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.18 2002-12-28 01:10:13 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.19 2003-11-24 21:50:38 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -89,11 +89,8 @@
 
 ; do a perl debug
 
-(defvar saved-comint-prompt-regexp nil)
-
-(defun pd () (interactive)
-  (push comint-prompt-regexp saved-comint-prompt-regexp) 
-  (setq comint-prompt-regexp "^\\([ ]*[a-zA-Z]*<[0-9]*>\\) *")
+(defun perl-debug () (interactive)
+  (setq shell-prompt-pattern "^\\([ ]*[a-zA-Z]*<[0-9]*>\\) *")
   )
 
 ;(pod2text "/usr/local/lib/perl/site/lib/Netscape/History.pm")

@@ -1,11 +1,11 @@
 (put 'fx 'rcsid
- "$Id: fx.el,v 1.5 2002-09-19 22:17:55 cvs Exp $")
+ "$Id: fx.el,v 1.6 2003-11-24 21:50:38 cvs Exp $")
 
 (require 'cat-utils)
 (require 'xdb)
 
 (defvar *fx-host* "localhost")
-(defvar *fx-db* "fx")
+(defvar *fx-db* "a@fx")
 
 (defun fx (pat)
 "find files using db"

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.13 2003-11-17 21:38:52 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.14 2003-11-24 21:50:38 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 100)
@@ -76,7 +76,8 @@
 
 ; this is so wrong...
 ; (scan-file-p "~/.xdbrc")
-(setq *txdb-options*  '("-b" "x" "-h" "kim.alowe.com"))
+(setq *txdb-options* '("-b" "a/q-1pzl@x" "-h" "localhost:13306"))
+
 (add-hook 'xdb-init-hook 'xdb-login)
 
 (if (and (not (evilnat)) 
@@ -95,14 +96,9 @@
 (require 'gnuserv)
 (display-time)
 
-(setq comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *")
-(make-variable-buffer-local 'comint-prompt-regexp)
-(set-default 'comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *")
-
-(defun comint-mode-hook () 
-  (setq comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *")
-  )
-(defvar comint-mode-hook 'comint-mode-hook)
+(make-variable-buffer-local 'shell-prompt-pattern)
+(set-default 'shell-prompt-pattern
+	     (set 'shell-prompt-pattern "^[a-zA-Z0-9]+[>$%] *"))
 
 (setq *default-swordfile* "~/.private/bj")
 

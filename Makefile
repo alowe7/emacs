@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.27 2003-11-07 21:53:22 cvs Exp $
+# $Id: Makefile,v 1.28 2003-11-24 21:50:38 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
@@ -35,7 +35,7 @@ all: .autoloads
 	@echo .xz.dat rebuilt
 
 .emacs.dat: 
-	@$(XZ) $(XZFLAGS) -a -ywqn -f$@  < $(shell find /usr/local/lib/emacs-20.7/lisp  -type f -name "*.el")
+	@$(XZ) $(XZFLAGS) -a -ywqn -f$@  < $(shell find $EMACS_DIR/lisp  -type f -name "*.el")
 	@echo .emacs.dat rebuilt
 
 TAGS: $(SOURCES) $(CONFIGS)

@@ -15,10 +15,14 @@
 ;; todo: (unless (member "-s" *txdb-options* ) ...
 ;; todo: this should be an assoc of some kind to override duplicates
 
+(defun remove-txdb-option (option)
+  (setq *txdb-options* (remove2* option *txdb-options*))
+  )
+
 (defun add-txdb-option (option value)
   (cond ((not (string* value)) 
-	 ; no value means remove it
-	 (setq *txdb-options* (remove2* "-s" *txdb-options*)))
+  ; no value means remove it
+	 (remove-txdb-option option))
 	((not (member option *txdb-options*))
   ; not already there
 	 (setq *txdb-options* 
