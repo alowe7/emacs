@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.22 2002-02-25 23:24:53 cvs Exp $")
+ "$Id: w32,v 1.23 2002-03-13 18:54:48 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -182,16 +182,10 @@ if MIXED is 0, then ignore letter drive names.
 
 (defvar explore-hooks nil "hooks to run after exploring a directory")
 
-(defun explore (&optional f)  (interactive "P")
-  (let ((root *systemroot*)
-	(f (gsn (w32-canonify (string* f (string* (read-string "Directory: ") (pwd))))) 
-	   ))
-
-    (call-process 
-     (concat root "\\system32\\cmd") nil nil nil "/c" 
-     (concat root "\\explorer ") f)
-     (run-hooks 'explore-hooks)
-     )
+(defun explore (&optional f)  
+  (interactive "P")
+  (start-process (format "*explorer %s*" f) nil "explorer" (w32-canonify f))
+  (run-hooks 'explore-hooks)
   )
 
 (defun arun (f) (interactive "sCommand: ")
