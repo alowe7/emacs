@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.4 2001-07-09 16:18:16 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.5 2001-07-17 11:14:19 cvs Exp $")
 
 ;(default-font "lucida console" nil 22)
 
@@ -17,7 +17,7 @@
 
 ;; (require 'worlds)
 
-;; (require 'xz-loads)
+(require 'xz-loads)
 
 ;; (global-set-key "n" 'x-note)
 
@@ -28,3 +28,6 @@
       (caadr (current-frame-configuration)))
 
 (lastworld)
+
+(defvar *people-database* '("~/n/people") "list of contact files")
+

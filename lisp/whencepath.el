@@ -1,5 +1,5 @@
 (put 'whencepath 'rcsid 
- "$Id: whencepath.el,v 1.6 2001-07-10 12:47:35 cvs Exp $")
+ "$Id: whencepath.el,v 1.7 2001-07-17 11:14:19 cvs Exp $")
 (require 'ksh-interpreter)
 (require 'cl)
 
@@ -56,3 +56,14 @@
   )
 
 ; (whencepath "la")
+
+(defun find-whence (cmd)
+  " find COMMAND along path"
+  (interactive "scommand: ")
+  (let ((abscmd (whencepath cmd)))
+    (if abscmd 
+	(find-file abscmd) 
+      (message "%s not found" abscmd)
+      )
+    )
+  )

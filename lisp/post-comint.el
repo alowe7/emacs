@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.9 2001-05-02 18:42:22 cvs Exp $")
+ "$Id: post-comint.el,v 1.10 2001-07-17 11:14:19 cvs Exp $")
 
 (setq comint-prompt-regexp "^[0-9a-zA-Z]*% *")
 
@@ -10,8 +10,6 @@
   (interactive)
   (insert (car (last (split (comint-previous-input-string 0)))))
   )
-
-(define-key comint-mode-map "." 'comint-last-arg)
 
 
 (unless (fboundp 'ctl-RET-prefix) 
@@ -28,3 +26,7 @@
        `(define-key ctl-RET-map ,(format "%d" x)
 	  '(lambda () (interactive) (shell2 ,x ))))
       )
+
+(define-key comint-mode-map "." 'comint-last-arg)
+(define-key comint-mode-map " 	" 'comint-dynamic-complete-filename)
+(define-key comint-mode-map "	" 'comint-dynamic-complete)

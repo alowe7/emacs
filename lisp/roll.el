@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.9 2001-04-27 11:38:00 cvs Exp $")
+ "$Id: roll.el,v 1.10 2001-07-17 11:14:19 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -162,7 +162,10 @@ calling SELECTFN to choose one
   (roll-list (list-buffers-mode major-mode) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
   )
 
-(defun get-real-buffer-list (arg)
+(defun real-buffer-list (&optional arg)
+  "returns `buffer-list' excluding killed buffers & those with names beginning with a space
+with optional ARG, returns in reverse order
+"
   (let* ((rbl (buffer-list))
 	 (bl (append (cdr rbl) (list (car rbl))))
 	 bn val x)
@@ -175,7 +178,7 @@ calling SELECTFN to choose one
 (defun roll-buffer-list (&optional l) 
   "roll visible buffers.  if optional LIST is specified, use that as the list of buffers to roll"
   (interactive)
-  (roll-list (or l (get-real-buffer-list nil)) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
+  (roll-list (or l (real-buffer-list nil)) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
   )
 
 (defun roll-buffer-list-1 (mode) 

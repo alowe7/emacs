@@ -1,6 +1,6 @@
 (put 'cvs 'rcsid 
- "$Id: cvs.el,v 1.6 2001-04-27 11:37:59 cvs Exp $")
-(provide 'cvs)
+ "$Id: cvs.el,v 1.7 2001-07-17 11:14:19 cvs Exp $")
+(require 'vc)
 
 (defvar *cvs-commands*
   '(("checkout")
@@ -36,11 +36,14 @@
 	)
 	    
 
-      (let ((b (get-buffer-create "*CVS*")))
+      (let* ((bname "*CVS*")
+	     (b (get-buffer-create bname)))
 	(shell-command (format "cvs %s %s" cmd args) b)
-	(pop-to-buffer b)
-	(beginning-of-buffer)
-	(view-mode)
+	(if (buffer-exists-p bname) 
+	    (progn (pop-to-buffer b)
+		   (beginning-of-buffer)
+		   (view-mode))
+	  (message "command produced no output"))
 	)
 
     (message nil)
@@ -90,4 +93,19 @@ non-interactive arg is a string to set it to
 
     )
   )
-; (cvsroot)]
+; (cvsroot)
+
+(defun cvs-diff-version (v)
+  (interactive "sversion: ")
+  (cvs "diff" (format "-r %s %s" v (file-name-nondirectory (buffer-file-name))))
+  )
+(define-key vc-prefix-map "1" 'cvs-diff-version) 
+
+(defun cvs-update ()
+  (interactive)
+  (cvs "update" (file-name-nondirectory (buffer-file-name)))
+  )
+(define-key vc-prefix-map "." 'cvs-update) 
+
+
+(provide 'cvs)

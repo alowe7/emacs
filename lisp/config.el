@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.12 2001-05-02 20:07:49 cvs Exp $")
+ "$Id: config.el,v 1.13 2001-07-17 11:14:19 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -15,6 +15,14 @@
 (defvar *disable-load-hook* nil)
 (defvar *debug-load-hook* nil)
 
+(defun loadp (prefix file)
+  (let* ((f0 (file-name-nondirectory (format "%s" file)))
+	 (f1 (format "%s%s" prefix f0))
+	 (f2 (loop for x in load-path thereis (if (file-exists-p (format "%s/%s.el" x f1)) (format "%s/%s.el" x f1)))))
+;    (debug)
+    (and f2 (load f2 t t)))
+  )
+
 (defadvice load (around 
 		 hook-load
 		 first 
@@ -23,8 +31,6 @@
   "hook (load f) to optionally (load pre-f) (load f) (load post-f)
 no errors if files don't exist.
  "
-  (and *debug-load-hook* (debug))
-
   (if (ad-has-enabled-advice 'load 'around)
       (progn
 	(ad-disable-advice 
@@ -37,14 +43,14 @@ no errors if files don't exist.
 
   (unless *disable-load-hook*
     (and *debug-pre-load-hook* (debug))
-    (load (concat "pre-" (ad-get-arg 0)) t t)
+    (loadp "pre-" (ad-get-arg 0))
     )
 
   ad-do-it
 
   (unless *disable-load-hook*
     (and *debug-post-load-hook* (debug))
-    (load (concat "post-" (ad-get-arg 0)) t t)
+    (loadp "post-" (ad-get-arg 0))
     )
 
   (if (and (ad-has-any-advice 'load)
@@ -84,12 +90,12 @@ no errors if files don't exist.
     (ad-activate 'require)
 
 ; 		(and *debug-require-hook* (debug))
-    (load (format "pre-%s" (ad-get-arg 0)) t t)
+    (loadp "pre-" (ad-get-arg 0))
 
     ad-do-it
 
 ; 		(and *debug-require-hook* (debug))
-    (load (format "post-%s" (ad-get-arg 0)) t t)
+    (loadp "post-" (ad-get-arg 0))
 
     (ad-enable-advice 
      'require

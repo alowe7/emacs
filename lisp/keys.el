@@ -1,6 +1,6 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.13 2001-07-03 13:06:35 cvs Exp $")
-(require 'nums)
+ "$Id: keys.el,v 1.14 2001-07-17 11:14:19 cvs Exp $")
+;(require 'nums)
 
 ;; all key bindings
 
@@ -128,20 +128,20 @@
 
 ; define standard cursor keys, etc
 
-;; (global-set-key "„" 'overwrite-mode)
-;; (global-set-key "÷" 'scroll-up)
-;; (global-set-key "’" 'scroll-down)
-;; (global-set-key "–" 'top-of-window)
-;; (global-set-key "◊" 'bottom-of-window)
-;; (global-set-key "ˇ" 'delete-char)
-;; (global-set-key "“" 'previous-line)
-;; (global-set-key "‘" 'next-line)
-;; (global-set-key "—" 'backward-char)
-;; (global-set-key "”" 'forward-char)
+;; (global-set-key "Å„" 'overwrite-mode)
+;; (global-set-key "Å÷" 'scroll-up)
+;; (global-set-key "Å’" 'scroll-down)
+;; (global-set-key "Å–" 'top-of-window)
+;; (global-set-key "Å◊" 'bottom-of-window)
+;; (global-set-key "Åˇ" 'delete-char)
+;; (global-set-key "Å“" 'previous-line)
+;; (global-set-key "Å‘" 'next-line)
+;; (global-set-key "Å—" 'backward-char)
+;; (global-set-key "Å”" 'forward-char)
 
-(global-set-key "ø" 'scroll-down-1)
-(global-set-key "Ø" 'scroll-up-1)
-(global-set-key "‡" 'next-error)
+(global-set-key (vector '\M-down) 'scroll-down-1)
+(global-set-key (vector '\M-up) 'scroll-up-1)
+;; (global-set-key "Å‡" 'next-error)
 
 ;;(define-key ctl-x-4-map "s" 'fileness)
 ;;(define-key ctl-x-4-map "w" 'wordness)
@@ -161,8 +161,8 @@
 (define-key help-map "" '(lambda () (interactive) (call-interactively (if current-prefix-arg 'fapropos4 'fapropos3))))
 (define-key help-map "" 'help-for-map)
 
-(global-set-key "∫" 'tags-apropos)
-(global-set-key "¢" 'tags-search)
+;; (global-set-key "Å∫" 'tags-apropos)
+;; (global-set-key "Å¢" 'tags-search)
 
 (global-set-key "\e#" 'calc-dispatch)
 
@@ -204,7 +204,7 @@
 
 (define-key alt-SPC-map " " 'roll-buffer-list)
 (define-key ctl-x-map " " 'roll-buffer-list)
-(define-key alt-SPC-map "\C-m" '(lambda () (interactive) (pop-to-buffer (car (get-real-buffer-list nil)))))
+(define-key alt-SPC-map "\C-m" '(lambda (arg) (interactive "P") (switch-to-buffer (nth (or arg 0) (real-buffer-list nil)))))
 (define-key alt-SPC-map "m" 'iconify-frame)
 (define-key alt-SPC-map "n" 'roll-buffers-named)
 (define-key alt-SPC-map "/" 'roll-buffers-with)

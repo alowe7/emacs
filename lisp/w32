@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.12 2001-05-02 20:07:49 cvs Exp $")
+ "$Id: w32,v 1.13 2001-07-17 11:14:19 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -591,26 +591,29 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 			   "system/currentcontrolset/services/tcpip/parameters" "domain"))
   )
 
-(defvar w32-documents "/Documents and Settings" 
-  "top level dir for all user documents and settings")
+(add-hook 'post-load-hook 
+	  '(lambda () 
+	     (defvar w32-documents "/Documents and Settings" 
+	       "top level dir for all user documents and settings")
 
-(defvar my-documents
-  (w32-canonify 
-	 (concat w32-documents "/$USERNAME"))
-  "top level dir for current users documents and settings")
+	     (defvar my-documents
+	       (w32-canonify 
+		(concat w32-documents "/$USERNAME"))
+	       "top level dir for current users documents and settings")
 
-(defvar start-menu
-  (w32-canonify 
-	 (concat w32-documents "/$USERNAME" "/Start Menu"))
-  "top level dir for current users documents and settings")
+	     (defvar start-menu
+	       (w32-canonify 
+		(concat w32-documents "/$USERNAME" "/Start Menu"))
+	       "top level dir for current users documents and settings")
 
-(defvar quicklaunch
-  (w32-canonify 
-   (concat
-    "C:\\Documents and Settings\\" 
-    *username*
-    "\\Application Data\\Microsoft\\Internet Explorer\\Quick Launch"
-    )))
+	     (defvar quicklaunch
+	       (w32-canonify 
+		(concat
+		 "C:\\Documents and Settings\\" 
+		 *username*
+		 "\\Application Data\\Microsoft\\Internet Explorer\\Quick Launch"
+		 )))
+	     ))
 
 (mapcar '(lambda (x) 
 	   (eval (list 'defun x nil '(interactive) (list 'dired x))))
@@ -687,3 +690,19 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
   )
 
 ; (messagebox "every good boy does fine" "r u there?" "MB_OKCANCEL|MB_ICONINFORMATION|MB_SETFOREGROUND")
+
+(defun msvc-setting ()
+  (interactive)
+  (let ((p (point)))
+    (goto-char (point-min))
+    (replace-string "," "
+")
+    (goto-char (point-min))
+    (local-set-key "" '(lambda () (interactive) (throw 'exit nil)))
+    (recursive-edit)
+    (goto-char (point-min))
+    (replace-string "
+" ",")
+    (goto-char p)
+    )
+  )
