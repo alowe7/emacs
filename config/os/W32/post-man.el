@@ -1,5 +1,5 @@
 (put 'post-man 'rcsid 
- "$Id: post-man.el,v 1.1 2003-09-01 18:57:24 cvs Exp $")
+ "$Id: post-man.el,v 1.1 2003-09-03 18:15:54 cvs Exp $")
 
 (require 'advice)
 
