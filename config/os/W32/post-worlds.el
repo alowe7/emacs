@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid
- "$Id: post-worlds.el,v 1.4 2003-10-24 13:30:31 cvs Exp $")
+ "$Id: post-worlds.el,v 1.5 2003-12-09 17:23:18 cvs Exp $")
 
 (chain-parent-file t)
 
@@ -7,15 +7,18 @@
 
 (defvar *tw-create-desktop-shortcut* nil)
 (defvar *tw-create-quicklaunch* nil)
+(defvar *tw-create-w32-cmd* nil)
 
 (add-hook 'world-post-change-hook
 	  (lambda () 
   ; from the dos command line /w will always take you there
-	    (write-region 
-	     (concat "@cd " (w32-canonify (expand-file-name (fw))))
-	     nil 
-	     (expand-file-name "/w.cmd")
-	     )
+	    (if *tw-create-w32-cmd*
+		(write-region 
+		 (concat "@cd " (w32-canonify (expand-file-name (fw))))
+		 nil 
+		 (expand-file-name "/w.cmd")
+		 )
+	      )
   ; from the desktop -- only do this for worlds you actually enter
 	    (if *tw-create-desktop-shortcut*
 		(shell-command 

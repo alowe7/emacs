@@ -1,9 +1,10 @@
-# $Id: Makefile,v 1.28 2003-11-24 21:50:38 cvs Exp $
+# $Id: Makefile,v 1.29 2003-12-09 17:23:18 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
 LOCALBIN = /usr/local/bin
 EMACS = $(shell which emacs)
+EMACSDIR = /usr/share/emacs
 
 .PHONY: FORCE
 

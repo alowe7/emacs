@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.15 2003-07-30 21:34:44 cvs Exp $")
+ "$Id: fapropos.el,v 1.16 2003-12-09 17:23:18 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -277,15 +277,15 @@ and value is a string matching regexp PAT"
   )
 
 
-(defun vars-like-with-expr (pat l)
+(defun vars-like-with-expr (pat &optional l)
   "list variables where name is a string matching regexp PAT, 
-and value satisfies lambda expression of one arg L.
-L takes a single arg"
+and value satisfies lambda expression L.
+L takes a single arg, the name of the var unevaluated"
   (interactive "ssymbol names matching: \nxstring values matching (exprs ok):")
   (let ((v (loop for sym being the symbols
 		 when (boundp sym)
 		 when (string-match pat (symbol-name sym))
-		 when (funcall l (eval sym))
+		 when (or (not l) (funcall l sym))
 		 collect sym)))
     (if (interactive-p)
 	(let ((m ""))
