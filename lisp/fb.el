@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.8 2000-10-03 16:50:27 cvs Exp $")
+ "$Id: fb.el,v 1.9 2000-10-17 20:39:47 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -9,19 +9,25 @@
 (defvar fb-mode-map nil "")
 (defvar fb-mode-syntax-table nil "")
 (defvar fb-mode-hook nil)
-
 (defvar fb-last-pat nil)
 (defvar fb-last-match nil)
+
+(defvar *fastfind-buffer* "fastfind")
 
 (defconst *fb-db* 
   (or (getenv "FBDB")
       "/var/spool/f")
-  "cache of file list.  like output from find . -print")
+  "cache of working file list.")
+
+(defconst *fb-h-db* 
+  (or (getenv "FBHDB")
+      "/var/spool/fh")
+  "cache of file list on home drive.")
 
 (defconst *fb-full-db*
   (or (getenv "FBFULLDB")
       "/var/spool/fall")
-  "cache of file list.  like output from find . -print")
+  "cache of file list all drives")
 
 ;; these add qsave capability to fb-search buffer
 (defvar *find-file-query* nil)
@@ -304,10 +310,17 @@ w		fb-w3-file
     )
   )
 
+(defun fh (args)
+  "fast find working drive -- search for file matching pat in *fb-h-db*"
+  (interactive)
+  (let ((*fb-db* *fb-h-db* )) (call-interactively 'ff))
+  )
+
+
 (defun ff (args)
-  "fast find current drive -- search for file matching pat in *fb-db*"
+  "fast find working dirs -- search for file matching pat in *fb-db*"
   (interactive "sargs: ")
-  (let ((b (zap-buffer "fastfind"))
+  (let ((b (zap-buffer *fastfind-buffer*))
 	(pat args))
 
     (setq *find-file-query*
@@ -334,77 +347,72 @@ w		fb-w3-file
     )
   )
 
-(defun fall () 
+(defun fh2 ()
+  "fast find working drive -- search for file matching pat in *fb-h-db*"
   (interactive)
-  (let ((*fb-db* *fb-full-db*)) (call-interactively 'ff))
+  (let ((*fb-db* *fb-h-db* )) (call-interactively 'ff2)
   )
+)
 
-(defun lf (args)
-  "fast find current drive -- search for file matching pat in *fb-db*
-applies ls -l to args"
-  (interactive "sargs: ")
-  (let ((b (zap-buffer "fastfind"))
-	(pat (replace-in-string 
-	      "\\." "\\."  
-	      (replace-in-string
-	       "\*" "[^\.]*" args))))
+(defun ff2 (pat1 pat2)
+  "fast find current drive -- search for file matching pat in *fb-db*"
+  (interactive "spat1: \nspat2: ")
+  (let ((b (zap-buffer *fastfind-buffer*))
+	(b1 (zap-buffer " _ff1"))
+	(fn1 (mktemp "_ff1"))
+	(b2 (zap-buffer " _ff2"))
+	(fn2 (mktemp "_ff2")))
 
-    (loop 
-     for d in '("c" "d")
-     do
+    (setq *find-file-query*
+	  (setq mode-line-buffer-identification 
+		(concat pat1 "&" pat2)))
 
-     (call-process "egrep" (format "%s:%s" d *fb-db*) b nil "-i" pat )
+    (call-process "egrep" nil
+		  b1
+		  nil
+		  "-i" pat1 *fb-db*)
+    (set-buffer b1)
+    (sort-lines nil (point-min) (point-max))
+    (write-file fn1)
 
-  ;    (call-process "egrep" nil b nil "-i" pat *fb-db*)
-     )
+    (call-process "egrep" nil
+		  b2
+		  nil
+		  "-i" pat2 *fb-db*)
+    (sort-lines nil (point-min) (point-max))
+    (set-buffer b2)
+    (write-file fn2)
 
-    (pop-to-buffer b)
+    (call-process "join" nil
+		  b
+		  nil
+		  fn1 fn2)
 
-    (let
-	((v (save-excursion
-
-	      (eval-process "ls" "-l" 
-			    (replace-in-string "
-" " " (buffer-string))
-			    ))))
-      (erase-buffer)
-      (insert v)
-      )
-
+    (set-buffer b)
     (beginning-of-buffer)
     (cd "/")
     (fb-mode)
+
+    (run-hooks 'after-find-file-hook)
+
+    (if (interactive-p) 
+	  (pop-to-buffer b)
+      (split (buffer-string) "
+")
+      )
     )
   )
 
-(defun fff (pat)
-  "fast find all drives -- search for file matching pat in *:`cat *fb-db*`"
-  (interactive "spat: ")
-
-  (let ((b (zap-buffer "fastfind")) f)
-    (loop 
-     for d in (catlist (eval-process "glt") ?
-)
-     if (file-exists-p (setq f (format "%s%s" (substring d 0 -1 ) *fb-db*)))
-     do 
-     (set-buffer b)
-     (insert d "\n")
-     (call-process "egrep" f b nil "-i" pat )
-     )
-
-    (pop-to-buffer b)
-    (beginning-of-buffer)
-    (cd "/")
-    (wrap)
-    (fb-mode pat)
-    )
+(defun fall () 
+  (interactive)
+  (let ((*fb-db* *fb-full-db*)) (call-interactively 'ff))
   )
 
 (defun !ff (pat cmd) 
   "like fff, but runs cmd on each file and collects the result"
   (interactive "spat: \nscmd: ")
 
-  (let ((b (zap-buffer "fastfind"))
+  (let ((b (zap-buffer *fastfind-buffer*))
 	(p (catlist cmd ? ))
 	)
 
