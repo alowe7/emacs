@@ -86,13 +86,17 @@
 "
   (interactive "spath: ")
 
-  (let ((c (if (or (eq c 'w32)
-		   (string-match ":\\\\"  path))
-		semicolon
-		(or c ":"))))
+  (let ((path (getenv path)))
+    (and path
+	 (let ((c (if (or (eq c 'w32)
+			  (string-match ":\\\\"  path))
+		      semicolon
+		    (or c ":"))))
 		 
-    (loop for x in (split (getenv path) c)
-	  collect (expand-file-name x))
+	   (loop for x in (split path c)
+		 collect (expand-file-name x))
+	   )
+	 )
     )
   )
 

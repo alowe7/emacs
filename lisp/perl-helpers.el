@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.10 2004-05-27 19:39:30 cvs Exp $
+;; $Id: perl-helpers.el,v 1.11 2004-05-27 19:52:04 cvs Exp $
 
 (require 'perl-command)
 
@@ -198,9 +198,10 @@ see `*perl-libs*'"
     )
   )
 
-(defun on* (d l)
-  "eval to non-nil if directory d is on path p"
-  (member* d l :test 'string-equal)
+(defun on* (d p)
+  "eval to non-nil if directory d is on list p.
+test using string-equal"
+  (member* d p :test 'string-equal)
   )
 
 (defun on (d p &optional sep)
