@@ -1,6 +1,13 @@
-(put 'autoloads 'rcsid 
- "$Id: autoloads.el,v 1.9 2001-01-10 15:22:03 cvs Exp $")
-; automatically generated for the most part.  see ../Makefile
-(load "../.autoloads" t t t )
+(put 'autoloads 'rcsid                                                          
+ "$Id: autoloads.el,v 1.10 2001-06-30 17:47:19 cvs Exp $")           
+; automatically generated for the most part.  see ../Makefile                   
+
+(load "../.autoloads" t t t )                                                   
+
+(mapcar                                                                         
+ '(lambda (x)     
+    (let ((f (concat x "/.autoloads")))
+      (if (file-exists-p f) (load f t t t ))))
+ load-path)                                               
 
 (load "outliers" t t)
