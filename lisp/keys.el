@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.42 2003-11-24 22:07:40 cvs Exp $")
+ "$Id: keys.el,v 1.43 2003-11-25 03:39:53 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -247,6 +247,10 @@
 
 (defvar ctl (dec "0x4000000"))
 (defun ctl (c) (+ ctl c))
+
+; maybe the flag key
+(defvar meta (dec "0x800000"))
+(defun meta (c) (+ meta c))
 
 ; use generally for info commands
 (unless (fboundp 'ctl-\?-prefix)
