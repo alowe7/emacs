@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.2 2003-12-15 22:46:30 cvs Exp $")
+ "$Id: fb.el,v 1.3 2004-01-21 18:46:44 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 
@@ -17,15 +17,15 @@
 
   (let* ((ff-hack-pat 'regexp-to-sql)
 	 (pat (funcall ff-hack-pat pat))
-	 (s (string* (xq* (format "select name from f where name like '%%%s%%'" 
-				  (let ((pat pat))
-				    (setq pat (if (string= (substring pat -1) "$")
-						  (substring pat 0 -1)
-						(concat pat "%")))
-				    (setq pat (if (string= (substring pat 1) "^")
-						  (substring pat 1)
-						(concat "%" pat)))
-				    )))))
+	 (s (xq* (format "select name from f where name like '%%%s%%'" 
+			 (let ((pat pat))
+			   (setq pat (if (string= (substring pat -1) "$")
+					 (substring pat 0 -1)
+				       (concat pat "%")))
+			   (setq pat (if (string= (substring pat 1) "^")
+					 (substring pat 1)
+				       (concat "%" pat)))
+			   ))))
 	 )
 
     (if (string* s)
@@ -42,23 +42,21 @@
 
 	  (run-hooks 'after-find-file-hook)
 
-	  (let ((l (split s "
-")))
+  ; try to avoid splitting (buffer-string) 
+	  (cond ((and *fb-auto-go* 
+		      (interactive-p) 
+		      (= (count-lines (point-min) (point-max)) 1)
+		      (not (probably-binary-file (bgets))))
   ; pop to singleton if appropriate
-	    (cond ((and *fb-auto-go*
-			(interactive-p)
-			(= (length l) 1)
-			(not (probably-binary-file (car l))))
-		   (find-file (car l)
-			      )
-		   )
+		 (find-file (car (split (buffer-string) "
+"))))
   ; else pop to listing if interactive
-		  ((interactive-p) 
-		   (pop-to-buffer b)
-		   )
+		((interactive-p)
+		 (pop-to-buffer b))
   ; else just return the list
-		  (t l))
-	    )
+		(t (split (buffer-string) "
+")
+		   ))
 	  )
   ; not (string* s)
       (message "no files matching <%s> found." pat)

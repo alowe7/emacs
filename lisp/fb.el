@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.47 2003-12-13 03:24:45 cvs Exp $")
+ "$Id: fb.el,v 1.48 2004-01-21 18:46:44 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -351,14 +351,15 @@ see variable *fb-db* "
 (defun fb-mode (&rest args)
   "mode for managing file index.
 like view mode, with the following exceptions:
-f		fb-find-file
-RET		fb-exec-file
-/		fb-search-forward
-?		fb-search-backward
-M-/	fb-match-file-forward
-M-?	fb-match-file-backward
-w		fb-w3m-file
-P		fb-pod-file
+f	`fb-find-file'
+RET	`fb-exec-file'
+/	`fb-search-forward'
+?	`fb-search-backward'
+M-/	`fb-match-file-forward'
+M-?	`fb-match-file-backward'
+w	`fb-w3m-file'
+P	`fb-pod-file'
+|	`fb-grep-files'
 
 also see `fb-mode-map'
 "
@@ -527,7 +528,7 @@ if none given, uses `*default-fb-db*'
   )
 
 (defun ff (pat)
-  "fast find working dirs -- search for file matching PAT in `*fb-db*'"
+  "fast find files -- search for file matching PAT in `*fb-db*'"
 
   (interactive "sfind files: ")
 
@@ -552,14 +553,21 @@ if none given, uses `*default-fb-db*'
 
     (ff1 *fb-db* pat b top)
 
-    (let ((l (split (buffer-string) "
-")))
-      (cond ((and *fb-auto-go* (interactive-p) (= (length l) 1) (not (probably-binary-file (car l))))
-	     (find-file (car l)))
-	    ((interactive-p)
-	     (pop-to-buffer b))
-	    (t l))
-      )
+  ; try to avoid splitting (buffer-string) 
+    (cond ((and *fb-auto-go* 
+		(interactive-p) 
+		(= (count-lines (point-min) (point-max)) 1)
+		(not (probably-binary-file (car l))))
+  ; pop to singleton if appropriate
+	   (find-file (car (split (buffer-string) "
+"))))
+  ; else pop to listing if interactive
+	  ((interactive-p)
+	   (pop-to-buffer b))
+  ; else just return the list
+	  (t (split (buffer-string) "
+")
+	     ))
     )
   )
 
@@ -769,6 +777,7 @@ returns a filename containing results"
 ; (fbf "fbf")
 
 (defun fb-grep-files (s)
+"search for REGEXP in files"
   (interactive "sSearch for: ")
   (shell-command-on-region
    (point-min)

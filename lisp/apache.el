@@ -1,5 +1,5 @@
 (put 'apache 'rcsid 
- "$Id: apache.el,v 1.6 2002-11-22 17:02:12 cvs Exp $")
+ "$Id: apache.el,v 1.7 2004-01-21 18:46:44 cvs Exp $")
 (provide 'apache)
 ; (perl-command "wf")
 
@@ -10,7 +10,11 @@
   )
 
 
-
-
+(defun vel ()
+  (interactive)
+  (find-file "/var/log/httpd/error.log")
+  (view-mode)
+  (goto-char (point-max))
+  )
 
 

@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.16 2003-12-09 17:23:18 cvs Exp $")
+ "$Id: fapropos.el,v 1.17 2004-01-21 18:46:44 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -243,6 +243,36 @@ fapropos will only find symbols which have already been interned
 
 
 
+
+(defun vars-like (name)
+  "list variables where symbol-name matches regexp NAME"
+  (interactive "sname like: ")
+  (let ((v (loop for sym being the symbols
+		 when (boundp sym)
+		 when (stringp (eval sym))
+		 when (string-match name (symbol-name sym))
+
+  ; specifically exclude target, because, of course the symbol 'name
+  ; will match while we're in this loop...
+		 unless (string-match "^name$" (symbol-name sym) )
+
+		 collect sym)))
+
+    (if (interactive-p)
+	(let* ((b (zap-buffer "*vars*"))
+	       (standard-output b))
+	  (loop for x in v
+		do 
+		(insert "\n" (symbol-name x) "\t" 
+			(string* (lwhence x) "") "\n" "\t")
+		(pp (eval x))
+		(insert "\n")
+
+		)
+	  (pop-to-buffer b)
+	  (fapropos-mode)))
+    v)
+  )
 
 (defun vars-like-with (name pat)
   "list variables where symbol-name matches regexp NAME, 

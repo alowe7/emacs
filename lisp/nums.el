@@ -1,5 +1,5 @@
 (put 'nums 'rcsid 
- "$Id: nums.el,v 1.9 2003-03-16 21:43:01 cvs Exp $")
+ "$Id: nums.el,v 1.10 2004-01-21 18:46:44 cvs Exp $")
 (provide 'nums)
 
 (defun exp (n m)
@@ -188,3 +188,15 @@ with arg, use region."
 
 (if (boundp 'shell-mode-map)
 (define-key shell-mode-map "a" 'ascii-word))
+
+(defun parse-rgb (c)
+"format for rgb value is #rrggbb"
+(let ((rr (format "%c%c" (aref c 1) (aref c 2)))
+      (gg (format "%c%c" (aref c 3) (aref c 4)))
+      (bb (format "%c%c" (aref c 5) (aref c 6))))
+(list (dec rr) (dec gg) (dec bb))
+))
+
+
+; (loop for x in  (parse-rgb "#F5E39E") do (insert (format "%d " x)))
+; 245 227 158 
