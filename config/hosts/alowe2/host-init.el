@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.23 2002-06-19 13:49:02 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.24 2002-06-26 16:13:53 cvs Exp $")
 
 (setq default-frame-alist
       '((width . 102)
@@ -67,6 +67,8 @@
 (setq *xz-show-status* nil)
 (setq *xz-squish* 4)
 
+(setq gnus-select-method '(nntp "news.inhouse.broadjump.com"))
+; (setenv "NNTPSERVER" "news.inhouse.broadjump.com")
 
 (require 'gnuserv)
 (display-time)
