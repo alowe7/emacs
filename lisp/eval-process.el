@@ -1,5 +1,5 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.12 2002-06-26 16:13:53 cvs Exp $")
+ "$Id: eval-process.el,v 1.13 2004-02-17 23:34:05 cvs Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)
@@ -35,7 +35,7 @@ this function evaluates to the process output  "
   " insert results of executing COMMAND into current buffer"
   (interactive "scommand: ")
   (let* ((cmd (string-to-word line)) (args (substring line (match-end 0))))
-    (insert (eval-process cmd (and (> (length args) 0) args)))))
+    (insert (apply 'eval-process (nconc (list cmd) (and args (> (length args) 0) args))))))
 
 ;; todo -- rewrite to use &rest
 
