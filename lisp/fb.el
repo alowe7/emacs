@@ -1,10 +1,11 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.36 2003-04-02 21:34:53 cvs Exp $")
+ "$Id: fb.el,v 1.37 2003-04-04 17:26:21 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
 (require 'qsave)
 
+(require 'indicate)
 
 (defvar fb-mode-map    
   (prog1
