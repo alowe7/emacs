@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.8 2004-08-24 02:02:00 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.9 2004-09-09 04:52:36 cvs Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -69,11 +69,15 @@
 (add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))
 (add-hook 'java-mode-hook (lambda () (lazy-lock-mode)))
 
-(load-library "post-help")
+; (load-library "post-help")
+(load-library "fixframe")
+(load-library "unbury")
 
 (add-to-load-path "/u/emacs-w3m-1.3.2")
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
 
+(add-to-load-path "/z/el" t)
+(load-library "mycal")
 
 (if (not (and
 	  (file-directory-p exec-directory)
