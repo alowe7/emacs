@@ -1,5 +1,26 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.4 2000-09-29 21:18:11 cvs Exp $
+#      $Id: make-autoloads,v 1.5 2001-06-27 09:03:36 cvs Exp $
+use getopt;
+
+getopt('-');
+if ($opt_help) {
+    print "
+	usage: make-autoloads [options] | <filelist>
+	
+	options:
+		--help		print usage
+		--version	print versoin
+	
+	<filelist> is a list of emacs lisp modules.
+	produce an expression on STDOUT which can be evaluated to autoload
+	all functions and macros defined in those modules.
+";
+    exit;
+}
+elsif ($opt_version) {
+    print "make-autoloads $Revision: 1.5 $ \n";
+    exit;
+}
 
 # todo: grab doc strings too
 print "(setq autoload-alist `( ";
