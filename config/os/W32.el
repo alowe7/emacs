@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.32 2004-08-11 14:55:52 cvs Exp $")
+ "$Id: W32.el,v 1.33 2004-08-17 17:50:53 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -241,9 +241,37 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   (setq comint-prompt-regexp "^[a-zA-Z]:[^>]*>")
   )
 
+(defun read-directory-name (prompt)
+  (let ((f (read-file-name prompt)))
+    (or (-d f) (file-name-directory f) default-directory)
+    )
+  )
+; (read-directory-name (format "run cmd in dir (%s): " default-directory))
+
+(defun distinct-shell-buffers ()
+  "return a list of the number associated with existing shell buffers"
+  (loop for x in 
+	(nconc (collect-buffers-mode  'cmd-mode) (collect-buffers-mode  'shell-mode))
+	collect (save-excursion (set-buffer x)
+				(or (let ((thing (caddr (split (buffer-name) "[-\*]"))))
+				      (and (string* thing) (car (read-from-string thing)))) 0)))
+  )
+; (1+ (apply 'max (or (distinct-shell-buffers) 0)))
+
 (defun cmd (&optional num)
   (interactive "p")
-  (shell2 (or num -1) nil "cmd" 'cmd-mode)
+  ; (= num 4) is magic, becuase its the prefix
+  ; read a dir name and pick a guaranteed unused buffer number
+  (let ((default-directory (string* 
+			    (cond ((= num 4) 
+				   (setq num (1+ (apply 'max (or (distinct-shell-buffers) 0))))
+				   (read-directory-name (format "run cmd in dir (%s): " default-directory))
+				   )
+				  )
+			    default-directory)
+	  ))
+    (shell2 (or num -1) nil "cmd" 'cmd-mode)
+    )
   )
 
 (global-set-key (vector -8388595) 'cmd)

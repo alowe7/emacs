@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid 
- "$Id: post-worlds.el,v 1.16 2004-04-18 23:39:57 cvs Exp $")
+ "$Id: post-worlds.el,v 1.17 2004-08-17 17:50:53 cvs Exp $")
 
 (defun push-world-p (w)
   "push current context replacing with WORLD.
@@ -14,15 +14,17 @@ a null argument means pop-world from world-stack"
 (if (not (fboundp 'esc-p-prefix)) 
     (define-prefix-command 'esc-p-prefix))
 (global-set-key "p" 'esc-p-prefix)
-(let ((map (symbol-function  'esc-p-prefix)))
-  (define-key map "p" 'push-world-p)
-  (define-key map "u" 'pop-world)
-  (define-key map "x" 'swap-world)
-  (define-key map "o" 'roll-world-stack)
-  (define-key map " " 'roll-world-list)
-  (define-key map "n" 'dn)
-  (define-key map "p" 'world)
-  map)
+(defvar esc-p-map (symbol-function  'esc-p-prefix))
+(defvar world-map (symbol-function  'esc-p-prefix))
+
+(define-key world-map "p" 'push-world-p)
+(define-key world-map "u" 'pop-world)
+(define-key world-map "x" 'swap-world)
+(define-key world-map "o" 'roll-world-stack)
+(define-key world-map " " 'roll-world-list)
+(define-key world-map "n" 'dn)
+(define-key world-map "w" 'world)
+(define-key world-map "f" 'wn)
 
 ;; hmmm...
 

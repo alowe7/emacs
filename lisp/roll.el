@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.26 2004-05-24 21:09:36 cvs Exp $")
+ "$Id: roll.el,v 1.27 2004-08-17 17:50:53 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -327,13 +327,13 @@ LIST may be an a-list, in which case, interpret the cars as buffers, and print t
   )
 
 
-(defun first (mode)
+(defun first-mode (mode)
   "return first buffer in given mode"
   (interactive "smode: ")
   (loop for x in (real-buffer-list) thereis (progn (set-buffer x) (and (eq major-mode mode) x)))
   ) 
 
-(defun first-shell () (interactive) (let ((b (first 'shell-mode))) (if b (switch-to-buffer b) (message "not found"))))
+(defun first-shell () (interactive) (let ((b (first-mode 'shell-mode))) (if b (switch-to-buffer b) (message "not found"))))
 
 
 (defun roll-buffer-list-2 (mode named in modified notmodified withpat)

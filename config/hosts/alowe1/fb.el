@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.8 2004-08-11 14:55:52 cvs Exp $")
+ "$Id: fb.el,v 1.9 2004-08-17 17:50:52 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 
@@ -45,10 +45,16 @@ pattern may also contain environment variables
 
 
 (defun ffsql (pat)
+  "find files matching REGEXP.
+this version of ff queries a sql db somewhere using `xq*'
+regexp is converted from regular expression syntax to sql syntax internally.
+if regexp contains environment variables, they are expanded.
+"
+
   (interactive (list (string* (read-string (format "find files matching pattern (%s): " (indicated-filename))) (indicated-filename))))
 
   (let* ((ff-hack-pat 'regexp-to-sql)
-	 (pat (funcall ff-hack-pat pat))
+	 (pat (funcall ff-hack-pat (substitute-in-file-name pat)))
 	 (query (format "select name from f where name like '%s'" pat))
 	 (s (xq* query))
 	 )

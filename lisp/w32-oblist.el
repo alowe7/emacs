@@ -1,5 +1,5 @@
 (put 'w32-oblist 'rcsid 
- "$Id: w32-oblist.el,v 1.6 2004-08-11 14:55:53 cvs Exp $")
+ "$Id: w32-oblist.el,v 1.7 2004-08-17 17:50:53 cvs Exp $")
 (provide 'w32-oblist)
 (require 'fapropos)
 
@@ -10,7 +10,8 @@
 ;; assumes w32t file is static!
 
 (defvar w32t-file 
-  (expand-file-name (getenv "W32T")))
+  (expand-file-name (or (getenv "W32T") "/usr/share/specs/w32t")))
+
 
 (defvar w32t-sigs-file 
   (concat (file-name-directory w32t-file) "w32-sigs"))

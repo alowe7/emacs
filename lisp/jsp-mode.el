@@ -19,5 +19,10 @@
 
 (fset 'jsp-mode 'html-mode)
 
-(add-to-list 'auto-mode-alist
-	     '("\\.jsp$" . jsp-mode))
+(setq it-works nil)
+(if it-works
+    (add-to-list 'auto-mode-alist
+		 '("\\.jsp$" . jsp-mode))
+  (add-to-list 'auto-mode-alist
+	       '("\\.jsp$" . html-mode))
+  )

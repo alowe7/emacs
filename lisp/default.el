@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.40 2004-08-11 14:55:52 cvs Exp $")
+ "$Id: default.el,v 1.41 2004-08-17 17:50:53 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -111,6 +111,7 @@
 	  t)
 
 (add-hook 'sh-mode-hook '(lambda () (use-local-map nil)))
+(add-hook 'css-mode-hook '(lambda () (lazy-lock-mode)))
 
 ;; from default-lib
 
@@ -259,6 +260,24 @@ if n < 0 counts from end of string
      )
    )
   )
+
+(defun first (n l)
+  "return a list consisting of the first N elements of LIST see `last'"
+  (if (< 0 n) (last (1- (- n)) l)
+    (let* ((l l))
+      (rplacd (nthcdr (1- n) l) nil)
+      l)
+    )
+  )
+
+; (first 3 (split (chomp (x-query "select tm from journal order by tm")) "
+; "))
+
+; (last 3 (split (chomp (x-query "select tm from journal order by tm")) "
+; "))
+
+
+
 
 (run-hooks 'post-load-hook)
 

@@ -1,5 +1,5 @@
 (put 'sh 'rcsid
- "$Id: sh.el,v 1.1 2004-03-27 19:03:09 cvs Exp $")
+ "$Id: sh.el,v 1.2 2004-08-17 17:50:53 cvs Exp $")
 
 (require 'typesafe)
 (require 'eval-utils)
@@ -411,7 +411,7 @@ value is a function cell taking the input line to parse.  returns nil if it coul
   ;; todo check file-modes
   (and (file-exists-p ($ x)) x))
 
-(defun -d (x)  "THING is a dir" (and  (file-directory-p ($ x)) x))
+(defun -d (x)  "THING is a dir" (and (string* x) (file-directory-p ($ x)) x))
 (defun -z (x) "THING is null or string of zero length" (or (null x) (= 0 (length ($ x)))))
 (defun -n (x) "THING is neither null nor a string of zero length" (not (-z x)))
 
