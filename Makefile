@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.21 2003-02-25 17:19:01 cvs Exp $
+# $Id: Makefile,v 1.22 2003-03-12 16:14:38 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
@@ -8,16 +8,20 @@ LOCALBIN = /usr/local/bin
 uname := $(shell uname)
 hostname := $(shell hostname)
 
+XZ=xz
 # XZFLAGS = -t1
 
 SOURCES := $(shell find ./lisp -type f -a ! -name "*~" -a ! -name "*,v" -a ! -path "*CVS*")
 #CONFIGS := config/os/$(uname) config/hosts/$(hostname)
 # config/version/$(shell emacs --batch --version)
 #
-CONFIGS := $(shell find ./config -type f -a ! -name "*~" -a ! -name "*,v" -a ! -path "*CVS*")
-XZ=xz
+# only search for relevant configs
+#CONFIGS := $(shell find ./config -type f -a ! -name "*~" -a ! -name "*,v" -a ! -path "*CVS*")
+CONFIGS := $(shell find ./config -type f -a ! -name "*~" -a ! -name "*,v" -a ! -path "*CVS*" -a \( -path "*$node*" -o -path "*$sys*" \))
 
-SITE_LISP := $(shell find /usr/share/emacs/site-lisp -type f -name "*.el")
+# only search for autoloads among site lisps
+# SITE_LISP := $(shell find /usr/share/emacs/site-lisp -type f -name "*.el")
+SITE_LISP := $(shell find /usr/share/emacs/site-lisp -type f -name ".autoloads")
 
 ETAGS=etags
 
