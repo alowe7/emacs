@@ -1,5 +1,5 @@
 (put 'default-lib 'rcsid 
- "$Id: default-lib.el,v 1.12 2003-05-15 21:00:01 cvs Exp $")
+ "$Id: default-lib.el,v 1.13 2003-11-07 21:53:22 cvs Exp $")
 
 (defun buffer-exists-p (bname)
   " return buffer with specified NAME or nil"
@@ -53,9 +53,12 @@
   if NUMBER is a string representation of a numberp, then reads the string value.
   otherwise returns optional DEFAULT.
  arguments are evaluated only once"
-  (let ((*n* (eval **n**))) (cond ((numberp *n*) *n*)
-				  ((string* *n*) (car (read-from-string *n*)))
-				  (t (eval **default**)))))
+  (let ((*n* (eval **n**)))
+ (cond
+ ((numberp *n*) *n*)
+ ((and (sequencep *n*) (> (length *n*) 0)) (car (read-from-string *n*)))
+ (t (eval **default**))
+)))
 
 ; alternative implementation:
 (defun int* (str)
@@ -78,7 +81,7 @@
 	      (format prompt (eval default))
 	      obarray
 	      (if pat (lambda (x) (string-match pat (format "%s" x)))))))
-    (if (string* sym) sym default))
+    (if (and (sequencep sym) (> (length sym) 0)) sym default))
   )
 
 (defmacro read-from-string* (**s** &optional **default**)

@@ -1,8 +1,10 @@
-# $Id: Makefile,v 1.26 2003-04-28 14:16:05 cvs Exp $
+# $Id: Makefile,v 1.27 2003-11-07 21:53:22 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
 LOCALBIN = /usr/local/bin
+EMACS = $(shell which emacs)
+
 .PHONY: FORCE
 
 XZ=xz
@@ -15,10 +17,10 @@ CONFIGS := $(shell ./find-configs)
 # search all configs
 # CONFIGS := $(shell find ./config -type f -name "*.el")
 
-SITE_LISP := $(shell find /usr/share/emacs/site-lisp -type f -name "*.el")
+SITE_LISP := $(shell find $(EMACSDIR)/site-lisp -type f -name "*.el")
 
 # search for autoloads among site lisps
-SITE_LOADS := $(shell find /usr/share/emacs/site-lisp -type f -name ".autoloads")
+SITE_LOADS := $(shell find $(EMACSDIR)/site-lisp -type f -name ".autoloads")
 
 ETAGS=etags
 
@@ -48,4 +50,4 @@ $(LOCALBIN)/make-autoloads: make-autoloads
 	$(INSTALL) -m 555 $^ $(LOCALBIN)
 
 compile:
-	(cd lisp; emacs --batch --load ~/emacs/lisp/byte-compile-directory.el)
+	$(shell cd lisp; $(EMACS) --batch --load ~/emacs/lisp/byte-compile-directory.el)

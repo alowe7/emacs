@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.20 2003-09-23 16:01:43 cvs Exp $")
+ "$Id: W32.el,v 1.21 2003-11-07 21:53:22 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -42,7 +42,7 @@
 (defvar default-font-family "lucida console")
 (defvar default-point-size 17)
 (defvar default-style "normal")
-(defvar default-weight nil)
+(defvar default-weight "*")
 (defvar default-fontspec nil)
 
 (defun default-font (&optional font-family style point-size weight)

@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.23 2003-10-24 13:24:53 cvs Exp $")
+ "$Id: post-comint.el,v 1.24 2003-11-07 21:53:22 cvs Exp $")
 
 (setq explicit-bash-args '("-i"))
 
@@ -29,3 +29,8 @@
 
 ; grab dir from context of other window and insert it here.  if only one window showing, then current dir
 (define-key ctl-/-map "0" '(lambda () (interactive) (insert (save-window-excursion (other-window-1) (canonify (or (buffer-file-name) default-directory) 0)))))
+
+(defun my-comint-mode-hook ()
+  (setq comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *"))
+
+(add-hook 'comint-mode-hook 'my-comint-mode-hook)
