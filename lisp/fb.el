@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.15 2000-11-02 17:40:45 cvs Exp $")
+ "$Id: fb.el,v 1.16 2000-12-14 20:01:14 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -12,7 +12,7 @@
 (defvar fb-last-pat nil)
 (defvar fb-last-match nil)
 
-(defvar *fastfind-buffer* "fastfind")
+(defvar *fastfind-buffer* "*ff*")
 
 (defconst *fb-db* 
   (or (getenv "FBDB")
