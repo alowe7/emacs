@@ -1,5 +1,5 @@
 (put 'post-compile 'rcsid 
- "$Id: post-compile.el,v 1.5 2003-02-12 20:23:29 cvs Exp $")
+ "$Id: post-compile.el,v 1.6 2003-02-23 23:42:28 cvs Exp $")
 
 ; (read-string "loading post-compile")
 
@@ -56,7 +56,7 @@
 
 (add-hook 'compilation-completion-hook
 	  '(lambda () 
-	     (set-buffer "*compilation*")
+	     (set-buffer (compilation-find-buffer))
 	     (qsave-search (current-buffer) compile-command)
 	     (use-local-map compilation-mode-map)
 	     ))
