@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.14 2003-06-13 14:36:35 cvs Exp $")
+ "$Id: W32.el,v 1.15 2003-06-27 14:52:13 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -689,9 +689,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 	     (defvar quicklaunch
 	       (w32-canonify 
-		(concat
-		 "C:\\Documents and Settings\\" 
-		 *username*
+		(concat userprofile
 		 "\\Application Data\\Microsoft\\Internet Explorer\\Quick Launch"
 		 )))
 	     ))
