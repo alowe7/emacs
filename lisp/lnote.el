@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: lnote.el,v 1.3 2000-07-30 21:07:46 andy Exp $")
 (require 'log)
 
 (defun lnote (comment &optional buf)

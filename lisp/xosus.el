@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: xosus.el,v 1.2 2000-07-30 21:07:49 andy Exp $")
 ;; not really required, but..
 (defvar xosust-file (expand-file-name (getenv "XOSUST")))
 

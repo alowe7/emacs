@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: post-cl.el,v 1.3 2000-07-30 21:07:47 andy Exp $")
 
 ; stuff which is related to cl
 

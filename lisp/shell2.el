@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: shell2.el,v 1.2 2000-07-30 21:07:48 andy Exp $")
 (require 'shell)
 (defvar shell-popper 'switch-to-buffer) ; could also use pop-to-buffer
 

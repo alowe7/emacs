@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: perlhelp.el,v 1.3 2000-07-30 21:07:47 andy Exp $")
 
 (load "/d/perl5/docs/perl-oblist" t t)
 

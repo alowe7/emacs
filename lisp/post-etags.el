@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: post-etags.el,v 1.2 2000-07-30 21:07:47 andy Exp $")
 
 ; find-tag-hook
 

@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: w32-oblist.el,v 1.2 2000-07-30 21:07:48 andy Exp $")
 (provide 'w32-oblist)
 (require 'fapropos)
 

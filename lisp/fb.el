@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: fb.el,v 1.3 2000-07-30 21:07:45 andy Exp $")
 (require 'view)
 (require 'isearch)
 (provide 'fb)

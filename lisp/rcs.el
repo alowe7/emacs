@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: rcs.el,v 1.3 2000-07-30 21:07:48 andy Exp $")
 (provide 'rcs)
 
 (defvar *checkin-verify* nil)

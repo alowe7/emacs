@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: ccs.el,v 1.3 2000-07-30 21:07:44 andy Exp $")
 ; change control system hooks
 (add-hook
  'world-pre-change-hook

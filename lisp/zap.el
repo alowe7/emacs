@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: zap.el,v 1.2 2000-07-30 21:07:49 andy Exp $")
 (provide 'zap)
 ;;; 
 (defun zap-buffer (bname &optional postop preop)

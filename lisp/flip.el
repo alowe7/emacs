@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: flip.el,v 1.3 2000-07-30 21:07:45 andy Exp $")
 
 ; microsoft has some funny ideas about these chars
 (defun flip ()

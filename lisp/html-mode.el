@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: html-mode.el,v 1.3 2000-07-30 21:07:46 andy Exp $")
 ;;; --------------------------------------------------------------------------
 ;;; HTML mode, based on text mode.
 ;;; Copyright (C) 1985 Free Software Foundation, Inc.

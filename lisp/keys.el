@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: keys.el,v 1.2 2000-07-30 21:07:46 andy Exp $")
 (require 'nums)
 
 ;; all key bindings

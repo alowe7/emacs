@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: default.el,v 1.2 2000-07-30 21:07:45 andy Exp $")
 ; default-lib is stuff that ought to be pure
 ;(load-library "default-lib")
 

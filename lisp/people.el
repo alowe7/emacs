@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: people.el,v 1.3 2000-07-30 21:07:47 andy Exp $")
 (provide 'people)
 (require 'data)
 ;; manage people databases

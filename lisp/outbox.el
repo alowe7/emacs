@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: outbox.el,v 1.3 2000-07-30 21:07:47 andy Exp $")
 (defvar ob-mode-map nil "")
 
 (defun outbox-mode ()

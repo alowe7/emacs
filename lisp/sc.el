@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: sc.el,v 1.3 2000-07-30 21:07:48 andy Exp $")
 
 (defun sc () (interactive)
 

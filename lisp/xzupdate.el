@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: xzupdate.el,v 1.3 2000-07-30 21:07:49 andy Exp $")
 
 (defun xz-update (&optional update l)
 	"produces a list of modules in (xz-db) newer than database.

@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: cookie1.el,v 1.3 2000-07-30 21:07:45 andy Exp $")
 ;;; cookie1.el --- retrieve random phrases from fortune cookie files
 
 ;; Copyright (C) 1993 Free Software Foundation, Inc.

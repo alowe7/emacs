@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: unix-oblist.el,v 1.3 2000-07-30 21:07:48 andy Exp $")
 ;; these are the obarrays for machine sunstar
 
 (defvar shell-obarray (mapcar 'list '(

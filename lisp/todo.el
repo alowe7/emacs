@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: todo.el,v 1.2 2000-07-30 21:07:48 andy Exp $")
 (require 'eval-process)
 
 (defvar master-todo-file (expand-file-name "~/todo" ) 

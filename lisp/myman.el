@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: myman.el,v 1.2 2000-07-30 21:07:46 andy Exp $")
 (autoload 'man-page-mode "man-page")
 (require 'dosman)
 

@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: post-compare-w.el,v 1.3 2000-07-30 21:07:47 andy Exp $")
 
 (defun compare-windows-2 (&optional whitespace)
   (interactive)

@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: post-shell-mode.el,v 1.2 2000-07-30 21:07:47 andy Exp $")
 ;;; allow for root prompt
 
 (setq shell-prompt-pattern "^[0-9a-zA-Z]*\\(%\\|\\$\\|#\\) *")

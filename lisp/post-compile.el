@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: post-compile.el,v 1.2 2000-07-30 21:07:47 andy Exp $")
 
 ; (read-string "loading post-compile")
 

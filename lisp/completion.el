@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: completion.el,v 1.3 2000-07-30 21:07:45 andy Exp $")
 
 (provide 'completion)
 

@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: encrypt.el,v 1.2 2000-07-30 21:07:45 andy Exp $")
 (provide 'encrypt)
 (require 'comint) ; for non-echoing read
 

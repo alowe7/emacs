@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: post-w3.el,v 1.3 2000-07-30 21:07:47 andy Exp $")
 
 (defun dired-w3-file () 
   (interactive)

@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: tar-view.el,v 1.2 2000-07-30 21:07:48 andy Exp $")
 (provide 'tar-view)
 (require 'cl)
 

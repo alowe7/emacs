@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: calc-loads.el,v 1.3 2000-07-30 21:07:44 andy Exp $")
 (provide 'calc-loads)
 (defvar var-TimeZone '(+ (var GMT var-GMT) 6))
 ;;; Variable "var-Holidays" stored by Calc on Mon May 11 20:57:43 1998

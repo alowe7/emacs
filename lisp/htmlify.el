@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: htmlify.el,v 1.3 2000-07-30 21:07:46 andy Exp $")
 
 (defun htmlify (&optional fn)
 	(interactive "finput file: ")

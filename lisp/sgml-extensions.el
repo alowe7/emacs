@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: sgml-extensions.el,v 1.3 2000-07-30 21:07:48 andy Exp $")
 
 ;; some sgml extensions
 (setq html-mode-keys '(("" new-para)

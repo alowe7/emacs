@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: sgml-mode.el,v 1.2 2000-07-30 21:07:48 andy Exp $")
 ;;; sgml-mode.el --- SGML- and HTML-editing modes
 
 ;; Copyright (C) 1992, 1995, 1996 Free Software Foundation, Inc.

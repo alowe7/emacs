@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: eval-process.el,v 1.3 2000-07-30 21:07:45 andy Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)

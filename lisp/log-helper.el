@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: log-helper.el,v 1.3 2000-07-30 21:07:46 andy Exp $")
 (defun log-timeval (&optional s)
 
 	;; this save-excursion should probably be in eval-process

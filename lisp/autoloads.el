@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: autoloads.el,v 1.3 2000-07-30 21:07:44 andy Exp $")
 ; automatically generated for the most part.  see ../Makefile
 (load "../auto-autoloads" t t t )
 

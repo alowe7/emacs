@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: mime.el,v 1.3 2000-07-30 21:07:46 andy Exp $")
 (defvar *mime-associations* 
 	(read
 	 (perl-command "/a/bin/list-mime-types" "-l"))

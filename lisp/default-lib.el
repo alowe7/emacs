@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: default-lib.el,v 1.2 2000-07-30 21:07:45 andy Exp $")
 ;; this lib should contain functions that would go in pure code if possible.
 
 ; (require 'cl) ; this should definitely be pure.

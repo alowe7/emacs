@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: config.el,v 1.2 2000-07-30 21:07:45 andy Exp $")
 (require 'advice)
 (require 'cl)
 

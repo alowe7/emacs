@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: ntime.el,v 1.2 2000-07-30 21:07:46 andy Exp $")
 ;; Simple implementation of mode-line/echo-area clock, using itimers.
 
 ; why?

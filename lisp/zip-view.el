@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: zip-view.el,v 1.3 2000-07-30 21:07:49 andy Exp $")
 (provide 'zip-view)
 
 ;(pop file-assoc-list)

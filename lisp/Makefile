@@ -1,7 +1,7 @@
-# $Id: Makefile,v 1.2 2000-07-30 20:43:20 cvs Exp $
+# $Id: Makefile,v 1.3 2000-07-30 21:07:44 andy Exp $
 
 SHELL=/bin/sh
-EMACS=/usr/local/lib/emacs-19.34/bin/emax
+EMACS=emacs
 
 #SOURCES=$(shell -c ls -t *.el)
 SOURCES=*.el
@@ -10,13 +10,13 @@ ETAGS=etags
 
 all: 
 
-xz.dat: $(SOURCES)
+.xz.dat: $(SOURCES)
 	$(XZ) -ywqn $(SOURCES)
 
 TAGS: $(SOURCES)
 	$(ETAGS) $(SOURCES)
 
 compile:
-	$(EMACS) --batch -l byte-compile-directory > compile.log 2>&1
+	$(EMACS) --batch -l byte-compile-directory
 
 .PHONY: compile

@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: html-view.el,v 1.3 2000-07-30 21:07:46 andy Exp $")
 (provide 'html-view)
 
 (defun dired-html-view () (interactive)

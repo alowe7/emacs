@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: itimer.el,v 1.2 2000-07-30 21:07:46 andy Exp $")
 ;;; Interval timers for GNU Emacs
 ;;; Copyright (C) 1988, 1991, 1993, 1997 Kyle E. Jones
 ;;;

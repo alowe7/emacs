@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: w3-helpers.el,v 1.3 2000-07-30 21:07:48 andy Exp $")
 (require  'html-format)
 
 ; we want this file to load after w3, because it contains overloads

@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: mdebug.el,v 1.3 2000-07-30 21:07:46 andy Exp $")
 ;;; debug.el --- debuggers and related commands for Emacs
 
 ;; Copyright (C) 1985, 1986, 1994 Free Software Foundation, Inc.

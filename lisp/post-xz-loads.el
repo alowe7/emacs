@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: post-xz-loads.el,v 1.2 2000-07-30 21:07:47 andy Exp $")
 (define-key xz-map "" 
   '(lambda (string) (interactive (list (complete-indicated-word "goto function definition (%s): " obarray)))
      (xz-query-format (concat "./fd" (or (and (> (length string) 0) string)  (indicated-word))))))

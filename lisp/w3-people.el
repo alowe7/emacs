@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: w3-people.el,v 1.3 2000-07-30 21:07:48 andy Exp $")
 (defvar namedb-query-format
 "http://notesweb.pswtech.com/Info/People.nsf/SearchResultsView2?SearchView&Query=%s"
 )

@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: helps.el,v 1.3 2000-07-30 21:07:45 andy Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)

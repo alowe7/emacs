@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: url-helpers.el,v 1.3 2000-07-30 21:07:48 andy Exp $")
 (setq url-automatic-cacheing nil)
 (setq url-use-viewers nil)
 

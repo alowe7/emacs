@@ -1,3 +1,4 @@
+(defconst rcs-id "$Id: nums.el,v 1.3 2000-07-30 21:07:46 andy Exp $")
 (provide 'nums)
 
 (defun exp (n m)
