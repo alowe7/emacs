@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid 
- "$Id: post-worlds.el,v 1.18 2005-03-01 20:13:12 cvs Exp $")
+ "$Id: post-worlds.el,v 1.19 2005-03-04 20:29:25 cvs Exp $")
 
 (defun push-world-p (w)
   "push current context replacing with WORLD.
@@ -67,21 +67,24 @@ a null argument means pop-world from world-stack"
 
 ; (require 'fb)
 
-(defvar *wfpat* (concat (if (eq window-system 'w32) "^(.:)*" "^")
-		       "/[" (mapconcat '(lambda (x) (substring x 1)) wdirs "") "]/.*%s*"))
-
+(defvar *wfpat* (concat "^"
+		       "/[" (mapconcat 'identity (wdirs) "") "][^%s]*%s*"
+		       )
+	      )
+;  (format *wfpat* "eclipse")
 (defun wf (pat)
   "fastfind within `wdirs'.  see `ff'"
   (interactive "spat: ")
   (let* ((top "/")
 	 (b (zap-buffer *fastfind-buffer*))
-	 (pat (format *wfpat* pat)))
+	 (pat (format *wfpat* 
+		       (substring pat 0 1) pat)))
+
     (ff1 *fb-db* pat b top)
 
     (if (interactive-p) 
 	(pop-to-buffer b)
-      (split (buffer-string) "
-")
+      (split (buffer-string) ?\C-j)
       )
     )
   )
