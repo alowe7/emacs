@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.7 2000-12-07 17:00:23 cvs Exp $")
+ "$Id: helps.el,v 1.8 2001-03-30 14:10:06 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -439,3 +439,21 @@ if *howto-path* is not set, searches in current directory
 		       (t element)))))
 	((numberp map) (format "%c" map))
 	(t map)))
+
+; another way to do the same thing
+(defun pp-help-for-map (m)
+  (interactive "smap: ")
+  (let ((b (zap-buffer "*Help*"))
+	(m (eval (intern m))))
+    (pp 
+     (loop for x in m
+	   collect
+	   (cond 
+	    ((atom x) x)
+	    ((integerp (car x)) (cons (format "%c" (car x)) (cdr x)))
+	    ((eq (car x) 'keymap) (pp-help-for-map x))
+	    (t x)))
+     b)
+    (pop-to-buffer b)
+    )
+  )
