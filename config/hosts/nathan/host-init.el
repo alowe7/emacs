@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.5 2004-03-11 19:01:01 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.6 2004-04-04 16:23:48 cvs Exp $")
 
 (setq default-frame-alist
       '((top + 80)
@@ -67,3 +67,7 @@
 (let ((dir "D:/usr/local/lib/emacs-21.3/bin"))
 (and (y-or-n-p (format "set exec dir (%s) to %s?" exec-directory dir))
      (setq exec-directory	dir)))
+
+(if (string-match "21" emacs-version)
+    (fonty "tahoma"))
+
