@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.15 2004-01-16 15:36:59 cvs Exp $")
+ "$Id: helps.el,v 1.16 2004-03-06 20:31:33 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -262,7 +262,7 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 	(set-buffer b)
 	(switch-to-buffer b)
 	(message "uncompressing %s" fn)
-	(insert-eval-process (format "gzcat %s" a))
+	(insert-eval-process "gzcat" a))
 	(beginning-of-buffer)
 	(set-buffer-modified-p nil) 
 	)
@@ -477,14 +477,19 @@ if *howto-path* is not set, searches in current directory
     )
   )
 
-(defun find-function-or-variable (&optional arg)
-  (interactive "P")
-  (let ((w (intern (indicated-word))))
+(defun find-function-or-variable (w)
+  (interactive (list
+		(string* (read-string (format "find function or variable (%s): " (indicated-word)))
+			 (indicated-word))))
+
+  (let ((w (intern w )))
+
     (cond ((functionp w)
 	   (find-function-other-window w))
 	  ((boundp w)
 	   (find-variable-other-window w))
 	  (t 
-	   (let ((w (read-string (format "%s not a function or variable.  enter a function or variable: " w))))
-	     (find-function-or-variable w)))))
+	   (find-function-or-variable 
+	    (read-string
+	     (format "%s not a function or variable.  enter a function or variable: " w))))))
   )

@@ -1,5 +1,5 @@
 (put 'reg 'rcsid
- "$Id: reg.el,v 1.6 2004-02-23 06:36:01 cvs Exp $")
+ "$Id: reg.el,v 1.7 2004-03-06 20:31:33 cvs Exp $")
 (require 'qsave)
 
 (defun reg-canonify (s)	(if (and s (stringp s) (> (length s) 0)) (replace-in-string  "/" "\\" s) ""))
@@ -93,7 +93,7 @@
       (pop-to-buffer b))
     (beginning-of-buffer)
     (reg-view-mode)
-    )
+    b)
   )
 
 (defun lsreg (hive key)
@@ -101,9 +101,14 @@
 		(completing-read "hive: " '(("machine" "machine") ("users" "users") ("user" "user") ("config" "config") ("classes" "classes")) nil t)
 		(read-string "key: ")))
 
-  (if (and (not (string* key)) (buffer-exists-p "*reg*"))
-	(pop-to-buffer "*reg*")
-    (reg-command "lsreg" hive key)
+  ; if key is empty and *reg* exists, just show it.
+
+  (let ((b (or  
+	    (and (string* key) (reg-command "lsreg" hive key))
+	    (buffer-exists-p "*reg*"))))
+    (and b
+	 (unless (get-buffer-window b)
+	   (pop-to-buffer b)))
     )
   )
 

@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.14 2004-03-03 15:15:18 cvs Exp $")
+ "$Id: post-w3m.el,v 1.15 2004-03-06 20:31:33 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -67,16 +67,19 @@
   (message w3m-current-url)
   )
 
-(defun css-spec () (interactive)
-  (w3m-goto-url "http://localhost/usr/share/specs/css2.0/cover.html")
-  )
 
-(defun apache-manual () (interactive)
-  (w3m-goto-url "http://apache/htdocs/manual/index.html.en")
+(defvar *specsvec* '(
+		     ("apache"  "http://apache/htdocs/manual/index.html.en")
+		     ("css" "http://localhost/usr/share/specs/css2.0/cover.html")     
+		     ("" "http://localhost/specs.nav")
+  ; ...
+		     )
   )
-
 (defun specs () (interactive)
-  (w3m-goto-url "http://localhost/specs.nav")
+  (let ((url (string* (cadr (assoc (completing-read "spec: " *specsvec*) *specsvec*))
+		      (cadr (assoc "" *specsvec*)))))
+    (w3m-goto-url url)
+    )
   )
 
 (defun headlines () (interactive)

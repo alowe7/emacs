@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.22 2004-03-03 15:17:38 cvs Exp $")
+ "$Id: roll.el,v 1.23 2004-03-06 20:31:33 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -317,12 +317,15 @@ LIST may be an a-list, in which case, interpret the cars as buffers, and print t
 
   (roll-buffer-list (buffer-list-named pat))
   )
-
+(defvar *last-roll-with* nil)
 (defun roll-buffer-with (pat)
   "roll buffers with contents matching PAT"
-  (interactive "sroll buffer with: ")
+  (interactive (list (string*
+		      (read-string (format "roll buffer with (%s): " (string* *last-roll-with* (indicated-word))))
+		      (or *last-roll-with* (indicated-word)))))
 
   (roll-buffer-list (buffer-list-with pat))
+  (setq *last-roll-with* pat)
   )
 
 

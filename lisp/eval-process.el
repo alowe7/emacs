@@ -1,5 +1,5 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.13 2004-02-17 23:34:05 cvs Exp $")
+ "$Id: eval-process.el,v 1.14 2004-03-06 20:31:33 cvs Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)
@@ -7,11 +7,20 @@
 
 ;; processes that return values
 
-(defun eval-process (cmd &rest args)
+(defun eval-process (cmd &optional args)
   "execute CMD as a process, giving it optional ARGS.
+CMD may be a string evaluating to a command, or a space separated list of strings indicating the command and arguments
+ARGS may be a space separated string or a list of string arguments
+
 this function evaluates to the process output  "
-  (let
-      ((dir default-directory)
+  (debug)
+  (let*
+      ((args (if (listp args) args (split args)))
+       (cmd 
+	(let ((cmd1 (if (listp cmd) cmd (split cmd))))
+	  (setq args (nconc (cdr cmd1) args))
+	  (car cmd1)))
+       (dir default-directory)
        (buffer (get-buffer-create " *eval*"))
        v)
     (save-excursion
@@ -24,18 +33,27 @@ this function evaluates to the process output  "
   ;    (kill-buffer buffer) ; may be faster not to bother with this.
   ;    v
       (cond ((= 1 (count-lines (point-min) (point-max)))
-	 (clean-string (buffer-string)))
-	(t (buffer-string)))
+	     (clean-string (buffer-string)))
+	    (t (buffer-string)))
       )
     )
   )
 
 
-(defun insert-eval-process (line)
-  " insert results of executing COMMAND into current buffer"
+(defun insert-eval-process (cmd &optional args)
+  " insert results of executing COMMAND into current buffer
+COMMAND may be the name of a command or include a space separated list of args
+optional second arg ARGS may be a space separated list of additional args.
+so
+ (insert-eval-process \"ls\")
+ (insert-eval-process \"ls -l\")
+ (insert-eval-process \"ls\" \"-l\")
+all work.
+see `eval-process'
+ "
   (interactive "scommand: ")
-  (let* ((cmd (string-to-word line)) (args (substring line (match-end 0))))
-    (insert (apply 'eval-process (nconc (list cmd) (and args (> (length args) 0) args))))))
+  (insert (funcall 'eval-process cmd args))
+  )
 
 ;; todo -- rewrite to use &rest
 

@@ -1,7 +1,16 @@
 (put 'post-gnuserv 'rcsid 
- "$Id: post-gnuserv.el,v 1.7 2001-09-08 20:50:36 cvs Exp $")
+ "$Id: post-gnuserv.el,v 1.8 2004-03-06 20:31:33 cvs Exp $")
 
-(condition-case x (gnuserv-start) (error nil)) ; if there's a problem don't try to restart.
+(condition-case x (gnuserv-start) 
+  (error 
+  ; if there's a problem try to force restart.
+   (condition-case y
+       (gnuserv-start t) 
+  ; if that doesn't work, forget it.
+     (progn 
+       (message "can't start server process")
+       (debug)
+       nil))))
 
 (require 'advice)
 
@@ -79,3 +88,28 @@
 	(caadr (current-frame-configuration)))
   )
 
+; override this function as its broken
+(defun server-process-filter (proc string)
+  "Process client gnuserv requests to execute Emacs commands."
+  (setq server-string (concat server-string string))
+  (if (string-match "\^D$" server-string) ; requests end with ctrl-D
+      (if (string-match "^[0-9]+" server-string) ; client request id
+	(progn
+	  (server-log server-string)
+	  (let ((header (read-from-string server-string)))
+	    (setq current-client (car header))
+	    (condition-case oops
+		(eval (car (read-from-string server-string 
+					     (cdr header))))
+	      (error (setq server-string "")
+		     (server-write-to-client current-client oops)
+		     (setq current-client nil)
+		     (signal (car oops) (cdr oops)))
+	      (quit (setq server-string "")
+		    (server-write-to-client current-client oops)
+		    (setq current-client nil)
+		    (signal 'quit nil)))
+	    (setq server-string "")))
+	(progn				;error string from server
+	  (server-process-display-error server-string)
+	  (setq server-string "")))))
