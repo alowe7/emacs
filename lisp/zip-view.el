@@ -1,9 +1,10 @@
 (put 'zip-view 'rcsid 
- "$Id: zip-view.el,v 1.11 2004-08-11 14:55:53 cvs Exp $")
+ "$Id: zip-view.el,v 1.12 2005-01-03 19:56:59 cvs Exp $")
 (provide 'zip-view)
 
 (defun zip-view (f) (interactive)
-  (let* ((b (zap-buffer (format "%s *zip*" f))))
+  (let* ((f (if (string-match " " f) (gsn f) f))
+	 (b (zap-buffer (format "%s *zip*" f))))
 
     (call-process "pkzip" nil b nil "-view" 
 		  (replace-in-string " " "\\ " 

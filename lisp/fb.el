@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.58 2004-12-10 18:15:17 cvs Exp $")
+ "$Id: fb.el,v 1.59 2005-01-03 19:56:59 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -543,6 +543,7 @@ with prefix argument, prompt for additional args for grep
 	 (p2 (point-max))
 	 (b (let ((b (get-buffer-create "*grep*"))) (save-excursion (set-buffer b) (erase-buffer) (compilation-mode)) b))
 	 (err (get-buffer-create "*Shell-Command-Error*"))
+	 (resize-mini-windows nil)
 	 )
 
     (shell-command-on-region
@@ -559,10 +560,15 @@ with prefix argument, prompt for additional args for grep
 	(set-buffer err)
 	(> (length (buffer-string)) 1))
       (message err))
-     ;;      ((save-excursion
-     ;; 	(set-buffer b)
-     ;; 	(> (length (buffer-string)) 1))
-     ;;       (switch-to-buffer b))
+     ((and (interactive-p) 
+	   (save-excursion
+	     (set-buffer b)
+	     (> (length (buffer-string)) 1)))
+      (let ((w (get-buffer-window b)))
+	(if w (select-window w)
+	  (switch-to-buffer b))))
+     ((interactive-p) 
+      (message "no matches found"))
      )
     )
   )

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.13 2004-12-10 18:15:17 cvs Exp $")
+ "$Id: fb.el,v 1.14 2005-01-03 19:56:59 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 
@@ -107,7 +107,7 @@ with optional arg SHOW, displays the list as if it had been called interactively
 		      (or (and w (select-window w))
 			  (pop-to-buffer b))))
   ; else just return the list
-		   (t l))
+		   (t (split s)))
 	     ))
 	  ((or show (interactive-p))
   ; not (string* s)

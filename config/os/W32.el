@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.37 2004-11-08 14:45:20 cvs Exp $")
+ "$Id: W32.el,v 1.38 2005-01-03 19:56:59 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -191,20 +191,21 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 	 (handler (aexec-handler ext)))
     (if handler (funcall (cdr handler) f)
       (let ((cmd (file-association f)))
-	(cond (cmd
-	       (aexec-start-process cmd f))
-	      (visit (find-file f))
-	      (t (progn
-		   (message
-		    "no handler for type %s ... " 
-		    (file-name-extension f))
-		   (sit-for 0 500)
-		   (message "visiting file %s ..." f)
-		   (sit-for 0 800)
-		   (find-file f)
-		   (message ""))
-		 )
-	      )
+	(cond
+	 (cmd
+	  (aexec-start-process cmd (if (string-match " " f) (gsn f) f)))
+	 (visit (find-file f))
+	 (t (progn
+	      (message
+	       "no handler for type %s ... " 
+	       (file-name-extension f))
+	      (sit-for 0 500)
+	      (message "visiting file %s ..." f)
+	      (sit-for 0 800)
+	      (find-file f)
+	      (message ""))
+	    )
+	 )
 	)
       )
     )
