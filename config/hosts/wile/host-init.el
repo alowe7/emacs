@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid
- "$Id: host-init.el,v 1.5 2004-05-24 22:50:12 cvs Exp $")
+ "$Id: host-init.el,v 1.6 2004-10-13 17:28:28 cvs Exp $")
 
 (defvar process-environment-list (loop for x in  process-environment collect (split x "=")))
 
@@ -42,10 +42,6 @@
   ; a write-file-hook needs to return nil else the write is aborted
   )
 (add-hook 'write-file-hooks 'write-file-log)
-
-;; lazy load xz
-(add-to-load-path "~/x/xz/site-lisp")
-(load-library "xz-loads")
 
 (setq default-frame-alist
       '((top + -2)
