@@ -1,5 +1,5 @@
 (put 'whencepath 'rcsid 
- "$Id: whencepath.el,v 1.5 2000-10-30 19:35:54 cvs Exp $")
+ "$Id: whencepath.el,v 1.6 2001-07-10 12:47:35 cvs Exp $")
 (require 'ksh-interpreter)
 (require 'cl)
 
@@ -10,7 +10,19 @@
 ;; examples
 ;; (whencepath "ls" (catpath "PATH"))
 
-(defun whencepath (cmd path &optional executable)
+(defun whencepath (cmd &optional path executable)
+  " look for cmd along path (path is a list of strings)"
+  (interactive "scmd: \nspath: ")
+  (let ((abscmd
+	 (loop for x in (catpath (or path "PATH") window-system)
+	       thereis
+	       (-f (concat x "/" cmd)))))
+    (if abscmd
+	(if (interactive-p) (message abscmd) abscmd))
+    )
+  )
+
+(defun whencepath1 (cmd path &optional executable)
   " look for cmd along path (path is a list of strings)"
   (loop for x in path
 	with test = (if executable '-x '-f)
@@ -32,13 +44,15 @@
 (defun whence (cmd)
   " find COMMAND along path"
   (interactive "scommand: ")
-  (let ((abscmd (whencepath cmd (catpath "PATH" window-system) t))
+  (let ((abscmd (whencepath cmd "PATH"))
 	(fc  (string-to-char cmd)))
     ;; check for ksh function invocation (doesn't work for aliases)
     (if (or (not (string= abscmd cmd)) (char-equal fc ?/) (char-equal fc ?.))
 	abscmd
       ;; I think this is a ksh function or alias. check along $FPATH
-      (whencepath cmd (catpath "FPATH"))
+      (whencepath cmd "FPATH")
       )
     )
   )
+
+; (whencepath "la")
