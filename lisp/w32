@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.29 2002-06-27 03:28:04 cvs Exp $")
+ "$Id: w32,v 1.30 2002-07-03 21:41:12 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -342,6 +342,18 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (global-set-key "w" 'yank-dos-filename)
 (global-set-key "y" 'yank-unix-filename)
+
+(defun yank-pwd (arg)
+  ""
+  (interactive "P")
+
+  (let* ((txt (if arg default-directory (w32-canonify default-directory))))
+    (kill-new txt)
+    (if interprogram-cut-function
+	(funcall interprogram-cut-function txt t))
+    txt))
+
+(global-set-key "p" 'yank-pwd)
 
 (defun dired-cut-filename ()
   "yank expanded filename under point"

@@ -1,10 +1,10 @@
 (put 'post-xdb 'rcsid 
- "$Id: post-xdb.el,v 1.5 2002-03-13 18:59:53 cvs Exp $")
+ "$Id: post-xdb.el,v 1.6 2002-07-03 21:41:12 cvs Exp $")
 
 (require 'advice)
 (require 'cat-utils)
 
-(defvar *default-domain* ".alowe.com")
+(defvar *xdb-domain* (string* (getenv "XDBDOMAIN") "alowe.com"))
 
 ;; this hook tries to be smarter about which side of evilnat we're on.
 
@@ -18,7 +18,7 @@
 	     (nconc *txdb-options* 
 		    (list "-h" 
 			  (concat (getenv "XDBHOST")
-				  (unless (evilnat) *default-domain*)
+				  (unless (evilnat) (concat "." *xdb-domain*))
 				  )
 			  )
 		    )

@@ -1,5 +1,5 @@
 (put 'buffers 'rcsid 
- "$Id: buffers.el,v 1.10 2001-11-08 22:20:24 cvs Exp $")
+ "$Id: buffers.el,v 1.11 2002-07-03 21:41:12 cvs Exp $")
 
 ;; walk mru list of buffers
 
@@ -72,10 +72,19 @@ when called interactively, displays a pretty list"
 
 (defun kill-buffers-mode (mode)
   "kill all buffers in mode"
-  (interactive "Smode: ")
+  (interactive (list (intern (completing-read "mode: "  (mapcar 'list (symbols-like "-mode$" t))))))
   (loop for x in (buffer-list-mode mode)
 	do
 	(kill-buffer x))
+  )
+
+(defun kill-buffers-not-modified ()
+  "kill all buffers in mode"
+  (interactive)
+  (and (y-or-n-p "kill-buffers-not-modified.  are you sure? ")
+       (loop for x in (buffer-list-not-modified)
+	     do
+	     (kill-buffer x)))
   )
 
 (provide 'buffers)
