@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.9 2002-02-25 23:24:53 cvs Exp $")
+ "$Id: post-dired.el,v 1.10 2002-03-29 22:56:19 cvs Exp $")
 
 ;; dired stuff
 
@@ -276,6 +276,15 @@ see `file-assoc-list'"
     (message s))
   )
 
+(defun dired-backup-file (arg)
+  (interactive "P")
+  
+  (let ((f (dired-get-filename t))
+	(suffix (if arg (read-string "suffix: ") "~")))
+    (copy-file f (concat f suffix)))
+  (revert-buffer)
+  )
+
 (require 'tar-view)
 (require 'zip-view)
 (require 'html-view)
@@ -288,4 +297,5 @@ see `file-assoc-list'"
 			      (define-key dired-mode-map "|" 'dired-pipe-file)
 			      (define-key dired-mode-map (vector 'f7) 'dired-cvs-log)
 			      (define-key  dired-mode-map "\C-cx" 'dired-copy-filename-as-kill)
+			      (define-key  dired-mode-map "\C-c~" 'dired-backup-file)
 			      ))
