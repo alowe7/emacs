@@ -1,12 +1,12 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.6 2000-10-18 20:13:42 cvs Exp $")
+ "$Id: default.el,v 1.7 2000-10-30 19:11:43 cvs Exp $")
 
 (require 'config) ; this feature should not be required for anything up to this point
 
 ; when is this not true?
 (setq user-full-name "Andrew J. Lowe")
 
-(load (uname) t t)		; load os-specific info
+(load "os-init" t t)		; load os-specific info
 
 ; emacs specific initialization
 ; epoch, lucid, and xemacs variants caused problems once upon a time, ...
@@ -22,6 +22,8 @@
 (defvar list-directory-verbose-switches	"-alt")
 
 (defvar horizontal-scroll-delta 20)
+
+(defvar file-assoc-list nil	"alist of downcased file extensions to internal handlers")
 
 ;;; todo: c++ mode for .C files?
 (setq auto-mode-alist '(
@@ -110,5 +112,5 @@
 
 
 ;; optional host-specific overrides
-(load (hostname) t t t)
+(load "host-init" t t t)
 

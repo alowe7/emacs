@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.6 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: keys.el,v 1.7 2000-10-30 19:11:43 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -205,3 +205,6 @@
 
 
 (global-set-key "t" 'bootstrap-task)
+
+
+(global-set-key "\M-;" (quote eval-expression))

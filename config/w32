@@ -1,0 +1,690 @@
+(put 'w32 'rcsid 
+ "$Id: w32,v 1.1 2000-10-30 19:06:17 cvs Exp $")
+
+(require 'cat-utils)
+(load "frames" t t)
+
+; definitions specific to the win32 window system
+
+(defvar *systemroot*	(getenv "SYSTEMROOT"))
+(defvar *systemdrive*	(getenv "SYSTEMDRIVE"))
+
+(autoload 'reg-query "reg" nil t)
+(autoload 'reg-dump "reg" nil t)
+
+;(setq frame-title-format '(buffer-file-name "%f" "%b"))
+;(make-variable-buffer-local 'frame-title-format)
+
+(setq dired-chmod-program "chmod")
+
+;; (menu-bar-enable-clipboard)
+;; (menu-bar-mode -1)
+;(menu-bar-mode -1)
+
+;; this makes autocompletion work better with bash
+(setq comint-completion-addsuffix t)
+
+
+;; (global-set-key "\C-:" (quote indent-for-comment))
+(global-set-key (vector 'C-backspace) 'iconify-frame)
+
+;; jean-luc fonty
+
+(defvar default-fontspec-format  "-*-%s-%s-r-*-*-%s-%s-*-*-*-*-*-*-")
+(defvar  default-family-table 
+	(mapcar 'list (list "Roman" "MS LineDraw" "Lucida Console" "fixed" "courier")))
+(defvar default-font-family "lucida console")
+(defvar default-point-size 22)
+(defvar default-style "normal")
+(defvar default-weight nil)
+(defvar default-fontspec nil)
+
+(defun default-font (font-family style point-size weight)
+  (interactive (list
+		(completing-read "Family: " default-family-table)
+		(read-string "Style: ")
+		(read-string "Point-size: ")
+		(read-string "Weight: ")))
+
+  (and (stringp point-size) 
+       (> (length point-size) 0)
+       (setq point-size (read point-size)))
+
+  (cond ((eq point-size '*)
+	 (setq default-point-size nil))
+	((integerp point-size) 
+	 (setq default-point-size point-size)))
+
+  (and (stringp style)
+       (> (length style) 0)
+       (setq default-style style))
+
+  (and (stringp weight)
+       (> (length weight) 0)
+       (setq weight (read weight)))
+
+  (cond ((eq weight '*)
+	 (setq default-weight nil))
+	((integerp weight)
+	 (setq default-weight weight)))
+
+  (and font-family (setq default-font-family font-family))
+	
+  (set-default-font (setq default-fontspec
+			  (format default-fontspec-format   
+				  font-family 
+				  default-style
+				  default-point-size
+				  default-weight)))
+  default-fontspec
+  )
+
+;(default-font nil "*" "100")
+
+; (insert (win32-select-font))
+; -*-Lucida Console-normal-r-*-*-11-82-*-*-c-*-*-ansi-
+
+;		(set-default-font (format default-fontspec-format   default-font-family "*" "100"))
+; (font-1)
+
+(defun font-1 (arg) (interactive "p")
+	(default-font default-font-family default-style (- default-point-size (or arg 1)) nil))
+(defun font+1 (arg) (interactive "p")
+	(default-font default-font-family default-style (+ default-point-size (or arg 1)) nil))
+(global-set-key "]" 'font+1)
+(global-set-key "[" 'font-1)
+
+
+(defun w32-canonify (f &optional sysdrive)
+  " expands FILENAME, using backslashes
+optional DRIVE says which drive to use. "
+  (replace-in-string  "/" "\\" 
+		      (expand-file-name 
+		       (chop f ?/)
+		       (concat sysdrive "/"))))
+
+(defun unix-canonify (f &optional mixed)
+  " expands FILENAME, using forward slashes.
+optional second arg MIXED says do not translate 
+letter drive names.
+"
+  (let* ((f (expand-file-name f)))
+    (if mixed f
+      (if (string-match "^[a-zA-Z]:" f)
+	  (concat "//" (upcase (substring f 0 1)) (substring f (match-end 0)))))
+    )
+  )
+
+
+(defvar explore-hooks nil "hooks to run after exploring a directory")
+
+(defun explore (&optional f)  (interactive "P")
+  (let ((root *systemroot*)
+	(f (w32-canonify (string* f (string* (read-string "Directory: ") (pwd)))) 
+	   ))
+    (call-process 
+     (concat root "\\system32\\cmd") nil nil nil "/c" 
+     (concat root "\\explorer ") f)
+     (run-hooks 'explore-hooks)
+     )
+  )
+
+(defun arun (f) (interactive "sCommand: ")
+  (start-process f nil f ))
+;; this depends on the query.bat being on your path
+
+
+(defun file-association (f &optional notrim)
+  "find command associated with filetype of specified file"
+  (interactive "sFile: ")
+  (let ((cmd (perl-command "plassoc" (concat "." (file-name-extension f)) )))
+    ;; sometimes command line args are appended to ocmd.
+    ;; we usually want just the executable
+    (if cmd 
+	(if notrim cmd
+	  (car (catlist cmd ?\"))
+	  )
+      )
+    )
+  )
+
+(defun aexec (f &optional visit)
+  "apply command associated with filetype to specified FILE
+filename may have spaces in it, so double-quote it.
+handlers may be found from the variable `file-assoc-list' or 
+failing that, via `file-association' 
+if optional VISIT is non-nil and no file association can be found just visit file, otherwise
+ display a message  "
+  (interactive "sFile: ")
+  (let* ((ext (file-name-extension f))
+	(handler (and ext (assoc (downcase ext) file-assoc-list))))
+    (if handler (funcall (cdr handler) f)
+      (let ((cmd (file-association f)))
+	(cond (cmd 
+	       (start-process f nil "cmd" "/c" cmd (format "\"%s\"" f)))
+	      (visit (find-file f))
+	      (t (message "no handler for type %s" (file-name-extension f)))
+	      )
+	)
+      )
+    )
+  )
+
+(defvar last-dosexec "")
+(defun dosexec (cmd) 
+  (interactive (list (read-string (format "scommand (%s): " last-dosexec))))
+  "run as a dos parented program"
+  (let ((f (if (eq major-mode (quote dired-mode))
+	       (dired-get-filename)
+	     (read-file-name "input file: ")))
+	(cmd (if 
+		 (and (<= (length cmd) 0)
+		      (> (length last-dosexec) 0))
+		 last-dosexec cmd)))
+    (setq last-dosexec cmd)
+    (start-process (format "dosexec %s" cmd) nil "cmd" "/c" cmd f))
+  )
+
+
+(defun dired-aexec () (interactive)
+  (aexec
+   (replace-in-string "/" "\\" 
+		      (expand-file-name 
+		       (dired-get-filename)))))
+
+;; world helpers ;;
+(defun ewn  (&optional w go sub)
+  (interactive "P")
+  (wn w go 'explore))
+
+(defun ewd  (&optional w go sub)
+  (interactive "P")
+  (wd w 'explore))
+
+(defun md (&optional arg) (interactive "P") 
+  (explore  (expand-file-name (if arg 
+				  (read-file-name "Directory to browse: " (pwd) nil t)
+				default-directory))))
+
+(defun push-world-p (w)
+  "push current context replacing with WORLD.
+a null argument means pop-world from world-stack"
+  (interactive (list
+		(completing-read "push world: " active-world-vector)))
+  (cond ((and w (> (length w) 0)) (push-world w))
+	(world-stack (pop-world))
+	(t (message "world stack is empty")))
+  )
+
+(add-hook 'world-init-hook '(lambda () (global-set-key "p" 'push-world-p)))
+
+(if (not (fboundp 'esc-p-prefix)) 
+    (define-prefix-command 'esc-p-prefix))
+(global-set-key "p" 'esc-p-prefix)
+(let ((map (symbol-function  'esc-p-prefix)))
+  (define-key map "p" 'push-world-p)
+  (define-key map "u" 'pop-world)
+  (define-key map "x" 'swap-world)
+  (define-key map "o" 'roll-world-stack)
+  (define-key map " " 'roll-world-list)
+  map)
+
+
+(defun cmd (&optional num)
+  (interactive)
+  (let ((explicit-shell-file-name "cmd")) 
+    (shell2 (or num -1)))
+  )
+(global-set-key (vector -8388595) 'cmd)
+
+(global-set-key (vector 'f10) 'ewn)
+(global-set-key (vector 'f11) 'ewd)
+(global-set-key (vector 'f12) 'md)
+(global-set-key (vector 'f4) 'arun)
+(global-set-key (vector 'f5) 'aexec)
+(global-set-key (vector 'f6) 'dosexec)
+
+
+(add-hook 'dired-mode-hook '(lambda () 
+			      (define-key  dired-mode-map "\C-m" 'dired-aexec)
+			      (define-key  dired-mode-map "P" '(lambda () (interactive) (dos-print (dired-get-filename))))
+			      (define-key dired-mode-map "|" 'dired-pipe-file)
+			      ))
+
+
+
+;; XXX this fixes the bug in dired
+;; protect against bad args.  this seems to be preloaded, so...
+;; maybe advice would work better
+(defun ls-lisp-time-lessp (TIME0 TIME1)
+  (condition-case badarg
+      (cond ((= (car TIME0) (car TIME1)) (< (cadr TIME0) (cadr TIME1)))
+	    ((< (car TIME0) (car TIME1)) t)
+	    (t nil))
+    ('wrong-type-argument nil)
+    )
+  )
+
+
+
+(defun yank-dos-filename (begin &optional end)
+  "this function translates the region between BEGIN and END using `w32-canonify' and copies the result into the kill-ring.
+if `interprogram-cut-function' is defined, it is invoked with the canonified result.
+when called from a program, if BEGIN is a string, then use it as the kill text instead of the region
+"
+  (interactive "r")
+
+  (let ((txt (w32-canonify (string* begin (buffer-substring begin end)))))
+    (kill-new txt)
+    (if interprogram-cut-function
+	(funcall interprogram-cut-function txt t))
+    txt))
+
+(defun yank-unix-filename (begin end)
+  (interactive "r")
+  "this function translates the region between BEGIN and END using `unix-canonify' and copies the result into the kill-ring.
+if `interprogram-cut-function' is defined, it is invoked with the canonified result.
+when called from a program, if BEGIN is a string, then use it as the kill text instead of the region"
+  (let* ((txt
+	  (unix-canonify (string* begin (buffer-substring begin end)) t)))
+    (kill-new txt)
+    (if interprogram-cut-function
+	(funcall interprogram-cut-function txt t))
+    txt))
+
+(global-set-key "w" 'yank-dos-filename)
+(global-set-key "y" 'yank-unix-filename)
+
+(defun dired-cut-filename ()
+  (interactive)
+  (yank-dos-filename (buffer-substring (point) (mark)))
+  )
+
+(add-hook 'dired-mode-hook '(lambda () 
+			      (define-key dired-mode-map "" 'dired-cut-filename)))
+(add-hook 'buffer-menu-mode-hook '(lambda () 
+				    (define-key Buffer-menu-mode-map "" 'dired-cut-filename)))
+
+
+(defun eau () (interactive) (dired "/WINNT/Profiles/All Users/Start Menu/Programs"))
+(defun eu () (interactive) (dired (getenv "USERPROFILE")))
+
+(defun hard-fill  (from to)
+  (interactive "r")
+  (goto-char from)
+  (while (search-forward  "
+" nil t)
+    (replace-match  "
+
+" nil t))
+
+  (fill-nonuniform-paragraphs from to nil)
+  )
+
+(defun soft-fill-region (from to)
+  (interactive (list (region-beginning) (region-end)))
+  (call-interactively 'trim-white-space)
+  (let ((a (min from to)) (b (max from to)))
+    (dolist (x '(
+		 ("
+
+" "|")
+		 ("
+" " ")
+		 ("|" "
+
+")))
+      (goto-char a)
+      (while (search-forward (car x) b t)
+	(replace-match (cadr x) t))
+      )
+    ))
+
+(global-set-key "" 'soft-fill-region)
+
+(setq w3-load-hooks '(lambda () 
+		       (load-library "w3-helpers") 
+		       (load-library "url-helpers")
+		       ))
+
+(defvar catalogs '("c:/tmp/f")) ;  "d:/f"
+
+(defun fastfind (pat) (interactive "spattern to find: ")
+  "find files matching PATTERN in catalogs"
+  (let ((b (zap-buffer "*fastfind*")))
+    (dolist (f catalogs)
+      (if (file-exists-p f)
+	  (progn
+	    (insert "***" f "***\n") 
+	    (call-process "egrep" f b t "-i" pat)
+	    ))
+      )
+    (pop-to-buffer b)
+    (beginning-of-buffer)
+    (set-buffer-modified-p nil)
+    ))
+
+; ESC-@ initialize printer
+; ESC-l left margin
+(defconst dos-print-header-format "@l%c")
+(defconst dos-print-trailer "@" "special printing characters")
+
+(defvar print-processes nil)
+;(pop print-processes)
+;(setq c (caar print-processes))
+;(cdr (assq c  print-processes))
+
+(defun print-process-sentinel (process msg)
+  ;  (read-string (format "gotcha: %s" msg))
+  (if (string-match "finished" msg) 
+      (let ((a (assq process print-processes)))
+	(setq print-processes (remq process print-processes))
+	(and (file-exists-p (cdr a)) (delete-file (cdr a)))
+  ;				(pop-to-buffer " *PRN*")
+	)
+    )
+  )
+
+(defconst esc-font-format "k%c")
+(defconst esc-fonts '(Roman
+		      SansSerif
+		      Courier
+		      Prestige
+		      Script))
+(defconst esc-proprotional "!")
+
+(defun relt (sequence val)
+  "reverse elt: return n of sequence whose value equals val"
+  (let ((len (length sequence)))
+    (loop with i = 0
+	  when (equal (elt sequence i) val) return i
+	  when (> i len) return nil
+	  do (setq i (1+ i))))
+  )
+
+
+(defun* dos-print-region (from to &key font fixed)
+
+  "print REGION as text.
+ with prefix ARG, use that as left margin.
+ see dos-print-header for default parameters."
+
+  (interactive "r")
+
+  (let* ((dos-print-header
+	  (format dos-print-header-format
+		  (or current-prefix-arg 2)))
+	 (esc-font (relt esc-fonts font))
+	 (s (buffer-substring from to))
+	 (b (generate-new-buffer " *print*"))
+	 (fn (concat "c:\\tmp\\" (make-temp-name (format "__%s" (gensym)))))
+	 p)
+    (set-buffer b)
+    (insert dos-print-header)
+    (and esc-font (insert (format esc-font-format esc-font)))
+    (unless fixed (insert esc-proprotional))
+    (insert s)
+    (insert dos-print-trailer)
+    (write-region (point-min) (point-max) fn)
+    (kill-buffer b)
+  ; use process-sentinel to catch completion
+  ;		(call-process "cmd" nil 0 nil "/c" "print" fn)
+    (set-process-sentinel 
+     (setq p (start-process "prn" (get-buffer-create " *PRN*") "cmd" "/c" "print" fn))
+     'print-process-sentinel)
+    (push (cons p fn) print-processes)
+    )
+  )
+
+(defun dos-print-buffer ()
+  (interactive)
+  (dos-print-region (point-min) (point-max))
+  )
+ 
+(defun dos-print (file) 
+  (interactive "fFile: ")
+  (let* ((ob (find-buffer-visiting file))
+	 (b (or ob (find-file-noselect file))))
+    (if b
+	(save-excursion
+	  (set-buffer b)
+	  (dos-print-buffer)))
+    (or ob (kill-buffer b))))
+
+
+(add-hook 'dired-load-hook
+	  '(lambda () 
+	     (define-key dired-mode-map "R" 'dired-move-marked-files)
+	     (define-key dired-mode-map "C" 'dired-copy-marked-files))
+	  )
+
+(defun mktemp (pat)
+  "make a temporary filename based on tmpdir"
+  (expand-file-name (format "%s/%s" (getenv "TMP") pat))
+  )
+
+(defvar grep-null-device "nul")
+
+(add-hook 
+ 'people-hook 
+ '(lambda ()
+    (require 'advice)
+  ; some goofy advice to handle lists of filenames that may have spaces in them
+    (defadvice contact-cachep (after hanger activate)
+      (setq ad-return-value 
+	    (loop for x in ad-return-value collect 
+		  (if (string-match " " x) (concat "\"" x "\"") x))))
+    )
+ )
+
+(add-hook 'make-frame-hook 
+	  '(lambda () 
+	     (modify-frame-parameters
+	      nil
+	      '((left . 140) (top . 80) (height . 30) (width . 72)))))
+; (pop make-frame-hook)
+
+; may want to check out file-name-buffer-file-type-alist
+
+(setq file-name-buffer-file-type-alist nil)
+(standard-display-8bit 129 255)
+(setq-default buffer-file-coding-system 'undecided-unix)
+(setq coding-system-for-write 'no-conversion)
+
+; todo: (alldrives) returns enumeration of drives in use
+
+; work-around annoyingly long timeouts
+
+(defun host-exists (host &optional timeout)
+  "returns t if HOST responds to a ping within optional TIMEOUT (default 200ms)"
+  (let* ((stimeout (cond ((integerp timeout) (format "%s" timeout))
+			 ((string* timeout "200"))))
+	 (ps
+	  (eval-process 
+	   (expand-file-name
+	    (format "%s/system32/ping.exe" 
+		    (getenv "systemroot")))
+	   "-w" stimeout "-n" "1" host)))
+    (not (string-match "Request timed out." ps)))
+  )
+
+; e.g.
+; (host-exists "simon") ; t if deadite is up
+; (host-exists "10.132.10.1") ; nil
+; (host-exists "deadite" 2)
+
+(defun host-ok (filename &optional noerror timeout) 
+  "FILENAME is a filename or directory
+it is ok if it doesn't contain a host name
+or if the host exists.
+signal file-error unless optional NOERROR is set.
+host must respond within optional TIMEOUT msec"
+
+
+  (let ((host (and (> (length filename) 1)
+		   (string-match "//\\([a-zA-Z0-9\.]+\\)/" filename)
+		   (= (match-beginning 0) 0)
+		   (substring filename (match-beginning 1) (match-end 1) ))))
+    (or (not host)
+	(host-exists host timeout)
+	(and (not noerror)
+	     (signal 'file-error (list "host not found" host))))
+    )
+  )
+
+;; (host-ok "//simon/e")
+;; (host-ok "//deadite/C" t)
+;; (host-ok "c:/")
+
+(defun vp (&optional user)
+  (interactive)
+  "visit profile directory for USER.  default is current user"
+  (dired  (expand-file-name
+	   (concat ($ "$SYSTEMROOT") "/profiles/" (or user ($ "$USERNAME")) "/Personal/" nil)))
+
+  )
+
+(defun browse-path () (interactive)
+  "pringle path in a browser buffer"
+  (let ((temp-buffer-show-function '(lambda (buf)
+				      (debug)
+				      (set-buffer buf)
+				      (fb-mode)))))
+
+  (with-output-to-temp-buffer "foo"
+    (mapcar '(lambda (x) (princ (expand-file-name x)) (princ "\n")) (catpath "PATH" (if (eq window-system 'win32) semicolon)))
+    )
+  )
+
+
+(defun control-panel (c) 
+  "run control panel applets"
+  (interactive
+   (list
+    (completing-read
+     "?" 
+     (mapcar
+      '(lambda (x)
+	 (list
+	  (file-name-sans-extension x)))
+      (directory-files (expand-file-name (concat *systemroot* "/system32")) nil "cpl$")
+      )
+     )))
+
+  (let ((p (get-process "cpl")))
+    (and p (kill-process p))
+    (start-process "cpl" nil "control" (concat c ".cpl")
+		   )
+    )
+  )
+
+(defun shortcut-view (f &optional arg) 
+  "describe shortcut F"
+  (interactive "fshortcut: ")
+
+  (let ((s (eval-process "shortcut" "-u" "all" (expand-file-name f))))
+    (if arg
+	(split s ?
+	       )
+      (let ((b (zap-buffer (concat "*Shortcut* " (file-name-nondirectory f)))))
+	(set-buffer b)
+	(insert s)
+	(pop-to-buffer b)
+	(beginning-of-buffer)
+	(help-mode)
+	)
+      )
+    )
+  )
+
+(or (assoc "lnk"  file-assoc-list) (push '("lnk" . shortcut-view) file-assoc-list))
+
+(defun domainname () 
+  (clean-string (reg-query "machine" 
+			   "system/currentcontrolset/services/tcpip/parameters" "domain"))
+  )
+
+(defun update-shortcut (target name)
+  (call-process 
+   "shortcut" nil nil nil "-c" "-t" target "-n" name)
+  )
+(defun my-documents () 
+  (w32-canonify 
+   ($
+    "\\docume~1\\$USERNAME\\mydocu~1")))
+
+(defun quicklaunch () 
+  (w32-canonify 
+   (concat
+    "C:\\Documents and Settings\\" 
+    ($ "$USERNAME")
+    "\\Application Data\\Microsoft\\Internet Explorer\\Quick Launch"
+    )))
+
+(defun query-shortcut (name &optional attr)
+ 
+  (let ((a (loop
+	    for x in (split  (eval-process
+			      "shortcut" "-u" "all" "-n" name) "
+")
+	    collect 
+	    (let ((l (split x ":")))
+	      (list (intern (car l)) (trim-white-space (cadr l))))
+	    )))
+    (if attr (cadr (assoc attr a)) a)
+    )
+  )
+
+(defun target (lnk)
+(let ((f (cond ((file-exists-p lnk) lnk)
+	       ((file-exists-p (concat lnk ".lnk")) (concat lnk ".lnk")))))
+ (query-shortcut f 'Target)))
+
+; (find-file (target "/f.lnk"))
+
+(defvar *wordkeys* "/a/n/howto/wordkeys.txt")
+
+(defun wordkey (pat)
+  (interactive "scommand: ")
+  (let* ((s (eval-process "egrep" "-i" pat *wordkeys*))
+	 (n (length (split s "
+"))))
+
+    (if (< n 2)
+	(message (buffer-string))
+      (let ((b  (zap-buffer "*wordkeys*")))
+	(insert s)
+	(pop-to-buffer b)
+	(not-modified)
+	(setq buffer-read-only t)
+	(beginning-of-buffer) 
+	(view-mode)))))
+
+(defun w32-mangle-filename (f)
+  "reports default-directory as a win32 8.3 file name"
+  (clean-string
+   (eval-process "gsn" f))
+  )
+
+; (w32-mangle-filename "d:/Program Files/Microsoft Visual Studio/VC98/Bin")
+
+(defun swf (fn)
+  "find files relative to systemroot"
+  (interactive "sFilename: ")
+  (let ((f (car (split (perl-command "swf" fn) "
+"))))
+    (if f 
+	(find-file f)
+      (message "%s not found" f))
+    )
+  )
+
+(defun host (n) 
+  "report host/ip windows style"
+  (interactive "sname: ")
+
+  (message (clean-string (perl-command "host" n)))
+  )
+
+(defvar semicolon (read "?;"))
+(defvar w32 'w32)

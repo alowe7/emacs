@@ -1,15 +1,14 @@
-# $Id: Makefile,v 1.3 2000-07-18 00:26:26 a Exp $
+# $Id: Makefile,v 1.4 2000-10-30 19:11:42 cvs Exp $
 
 SHELL=/bin/sh
-FIND=/bin/find
 uname := $(shell uname)
 hostname := $(shell hostname)
 
-SOURCES := $(shell /bin/find ./lisp ./site-lisp -name "*.el")
+SOURCES := $(shell find ./lisp ./site-lisp -name "*.el")
 #CONFIGS := config/os/$(uname) config/hosts/$(hostname)
 # config/version/$(shell emacs --batch --version)
 #
-CONFIGS := $(shell /bin/find ./config  -type f -a ! -name "*~" -a ! -name "*,v")
+CONFIGS := $(shell find ./config  -type f -a ! -name "*~" -a ! -name "*,v")
 XZ=xz
 ETAGS=etags
 
