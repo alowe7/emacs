@@ -1,5 +1,5 @@
 (put 'uname 'rcsid 
- "$Id: uname.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: uname.el,v 1.5 2001-07-01 09:16:23 cvs Exp $")
 (require 'eval-process)
 
 ;; misc stuff that uses eval process
@@ -37,3 +37,5 @@
    )
   )
 
+(provide 'uname)
+(provide 'hostname)
