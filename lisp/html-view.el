@@ -1,5 +1,5 @@
 (put 'html-view 'rcsid 
- "$Id: html-view.el,v 1.7 2001-08-20 04:24:43 cvs Exp $")
+ "$Id: html-view.el,v 1.8 2001-09-03 23:00:45 cvs Exp $")
 (provide 'html-view)
 
 (defun dired-html-view () (interactive)
@@ -19,6 +19,3 @@
     )
   )
 
-(add-file-association "html" 'html-view)
-
-(add-file-association "htm"  file-assoc-list)
