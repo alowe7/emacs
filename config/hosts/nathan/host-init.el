@@ -1,11 +1,11 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.3 2004-01-03 16:25:55 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.4 2004-02-07 20:38:39 cvs Exp $")
 
 (setq default-frame-alist
-      '((top + -4)
-	(left + -4)
-	(width . 102)
-	(height . 42)
+      '((top + 80)
+	(left + 80)
+	(width . 80)
+	(height . 28)
 	(background-mode . light)
 	(cursor-type . box)
 	(border-color . "black")
