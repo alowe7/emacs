@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.40 2005-03-04 23:26:19 cvs Exp $")
+ "$Id: W32.el,v 1.41 2005-03-06 23:06:38 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -141,7 +141,7 @@ if MIXED is 0, then ignore letter drive names.
 )
 
 
-(defun arun (f) (interactive "sCommand: ")
+(defun arun (f) (interactive "sCommand: "))
 (fset 'run 'arun)
 
 ; (aexec-handler "jar")
