@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.51 2004-03-11 21:37:37 cvs Exp $")
+ "$Id: fb.el,v 1.52 2004-05-24 23:13:32 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -308,7 +308,7 @@ see variable *fb-db* "
 	   (fb-indicated-file))) t))
 
 
-(defun fb-file-info () (interactive)
+(defun fb-file-info () 
   "
  0. t for directory, string (name linked to) for symbolic link, or nil.
  1. Number of links to file.
@@ -327,20 +327,21 @@ see variable *fb-db* "
   then the low 16 bits.
 11. Device number.
 "
+  (interactive)
   (let* ((fn (fb-indicated-file))
 	 (a (file-attributes fn)))
   ; -rw-r--r--   1 544      everyone     2655 Mar 28  1998 woody
     (if a
 	(message "%s %-4d %-4d %s %d %s %s"
 
-	    (elt a 8)
-	    (elt a 3)
-	    (elt a 2)
-	    "everyone"
-	    (elt a 7)
-	    (format-time-string "%b %d %Y" (elt a 5))
-	    (file-name-nondirectory fn)
-	    )
+		 (elt a 8)
+		 (elt a 3)
+		 (elt a 2)
+		 "everyone"
+		 (elt a 7)
+		 (format-time-string "%b %d %Y" (elt a 5))
+		 (file-name-nondirectory fn)
+		 )
       (message "file not found"))
     )
   )
@@ -385,8 +386,9 @@ also see `fb-mode-map'
   )
 
 
-(defun fb-up () (interactive)
+(defun fb-up () 
   " goto beginning of this directory"
+  (interactive)
   (let ((f (concat "^" (substring (file-name-directory (fb-indicated-file)) 0 -1) "$")))
     (while 
 	(re-search-backward f nil t)
@@ -395,8 +397,9 @@ also see `fb-mode-map'
   )
 
 
-(defun fb-previous () (interactive)
+(defun fb-previous () 
   " goto beginning of this directory"
+  (interactive)
   (if (bobp) nil
     (previous-line 1)
     (let ((f (concat "^" (substring (file-name-directory (fb-indicated-file)) 0 -1) "$")))
