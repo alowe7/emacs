@@ -1,5 +1,5 @@
 (put 'post-vc 'rcsid
- "$Id: post-vc.el,v 1.5 2001-10-25 22:27:20 cvs Exp $")
+ "$Id: post-vc.el,v 1.6 2001-11-02 16:59:35 cvs Exp $")
 
 (defun identify () 
   "insert a sccs ID string at head of file."
@@ -13,10 +13,17 @@
 ;; fixup crlf eol encoding
 (add-hook 'vc-checkin-hook '(lambda () (find-file-force-refresh)))
 
-(defun rcsid (arg) (interactive "P")
-  (let* ((f (if arg (read-file-name "file: ") (buffer-file-name)))
+(defun rcsid (&optional arg) 
+  "return rcsid associated with current buffer.
+with optional ARG, if ARG is a string or symbol, check for library with matching name
+else if ARG, read file name. "
+  (interactive "P")
+  (let* ((f (cond ((and arg (stringp arg)) arg)
+		  ((and arg (symbolp arg)) (symbol-name arg))
+		  (arg (read-file-name "file: "))
+		  (t (buffer-file-name))))
 	 (id (get (intern (file-name-sans-extension (file-name-nondirectory f))) (quote rcsid))))
-    (message (or id "no rcsid"))
+    (message (or id (format "no rcsid for library %s" f)))
     )
   )
 
