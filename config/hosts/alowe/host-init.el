@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.19 2003-11-01 15:18:05 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.20 2004-03-04 05:33:17 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 50)
@@ -53,7 +53,7 @@
 (require 'trim)
 (require 'ksh-interpreter)
 (require 'worlds)
-(require 'world-advice)
+; (require 'world-advice)
 
 (require 'xz-loads)
 (setq *xz-show-status* nil)
