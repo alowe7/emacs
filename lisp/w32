@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.30 2002-07-03 21:41:12 cvs Exp $")
+ "$Id: w32,v 1.31 2002-09-17 17:55:53 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -619,8 +619,12 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 	       (expand-file-name (substitute-in-file-name "$ALLUSERSPROFILE"))
 	       "top level dir for all user documents and settings")
 
+	     (defvar userprofile
+	       (expand-file-name (substitute-in-file-name "$USERPROFILE")
+	       "top level dir for current users documents and settings"))
+
 	     (defvar my-documents
-	       (expand-file-name (substitute-in-file-name "$USERPROFILE"))
+	       (expand-file-name (concat userprofile "/My Documents"))
 	       "top level dir for current users documents and settings")
 
 	     (defvar start-menu
@@ -638,7 +642,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (mapcar '(lambda (x) 
 	   (eval (list 'defun x nil '(interactive) (list 'dired x))))
-	'(w32-documents my-documents start-menu quicklaunch))
+	'(all-users-profile userprofile my-documents start-menu quicklaunch))
 
 (defun w32-mangle-filename (f)
   "reports default-directory as a win32 8.3 file name"

@@ -1,8 +1,8 @@
 (put 'post-man 'rcsid 
- "$Id: post-man.el,v 1.4 2002-01-10 18:47:23 cvs Exp $")
+ "$Id: post-man.el,v 1.5 2002-09-17 17:55:53 cvs Exp $")
 
 (require 'advice)
-
+(read-string "hi")
 (defun fix-man-page ()
   (interactive)
   (save-excursion

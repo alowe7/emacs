@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.24 2002-06-19 13:49:02 cvs Exp $")
+ "$Id: os-init.el,v 1.25 2002-09-17 17:55:53 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 (setq doc-directory data-directory)
@@ -117,7 +117,7 @@ host must respond within optional TIMEOUT msec"
 ; initialize mount table
 (cygmounts)
 
-(setq mount-hook-file-commands '(cd dired find-file-noselect file-exists-p w32-canonify))
+(setq mount-hook-file-commands '(cd dired find-file-noselect file-exists-p w32-canonify read-file))
 
 (defun mount-unhook-file-commands ()
   (loop for x in mount-hook-file-commands do
@@ -201,3 +201,15 @@ host must respond within optional TIMEOUT msec"
 
 (require 'perl-command)
 (defun evilnat () (not (string-match "ok" (perl-command "evilnat"))))
+
+
+(defun cygwin-find-file-hook ()
+  "automatically follow symlink unless prefix is given"
+  (if (string-match "^!<symlink>" (buffer-string))
+      (find-file (substring (buffer-string) (match-end 0))))
+  )
+
+(add-hook 'find-file-hooks 'cygwin-find-file-hook)
+
+; make sure post-man gets loaded the first time man is called.
+(global-set-key "\C-h\C-m" '(lambda () (interactive) (load-library "post-man") (global-set-key "\C-h\C-m" 'man) (call-interactively 'man)))

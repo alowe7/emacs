@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.24 2002-06-26 16:13:53 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.25 2002-09-17 17:55:53 cvs Exp $")
 
 (setq default-frame-alist
       '((width . 102)
@@ -38,22 +38,25 @@
 				(cd "/")
 				)))
 
-(defvar *howto-path* (nconc 
-		    (list "d:/d/offering/n/howto" "z:/b/core/test/howto" "z:/b/vta/howto" "z:/b/vta/n")
-		    (split ($ "$HOWTOPATH") ":")))
+(setq *howto-path* 
+ (loop for w in (la) 
+       when (file-exists-p (fwf "n" w))
+       collect (fwf "n" w)))
 
-(defvar *howto-alist* 
-  (if nil (loop
-	   for x in *howto-path*
-	   with l = nil
-	   nconc (loop for y in (get-directory-files x)
-		       collect (list y x)) into l
-	   finally return l))
-  )
+(setq *howto-alist* 
+      (loop
+       for x in *howto-path*
+       with l = nil
+       nconc (loop for y in (get-directory-files x)
+		   collect (list y x)) into l
+       finally return l)
+      )
 
-; (require 'worlds)
-; (require 'world-advice)
-; (setq *shell-track-worlds* t)
+(require 'worlds)
+(require 'world-advice)
+(load "post-worlds")
+
+(setq *shell-track-worlds* t)
 
 (scan-file-p "~/.xdbrc")
 
@@ -73,3 +76,5 @@
 (require 'gnuserv)
 (display-time)
 
+(set-default 'comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *")
+(setq *default-swordfile* "~/.private/bj")

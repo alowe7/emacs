@@ -1,14 +1,17 @@
 (put 'fx 'rcsid
- "$Id: fx.el,v 1.3 2002-06-06 17:17:44 cvs Exp $")
+ "$Id: fx.el,v 1.4 2002-09-17 17:55:53 cvs Exp $")
 
 (require 'cat-utils)
 (require 'xdb)
+
+(defvar *fx-host* "localhost")
+(defvar *fx-db* "fx")
 
 (defun fx (pat)
 "find files using db"
   (interactive "sPat: ")
 
-  (let ((*txdb-options* '("-h" "localhost" "-b" "test"))
+  (let ((*txdb-options* '("-h" *fx-host* "-b" *fx-db*))
 	(x-query-mode-hook 'fb-mode))
     (x-query-1 
      (format "select * from f where %s" (regexp-to-sql pat))
@@ -20,7 +23,7 @@
   "find files using db"
   (interactive "sPat1: \nsPat2: ")
 
-  (let ((*txdb-options* '("-h" "localhost" "-b" "test"))
+  (let ((*txdb-options* '("-h" *fx-host* "-b" *fx-db*))
 	(x-query-mode-hook 'fb-mode))
     (x-query-1 
      (format "select * from f where %s and %s" (regexp-to-sql pat1) (regexp-to-sql pat2))
@@ -32,7 +35,7 @@
   "find files using db"
   (interactive "sPat1: \nsExtension: ")
 
-  (let ((*txdb-options* '("-h" "localhost" "-b" "test"))
+  (let ((*txdb-options* '("-h" *fx-host* "-b" *fx-db*))
 	(x-query-mode-hook 'fb-mode))
     (x-query-1 
      (format "select * from f where %s and %s" (regexp-to-sql pat1) (regexp-to-sql (format "\\.%s$" ext)))

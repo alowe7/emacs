@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.17 2001-10-28 20:16:33 cvs Exp $")
+ "$Id: config.el,v 1.18 2002-09-17 17:55:53 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -236,3 +236,7 @@ no errors if files don't exist.
    (format "%s/fns-%s" 
  	   (getenv "EMACSPATH")
  	   emacs-version)))
+
+(defun find-host-init ()
+  (interactive)
+  (find-file (format "~/emacs/config/hosts/%s/host-init.el" (downcase (getenv "COMPUTERNAME")))))

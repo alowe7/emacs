@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.23 2002-03-14 17:57:03 cvs Exp $")
+ "$Id: default.el,v 1.24 2002-09-17 17:55:53 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -16,6 +16,8 @@
 (setq list-directory-verbose-switches "-alt")
 
 (setq horizontal-scroll-delta 20)
+
+(fset 'html-mode 'sgml-mode)
 
 ;; sort in order of decreasing frequency
 (setq auto-mode-alist '(

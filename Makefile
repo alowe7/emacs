@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.19 2001-10-25 22:27:20 cvs Exp $
+# $Id: Makefile,v 1.20 2002-09-17 17:55:53 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
@@ -23,7 +23,7 @@ ETAGS=etags
 
 all: .autoloads
 
-.autoloads: $(SOURCES) $(CONFIGS) $(SITE_LISP)
+.autoloads: FORCE $(SOURCES) $(CONFIGS) $(SITE_LISP)
 	@./make-autoloads $^ > .autoloads
 	@echo .autoloads rebuilt
 
