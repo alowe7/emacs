@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: people.el,v 1.5 2000-09-29 20:22:34 cvs Exp $")
+(defconst rcs-id "$Id: people.el,v 1.6 2000-10-02 15:16:33 cvs Exp $")
 (provide 'people)
 (require 'data)
 ;; manage people databases
@@ -173,6 +173,8 @@ to find the text that grep hits refer to."
     )
   )
 
+(defvar *minibuffer-display-unique-hit* nil "if set, use minibuffer to display a single hit.  otherwise, always pop up a buffer")
+
 ; todo: concoct list, read key for more.
 (defun find-person (name &optional db)
   " search `*people-database*' for regexp NAME
@@ -187,7 +189,7 @@ to find the text that grep hits refer to."
 	 (e (apply 'call-process 
 		   (nconc (list "egrep" nil b nil "-i" "-n" name) db)))
 	 n)
-    (run-hooks 'find-person-hook)
+    (run-hooks 'after-find-person-hook)
     (save-excursion
       (set-buffer b)
       ;; if result is one-line & buffer isn't already showing in a window, 
@@ -197,7 +199,9 @@ to find the text that grep hits refer to."
 	   ((zerop n) ; if not found try harder
 	    (find-person-1 name db))
 	   
-	   ((and (not (get-buffer-window b)) (= 1 n))
+	   ((and (not (get-buffer-window b))
+		 (= 1 n)
+		 *minibuffer-display-unique-hit*)
 	    (progn
 	      
 	      (message "%s" (clean-string (buffer-string)))
@@ -215,7 +219,7 @@ to find the text that grep hits refer to."
 
 (defun find-person-1 (name &optional db)
   " call external process `*note-program*' to find people and notes
-	runs find-person-hook after search
+	runs `after-find-person-hook' after search
 "
   (interactive "swho? ")
   (let* ((b (prog1 (zap-buffer "*people*") (people-mode)))
@@ -226,7 +230,7 @@ to find the text that grep hits refer to."
 		   (nconc (list "egrep" nil b nil "-i" "-n" name) db)))
 	 n)
 
-    (run-hooks 'find-person-hook)
+    (run-hooks 'after-find-person-hook)
     (save-excursion
       (set-buffer b)
       ;; if result is one-line & buffer isn't already showing in a window, 
