@@ -1,5 +1,5 @@
 (put 'cvs 'rcsid 
- "$Id: cvs.el,v 1.1 2000-10-18 20:13:42 cvs Exp $")
+ "$Id: cvs.el,v 1.2 2000-10-18 20:14:18 cvs Exp $")
 (provide 'cvs)
 
 (defvar *cvs-commands*
@@ -38,6 +38,7 @@
 	(shell-command (format "cvs %s %s" cmd args) b)
 	(pop-to-buffer b)
 	(beginning-of-buffer)
+	(view-mode)
 	)
 
     (message nil)
