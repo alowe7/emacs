@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.7 2001-07-24 11:44:23 cvs Exp $")
+ "$Id: fapropos.el,v 1.8 2001-07-26 09:22:32 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -278,3 +278,5 @@ unless it is already there
 )
 
 ; (fapropos5 "profile")
+
+(defun describe-key-sequence (arg) (interactive "P") (funcall (if arg 'describe-key 'describe-key-briefly) (read-key-sequence "key sequence: ")))

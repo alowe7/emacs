@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.15 2001-07-18 22:18:18 cvs Exp $")
+ "$Id: keys.el,v 1.16 2001-07-26 09:22:21 cvs Exp $")
 ;(require 'nums)
 
 ;; all key bindings
@@ -213,6 +213,7 @@
 (define-key alt-SPC-map "o" 'roll-buffer-mode)
 (define-key alt-SPC-map " " 'roll-server-clients)
 
-(global-set-key "" '(lambda () (interactive) (describe-key (read-key-sequence "key sequence: "))))
+(global-set-key (vector '\C-tab) 'set-tabs)
+(global-set-key "" 'describe-key-sequence)
 
 (provide 'keys)
