@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.17 2003-07-30 21:34:44 cvs Exp $")
+ "$Id: W32.el,v 1.18 2003-08-16 18:16:15 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -195,7 +195,7 @@ if MIXED is 0, then ignore letter drive names.
 
 (defun explore (&optional f)  
   (interactive "P")
-  (shell-command (format "explorer %s" (w32-canonify (or f "."))))
+  (shell-command (format "explorer %s" (w32-canonify (or f default-directory))))
   (run-hooks 'explore-hooks)
 )
 
