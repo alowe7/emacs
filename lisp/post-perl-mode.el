@@ -1,10 +1,13 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.10 2001-08-28 22:11:39 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.11 2002-02-28 00:07:54 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
 	  '(lambda () 
 	     (define-key perl-mode-map "" 'help-for-perl)
+	     (define-key  perl-mode-map (vector 'f1) 'pod)
+	     (define-key perl-mode-map "" 'perlfunc)
+
 	     (modify-syntax-entry ?$ "w" perl-mode-syntax-table)
 	     (modify-syntax-entry ?_ "w" perl-mode-syntax-table)
 	     ))
@@ -41,8 +44,6 @@
 
 	(pod2text (buffer-file-name) (concat (file-name-sans-extension (buffer-name)) " *pod*"))
 	)
-
-(define-key  perl-mode-map (vector 'f1) 'pod)
 
 (defun dired-pod () (interactive)
   (let ((f (dired-get-filename)))
@@ -105,4 +106,3 @@
 
 (autoload 'perlfunc "perl-helpers" "help for perl functions" 'interactive)
 
-(define-key perl-mode-map "" 'perlfunc)
