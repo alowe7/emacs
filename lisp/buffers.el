@@ -1,5 +1,5 @@
 (put 'buffers 'rcsid 
- "$Id: buffers.el,v 1.15 2004-05-24 21:09:36 cvs Exp $")
+ "$Id: buffers.el,v 1.16 2004-05-26 01:01:50 cvs Exp $")
 
 ;; walk mru list of buffers
 
@@ -105,22 +105,22 @@ when called interactively, displays a pretty list"
 	     (kill-buffer x)))
   )
 
-(defun unbury-buffer () (interactive) 
+(defun  bury-buffer-1 () (interactive) 
   (unless (member last-command '(unbury-buffer bury-buffer-1))
     (setq *collect-buffers-vector* (apply 'vector (real-buffer-list))
 	  *collect-buffers-vector-length* (length *collect-buffers-vector*)
-	  *collect-buffers-vector-index* 0))
+	  *collect-buffers-vector-index* -1))
   (let ((next (% (1+ *collect-buffers-vector-index*) (length *collect-buffers-vector*))))
     (switch-to-buffer (aref *collect-buffers-vector* next))
     (setq *collect-buffers-vector-index* next)
     )
   )
 
-(defun bury-buffer-1 () (interactive) 
+(defun unbury-buffer () (interactive) 
   (unless (member last-command '(unbury-buffer bury-buffer-1))
     (setq *collect-buffers-vector* (apply 'vector (real-buffer-list))
 	  *collect-buffers-vector-length* (length *collect-buffers-vector*)
-	  *collect-buffers-vector-index* 0))
+	  *collect-buffers-vector-index* 1))
   (let ((next (abs (% (1- *collect-buffers-vector-index*) (length *collect-buffers-vector*)))))
     (switch-to-buffer (aref *collect-buffers-vector* next))
     (setq *collect-buffers-vector-index* next)
