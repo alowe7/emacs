@@ -1,5 +1,5 @@
 (put 'simon 'rcsid 
- "$Id")
+ "$Id: simon,v 1.3 2000-10-10 18:33:40 cvs Exp $")
 
 (require 'xz-loads)
 
