@@ -1,31 +1,6 @@
 (put 'autoloads 'rcsid 
- "$Id: autoloads.el,v 1.7 2000-11-20 02:36:16 cvs Exp $")
+ "$Id: autoloads.el,v 1.8 2000-12-15 15:11:26 cvs Exp $")
 ; automatically generated for the most part.  see ../Makefile
 (load "../.autoloads" t t t )
 
-;; a few outliers
-(mapcar '(lambda (x) (autoload (car x) (car (cdr x)) "via autoload.el" t))
-	'((browse-mode "browse")
-	  (se-mode "se")
-	  (guru "guru")
-	  (caesar-region "caesar.el")
-	  (caesar-buffer "caesar.el")
-	  (mymail "mymail")
-	  (x-abbrevs "xabbr")
-	  (phigs-abbrevs "phabbr")
-	  (pi-mode "pi-mode")
-	  (filelist-mode "filelist-mode")
-	  (report-mode "report-mode")
-	  (flame "flame")
-	  (guru "guru")
-	  (calc "calc")
-	  (calc "calc-loads")
-	  (vm "vm-loads")
-	  (vm-mail-other-window "vm-loads")
-	  (w3 "w3-loads")
-	  (w3-find-url "w3-loads")
-	  (makeinfo-buffer "makeinfo")
-	  (uncompress-while-visiting "uncompress")
-	  (tar-mode "tar-mode")
-	  (loop "cl")))
 
