@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.3 2001-03-19 10:41:53 cvs Exp $")
+ "$Id: post-dired.el,v 1.4 2001-06-25 15:32:39 cvs Exp $")
 
 ;; dired stuff
 
@@ -222,6 +222,8 @@ warns if more than one file is to be moved and target is not a directory"
 	     (define-key dired-mode-map "%~" 'dired-diff-backup)
 	     (define-key dired-mode-map "%M" 'dired-move-marked-files)
 	     (define-key dired-mode-map "%t" 'dired-change-file-type)
+	     (define-key dired-mode-map "%%" '(lambda (beg end) (interactive "r") (dired-mark-files-in-region beg end)))
+	     (define-key dired-mode-map "%x" '(lambda (beg end) (interactive "r") (dired-mark-files-in-region beg end) (mapcar 'delete-file (dired-get-marked-files))))
 
 	     (set-syntax-table dired-mode-syntax-table)  
 	     )
