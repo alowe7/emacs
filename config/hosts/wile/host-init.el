@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid
- "$Id: host-init.el,v 1.4 2004-02-29 02:00:38 cvs Exp $")
+ "$Id: host-init.el,v 1.5 2004-05-24 22:50:12 cvs Exp $")
 
 (defvar process-environment-list (loop for x in  process-environment collect (split x "=")))
 
@@ -89,3 +89,10 @@
 		) collect (assoc x (frame-parameters)))
 	)
   )
+
+(add-to-load-path "/z/elisp")
+(require 'mintw)
+(setq W "/l/upm")
+; (locals)
+
+(add-to-load-path "~/x/db/site-lisp")
