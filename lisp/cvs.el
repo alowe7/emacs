@@ -1,6 +1,7 @@
 (put 'cvs 'rcsid 
- "$Id: cvs.el,v 1.10 2003-06-24 01:49:39 cvs Exp $")
+ "$Id: cvs.el,v 1.11 2003-08-29 16:50:28 cvs Exp $")
 (require 'vc)
+(require 'indicate)
 
 (defvar *cvs-commands*
   '(("checkout")
@@ -21,7 +22,7 @@
   "execute a random cvs command"
   (interactive (list 
 		(completing-read "CVS command: " *cvs-commands*)
-		(read-string "args: ")))
+		(string* (read-string (format "args (%s): " (indicated-filename))) (indicated-filename))))
 
   ;; check required args
   (if (catch 'err

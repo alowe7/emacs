@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.20 2003-08-28 19:16:36 cvs Exp $")
+ "$Id: config.el,v 1.21 2003-08-29 16:50:13 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -230,14 +230,15 @@ no errors if files don't exist.
 (defun chain-parent-file (&optional arg)
   "return the parent of a load file.
 this will be the one following it in load-path, if any.
-with optional ARG evals the file
+with optional ARG evals the file if found.
 
 the load file is determined by testing `load-in-progress'
 if this is set, then the load file is given by `load-file-name',
 otherwise it is given by `buffer-file-name'
 
 this mechanism allows a sort of inheritance among load files.
-a load file sitting in front of its 'parent' on the load-path can extend or override its settings
+a load file sitting in front of its 'parent' on the load-path can extend its settings by pre-chaining
+or override them by post-chaining.
 "
   (let ((f (if load-in-progress load-file-name (buffer-file-name))))
     (and f

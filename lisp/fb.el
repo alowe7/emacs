@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.43 2003-06-05 19:35:42 cvs Exp $")
+ "$Id: fb.el,v 1.44 2003-08-29 16:50:28 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -466,7 +466,7 @@ all other patterns (e.g. \"foo*\") remain unchanged.
     b)
   )
 
-(defun ff (args)
+(defun ff0 (args)
   "fast find working dirs -- search for file matching pat in *fb-db*
 with prefix arg, prompt for `*fb-db*' to use
 if none given, uses `*default-fb-db*' 
@@ -514,6 +514,43 @@ if none given, uses `*default-fb-db*'
 	(pop-to-buffer b)
       (split (buffer-string) "
 ")
+      )
+    )
+  )
+
+(defun ff (pat)
+  "fast find working dirs -- search for file matching PAT in `*fb-db*'"
+
+  (interactive "spat: ")
+
+  (let* ((top default-directory)
+	 (b (zap-buffer *fastfind-buffer*))
+	 )
+
+    (if (= (length *fb-db*) 0)
+	(progn
+	  (setq *fb-db* *default-fb-db*)
+	  (setq top "/")
+	  )
+
+      (progn 
+	(if (file-directory-p *fb-db*)
+	    (setq *fb-db* (concat *fb-db* "/f")))
+	(setq 
+	 top (file-name-directory *fb-db*)
+	 )
+	)
+      )
+
+    (ff1 *fb-db* pat b top)
+
+    (let ((l (split (buffer-string) "
+")))
+      (cond ((and (interactive-p) (= (length l) 1))
+	     (find-file (car l)))
+	    ((interactive-p)
+	     (pop-to-buffer b))
+	    (t l))
       )
     )
   )

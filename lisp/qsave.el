@@ -1,5 +1,5 @@
 (put 'qsave 'rcsid
-     "$Id: qsave.el,v 1.2 2003-06-05 19:35:42 cvs Exp $")
+     "$Id: qsave.el,v 1.3 2003-08-29 16:50:28 cvs Exp $")
 
 ;; by Andy Lowe (c) 1993, 1994, 1995, 1996, 1997, 1998
 
@@ -119,13 +119,13 @@ into internal stack"
   )
 
 
-(defun previous-qsave-search (b)
+(defun previous-qsave-search (&optional b)
   " move to previous search context in the stack of contexts 
-associated with buffer B
+associated with optional buffer B (default `current-buffer')
 returns data on cell, if any.
 "
   (interactive)
-  (let* ((a (intern (buffer-name b)))
+  (let* ((a (intern (buffer-name (or b (current-buffer)))))
 	 (v (get a 'qsave))
 	 (i (get a 'qsaved-index))
 	 (len (length v)))
@@ -154,13 +154,13 @@ returns data on cell, if any.
     )
   )
 
-(defun next-qsave-search  (b)
+(defun next-qsave-search  (&optional b)
   " move to next search context in the stack of contexts 
-associated with buffer B 
+associated with optional buffer B (default `current-buffer')
 returns data on cell, if any.
 "
   (interactive)
-  (let* ((a (intern (buffer-name b)))
+  (let* ((a (intern (buffer-name (or b (current-buffer)))))
 	 (v (get a 'qsave))
 	 (i (get a 'qsaved-index))
 	 (len (length v)))

@@ -1,5 +1,5 @@
 (put 'post-man 'rcsid 
- "$Id: post-man.el,v 1.6 2002-11-22 17:02:12 cvs Exp $")
+ "$Id: post-man.el,v 1.7 2003-08-29 16:50:28 cvs Exp $")
 
 (require 'advice)
 
@@ -18,8 +18,16 @@
 		first activate)
   ""
 
-  (let ((process-environment (nconc (list "PATH=\\a\\bin;\\usr\\local\\bin;\\contrib\\bin;\\usr\\bin;\\bin") process-environment)))
-    (cd "/") ; cd into the root filesystem, wherever it is.
+; need (default-directory "/") if cygroot is not current
+
+  (let ((process-environment 
+	 (nconc
+	  (list
+	   "MANPATH=/usr/man:/contrib/man"
+	   "PATH=\\a\\bin;\\usr\\local\\bin;\\contrib\\bin;\\usr\\bin;\\bin")
+	  process-environment))
+	)
+ ; be sure you're in the root filesystem, wherever it is mounted
     ad-do-it
     )
   )

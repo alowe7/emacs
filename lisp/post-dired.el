@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.22 2003-07-30 21:34:44 cvs Exp $")
+ "$Id: post-dired.el,v 1.23 2003-08-29 16:50:28 cvs Exp $")
 (require 'eval-process)
 (require 'tar-view)
 (require 'zip-view)
@@ -280,14 +280,18 @@ see `file-assoc-list'"
   (dired-cvs-cmd "up")
   )
 
-(defun dired-copy-filename-as-kill (arg) (interactive "P")
+(defun dired-copy-filename-as-kill (arg) 
+  "apply `kill-new' to `dired-get-filename' with optional ARG, canonify first"
+  (interactive "P")
   (let ((s (dired-get-filename)))
     (and arg (setq s (w32-canonify s)))
     (kill-new s)
     (message s))
   )
 
-(defun dired-make-backup () (interactive)
+(defun dired-make-backup ()
+  "make a backup of `dired-get-filename' using `make-backup-file-name'"
+ (interactive)
   (let* ((from (dired-get-filename))
 	 (to (make-backup-file-name from)))
     (dired-copy-file from to t)
@@ -346,7 +350,10 @@ see `file-assoc-list'"
 ; todo generesize
 (defun dired-yank-filename ()
   (interactive)
-  (yank-dos-filename (dired-get-filename))
+  (yank-dos-filename
+   (condition-case x
+       (dired-get-filename)
+     (error default-directory)))
   )
 (define-key dired-mode-map (vector '\C-return ?\C-y) 'dired-yank-filename)
 

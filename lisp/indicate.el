@@ -1,5 +1,5 @@
 (put 'indicate 'rcsid 
- "$Id: indicate.el,v 1.8 2003-04-02 21:34:53 cvs Exp $")
+ "$Id: indicate.el,v 1.9 2003-08-29 16:50:28 cvs Exp $")
 (provide 'indicate)
 
 ;;
@@ -98,10 +98,15 @@ indicated-word is the default. remaining args are applied to prompt"
      ))
   )
 
+(defun indicated-filename ()
+  "evaluates to filename indicated by cursor"
+ (indicated-word ":/.")
+)
+
 (defun find-indicated-file () 
   "reads in filename indicated by cursor"
   (interactive)
-  (find-file (indicated-word))
+  (find-file (indicated-filename))
   )
 
 (defun word ()

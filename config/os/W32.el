@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.18 2003-08-16 18:16:15 cvs Exp $")
+ "$Id: W32.el,v 1.19 2003-08-29 16:49:45 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -1084,15 +1084,21 @@ host must respond within optional TIMEOUT msec"
 
 ; (if (ad-is-advised 'w32-drag-n-drop) (ad-unadvise 'w32-drag-n-drop))
 
-; run ie on file in current buffer, assuming it maps to a uri
-(defun ie () (interactive)        
-  (let ((f (buffer-file-name)))
-    (if f
+(defun ie (arg) 
+  " run ie on `buffer-file-name', assuming it maps to a uri.
+interactively with arg means use the contents of region instead"
+  (interactive "P")        
+
+  (let ((url (cond ((stringp arg) arg)
+		   (arg (buffer-substring (point) (mark)))
+		   (t (concat "localhost" 
+			      (unix-canonify (string* (buffer-file-name) "") 0))))))
+
+    (if url
 	(start-process "*ie*"
 		       (zap-buffer " *ie*")
 		       "c:/Program Files/Internet Explorer/IEXPLORE.EXE"
-		       (concat "localhost" (unix-canonify f 0)
-			       )
+		       url
 		       )
       )
     )

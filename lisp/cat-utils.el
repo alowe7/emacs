@@ -1,5 +1,5 @@
 (put 'cat-utils 'rcsid
- "$Id: cat-utils.el,v 1.1 2003-04-04 05:33:29 cvs Exp $")
+ "$Id: cat-utils.el,v 1.2 2003-08-29 16:50:28 cvs Exp $")
 ;; utilities for converting between strings and lists or vectors of strings
 
 (provide 'cat-utils)
@@ -201,6 +201,9 @@ default is ':'
 
 (defun chomp (s &optional c)
   "maybe chop trailing linefeed"
-  (if (eq (aref (substring s -1) 0) (or c ?
-					)	  ) (substring s 0 -1) s)
+  (cond ((not (string* s)) s)
+	((eq (aref (substring s -1) 0) (or c ?
+					   )	  )
+	 (substring s 0 -1))
+	(t s))
   )

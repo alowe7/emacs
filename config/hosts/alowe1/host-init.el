@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.8 2003-07-30 21:34:44 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.9 2003-08-29 16:50:28 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 0)
@@ -101,6 +101,8 @@
 (add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))
 (add-hook 'java-mode-hook (lambda () (lazy-lock-mode)))
 
+(require 'reg)
+
 (defvar java-home
   (string* (getenv "JAVA_HOME")
 	   (expand-file-name
@@ -121,7 +123,7 @@
   ; first remove published versions, if any
 	      (nconc (remove-if '(lambda (x) (string-match (car e) x)) load-path)
   ; then add working versions
-		     '("/x/tw/site-lisp"))
+		     (cdr e))
 	      )
 	)
   )

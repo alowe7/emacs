@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.5 2003-04-22 22:07:35 cvs Exp $")
+ "$Id: perl-command.el,v 1.6 2003-08-29 16:50:28 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -120,7 +120,7 @@ args is a list with car = 'eval
 	       (nconc
 		(list "perl" nil (list b t) nil fs)
 		(remove* nil args)))
-	(buffer-string))
+	(chomp (buffer-string)))
       )
     )
   )
