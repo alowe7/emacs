@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.26 2005-01-19 18:26:57 cvs Exp $
+#      $Id: make-autoloads,v 1.27 2005-01-24 22:27:15 cvs Exp $
 
 =pod
 =head1 NAME
@@ -18,10 +18,11 @@ make-autoloads
 =head1 DESCRIPTION
 
 	options:
-		--help		print usage
-		--top		top of directory tree
-		--prefix <prefix>	optional prefix for alist (default=basename($top))
-		--version	print version
+                --help                  print usage
+                --top                   top of directory tree
+                --prefix <prefix>   optional prefix for alist (default=basename($top))
+                --version              print version
+                --force                 override previously autoloaded functions.
 
 =cut
 
@@ -36,6 +37,7 @@ binmode STDOUT;
 GetOptions(
 	   'help' => \$opt_help,
 	   'version' => \$opt_version,
+	   'force' => \$opt_force,
 	   'top|d=s' => \$opt_top,
 	   'prefix=s' => \$opt_prefix
 	   );
@@ -44,7 +46,7 @@ $opt_help && pod2usage( { -verbose => 2 });
 
 if ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.26 $";
+#    $version="$Revision: 1.27 $";
     print "make-autoloads version 1.24\n";
     exit;
 }
@@ -109,5 +111,9 @@ foreach $fn (@ARGV) {
 
 print "))\n";
 
-print "(mapcar '(lambda (x) (autoload (car x) (cadr x) nil t)) $alist_symbol)\n";
+# clause to cause (car x) to be loaded from (cadr x)
+$aload_clause="(autoload (car x) (cadr x) nil t)";
+# guard clause to avoid overwriting something thats already declared autoload from elsewhere unless forcing
+$aload_clause="(and (listp (symbol-function  (car x)))  (not (eq (car (symbol-function  (car x))) 'autoload)) $aload_clause)" unless $opt_force;
 
+print "(mapcar '(lambda (x) $aload_clause) $alist_symbol)\n";
