@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.26 2002-02-25 23:24:53 cvs Exp $")
+ "$Id: keys.el,v 1.27 2002-06-28 15:21:49 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -210,32 +210,11 @@
 (define-key alt-SPC-map "m" 'iconify-frame)
 (define-key alt-SPC-map "o" 'roll-buffer-mode)
 (define-key alt-SPC-map "l" 'roll-buffer-like)
-(define-key alt-SPC-map "n" 'roll-buffer-named)
+(define-key alt-SPC-map "\M-n" 'roll-buffer-named)
 (define-key alt-SPC-map "/" 'roll-buffer-with)
 (define-key alt-SPC-map "" 'roll-buffer-no-files)
 (define-key alt-SPC-map " " 'roll-server-clients)
 
-(global-set-key (vector '\C-tab) 'set-tabs)
-(global-set-key "" 'describe-key-sequence)
-
-(defvar ctl (dec "0x4000000"))
-(defun ctl (c) (+ ctl c))
-
-; use generally for info commands
-(unless (fboundp 'ctl-\?-prefix)
-    (define-prefix-command 'ctl-\?-prefix))
-
-(unless (and (boundp 'ctl-\?-map) ctl-\?-map)
-  (setq ctl-\?-map (symbol-function 'ctl-\?-prefix)))
-
-(global-set-key (vector (ctl ??)) 'ctl-\?-prefix)
-
-(define-key ctl-\?-map "	" '(lambda () (interactive)   (message "tab-width: %d" tab-width)))
-; mail-quote
-(global-set-key ">" '(lambda () (interactive) (save-excursion (goto-char (point-min)) (replace-regexp "^" "> " nil))))
-
-(define-key ctl-x-4-map "" 'bury-buffer)
-
-(global-set-key "r" 'lsreg)
-
-(provide 'keys)
+(cond ((eq window-system 'w32)
+       (define-key alt-SPC-map "n" 'iconify-frame)
+       (global-set-key "
