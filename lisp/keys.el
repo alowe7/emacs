@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: keys.el,v 1.2 2000-07-30 21:07:46 andy Exp $")
+(defconst rcs-id "$Id: keys.el,v 1.3 2000-08-18 23:13:39 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -185,7 +185,7 @@
 (global-set-key "d"  'cd)
 
 (global-set-key "\C-h\C-m" 'myman)
-(global-set-key (vector (dec "0xff80000d")) 'dosfree) ; alt-ret
+(global-set-key "\215"  'cmd) ; alt-ret
 
 (global-set-key "." 'safe-find-tag)
 
