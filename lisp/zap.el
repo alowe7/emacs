@@ -1,5 +1,5 @@
 (put 'zap 'rcsid 
- "$Id: zap.el,v 1.10 2004-09-03 15:12:33 cvs Exp $")
+ "$Id: zap.el,v 1.11 2004-09-23 21:35:37 cvs Exp $")
 (provide 'zap)
 ;;; 
 (defun zap-buffer (bname &optional postop preop)
@@ -58,3 +58,23 @@ takes no action and returns nil if buffer exists and is read-only
   )
 ; (zap-buffer-1 "foo")
 
+(defun zap-buffer-2 (name)
+  "return existing buffer NAME, create if necessary, erase contents if necessary.
+see `get-buffer-create'
+toggles `buffer-read-only' erases buffer if buffer exists and is read-only
+
+note: leaves focus in the newly created buffer.
+"
+  (interactive "Bbuffer name: ")
+
+  (let ((b (or (buffer-exists-p name))))
+    (if b (progn
+	    (set-buffer b) 
+	    (setq buffer-read-only nil)
+	    (erase-buffer)
+	    b)
+      (progn
+	(set-buffer (get-buffer-create name)))
+      )
+    )
+  )

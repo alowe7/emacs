@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.9 2004-08-17 17:50:52 cvs Exp $")
+ "$Id: fb.el,v 1.10 2004-09-23 21:35:37 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 
@@ -60,7 +60,7 @@ if regexp contains environment variables, they are expanded.
 	 )
 
     (if (string* s)
-	(let ((b (zap-buffer *fastfind-buffer*)))
+	(let ((b (zap-buffer-2 *fastfind-buffer*)))
 
 	  (setq *find-file-query*
 		(setq mode-line-buffer-identification 
@@ -83,7 +83,9 @@ if regexp contains environment variables, they are expanded.
 "))))
   ; else pop to listing if interactive
 		((interactive-p)
-		 (pop-to-buffer b))
+		 (let ((w (get-buffer-window b)))
+		   (or (and w (select-window w))
+		       (pop-to-buffer b))))
   ; else just return the list
 		(t (split (buffer-string) "
 ")
