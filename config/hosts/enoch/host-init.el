@@ -1,9 +1,7 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.3 2004-02-17 23:44:44 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.4 2004-02-24 19:47:28 cvs Exp $")
 
 ; enoch
-(add-to-load-path "~x/elisp")
-
 ; (require 'xz-loads)
 (require 'cat-utils)
 (display-time)
@@ -19,8 +17,8 @@
 
 (if (eq window-system 'x)
     (progn
-      (set-background-color "white")
-      (set-foreground-color "black")
+;      (set-background-color "white")
+;      (set-foreground-color "black")
 ; hummingbird sets up different fonts from xfree86
       (if (string-match "Hummingbird Ltd."  (cadr (xdpyinfo "vendor string")))
 	  (progn
@@ -52,3 +50,5 @@
 
 (setq mail-default-reply-to "a@alowe.com")
 
+(and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
