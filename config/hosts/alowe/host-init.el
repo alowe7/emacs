@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.7 2001-03-26 16:31:20 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.8 2001-04-13 20:53:28 cvs Exp $")
 
 ;(default-font "lucida console" nil 22)
 
@@ -25,10 +25,10 @@
 (setq *shell-track-worlds* nil)
 
 (setq default-frame-alist
-      '((top . 10)
-	(left . 10)
-	(width . 72)
-	(height . 30)
+      '((top + -4)
+	(left + -4)
+	(width . 102)
+	(height . 44)
 	(background-mode . light)
 	(cursor-type . box)
 	(border-color . "black")
@@ -39,11 +39,22 @@
 	(vertical-scroll-bars)
 	(internal-border-width . 0)
 	(border-width . 2)
-	(font . "-*-lucida console-normal-r-*-*-22-nil-*-*-*-*-*-*-")
+	(font . "-*-lucida console-normal-r-*-*-17-nil-*-*-*-*-*-*-")
 	(menu-bar-lines . 0))
       )
 
 (setq initial-frame-alist default-frame-alist)
+
+(defun select-frame-parameters ()
+  "build a default frame alist with selected values from current frame's parameters"
+  (interactive)
+  (let ((l (loop for x in default-frame-alist
+		 collect
+		 (cons (car x) (frame-parameter nil (car x))))))
+    (setq default-frame-alist l)
+    (describe-variable 'default-frame-alist)
+    )
+  )
 
 (load-library "worlds")
 (load "/x/db/x.el" t t)
@@ -51,4 +62,13 @@
 (display-time)
 
 (require 'xz-loads)
+
+(require 'gnuserv)
+(gnuserv-start t) ; if there's a problem don't try to restart.
+
+
+(if (file-exists-p "~/.tickle")
+    (messagebox
+     (read-file "~/.tickle") "don't forget" "MB_OKCANCEL|MB_ICONINFORMATION|MB_SETFOREGROUND")
+  )
 
