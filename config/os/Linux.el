@@ -1,5 +1,5 @@
 (put 'Linux 'rcsid 
- "$Id: Linux.el,v 1.6 2003-10-24 13:24:53 cvs Exp $")
+ "$Id: Linux.el,v 1.7 2004-01-12 19:07:54 cvs Exp $")
 
 ; (message "Linux")
 
@@ -79,3 +79,5 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 " on unix `identity' see `unix-canonify'."
   f
   )
+
+(defvar file-name-buffer-file-type-alist nil "found in dos-w32, noop on linux")

@@ -1,5 +1,5 @@
 (put 'Emacs21 'rcsid
- "$Id: Emacs21.el,v 1.6 2003-12-15 22:46:30 cvs Exp $")
+ "$Id: Emacs21.el,v 1.7 2004-01-12 19:07:54 cvs Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -9,6 +9,9 @@
 
 ; silence the dinger
 (setq ring-bell-function '(lambda () nil))
+
+(defvar default-fontspec-format  "-*-%s-%s-r-*-*-%s-%s-*-*-*-*-*-*-")
+(defvar default-weight "*")
 
 (defun window-system-faces ()
   (and (boundp 'window-system)
@@ -47,3 +50,6 @@
   )
 ; (window-system-faces)
 (add-hook 'after-init-hook ' window-system-faces)
+
+(defun indicated-font () (interactive)
+  (set-face-attribute 'default nil :font (indicated-word)))
