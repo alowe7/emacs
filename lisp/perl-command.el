@@ -1,11 +1,13 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.9 2004-03-18 00:39:22 cvs Exp $")
+ "$Id: perl-command.el,v 1.10 2004-04-18 20:01:19 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
 (require `backquote)
 
 (defvar semicolon (read "?;"))
+
+(defvar *perl-command* "perl")
 (defvar *perl-stdout* " *stdout*")
 (defvar *perl-stderr* "/tmp/perl.stderr")
 
@@ -55,7 +57,7 @@ args is a list with car = 'eval
 	  (message "script %s not found" s)
 	(apply 'call-process
 	       (nconc
-		(list "perl" nil b nil fs)
+		(list *perl-command* nil b nil fs)
 		(cond ((and (listp args) (eq (car args) 'eval) (list (eval args))))
 		       ((listp args) args)
 		       (t (list args)))))
@@ -84,7 +86,7 @@ args is a list with car = 'eval
     (let ((b (get-buffer-create-1 *perl-stdout*)))
       (apply 'call-process
 	     (nconc
-	      (list "perl" nil (list b t) nil "-e" s)
+	      (list *perl-command* nil (list b t) nil "-e" s)
 	      (cond ((and (listp args) (eq (car args) 'eval) (list (eval args))))
 		    ((listp args) args)
 		    (t (list args)))))
@@ -128,7 +130,7 @@ so for example use (read-file *perl-stderr*) to inspect it.
 
 	  (apply 'call-process
 		 (nconc
-		  (list "perl" nil (list b e) nil fs)
+		  (list *perl-command* nil (list b e) nil fs)
 		  (remove* nil args)))
 	  )
 	(chomp (buffer-string)))
@@ -143,7 +145,7 @@ see call-process-region"
   (apply 'call-process-region
 	 (nconc 
 	  (list start end 
-		"perl" 
+		*perl-command*
 		delete
 		buffer 
 		display

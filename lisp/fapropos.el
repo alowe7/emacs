@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.17 2004-01-21 18:46:44 cvs Exp $")
+ "$Id: fapropos.el,v 1.18 2004-04-18 20:01:19 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -214,13 +214,34 @@ fapropos will only find symbols which have already been interned
   )
 
 
+(defun member-1 (s l &optional depth)
+
+  (cond ((stringp l) (string-match s l))
+	((or (null l) 
+	     (not  (listp l))) nil)
+	((or (not (numberp depth))
+		  (> depth 0))
+	 (loop for w in l thereis (member-1 s w (and (numberp depth) (1- depth)))))
+	(t nil))
+  )
+
+; (member-1 "a" '("a") 0)
+; (let ((*string-lists-with* 1)) (call-interactively 'vars-with))
+
+(defvar *string-lists-with* t "include lists of strings in `vars-with'")
+
 (defun vars-with (s)
-  "list variables where value is a string matching regexp PAT"
+  "list variables where value is a string matching regexp PAT
+if the variable `*string-lists-with*' is set, then include lists of strings containing PAT
+if `*string-lists-with*' is a number, don't descend into lists any deeper than that
+"
   (interactive "sString: ")
   (let ((v (loop for sym being the symbols
 		 when (boundp sym)
-		 when (stringp (eval sym))
-		 when (string-match s (eval sym))
+		 when (or (and (stringp (eval sym)) (string-match s (eval sym)))
+			  (and *string-lists-with* (listp (eval sym)) 
+			       (member-1 s (eval sym) 
+					 (and (numberp  *string-lists-with*)  *string-lists-with*))))
   ; specifically exclude target
 		 unless (string-match "^s" (symbol-name sym) )
 		 collect sym)))
@@ -240,9 +261,6 @@ fapropos will only find symbols which have already been interned
 	  ))
     v)
   )
-
-
-
 
 (defun vars-like (name)
   "list variables where symbol-name matches regexp NAME"

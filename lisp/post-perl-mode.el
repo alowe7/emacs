@@ -1,11 +1,11 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.21 2004-04-05 15:30:41 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.22 2004-04-18 20:01:19 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
 	  '(lambda () 
 	     (define-key perl-mode-map "" 'help-for-perl)
-	     (define-key  perl-mode-map (vector 'f1) 'pod)
+	     (define-key perl-mode-map (vector 'f1) 'pod)
 	     (define-key perl-mode-map "" 'perlfunc)
 
 	     (modify-syntax-entry ?$ "w" perl-mode-syntax-table)

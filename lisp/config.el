@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.30 2004-04-15 19:34:12 cvs Exp $")
+ "$Id: config.el,v 1.31 2004-04-18 20:01:19 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -151,7 +151,6 @@ no errors if files don't exist.
   ; maybe automatically generated 
       (load (concat x "/.autoloads") nil t))
   )
-(add-hook 'add-to-load-path-hook 'load-autoloads)
 
 
 (defun add-to-load-path (x &optional append subdirs)
@@ -177,7 +176,9 @@ returns nil otherwise.
 			 (add-to-load-path (concat x "/" y))))
 		  (directory-files x)))
 
-    (run-hooks  'add-to-load-path-hook)
+    (load-autoloads x)
+
+    (run-hooks 'add-to-load-path-hook)
 	
     load-path
     )
@@ -255,7 +256,7 @@ or override them by post-chaining.
  )
 
 ; these go at the end of the list
-(condition-case e 
+(condition-case err
     (mapcar 
      '(lambda (x) (add-to-load-path x t))
      (nconc 
