@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: people.el,v 1.7 2000-10-02 21:17:28 cvs Exp $")
+(defconst rcs-id "$Id: people.el,v 1.8 2000-10-03 16:22:17 cvs Exp $")
 (provide 'people)
 (require 'data)
 ;; manage people databases
@@ -90,7 +90,6 @@ to find the text that grep hits refer to."
 (defvar after-find-person-hook nil)
 (defvar before-find-person-hook nil)
 
-(add-hook 'after-find-person-hook 'make-person-vector)
 (add-hook 'after-find-person-hook 'find-person-save-search)
 
 
@@ -98,12 +97,13 @@ to find the text that grep hits refer to."
   (qsave-search (current-buffer) *find-person-query* *find-person-vector*)
 )
 
-(defun make-person-vector ()
+(defun make-person-vector (name b)
   (save-excursion
-    (set-buffer "*people*")
+    (set-buffer b)
     (beginning-of-buffer)
 
     (setq *find-person-query* name)
+
     (setq *find-person-vector*
 	  (apply 'vector
 		 (loop 
@@ -122,20 +122,14 @@ to find the text that grep hits refer to."
 		   )
 		  )))
     )
-  (let ((b (zap-buffer "*people*")))
-
-    (set-buffer b)
-    (cd "/")
-    (loop 
-     for x across  *find-person-vector*
-     do
-     (insert (caddr x))
-     (insert "\n")
-     )
-
-    (pop-to-buffer b)
-    (beginning-of-buffer)
-    )
+  (erase-buffer)
+  (cd "/")
+  (loop 
+   for x across  *find-person-vector*
+   do
+   (insert (caddr x))
+   (insert "\n")
+   )
   )
 
 (if people-mode-map ()
@@ -145,6 +139,9 @@ to find the text that grep hits refer to."
   (define-key  people-mode-map "?" 'people-show-hit)
   (define-key  people-mode-map "p" '(lambda () (interactive) (previous-qsave-search (current-buffer))))
   (define-key  people-mode-map "n" '(lambda () (interactive) (next-qsave-search (current-buffer))))
+  (define-key  people-mode-map ""
+    '(lambda (n) (interactive "nprune to depth: ")
+       (prune-search (get-buffer "*people*") n)))
 )
 
 (defun people-goto-hit (&optional other-window) 
@@ -185,32 +182,35 @@ to find the text that grep hits refer to."
   (interactive "swho? ")
   (let* ((b (prog1 (zap-buffer "*people*") (people-mode)))
 	 (db (or db 
-		*people-database*))
+		 *people-database*))
 	 (e (apply 'call-process 
 		   (nconc (list "egrep" nil b nil "-i" "-n" name) db)))
 	 n)
+
+    (make-person-vector name b)
     (run-hooks 'after-find-person-hook)
-    (save-excursion
-      (set-buffer b)
-      ;; if result is one-line & buffer isn't already showing in a window, 
-      ;; then message it.  otherwise, just display in buffer
-      (setq n (count-lines (point-min) (point-max)))
-      (or (cond 
-	   ((zerop n) ; if not found try harder
-	    (find-person-1 name db))
+
+    (set-buffer b)
+
+    ;; if result is one-line & buffer isn't already showing in a window, 
+    ;; then message it.  otherwise, just display in buffer
+    (setq n (count-lines (point-min) (point-max)))
+    (unless (cond 
+	     ((zerop n) ; if not found try harder
+	      (find-person-1 name db))
 	   
-	   ((and (not (get-buffer-window b))
-		 (= 1 n)
-		 *minibuffer-display-unique-hit*)
-	    (progn
+	     ((and (not (get-buffer-window b))
+		   (= 1 n)
+		   *minibuffer-display-unique-hit*)
+	      (progn
 	      
-	      (message "%s" (clean-string (buffer-string)))
-	      (kill-buffer b)
-	      t)))
-	  (pop-to-buffer b)
-	  (set-buffer-modified-p nil)
-	  (setq buffer-read-only t)
-	  )
+		(message "%s" (clean-string (buffer-string)))
+		(kill-buffer b)
+		t)))
+      (pop-to-buffer b)
+      (beginning-of-buffer)
+      (set-buffer-modified-p nil)
+      (setq buffer-read-only t)
       )
     )
   )
@@ -230,29 +230,29 @@ to find the text that grep hits refer to."
 		   (nconc (list "egrep" nil b nil "-i" "-n" name) db)))
 	 n)
 
+    (make-person-vector name b)
     (run-hooks 'after-find-person-hook)
-    (save-excursion
-      (set-buffer b)
-      ;; if result is one-line & buffer isn't already showing in a window, 
-      ;; then message it.  otherwise, just display in buffer
-      (setq n (count-lines (point-min) (point-max)))
-      (or (cond 
-	   ;;	 ((and (null db) (zerop n)) (find-person name *tkg-people*))
-	   ((zerop n) ; if not found locally, and w3 is loaded, try a dbquery
-	    (if (and (boundp 'w3-version) (functionp 'w3-find-person)
-		     (y-or-n-p (format "lookup %s on the web?" name)))
-		(w3-find-person name)
-	      (message "%s not found" name)))
-	   ((and (not (get-buffer-window b)) (= 1 n))
-	    (progn
+
+    ;; if result is one-line & buffer isn't already showing in a window, 
+    ;; then message it.  otherwise, just display in buffer
+    (setq n (count-lines (point-min) (point-max)))
+    (unless (cond 
+	     ;;	 ((and (null db) (zerop n)) (find-person name *tkg-people*))
+	     ((zerop n) ; if not found locally, and w3 is loaded, try a dbquery
+	      (if (and (boundp 'w3-version) (functionp 'w3-find-person)
+		       (y-or-n-p (format "lookup %s on the web?" name)))
+		  (w3-find-person name)
+		(message "%s not found" name)))
+	     ((and (not (get-buffer-window b)) (= 1 n))
+	      (progn
 	      
-	      (message "%s" (clean-string (buffer-string)))
-	      (kill-buffer b)
-	      t)))
-	  (pop-to-buffer b)
-	  (set-buffer-modified-p nil)
-	  (setq buffer-read-only t)
-	  )
+		(message "%s" (clean-string (buffer-string)))
+		(kill-buffer b)
+		t)))
+      (pop-to-buffer b)
+      (beginning-of-buffer)
+      (set-buffer-modified-p nil)
+      (setq buffer-read-only t)
       )
     )
   )
