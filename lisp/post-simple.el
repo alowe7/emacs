@@ -1,0 +1,52 @@
+(put 'post-simple 'rcsid
+ "$Id: post-simple.el,v 1.1 2004-05-24 21:31:32 cvs Exp $")
+
+(require 'advice)
+(require 'qsave)
+
+; don't know why *Shell Command Output* gets buried, nor why it has spaces in it
+(defvar shell-command-default-output-buffer "*Shell-Command-Output*")
+(setq shell-command-default-error-buffer "*Shell-Command-Error*")
+
+;; add qsave capability to shell-command-default-output-buffer
+(define-derived-mode shell-command-mode fundamental-mode "shell-command" "")
+(define-key  shell-command-mode-map "p" 'roll-qsave)
+(define-key  shell-command-mode-map "n" 'roll-qsave-1)
+
+(defvar *last-shell-command* nil)
+(defun shell-command-save-search ()
+  (qsave-search (current-buffer) *last-shell-command* default-directory)
+  )
+
+(add-hook 'post-shell-command-hook 'shell-command-save-search)
+
+(defadvice shell-command (around 
+			  hook-shell-command
+			  first activate)
+  ""
+
+  (let 
+      ((output-buffer  (or (ad-get-arg 1) (zap-buffer shell-command-default-output-buffer)))
+       (error-buffer  (or (ad-get-arg 2) (zap-buffer  shell-command-default-error-buffer))))
+
+    ad-do-it
+
+    (let ((err (save-excursion
+		 (set-buffer error-buffer)
+		 (and (> (point-max) 0) (buffer-string)))))
+      (and err (message err))
+      )
+
+    (save-excursion
+      (set-buffer output-buffer)
+      (shell-command-mode)
+      (set-buffer-modified-p nil)
+      (run-hooks 'post-shell-command-hook)
+      )
+
+    (display-buffer output-buffer)
+    )
+  )
+
+; (if (ad-is-advised 'shell-command) (ad-unadvise 'shell-command) )
+
