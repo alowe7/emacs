@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.14 2003-12-09 22:37:16 cvs Exp $")
+ "$Id: helps.el,v 1.15 2004-01-16 15:36:59 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -312,18 +312,25 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 ;; 	     (m (rplacd z (cddr z))))
 ;; 	(cons munge l))))))
 
-(defvar *howto-path* (split ($ "$HOWTOPATH") ":")
-  "list of directories to search for `howto'" )
+(defvar *init-howto* nil)
+(defun init-howto ()
+  (or *init-howto*
+      (progn
+	(defvar *howto-path* (split ($ "$HOWTOPATH") ":")
+	  "list of directories to search for `howto'" )
 
-(defvar *howto-alist* 
-  (loop
-   for x in *howto-path*
-   with l = nil
-   nconc (loop for y in (get-directory-files x)
-	       collect (list y x)) into l
-   finally return l)
-  " completion alist for `howto'")
+	(defvar *howto-alist* 
+	  (loop
+	   for x in *howto-path*
+	   with l = nil
+	   nconc (and (file-directory-p x)
+		      (loop for y in (get-directory-files x)
+			    collect (list y x))) into l
+	   finally return l)
+	  " completion alist for `howto'")
 
+	(setq *init-howto* t)
+	)))
 
 ;; (defun howto (name)
 ;;   (interactive 
@@ -337,6 +344,7 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 
 (defun howto (pat)
   (interactive (list (completing-read "pat: " *howto-alist*)))
+  (init-howto)
   (catch 'done
     (let* ((matches (loop for x in *howto-alist* 
 			  when (string-match pat (car x))
