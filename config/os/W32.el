@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.30 2004-07-21 20:18:21 cvs Exp $")
+ "$Id: W32.el,v 1.31 2004-07-24 17:07:43 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -1088,5 +1088,11 @@ keys for the alist include:
 
 (global-set-key "\C-z" 'undo)
 
+(defun member-ignore-case (cl-item cl-list)
+  (member* cl-item cl-list :test '(lambda (x y) (string= (downcase x) (downcase y))))
+  ) 
 
+;; ignore case when determining whether a filename is a member of a list
+(setq *file-name-member* 'member-ignore-case)
+ 	 
 (provide 'w32)
