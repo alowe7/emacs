@@ -1,10 +1,10 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.45 2003-10-24 13:30:31 cvs Exp $")
+ "$Id: fb.el,v 1.46 2003-12-02 16:15:25 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
 (require 'qsave)
-
+(require 'trim)
 (require 'indicate)
 
 
