@@ -1,3 +1,6 @@
+(put 'w32-helpers 'rcsid 
+ "$Id: w32-helpers.el,v 1.2 2001-03-14 15:49:26 cvs Exp $")
+
 (unless (fboundp 'ctl-RET-prefix) 
     (define-prefix-command 'ctl-RET-prefix))
 
