@@ -1,11 +1,15 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.37 2003-04-04 17:26:21 cvs Exp $")
+ "$Id: fb.el,v 1.38 2003-04-05 20:40:13 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
 (require 'qsave)
 
 (require 'indicate)
+
+
+(defvar *fb-case-fold* t)
+(defvar *fb-show-lines* t)
 
 (defvar fb-mode-map    
   (prog1
@@ -189,6 +193,16 @@
   (dired (fb-indicated-file))
   )
 
+(defun fb-dired-file-1 ()
+  (interactive)
+
+  (let* ((l (split (bgets) ":"))
+	 (file (elt l 0))
+	 (b (dired-noselect file)))
+    (switch-to-buffer b)
+    )
+  )
+
 (defun fb-delete-file ()
   (interactive)
   (let ((f (fb-indicated-file)))
@@ -215,6 +229,18 @@
 (defun fb-find-file ()
   (interactive)
   (find-file (fb-indicated-file))
+  )
+
+(defun fb-find-file-1 ()
+  (interactive)
+
+  (let* ((l (split (bgets) ":"))
+	 (file (elt l 0))
+	 (line (elt l 1))
+	 (b (find-file-noselect file)))
+    (switch-to-buffer b)
+    (and line (goto-line line))
+    )
   )
 
 (defun fb-find-file-other-window ()
@@ -696,18 +722,26 @@ returns a filename containing results"
 
   (interactive "spat: ")
 
-  (let ((b (zap-buffer *fastfind-buffer*))
-	(top "/"))
+  (let* ((top default-directory)
+	 (b (zap-buffer "*ff1*" '(lambda () (cd top))))
+	 (egrep-args (nconc '("-H") 
+			    (and *fb-case-fold* '("-i"))
+			    (and  *fb-show-lines* '("-n"))))
+	 )
 
-    (call-process "find" nil
-		  b
-		  nil
-
-		  "." "-type" "f" "-exec" "egrep" "-H" pat "{}" ";")
-  (pop-to-buffer b)
-  (next-error)
+    (apply 'call-process 
+	   (nconc (list "find" nil b nil)
+		  (list "." "-type" "f" "-exec" "egrep")
+		  egrep-args
+		  (list pat "{}" ";")))
+    
+    (pop-to-buffer b)
+    (beginning-of-buffer)
+    (fb-mode)
+    (define-key fb-mode-map "f" 'fb-find-file-1)
+    (define-key fb-mode-map "d" 'fb-dired-file-1)
+    )
   )
-)
 ; (fbf "fbf")
 
 (defun fb-grep-files (s)
