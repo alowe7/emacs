@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.41 2004-10-12 21:26:35 cvs Exp $")
+ "$Id: config.el,v 1.42 2004-11-08 14:45:20 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -204,6 +204,7 @@ with optional second arg SUBDIRS, add all subdirectories as well.
 if successful, runs the value of `add-to-load-path-hook` and returns the new value of load-path.
 returns nil otherwise.
 "
+  (interactive (list (read-directory-name "sAdd to load-path: ")))
   (if (and
        (file-directory-p x)
        (not (funcall *file-name-member* x load-path))
@@ -340,10 +341,9 @@ or override them by post-chaining.
   )
  )
 
-; these go at the end of the list
+; these go at the head of the list
 (condition-case err
-    (mapcar 
-     '(lambda (x) (add-to-load-path x t))
+    (mapcar 'add-to-load-path
      (nconc 
       (and emacsdir (directory-files (concat emacsdir "/site-lisp") t "^[a-zA-Z]"))
       (directory-files (concat share "/site-lisp") t "^[a-zA-Z]")

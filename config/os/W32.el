@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.36 2004-10-01 23:07:54 cvs Exp $")
+ "$Id: W32.el,v 1.37 2004-11-08 14:45:20 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -50,22 +50,26 @@ optional DRIVE says which drive to use. "
 
 (defun unix-canonify (f &optional mixed)
   " expands FILENAME, using forward slashes.
+if FILENAME is a list, return the list of canonified members
 optional second arg MIXED says do not translate 
 letter drive names.
 if MIXED is 0, then ignore letter drive names.
 "
-  (let* 
-      ((default-directory "/")
-       (f (expand-file-name f)))
-    (if (null mixed)
-	f
-      (let
-	  ((m (string-match "^[a-zA-Z]:" f)))
-	(if (eq mixed 0)
-	    (substring f (match-end 0))
-	  (concat "//" (upcase (substring f 0 1)) (substring f (match-end 0)))
-	  )
-	)))
+  (if (listp f)
+      (loop for x in f collect (unix-canonify x mixed))
+    (let* 
+	((default-directory "/")
+	 (f (expand-file-name f)))
+      (if (null mixed)
+	  f
+	(let
+	    ((m (string-match "^[a-zA-Z]:" f)))
+	  (if (eq mixed 0)
+	      (substring f (match-end 0))
+	    (concat "//" (upcase (substring f 0 1)) (substring f (match-end 0)))
+	    )
+	  )))
+    )
   )
 
 (defalias 'canonify 'unix-canonify)
@@ -379,7 +383,7 @@ if `interprogram-cut-function' is defined, it is invoked with the canonified res
 when called from a program, if BEGIN is a string, then use it as the kill text instead of the region"
   (interactive "r")
   (let* ((txt
-	  (unix-canonify (string* begin (buffer-substring begin end)))))
+	  (unix-canonify (string* begin (buffer-substring begin end)) 0)))
     (kill-new txt)
     (if interprogram-cut-function
 	(funcall interprogram-cut-function txt t))

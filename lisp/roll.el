@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.28 2004-10-12 21:26:35 cvs Exp $")
+ "$Id: roll.el,v 1.29 2004-11-08 14:45:20 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -114,7 +114,7 @@ calling SELECTFN to choose one
 			(funcall deletefn l bb))
 		    (setq a (apply 'vector l)
 			  len (length a)
-			  i (1- i))
+			  i (1+ i))
 		    )
 
 		   ((roll-nav v 'back) 

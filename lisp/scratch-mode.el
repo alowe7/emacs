@@ -1,6 +1,10 @@
+(require 'ctl-ret)
+
 (define-derived-mode scratch-mode fundamental-mode "scratch" "")
 
-(defun cleanup-scratch-buffers () (interactive)
+(defun cleanup-scratch-buffers ()
+  "kills all empty scratch buffers"
+  (interactive)
   (loop for b in (collect-buffers-mode 'scratch-mode) 
 	when (= 0 (save-excursion (set-buffer b) (buffer-size))) 
 	do (kill-buffer b)
@@ -13,8 +17,11 @@
   )
 
 (defun pop-to-last-scratch-buffer ()
-(let ((b (loop for x being the buffers when (eq (quote scratch-mode) (progn (set-buffer x) major-mode)) return x)))
-(if (buffer-live-p b) (pop-to-buffer b) (message "no scratch buffers found"))))
+  (interactive)
+  (let ((b (loop for x being the buffers when (eq (quote scratch-mode) (progn (set-buffer x) major-mode)) return x)))
+    (if (buffer-live-p b) (pop-to-buffer b) (message "no scratch buffers found"))))
+(define-key ctl-RET-map "s" 'pop-to-last-scratch-buffer)
+
 (defun collect-scratch-buffers ()
   (save-excursion
     (loop for x being the buffers when 
@@ -66,7 +73,7 @@
 
 (defmacro %% (x y)
   "X modulo Y symmetrical around 0"
-  (let ((z (eval x)) (w (eval y))) (if (< (% z w) 0) (+ z w) z))
+  (let* ((z (eval x)) (w (eval y)) (u (% z w))) (if (< u 0) (+ z w) u))
   )
 
 (defun unbury-scratch-buffers-1 () 
@@ -86,5 +93,8 @@
 
 (global-set-key (vector 'C-M-next) 'unbury-scratch-buffers)
 (global-set-key (vector 'C-M-prior) 'unbury-scratch-buffers-1)
+
+(modify-syntax-entry ?< "(" scratch-mode-syntax-table)
+(modify-syntax-entry ?> ")" scratch-mode-syntax-table)
 
 (provide 'scratch-mode)

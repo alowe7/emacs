@@ -1,4 +1,4 @@
-;; $Id: buff.el,v 1.2 2004-04-26 21:54:43 cvs Exp $
+;; $Id: buff.el,v 1.3 2004-11-08 14:45:20 cvs Exp $
 
 (defun list-buffers (&optional files-only)
   "Display a list of names of existing buffers.
@@ -158,18 +158,8 @@ The R column contains a % for buffers that are read-only."
 (defun list-buffers-with (pat)
   (interactive "sbuffers with contents matching: ")
   (let ((collect-buffers-name (format "*Buffer List With \'%s\'*" pat)))
-    (condition-case x (kill-buffer buffer-list-name) (error nil))
-    (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-with pat)) buffer-list-name))
+    (condition-case x (kill-buffer collect-buffers-name) (error nil))
+    (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-with pat)) collect-buffers-name))
     )
   )
 
-(require 'keys)
-(define-key alt-SPC-map "\M-m" 'list-buffers-mode)
-(define-key alt-SPC-map "\M-8" 'list-buffers-modified)
-(define-key alt-SPC-map "\M-6" 'list-buffers-not-modified)
-(define-key alt-SPC-map "\M-i" 'list-buffers-in)
-(define-key alt-SPC-map "\M-/" 'list-buffers-with)
-(define-key alt-SPC-map "\M-?" '(lambda () (interactive) (help-for-map alt-SPC-map)))
-
-(define-key alt-SPC-map "\M-k" 'kill-buffers-mode)
-(define-key alt-SPC-map "\M-~" 'kill-buffers-not-modified)

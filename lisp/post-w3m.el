@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.22 2004-10-14 21:37:58 cvs Exp $")
+ "$Id: post-w3m.el,v 1.23 2004-11-08 14:45:20 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -67,7 +67,9 @@
   (message w3m-current-url)
   )
 
-(defun w3m-yank-current-url-other-buffer () (interactive)
+(defun w3m-yank-current-url-other-buffer ()
+  "if the other window is showing *w3m*, yank the url it is showing"
+  (interactive)
   (let ((u (save-window-excursion (other-window 1) (and (eq major-mode 'w3m-mode)) w3m-current-url)))
     (if u (progn
 	    (kill-new u)
@@ -78,16 +80,6 @@
     )
   )
 
-(defun w3m-yank-current-url-other-buffer () (interactive)
-  (let ((u (save-window-excursion (other-window 1) (and (eq major-mode 'w3m-mode)) w3m-current-url)))
-    (if u (progn
-	    (kill-new u)
-	    (push-mark)
-	    (insert u))
-      (message "other buffer isn't in w3m-mode")
-      )
-    )
-  )
 
 (defun w3m-yank-current-url () (interactive)
   (kill-new w3m-current-url)
@@ -98,11 +90,13 @@
 			    ("apache"  "http://apache/htdocs/manual/index.html.en")
 			    ("css" "http://localhost/usr/share/specs/css2.0/cover.html")     
 			    ("html" "http://localhost/usr/share/specs/html4.0/cover.html")
+			    ("forms" "http://localhost/usr/share/specs/html4.0/interact/forms.html")
 			    ("" "http://localhost/specs.nav")
   ; ...
 			    ("w3m" "http://localhost/u/w3m-0.3/doc/MANUAL.html")
   ; ...
 			    ("ant" "/usr/local/lib/ant-1.5.3-1/docs/manual/index.html")
+			    ("xerces" "/xerces/docs/api.html")
 			    ("struts" "http://struts.apache.org/api/overview-summary.html")
 			    ("beans:" "http://struts.apache.org/api/org/apache/struts/taglib/bean/package-summary.html")
 			    ("logic:" "http://struts.apache.org/api/org/apache/struts/taglib/logic/package-summary.html")
@@ -157,12 +151,18 @@
   )
 ; (all-docs-helper "ant")
 ; (all-docs-helper "beans")
+; (all-docs-helper "xerces")
 ; (all-docs-helper "w3m")
 ; (all-docs-helper "HttpSession")
 
 (defun all-docs (arg) 
   (interactive "P")
-  (let* ((thing (completing-read "find doc: " *all-docs-alist*))
+  (let* ((thing 
+	  (string*
+	   (completing-read
+	    (format "find doc (%s): " (indicated-word))
+	    *all-docs-alist* nil t)
+	   (indicated-word)))
 	 (url (string* (cadr (assoc thing *all-docs-alist*))
 		       (all-docs-helper thing)))
 	 (navigator (if arg 'w3m-goto-url-new-session 'w3m-goto-url)))

@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.27 2004-09-03 15:12:33 cvs Exp $")
+ "$Id: post-dired.el,v 1.28 2004-11-08 14:45:20 cvs Exp $")
 (require 'eval-process)
 (require 'tar-view)
 (require 'zip-view)
@@ -137,7 +137,7 @@ warns if more than one file is to be moved and target is not a directory"
   (dired-move-file t t)
   (revert-buffer))
 
-(defun dired-copy-marked-files (to) (interactive "Ddir: ")
+(defun dired-copy-marked-files (to) (interactive "Dcopy marked files to dir: ")
   (loop for x in  (dired-get-marked-files)
 	do
 	(let ((tof (if (file-directory-p to)
@@ -375,7 +375,7 @@ see `file-assoc-list'"
 ; todo generesize
 (defun dired-yank-filename (&optional arg)
   (interactive "P")
-  (funcall (if arg 'yank-unix-filename 'yank-dos-filename)
+  (funcall (if arg 'yank-dos-filename 'yank-unix-filename)
    (condition-case x
        (dired-get-filename)
      (error default-directory)))
