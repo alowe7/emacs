@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.25 2004-05-18 20:11:51 cvs Exp $")
+ "$Id: roll.el,v 1.26 2004-05-24 21:09:36 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -203,7 +203,7 @@ applies `switch-to-buffer' as displayfn
   (interactive (list
 		(read-string "pat: ")
 		(read-mode  "mode: ")))
-  (roll-list (buffer-list-with-mode pat (or mode major-mode))
+  (roll-list (collect-buffers-with-mode pat (or mode major-mode))
 	     '(lambda (x) (progn (switch-to-buffer x) (buffer-name x)))
 	     'kill-buffer-1
 	     'switch-to-buffer)
@@ -296,15 +296,8 @@ LIST may be an a-list, in which case, interpret the cars as buffers, and print t
 	   )
 	  )))
 
-(defun buffer-list-no-files (&optional modified)
-  (loop for x being the buffers
-	when (and 
-	      (not (progn (set-buffer x) (buffer-file-name)))
-	      (or (not modified) (buffer-modified-p x)))
-	collect (buffer-name)))
-
 (defun roll-buffer-no-files (&optional mugger) (interactive "smodified? ") 
-  (roll-list (buffer-list-no-files (string* mugger))
+  (roll-list (collect-buffers-no-files (string* mugger))
 	     nil
 	     'kill-buffer-1 
 	     'switch-to-buffer)
@@ -315,15 +308,16 @@ LIST may be an a-list, in which case, interpret the cars as buffers, and print t
   "roll buffers with names matching PAT"
   (interactive "spat: ")
 
-  (roll-buffer-list (buffer-list-named pat))
+  (roll-buffer-list (collect-buffers-named pat))
   )
+
 (defvar *last-roll-with* nil)
 (defun roll-buffer-with (pat)
   "roll buffers with contents matching PAT"
   (interactive (list (string*
 		      (read-string (format "roll buffer with (%s): " (string* *last-roll-with* (indicated-word))))
 		      (or *last-roll-with* (indicated-word)))))
-  (let ((l (buffer-list-with pat)))
+  (let ((l (collect-buffers-with pat)))
     (if l 
 	(roll-buffer-list l)
       (error (format "no buffers contain %s" pat))

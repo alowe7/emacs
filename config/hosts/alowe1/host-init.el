@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.21 2004-03-29 18:24:54 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.22 2004-05-24 21:09:36 cvs Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-22-*-*-*-*-*-*-*-")
 
@@ -121,5 +121,5 @@
 
 (load-library "post-help")
 
-(add-to-load-path 'load-path "/u/emacs-w3m/emacs-w3m")
+(add-to-load-path "/u/emacs-w3m/emacs-w3m")
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)

@@ -1,5 +1,5 @@
 (put 'buffers 'rcsid 
- "$Id: buffers.el,v 1.14 2004-04-26 21:54:43 cvs Exp $")
+ "$Id: buffers.el,v 1.15 2004-05-24 21:09:36 cvs Exp $")
 
 ;; walk mru list of buffers
 
@@ -71,6 +71,13 @@ when called interactively, displays a pretty list"
   "list buffers that are not modified.  with optional ARG, restrict to only buffers with files"
   (loop for x in (real-buffer-list) when (and (not (buffer-modified-p x)) (or (not arg) (buffer-file-name x)) ) collect x)
   )
+
+(defun collect-buffers-no-files (&optional modified)
+  (loop for x being the buffers
+	when (and 
+	      (not (progn (set-buffer x) (buffer-file-name)))
+	      (or (not modified) (buffer-modified-p x)))
+	collect (buffer-name)))
 
 (defun find-in-buffers (s &optional buffer-list)
   "find string s in any buffer.  returns a list of matching buffers"
