@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.8 2001-03-30 14:10:06 cvs Exp $")
+ "$Id: helps.el,v 1.9 2001-03-30 14:12:46 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -455,5 +455,7 @@ if *howto-path* is not set, searches in current directory
 	    (t x)))
      b)
     (pop-to-buffer b)
+    (beginning-of-buffer)
+    (help-mode)
     )
   )
