@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid 
- "$Id: post-worlds.el,v 1.12 2003-06-24 01:49:39 cvs Exp $")
+ "$Id: post-worlds.el,v 1.13 2003-06-27 21:39:32 cvs Exp $")
 
 
 (defun push-world-p (w)
@@ -50,13 +50,26 @@ a null argument means pop-world from world-stack"
 
 (setq *log-pre-log* t  *log-post-log* t)
 
+(add-hook 'world-create-hook
+	  '(lambda ()
+	     (message "hi")
+	     ; create a quicklaunch to the dir
+	     (shell-command 
+	      (format "shortcut -f -t \"%s\" -n \"%s/%s\"" (w32-canonify (fw) t) quicklaunch (wa))
+	      )
+	     )
+)
+
+(defvar *tw-ico-file* (w32-canonify "/x/tw/util/tw.ico"))
+
+; (setq world-post-change-hook nil)
+
 (add-hook 'world-post-change-hook
 	  (lambda () 
-	    (write-region 
-	     (concat "cd " (w32-canonify (expand-file-name (fw)))) nil (expand-file-name "/w.cmd"))
 	    (lastworld t)
 	    )
 	  )
+
 
 ; (require 'fb)
 
