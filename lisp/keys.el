@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: keys.el,v 1.3 2000-08-18 23:13:39 cvs Exp $")
+(defconst rcs-id "$Id: keys.el,v 1.4 2000-08-29 04:03:58 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -203,3 +203,4 @@
 (global-set-key  "" 'encrypt-write-buffer)
 
 
+(global-set-key "t" 'bootstrap-task)

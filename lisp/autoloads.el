@@ -1,9 +1,8 @@
-(defconst rcs-id "$Id: autoloads.el,v 1.3 2000-07-30 21:07:44 andy Exp $")
+(defconst rcs-id "$Id: autoloads.el,v 1.4 2000-08-29 04:03:58 cvs Exp $")
 ; automatically generated for the most part.  see ../Makefile
 (load "../auto-autoloads" t t t )
 
 ;; a few outliers
-
 (mapcar '(lambda (x) (autoload (car x) (car (cdr x)) "via autoload.el" t))
 	'((browse-mode "browse")
 	  (se-mode "se")
@@ -29,19 +28,3 @@
 	  (tar-mode "tar-mode")
 	  (loop "cl")))
 
-;;
-;; ispell4:
-;;
-(autoload 'ispell-word "ispell4" 
-  "Check spelling of word at or before point" t)
-(autoload 'ispell-complete-word "ispell4" 
-  "Complete word at or before point" t)
-(autoload 'ispell-region "ispell4" 
-  "Check spelling of every word in the region" t)
-(autoload 'ispell-buffer "ispell4" 
-  "Check spelling of every word in the buffer" t)
-(setq ispell-command "/usr/local/lib/ispell4/exe/ispell.exe"
-      ispell-look-dictionary "/usr/local/lib/ispell4/ispell.wor"
-      ispell-look-command "/usr/local/lib/ispell4/exe/look.exe"
-      ispell-command-options (list "-d" "/usr/local/lib/ispell4/ispell.dic")
-      )

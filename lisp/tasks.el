@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: tasks.el,v 1.2 2000-08-10 16:16:36 cvs Exp $")
+(defconst rcs-id "$Id: tasks.el,v 1.3 2000-08-29 04:03:59 cvs Exp $")
 
 ; a little throw-away stack of things to do, different from todo.el
 (require 'roll)
@@ -6,21 +6,26 @@
 (defvar task-stack nil)
 
 (defvar *edit-task-stack-buffer* nil)
+(defvar task-stack-clean t)
+
 (make-variable-buffer-local '*edit-task-stack-buffer*)
 
 (defun push-task (task)
 	(interactive "stask: ")
 	(push task task-stack)
+	(setq task-stack-clean nil)
 	)
 
 (defun pop-task ()
 	(interactive)
 	(if (> (length task-stack) 0) (message (pop task-stack)))
+	(setq task-stack-clean nil)
 	)
 
 (defun delete-task (&optional l b)
   (interactive)
   (delete* b task-stack)
+  (setq task-stack-clean nil)
   )
 
 (defun roll-tasks ()
@@ -37,7 +42,9 @@
   (insert (concat (apply 'format args) "\n")))
 
 (defun edit-task-stack () (interactive)
-  (let ((b (zap-buffer "*tasks*")))
+  (let ((b (or *edit-task-stack-buffer*
+	       (setq *edit-task-stack-buffer*
+		     (zap-buffer "*tasks*")))))
     (map nil 'writeln  task-stack)
     (pop-to-buffer b)
     (not-modified)
@@ -45,6 +52,8 @@
     )
   )
 
+
+(defvar edit-task-mode nil)
 
 (defun edit-task-mode () 
   "the Edit Task buffer contains local tasks.
@@ -55,27 +64,28 @@ press C-h b for local bindings.
   (setq mode-name "Task Edit")
   (add-to-list 'minor-mode-alist (list 'edit-task-mode mode-name))
   (setq *edit-task-stack-buffer* t)
-  (local-set-key "" 'edit-task-stack-save)
+  (local-set-key "" 'edit-task-stack-save)
+  (local-set-key "" 'save-task-stack)
+  (message "type  to save and remember task stack,  to write ~/.tasks") 
   )
 
 (defun edit-task-stack-save () (interactive)
   (cond ((and (boundp *edit-task-stack-buffer*)
 	      *edit-task-stack-buffer*)
-	 (setq task-stack
-	       (catlist (buffer-string) ?
-			))
-	 (and (buffer-modified-p) 
-	      (message "ok")
-	      (not-modified)
-	      )
-	 )
-	)
-  )
+	 (if (buffer-modified-p) 
+	     (progn
+	       (setq task-stack-clean nil)
+	       (setq task-stack
+		     (split (buffer-string) ?
+			    ))
+
+	       )
+	   )
+	 (bury-buffer))))
 
 (defun edit-task (&optional a i)
   (interactive)
   (if a 
-
       (setq a (or a (apply 'vector task-stack))
 	    i (or i 0))
     (if (> (length a) i)
@@ -86,6 +96,14 @@ press C-h b for local bindings.
     )
   )
 
+(defun init-task-stack ()  (interactive)
+  (let ((f (expand-file-name "~/.tasks")))
+    (and 
+     (file-exists-p f)
+     (setq task-stack (split (read-file f) "\n")))
+    )
+  )
+
 (defun save-task-stack ()  (interactive)
   (and 
    (> (length task-stack) 0)
@@ -93,7 +111,7 @@ press C-h b for local bindings.
    (loop for x in task-stack
 	 do
 	 (write-region (concat x "\n") nil 
-		       (expand-file-name "~/todo") t 0))))
+		       (expand-file-name "~/.tasks") t 0))))
 
 (add-hook 'kill-emacs-hook 'save-task-stack)
 
@@ -121,5 +139,12 @@ press C-h b for local bindings.
   )
 
 (global-set-key "t" 'ctl-C-T-prefix)
+
+(defun bootstrap-task ()
+  (interactive)
+  ; placeholder for autoload
+  (init-task-stack)
+  (message "tasks loaded.  press \"^Cth\" for help")
+  )
 
 (provide 'tasks)
