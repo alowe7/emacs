@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.9 2005-01-04 03:26:57 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.10 2005-01-20 22:25:56 cvs Exp $")
 
 ; enoch
 ; (require 'xz-loads)
@@ -58,8 +58,6 @@
 
 (defvar perldir "/usr/lib/perl5/5.6.0")
 
-(setq w3m-home-page "http://enoch")
-
 (defun evilnat () t)
 
 (setq mail-default-reply-to "a@alowe.com")
@@ -76,4 +74,6 @@
 
 ; (setq comint-use-prompt-regexp-instead-of-fields nil)
 ; (add-to-load-path "/usr/local/src/emacs-w3m/emacs-w3m" t)
+(setq w3m-home-page "http://enoch")
+(load-library "w3m")
 (load-library "ctl-slash")

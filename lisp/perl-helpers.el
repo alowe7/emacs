@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.13 2004-12-10 18:15:17 cvs Exp $
+;; $Id: perl-helpers.el,v 1.14 2005-01-20 22:25:56 cvs Exp $
 
 (require 'perl-command)
 
@@ -242,7 +242,7 @@ F is a function taking one arg, the line as a string"
 ; apparently C-RET is not a good prefix key if you're on telnet session
 (if window-system
     (define-key perldoc-mode-map  (vector 'C-return) 'perlfunc)
-  (global-set-key perldoc-mode-map "\C-j" 'perlfunc)
+  (define-key perldoc-mode-map "\C-j" 'perlfunc)
   )
 
 (define-key help-map "" 'perlmod)
