@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.31 2002-12-02 18:47:11 cvs Exp $")
+ "$Id: fb.el,v 1.32 2003-01-18 18:01:09 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -68,7 +68,7 @@
 
     (define-key fb-mode-map "i" 'fb-file-info)
 
-    (define-key locate-mode-map "|" 'fb-shell-command)
+    (define-key fb-mode-map "|" 'fb-shell-command)
 
     (define-key fb-mode-map "m" '(lambda () (interactive) 
 				   (fb-shell-command "nroff -man")))
