@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.23 2004-01-27 20:03:14 cvs Exp $")
+ "$Id: config.el,v 1.24 2004-01-30 17:05:45 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -300,3 +300,13 @@ or override them by post-chaining.
   )
 
 
+
+; XXX this is redundant with "~/config/.fns"
+
+(setq *config-load-path* (mapcar 'expand-file-name (list (format "~/config/hosts/%s" (hostname)) (format "~/config/os/%s" (uname)) "~")))
+
+(defun dotfn (fn)
+  (loop for a in *config-load-path*
+	do (let ((afn (format "%s/%s" a fn)))
+	  (if (-f afn) (scan-file afn))
+	  )))

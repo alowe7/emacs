@@ -8,7 +8,11 @@ my($sysname, $nodename, $release, $version, $machine) = uname();
 # XXX
 $sysname="W32" unless ($sysname cmp "Windows NT");
 
-$cmd="find ./config -type f -name \"*.el\" -a \\( -path \"*$sysname*\" -o -path \"*$hostname*\" \\)";
+# XXX this reflects config.el paths.  should just ask it to tell me, or let emacs compute it.
+$cmd="emacs --batch --eval \"(message (format \\\"%d.%d\\\" emacs-major-version emacs-minor-version))\"";
+$emacscfg=`$cmd 2>&1`;
+chomp $emacscfg;
+$cmd="find ./config -type f -name \"*.el\" -a \\( -path \"*$sysname*\" -o -path \"*$hostname*\" -o -path \"*$emacscfg*\" \\)";
 map {print} (`$cmd`);
 
 

@@ -1,6 +1,6 @@
 (put 'whencepath 'rcsid 
- "$Id: whencepath.el,v 1.9 2003-03-17 15:07:20 cvs Exp $")
-(require 'ksh-interpreter)
+ "$Id: whencepath.el,v 1.10 2004-01-30 17:05:45 cvs Exp $")
+(require 'sh)
 (require 'cat-utils)
 (require 'cl)
 
@@ -48,7 +48,7 @@
   (interactive "scommand: ")
   (let ((abscmd (whencepath cmd "PATH"))
 	(fc  (string-to-char cmd)))
-    ;; check for ksh function invocation (doesn't work for aliases)
+    ;; check for shell function invocation (doesn't work for aliases)
     (if (or (not (string= abscmd cmd)) (char-equal fc ?/) (char-equal fc ?.))
 	abscmd
       ;; I think this is a ksh function or alias. check along $FPATH
