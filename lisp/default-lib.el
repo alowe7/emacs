@@ -1,5 +1,5 @@
 (put 'default-lib 'rcsid 
- "$Id: default-lib.el,v 1.7 2000-11-20 01:03:02 cvs Exp $")
+ "$Id: default-lib.el,v 1.8 2001-07-10 08:17:17 cvs Exp $")
 
 (defun buffer-exists-p (bname)
   " return buffer with specified NAME or nil"
@@ -86,3 +86,7 @@
 				     (eval **default**))))
 
 
+(defun env (v)
+  "insert value of environment variable V"
+  (interactive "svar: ")
+  (insert (getenv v)))
