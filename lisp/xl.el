@@ -28,8 +28,9 @@
 (defvar *local-txdb-options* nil)
 ; e.g. '("-h" "-" "-b" "fx" "-u" "a"))
 
-(defun xlq (s)  (interactive "squery: ")
+(defun xlq (s)
   "perform a query against a local instance of mysql"
+  (interactive "squery: ")
   (let ((*txdb-options* *local-txdb-options*))
     (chomp (x-query s)))
   )
@@ -53,7 +54,7 @@
     )
   )
 
-(defun xlbi ()  (interactive)
+(defun lxdbi () (interactive)
 "run txdbi on localhost"
   (let ((*txdb-options* *local-txdb-options*))
     (call-interactively 'txdbi)

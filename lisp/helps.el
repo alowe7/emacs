@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.20 2004-12-10 18:15:17 cvs Exp $")
+ "$Id: helps.el,v 1.21 2005-01-19 18:26:57 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -430,10 +430,22 @@ if *howto-path* is not set, searches in current directory
     )
   )
 
-(defun enquote ()
-  " wrap all words in quotes "
-  (interactive)
-  (replace-regexp "[a-zA-Z0-9_-]+" " \"\\\&\" " t))
+(defun enquote (arg)
+  " wrap all words in quotes.
+with optional prefix arg, wrap by line "
+  (interactive "P")
+  (save-excursion
+    (goto-char (point-min))
+    (if arg
+	(progn
+	  (replace-regexp "$" "\"")
+	  (goto-char (point-min))
+	  (replace-regexp "^" "\"")
+	  )
+      (replace-regexp "[a-zA-Z0-9_-]+" " \"\\\&\" " t)
+      )
+    )
+  )
 
 (defun show-code (x)
   (interactive (list (read-string (format "show code for %s: " (indicated-word)))))

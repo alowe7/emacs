@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.6 2005-01-18 03:06:19 cvs Exp $")
+ "$Id: xdb.el,v 1.7 2005-01-19 18:26:48 cvs Exp $")
 
 (chain-parent-file t)
 
@@ -76,4 +76,5 @@
 
 ; (add-hook 'xdb-init-hook 'xdb-login)
 
-(setq *local-txdb-options* '("-b" "a@fx" "-h" "localhost"))
+; (setq *local-txdb-options* '("-b" "a@fx" "-h" "localhost"))
+(setq *local-txdb-options* '("-b" "a@x" "-h" "localhost"))

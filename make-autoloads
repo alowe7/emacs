@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.25 2004-07-27 22:20:26 cvs Exp $
+#      $Id: make-autoloads,v 1.26 2005-01-19 18:26:57 cvs Exp $
 
 =pod
 =head1 NAME
@@ -26,7 +26,7 @@ make-autoloads
 =cut
 
 use Getopt::Long;
-use Pod::Text;
+use Pod::Usage;
 use Cwd;
 use File::Spec;
 use File::Spec::Unix qw(catfile);
@@ -40,11 +40,11 @@ GetOptions(
 	   'prefix=s' => \$opt_prefix
 	   );
 
-$opt_h && pod2usage( { -verbose => 2 });
+$opt_help && pod2usage( { -verbose => 2 });
 
 if ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.25 $";
+#    $version="$Revision: 1.26 $";
     print "make-autoloads version 1.24\n";
     exit;
 }
