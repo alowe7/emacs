@@ -1,5 +1,5 @@
 (put 'xa 'rcsid
- "$Id: xa.el,v 1.1 2003-09-23 16:01:43 cvs Exp $")
+ "$Id: xa.el,v 1.2 2003-10-24 13:30:31 cvs Exp $")
 
 (defun xa (&optional prompt initial-input buffer cancel-message)
   "switch to a temp buffer to edit an entry.
@@ -26,7 +26,7 @@ return the bufferstring"
 				   (message "")))
 	    ))
 	(kill-buffer b)
-	s)
+	(xdb-cleanup s))
     (error nil)
     )
   )

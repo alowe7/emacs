@@ -1,5 +1,5 @@
 (put 'shell2 'rcsid 
- "$Id: shell2.el,v 1.7 2001-05-02 20:07:49 cvs Exp $")
+ "$Id: shell2.el,v 1.8 2003-10-24 13:30:31 cvs Exp $")
 (require 'comint)
 (require 'shell)
 (defvar shell-popper 'switch-to-buffer) ; could also use pop-to-buffer
@@ -26,7 +26,7 @@ Otherwise, one argument `-i' is passed to the shell.
 \(Type \\[describe-mode] in the shell buffer for a list of commands.)"
   (interactive)
   (let* ((shell-name 
-	  (concat "shell" (and shell-num (format "-%d" shell-num))))
+	  (concat "shell" (and shell-num (format "-%s" shell-num))))
 	 (shell-buffer-name (concat "*" shell-name "*")))
     (or (comint-check-proc shell-buffer-name)
 	(let* ((prog (or specific-shell-file-name

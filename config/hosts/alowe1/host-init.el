@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.11 2003-09-26 22:04:05 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.12 2003-10-24 13:29:41 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 100)
@@ -51,14 +51,6 @@
 	      '(lambda (x) (load x t t)) 
 		     '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
 
-(add-hook 'after-init-hook '(lambda () 
-			      (defadvice info (before 
-					       hook-info
-					       first 
-					       activate)
-				(cd "/")
-				)))
-
 (add-hook 'world-init-hook '(lambda ()
 ;; 
 ;; 			      (setq *howto-path* 
@@ -103,7 +95,9 @@
 (require 'gnuserv)
 (display-time)
 
-(mapcar '(lambda (f) (apply f '(comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *"))) '(set-default set))
+(setq comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *")
+(make-variable-buffer-local 'comint-prompt-regexp)
+(set-default 'comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *")
 
 (setq *default-swordfile* "~/.private/bj")
 
@@ -152,3 +146,7 @@
       (add-hook 'after-save-hook 'world-file-save-hook))
 
 (load-library "post-help")
+
+(add-hook 'fb-load-hook
+	  '(lambda () 
+	     (unless (featurep 'ffsql) (load-file "/z/db/ffsql.el"))))

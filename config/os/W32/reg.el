@@ -1,5 +1,5 @@
 (put 'reg 'rcsid
- "$Id: reg.el,v 1.3 2003-04-15 16:32:15 cvs Exp $")
+ "$Id: reg.el,v 1.4 2003-10-24 13:30:31 cvs Exp $")
 (require 'qsave)
 
 (defun reg-canonify (s)	(if (and s (stringp s) (> (length s) 0)) (replace-in-string  "/" "\\" s) ""))
@@ -21,8 +21,7 @@
    "queryvalue" 
    "-v" 
    hive
-   key
-   val
+   (concat key "/"  val)
    )
   )
 
@@ -95,7 +94,7 @@
 
 (defun lsreg (hive key)
   (interactive (list 
-		(completing-read "hive: " '(("machine" "machine") ("users" "users") ("user" "user") ("config" "config")) nil t)
+		(completing-read "hive: " '(("machine" "machine") ("users" "users") ("user" "user") ("config" "config") ("classes" "classes")) nil t)
 		(read-string "key: ")))
 
   (if (and (not (string* key)) (buffer-exists-p "*reg*"))
@@ -152,30 +151,42 @@ default hive is machine." )
     (if q (setq *reg-query* q)))
   )
 
-(defun reg-setvalue (hive key)
+(defun reg-setvalue (hive key name val)
   "this will only work on REG_SZ types"
+  (interactive (list 
+		(completing-read "hive: " '(("machine" "machine") ("users" "users") ("user" "user") ("config" "config") ("classes" "classes")) nil t)
+		(read-string "key: ")
+		(read-string "name: ")
+		(string* val (read-string "value: "))))
 
-  (if (save-excursion (beginning-of-line) (looking-at "^[ 	]*[a-zA-Z0-9_-]+ \\[REG_SZ\\]: "))
-      (let* ((prompt (trim-leading-white-space (buffer-substring (match-beginning 0) (match-end 0))))
-	     (val (buffer-substring (match-end 0) (save-excursion (end-of-line) (point))))
-	     (newval (read-string prompt val 'minibuffer-history))
-	     (name (car (split prompt)))
-	     (p (point))
-	     )
-	(perl-command  "setvalue" "-v" hive key name newval)
-	(reg-refresh)
-	(goto-char p)
-	t)
-    )
+  (perl-command  "setvalue" "-v" hive key name val)
+  (perl-command  "queryvalue" "-v" hive (concat key "/" name))
   )
 
 (defun reg-descend ()
+  " descend into a subkey.  if looking at a REG_SZ value, then prompt for newval."
   (interactive)
-  (let ((hive (car *reg-query*))
-	(key (cadr *reg-query*))
-	(subkey (trim-white-space (bgets))))
-    (unless (reg-setvalue hive key)
-      (lsreg hive (concat key "/" subkey)))
+  ; (assert (eq major-mode 'reg-view-mode))
+  (let* ((hive (car *reg-query*))
+	 (key (cadr *reg-query*))
+	 (subkey (trim-white-space (bgets)))
+	 (name (and	
+		(string-match "\\(\\sw+\\) \\[REG_SZ\\]: \\(.*\\)$" subkey)
+		(substring subkey (match-beginning 1) (match-end 1))))
+	 (val (and name (substring subkey (match-beginning 2) (match-end 2))))
+	 (newval (and name (read-string (concat name ": ") val 'minibuffer-history)))
+	 (p (point))
+	 )
+
+    (if val
+	(progn
+	  (rplacd (nthcdr 1 *reg-query*) (list name newval))
+	  (apply 'reg-setvalue *reg-query*)
+	  (reg-refresh)
+	  (goto-char p)
+	  t)
+      (lsreg hive (concat key "/" subkey))
+      )
     )
   )
 

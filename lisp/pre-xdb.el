@@ -50,9 +50,10 @@
   (if (or arg (not (or *xdbsword* *xdbuser*)))
     (progn
       (setq *xdbuser* (string* (read-string (format "user (%s): "  *xdbuser*)) *xdbuser*))
-      (setq *xdbsword* (string* (comint-read-noecho (format "sword for user %s (%s): " *xdbuser* (make-string (length *xdbsword*) ?*))) *xdbsword*))
+      (setq *xdbsword* (string* (comint-read-noecho (format "sword for user %s (%s): " *xdbuser* (make-string (length *xdbsword*) ?*))) (unless arg *xdbsword*)))
       (add-txdb-option "-u" *xdbuser*)
       (add-txdb-option "-s" *xdbsword*)
       )
+    (unless arg (message "using db user <%s>" *xdbuser*))
     )
   )

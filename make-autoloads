@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.17 2003-04-28 14:16:05 cvs Exp $
+#      $Id: make-autoloads,v 1.18 2003-10-24 13:30:31 cvs Exp $
 
 =pod
 =head1 NAME
@@ -38,7 +38,7 @@ $opt_h && pod2usage( { -verbose => 2 });
 
 if ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.17 $";
+#    $version="$Revision: 1.18 $";
     print "make-autoloads version 1.15\n";
     exit;
 }
@@ -55,6 +55,7 @@ else {
 
 $alist_symbol=$prefix . "autoload-alist";
 
+# todo: lexer?
 # todo: grab doc strings too
 print "(setq $alist_symbol `( ";
 

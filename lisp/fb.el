@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.44 2003-08-29 16:50:28 cvs Exp $")
+ "$Id: fb.el,v 1.45 2003-10-24 13:30:31 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -521,7 +521,7 @@ if none given, uses `*default-fb-db*'
 (defun ff (pat)
   "fast find working dirs -- search for file matching PAT in `*fb-db*'"
 
-  (interactive "spat: ")
+  (interactive "sfind files: ")
 
   (let* ((top default-directory)
 	 (b (zap-buffer *fastfind-buffer*))
@@ -554,6 +554,7 @@ if none given, uses `*default-fb-db*'
       )
     )
   )
+
 
 (defun fh (pat)
   "fast find working drive -- search for file matching pat in homedirs"
@@ -768,3 +769,6 @@ returns a filename containing results"
   )
 
 (provide 'fb)
+
+(run-hooks 'fb-load-hook)
+
