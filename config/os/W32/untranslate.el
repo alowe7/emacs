@@ -1,5 +1,5 @@
 (put 'untranslate 'rcsid 
- "$Id: untranslate.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: untranslate.el,v 1.1 2004-01-10 16:26:44 cvs Exp $")
 (provide 'untranslate)
 
 (defun find-buffer-file-type (filename)

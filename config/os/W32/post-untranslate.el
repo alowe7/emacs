@@ -1,5 +1,5 @@
 (put 'post-untranslate 'rcsid 
- "$Id: post-untranslate.el,v 1.6 2001-07-11 18:10:01 cvs Exp $")
+ "$Id: post-untranslate.el,v 1.1 2004-01-10 16:26:44 cvs Exp $")
 
 (defun fix-dos-file ()
   (interactive)
