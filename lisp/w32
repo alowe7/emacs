@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.15 2001-08-15 21:49:00 cvs Exp $")
+ "$Id: w32,v 1.16 2001-08-20 02:08:16 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -145,30 +145,6 @@ if MIXED is 0, then ignore letter drive names.
 ;; this depends on the query.bat being on your path
 
 
-(defun file-association (f &optional notrim)
-  "find command associated with filetype of specified file"
-  (interactive "sFile: ")
-  (let ((cmd (perl-command "plassoc" (concat "." (file-name-extension f)) )))
-    ;; sometimes command line args are appended to ocmd.
-    ;; we usually want just the executable
-    (if cmd 
-	(if notrim cmd
-	  (car (catlist cmd ?\"))
-	  )
-      )
-    )
-  )
-
-(defvar file-assoc-list
-  '(("lnk" . lnk-view)
-    ("tar" . tar-view)
-    ("jar" . jar-view)
-    ("zip" . zip-view)
-    ("html" . html-view)
-    ("htm" . html-view))
-  "alist of downcased file extensions to internal handlers")
-
-
 (defun aexec (f &optional visit)
   "apply command associated with filetype to specified FILE
 filename may have spaces in it, so double-quote it.
@@ -216,12 +192,6 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   )
 
 
-(defun dired-aexec () (interactive)
-  (aexec
-   (replace-in-string "/" "\\" 
-		      (expand-file-name 
-		       (dired-get-filename)))))
-
 ;; world helpers ;;
 (defun ewn  (&optional w go sub)
   "expore file in W named F"
@@ -237,31 +207,6 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 				  (read-file-name "Directory to browse: " (pwd) nil t)
 				default-directory))))
 
-(defun push-world-p (w)
-  "push current context replacing with WORLD.
-a null argument means pop-world from world-stack"
-  (interactive (list
-		(completing-read "push world: " active-world-vector)))
-  (cond ((and w (> (length w) 0)) (push-world w))
-	(world-stack (pop-world))
-	(t (message "world stack is empty")))
-  )
-
-(add-hook 'world-init-hook '(lambda ()
-
-			      (if (not (fboundp 'esc-p-prefix)) 
-				  (define-prefix-command 'esc-p-prefix))
-			      (global-set-key "p" 'esc-p-prefix)
-			      (let ((map (symbol-function  'esc-p-prefix)))
-				(define-key map "p" 'push-world-p)
-				(define-key map "u" 'pop-world)
-				(define-key map "x" 'swap-world)
-				(define-key map "o" 'roll-world-stack)
-				(define-key map " " 'roll-world-list)
-				map)
-			      )
-	  )
-
 (make-variable-buffer-local 'explicit-shell-file-name)
 (defun cmd (&optional num)
   (interactive "p")
@@ -276,14 +221,6 @@ a null argument means pop-world from world-stack"
 (global-set-key (vector 'f4) 'arun)
 (global-set-key (vector 'f5) 'aexec)
 (global-set-key (vector 'f6) 'dosexec)
-
-
-(add-hook 'dired-mode-hook '(lambda () 
-			      (define-key  dired-mode-map "\C-m" 'dired-aexec)
-			      (define-key  dired-mode-map "P" '(lambda () (interactive) (dos-print (dired-get-filename))))
-			      (define-key dired-mode-map "|" 'dired-pipe-file)
-			      ))
-
 
 
 ;; XXX this fixes the bug in dired
