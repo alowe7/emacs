@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.38 2004-04-15 19:34:12 cvs Exp $")
+ "$Id: default.el,v 1.39 2004-04-18 23:39:57 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -272,3 +272,8 @@ if n < 0 counts from end of string
 ; (debug-on-entry 'w32-add-charset-info)
 ; (add-hook 'term-setup-hook 'debug)
 ; (add-hook 'window-setup-hook 'debug)
+
+;; default implementation.  custom configs can override
+(fset 'host-ok 'identity)
+
+

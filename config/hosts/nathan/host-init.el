@@ -1,11 +1,13 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.6 2004-04-04 16:23:48 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.7 2004-04-18 23:39:57 cvs Exp $")
 
-(setq default-frame-alist
-      '((top + 80)
-	(left + 80)
-	(width . 80)
-	(height . 28)
+(setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
+
+(setq initial-frame-alist
+      `((top . 40)
+ 	(left . 0)
+ 	(width . 142)
+ 	(height . 30)
 	(background-mode . light)
 	(cursor-type . box)
 	(border-color . "black")
@@ -16,15 +18,13 @@
 	(vertical-scroll-bars)
 	(internal-border-width . 0)
 	(border-width . 2)
-	(font . "-*-lucida console-normal-r-*-*-17-nil-*-*-*-*-*-*-")
+	(font . ,default-fontspec)
 	(menu-bar-lines . 0))
       )
 
-(setq initial-frame-alist default-frame-alist)
+(setq default-frame-alist  initial-frame-alist)
 
 (setq *people-database*  '("/a/n/people"))
-
-(defvar mandirs (catlist (getenv "MANPATH") ?;))
 
 ; xz-squish is currently global.  todo: make per process
 (add-hook 'xz-load-hook '(lambda () 
@@ -41,9 +41,6 @@
 (require 'gnuserv)
 
 ;(load-library "xdb")
-(scan-file-p "~/.xdbrc")
-
-(setq Info-default-directory-list '("/usr/share/emacs/info/"))
 
 ; use working versions. will this stuff ever stabilize?
 (let ((r '(
@@ -64,10 +61,42 @@
 	)
   )
 
-(let ((dir "D:/usr/local/lib/emacs-21.3/bin"))
-(and (y-or-n-p (format "set exec dir (%s) to %s?" exec-directory dir))
-     (setq exec-directory	dir)))
+; man don't work with default path
+(load-library "post-man")
+(defvar mandirs (catlist (getenv "MANPATH") ?;))
+
+(setq font-lock-support-mode 'lazy-lock-mode)
+(add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))
+(add-hook 'java-mode-hook (lambda () (lazy-lock-mode)))
+
+(load-library "post-help")
+
+(add-to-load-path "/u/emacs-w3m-1.3.2")
+(autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
+
+
+(if (not (and
+	  (file-directory-p exec-directory)
+	  (string-match (format "%s.%s" emacs-major-version emacs-minor-version) exec-directory)))
+    (let ((dir (or (getenv "EMACS_DIR") (getenv "EMACSDIR"))))
+      (or (string= exec-directory dir)
+	  (setq exec-directory dir))
+      )
+  )
 
 (if (string-match "21" emacs-version)
     (fonty "tahoma"))
+
+(setq Info-default-directory-list '())
+
+(defun flush-info-cache (dir)
+  (setq Info-dir-contents-directory nil
+	Info-dir-contents nil
+	Info-directory-list nil)
+  (info dir)
+  )
+; (flush-info-cache "/usr/share/emacs/info/dir")
+
+(setenv "INFOPATH" "/usr/share/emacs/info/")
+
 

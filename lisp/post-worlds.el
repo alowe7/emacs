@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid 
- "$Id: post-worlds.el,v 1.15 2004-02-20 15:54:01 cvs Exp $")
+ "$Id: post-worlds.el,v 1.16 2004-04-18 23:39:57 cvs Exp $")
 
 (defun push-world-p (w)
   "push current context replacing with WORLD.
@@ -111,4 +111,8 @@ a null argument means pop-world from world-stack"
 
 (define-key ctl-x-3-map "f" 'wn)
 (define-key ctl-x-3-map "d" '(lambda () (interactive) (dired (fw))))
+
+(setq *world-goto-lastdir* t)
+(setq *shell-track-worlds* t)
+;(lastworld)
 

@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.31 2004-04-18 20:01:19 cvs Exp $")
+ "$Id: config.el,v 1.32 2004-04-18 23:39:57 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -298,13 +298,13 @@ or override them by post-chaining.
  (and (getenv "TERM") (load (getenv "TERM") t t))		;terminal specific
 )
 
+;; optional emacs-version-specific overrides
+(load (format "Emacs%d" emacs-major-version) t t)
+
 (load "os-init" t t)		; load os-specific info
 
 ;; optional host-specific overrides
 (load "host-init" t t)
-
-;; optional emacs-version-specific overrides
-(load (format "Emacs%d" emacs-major-version) t t)
 
 (provide 'config)
 
