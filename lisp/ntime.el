@@ -1,5 +1,5 @@
 (put 'ntime 'rcsid 
- "$Id: ntime.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: ntime.el,v 1.5 2003-03-21 21:04:52 cvs Exp $")
 ;; Simple implementation of mode-line/echo-area clock, using itimers.
 
 ; why?
@@ -46,10 +46,15 @@ usual time of day.")
     (start-itimer "display-time" 'display-time-function
 		 display-time-interval display-time-interval)))
 
+(defvar display-time-iso8601 nil "if set, display time function uses iso8601 format")
+; (setq display-time-iso8601 t)
+
 (defun display-time-function ()
   (let (string)
     ;; display the day and date if the user requests it.
-    (setq string (substring (current-time-string)
+    (setq string (substring (if display-time-iso8601 
+				(format-time-string "%Y-%m-%dT%T%z" nil t)
+			      (current-time-string))
 			    (if display-time-day-and-date 0 11) 
 			    (if display-time-seconds -5 -8)))
     ;; stuff the time in the echo area if specified,
