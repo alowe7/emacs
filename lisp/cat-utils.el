@@ -138,12 +138,14 @@ default is ':'
 		     ((numberp pat) (format "%c" pat))
 		     (t ":")))
 	 (seq 
-	  (cond ((vectorp v) (loop for x across v
-				   collect
-				   (concat x patp)))
-		((listp v) (loop for x in v 
-				 collect
-				 (concat x patp)))
+	  (cond ((vectorp v)
+		 (loop for x across v
+		       collect
+		       (concat x patp)))
+		((listp v)
+		 (loop for x in v 
+		       collect
+		       (concat x patp)))
 		(t v)))
 	 )
     (if (> (length seq) 0) ; remove the last pat
