@@ -1,6 +1,8 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.13 2001-07-18 22:18:18 cvs Exp $")
+ "$Id: os-init.el,v 1.14 2001-07-22 16:26:40 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
+
+(setq doc-directory data-directory)
 
 ;; config file for gnuwin-1.0
 (autoload 'shell2 "shell2" t)
