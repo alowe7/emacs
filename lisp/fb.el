@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.54 2004-06-10 14:55:27 cvs Exp $")
+ "$Id: fb.el,v 1.55 2004-08-08 19:25:39 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -11,6 +11,7 @@
 (defvar *fb-case-fold* t)
 (defvar *fb-show-lines* t)
 (defvar *fb-auto-go* t)
+(defvar fb-load-hook nil)
 
 (defvar fb-mode-map    
   (prog1
