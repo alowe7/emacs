@@ -1,5 +1,5 @@
 (put 'cvs 'rcsid 
- "$Id: cvs.el,v 1.2 2000-10-18 20:14:18 cvs Exp $")
+ "$Id: cvs.el,v 1.3 2001-02-09 14:29:51 cvs Exp $")
 (provide 'cvs)
 
 (defvar *cvs-commands*
@@ -16,6 +16,7 @@
     ))
 
 (defun cvs (cmd args)
+"execute a random cvs command"
   (interactive (list 
 		(completing-read "CVS command: " *cvs-commands*)
 		(read-string "args: ")))

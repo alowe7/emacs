@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.8 2001-01-17 19:12:56 cvs Exp $")
+ "$Id: keys.el,v 1.9 2001-02-09 14:29:51 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -69,7 +69,6 @@
 (global-set-key "" 'kill-rectangle)
 (global-set-key "" 'goto-line)
 ; (global-set-key "" 'manual-entry)
-(global-set-key "" 'roll-buffer-list)
 
 (global-set-key "." 'find-tag-on-key)
 
@@ -185,7 +184,7 @@
 (define-key emacs-lisp-mode-map ""  'debug-indicated-word)
 (global-set-key "d"  'cd)
 
-(global-set-key "\C-h\C-m" 'myman)
+(global-set-key "\C-h\C-m" 'man)
 (global-set-key "\215"  'cmd) ; alt-ret
 
 ; "\C-c\C-/"

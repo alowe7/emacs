@@ -1,5 +1,6 @@
 (put 'CYGWIN_NT-4.0 'rcsid 
- "$Id: os-init.el,v 1.2 2000-11-02 17:40:45 cvs Exp $")
+ "$Id: os-init.el,v 1.3 2001-02-09 14:29:51 cvs Exp $")
+(put 'os-init 'rcsid 'CYGWIN_NT-4.0)
 
 ;; config file for gnuwin-1.0
 (autoload 'shell2 "shell2" t)

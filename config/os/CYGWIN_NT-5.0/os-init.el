@@ -1,5 +1,6 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.1 2000-11-19 20:25:22 cvs Exp $")
+ "$Id: os-init.el,v 1.2 2001-02-09 14:29:51 cvs Exp $")
+(put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 ;; config file for gnuwin-1.0
 (autoload 'shell2 "shell2" t)
@@ -17,16 +18,24 @@
 
 ; work-around annoyingly long timeouts
 
+(defvar *short-timeout* 200 "time to wait for network drive to respond, in ms")
+
 (defun host-exists (host &optional timeout)
-  "returns t if HOST responds to a ping within optional TIMEOUT (default 200ms)"
-  (let* ((stimeout (cond ((integerp timeout) (format "%s" timeout))
-			 ((string* timeout "200"))))
+  "returns t if HOST responds to a ping within optional TIMEOUT.
+TIMEOUT may be an integer or a string representation of an integer.
+ (default is `*short-timeout*`)"
+
+  (let* ((stimeout (string* timeout
+			    (format "%s" 
+				    (if (integerp timeout) timeout
+				      *short-timeout*))))
 	 (ps
 	  (eval-process 
 	   (expand-file-name
 	    (format "%s/system32/ping.exe" 
 		    (getenv "systemroot")))
 	   "-w" stimeout "-n" "1" host)))
+
     (not (or (loop for x in 
 		   '("Request timed out"
 		     "Destination host unreachable" 

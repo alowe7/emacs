@@ -1,5 +1,5 @@
 (put 'post-xz 'rcsid 
- "$Id: post-xz.el,v 1.3 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: post-xz.el,v 1.4 2001-02-09 14:29:51 cvs Exp $")
 
 (require 'advice)
 (require 'long-comment)
@@ -10,48 +10,30 @@ used for autocompletion on interactive call to start-xz.
 may be initialized from environment variable XZDIRS
 "	)
 
-(defun xz-try-completion (s l)
-  (let ((c (try-completion s l)))
-    (cond ((or (null c) (eq c t)) s)
-	  (t c))
+(defvar *xz-complete-dirs* nil)
+
+(unless (not *xz-complete-dirs*)
+
+  (defun xz-try-completion (s l)
+    (let ((c (try-completion s l)))
+      (cond ((or (null c) (eq c t)) s)
+	    (t c))
+      )
     )
-  )
 
 		
-(defadvice minibuffer-complete-word (around interactive-xz-completion first disable)
-  ""
-  (let ((s (buffer-string)))
-    (erase-buffer)
-    (insert (xz-try-completion s *xz-dirs*)))
-  ad-do-it)
+  (defadvice minibuffer-complete-word (around interactive-xz-completion first disable)
+    ""
+    (let ((s (buffer-string)))
+      (erase-buffer)
+      (insert (xz-try-completion s *xz-dirs*)))
+    ad-do-it)
+
+  ;  (ad-unadvise 'minibuffer-complete-word)
 
 		
-(defadvice completing-read (around interactive-xz-completion disable)
+  (defadvice completing-read (around interactive-xz-completion disable)
 
-  (ad-enable-advice 
-   'minibuffer-complete-word
-   'around
-   'interactive-xz-completion)
-
-  (ad-activate 'minibuffer-complete-word)
-
-  ad-do-it
-
-  (ad-disable-advice
-   'minibuffer-complete-word
-   'around
-   'interactive-xz-completion)
-
-  (ad-activate 'minibuffer-complete-word)
-
-  )
-
-		
-(defun xz-completing-read (prompt default)
-  "helper to implement completing read from *xz-dirs*
- used as advice on start-xz
-"
-  (let (v)
     (ad-enable-advice 
      'minibuffer-complete-word
      'around
@@ -59,23 +41,7 @@ may be initialized from environment variable XZDIRS
 
     (ad-activate 'minibuffer-complete-word)
 
-    (setq v 
-	  (loop 
-	   with s = (completing-read
-		     (format "run %s on (%s): " *xz-command* default)
-		     *xz-dirs*)
-	   while (and (> (length (all-completions s *xz-dirs*)) 1)
-		      (not (string= s (xz-try-completion s *xz-dirs*))))
-	   do 
-	   (with-output-to-temp-buffer "*completions*"
-	     (display-completion-list (all-completions s *xz-dirs*)))
-	   (display-buffer "*completions*")
-  ; (sit-for 1)
-	   (setq s (completing-read
-		    (format "run %s on (%s): " *xz-command* s)
-		    *xz-dirs* nil nil s))
-	   finally return (or (xz-try-completion s *xz-dirs*) s)
-	   ))
+    ad-do-it
 
     (ad-disable-advice
      'minibuffer-complete-word
@@ -84,21 +50,65 @@ may be initialized from environment variable XZDIRS
 
     (ad-activate 'minibuffer-complete-word)
 
-    (string* ($ (maybe-complete-world v)) default)
     )
+
+  ;  (ad-unadvise 'completing-read)
+
+		
+  (defun xz-completing-read (prompt default)
+    "helper to implement completing read from *xz-dirs*
+ used as advice on start-xz
+"
+    (let (v)
+      (ad-enable-advice 
+       'minibuffer-complete-word
+       'around
+       'interactive-xz-completion)
+
+      (ad-activate 'minibuffer-complete-word)
+
+      (setq v 
+	    (loop 
+	     with s = (completing-read
+		       (format "run %s on (%s): " *xz-command* default)
+		       *xz-dirs*)
+	     while (and (> (length (all-completions s *xz-dirs*)) 1)
+			(not (string= s (xz-try-completion s *xz-dirs*))))
+	     do 
+	     (with-output-to-temp-buffer "*completions*"
+	       (display-completion-list (all-completions s *xz-dirs*)))
+	     (display-buffer "*completions*")
+  ; (sit-for 1)
+	     (setq s (completing-read
+		      (format "run %s on (%s): " *xz-command* s)
+		      *xz-dirs* nil nil s))
+	     finally return (or (xz-try-completion s *xz-dirs*) s)
+	     ))
+
+      (ad-disable-advice
+       'minibuffer-complete-word
+       'around
+       'interactive-xz-completion)
+
+      (ad-activate 'minibuffer-complete-word)
+
+      (string* ($ (maybe-complete-world v)) default)
+      )
+    )
+
+  (/* XXX this doesn't work as planned...
+
+      (defadvice start-xz (around interactive-world-completion activate)
+	(interactive  (list (expand-file-name 
+			     (xz-completing-read
+			      (format "run %s on (%s): " *xz-command* (default-xz-file))
+			      (default-xz-file)))))
+	ad-do-it)
+      )
+
+  ;(ad-unadvise 'start-xz)
+
   )
-
-(/* XXX this doesn't work as planned...
-
-    (defadvice start-xz (around interactive-world-completion activate)
-      (interactive  (list (expand-file-name 
-			   (xz-completing-read
-			    (format "run %s on (%s): " *xz-command* (default-xz-file))
-			    (default-xz-file)))))
-      ad-do-it)
-    )
-
-;(ad-unadvise 'start-xz)
 
 ; alternative find line that doesn't visit the file
 ; should build getl functionality into xz.

@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.5 2000-11-20 01:03:02 cvs Exp $")
+ "$Id: roll.el,v 1.6 2001-02-09 14:29:51 cvs Exp $")
 (provide 'roll)
 (require 'cl)
 
@@ -141,7 +141,9 @@ calling SELECTFN to choose one
   (delete* b l)
   )
 
-(defun roll-buffer-mode (&optional m) 
+(defun roll-buffer-mode (&optional m)
+  "apply `list-mode-buffers' to specified major mode (in `atoms-like' \"-mode\")
+"
   (interactive 
    (list
     (intern (completing-read "mode: " (mapcar '(lambda (x) 
@@ -149,7 +151,7 @@ calling SELECTFN to choose one
 						  (format "%s" x) x))
 					      (atoms-like "-mode"))))))
 
-  (roll-list (list-mode-buffers (or (string* m) major-mode)) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
+  (roll-list (list-mode-buffers (if (atom m) m (or (string* m) major-mode))) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
   )
 
 (defun roll-buffer-like () 

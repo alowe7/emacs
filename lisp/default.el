@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.12 2001-01-10 15:22:03 cvs Exp $")
+ "$Id: default.el,v 1.13 2001-02-09 14:29:51 cvs Exp $")
 
 (setq home (getenv "HOME"))
 (setq emacsdir (expand-file-name (getenv "EMACSDIR")))
@@ -55,6 +55,8 @@
 			("\\.sgm$" . sgml-mode)
 			("\\.SGML$" . sgml-mode)
 			("\\.sgml$" . sgml-mode)
+			("\\.xml$" . sgml-mode)
+			("\\.xsl$" . sgml-mode)
 			("\\.text$" . text-mode)
 			("\\.txt$" . text-mode)
 			("\\.s$" . c-mode)

@@ -1,8 +1,12 @@
 (put 'dired-advice 'rcsid 
- "$Id: dired-advice.el,v 1.5 2000-10-03 16:50:27 cvs Exp $")
+ "$Id: dired-advice.el,v 1.6 2001-02-09 14:29:51 cvs Exp $")
 
 (require 'advice)
 
+;; these hooks are designed to prevent a call to view a networked drive 
+;; when a ping to the host times out
+;; the default timeout is usually hardcoded into lower level software
+;; (host-ok) is enncoded in an os-specific module
 
 (defadvice dired-noselect (around 
 			   hook-dired-noselect

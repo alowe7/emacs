@@ -1,5 +1,5 @@
 (put 'indicate 'rcsid 
- "$Id: indicate.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: indicate.el,v 1.5 2001-02-09 14:29:51 cvs Exp $")
 (provide 'indicate)
 
 ;;
@@ -18,7 +18,8 @@
 ;; 
 
 (defvar *indicated-word-region* nil 
-  "holds region containing indicated-word.  see (indicated-word-region)")
+  "holds region containing most recent indicated-word.
+see `indicated-word-region'")
 
 (defun indicated-word (&optional include-chars from to)
   "evaluates to word indicated by cursor

@@ -1,5 +1,7 @@
+; -*-emacs-lisp-*-
+
 (put 'w32 'rcsid 
- "$Id: w32,v 1.4 2001-01-22 19:47:07 cvs Exp $")
+ "$Id: w32,v 1.5 2001-02-09 14:29:51 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -8,6 +10,7 @@
 
 (defvar *systemroot*	(getenv "SYSTEMROOT"))
 (defvar *systemdrive*	(getenv "SYSTEMDRIVE"))
+(defvar *username*	(getenv "USERNAME"))
 
 (autoload 'reg-query "reg" nil t)
 (autoload 'reg-dump "reg" nil t)
@@ -96,7 +99,8 @@
 optional DRIVE says which drive to use. "
   (replace-in-string  "/" "\\" 
 		      (expand-file-name 
-		       (chop f ?/)
+	(substitute-in-file-name
+		       (chop f ?/))
 		       (concat sysdrive "/"))))
 
 (defun unix-canonify (f &optional mixed)
@@ -247,8 +251,11 @@ a null argument means pop-world from world-stack"
 (defun cmd (&optional num)
   (interactive)
   (let ((explicit-shell-file-name "cmd")) 
-    (shell2 (or num -1)))
+    (shell2 (or num -1))
+		(shell-dirtrackp nil)
+)
   )
+
 (global-set-key (vector -8388595) 'cmd)
 
 (global-set-key (vector 'f10) 'ewn)
@@ -511,7 +518,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
   (interactive)
   "visit profile directory for USER.  default is current user"
   (dired  (expand-file-name
-	   (concat ($ "$SYSTEMROOT") "/profiles/" (or user ($ "$USERNAME")) "/Personal/" nil)))
+	   (concat *systemroot* "/profiles/" (or user *username*) "/Personal/" nil)))
 
   )
 
@@ -585,19 +592,19 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (defvar my-documents
   (w32-canonify 
-   ($ (concat w32-documents "/$USERNAME")))
+	 (concat w32-documents "/$USERNAME"))
   "top level dir for current users documents and settings")
 
 (defvar start-menu
   (w32-canonify 
-   ($ (concat w32-documents "/$USERNAME" "/Start Menu")))
+	 (concat w32-documents "/$USERNAME" "/Start Menu"))
   "top level dir for current users documents and settings")
 
 (defvar quicklaunch
   (w32-canonify 
    (concat
     "C:\\Documents and Settings\\" 
-    ($ "$USERNAME")
+    *username*
     "\\Application Data\\Microsoft\\Internet Explorer\\Quick Launch"
     )))
 

@@ -1,5 +1,5 @@
 (put 'lwhence 'rcsid 
- "$Id: lwhence.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: lwhence.el,v 1.6 2001-02-09 14:29:51 cvs Exp $")
 (require 'indicate)
 (provide 'lwhence)
 
@@ -21,28 +21,7 @@
   )
 ; (fwhence 'lpr-buffer)
 
-
-(defun vwhence (module)
-  " find the named MODULE along the current loadpath"
-  (interactive "sModule: ")
-
-  (let (
-  ; (s (documentation module))
-	(f module))
-    (loop
-     for x in load-path by 'cdr
-     thereis 
-     (let ((fn (concat x "/" f)))
-       (if (file-exists-p fn) 
-	   (if (interactive-p) (find-file fn) fn)) 
-       )
-     )
-    )
-  )
-
-(defun fmf (l) (interactive "sLibrary: ") (find-file (mwhence l)))
-
-(defun mwhence (library) 
+(defun whence-lib (library) 
   "finds LIBRARY along load-path"
   (interactive "sLibrary: ")
   (let* ((l (if
@@ -53,6 +32,15 @@
     (if (interactive-p) (message "%s" v) v)
     )
   )
+;; (whence-lib "os-init")
+
+(defun find-whence-lib (l)
+ (interactive "sLibrary: ")
+ (find-file (whence-lib l)))
+
+(fset 'find-module 'find-whence-lib)
+(fset 'fm 'find-whence-lib)
+
 
 (defun lwhence (thing) 
   "returns library containing thing"
