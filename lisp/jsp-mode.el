@@ -1,3 +1,6 @@
+(put 'jsp-mode 'rcsid
+ "$Id: jsp-mode.el,v 1.4 2004-09-25 21:14:26 cvs Exp $")
+
 ;;multi-mode
 (autoload 'multi-mode
   "multi-mode"
@@ -17,12 +20,11 @@
 ;;     )
 ;;   )
 
-(fset 'jsp-mode 'html-mode)
-
+; it don't work
 (setq it-works nil)
-(if it-works
-    (add-to-list 'auto-mode-alist
-		 '("\\.jsp$" . jsp-mode))
-  (add-to-list 'auto-mode-alist
-	       '("\\.jsp$" . html-mode))
+(unless it-works
+  (fset 'jsp-mode 'html-mode)
   )
+
+(add-to-list 'auto-mode-alist
+		 '("\\.jsp$" . jsp-mode))
