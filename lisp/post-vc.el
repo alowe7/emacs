@@ -1,18 +1,18 @@
 (put 'post-vc 'rcsid
- "$Id: post-vc.el,v 1.12 2003-01-16 06:33:15 cvs Exp $")
+ "$Id: post-vc.el,v 1.13 2003-02-23 23:43:18 cvs Exp $")
 
 (defun identify () 
   "insert a sccs ID string at head of file."
   (interactive)
-  (let ((id (intern (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))))
-    (goto-char (point-min))
-    ;; quote dollars to avoid keyword expansion here
-    (insert
-     (cond ((or (eq major-mode 'sh-mode) (eq major-mode 'perl-mode))
-	    "# \$Id\$\n")
-	   ((eq major-mode 'emacs-lisp-mode)
-	    (format "(put '%s 'rcsid\n \"\$Id\$\")\n" id))))
-    )
+  (goto-char (point-min))
+  ;; quote dollars to avoid keyword expansion here
+  (insert
+   (if (eq major-mode 'emacs-lisp-mode)
+       (format "(put '%s 'rcsid\n \"\$Id\$\")\n" 
+	       (intern (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))))
+     (format "%s \$Id\$\n" (or comment-start "#"))
+     )
+   )
   )
 
 ;; fixup crlf eol encoding
