@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.4 2003-04-15 16:32:15 cvs Exp $")
+ "$Id: perl-command.el,v 1.5 2003-04-22 22:07:35 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -111,18 +111,17 @@ args is a list with car = 'eval
 
 (defun perl-command (s &rest args)
   " run perl script S on ARGS" 
+  (save-excursion
     (let* ((b (zap-buffer *perl-buffer-name*))
 	   (fs (find-script s)))
       (if (not fs) 
-	  (message "warning: script %s not found" s)
+	  (progn (message "warning: script %s not found" s) "")
 	(apply 'call-process
 	       (nconc
 		(list "perl" nil (list b t) nil fs)
 		(remove* nil args)))
-	(save-excursion
-	  (set-buffer b)
-	  (buffer-string))
-	)
+	(buffer-string))
+      )
     )
   )
 
