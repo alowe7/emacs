@@ -1,8 +1,9 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.15 2002-05-08 15:35:21 cvs Exp $")
+ "$Id: post-comint.el,v 1.16 2003-01-09 16:15:44 cvs Exp $")
 
 ;; used to initialize `comint-mode-hook'
-(setq shell-prompt-pattern "^[0-9]+% *")
+; (setq shell-prompt-pattern "^[0-9]+% *")
+(setq shell-prompt-pattern "^[0-9]+[#%] *")
 
 (setq explicit-bash-args '("-i"))
 

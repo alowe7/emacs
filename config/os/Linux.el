@@ -1,5 +1,5 @@
 (put 'Linux 'rcsid 
- "$Id: Linux.el,v 1.1 2002-12-02 03:12:31 cvs Exp $")
+ "$Id: Linux.el,v 1.2 2003-01-09 16:15:44 cvs Exp $")
 
 ; (message "Linux")
 
@@ -62,5 +62,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
     (beginning-of-buffer)
     ))
 (global-set-key (vector 'kp-f1) 'linux-howto)
+
+(setq comint-prompt-regexp "^[0-9]+[#%] *")
 
 (require 'locate)
