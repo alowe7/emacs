@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.25 2004-04-08 01:27:25 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.26 2004-12-10 23:38:02 cvs Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -29,24 +29,23 @@
 
 (setq default-frame-alist  initial-frame-alist)
 
- 
-; tweak load-path to use working versions. will this stuff ever stabilize?
-(let ((r '(
-	   ("site-lisp/tw-3.01" "/x/tw/site-lisp")
-	   ("site-lisp/db-1.0" "/x/db/site-lisp")
-	   ("site-lisp/xz-3.1" "/x/xz/site-lisp")
-	   ("site-lisp/tx-1.0" "/x/elisp")
-	   ))
-      )
-  (loop for e in r do 
-	(setq load-path
+; tweak load-path to use working versions if found. will this stuff ever stabilize?
+(loop for e in '(
+		 ("site-lisp/tw-3.01" "/x/tw/site-lisp")
+		 ("site-lisp/db-1.0" "/x/db/site-lisp")
+		 ("site-lisp/xz-3.1" "/x/xz/site-lisp")
+		 ("site-lisp/tx-1.0" "/x/elisp")
+		 )
+      when (file-directory-p (cadr e))
+      do 
+      (setq load-path
   ; first remove published versions, if any
-	      (nconc (remove-if '(lambda (x) (string-match (car e) x)) load-path)
+	    (nconc (remove-if '(lambda (x) (string-match (car e) x)) load-path)
   ; then add working versions
-		     (cdr e))
-	      )
-	)
-  )
+		   (cdr e))
+	    )
+      )
+
 
 (add-hook 'xz-load-hook 
 	  '(lambda ()
