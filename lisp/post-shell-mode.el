@@ -1,9 +1,8 @@
 (put 'post-shell-mode 'rcsid 
- "$Id: post-shell-mode.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: post-shell-mode.el,v 1.5 2002-04-09 03:32:00 cvs Exp $")
 ;;; allow for root prompt
 
-(setq shell-prompt-pattern "^[0-9a-zA-Z]*\\(%\\|\\$\\|#\\) *")
-
+(setq shell-prompt-pattern "^[0-9]+% *")
 (setq shell-mode-syntax-table nil)
 
 (setq shell-wrap nil)
