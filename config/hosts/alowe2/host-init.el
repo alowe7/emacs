@@ -1,11 +1,9 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.21 2002-02-27 21:22:17 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.22 2002-03-14 17:51:40 cvs Exp $")
 
 (setq default-frame-alist
-      '((top + -4)
-	(left + -4)
-	(width . 128)
-	(height . 55)
+      '((width . 102)
+	(height . 44)
 	(background-mode . light)
 	(cursor-type . box)
 	(border-color . "black")
@@ -22,36 +20,15 @@
 
 (setq initial-frame-alist default-frame-alist)
 
-; 
-;     
-;   )
-; 
-(loop for x in '("/x/elisp")
-      do 
-      (if (file-directory-p x)
-	  (let ((xloads (format "%s/.loads" x)))
-	    (cond ((file-exists-p xloads)
-		   (progn
-		     (add-to-list 'load-path x)
-		     (load-file xloads)
-		     ))
-		  ((file-exists-p (setq xloads (format "%s/.autoloads" x)))
-		   (load xloads t t t)))
-	    )
-	)
-      )
-
-(setq *key-program* "d:/a/bin/key.exe")
-
+(add-hook 'people-load-hook (lambda () ; (require 'worlds)
+			      (setq *people-database*
+				    (list (xwf "n/people.csv" "broadjump")
+					  "~/n/people"))))
 (add-hook 'xz-load-hook 
 	  '(lambda ()
 	     (mapcar
 	      '(lambda (x) (load x t t)) 
 		     '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
-
-
-
-;(get-directory-files d t "\.el$")
 
 (add-hook 'after-init-hook '(lambda () 
 			      (defadvice info (before 
@@ -61,48 +38,34 @@
 				(cd "/")
 				)))
 
-(add-hook 'people-load-hook (lambda () ; (require 'worlds)
-			      (setq *people-database*
-				    (list (xwf "n/people.csv" "broadjump")
-					  "~/n/people"))))
-
-(setq *shell-track-worlds* t)
-
-(display-time)
-
-(require 'xz-loads)
-(setq *xz-show-status* nil)
-(setq *xz-squish* 4)
-
-(require 'gnuserv)
-
-(setenv "XDBHOST" "kim.alowe.com")
-(setenv "XDB" "x")
-(setenv "XDBUSER" "a")
-
-(require 'worlds)
-(require 'world-advice)
-
-(lastworld)
-
-(mount-hook-file-commands)
-
-;; hack process environment to minimal path so that man will work as expected
-(scan-file (concat "~/.bashrc." (hostname)))
-(w32-canonify-env "PATH")
-(w32-canonify-env "HOME")
-(w32-canonify-env "CLASSPATH")
-
-(setq *howto-path* (nconc 
+(defvar *howto-path* (nconc 
 		    (list "d:/d/offering/n/howto" "z:/b/core/test/howto" "z:/b/vta/howto" "z:/b/vta/n")
 		    (split ($ "$HOWTOPATH") ":")))
 
-(if nil
-    (setq *howto-alist* 
-	  (loop
+(defvar *howto-alist* 
+  (if nil (loop
 	   for x in *howto-path*
 	   with l = nil
 	   nconc (loop for y in (get-directory-files x)
 		       collect (list y x)) into l
 	   finally return l))
   )
+
+(require 'worlds)
+(require 'world-advice)
+(setq *shell-track-worlds* t)
+
+(scan-file "~/.xdbrc")
+
+; (setenv "XDBHOST" "kim.alowe.com")
+; (setenv "XDB" "x")
+; (setenv "XDBUSER" "a")
+
+(require 'xz-loads)
+(setq *xz-show-status* nil)
+(setq *xz-squish* 4)
+
+
+(require 'gnuserv)
+(display-time)
+
