@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid 
- "$Id: post-xdb.el,v 1.10 2003-04-08 15:39:45 cvs Exp $")
+ "$Id: post-xdb.el,v 1.11 2003-04-15 16:32:08 cvs Exp $")
 
 (require 'advice)
 (require 'cat-utils)
@@ -51,20 +51,3 @@
 
 ; (pop x-query-mode-hook)
 ; (run-hooks (quote x-query-mode-hook))
-
-; (setq *txdb-options*  nil)
-
-;; todo: (unless (member "-s" *txdb-options* ) ...
-;; todo: this should be an assoc of some kind to override duplicates
-
-(defun add-txdb-option (option value)
-  (if (string* value)
-      (setq *txdb-options* 
-	    (nconc
-	     (list option value)
-	     *txdb-options* 
-	     )
-	    )
-    )
-  )
-
