@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.18 2002-12-02 18:47:11 cvs Exp $")
+ "$Id: post-dired.el,v 1.19 2003-01-16 22:32:07 cvs Exp $")
 (require 'eval-process)
 (require 'tar-view)
 (require 'zip-view)
@@ -216,6 +216,7 @@ warns if more than one file is to be moved and target is not a directory"
 (add-hook 'dired-mode-hook 
 	  '(lambda nil 
 	     (define-key dired-mode-map "t" 'dired-change-file-type)
+	     (define-key dired-mode-map "" 'dired-enumerate-scripts)
 	     (define-key  dired-mode-map "b" '(lambda () (interactive)
 						(find-file-binary (dired-get-filename))))
 	     (define-key  dired-mode-map "I" '(lambda () (interactive)
@@ -313,6 +314,23 @@ see `file-assoc-list'"
 	 (x (sum f))
 	 (y (save-window-excursion (other-window-1) (sum fn))))
     (= x y))
+  )
+
+(defun dired-enumerate-scripts (type)
+  (interactive (list (completing-read "type: " '(("perl") ("sh")) nil t)))
+  (let ((l (perl-command-1 "/usr/local/bin/enumerate-scripts" :args (list "-t" type) :show 'split))
+	b )
+    (if (interactive-p)
+	(progn 
+	  (setq b (zap-buffer "*scripts*"))
+	  (loop for x in l do (insert x "
+")) 
+	  (beginning-of-buffer)
+	  (fb-mode)
+	  (switch-to-buffer b)
+	  b)
+      l)
+    )
   )
 
 (unless (fboundp 'ctl-x-v-prefix) 
