@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.50 2004-02-27 16:55:17 cvs Exp $")
+ "$Id: fb.el,v 1.51 2004-03-11 21:37:37 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -454,7 +454,7 @@ all other patterns (e.g. \"foo*\") remain unchanged.
 (require 'eval-process)
 (defun probably-binary-file (f)
   (or (file-exists-p f) (error (format "File %s doesn't exist" f)))
-  (let ((v (eval-process "head" "-4" f)))
+  (let ((v (eval-process "head -4" f)))
     (loop for x across v thereis (or (= x 0) (>= x 127))))
   )
 

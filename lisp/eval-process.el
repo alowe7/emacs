@@ -1,5 +1,5 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.15 2004-03-11 19:01:02 cvs Exp $")
+ "$Id: eval-process.el,v 1.16 2004-03-11 21:37:37 cvs Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)
@@ -7,15 +7,14 @@
 
 ;; processes that return values
 
-(defun eval-process (cmd &optional args)
+(defun eval-process (cmd &rest args)
   "execute CMD as a process, giving it optional ARGS.
 CMD may be a string evaluating to a command, or a space separated list of strings indicating the command and arguments
 ARGS may be a space separated string or a list of string arguments
 
 this function evaluates to the process output  "
   (let*
-      ((args (if (listp args) args (split args)))
-       (cmd 
+      ((cmd 
 	(let ((cmd1 (if (listp cmd) cmd (split cmd))))
 	  (setq args (nconc (cdr cmd1) args))
 	  (car cmd1)))
