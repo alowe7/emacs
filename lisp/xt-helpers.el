@@ -1,0 +1,1 @@
+(split (x-query "select what from howto"))

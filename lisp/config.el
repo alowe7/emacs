@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.26 2004-03-26 20:46:06 cvs Exp $")
+ "$Id: config.el,v 1.27 2004-03-27 19:03:09 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -11,9 +11,9 @@
 (defvar *debug-post-load-hook* nil)
 
 ; (setq *debug-pre-load-hook* t *debug-post-load-hook* t)
+; (setq *debug-pre-load-hook* nil *debug-post-load-hook* nil)
 
 (defvar *disable-load-hook* nil)
-(defvar *debug-load-hook* nil)
 
 (defun loadp (prefix file)
   (let* ((f0 (file-name-nondirectory (format "%s" file)))

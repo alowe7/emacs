@@ -1,5 +1,3 @@
-(put 'msvc 'rcsid
- "$Id: msvc.el,v 1.1 2001-07-18 22:18:18 cvs Exp $")
 
 (defun msvc-clean () (interactive)
   (fix-dos-file)
@@ -15,4 +13,9 @@
     )
   )
 
-(provide 'msvc)
+(defun toggle-tabs  (arg)
+  (interactive "P")
+  (set-tabs (cond ((and (listp arg) (not (null arg))) (car arg)) ((integerp arg) arg) ((eq tab-width 8) 2) (t 8)))
+  (message "tab-width: %d" tab-width))
+
+(global-set-key (vector '\C-tab) 'toggle-tabs)
