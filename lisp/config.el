@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.32 2004-04-18 23:39:57 cvs Exp $")
+ "$Id: config.el,v 1.33 2004-04-26 01:59:51 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -252,6 +252,7 @@ or override them by post-chaining.
   (expand-file-name (concat "~/emacs/config/os/" (symbol-name window-system)))
   (expand-file-name (concat "~/emacs/config/hosts/"  *hostname*))
   (expand-file-name (concat "~/emacs/config/" (format "%d.%d" emacs-major-version emacs-minor-version)))
+  (expand-file-name (concat "~/emacs/config/" (format "%d" emacs-major-version)))
   )
  )
 
@@ -300,6 +301,8 @@ or override them by post-chaining.
 
 ;; optional emacs-version-specific overrides
 (load (format "Emacs%d" emacs-major-version) t t)
+;; optional emacs-version-specific overrides
+(load (format "Emacs%d.%d" emacs-major-version emacs-minor-version) t t)
 
 (load "os-init" t t)		; load os-specific info
 
