@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.13 2003-06-05 19:35:42 cvs Exp $")
+ "$Id: helps.el,v 1.14 2003-12-09 22:37:16 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -467,4 +467,16 @@ if *howto-path* is not set, searches in current directory
     (beginning-of-buffer)
     (help-mode)
     )
+  )
+
+(defun find-function-or-variable (&optional arg)
+  (interactive "P")
+  (let ((w (intern (indicated-word))))
+    (cond ((functionp w)
+	   (find-function-other-window w))
+	  ((boundp w)
+	   (find-variable-other-window w))
+	  (t 
+	   (let ((w (read-string (format "%s not a function or variable.  enter a function or variable: " w))))
+	     (find-function-or-variable w)))))
   )

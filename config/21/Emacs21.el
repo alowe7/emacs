@@ -1,5 +1,5 @@
 (put 'Emacs21 'rcsid
- "$Id: Emacs21.el,v 1.4 2003-12-09 17:23:18 cvs Exp $")
+ "$Id: Emacs21.el,v 1.5 2003-12-09 22:37:04 cvs Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -7,7 +7,8 @@
 (define-key minibuffer-local-completion-map " " 'minibuffer-complete)
 (define-key minibuffer-local-completion-map "	" 'minibuffer-complete-word)
 
-(set-face-attribute 'default nil :family "verdana" :height 104 :weight 'ultra-light)
+(set-face-attribute 'default nil :family "verdana" :height 100 :weight 'ultra-light)
+; (face-attribute 'default :family)
 
 ; silence the dinger
 (setq ring-bell-function '(lambda () nil))

@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.43 2003-11-25 03:39:53 cvs Exp $")
+ "$Id: keys.el,v 1.44 2003-12-09 22:37:16 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -243,7 +243,7 @@
 
 (global-set-key (vector '\C-tab) 'set-tabs)
 (global-set-key "" 'describe-key-sequence)
-(global-set-key "" 'find-function)
+(define-key help-map "" 'find-function-or-variable)
 
 (defvar ctl (dec "0x4000000"))
 (defun ctl (c) (+ ctl c))

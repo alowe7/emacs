@@ -1,3 +1,8 @@
+(put 'post-xdb 'rcsid
+ "$Id: post-xdb.el,v 1.4 2003-12-09 22:36:36 cvs Exp $")
+
+(chain-parent-file t)
+
 (require 'ctl-slash)
 (define-key ctl-/-map "x" 'xdb)
 ; make sure we have a login
