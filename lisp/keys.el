@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.29 2002-11-22 17:02:12 cvs Exp $")
+ "$Id: keys.el,v 1.30 2002-12-24 22:03:10 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -144,6 +144,8 @@
 (global-set-key (vector '\M-down) 'scroll-down-1)
 (global-set-key (vector '\M-up) 'scroll-up-1)
 ;; (global-set-key "à" 'next-error)
+(global-set-key (vector '\M-next) '(lambda () (interactive) (if (> (count-windows) 1) (call-interactively 'scroll-other-window) (call-interactively 'bury-buffer))))
+(global-set-key (vector '\M-prior) '(lambda () (interactive) (if (> (count-windows) 1) (call-interactively 'scroll-other-window-down) (switch-to-buffer (car (last (buffer-list)))))))
 
 ;;(define-key ctl-x-4-map "s" 'fileness)
 ;;(define-key ctl-x-4-map "w" 'wordness)

@@ -1,5 +1,5 @@
 (put 'tasks 'rcsid 
- "$Id: tasks.el,v 1.7 2001-07-24 09:06:11 cvs Exp $")
+ "$Id: tasks.el,v 1.8 2002-12-24 22:02:29 cvs Exp $")
 
 ; a little throw-away stack of things to do, different from todo.el
 (require 'roll)
@@ -48,11 +48,25 @@
 		     (zap-buffer "*tasks*")))))
     (map nil 'writeln  task-stack)
     (pop-to-buffer b)
+    (beginning-of-buffer)
     (not-modified)
     (edit-task-mode)
     )
   )
 
+(defun view-task-stack () (interactive)
+  (let ((b (or *edit-task-stack-buffer*
+	       (setq *edit-task-stack-buffer*
+		     (zap-buffer "*tasks*")))))
+    (map nil 'writeln  task-stack)
+    (pop-to-buffer b)
+    (not-modified)
+    (beginning-of-buffer)
+    (setq buffer-read-only t)
+    (view-mode)
+    (local-set-key "" '(lambda () (interactive) (setq buffer-read-only t) (call-interactively 'edit-task-stack)))
+    )
+  )
 
 (defvar edit-task-mode nil)
 
@@ -67,6 +81,7 @@ press C-h b for local bindings.
   (setq *edit-task-stack-buffer* t)
   (local-set-key "" 'edit-task-stack-save)
   (local-set-key "" 'save-task-stack)
+  (local-set-key "" 'view-task-stack)
   (message "type  to save and remember task stack,  to write ~/.tasks") 
   )
 
@@ -130,6 +145,7 @@ press C-h b for local bindings.
   (setq task-mode-map (symbol-function 'ctl-C-K-prefix))
 
   (define-key task-mode-map "e" 'edit-task-stack)
+  (define-key task-mode-map "v" 'view-task-stack)
   (define-key task-mode-map "h" 'task-help)
   (define-key task-mode-map "|" 'edit-task)
   ; (key-description (vector (char-ctrl ?c)))
@@ -140,13 +156,17 @@ press C-h b for local bindings.
   (define-key task-mode-map " " 'roll-tasks)
   )
 
-(global-set-key "k" 'ctl-C-K-prefix)
-
 (defun bootstrap-task ()
   (interactive)
   ; placeholder for autoload
+  (global-set-key "k" 'ctl-C-K-prefix)
+
   (init-task-stack)
   (message "tasks loaded.  press \"^C-k h\" for help")
   )
+
+; put this in your .emacs
+; (autoload 'bootstrap-task "tasks.el")
+; (global-set-key "k" 'bootstrap-task)
 
 (provide 'tasks)
