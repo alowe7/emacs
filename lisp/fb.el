@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.18 2001-01-22 20:55:23 cvs Exp $")
+ "$Id: fb.el,v 1.19 2001-01-22 21:13:48 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -281,12 +281,20 @@ w		fb-w3-file
 		     (define-key  fb-mode-map "p" 
 		       '(lambda () 
 			  (interactive)
-			  (cd (previous-qsave-search (current-buffer)))))
+			  (condition-case x
+			      (cd (previous-qsave-search (current-buffer)))
+			    (error nil))
+			  )
+		       )
 
 		     (define-key  fb-mode-map "n" 
-		       '(lambda ()
+		       '(lambda () 
 			  (interactive)
-			  (cd (next-qsave-search (current-buffer)))))
+			  (condition-case x
+			      (cd (next-qsave-search (current-buffer)))
+			    (error nil))
+			  )
+		       )
 
 		     (define-key fb-mode-map "i" 'fb-file-info)
 		     )
