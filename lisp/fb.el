@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.12 2000-10-18 20:13:42 cvs Exp $")
+ "$Id: fb.el,v 1.13 2000-10-30 19:22:52 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -180,6 +180,44 @@ see variable *fb-db* "
 	 (if (> (length pat) 0) pat
 	   (indicated-word))) t))
 
+
+(defun fb-file-info () (interactive)
+  "
+ 0. t for directory, string (name linked to) for symbolic link, or nil.
+ 1. Number of links to file.
+ 2. File uid.
+ 3. File gid.
+ 4. Last access time, as a list of two integers.
+  First integer has high-order 16 bits of time, second has low 16 bits.
+ 5. Last modification time, likewise.
+ 6. Last status change time, likewise.
+ 7. Size in bytes.
+  This is a floating point number if the size is too large for an integer.
+ 8. File modes, as a string of ten letters or dashes as in ls -l.
+ 9. t iff file's gid would change if file were deleted and recreated.
+10. inode number.  If inode number is larger than the Emacs integer,
+  this is a cons cell containing two integers: first the high part,
+  then the low 16 bits.
+11. Device number.
+"
+  (let* ((fn (indicated-word))
+	 (a (file-attributes fn)))
+  ; -rw-r--r--   1 544      everyone     2655 Mar 28  1998 woody
+    (if a
+	(message "%s %-4d %-4d %s %d %s %s"
+
+	    (elt a 8)
+	    (elt a 3)
+	    (elt a 2)
+	    "everyone"
+	    (elt a 7)
+	    (format-time-string "%b %d %Y" (elt a 5))
+	    (file-name-nondirectory fn)
+	    )
+      (message "file not found"))
+    )
+  )
+
 (defun fb-mode (&rest args)
   "mode for managing file index.
 like view mode, with the following exceptions:
@@ -244,6 +282,7 @@ w		fb-w3-file
 			  (interactive)
 			  (next-qsave-search (current-buffer))))
 
+		     (define-key fb-mode-map "i" 'fb-file-info)
 		     )
        )
    )
