@@ -1,5 +1,5 @@
 #all: xz.dat TAGS
-# $Id: Makefile,v 1.1 2000-07-17 21:00:33 a Exp $
+# $Id: Makefile,v 1.2 2000-07-17 21:01:39 a Exp $
 
 SHELL=/bin/sh
 FIND=/bin/find
@@ -22,7 +22,7 @@ auto-autoloads: $(SOURCES)
 	@echo auto-autoloads rebuilt
 
 .xz.dat: $(SOURCES) $(CONFIGS)
-	$(XZ) -ywqn $(SOURCES) $(CONFIGS)
+	@$(XZ) -ywqn $(SOURCES) $(CONFIGS)
 
 TAGS: $(SOURCES) $(CONFIGS)
 	$(ETAGS) $(SOURCES) $(CONFIGS)
