@@ -1,5 +1,5 @@
 (put 'xz-helpers 'rcsid 
- "$Id: xz-helpers.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: xz-helpers.el,v 1.5 2001-07-11 08:38:14 cvs Exp $")
 (require 'advice)
 (require 'long-comment)
 
@@ -179,9 +179,9 @@ if in shell mode, assume an interactive xz process
 	       (looking-at *xz-shell-prompt-regexp*)
 	       (point))))
 	 (l (if p (xz-shell-get-results
-		 (marker-position comint-last-input-end)
-		 p
-		 )
+		   (marker-position comint-last-input-end)
+		   p
+		   )
 	      (xz-get-results)))
 	 (v (loop for h in l
 		  sum  (number* (caddr h)) into s
@@ -194,5 +194,5 @@ if in shell mode, assume an interactive xz process
 
 (define-key
   xz-map 
-  (vector 67108925)
-  'xz-sum-fields) ;\C-=
+  (vector 67108925) ; \C-=
+  'xz-sum-fields) 
