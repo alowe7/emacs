@@ -1,11 +1,35 @@
 (put 'post-locate 'rcsid 
- "$Id: post-locate.el,v 1.1 2001-06-25 15:32:39 cvs Exp $")
+ "$Id: post-locate.el,v 1.2 2002-12-02 03:14:22 cvs Exp $")
 
 (require 'fb)
 
-(define-key locate-mode-map "d" 'fb-dired-file) 
-(define-key locate-mode-map "o" 'fb-find-file-other-window)
-(define-key locate-mode-map "f" 'fb-find-file)
-(define-key locate-mode-map "i" 'fb-file-info)
+(setq locate-mode-map fb-mode-map)
 
+;; todo -- add qsave history
+(defadvice locate-mode (around 
+			hook-locate-mode
+			last
+			activate)
+  ""
+
+  ad-do-it
+
+  (set-syntax-table fb-mode-syntax-table)
+  )
+
+; (if (ad-is-advised 'locate-mode) (ad-unadvise 'locate-mode))
+
+(defadvice locate (around 
+			hook-locate
+			last
+			activate)
+  ""
+
+  ad-do-it
+
+  (run-hooks 'after-find-file-hook)
+
+  )
+
+; (if (ad-is-advised 'locate) (ad-unadvise 'locate))
 

@@ -1,13 +1,107 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.29 2002-11-22 17:02:12 cvs Exp $")
+ "$Id: fb.el,v 1.30 2002-12-02 03:14:22 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
 (require 'qsave)
 
 
-(defvar fb-mode-map nil "")
-(defvar fb-mode-syntax-table nil "")
+(defvar fb-mode-map    
+  (prog1
+      (setq fb-mode-map (copy-keymap view-mode-map))
+
+    (define-key fb-mode-map "g" 
+      '(lambda () (interactive)
+	 (let ((default-directory default-directory))
+	   (save-restriction
+	     (widen)
+	     (toggle-read-only -1)
+	     (delete-region (point-min) (point-max)))
+	   (fb (current-buffer))
+	   )))
+ 
+    (define-key fb-mode-map "q" 
+      '(lambda () (interactive)
+	 (kill-buffer (current-buffer))))
+
+    (define-key fb-mode-map "\C-m" 'fb-exec-file)
+    (define-key fb-mode-map "|" '(lambda (s) (interactive "sSearch for: ") (shell-command-on-region (point-min) (point-max) (concat "xargs egrep " s) (get-buffer-create (format "*egrep %s*" s)))))
+
+    (define-key fb-mode-map "w" 'fb-w3m-file)
+
+    (define-key fb-mode-map "o" 'fb-find-file-other-window)
+    (define-key fb-mode-map "f" 'fb-find-file)
+
+    (define-key  fb-mode-map "D" 'fb-dired-file-other-window)
+    (define-key fb-mode-map "d" 'fb-dired-file) 
+
+    (define-key  fb-mode-map "x" 'fb-delete-file)
+
+    (define-key fb-mode-map [prior] 'fb-previous)
+    (define-key fb-mode-map [next] 'fb-next)
+
+    (define-key fb-mode-map [up] 'fb-up)
+
+    (define-key fb-mode-map "/" 'fb-search-forward)
+    (define-key fb-mode-map "?" 'fb-search-backward)
+
+    (define-key fb-mode-map "/" 'fb-match-file-forward)
+    (define-key fb-mode-map "?" 'fb-match-file-backward)
+
+    (define-key  fb-mode-map "p" 
+      '(lambda () 
+	 (interactive)
+	 (condition-case x
+	     (cd (previous-qsave-search (current-buffer)))
+	   (error nil))
+	 )
+      )
+
+    (define-key  fb-mode-map "n" 
+      '(lambda () 
+	 (interactive)
+	 (condition-case x
+	     (cd (next-qsave-search (current-buffer)))
+	   (error nil))
+	 )
+      )
+
+    (define-key fb-mode-map "i" 'fb-file-info)
+
+    (define-key locate-mode-map "|" 'fb-shell-command)
+
+    (define-key fb-mode-map "m" '(lambda () (interactive) 
+				   (fb-shell-command "nroff -man")))
+
+    (define-key fb-mode-map "\C-d" (lambda () (interactive) 
+				     (let ((f (fb-indicated-file)))
+				       (if (file-exists-p f)
+					   (delete-file f)
+					 (message (format "%s f does not exist" f)))
+				       )
+				     )
+      )
+    )
+  "mode map for fb & locate"
+  )
+
+(defvar fb-mode-syntax-table 
+  (prog1
+      (setq fb-mode-syntax-table (make-syntax-table))
+    (loop for x across "#:+./-_~!"
+	  do
+	  (modify-syntax-entry x "w" fb-mode-syntax-table)
+	  )
+    (if (eq window-system 'w32)
+	(loop for x across " \\"
+	      do
+	      (modify-syntax-entry x "w" fb-mode-syntax-table)
+	      )
+      )
+    )
+  "syntax table for fb & locate"
+  )
+
 (defvar fb-mode-hook nil)
 (defvar fb-last-pat nil)
 (defvar fb-last-match nil)
@@ -132,16 +226,13 @@
   (aexec (fb-indicated-file) arg)
   )
 
-(defun fb-w3-file ()
+(defun fb-w3m-file ()
   (interactive)
+  (or (featurep 'w3m) (require 'w3m))
   (let ((f (fb-indicated-file)))
-    (w3-fetch (format "file://%s" 
+    (w3m-goto-url (format "file://%s" 
 		      (if (string-match "[a-z]:" f)
 			  (substring f (match-end 0)) f)))
-    (w3-parse-partial (progn 
-			(set-buffer " *URL*")
-			(buffer-string))
-		      (zap-buffer (concat "w3 " f)))
     )
   )
 
@@ -225,6 +316,14 @@ see variable *fb-db* "
     )
   )
 
+
+(defun fb-shell-command (cmd)
+  (interactive "sshell command: ")
+
+  (shell-command (format "%s < %s" cmd (fb-indicated-file)))
+  )
+
+
 (defun fb-mode (&rest args)
   "mode for managing file index.
 like view mode, with the following exceptions:
@@ -234,100 +333,11 @@ RET		fb-exec-file
 ?		fb-search-backward
 M-/	fb-match-file-forward
 M-?	fb-match-file-backward
-w		fb-w3-file
+w		fb-w3m-file
 "
   (interactive)
-  (use-local-map
-   (or fb-mode-map (prog1
-		       (setq fb-mode-map (copy-keymap view-mode-map))
-
-		     (define-key fb-mode-map "g" 
-		       '(lambda () (interactive)
-			  (let ((default-directory default-directory))
-			    (save-restriction
-			      (widen)
-			      (toggle-read-only -1)
-			      (delete-region (point-min) (point-max)))
-			    (fb (current-buffer))
-			    )))
- 
-		     (define-key fb-mode-map "q" 
-		       '(lambda () (interactive)
-			  (kill-buffer (current-buffer))))
-
-		     (define-key fb-mode-map "\C-m" 'fb-exec-file)
-		     (define-key fb-mode-map "|" '(lambda (s) (interactive "sSearch for: ") (shell-command-on-region (point-min) (point-max) (concat "xargs egrep " s) (get-buffer-create (format "*egrep %s*" s)))))
-
-		     (define-key fb-mode-map "w" 'fb-w3-file)
-
-		     (define-key fb-mode-map "o" 'fb-find-file-other-window)
-		     (define-key fb-mode-map "f" 'fb-find-file)
-
-		     (define-key  fb-mode-map "D" 'fb-dired-file-other-window)
-		     (define-key fb-mode-map "d" 'fb-dired-file) 
-
-		     (define-key  fb-mode-map "x" 'fb-delete-file)
-
-		     (define-key fb-mode-map [prior] 'fb-previous)
-		     (define-key fb-mode-map [next] 'fb-next)
-
-		     (define-key fb-mode-map [up] 'fb-up)
-
-		     (define-key fb-mode-map "/" 'fb-search-forward)
-		     (define-key fb-mode-map "?" 'fb-search-backward)
-
-		     (define-key fb-mode-map "/" 'fb-match-file-forward)
-		     (define-key fb-mode-map "?" 'fb-match-file-backward)
-
-		     (define-key  fb-mode-map "p" 
-		       '(lambda () 
-			  (interactive)
-			  (condition-case x
-			      (cd (previous-qsave-search (current-buffer)))
-			    (error nil))
-			  )
-		       )
-
-		     (define-key  fb-mode-map "n" 
-		       '(lambda () 
-			  (interactive)
-			  (condition-case x
-			      (cd (next-qsave-search (current-buffer)))
-			    (error nil))
-			  )
-		       )
-
-		     (define-key fb-mode-map "i" 'fb-file-info)
-
-		     (define-key fb-mode-map "\C-d" (lambda () (interactive) 
-						      (let ((f (fb-indicated-file)))
-							(if (file-exists-p f)
-							    (delete-file f)
-							  (message (format "%s f does not exist" f)))
-							)
-						      )
-		       )
-		     )
-       )
-   )
-
-  (set-syntax-table 
-   (or fb-mode-syntax-table
-       (prog1
-	   (setq fb-mode-syntax-table (make-syntax-table))
-	 (loop for x across "#:+./-_~!"
-	       do
-	       (modify-syntax-entry x "w" fb-mode-syntax-table)
-	       )
-	 (if (eq window-system 'w32)
-	     (loop for x across " \\"
-		   do
-		   (modify-syntax-entry x "w" fb-mode-syntax-table)
-		   )
-	   )
-	 )
-       )
-   )
+  (use-local-map fb-mode-map)
+  (set-syntax-table fb-mode-syntax-table)
 
   (toggle-read-only 1)
   (set-buffer-modified-p nil)
