@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.3 2000-09-29 21:16:56 a Exp $
+#      $Id: make-autoloads,v 1.4 2000-09-29 21:18:11 cvs Exp $
 
 # todo: grab doc strings too
 print "(setq autoload-alist `( ";
@@ -13,7 +13,8 @@ foreach $fn (@ARGV) {
 	foreach (<F>) {
 	    if (/^\($def/) {
 		($pat, $func)=split;
-		if ($pat eq "(defmacro") {
+		if (($pat eq "(defun") ||
+		    ($pat eq "(defmacro")) {
 		    print "($func \"$f\")\n";
 		}
 	    }
