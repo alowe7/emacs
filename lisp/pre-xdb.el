@@ -1,5 +1,5 @@
 (put 'pre-xdb 'rcsid
- "$Id: pre-xdb.el,v 1.8 2004-04-15 19:34:12 cvs Exp $")
+ "$Id: pre-xdb.el,v 1.9 2004-06-22 23:37:55 cvs Exp $")
 
 ;; this is so wrong
 
@@ -54,22 +54,38 @@
 (require 'comint)
 
 (defvar *xdbuser* (getenv "XDBUSER"))
+(defvar *xdbdb* (getenv "XDB"))
 (defvar *xdbsword* nil)
+(defvar *xdbhost* (getenv "XDBHOST"))
 
-(defun xdb-login (&optional arg)
+(defun xdb-login (arg)
   "ask for a sword, unless we already have one
   with prefix arg, ask anyway
 "
   (interactive "P")
-; (message "(%s,%s)" *xdbuser* (make-string (length *xdbsword*) ?*))
+  ; (message "(%s,%s)" *xdbuser* (make-string (length *xdbsword*) ?*))
 
-  (if (or arg (not (or *xdbsword* *xdbuser*)))
-    (progn
-      (setq *xdbuser* (string* (read-string (format "user (%s): "  *xdbuser*)) *xdbuser*))
-      (setq *xdbsword* (string* (comint-read-noecho (format "sword for user %s (%s): " *xdbuser* (make-string (length *xdbsword*) ?*))) (unless arg *xdbsword*)))
-      (add-txdb-option "-u" *xdbuser*)
-      (add-txdb-option "-s" *xdbsword*)
-      )
-    (unless arg (message "using db user <%s>" *xdbuser*))
+  (setq *xdbdb* (string* (read-string (format "{user{/sword}@}db (%s): "  *xdbdb*)) *xdbdb*))
+
+  (if (string-match "@" *xdbdb*)
+      (progn
+	(remove-txdb-option "-u")
+	(setq *xdbuser* nil)
+	(if (string-match "/" *xdbdb*)
+	    (progn
+	      (remove-txdb-option "-s")
+	      (setq *xdbsword* nil)
+	      )
+	  (setq *xdbsword* (string* (comint-read-noecho (format "sword for user %s (%s): " *xdbuser* (make-string (length *xdbsword*) ?*))) (unless arg *xdbsword*))))
+	)
+    (setq *xdbuser* (string* (read-string (format "user (%s): "  *xdbuser*)) *xdbuser*))
     )
+
+  (setq *xdbhost* (string* (read-string (format "host{:port} (%s): "  *xdbhost*)) *xdbhost*))
+  (and *xdbuser* (add-txdb-option "-u" *xdbuser*))
+  (and *xdbsword* (add-txdb-option "-s" *xdbsword*))
+  (add-txdb-option "-b" *xdbdb*)
+  (add-txdb-option "-h" *xdbhost*)
+
   )
+; (call-interactively 'xdb-login)
