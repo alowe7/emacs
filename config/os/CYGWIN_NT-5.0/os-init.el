@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.22 2002-02-25 23:24:53 cvs Exp $")
+ "$Id: os-init.el,v 1.23 2002-03-08 18:47:02 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 (setq doc-directory data-directory)
@@ -132,7 +132,9 @@ host must respond within optional TIMEOUT msec"
 		   (let* ((d (ad-get-arg 0))
 			  (d1 (unless (string-match "^//\\|^~\\|^[a-zA-`]:" d)
 				(loop for y in cygmounts 
-				      if (string-match (concat "^" (car y)) d)
+				      if (or
+					  (string-match (concat "^" (car y) "/") d)
+					  (string-match (concat "^" (car y) "$") d))
 				      return (replace-in-string (concat "^" (car y)) (cadr y) d)
 				      )))
 			  (d2 (and d1 (expand-file-name d1))))
