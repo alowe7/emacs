@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.11 2001-10-29 00:05:43 cvs Exp $")
+ "$Id: helps.el,v 1.12 2002-01-22 16:26:54 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -349,7 +349,7 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 ;;   )
 
 (defun howto (pat)
-  (interactive "spat: ")
+  (interactive (list (completing-read "pat: " *howto-alist*)))
   (catch 'done
     (let* ((matches (loop for x in *howto-alist* 
 			  when (string-match pat (car x))

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.18 2002-01-10 18:47:23 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.19 2002-01-22 16:26:54 cvs Exp $")
 
 (setq default-frame-alist
       '((top + -4)
@@ -113,4 +113,18 @@
 (mount-hook-file-commands)
 
 ;; hack process environment to minimal path so that man will work as expected
-(setq process-environment (nconc (list "PATH=d:usr\\local\\bin;d:contrib\\bin;d:\\usr\\bin;d:\\bin;d:a\\bin")  process-environment))
+(setq process-environment (nconc (list "PATH=d:a\\bin;d:\\usr\\local\\bin;d:\\contrib\\bin;d:\\usr\\bin;d:\\bin;d:\\usr\\local\\lib\\tw-3.01\\bin")  process-environment))
+
+(setq *howto-path* (nconc 
+		    (list "d:/d/offering/n/howto" "z:/b/core/test/howto" "z:/b/vta/howto" "z:/b/vta/n")
+		    (split ($ "$HOWTOPATH") ":")))
+
+(if nil
+    (setq *howto-alist* 
+	  (loop
+	   for x in *howto-path*
+	   with l = nil
+	   nconc (loop for y in (get-directory-files x)
+		       collect (list y x)) into l
+	   finally return l))
+  )
