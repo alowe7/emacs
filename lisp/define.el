@@ -1,5 +1,5 @@
 (put 'define 'rcsid 
- "$Id: define.el,v 1.8 2004-03-03 15:15:18 cvs Exp $")
+ "$Id: define.el,v 1.9 2004-05-08 19:15:33 cvs Exp $")
 
 (require 'w3m)
 
@@ -30,4 +30,15 @@
   (let ((define-serach-pat "http://www.bartleby.com/cgi-bin/texis/webinator/sitesearch?FILTER=colReference&query=%s"))
     (define "power")
     )
+  )
+
+(defvar google-search-pat
+  "http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=%s&spell=1" )
+
+(defun google (term)
+  "look up TERM in bartleby dictionary"
+  (interactive "sterm: ")
+  (w3m-goto-url 
+   (format google-search-pat term)
+   )
   )
