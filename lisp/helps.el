@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.12 2002-01-22 16:26:54 cvs Exp $")
+ "$Id: helps.el,v 1.13 2003-06-05 19:35:42 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -8,15 +8,12 @@
 ;; various help related functions
 
 (defvar indent 0)
-;(setq indent 0)
 
 (defun name-key ()
   "print out the description of a key read from the keyboard"
   (interactive)
   (key-description (read-key-sequence ""))
   )
-
-(define-key global-map (vector 'f1) 'name-key)
 
 ; (describe-key (read-key-sequence ""))
 ; also see (describe-bindings &optional PREFIX)
@@ -141,16 +138,6 @@ MAP may be also be a string or symbol name of a map
 ;;   )
 ;; 
 
-(defun ginfo (thing)
-  (interactive "sinfo section: ")
-  (let ((fn (format "/afs/austin/common/usr/lpp/info/info32.ascii/%s.cmd" thing)))
-    (if (file-exists-p fn) 
-	(progn
-	  (find-file fn)
-	  (browse-mode))
-      (message "cannot find <%s> in in info directories" thing))
-    )
-  )
 
 (defvar *default-section* "1" "default section if none specified")
 (defun fman (topic &optional section)

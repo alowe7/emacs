@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.42 2003-05-15 21:00:01 cvs Exp $")
+ "$Id: fb.el,v 1.43 2003-06-05 19:35:42 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -53,23 +53,8 @@
     (define-key fb-mode-map "/" 'fb-match-file-forward)
     (define-key fb-mode-map "?" 'fb-match-file-backward)
 
-    (define-key  fb-mode-map "p" 
-      '(lambda () 
-	 (interactive)
-	 (condition-case x
-	     (cd (previous-qsave-search (current-buffer)))
-	   (error nil))
-	 )
-      )
-
-    (define-key  fb-mode-map "n" 
-      '(lambda () 
-	 (interactive)
-	 (condition-case x
-	     (cd (next-qsave-search (current-buffer)))
-	   (error nil))
-	 )
-      )
+    (define-key  fb-mode-map "p" 'roll-qsave)
+    (define-key  fb-mode-map "n" 'roll-qsave-1)
 
     (define-key fb-mode-map "i" 'fb-file-info)
 

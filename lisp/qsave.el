@@ -1,5 +1,5 @@
 (put 'qsave 'rcsid
-     "$Id: qsave.el,v 1.1 2003-03-26 22:50:59 cvs Exp $")
+     "$Id: qsave.el,v 1.2 2003-06-05 19:35:42 cvs Exp $")
 
 ;; by Andy Lowe (c) 1993, 1994, 1995, 1996, 1997, 1998
 
@@ -198,6 +198,11 @@ returns data on cell, if any.
 (defvar saved-key-bindings nil)
 (make-variable-buffer-local 'saved-key-bindings)
 
+(defun roll-qsave () (interactive) (previous-qsave-search (current-buffer)))
+(defun roll-qsave-1 () (interactive) (next-qsave-search (current-buffer)))
+
+;  (condition-case x (cd (previous-qsave-search (current-buffer))) (error nil))
+
 (defun qsave-mode (arg)
   (let ((prev-qsave-mode qsave-mode))
     (setq qsave-mode
@@ -211,8 +216,8 @@ returns data on cell, if any.
 				      (cons "p" (local-key-binding "p"))
 				      (cons "n" (local-key-binding "n"))
 				      ))
-	    (local-set-key "p" '(lambda () (interactive) (previous-qsave-search (current-buffer))))
-	    (local-set-key "n" '(lambda () (interactive) (next-qsave-search (current-buffer))))
+	    (local-set-key "p" 'roll-qsave)
+	    (local-set-key "n" 'roll-qsave-1)
 	    ))
 					; leaving
       (progn

@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.11 2003-04-07 21:52:54 cvs Exp $")
+ "$Id: W32.el,v 1.12 2003-06-05 19:35:42 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -939,25 +939,39 @@ host must respond within optional TIMEOUT msec"
 	(eval `(if (ad-is-advised (quote ,x)) (ad-unadvise (quote ,x))))))
 ; (mount-unhook-file-commands)
 
+(defvar *absolute-filepath-pattern* "^//\\|^~\\|^[a-zA-`]:" 
+  "pattern matching an absolute file path")
+(defun absolute-path (f) (and (string-match *absolute-filepath-pattern* f) f))
+
+; if expand-file-name is advised, be sure to use original definition
+(fset 'mount-orig-expand-file-name
+      (if (ad-is-advised 'expand-file-name) (symbol-function 'ad-Orig-expand-file-name)
+	(symbol-function 'expand-file-name)))
+
+(defun mount-hook (f)
+  "apply mounts to FILE if applicable"
+  (or (absolute-path f)
+      (let ((e (if (absolute-path default-directory)
+		   (concat (cadr (assoc "/" cygmounts)) f)
+		 (loop for y in cygmounts
+		       if (or
+			   (string-match (concat "^" (car y) "/") f)
+			   (string-match (concat "^" (car y) "$") f))
+		       return (replace-in-string (concat "^" (car y)) (cadr y) f)
+		       ))))
+	(and e (mount-orig-expand-file-name e))
+	)
+      f
+      )
+  )
+
 (defun mount-hook-file-commands ()
   (mount-unhook-file-commands)
   (loop for x in mount-hook-file-commands do
 	(let ((hook-name (intern (concat "hook-" (symbol-name x)))))
 	  (eval `(defadvice ,x (around ,hook-name first activate) 
-		   (let* ((d (ad-get-arg 0))
-			  (d1 (unless (string-match "^//\\|^~\\|^[a-zA-`]:" d)
-				(loop for y in cygmounts 
-				      if (or
-					  (string-match (concat "^" (car y) "/") d)
-					  (string-match (concat "^" (car y) "$") d))
-				      return (replace-in-string (concat "^" (car y)) (cadr y) d)
-				      )))
-			  (d2 (and d1 (if (ad-is-advised 'expand-file-name)
-					  (ad-Orig-expand-file-name d1)
-					(expand-file-name d1)))))
-		     (and d2 (ad-set-arg 0 d2))
-		     ad-do-it
-		     )
+		   (ad-set-arg 0 (mount-hook (ad-get-arg 0)))
+		   ad-do-it
 		   )
 		)
 	  )

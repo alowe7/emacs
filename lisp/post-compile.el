@@ -1,5 +1,5 @@
 (put 'post-compile 'rcsid 
- "$Id: post-compile.el,v 1.6 2003-02-23 23:42:28 cvs Exp $")
+ "$Id: post-compile.el,v 1.7 2003-06-05 19:35:42 cvs Exp $")
 
 ; (read-string "loading post-compile")
 
@@ -74,6 +74,6 @@
 
 ; (defvar compilation-mode-map (make-sparse-keymap))
 
-(define-key  compilation-mode-map "p" '(lambda () (interactive) (previous-qsave-search (get-buffer "*compilation*"))))
-(define-key  compilation-mode-map "n" '(lambda () (interactive) (next-qsave-search (get-buffer "*compilation*"))))
+(define-key  compilation-mode-map "p" 'roll-qsave)
+(define-key  compilation-mode-map "n" 'roll-qsave-1)
 

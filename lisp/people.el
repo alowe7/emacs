@@ -1,5 +1,5 @@
 (put 'people 'rcsid 
- "$Id: people.el,v 1.13 2001-11-12 22:53:06 cvs Exp $")
+ "$Id: people.el,v 1.14 2003-06-05 19:35:42 cvs Exp $")
 (provide 'people)
 ;; manage people databases
 (require 'compile)
@@ -146,8 +146,9 @@ to find the text that grep hits refer to."
 					(unless (not v)
 					  (find-file (car v))
 					  (goto-line (cadr v))))))
-  (define-key  people-mode-map "p" '(lambda () (interactive) (previous-qsave-search (current-buffer))))
-  (define-key  people-mode-map "n" '(lambda () (interactive) (next-qsave-search (current-buffer))))
+  (define-key  people-mode-map "p" 'roll-qsave)
+  (define-key  people-mode-map "n" ''roll-qsave-1)
+
   (define-key  people-mode-map ""
     '(lambda (n) (interactive "nprune to depth: ")
        (prune-search (get-buffer "*people*") n)))

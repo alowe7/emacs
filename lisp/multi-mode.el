@@ -1,6 +1,6 @@
 ;;; multi-mode.el --- Allowing multiple major modes in a buffer.
 ;;;****************************************************************************
-;;; $Id: multi-mode.el,v 1.1 2003-05-15 21:00:01 cvs Exp $
+;;; $Id: multi-mode.el,v 1.2 2003-06-05 19:35:42 cvs Exp $
 ;;;****************************************************************************
 ;;
 ;;
@@ -86,6 +86,9 @@
 ;;
 ;; Changes:
 ;; $Log: not supported by cvs2svn $
+;; Revision 1.1  2003/05/15 21:00:01  cvs
+;; *** empty log message ***
+;;
 ; Revision 1.2  1994/06/11  22:08:22  gerd
 ; *** empty log message ***
 ;
@@ -234,8 +237,9 @@ See also the documentation of multi-mode-beware."
   (force-mode-line-update)			; show the new state
 )
 
+; put uninformative multi-mode minor-mode string at end, lets vc-mode preceed it.
 (or (assq 'multi-mode minor-mode-alist)
-    (setq minor-mode-alist (cons '(multi-mode " MULTI") minor-mode-alist)))
+    (setq minor-mode-alist (nconc minor-mode-alist '((multi-mode vc-mode)))))
 
 
 (defun multi-mode-update-mode ()
