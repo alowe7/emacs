@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.7 2001-03-13 18:58:36 cvs Exp $")
+ "$Id: w32,v 1.8 2001-03-30 10:06:40 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -283,7 +283,27 @@ a null argument means pop-world from world-stack"
     )
   )
 
+(defun w32-canonify-environment-variable (f)
+  "convert unix style env var to dos style."
+  (while (string-match "\$[a-zA-Z0-9_]+" f)
+      (format "%%%s%%" (substring f (1+ (match-beginning 0)) (match-end 0)))
+    )
+  )
 
+(defun yank-dos-environment-variable (begin &optional end)
+  "this function translates the region between BEGIN and END using `w32-canonify-environment-variable' and copies the result into the kill-ring.
+if `interprogram-cut-function' is defined, it is invoked with the canonified result.
+when called from a program, if BEGIN is a string, then use it as the kill text instead of the region
+"
+  (interactive "r")
+
+  (let ((txt (w32-canonify-environment-variable (string* begin (buffer-substring begin end)))))
+    (kill-new txt)
+    (if interprogram-cut-function
+	(funcall interprogram-cut-function txt t))
+    txt))
+
+(global-set-key "e" 'yank-dos-environment-variable)
 
 (defun yank-dos-filename (begin &optional end)
   "this function translates the region between BEGIN and END using `w32-canonify' and copies the result into the kill-ring.
