@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.9 2001-02-09 14:29:51 cvs Exp $")
+ "$Id: keys.el,v 1.10 2001-03-19 10:41:53 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -24,6 +24,7 @@
 
 
 (global-set-key " " 'roll-buffer-list)
+(global-set-key (vector 'C-return ? ) 'roll-buffers-named)
 (global-set-key " " 'roll-buffer-like)
 (global-set-key " " 'roll-buffer-mode)
 

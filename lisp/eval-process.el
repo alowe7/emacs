@@ -1,5 +1,5 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.7 2000-10-03 16:50:27 cvs Exp $")
+ "$Id: eval-process.el,v 1.8 2001-03-19 10:41:53 cvs Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)
@@ -23,7 +23,9 @@ this function evaluates to the process output  "
   ;    (setq v (buffer-string))
   ;    (kill-buffer buffer) ; may be faster not to bother with this.
   ;    v
-      (buffer-string)
+      (cond ((= 1 (count-lines (point-min) (point-max)))
+	 (clean-string (buffer-string)))
+	(t (buffer-string)))
       )
     )
   )

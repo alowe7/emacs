@@ -1,5 +1,5 @@
 (put 'sh-utils 'rcsid 
- "$Id: sh-utils.el,v 1.3 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: sh-utils.el,v 1.4 2001-03-19 10:41:53 cvs Exp $")
 
 ;; sh and c workalikes
 
@@ -26,10 +26,10 @@
       (cd z))))
 
 
-(defun touch (fn)
-  "touch filename"
-  (call-process "touch" nil 0 nil fn)
-  t
+(defun touch-file (f)
+  "touch named file"
+  (interactive "sFilename: ")
+  (call-process "touch" nil 0 nil f)
   )
 
 

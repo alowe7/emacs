@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.2 2001-02-20 17:17:12 cvs Exp $")
+ "$Id: post-dired.el,v 1.3 2001-03-19 10:41:53 cvs Exp $")
 
 ;; dired stuff
 
@@ -169,14 +169,24 @@ warns if more than one file is to be moved and target is not a directory"
     )
   )
 
-(defun dired-touch-file ()
+(defun dired-touch-file (&optional arg)
   "touch indicated file"
-  (interactive)
-  (let ((buffer-read-only nil)
-	(fn (dired-get-filename)))
-    (and (y-or-n-p (format "touch %s? " fn)) (touch fn)
-	 (dired-redisplay fn) (message ""))
-    )
+  (interactive "P")
+  (cond ((and arg (dired-get-marked-files))
+	 (if (y-or-n-p "touch marked files? ")
+	     (loop for fn in (dired-get-marked-files) 
+		   do (touch-file fn)
+		   finally (revert-buffer)))
+	 )
+	(arg (message "no marked files"))
+	(t
+	 (let ((buffer-read-only nil)
+	       (fn (dired-get-filename)))
+	   (and (y-or-n-p (format "touch %s? " fn)) (touch-file fn)
+		(dired-redisplay fn) (message ""))
+	   )
+	 )
+	)
   )
 
 
@@ -221,7 +231,9 @@ warns if more than one file is to be moved and target is not a directory"
 (autoload 'dired-zip-view "zip-view")
 (autoload 'dired-html-view "html-view")
 
-(define-key  dired-mode-map "e" 'dired-decrypt-find-file)
+(define-key dired-mode-map "e" 'dired-decrypt-find-file)
+
+(define-key dired-mode-map (vector 'C-return ? ) 'dired-unmark-all-files)
 
 (require 'tar-view)
 (require 'zip-view)
