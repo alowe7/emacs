@@ -1,5 +1,5 @@
-(defconst rcs-id "$Id: post-debug.el,v 1.4 2000-08-07 15:59:32 cvs Exp $")
-(define-key debugger-mode-map "x" 'debug-indicated-word)
+(defconst rcs-id "$Id: post-debug.el,v 1.5 2000-08-10 21:13:12 cvs Exp $")
+; (define-key debugger-mode-map "x" 'debug-indicated-word)
 
 ;(add-hook 'debugger-mode-hook '(lambda ()
 ; (define-key debugger-mode-map "x" '(lambda () (interactive) 
