@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.19 2003-06-13 14:05:27 cvs Exp $")
+ "$Id: roll.el,v 1.20 2003-07-30 21:34:44 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -54,7 +54,7 @@ this might make it easier to adjust navigation through the list by redefining na
 
 ; (describe-key (vector (roll-nav (y-or-n-q-p "" "p?? ") 'next)))
 
- 
+
 (defun roll-list (l  &optional displayfn deletefn selectfn dispatch donefn)
   "rolls elements in list L, using DISPATCH list.
 
@@ -62,8 +62,10 @@ optional DISPATCH is an a-list:
 	((char fn) ...)
 
 each association dispatches a keyboard character to a function.  if
-the key is pressed, the function of one arg is applied to the list: (b i)
-where b is the subject element of l and i is the relative position of the element
+the key is pressed, the function of one arg is applied to the list: (v i)
+where v is the vector of l and i is the relative position of the subject element in v
+
+the dispatch function may (throw 'done nil) to exit the input loop.
 
 calling DISPLAYFN to display the element (returns a string)
 	if DISPLAYFN is nil, then l is assumed to be a list of strings, and the element is simply displayed
@@ -160,7 +162,8 @@ calling SELECTFN to choose one
 							 (atoms-like "-mode"))))
 	     major-mode)))
 
-    (roll-list (buffer-list-mode (if (atom m) m (or (string* m) major-mode))) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
+    (roll-list (buffer-list-mode (if (atom m) m (or (string* m) major-mode))) 'buffer-name 'kill-buffer-1 'switch-to-buffer
+	       '((?o (lambda (v i) (switch-to-buffer-other-window (aref v i)) (throw 'done nil)))))
     )
   )
 

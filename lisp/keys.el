@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.36 2003-06-24 01:49:39 cvs Exp $")
+ "$Id: keys.el,v 1.37 2003-07-30 21:34:44 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -271,6 +271,11 @@
 (define-key ctl-/-map "p" 'perlmodhtml)
 (define-key ctl-/-map "p" 'phpmanual)
 (define-key ctl-/-map "s" 'specs)
+
+(require 'cl)
+(loop for x from 0 to 9 do
+      (let ((k (format "%d" x)))
+	(define-key ctl-/-map k `(lambda () (interactive) (pop-to-buffer (zap-buffer (make-temp-name ,k)))))))
 
 (provide 'keys)
 

@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.21 2003-06-24 01:49:39 cvs Exp $")
+ "$Id: post-dired.el,v 1.22 2003-07-30 21:34:44 cvs Exp $")
 (require 'eval-process)
 (require 'tar-view)
 (require 'zip-view)
@@ -341,3 +341,20 @@ see `file-assoc-list'"
 			      (define-key dired-mode-map "\C-xv" 'ctl-x-v-prefix)
 			      (define-key dired-mode-map "V" 'dired-html-view)
 			      ))
+
+
+; todo generesize
+(defun dired-yank-filename ()
+  (interactive)
+  (yank-dos-filename (dired-get-filename))
+  )
+(define-key dired-mode-map (vector '\C-return ?\C-y) 'dired-yank-filename)
+
+(defun dired-rename-file (pat)
+  (interactive "spat: ")
+  (let ((f (dired-get-filename t)))
+    (rename-file f (concat f "." (string* pat "bak")))
+    )
+  (revert-buffer)
+  )
+(define-key dired-mode-map (vector '\C-return ?\C-r) 'dired-rename-file)

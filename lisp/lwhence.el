@@ -1,5 +1,5 @@
 (put 'lwhence 'rcsid 
- "$Id: lwhence.el,v 1.6 2001-02-09 14:29:51 cvs Exp $")
+ "$Id: lwhence.el,v 1.7 2003-07-30 21:34:44 cvs Exp $")
 (require 'indicate)
 (provide 'lwhence)
 
@@ -56,9 +56,10 @@
 			when (member fn x)
 			return (car x))
 		  (throw 'done (format "%s not loaded" fn))))
-	   (f (loop for x in load-path
-		    thereis (or (-a (format "%s/%s" x b))
-				(-a (format "%s/%s.el" x b)))))
+	   (f (or (-a b)
+		  (loop for x in load-path
+			thereis (or (-a (format "%s/%s" x b))
+				    (-a (format "%s/%s.el" x b))))))
 	   )
 
       (if (interactive-p)

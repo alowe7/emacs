@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.16 2003-07-18 14:51:25 cvs Exp $")
+ "$Id: W32.el,v 1.17 2003-07-30 21:34:44 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -204,6 +204,14 @@ if MIXED is 0, then ignore letter drive names.
   (start-process f nil f ))
 ;; this depends on the query.bat being on your path
 
+; (aexec-handler "jar")
+
+(defun aexec-handler (ext)
+  "helper function to find a handler for ext, if any"
+  (and ext 
+       (assoc (downcase ext) file-assoc-list)
+       )
+  )
 
 (defun aexec (f &optional visit)
   "apply command associated with filetype to specified FILE
@@ -214,7 +222,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
  display a message  "
   (interactive "sFile: ")
   (let* ((ext (file-name-extension f))
-	(handler (and ext (assoc (downcase ext) file-assoc-list))))
+	(handler (aexec-handler ext)))
     (if handler (funcall (cdr handler) f)
       (let ((cmd (file-association f)))
 	(cond (cmd 

@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.14 2003-06-24 01:49:39 cvs Exp $")
+ "$Id: fapropos.el,v 1.15 2003-07-30 21:34:44 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -314,17 +314,29 @@ unless it is already there
 
 
 ; xxx todo roll results
-(defun fapropos5 (pat)
+(defun documentation-like (pat)
   "find symbol function with documentation property matching PAT"
   (interactive "spat: ")
   (loop
    for x being the symbols of obarray 
-   with docx = nil
-   when (setq docx (and (functionp x) (documentation x)))
+   when (and (functionp x) (documentation x) (string-match pat (documentation x)))
    collect x
+   )
   )
-)
-
-; (fapropos5 "profile")
 
 (defun describe-key-sequence (&optional arg) (interactive "P") (funcall (if arg 'describe-key 'describe-key-briefly) (read-key-sequence "key sequence: ")))
+
+(defun fapropos5 (pat)
+  "get help for functions with documentation matching PAT"
+  (interactive "spat: ")
+  (let ((b (zap-buffer "*Help*")))
+    (set-buffer b)
+    (loop for x in (documentation-like pat) do
+	  (insert (format "`%s'\t%s\n\n" x (documentation x)))
+	  )
+    (pop-to-buffer b)
+    (help-mode)
+    (beginning-of-buffer)
+    )
+  )
+;(fapropos5 "load-path")

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.7 2003-07-18 14:51:25 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.8 2003-07-30 21:34:44 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 0)
@@ -109,11 +109,22 @@
   )
 
 ; use working versions. will this stuff ever stabilize?
-(append-to-list 'load-path  "/x/tw/site-lisp")
-(append-to-list 'load-path  "/x/db/site-lisp")
-(append-to-list 'load-path  "/x/xz/site-lisp")
-(append-to-list 'load-path  "/x/elisp")
-
+(let ((r '(
+	   ("site-lisp/tw-3.01" "/x/tw/site-lisp")
+	   ("site-lisp/db-1.0" "/x/db/site-lisp")
+	   ("site-lisp/xz-3.1" "/x/xz/site-lisp")
+	   ("site-lisp/tx-1.0" "/x/elisp")
+	   ))
+      )
+  (loop for e in r do 
+	(setq load-path
+  ; first remove published versions, if any
+	      (nconc (remove-if '(lambda (x) (string-match (car e) x)) load-path)
+  ; then add working versions
+		     '("/x/tw/site-lisp"))
+	      )
+	)
+  )
 
 (require 'worlds)
 (let ((lw (read-file (concat wbase "/" *lastworld-file-name*)))) (and lw (world lw)))
