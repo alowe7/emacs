@@ -1,5 +1,5 @@
 (put 'post-vc 'rcsid
- "$Id: post-vc.el,v 1.8 2002-01-24 22:41:35 cvs Exp $")
+ "$Id: post-vc.el,v 1.9 2002-03-08 18:33:27 cvs Exp $")
 
 (defun identify () 
   "insert a sccs ID string at head of file."
@@ -48,3 +48,6 @@ else if ARG, read file name. "
 
 ; (ad-is-advised 'vc-diff)
 ; (ad-unadvise 'vc-diff)
+
+(defun cvshack () (interactive) (perl-command "cvshack" "-r"))
+(define-key vc-prefix-map "!" 'cvshack)
