@@ -1,5 +1,5 @@
 (put 'nums 'rcsid 
- "$Id: nums.el,v 1.7 2001-11-02 21:30:28 cvs Exp $")
+ "$Id: nums.el,v 1.8 2002-05-27 01:51:20 cvs Exp $")
 (provide 'nums)
 
 (defun exp (n m)
@@ -131,7 +131,9 @@ with arg, prompt for number.
   (interactive "P")
   (save-excursion
     (let* 
-	((i (if (and (interactive-p) (not (null base)) (listp base)) (car base) 0))
+	((i (cond ((and (interactive-p) (not (null base)) (listp base)) (car base))
+		  ((numberp base) base)
+		  (t 0)))
 	 (z (+ i (count-lines (point) (mark))))
 	 (goal-column (if (interactive-p) (current-column) column))
 	 (separator (or separator " "))
