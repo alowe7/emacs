@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: tasks.el,v 1.1 2000-08-10 16:04:32 cvs Exp $")
+(defconst rcs-id "$Id: tasks.el,v 1.2 2000-08-10 16:16:36 cvs Exp $")
 
 ; a little throw-away stack of things to do, different from todo.el
 (require 'roll)
@@ -18,10 +18,16 @@
 	(if (> (length task-stack) 0) (message (pop task-stack)))
 	)
 
+(defun delete-task (&optional l b)
+  (interactive)
+  (delete* b task-stack)
+  )
+
 (defun roll-tasks ()
 	(interactive)
 	(if (> (length task-stack) 0)
-			(roll-list task-stack nil nil nil '((?e edit-task)))
+			(roll-list task-stack nil 'delete-task nil 
+				   '((?e edit-task)))
 		)
 	)
 
@@ -109,6 +115,7 @@ press C-h b for local bindings.
   (define-key task-mode-map "|" 'edit-task)
   ; (key-description (vector (char-ctrl ?c)))
   (define-key task-mode-map "" 'pop-task)
+  (define-key task-mode-map "d" '(lambda () (call-interactively 'debug)))
   (define-key task-mode-map (vector 'return) 'push-task)
   (define-key task-mode-map " " 'roll-tasks)
   )
