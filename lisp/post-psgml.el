@@ -1,5 +1,5 @@
 (put 'post-psgml 'rcsid
- "$Id: post-psgml.el,v 1.2 2002-06-06 17:17:44 cvs Exp $")
+ "$Id: post-psgml.el,v 1.3 2003-01-22 15:40:01 cvs Exp $")
 
 (define-key xml-mode-map (vector '\C-right) 'sgml-forward-element)
 (define-key xml-mode-map (vector '\C-left) 'sgml-backward-element)
@@ -9,3 +9,4 @@
 (modify-syntax-entry ?> ")" xml-mode-syntax-table)
 
 
+(define-key sgml-mode-map "\C-c\C-f\C-f" 'find-file-force-refresh)

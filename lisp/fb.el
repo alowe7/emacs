@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.32 2003-01-18 18:01:09 cvs Exp $")
+ "$Id: fb.el,v 1.33 2003-01-22 15:40:01 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -25,7 +25,6 @@
 	 (kill-buffer (current-buffer))))
 
     (define-key fb-mode-map "\C-m" 'fb-exec-file)
-    (define-key fb-mode-map "|" '(lambda (s) (interactive "sSearch for: ") (shell-command-on-region (point-min) (point-max) (concat "xargs egrep " s) (get-buffer-create (format "*egrep %s*" s)))))
 
     (define-key fb-mode-map "w" 'fb-w3m-file)
 
@@ -68,7 +67,8 @@
 
     (define-key fb-mode-map "i" 'fb-file-info)
 
-    (define-key fb-mode-map "|" 'fb-shell-command)
+    (define-key fb-mode-map "|" 'fb-grep-files)
+    (define-key fb-mode-map "!" 'fb-shell-command)
 
     (define-key fb-mode-map "m" '(lambda () (interactive) 
 				   (fb-shell-command "nroff -man")))
@@ -451,8 +451,8 @@ if none given, uses `*default-fb-db*'
 	    (cond
 	     ((and (listp args) (numberp (car args)))
 	      ;; given prefix arg, read *fb-db*
-	      (setq *fb-db* (read-file-name "db: " "" nil nil *fb-db*)
-		    ))
+	      (progn (setq *fb-db* (read-file-name "db: " "" nil nil *fb-db*))
+		     (read-string "pat: ")))
 	     ((stringp args) args)
 	     ((interactive-p) (read-string "pat: ")))))
 	 )
@@ -698,5 +698,12 @@ returns a filename containing results"
 )
 ; (fbf "fbf")
 
+(defun fb-grep-files (s)
+  (interactive "sSearch for: ")
+  (shell-command-on-region
+   (point-min)
+   (point-max)
+   (concat "xargs " grep-command s) (get-buffer-create (format "*egrep %s*" s)))
+  )
 
 (provide 'fb)
