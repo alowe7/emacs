@@ -1,5 +1,5 @@
 (put 'jar-view 'rcsid 
- "$Id: jar-view.el,v 1.4 2001-08-20 04:24:43 cvs Exp $")
+ "$Id: jar-view.el,v 1.5 2003-03-03 14:55:55 cvs Exp $")
 (provide 'jar-view)
 (require 'cl)
 
@@ -7,11 +7,13 @@
 	(jar-view (dired-get-filename)) 
 	)
 
+(defvar jar-command "c:/j2sdk1.4.1_01/bin/jar")
+
 (make-variable-buffer-local 'jar-file)
 (defun jar-view (f) (interactive)
 	(let* ((b (zap-buffer (format "%s *jar*" f))))
 
-		(call-process "jar" nil b nil "-tf"  (unix-canonify f t))
+		(call-process  jar-command nil b nil "-tf"  (unix-canonify f))
 		(pop-to-buffer b)
 		(setq jar-file f)
 		(jar-view-mode)

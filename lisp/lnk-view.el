@@ -1,5 +1,5 @@
 (put 'lnk-view 'rcsid 
- "$Id: lnk-view.el,v 1.3 2001-08-20 04:24:43 cvs Exp $")
+ "$Id: lnk-view.el,v 1.4 2003-03-03 14:55:55 cvs Exp $")
 (require 'cl)
 
 (defun dired-lnk-view () (interactive)
@@ -11,7 +11,7 @@
 	(let* ((b (zap-buffer (format "%s *lnk*" f))))
 
 		(call-process "shortcut" nil b nil "-t" f "-u" "all")
-		(pop-to-buffer b)
+		(switch-to-buffer b)
 		(lnk-mode)
 		(setq lnk-file f)
 		(not-modified)

@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.6 2003-02-24 14:46:21 cvs Exp $")
+ "$Id: W32.el,v 1.7 2003-03-03 14:55:55 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -266,9 +266,15 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   (lower-frame)
   )
 
+(defun set-cmd-prompt-regexp () (interactive)
+  (setq comint-prompt-regexp "^[a-zA-Z]:.*>")
+  )
+
 (defun cmd (&optional num)
   (interactive "p")
-  (shell2 (or num -1) nil "cmd")
+  (let ((comint-prompt-regexp "^[A-Z]:.*>*"))
+    (shell2 (or num -1) nil "cmd")
+    )
   )
 
 (global-set-key (vector -8388595) 'cmd)
