@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.20 2001-02-27 12:46:03 cvs Exp $")
+ "$Id: fb.el,v 1.21 2001-04-27 11:38:00 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -452,6 +452,19 @@ with prefix arg, prompt for *fb-db* to use"
       )
     )
   )
+
+(defun fff (pat)
+  (interactive "sPat: ")
+  (let ((b (zap-buffer "*ff*")))
+; xxx broken
+    (shell-command (format "find . -name \"%s\"" pat) b nil)
+    (pop-to-buffer b)
+    (beginning-of-buffer)
+    (run-hooks 'after-find-file-hook)
+    (fb-mode)
+    )
+  )
+; (fff "Config.ini")
 
 (defun fh (pat)
   "fast find working drive -- search for file matching pat in homedirs"

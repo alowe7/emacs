@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.8 2001-04-13 20:53:28 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.9 2001-04-27 11:37:59 cvs Exp $")
 
 ;(default-font "lucida console" nil 22)
 
@@ -64,11 +64,11 @@
 (require 'xz-loads)
 
 (require 'gnuserv)
-(gnuserv-start t) ; if there's a problem don't try to restart.
+(condition-case x (gnuserv-start) (error nil)) ; if there's a problem don't try to restart.
 
-
-(if (file-exists-p "~/.tickle")
-    (messagebox
-     (read-file "~/.tickle") "don't forget" "MB_OKCANCEL|MB_ICONINFORMATION|MB_SETFOREGROUND")
+(let ((s (string* (condition-case x (read-file "~/.tickle") (error nil)))))
+  (and s
+       (messagebox s "don't forget" "MB_OK|MB_ICONINFORMATION|MB_SETFOREGROUND")
+       )
   )
 

@@ -1,5 +1,5 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.8 2001-03-19 10:41:53 cvs Exp $")
+ "$Id: eval-process.el,v 1.9 2001-04-27 11:38:00 cvs Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)
@@ -97,3 +97,9 @@ cleans up linefeeds in resulting output"
   )
 )
 
+(defun timestamp (&optional format)
+  "add a fixed timestamp to the current buffer using time format string FORMAT.
+see `format-time-string' and `time-stamp'"
+  (interactive)
+  (insert (format-time-string (string* format "%Y/%m/%d %T")))
+  )

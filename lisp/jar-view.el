@@ -1,5 +1,5 @@
 (put 'jar-view 'rcsid 
- "$Id: jar-view.el,v 1.1 2001-03-11 19:25:11 cvs Exp $")
+ "$Id: jar-view.el,v 1.2 2001-04-27 11:38:00 cvs Exp $")
 (provide 'jar-view)
 (require 'cl)
 
@@ -11,7 +11,7 @@
 (defun jar-view (f) (interactive)
 	(let* ((b (zap-buffer (format "%s *jar*" f))))
 
-		(call-process "jar" nil b nil "-tf"  (unix-canonify f))
+		(call-process "jar" nil b nil "-tf"  (unix-canonify f t))
 		(pop-to-buffer b)
 		(setq jar-file f)
 		(jar-view-mode)

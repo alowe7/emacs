@@ -1,6 +1,7 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.8 2001-03-16 12:13:04 cvs Exp $")
+ "$Id: roll.el,v 1.9 2001-04-27 11:38:00 cvs Exp $")
 (provide 'roll)
+(require 'buffers)
 (require 'cl)
 
 (defun roll-search (a pat displayfn i)
@@ -151,14 +152,14 @@ calling SELECTFN to choose one
 						  (format "%s" x) x))
 					      (atoms-like "-mode"))))))
 
-  (roll-list (list-mode-buffers (if (atom m) m (or (string* m) major-mode))) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
+  (roll-list (list-buffers-mode (if (atom m) m (or (string* m) major-mode))) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
   )
 
 (defun roll-buffer-like () 
 " roll buffers with mode like current buffer"
   (interactive) 
 
-  (roll-list (list-mode-buffers major-mode) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
+  (roll-list (list-buffers-mode major-mode) 'buffer-name 'kill-buffer-1 'switch-to-buffer)
   )
 
 (defun get-real-buffer-list (arg)
@@ -221,7 +222,7 @@ LIST may be an a-list, in which case, interpret the cars as buffers, and print t
 	      (or (not modified) (buffer-modified-p x)))
 	collect (buffer-name)))
 
-(defun roll-buffers-no-files (&optional mugger) (interactive "smodified? ") 
+(defun roll-buffer-no-files (&optional mugger) (interactive "smodified? ") 
   (roll-list (buffer-list-no-files (string* mugger))
 	     nil
 	     'kill-buffer-1 
@@ -229,21 +230,14 @@ LIST may be an a-list, in which case, interpret the cars as buffers, and print t
   )
 
 
-(defun list-buffers-named (pat)
-  "list buffers with names matching PAT"
+(defun roll-buffer-named (pat)
+  "roll buffers with names matching PAT"
   (interactive "spat: ")
-  (loop for x in (get-real-buffer-list nil)
-	when (string-match pat (buffer-name x))
-	collect x )
+
+  (roll-buffer-list (list-buffers-named pat))
   )
 
-(defun list-buffers-with (pat)
-  (loop for x in (get-real-buffer-list nil)
-	when (string-match pat (save-excursion (set-buffer x) (buffer-string)))
-	collect x )
-  )
-
-(defun roll-buffers-with (pat)
+(defun roll-buffer-with (pat)
   "roll buffers with contents matching PAT"
   (interactive "spat: ")
 

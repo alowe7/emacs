@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.10 2001-03-13 18:58:36 cvs Exp $")
+ "$Id: config.el,v 1.11 2001-04-27 11:37:59 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -9,7 +9,11 @@
 
 (defvar *debug-pre-load-hook* nil)
 (defvar *debug-post-load-hook* nil)
+
 ; (setq *debug-pre-load-hook* t *debug-post-load-hook* t)
+
+(defvar *disable-load-hook* nil)
+(defvar *debug-load-hook* nil)
 
 (defadvice load (around 
 		 hook-load
@@ -19,29 +23,42 @@
   "hook (load f) to optionally (load pre-f) (load f) (load post-f)
 no errors if files don't exist.
  "
-  (if (ad-is-advised 'load)
-      (ad-disable-advice 
-       'load
-       'around
-       'hook-load))
+  (and *debug-load-hook* (debug))
 
-  (ad-activate 'load)
+  (if (ad-has-enabled-advice 'load 'around)
+      (progn
+	(ad-disable-advice 
+	 'load
+	 'around
+	 'hook-load)
 
-  (and *debug-pre-load-hook* (debug))
-  (load (concat "pre-" (ad-get-arg 0)) t t)
+	(ad-activate 'load))
+    )
+
+  (unless *disable-load-hook*
+    (and *debug-pre-load-hook* (debug))
+    (load (concat "pre-" (ad-get-arg 0)) t t)
+    )
 
   ad-do-it
 
+  (unless *disable-load-hook*
     (and *debug-post-load-hook* (debug))
-  (load (concat "post-" (ad-get-arg 0)) t t)
+    (load (concat "post-" (ad-get-arg 0)) t t)
+    )
 
-  (ad-enable-advice 
-   'load
-   'around
-   'hook-load)
-  (ad-activate 'load)
+  (if (and (ad-has-any-advice 'load)
+	   (not (ad-has-enabled-advice 'load 'around)))
+      (progn
+	(ad-enable-advice 
+	 'load
+	 'around
+	 'hook-load)
+	(ad-activate 'load)
+	))
   )
 
+; (ad-has-enabled-advice 'load 'around)
 ; (ad-unadvise 'load)
 ; (ad-is-advised 'load)
 
@@ -190,10 +207,13 @@ no errors if files don't exist.
 ; we need to apply some here on first invocation, since some functions come preloaded.
 
 (defun post-wrap (f) 
+  "load any post-* modules for module F"
   (load (format "post-%s" f) t t)
   )
 
-(defvar hooked-preloaded-modules nil)
+(defvar hooked-preloaded-modules nil
+  "list of functions that may be preloaded, invoke `post-wrap' at startup, also push onto `after-load-alist'"
+  )
 
 (loop for x in hooked-preloaded-modules
       do

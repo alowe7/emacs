@@ -1,5 +1,5 @@
 (put 'encrypt 'rcsid 
- "$Id: encrypt.el,v 1.4 2000-10-03 16:50:27 cvs Exp $")
+ "$Id: encrypt.el,v 1.5 2001-04-27 11:38:00 cvs Exp $")
 (provide 'encrypt)
 (require 'comint) ; for non-echoing read
 
@@ -39,6 +39,11 @@ backup versions are not kept."
     )
   )
 
+(defvar *enable-fast-save-key* t "if set, allow cache of key on buffer local var")
+
+(defvar *fast-save-key* nil)
+(make-variable-buffer-local '*fast-save-key*)
+
 (defun encrypt-save-buffer (key)
   "write out current buffer encrypted.
 this happens even if buffer is not modified.  
@@ -48,13 +53,20 @@ backup versions are not kept."
   (let*
       ((bfn (buffer-file-name))
        (fn (and bfn (expand-file-name (buffer-file-name))))
+       (key (string* key (and  *enable-fast-save-key* *fast-save-key*)))
        b)
+
+    ;;    (unless (string* key)
+    ;;      (message "please specify a key")
+
     (if (not fn)
 	(encrypt-write-buffer
 	 (read-file-name "encrypt save file: ")
 	 key)
+
       (if (file-exists-p fn)
 	  (copy-file fn (make-backup-file-name fn) t))
+
       (call-process-region (point-min) (point-max) *key-program*
 			   nil 
 			   (setq b (get-buffer-create " *sub*"))
@@ -70,7 +82,11 @@ backup versions are not kept."
 
       (kill-buffer b)
       )
+
+    ;;      (and *enable-fast-save-key*
+    ;;	   (setq *fast-save-key* key))
     )
+  ;;    )
   )
 
 (defun dired-decrypt-find-file (key)
@@ -110,3 +126,4 @@ backup versions are not kept."
   (setq major-mode 'decrypt-mode)
   (setq mode-line-process nil)
   )
+

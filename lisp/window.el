@@ -1,5 +1,6 @@
 (put 'window 'rcsid 
- "$Id: window.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: window.el,v 1.5 2001-04-27 11:38:00 cvs Exp $")
+
 (defun top-of-window ()
   (interactive)
   (move-to-window-line 0))
@@ -10,11 +11,20 @@
 
 (defun three ()
   (interactive)
+  (n-windows 3)
+  )
+
+(defun n-windows (n) 
+  "split into n windows"
+  (interactive "nN: ")
   (delete-other-windows)
-  (let ((n (/ (window-height (selected-window)) 3)))
-    (split-window-vertically n)
-    (other-window 1)
-    (split-window-vertically n))
+  (let ((r (/ (window-height (selected-window)) n)))
+    (loop for x from 1 to (1- n) do
+	  (split-window-vertically r)
+	  (other-window 1)
+	  )
+    )
+  (balance-windows)
   )
 
 (defun other-window-1 ()

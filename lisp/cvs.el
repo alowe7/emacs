@@ -1,5 +1,5 @@
 (put 'cvs 'rcsid 
- "$Id: cvs.el,v 1.5 2001-04-08 14:41:04 cvs Exp $")
+ "$Id: cvs.el,v 1.6 2001-04-27 11:37:59 cvs Exp $")
 (provide 'cvs)
 
 (defvar *cvs-commands*
@@ -20,6 +20,7 @@
   (interactive (list 
 		(completing-read "CVS command: " *cvs-commands*)
 		(read-string "args: ")))
+
   ;; check required args
   (if (catch 'err
 	(loop for x in 
@@ -49,30 +50,44 @@
 (setq favorite-cvspservers '(("cvs@kim.technology-x.com") ("cvs@kim")))
 
 
-(defun cvsroot (arg)
+(defun cvsroot (&optional arg)
+  "get or set current CVS/Root.
+if interactive without optional ARG, just display it.
+else if interactive, prompt for and set it.
+
+non-interactive arg is a string to set it to
+"
+
   (interactive "P")
 
-  (cond ((! (-d "CVS"))
-	 (message "error: no CVS version here"))
-	((! (-f "CVS/Root"))
-	 (message "error: no CVS/Root here"))
-	(arg
-	 (let* ((cvsroot 
-		 (apply 'vector (split (read-file "CVS/Root") ":")))
-		(newroot
-		 (completing-read
-		  (format "new root [%s]: " (aref cvsroot 2))
-		  favorite-cvspservers nil t "cvs@")))
+  (let ((msg
+	 (cond ((! (-d "CVS"))
+		"error: no CVS version here")
+	       ((! (-f "CVS/Root"))
+		"error: no CVS/Root here")
+	       (arg
+		(let* ((cvsroot 
+			(apply 'vector (split (read-file "CVS/Root" t) ":")))
+		       (newroot
+			(or (and (not (interactive-p)) (string* arg) arg)
+			    (completing-read
+			     (format "new root [%s]: " (aref cvsroot 2))
+			     favorite-cvspservers nil t "cvs@"))))
 
-	   (if (string* newroot)
-	       (progn
-		 (aset cvsroot 2 newroot)
-		 (write-region (join cvsroot ":") nil "CVS/Root"))
-	     (message (join cvsroot ":")))
-	   )
-	 )
+		  (if (string* newroot)
+		      (progn
+			(aset cvsroot 2 newroot)
+			(write-region (join cvsroot ":") nil "CVS/Root"))
+		    (join cvsroot ":"))
+		  )
+		)
 	    
-	(t
-	 (message (read-file "CVS/Root")))
-	)
+	       (t
+		(read-file "CVS/Root" t))
+	       )))
+
+    (if (interactive-p) (message msg) msg)
+
+    )
   )
+; (cvsroot)]
