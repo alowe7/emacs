@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.11 2002-02-28 00:07:54 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.12 2002-02-28 00:37:02 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -16,9 +16,10 @@
 
 (defvar pod2text "d:/usr/local/bin/pod2text")
 
-(defun pod2text (f &optional buffer-name)
+(defun pod2text (f &optional buffer)
   (interactive "ffile: ")
-  (let* ((b (zap-buffer (or buffer-name "*pod*"))))
+  (let* ((b (cond ((buffer-live-p buffer) buffer)
+		  (t (zap-buffer (or buffer-name "*pod*"))))))
     (insert 
      (perl-command pod2text f))
 
@@ -37,6 +38,16 @@
     (beginning-of-buffer)
     b)
   )
+
+;; these allow pod2text to catch non-found man pages, and if they're perl scripts, try to pod them.
+(defun man-cooked-fn () 
+  (if (= 0 (length (buffer-string)))
+      (let* ((orig-man (cadr (split (cadr (split (buffer-name Man-buffer) "*")))))
+	     (f (find-script orig-man)))
+	(if f (save-window-excursion (pod2text f (current-buffer)))))))
+
+
+(add-hook 'Man-cooked-hook 'man-cooked-fn)
 
 (defun pod ()
 	"if looking at a perl script containing pod, format it as text."
