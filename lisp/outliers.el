@@ -1,7 +1,28 @@
 (put 'outliers 'rcsid 
- "$Id: outliers.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
-; a few more outliers
-(mapcar '(lambda (x) (load x t t)) 
+ "$Id: outliers.el,v 1.6 2000-12-15 15:10:59 cvs Exp $")
+
+;; a few outliers
+(mapcar '(lambda (x) (autoload (car x) (car (cdr x)) "via outliers.el" t))
 	'(
-  ;	  "post-debug.el"
-	  "post-etags.el"))
+	  ; (browse-mode "browse")
+	  ; (se-mode "se")
+	  ; (guru "guru")
+	  (caesar-region "caesar.el")
+	  (caesar-buffer "caesar.el")
+	  (mymail "mymail")
+	  (x-abbrevs "xabbr")
+	  (phigs-abbrevs "phabbr")
+	  (pi-mode "pi-mode")
+	  (filelist-mode "filelist-mode")
+	  (report-mode "report-mode")
+	  (flame "flame")
+	  (guru "guru")
+	  (calc "calc-loads")
+	  (vm "vm-loads")
+	  (vm-mail-other-window "vm-loads")
+	  (w3 "w3-loads")
+	  (w3-find-url "w3-loads")
+	  (makeinfo-buffer "makeinfo")
+	  (uncompress-while-visiting "uncompress")
+	  (tar-mode "tar-mode")
+	  (loop "cl")))
