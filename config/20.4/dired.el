@@ -219,7 +219,7 @@ directory name and the cdr is the actual files to list.")
 (defvar dired-re-maybe-mark "^. ")
 (defvar dired-re-dir (concat dired-re-maybe-mark dired-re-inode-size "d"))
 (defvar dired-re-sym (concat dired-re-maybe-mark dired-re-inode-size "l"))
-(defvar dired-re-exe;; match ls permission string of an executable file
+(defvar dired-re-exe	;; match ls permission string of an executable file
   (mapconcat (function
 	      (lambda (x)
 		(concat dired-re-maybe-mark dired-re-inode-size x)))
