@@ -1,5 +1,5 @@
 (put 'post-cc-mode 'rcsid 
- "$Id: post-cc-mode.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: post-cc-mode.el,v 1.5 2001-07-11 17:42:32 cvs Exp $")
 
 (defun narrow-to-fn ()
   " narrow to region surrounding current function"
@@ -92,7 +92,7 @@ The expansion is entirely correct because it uses the C preprocessor."
 	     (modify-syntax-entry ?_ "w")
 	     (setq comment-column 2)
 	     (local-set-key "" 'current-word-search-forward)
-	     (set-tabs 2)
+	     (set-tabs 8)
 	     (setq comment-column 2)
 	     )
 	  )
