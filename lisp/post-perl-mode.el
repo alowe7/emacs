@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.12 2002-02-28 00:37:02 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.13 2002-03-05 06:10:13 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -14,12 +14,12 @@
 
 ; see reg.el
 
-(defvar pod2text "d:/usr/local/bin/pod2text")
+(defvar pod2text (find-script "pod2text"))
 
 (defun pod2text (f &optional buffer)
   (interactive "ffile: ")
   (let* ((b (cond ((buffer-live-p buffer) buffer)
-		  (t (zap-buffer (or buffer-name "*pod*"))))))
+		  (t (zap-buffer (or buffer "*pod*"))))))
     (insert 
      (perl-command pod2text f))
 

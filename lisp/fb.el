@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.26 2001-12-12 21:15:37 cvs Exp $")
+ "$Id: fb.el,v 1.27 2002-03-05 06:10:13 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -414,7 +414,7 @@ all other patterns (e.g. \"foo*\") remain unchanged.
 		  b
 		  nil
 		  "-i" pat (expand-file-name
-			    *fb-db*))
+			    db))
 
     (set-buffer b)
     (beginning-of-buffer)
@@ -422,7 +422,7 @@ all other patterns (e.g. \"foo*\") remain unchanged.
     (fb-mode)
 
     (run-hooks 'after-find-file-hook)
-    )
+    b)
   )
 
 (defun ff (args)
@@ -478,7 +478,8 @@ with prefix arg, prompt for *fb-db* to use"
 (defun fh (pat)
   "fast find working drive -- search for file matching pat in homedirs"
   (interactive "spat: ")
-  (pop-to-buffer (ff1  *fb-db* (concat "^/[abcdpx]/*" pat)))
+;  (pop-to-buffer (ff1  *fb-db* (concat "^/[abcdpx]/*" pat)))
+  (pop-to-buffer (ff1 *fb-h-db* pat))
   )
 
 
@@ -564,7 +565,7 @@ returns a filename containing results"
     (loop
      for x in l
      do (delete-file x))
-    )
+    b)
   )
 
 (defun fall () 
