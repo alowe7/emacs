@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.16 2003-04-24 15:02:55 cvs Exp $
+#      $Id: make-autoloads,v 1.17 2003-04-28 14:16:05 cvs Exp $
 
 =pod
 =head1 NAME
@@ -38,7 +38,7 @@ $opt_h && pod2usage( { -verbose => 2 });
 
 if ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.16 $";
+#    $version="$Revision: 1.17 $";
     print "make-autoloads version 1.15\n";
     exit;
 }
@@ -72,6 +72,8 @@ foreach $fn (@ARGV) {
 		if (/^\($def/) {
 		    ($pat, $func)=split;
 		    if (($pat eq "(defun") ||
+		        ($pat eq "(defun*") ||
+		        ($pat eq "(defvar") ||
 			($pat eq "(defmacro")) {
 # clean up defs like (defun foo() ...)
 			$func =~ s/[()]//g;

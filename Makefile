@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.25 2003-04-24 15:02:55 cvs Exp $
+# $Id: Makefile,v 1.26 2003-04-28 14:16:05 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
@@ -11,7 +11,7 @@ XZ=xz
 SOURCES := $(shell find ./lisp -type f -name "*.el")
 
 # only search for relevant configs -- use perl hostname to ensure portability
-CONFIGS := $(shell find-configs)
+CONFIGS := $(shell ./find-configs)
 # search all configs
 # CONFIGS := $(shell find ./config -type f -name "*.el")
 
