@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.19 2002-01-22 16:26:54 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.20 2002-02-25 23:24:53 cvs Exp $")
 
 (setq default-frame-alist
       '((top + -4)
@@ -113,7 +113,10 @@
 (mount-hook-file-commands)
 
 ;; hack process environment to minimal path so that man will work as expected
-(setq process-environment (nconc (list "PATH=d:a\\bin;d:\\usr\\local\\bin;d:\\contrib\\bin;d:\\usr\\bin;d:\\bin;d:\\usr\\local\\lib\\tw-3.01\\bin")  process-environment))
+(scan-file (concat "~/.bashrc." (hostname)))
+(w32-canonify-env "PATH")
+(w32-canonify-env "HOME")
+(w32-canonify-env "CLASSPATH")
 
 (setq *howto-path* (nconc 
 		    (list "d:/d/offering/n/howto" "z:/b/core/test/howto" "z:/b/vta/howto" "z:/b/vta/n")

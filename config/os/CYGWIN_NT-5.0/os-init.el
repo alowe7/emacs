@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.21 2002-02-13 21:48:11 cvs Exp $")
+ "$Id: os-init.el,v 1.22 2002-02-25 23:24:53 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 (setq doc-directory data-directory)
@@ -117,7 +117,7 @@ host must respond within optional TIMEOUT msec"
 ; initialize mount table
 (cygmounts)
 
-(setq mount-hook-file-commands '(cd dired find-file-noselect file-exists-p))
+(setq mount-hook-file-commands '(cd dired find-file-noselect file-exists-p w32-canonify))
 
 (defun mount-unhook-file-commands ()
   (loop for x in mount-hook-file-commands do
@@ -131,9 +131,9 @@ host must respond within optional TIMEOUT msec"
 	  (eval `(defadvice ,x (around ,hook-name first activate) 
 		   (let* ((d (ad-get-arg 0))
 			  (d1 (unless (string-match "^//\\|^~\\|^[a-zA-`]:" d)
-				(loop for x in cygmounts 
-				      if (string-match (concat "^" (car x)) d)
-				      return (replace-in-string (concat "^" (car x)) (cadr x) d)
+				(loop for y in cygmounts 
+				      if (string-match (concat "^" (car y)) d)
+				      return (replace-in-string (concat "^" (car y)) (cadr y) d)
 				      )))
 			  (d2 (and d1 (expand-file-name d1))))
 		     (and d2 (ad-set-arg 0 d2))

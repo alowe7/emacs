@@ -1,6 +1,6 @@
 (put 'post-html-view 'rcsid 
- "$Id: post-html-view.el,v 1.1 2001-09-03 23:00:29 cvs Exp $")
+ "$Id: post-html-view.el,v 1.2 2002-02-25 23:24:53 cvs Exp $")
 
-(add-file-association "html" 'html-view)
+(add-file-association "html" 'html-browse)
+(add-file-association "htm" 'html-browse)
 
-(add-file-association "htm"  file-assoc-list)

@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.25 2002-01-04 21:28:33 cvs Exp $")
+ "$Id: keys.el,v 1.26 2002-02-25 23:24:53 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -88,7 +88,7 @@
 (global-set-key "m" '(lambda (dir) (interactive "screate dir: ") (shell-command (format "mkdir %s" dir)) (and (eq major-mode 'dired-mode) (revert-buffer))))
 (global-set-key "n" 'note)
 ; (global-set-key "r" 'vm)
-(global-set-key "r" 'rmail)
+; (global-set-key "r" 'rmail)
 (global-set-key "s" 'spell-region)
 (global-set-key "v" 'html-view)
 ;(global-set-key "m" 'x-flush-mouse-queue)
@@ -234,6 +234,8 @@
 ; mail-quote
 (global-set-key ">" '(lambda () (interactive) (save-excursion (goto-char (point-min)) (replace-regexp "^" "> " nil))))
 
-(define-key ctl-x-4-map "" 'bury-buffer)
+(define-key ctl-x-4-map "" 'bury-buffer)
+
+(global-set-key "r" 'lsreg)
 
 (provide 'keys)

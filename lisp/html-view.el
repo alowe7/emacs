@@ -1,5 +1,5 @@
 (put 'html-view 'rcsid 
- "$Id: html-view.el,v 1.8 2001-09-03 23:00:45 cvs Exp $")
+ "$Id: html-view.el,v 1.9 2002-02-25 23:24:53 cvs Exp $")
 (provide 'html-view)
 
 (defun dired-html-view () (interactive)
@@ -19,3 +19,7 @@
     )
   )
 
+
+(defun html-browse (fn) (interactive "sfn: ")
+  (shell-command (format "start explorer %s" (w32-canonify fn)))
+  )

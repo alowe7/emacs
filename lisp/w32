@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.21 2002-02-13 21:48:11 cvs Exp $")
+ "$Id: w32,v 1.22 2002-02-25 23:24:53 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -132,10 +132,44 @@ if MIXED is 0, then ignore letter drive names.
   (insert (unix-canonify (expand-file-name (car kill-ring))))
   )
 
+(defun unix-canonify-env (name)
+  "`unix-canonify-path' on value of environment variable NAME and push result onto `process-environment'"
+  (push 
+   (concat name "="
+	   (unix-canonify-path
+	    (cadr (split (loop for x in process-environment when (string-match (concat "^" name "=") x) return x) "="))
+	    )
+	   )
+   process-environment 
+   )
+  )
+
+(defun unix-canonify-path (path)
+  " `unix-canonify' elements of w32 style PATH"
+  (join (mapcar '(lambda (x) (unix-canonify x 0)) (split  path ";")) ":")
+  )
+
+
 (defun w32-canonify-region (beg end)
   (interactive "r")
   (kill-region beg end)
   (insert (w32-canonify (expand-file-name (car kill-ring))))
+  )
+
+(defun w32-canonify-env (name)
+  "`w32-canonify-path' on value of environment variable NAME and push result onto `process-environment'"
+  (push (concat name "="
+		(w32-canonify-path
+		 (cadr (split (loop for x in process-environment when (string-match (concat "^" name "=") x) return x) "="))
+		 )
+		)
+	process-environment
+	)
+  )
+
+(defun w32-canonify-path (path)
+  " `w32-canonify' elements of w32 style PATH"
+  (join (mapcar '(lambda (x) (w32-canonify x)) (split  path ":")) ";")
   )
 
 (global-set-key "" 'unix-canonify-region)
@@ -230,18 +264,8 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 (make-variable-buffer-local 'explicit-shell-file-name)
 (defun cmd (&optional num)
   (interactive "p")
-;; make sure system dirs are on path
-  (let ((process-environment 
-	 (nconc (list (concat "PATH=" (join (mapcar '(lambda (x) (w32-canonify (expand-file-name x))) 
-						    (nconc
-						     (split (getenv "PATH") ":")
-						     (list "c:/winnt/system32" "c:/winnt"))
-						    ) ";"))) process-environment)))
-    (shell2 (or num -1) nil "cmd")
-    )
+  (shell2 (or num -1) nil "cmd")
   )
-
-; (setenv "PATH" (join (mapcar '(lambda (x) (unix-canonify (expand-file-name x) 0)) (split (getenv "PATH") ";")) ":"))
 
 (global-set-key (vector -8388595) 'cmd)
 

@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.8 2002-01-10 18:47:23 cvs Exp $")
+ "$Id: post-dired.el,v 1.9 2002-02-25 23:24:53 cvs Exp $")
 
 ;; dired stuff
 
@@ -263,13 +263,17 @@ see `file-assoc-list'"
   )
 
 (defun dired-aexec () (interactive)
-  (aexec
-   (replace-in-string "/" "\\" 
-		      (expand-file-name 
-		       (dired-get-filename)))))
+  (aexec (dired-get-filename)))
 
 (defun dired-cvs-log () (interactive)
   (cvs "log" (format "-h %s" (dired-get-filename)))
+  )
+
+(defun dired-copy-filename-as-kill (arg) (interactive "P")
+  (let ((s (dired-get-filename)))
+    (and arg (setq s (w32-canonify s)))
+    (kill-new s)
+    (message s))
   )
 
 (require 'tar-view)
@@ -283,4 +287,5 @@ see `file-assoc-list'"
 			      (define-key  dired-mode-map "" '(lambda () (interactive) (kill-new (w32-canonify (dired-get-filename)))))
 			      (define-key dired-mode-map "|" 'dired-pipe-file)
 			      (define-key dired-mode-map (vector 'f7) 'dired-cvs-log)
+			      (define-key  dired-mode-map "\C-cx" 'dired-copy-filename-as-kill)
 			      ))
