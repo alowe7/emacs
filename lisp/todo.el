@@ -1,10 +1,10 @@
 (put 'todo 'rcsid 
- "$Id: todo.el,v 1.4 2000-10-03 16:50:29 cvs Exp $")
+ "$Id: todo.el,v 1.5 2001-10-10 16:47:14 cvs Exp $")
 (require 'eval-process)
 
-(defvar master-todo-file (expand-file-name "~/todo" ) 
+(defvar master-todo-file (expand-file-name "~/.todo" ) 
   "location of master todo list")
-(defvar master-todone-file (expand-file-name "~/todone" ) 
+(defvar master-todone-file (expand-file-name "~/.todone" ) 
   "location of master todone list")
 
 (defun vtd ()
