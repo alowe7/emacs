@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.16 2002-06-06 17:17:44 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.17 2002-12-15 02:01:16 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -141,7 +141,19 @@
     )
   )
 
-(global-set-key "" ' pod-perl-module)
+;;; 
+(defvar perl-helper-map nil)
+
+(unless (fboundp 'ctl-C-ctl-P-prefix) 
+    (define-prefix-command 'ctl-C-ctl-P-prefix))
+
+(unless perl-helper-map
+  (setq perl-helper-map (symbol-function 'ctl-C-ctl-P-prefix))
+  (define-key perl-helper-map "m" 'pod-perl-module)
+
+  )
+
+(global-set-key "" 'ctl-C-ctl-P-prefix)
 
 ; defvar
 (addloadpath "$HOME/emacs/site-lisp/perl")
