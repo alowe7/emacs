@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.5 2004-04-26 01:59:51 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.6 2004-04-29 02:36:38 cvs Exp $")
 
 ; enoch
 ; (require 'xz-loads)
@@ -60,3 +60,9 @@
 
 (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+
+(defun nautilus ()
+  (interactive)
+  (call-process "/usr/bin/nautilus" nil nil nil default-directory)
+  )
+(global-set-key (vector 'f12) 'nautilus)
