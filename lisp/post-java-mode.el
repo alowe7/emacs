@@ -1,5 +1,5 @@
 (put 'post-java-mode 'rcsid
- "$Id: post-java-mode.el,v 1.3 2004-12-10 18:15:17 cvs Exp $")
+ "$Id: post-java-mode.el,v 1.4 2005-01-28 19:37:47 cvs Exp $")
 
 (require 'proof-compat)
 
@@ -1233,6 +1233,9 @@ the open-parenthesis that starts a defun; see `beginning-of-defun`."
     )
    )
   )
+
+; clobber it
+(setq java-mode-hook '(lambda () (condition-case err (font-lock-mode) (error (set-buffer-modified-p nil)))))
 
 (provide 'post-java-mode)
 

@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.43 2004-12-10 18:15:17 cvs Exp $")
+ "$Id: config.el,v 1.44 2005-01-28 19:37:47 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -299,10 +299,12 @@ or override them by post-chaining.
   )
 
 (defun find-parent-file ()
+  "visit the parent of this file see `chain-parent-file'"
+
   (interactive)
   (let ((f (chain-parent-file)))
     (if (and f (file-exists-p f))
-				(find-file f)
+	(find-file f)
       (message "no parent found"))))
 
 (defun dotfn (fn)

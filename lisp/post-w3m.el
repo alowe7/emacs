@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.25 2005-01-24 21:50:14 cvs Exp $")
+ "$Id: post-w3m.el,v 1.26 2005-01-28 19:37:47 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -294,4 +294,9 @@
 
 
 (mapcar '(lambda (x) (add-file-association x 'w3m-goto-url-new-session)) '("html" "htm"))
+
+(add-hook 'dired-mode-hook
+	  '(lambda ()
+	     (define-key dired-mode-map "W" (lambda () (interactive) (w3m-goto-url (format "http://alowe1/%s" (unix-canonify (dired-get-filename) 0)))))
+	     ))
 

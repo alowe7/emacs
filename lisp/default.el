@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.44 2004-11-08 14:45:20 cvs Exp $")
+ "$Id: default.el,v 1.45 2005-01-28 19:37:47 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -261,7 +261,7 @@ if n < 0 counts from end of string
    )
   )
 
-(defun first (n l)
+(defun front (n l)
   "return a list consisting of the first N elements of LIST see `last'"
   (if (< 0 n) (last l (1- (- n)))
     (let* ((l l))

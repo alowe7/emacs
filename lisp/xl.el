@@ -1,3 +1,6 @@
+(put 'xl 'rcsid
+ "$Id: xl.el,v 1.7 2005-01-28 19:37:47 cvs Exp $")
+
 (require 'xdb)
 
 ;
@@ -95,3 +98,5 @@ add a record to x.links"
     )
   )
 
+
+(define-key ctl-/-map "l" 'lxdbi)

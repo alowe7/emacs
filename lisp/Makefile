@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.4 2001-10-25 22:27:20 cvs Exp $
+# $Id: Makefile,v 1.5 2005-01-28 19:37:47 cvs Exp $
 
 SHELL=/bin/sh
 EMACS=$(EMACS_DIR)/bin/emacs
@@ -7,8 +7,13 @@ EMACS=$(EMACS_DIR)/bin/emacs
 SOURCES=*.el
 XZ=xz
 ETAGS=etags
+TOP := $(shell pwd)
 
-all: 
+all: .autoloads
+
+.autoloads: FORCE $(SOURCES) 
+	./make-autoloads --top $(TOP) $^ > .autoloads
+	@echo .autoloads rebuilt
 
 .xz.dat: $(SOURCES)
 	$(XZ) -ywqn $(SOURCES)
