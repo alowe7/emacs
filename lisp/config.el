@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.21 2003-08-29 16:50:13 cvs Exp $")
+ "$Id: config.el,v 1.22 2004-01-06 21:16:27 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -10,7 +10,7 @@
 (defvar *debug-pre-load-hook* nil)
 (defvar *debug-post-load-hook* nil)
 
-;(setq *debug-pre-load-hook* t *debug-post-load-hook* t)
+; (setq *debug-pre-load-hook* t *debug-post-load-hook* t)
 
 (defvar *disable-load-hook* nil)
 (defvar *debug-load-hook* nil)
@@ -255,6 +255,13 @@ or override them by post-chaining.
 	 )
     )
   )
+
+(defun find-parent-file ()
+  (interactive)
+  (let ((f (chain-parent-file)))
+    (if (and f (file-exists-p f))
+	(find-file f)
+      (message "no parent found"))))
 
 (defvar *debug-config-error* nil)
 
