@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.18 2001-11-13 22:29:40 cvs Exp $")
+ "$Id: w32,v 1.19 2001-11-28 23:24:27 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -101,7 +101,7 @@ optional DRIVE says which drive to use. "
 		      (if sysdrive (expand-file-name 
 				    (substitute-in-file-name
 				     (chop f ?/))
-				    (concat sysdrive "/"))
+				    (and (string* sysdrive) (concat sysdrive "/")))
 			(substitute-in-file-name
 			 (chop f ?/))
 			)
@@ -125,6 +125,21 @@ if MIXED is 0, then ignore letter drive names.
 	  )
 	)))
   )
+
+(defun unix-canonify-region (beg end)
+  (interactive "r")
+  (kill-region beg end)
+  (insert (unix-canonify (expand-file-name (car kill-ring))))
+  )
+
+(defun w32-canonify-region (beg end)
+  (interactive "r")
+  (kill-region beg end)
+  (insert (w32-canonify (expand-file-name (car kill-ring))))
+  )
+
+(global-set-key "" 'unix-canonify-region)
+(global-set-key "" 'w32-canonify-region)
 
 (defun gsn (f) 
   "get short name for f"

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.24 2001-08-15 21:49:00 cvs Exp $")
+ "$Id: fb.el,v 1.25 2001-11-28 23:24:27 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -170,8 +170,6 @@ see variable *fb-db* "
     (fb-mode))
   )
 
-(global-set-key "" 'fb)
-
 (defun fb-search-forward (pat) 
   (interactive 
    (list (read-string (format "search for (%s): " (fb-indicated-file)))))
@@ -300,28 +298,36 @@ w		fb-w3-file
 		       )
 
 		     (define-key fb-mode-map "i" 'fb-file-info)
+
+		     (define-key fb-mode-map "\C-d" (lambda () (interactive) 
+						     (let ((f (fb-indicated-file)))
+						       (if (file-exists-p f)
+							   (delete-file f)
+							 (message (format "%s f does not exist" f)))
+						       )
+						     )
+		       )
 		     )
+
+       (set-syntax-table 
+	(or fb-mode-syntax-table
+	    (prog1
+		(setq fb-mode-syntax-table (make-syntax-table))
+	      (loop for x across "#:+./-_~!"
+		    do
+		    (modify-syntax-entry x "w" fb-mode-syntax-table)
+		    )
+	      (if (eq window-system 'w32)
+		  (loop for x across " \\"
+			do
+			(modify-syntax-entry x "w" fb-mode-syntax-table)
+			)
+		)
+	      )
+	    )
+	)
        )
    )
-
-  (set-syntax-table 
-   (or fb-mode-syntax-table
-       (prog1
-	   (setq fb-mode-syntax-table (make-syntax-table))
-	 (loop for x across "#:+./-_~!"
-	       do
-	       (modify-syntax-entry x "w" fb-mode-syntax-table)
-	       )
-	 (if (eq window-system 'w32)
-	     (loop for x across " \\"
-		   do
-		   (modify-syntax-entry x "w" fb-mode-syntax-table)
-		   )
-	   )
-	 )
-       )
-   )
-
 
   (toggle-read-only 1)
   (set-buffer-modified-p nil)

@@ -1,5 +1,5 @@
 (put 'post-sgml-mode 'rcsid 
- "$Id: post-sgml-mode.el,v 1.7 2001-11-13 22:29:40 cvs Exp $")
+ "$Id: post-sgml-mode.el,v 1.8 2001-11-28 23:24:27 cvs Exp $")
 ;(setq html-mode-hook '(lambda () (setq paragraph-start "<P>"))
 
 (setq sgml-mode-hook '(lambda () (run-hooks 'html-mode-hook)
@@ -40,3 +40,34 @@
 			) 
       )
 
+
+(defun xml-beautify () (interactive)
+  (save-excursion
+    (replace-string "><" ">
+<" )
+    )
+  )
+
+(defun beautify-config () 
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (replace-regexp "^[ 	]*" "")
+    (replace-string "><" ">
+<")
+    (loop for x in '("<worknodes" "<downloadfile")
+	  with n = 0
+	  do
+	  (setq n (+ n 4))
+	  (goto-char (point-min))
+	  (search-forward x)
+	  (beginning-of-line)
+	  (let ((p (point)))
+	    (sgml-skip-tag-forward 1)
+	    (indent-rigidly p (point) n)
+	    ))
+    )
+  (lazy-lock-mode)
+  )
+
+(define-key sgml-mode-map (vector 'f10) 'beautify-config)
