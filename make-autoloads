@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.13 2002-02-13 21:48:11 cvs Exp $
+#      $Id: make-autoloads,v 1.14 2002-12-23 17:42:15 cvs Exp $
 use getopt;
 binmode STDOUT;
 
@@ -22,7 +22,7 @@ if ($opt_help) {
 }
 elsif ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.13 $";
+#    $version="$Revision: 1.14 $";
     print "make-autoloads version 1.9\n";
     exit;
 }
@@ -55,6 +55,8 @@ foreach $fn (@ARGV) {
 		($pat, $func)=split;
 		if (($pat eq "(defun") ||
 		    ($pat eq "(defmacro")) {
+# clean up defs like (defun foo() ...)
+		    $func =~ s/[()]//g;
 		    print "($func \"$f\")\n";
 		}
 	    }
