@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.16 2001-10-28 20:14:26 cvs Exp $")
+ "$Id: config.el,v 1.17 2001-10-28 20:16:33 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -228,3 +228,11 @@ no errors if files don't exist.
   (mapconcat 'identity (loop for x in load-history when (string-match pat (car x)) collect (car x)) " ")
   )
 ; (load-list "post-cc")
+
+; make sure load-history is correct
+(unless (loop for x in load-history
+ 	      thereis (string-match (concat "fns-" emacs-version) (car x)))
+  (load
+   (format "%s/fns-%s" 
+ 	   (getenv "EMACSPATH")
+ 	   emacs-version)))
