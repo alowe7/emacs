@@ -1,33 +1,28 @@
-# $Id: Makefile,v 1.22 2003-03-12 16:14:38 cvs Exp $
+# $Id: Makefile,v 1.23 2003-03-28 14:45:40 cvs Exp $
 
 SHELL=/bin/sh
 INSTALL = install
 LOCALBIN = /usr/local/bin
 .PHONY: FORCE
 
-uname := $(shell uname)
-hostname := $(shell hostname)
-
 XZ=xz
 # XZFLAGS = -t1
 
-SOURCES := $(shell find ./lisp -type f -a ! -name "*~" -a ! -name "*,v" -a ! -path "*CVS*")
-#CONFIGS := config/os/$(uname) config/hosts/$(hostname)
-# config/version/$(shell emacs --batch --version)
-#
-# only search for relevant configs
-#CONFIGS := $(shell find ./config -type f -a ! -name "*~" -a ! -name "*,v" -a ! -path "*CVS*")
-CONFIGS := $(shell find ./config -type f -a ! -name "*~" -a ! -name "*,v" -a ! -path "*CVS*" -a \( -path "*$node*" -o -path "*$sys*" \))
+SOURCES := $(shell find ./lisp -type f -name "*.el")
 
-# only search for autoloads among site lisps
-# SITE_LISP := $(shell find /usr/share/emacs/site-lisp -type f -name "*.el")
-SITE_LISP := $(shell find /usr/share/emacs/site-lisp -type f -name ".autoloads")
+# only search for relevant configs
+CONFIGS := $(shell find ./config -type f -name "*.el" -a \( -path "*`uname`*" -o -path "*`hostname`*" \))
+
+SITE_LISP := $(shell find /usr/share/emacs/site-lisp -type f -name "*.el")
+
+# search for autoloads among site lisps
+SITE_LOADS := $(shell find /usr/share/emacs/site-lisp -type f -name ".autoloads")
 
 ETAGS=etags
 
 all: .autoloads
 
-.autoloads: FORCE $(SOURCES) $(CONFIGS) $(SITE_LISP)
+.autoloads: FORCE $(SOURCES) $(CONFIGS) $(SITE_LOADS)
 	@./make-autoloads $^ > .autoloads
 	@echo .autoloads rebuilt
 

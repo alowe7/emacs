@@ -1,5 +1,5 @@
 (put 'Linux 'rcsid 
- "$Id: Linux.el,v 1.3 2003-02-22 17:36:43 cvs Exp $")
+ "$Id: Linux.el,v 1.4 2003-03-28 14:45:40 cvs Exp $")
 
 ; (message "Linux")
 
@@ -69,3 +69,8 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 
 
 (global-set-key "r" 'rmail)
+
+(require 'cat-utils)
+(defun split-path (path)
+  (split path ":")
+  )
