@@ -1,36 +1,50 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.15 2003-03-12 16:14:38 cvs Exp $
-use getopt;
-binmode STDOUT;
+#      $Id: make-autoloads,v 1.16 2003-04-24 15:02:55 cvs Exp $
 
-getopt('-p:');
-if ($opt_help) {
-    print "
-	usage: make-autoloads [options] | <filelist>
+=pod
+=head1 NAME
+
+make-autoloads
+
+=head1 SYNOPSIS
+
+ make-autoloads [options] | <filelist>
 	
-	options:
-		--help		print usage
-		--version	print version
-		--prefix
-		-p <prefix>	optional prefix for alist (default=basename(pwd()))
-
-	<filelist> is a list of emacs lisp modules.
 	produce an expression on STDOUT which can be evaluated to autoload
 	all functions and macros defined in those modules.
-";
-    exit;
-}
-elsif ($opt_version) {
+	<filelist> is a list of emacs lisp modules.
+	
+=head1 DESCRIPTION
+
+	options:
+		--help		print usage
+		--prefix <prefix>	optional prefix for alist (default=basename(pwd()))
+		--version	print version
+
+=cut
+
+use Getopt::Long;
+use Pod::Text;
+
+binmode STDOUT;
+
+GetOptions(
+	   'help' => \$opt_help,
+	   'version' => \$opt_version,
+	   'prefix=s' => \$opt_prefix
+	   );
+
+$opt_h && pod2usage( { -verbose => 2 });
+
+if ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.15 $";
-    print "make-autoloads version 1.9\n";
+#    $version="$Revision: 1.16 $";
+    print "make-autoloads version 1.15\n";
     exit;
 }
-elsif ($opt_prefix) {
+
+if ($opt_prefix) {
     $prefix=$opt_prefix . "-";
-}
-elsif ($opt_p) {
-    $prefix=$opt_p . "-";
 }
 else {
     $PWD=`pwd`;

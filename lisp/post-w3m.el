@@ -1,3 +1,5 @@
+(put 'post-w3m 'rcsid
+ "$Id: post-w3m.el,v 1.9 2003-04-24 15:02:55 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -116,5 +118,6 @@
 (define-key w3m-mode-map [\M-right] 'w3m-view-next-page)
 (define-key w3m-mode-map "u" 'w3m-view-parent-page)
 (define-key w3m-mode-map "n" 'w3m-view-next-page)
+(define-key w3m-mode-map "b" 'w3m-view-previous-page)
 
 (define-key w3m-mode-map "" 'w3m-copy-current-url)

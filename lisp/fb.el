@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.40 2003-04-15 16:32:15 cvs Exp $")
+ "$Id: fb.el,v 1.41 2003-04-24 15:02:55 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -32,6 +32,7 @@
     (define-key fb-mode-map "\C-m" 'fb-exec-file)
 
     (define-key fb-mode-map "w" 'fb-w3m-file)
+    (define-key fb-mode-map "P" 'fb-pod-file)
 
     (define-key fb-mode-map "o" 'fb-find-file-other-window)
     (define-key fb-mode-map "f" 'fb-find-file)
@@ -263,6 +264,11 @@
     )
   )
 
+(defun fb-pod-file ()
+  (interactive)
+  (fb-shell-command "pod2text")
+  )
+
 (defun fb/ () (interactive)
   "produce recursive dired like listing on slash.
 see variable *fb-db* "
@@ -361,6 +367,9 @@ RET		fb-exec-file
 M-/	fb-match-file-forward
 M-?	fb-match-file-backward
 w		fb-w3m-file
+P		fb-pod-file
+
+also see `fb-mode-map'
 "
   (interactive)
   (use-local-map fb-mode-map)

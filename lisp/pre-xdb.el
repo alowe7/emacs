@@ -35,12 +35,19 @@
   )
 
 
-(defun xdb-login ()
-  ; first time through, ask for a sword
+; put on xdb-init-hook first time through
 
-  (setq *xdbuser* (string* (read-string (format "user (%s): " (getenv "XDBUSER"))) (getenv "XDBUSER")))
-  (setq *xdbsword* (comint-read-noecho (format "sword for user %s: " *xdbuser*)))
-  (add-txdb-option "-u" *xdbuser*)
-  (add-txdb-option "-s" *xdbsword*)
+(defun xdb-login (&optional arg)
+  (interactive "P")
+
+  ; ask for a sword
+  ; with arg, present current login info
+  (if arg (message "(%s,%s)" *xdbuser* (make-string (length *xdbsword*) ?*))
+    (progn
+      (setq *xdbuser* (string* (read-string (format "user (%s): " (getenv "XDBUSER"))) (getenv "XDBUSER")))
+      (setq *xdbsword* (comint-read-noecho (format "sword for user %s: " *xdbuser*)))
+      (add-txdb-option "-u" *xdbuser*)
+      (add-txdb-option "-s" *xdbsword*)
+      )
+    )
   )
-
