@@ -1,5 +1,5 @@
 (put 'edit 'rcsid 
- "$Id: edit.el,v 1.7 2001-09-08 19:25:35 cvs Exp $")
+ "$Id: edit.el,v 1.8 2002-08-24 23:00:33 cvs Exp $")
 
 ;; edit and format functions
 
@@ -82,8 +82,16 @@ if optional arg N is specified deletes additional N subsequent chars also"
   )
 
 
-
 (defun reverse-lines ()
+  (interactive)
+  (let ((this-line (count-lines (point-min) (point)))
+	(num-lines (count-lines (point-min) (point-max))))
+    (reverse-region (point-min) (point-max))
+    (goto-line (1+ (- num-lines this-line)))
+    )
+  )
+
+(defun reverse-lines-1 ()
   (interactive)
   (beginning-of-buffer)
   (let (x)
