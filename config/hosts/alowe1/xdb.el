@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.7 2005-01-19 18:26:48 cvs Exp $")
+ "$Id: xdb.el,v 1.8 2005-01-24 21:50:14 cvs Exp $")
 
 (chain-parent-file t)
 
@@ -69,7 +69,7 @@
 	     (l (split s "
 "))
 	     (id (car (split (car l)))))
-	(xe-set 'people id 'id))
+	(xe-set "people" id))
     (error (xmn name))
     )
   )

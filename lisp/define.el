@@ -1,5 +1,5 @@
 (put 'define 'rcsid 
- "$Id: define.el,v 1.11 2004-10-01 23:07:54 cvs Exp $")
+ "$Id: define.el,v 1.12 2005-01-24 21:50:14 cvs Exp $")
 
 (require 'w3m)
 
@@ -13,6 +13,7 @@
   )
 
 (defvar define-search-pat "http://bartleby.com/cgi-bin/texis/webinator/sitesearch?FILTER=col61&query=%s")
+(defvar usage-search-pat  "http://bartleby.com/cgi-bin/texis/webinator/sitesearch?FILTER=col64&query=%s")
 
 (defun define (term)
   "look up TERM in bartleby dictionary"
@@ -23,6 +24,17 @@
   )
 
 ; (define "specified")
+
+
+(defun usage (term)
+  "look up TERM in bartleby dictionary"
+  (interactive (list (string* (read-string (format "term (%s): " (indicated-word))) (indicated-word))))
+
+  (w3m-goto-url (format usage-search-pat term))
+
+  )
+
+; (usage "ensure")
 
 (defun refer (term)
   "look up TERM in bartleby all reference"

@@ -155,6 +155,19 @@ default is ':'
 
 ; (join (list "a" "b" "c"))
 
+(defun split2 (s &optional pat)
+  "more scalable version of `split'
+except if PAT is not specifed, splits on newline, rather than all whitespace
+"
+  (let ((pat (or pat "\n"))
+	(pos 0) pos2 res)
+    (while (setq pos2 (string-match pat s pos))
+      (push (substring s pos pos2) res)
+      (setq pos (1+ pos2)))
+    res
+    )
+  )
+
 (defun split (s &optional pat)
   "split STRING at optional PAT, returning resulting substrings in a list.
 tries to behave like perl's split function.

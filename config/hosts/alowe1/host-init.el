@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.33 2004-12-10 18:15:17 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.34 2005-01-24 21:50:14 cvs Exp $")
 
 (require 'default-frame-configurations)
 
@@ -131,6 +131,11 @@
 (add-to-load-path "/z/el" t)
 ; and some lisp here too
 (add-to-load-path "/z/pl" t)
+
+; and some here too
+(condition-case x (load "/z/soap/.autoloads") (error nil))
+(condition-case x (load "/z/pl/.autoloads") (error nil))
+
 ; find-script will look along path for certain commands 
 (addpathp "/z/pl" "PATH")
 

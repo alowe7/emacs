@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.59 2005-01-03 19:56:59 cvs Exp $")
+ "$Id: fb.el,v 1.60 2005-01-24 21:50:14 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -542,9 +542,14 @@ with prefix argument, prompt for additional args for grep
 	 (p1 (point-min))
 	 (p2 (point-max))
 	 (b (let ((b (get-buffer-create "*grep*"))) (save-excursion (set-buffer b) (erase-buffer) (compilation-mode)) b))
-	 (err (get-buffer-create "*Shell-Command-Error*"))
+	 (err (get-buffer-create (generate-new-buffer-name "*Shell-Command-Error*")))
 	 (resize-mini-windows nil)
 	 )
+
+; if grep-command is a form of grep add -s option to ignore missing files (if not already specified)
+    (if (and (string-match "grep" grep-command)
+	     (not (string-match "-s" grep-command)))
+	(setq grep-command (replace-in-string "grep " "grep -s " grep-command)))
 
     (shell-command-on-region
      p1
@@ -559,14 +564,20 @@ with prefix argument, prompt for additional args for grep
      ((save-excursion
 	(set-buffer err)
 	(> (length (buffer-string)) 1))
-      (message err))
+      (save-excursion
+	(set-buffer err)
+	(message (buffer-string))))
      ((and (interactive-p) 
 	   (save-excursion
 	     (set-buffer b)
 	     (> (length (buffer-string)) 1)))
       (let ((w (get-buffer-window b)))
 	(if w (select-window w)
-	  (switch-to-buffer b))))
+	  (switch-to-buffer b)))
+      ; insert grep-command locus so next-error will work
+      (goto-char (point-min))
+      (insert (format "cd /\nxargs %s %s\n" grep-command s))
+      )
      ((interactive-p) 
       (message "no matches found"))
      )

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.14 2005-01-03 19:56:59 cvs Exp $")
+ "$Id: fb.el,v 1.15 2005-01-24 21:50:14 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 
@@ -66,13 +66,12 @@ with optional arg SHOW, displays the list as if it had been called interactively
 	 (pat (substitute-in-file-name (funcall ff-hack-pat pat)))
 	 (query (format "select name from f where name like '%s'" pat))
 	 (s (xq* query))
-	 )
+	 slack)
 
     (if filter
 	(setq s (join
 		 (remove* nil 
-			  (loop for x in (split s "
-")
+			  (loop for x in (setq slack (split2 s))
 				collect (funcall filter x)))
 		 "
 ")
@@ -107,7 +106,7 @@ with optional arg SHOW, displays the list as if it had been called interactively
 		      (or (and w (select-window w))
 			  (pop-to-buffer b))))
   ; else just return the list
-		   (t (split s)))
+		   (t (or slack (split2 s))))
 	     ))
 	  ((or show (interactive-p))
   ; not (string* s)

@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.24 2005-01-20 22:25:56 cvs Exp $")
+ "$Id: post-w3m.el,v 1.25 2005-01-24 21:50:14 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -268,6 +268,12 @@
     )
   )
 
+(defun w3m-force-refresh ()
+  "remove current url from cache and force a reload"
+  (interactive)
+  (w3m-cache-remove w3m-current-url)
+  (w3m-reload-this-page)
+  )
 
 (require 'ctl-slash)
 
@@ -279,10 +285,13 @@
 (define-key ctl-/-map "z" 'w3m-copy-current-url)
 (define-key ctl-/-map "g" 'w3m-goto-url-new-session)
 ; 
+(define-key ctl-/-map "r" ' w3m-force-refresh)
+;
 (define-key ctl-/-map "y" 'w3m-yank-current-url-other-buffer)
 (define-key  w3m-mode-map "y" 'w3m-yank-current-url)
 ;
 (define-key w3m-mode-map "i" 'w3m-display-current-url)
+
 
 (mapcar '(lambda (x) (add-file-association x 'w3m-goto-url-new-session)) '("html" "htm"))
 
