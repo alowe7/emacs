@@ -1,5 +1,5 @@
 (put 'Emacs21 'rcsid
- "$Id: Emacs21.el,v 1.7 2004-01-12 19:07:54 cvs Exp $")
+ "$Id: Emacs21.el,v 1.8 2004-01-14 18:29:41 cvs Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -48,8 +48,9 @@
   ;   todo: advise set-face-attribute  (debug) to see who's overriding this...
   ;   (debug-on-entry 'set-face-attribute)
   )
+; XXX this is overridden somewhere, and besides should be window system dependent
 ; (window-system-faces)
-(add-hook 'after-init-hook ' window-system-faces)
+; (add-hook 'after-init-hook ' window-system-faces)
 
 (defun indicated-font () (interactive)
   (set-face-attribute 'default nil :font (indicated-word)))

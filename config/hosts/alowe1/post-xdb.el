@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id: post-xdb.el,v 1.5 2003-12-15 22:46:30 cvs Exp $")
+ "$Id: post-xdb.el,v 1.6 2004-01-14 18:29:41 cvs Exp $")
 
 (chain-parent-file t)
 
@@ -39,5 +39,39 @@
       (message "")
       )
   )
+
+(defun xmn (name)
+  " lookup a name in fx.people"
+  (interactive "sname: ")
+  (let ((s (string* (xq* (format  "select * from people where concat(First_Name,\" \",Last_Name) like '%%%s%%'" name)))))
+    (if s
+	(let ((b (zap-buffer *x*)))
+	  (funcall
+	   (if (eq major-mode 'x-query-mode) 'switch-to-buffer 'switch-to-buffer-other-window)
+	   (save-window-excursion
+	     (set-buffer b)
+	     (insert s)
+	     (goto-char (point-min))
+	     (x-query-mode)
+	     b)
+	   )
+	  (run-hooks 'after-x-query-hook)
+	  )
+      (error "No matches found"))
+    )
+  )
+
+; override: if not found in x.people, look in fx.people
+(defun xn (name)
+  " lookup a name in x.people"
+
+  (interactive "sname: ")
+  (condition-case x
+      (x-query-1 (format  "select * from people where item like '%%%s%%'" name))
+    (error (xmn name))
+    )
+  )
+
+
 
 

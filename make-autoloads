@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.20 2004-01-03 16:25:55 cvs Exp $
+#      $Id: make-autoloads,v 1.21 2004-01-14 18:29:41 cvs Exp $
 
 =pod
 =head1 NAME
@@ -38,7 +38,7 @@ $opt_h && pod2usage( { -verbose => 2 });
 
 if ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.20 $";
+#    $version="$Revision: 1.21 $";
     print "make-autoloads version 1.15\n";
     exit;
 }
@@ -61,25 +61,25 @@ print "(setq $alist_symbol `( \n";
 
 foreach $fn (@ARGV) {
     if ($fn =~ /\.autoloads$/) {
-	print "(load-file \"$fn\")\n";
+				print "(load-file \"$fn\")\n";
     }
     else {
-	    @path=split(?/?, $fn);
-	    $f=pop(@path);
-	    if (open(F, $fn)) {
-		binmode F;
-		print ";  $fn\n";
-		    foreach (<F>) {
-			foreach $def ("defun", "defmacro", "define-derived-mode") {
-			    if (/^\($def/) {
-				($pat, $func)=split;
-				    $func =~ s/[()]//g;
-				    print "($func \"$f\")\n";
-			    }
-			    close(F);
-			}
-		}
-	    }
+				@path=split(?/?, $fn);
+				$f=pop(@path);
+				if (open(F, $fn)) {
+						binmode F;
+						print ";  $fn\n";
+						foreach (<F>) {
+								foreach $def ("defun", "defmacro", "define-derived-mode") {
+										if (/^\($def/) {
+												($pat, $func)=split;
+												$func =~ s/[()]//g;
+												print "($func \"$f\")\n";
+										}
+										close(F);
+								}
+						}
+				}
     }
 }
 print "))\n";

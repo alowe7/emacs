@@ -1,5 +1,5 @@
 (put 'world-advice 'rcsid 
- "$Id: world-advice.el,v 1.6 2003-02-12 23:00:01 cvs Exp $")
+ "$Id: world-advice.el,v 1.7 2004-01-14 18:29:41 cvs Exp $")
 (require 'advice)
 (provide 'world-advice)
 
@@ -78,3 +78,5 @@
   )
 
 ; (if (ad-is-advised 'xwf) (ad-unadvise 'xwf))
+
+; (mapcar 'ad-unadvise '(find-file read-file-name minibuffer-complete-word xwf))
