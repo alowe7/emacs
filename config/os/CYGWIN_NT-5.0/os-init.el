@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.6 2001-05-03 20:41:10 cvs Exp $")
+ "$Id: os-init.el,v 1.7 2001-06-29 13:08:53 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 ;; config file for gnuwin-1.0
@@ -73,12 +73,13 @@ host must respond within optional TIMEOUT msec"
 ;; (host-ok "c:/")
 
 
-(require 'cat-utils)
-(defvar cygmounts
-  (loop for x in (cdr (split (eval-process "mount") "
+(add-hook 'post-load-hook '(lambda () 
+			     (defvar cygmounts
+			       (loop for x in (cdr (split (eval-process "mount") "
 "))
-	collect (let ((l (split (replace-in-string "[ ]+" " " x)))) (list (cadr l) (car l))))
-  " list of cygwin mounts")
+				     collect (let ((l (split (replace-in-string "[ ]+" " " x)))) (list (cadr l) (car l))))
+			       " list of cygwin mounts")
+			     ))
 
 (defadvice cd (around 
 		     hook-cd
@@ -88,11 +89,11 @@ host must respond within optional TIMEOUT msec"
   ; check cygmounts for drive changes
 
   (let* ((d (ad-get-arg 0))
-	 (d1 (loop for x in cygmounts when 
-		   (string-match (concat "^" (car x)) d)
-		   return 
-		   (replace-in-string (concat "^" (car x)) (cadr x) d)
-		   ))
+	 (d1 (unless (string-match "^//" d)
+	       (loop for x in cygmounts 
+		   if (string-match (concat "^" (car x)) d)
+		   return (replace-in-string (concat "^" (car x)) (cadr x) d)
+		   )))
 	 (d2 (and d1 (expand-file-name d1))))
     (and d2 (ad-set-arg 0 d2))
     ad-do-it
