@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid 
- "$Id: post-worlds.el,v 1.10 2003-04-15 16:32:15 cvs Exp $")
+ "$Id: post-worlds.el,v 1.11 2003-04-22 21:33:43 cvs Exp $")
 
 
 (defun push-world-p (w)
@@ -79,15 +79,15 @@ a null argument means pop-world from world-stack"
     )
   )
 
-(defun wfw (pat)
+(defun wfw (pat world)
   "fastfind within `fw'.  see `ff'"
-  (interactive "spat: ")
+  (interactive (list (read-string "pat: ") (string* (completing-read "world: " world-vector nil t))))
   (catch 'ret
-    (or  (let* ((top (or (fw) (throw 'done nil)))
+    (or  (let* ((top (or (fw world) (throw 'done nil)))
 		(b (zap-buffer *fastfind-buffer*))
 		(pat (format 
 		      (concat (if (eq window-system 'w32) "^(.:)*" "^") 
-			      (fw) "/.*%s*")
+			      (fw world) "/.*%s*")
 		      pat)))
 	   (ff1 *fb-db* pat b top)
 
