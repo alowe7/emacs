@@ -1,11 +1,11 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.17 2001-07-16 17:47:19 cvs Exp $")
+ "$Id: default.el,v 1.18 2001-07-18 20:36:53 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
 (setq home (expand-file-name (getenv "HOME")))
 (setq emacsdir (expand-file-name (getenv "EMACSDIR")))
-(setq share  (expand-file-name (getenv "SHARE")))
+(setq share (expand-file-name (or (getenv "SHARE") "/usr/share")))
 (setq doc-directory data-directory)
 (require 'uname)
 
