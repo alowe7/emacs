@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.18 2004-04-18 20:01:19 cvs Exp $")
+ "$Id: fapropos.el,v 1.19 2004-05-29 23:55:03 cvs Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -215,13 +215,16 @@ fapropos will only find symbols which have already been interned
 
 
 (defun member-1 (s l &optional depth)
-
-  (cond ((stringp l) (string-match s l))
-	((or (null l) 
-	     (not  (listp l))) nil)
-	((or (not (numberp depth))
-		  (> depth 0))
-	 (loop for w in l thereis (member-1 s w (and (numberp depth) (1- depth)))))
+  "determine if string S is a member of list L descending to optional DEPTH."
+  (cond ((stringp l) 
+	 (and (string-match s l) 0))
+	((or (null l)
+	     (not  (listp l)))
+	 nil)
+	((not (numberp depth))
+	 (loop for w in l thereis (member-1 s w depth)))
+	((> depth -1)
+	 (loop for w in l thereis (member-1 s w (1- depth))))
 	(t nil))
   )
 
