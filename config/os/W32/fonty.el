@@ -80,6 +80,4 @@
   (if (interactive-p) (message default-fontspec))
   )
 
-(global-set-key "]" 'font+1)
-(global-set-key "[" 'font-1)
 

@@ -1,18 +1,21 @@
-(put 'html-view 'rcsid 
- "$Id: doc-view.el,v 1.1 2004-07-24 17:07:43 cvs Exp $")
-(provide 'html-view)
+(put 'doc-view 'rcsid 
+ "$Id: doc-view.el,v 1.2 2004-07-27 22:20:26 cvs Exp $")
 
-(defun dired-html-view () 
-  "run `html-view' on indicated file in `dired-mode'"
-  (interactive)
-  (html-view (dired-get-filename)))
+(add-to-list 'auto-mode-alist '("\\.doc\\'" . no-word))
 
-(defun html-view (&optional fn) 
-  "view specified file or buffer as html"
+(defun no-word ()
+  "Run antiword on the entire buffer."
+  (if (string-match "Microsoft Office Document"
+		    (shell-command-to-string (concat "file " buffer-file-name)))
+      (shell-command-on-region (point-min) (point-max) "antiword - " t t)))
+
+(defun doc-view (&optional fn) 
+  "view specified file or buffer as word doc"
   (interactive)
   (let* ((fn (or fn (buffer-file-name)))
-	 (b (zap-buffer (format "%s *html* " (file-name-sans-extension fn))))
-	 (s (perl-command "fast-html-format" fn)))
+	 (b (zap-buffer (format "%s *doc* " (file-name-sans-extension fn))))
+	 (s (call-process "antiword" nil t nil fn))
+	 )
     (pop-to-buffer b)
     (insert s)
     (beginning-of-buffer)
@@ -21,10 +24,7 @@
     )
   )
 
+(add-file-association "doc" 'doc-view)
+; (doc-view "/u/antiword-0.35/Docs/testdoc.doc")
 
-(defun html-browse (fn) (interactive "sfn: ")
-  (start-process (format "*html-browse %s*" fn) "cmd"
-		 "/c" (file-association fn)
-		 (if (string-match "^http://" fn) fn (w32-canonify fn))
-		 )
-  )
+(provide 'doc-view)

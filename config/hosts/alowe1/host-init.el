@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.25 2004-07-24 18:28:12 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.26 2004-07-27 22:20:26 cvs Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-22-*-*-*-*-*-*-*-")
 
@@ -126,6 +126,8 @@
 (add-to-load-path "/u/emacs-w3m/emacs-w3m")
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
 
-(add-to-load-path "/z/el")
+(add-to-load-path "/z/el" t)
 (load-library "mycal")
 
+; xxx check out why this isn't autoloading
+(load-library "post-bookmark")

@@ -1,5 +1,5 @@
 (put 'reg 'rcsid
- "$Id: reg.el,v 1.7 2004-03-06 20:31:33 cvs Exp $")
+ "$Id: reg.el,v 1.8 2004-07-27 22:20:26 cvs Exp $")
 (require 'qsave)
 
 (defun reg-canonify (s)	(if (and s (stringp s) (> (length s) 0)) (replace-in-string  "/" "\\" s) ""))
@@ -112,13 +112,16 @@
     )
   )
 
-(defun queryvalue (hive key value)
-  (interactive "shive: \nskey: \nvalue: ")
-  (if (interactive-p)
-      (reg-command "queryvalue" hive key value)
-    (perl-command  "queryvalue" "-v" hive key value)
+(defun queryvalue (hive key &optional value)
+  (interactive "shive: \nskey: ")
+  (let ((value (or value "")))
+    (if (interactive-p)
+	(reg-command "queryvalue" hive key value)
+      (perl-command  "queryvalue" "-v" hive key value)
+      )
     )
   )
+(fset 'getvalue 'queryvalue)
 
 ;; xxx reg view stuff
 
@@ -171,6 +174,7 @@ default hive is machine." )
   (perl-command  "setvalue" "-v" hive key name val)
   (perl-command  "queryvalue" "-v" hive (concat key "/" name))
   )
+(fset 'setvalue 'reg-setvalue)
 
 (defun reg-descend ()
   " descend into a subkey.  if looking at a REG_SZ value, then prompt for newval."

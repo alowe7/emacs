@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.24 2004-07-21 20:18:21 cvs Exp $
+#      $Id: make-autoloads,v 1.25 2004-07-27 22:20:26 cvs Exp $
 
 =pod
 =head1 NAME
@@ -12,7 +12,8 @@ make-autoloads
 	
 	produce an expression on STDOUT which can be evaluated to autoload
 	all functions and macros defined in those modules.
-	<filelist> is a list of emacs lisp modules.
+	<filelist> is a list of emacs lisp modules, and should be given in load-path order.
+ 	if a given file appears more than once along load-path, the first occurrence will win.
 	
 =head1 DESCRIPTION
 
@@ -43,8 +44,8 @@ $opt_h && pod2usage( { -verbose => 2 });
 
 if ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.24 $";
-    print "make-autoloads version 1.15\n";
+#    $version="$Revision: 1.25 $";
+    print "make-autoloads version 1.24\n";
     exit;
 }
 
@@ -62,6 +63,10 @@ $alist_symbol=$prefix . "autoload-alist";
 
 # todo: lexer?
 # todo: grab doc strings too
+%autoloads=();
+
+$defpat="(defun|defmacro|defvar|define-derived-mode|fset|defalias)";
+
 print "(setq $alist_symbol `( \n";
 
 foreach $fn (@ARGV) {
@@ -77,18 +82,31 @@ foreach $fn (@ARGV) {
 	    binmode F;
 	    print ";  $fn\n";
 	    foreach (<F>) {
-		foreach $def ("defun", "defmacro", "defvar", "define-derived-mode") {
-		    if (/^\($def/) {
-			($pat, $func)=split;
-			$func =~ s/[()]//g;
-			print "($func \"$f\")\n";
+		# this intentionally requires defuns to start in column 1 to miss false positives
+		if (/^\($defpat/o) {
+		    ($pat, $func)=split;
+		    # in case open paren is stuck to identifier
+		    $func =~ s/[()]//g;
+		    # fset and defalias require quoted args
+		    if ($1 =~ /fset|defalias/o) {
+			$func=~s/^\'//;
 		    }
-		    close(F);
+
+		    if (defined $autoloads{$func}) {
+			# extended or overridden definition
+			print "; ($func \"$f\")\n";
+		    }
+		    else {
+			print "($func \"$f\")\n";
+			$autoloads{$func}=$f 
+			}
 		}
 	    }
+	    close(F);
 	}
     }
 }
+
 print "))\n";
 
 print "(mapcar '(lambda (x) (autoload (car x) (cadr x) nil t)) $alist_symbol)\n";

@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.37 2004-07-24 17:07:43 cvs Exp $")
+ "$Id: config.el,v 1.38 2004-07-27 22:20:26 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -21,7 +21,7 @@
 
 ;; hooks for these preloaded modules need to be run now
 (defvar hooked-preloaded-modules
-	'("compile" "cl" "dired" "vc" "comint" "cc-mode" "info" "help")
+	'("compile" "cl" "dired" "vc" "comint" "cc-mode" "info" "view")
   "list of functions that may be preloaded, invoke `post-wrap' at startup, also push onto `after-load-alist'"
   )
 
