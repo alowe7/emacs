@@ -1,12 +1,12 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.49 2004-01-27 20:03:14 cvs Exp $")
+ "$Id: fb.el,v 1.50 2004-02-27 16:55:17 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
 (require 'qsave)
 (require 'trim)
 (require 'indicate)
-
+(require 'scratch-mode)
 
 (defvar *fb-case-fold* t)
 (defvar *fb-show-lines* t)
@@ -60,8 +60,8 @@
     (define-key fb-mode-map "i" 'fb-file-info)
 
     (define-key fb-mode-map "|" 'fb-grep-files)
-    (define-key fb-mode-map "!" 'fb-shell-command)
-
+    (define-key fb-mode-map "<" 'fb-pipe-command)
+    (define-key fb-mode-map "!" 'fb-do-shell-command)
     (define-key fb-mode-map "m" '(lambda () (interactive) 
 				   (fb-shell-command "nroff -man")))
 
@@ -245,6 +245,11 @@
   (aexec (fb-indicated-file) arg)
   )
 
+(defun fb-do-shell-command (command)
+  (interactive (list (read-string (format "! on %s: " (fb-indicated-file)))))
+  (shell-command (format "%s %s" command (fb-indicated-file)) (get-scratch-buffer " "))
+  )
+
 (defun fb-w3m-file ()
   (interactive)
   (or (featurep 'w3m) (require 'w3m))
@@ -341,10 +346,10 @@ see variable *fb-db* "
   )
 
 
-(defun fb-shell-command (cmd)
+(defun fb-pipe-command (cmd)
   (interactive "sshell command: ")
 
-  (shell-command (format "%s < %s" cmd (fb-indicated-file)))
+  (shell-command (format "%s < %s" cmd (fb-indicated-file)) (get-scratch-buffer " "))
   )
 
 

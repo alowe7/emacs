@@ -1,7 +1,7 @@
 (put 'SunOS 'rcsid 
- "$Id: os-init.el,v 1.4 2004-01-26 22:42:03 cvs Exp $")
+ "$Id: os-init.el,v 1.5 2004-02-27 16:55:17 cvs Exp $")
 
-(add-to-list 'load-path "~/x/elisp")
+(add-to-load-path "~/x/elisp")
 
 (defun host-ok (arg) t)
 
