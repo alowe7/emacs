@@ -34,10 +34,20 @@
 	  (loop with l = nil for x in (x-list-fonts "*") unless (member x l) do (add-to-list 'l (cdr (parse-font x 'family))) finally return l)
 	  ))
 
-(defun default-font-family () 
-  (or (cdr (parse-font (frame-parameter nil 'font) 'family))
-      "lucida console")
+(defun default-font-family (&optional family) 
+  "return family of frame's default font.
+with optional FAMILY, changes it"
+  (interactive (list (string* (read-string "family: ") (cdr (parse-font (frame-parameter nil 'font) 'family)))))
+
+  (if family
+      (set-frame-font
+       (replace-in-string (cdr (parse-font (frame-parameter nil 'font) 'family))
+			  family (frame-parameter nil 'font)))
+    (or
+     (cdr (parse-font (frame-parameter nil 'font) 'family))
+     "lucida console"))
   )
+
 (defun default-point-size ()
   (or (string-to-int (cdr (parse-font (frame-parameter nil 'font) 'pixelsize)))
       17)
