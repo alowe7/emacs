@@ -1,10 +1,13 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.1 2004-01-27 20:03:14 cvs Exp $")
+ "$Id: fb.el,v 1.2 2004-05-14 00:42:02 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 ; by default on windows platforms, locate via grep 
 
 (chain-parent-file t)
+
+; ignore case in file equivalences
+(setq *file-name-member* 'member-ignore-case)
 
 (defun ff1 (db pat &optional b top)
   (let ((pat (funcall ff-hack-pat pat))

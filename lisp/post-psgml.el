@@ -1,5 +1,5 @@
 (put 'post-psgml 'rcsid
- "$Id: post-psgml.el,v 1.5 2003-04-02 21:34:53 cvs Exp $")
+ "$Id: post-psgml.el,v 1.6 2004-05-14 00:42:02 cvs Exp $")
 
 (define-key sgml-mode-map (vector '\C-right) 'sgml-forward-element)
 (define-key sgml-mode-map (vector '\C-left) 'sgml-backward-element)
@@ -31,15 +31,15 @@
   (set-face-foreground 'sgml-comment-face "dark green")
   (set-face-foreground 'sgml-doctype-face "maroon")
   (set-face-foreground 'sgml-end-tag-face "blue2")
+  (set-face-foreground 'sgml-start-tag-face "blue1")
   (set-face-foreground 'sgml-entity-face "red2")
-  (set-face-foreground 'sgml-ignored-face "maroon")
+  (set-face-foreground 'sgml-ignored-face "turquoise4")
   (set-face-background 'sgml-ignored-face "gray90")
-  (set-face-foreground 'sgml-ms-end-face "maroon")
-  (set-face-foreground 'sgml-ms-start-face "maroon")
-  (set-face-foreground 'sgml-pi-face "maroon")
-  (set-face-foreground 'sgml-sgml-face "maroon")
+  (set-face-foreground 'sgml-ms-end-face "green2")
+  (set-face-foreground 'sgml-ms-start-face "tan3")
+  (set-face-foreground 'sgml-pi-face "coral1")
+  (set-face-foreground 'sgml-sgml-face "cyan4")
   (set-face-foreground 'sgml-short-ref-face "goldenrod")
-  (set-face-foreground 'sgml-start-tag-face "blue2")
 
   (setq-default sgml-markup-faces
    '((comment . sgml-comment-face)
@@ -54,3 +54,20 @@
      (short-ref . sgml-short-ref-face)
      (start-tag . sgml-start-tag-face)))
 
+;; 
+;; for psgml to work, html files should start with something like:
+;; 
+;; <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+;;    "http://www.w3.org/TR/html4/loose.dtd">
+;; <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+;; ...
+;; or else maybe
+;; <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+;;   "/usr/share/specs/html4.0/loose.dtd">
+;;
+;; (maybe should try to cache locally using `sgml-public-map', maybe should set `sgml-auto-activate-dtd')
+;; 
+;; (setq sgml-public-map '("%S" "/usr/share/specs/%o/%c/%d"))
+;; "W3C//DTD HTML"
+;; (regexp . filename)
+;; 

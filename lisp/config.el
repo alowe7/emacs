@@ -1,7 +1,9 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.33 2004-04-26 01:59:51 cvs Exp $")
+ "$Id: config.el,v 1.34 2004-05-14 00:42:02 cvs Exp $")
 (require 'advice)
 (require 'cl)
+
+(defvar *file-name-member* 'member "function to apply to determine filename equivalence")
 
 (if (file-exists-p "~/emacs/.autoloads")
     (load-file  "~/emacs/.autoloads")
@@ -11,9 +13,9 @@
 
 ; XXX this is redundant with "~/config/.fns"
 (defvar *config-load-path*
-	(mapcar 'expand-file-name (list (format "~/config/hosts/%s" *hostname*) 
-																	(format "~/config/os/%s" (symbol-name window-system)) "~"))
-	)
+  (mapcar 'expand-file-name (list (format "~/config/hosts/%s" *hostname*) 
+				  (format "~/config/os/%s" (symbol-name window-system)) "~"))
+  )
 
 (defvar *debug-config-error* nil)
 
@@ -44,7 +46,7 @@ specify string to trap an explicit load, specify an atom to trap a require")
   (let* ((f0 (file-name-nondirectory (format "%s" file)))
 	 (f1 (format "%s%s" prefix f0))
 	 (f2 (loop for x in load-path thereis (if (file-exists-p (format "%s/%s.el" x f1)) (format "%s/%s.el" x f1)))))
-    (if (and (atom file) (member file *debug-config-list*))
+    (if (and (atom file) (funcall *file-name-member* file *debug-config-list*))
 	(debug)
       )
     (and f2 (load f2 t t)))
@@ -163,7 +165,7 @@ returns nil otherwise.
 "
   (if (and
        (file-directory-p x)
-       (not (member x load-path))
+       (not (funcall *file-name-member* x load-path))
        (not (string-match "/CVS$" x))
        (funcall 
 	(if append
@@ -221,7 +223,7 @@ or override them by post-chaining.
 		(y (file-name-nondirectory f))
 		(l 
 		 (loop for x in load-path when (file-exists-p (setq z (concat x "/" y))) collect z))
-		(tail (member f l))
+		(tail (funcall *file-name-member* f l))
 		(parent (and tail (cadr tail))))
 	   (if (and arg parent)
 	       (load parent)
@@ -272,7 +274,7 @@ or override them by post-chaining.
 (condition-case x
     (loop for x in hooked-preloaded-modules
 	  do
-	  (or (member
+	  (or (funcall *file-name-member*
 	       `(,x (post-wrap ,x)) after-load-alist)
 	      (push 
 	       `(,x (post-wrap ,x)) after-load-alist))
