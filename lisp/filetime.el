@@ -1,11 +1,11 @@
 (put 'filetime 'rcsid 
- "$Id: filetime.el,v 1.3 2000-10-03 16:50:27 cvs Exp $")
+ "$Id: filetime.el,v 1.4 2001-07-08 20:42:45 cvs Exp $")
 
 
 (defun filemodtime (f)
-  (elt (file-attributes f) 5))
+  (and f (elt (file-attributes f) 5)))
 (defun fileacctime (f)
-  (elt (file-attributes f) 4))
+  (and f (elt (file-attributes f) 4)))
 
 (defun compare-filetime (a b)
   "compare file times A and B.
@@ -19,3 +19,13 @@
 	((> (cadr a) (cadr b)) 1)
 	(t 0)))
 
+(defun ftime () (interactive)
+  "display formatted time string last modification time of file for current buffer"
+  (let ((f (filemodtime (buffer-file-name))))
+    (message (if f
+		 (clean-string (eval-process "mktime" (format "%d" (car f)) (format "%d" (cadr f))))
+	       "no file")
+	     )
+    )
+  )
+; (ftime)
