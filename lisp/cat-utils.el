@@ -1,5 +1,5 @@
 (put 'cat-utils 'rcsid
- "$Id: cat-utils.el,v 1.2 2003-08-29 16:50:28 cvs Exp $")
+ "$Id: cat-utils.el,v 1.3 2004-02-03 19:36:21 cvs Exp $")
 ;; utilities for converting between strings and lists or vectors of strings
 
 (provide 'cat-utils)
@@ -138,9 +138,9 @@ default is ':'
 				 (concat x patp)))
 		(t v)))
 	 )
-    (if (> (length seq) 0)
+    (if (> (length seq) 0) ; remove the last pat
 	(substring (apply 'concat seq)
-		   0 -1)
+		   0 (- (length patp)))
       "")
     )
   )
