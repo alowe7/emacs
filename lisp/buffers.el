@@ -1,5 +1,5 @@
 (put 'buffers 'rcsid 
- "$Id: buffers.el,v 1.13 2004-03-03 04:16:41 cvs Exp $")
+ "$Id: buffers.el,v 1.14 2004-04-26 21:54:43 cvs Exp $")
 
 ;; walk mru list of buffers
 
@@ -12,7 +12,7 @@
   )
 
 
-(defun buffer-list-mode (mode)
+(defun collect-buffers-mode (mode)
   (interactive "Smode: ")
   "returns a list of buffers with specified MODE
 when called interactively, displays a pretty list"
@@ -28,7 +28,7 @@ when called interactively, displays a pretty list"
 	  (pop-to-buffer b))
       l)))
 
-(defun buffer-list-named (pat)
+(defun collect-buffers-named (pat)
   "list buffers with names matching PAT"
   (interactive "spat: ")
   (loop for x in (real-buffer-list nil)
@@ -36,14 +36,14 @@ when called interactively, displays a pretty list"
 	collect x )
   )
 
-(defun buffer-list-with (pat)
+(defun collect-buffers-with (pat)
 "list buffers with contents matching PAT"
   (loop for x in (real-buffer-list nil)
 	when (string-match pat (save-excursion (set-buffer x) (buffer-string)))
 	collect x )
   )
 
-(defun buffer-list-with-mode (pat mode)
+(defun collect-buffers-with-mode (pat mode)
   "list buffers with contents matching PAT and `major-mode' matching MODE"
   (loop for x in (real-buffer-list nil)
 	when (save-excursion 
@@ -54,7 +54,7 @@ when called interactively, displays a pretty list"
 	collect x )
   )
 
-(defun buffer-list-in (pat)
+(defun collect-buffers-in (pat)
   "list buffers with files matching PAT" 
   (loop for x in (real-buffer-list nil)
 	when (let ((d (if (buffer-file-name x) (buffer-file-name x) (save-excursion (set-buffer x) default-directory))))
@@ -62,12 +62,12 @@ when called interactively, displays a pretty list"
 	collect x )
   )
 
-(defun buffer-list-modified (&optional arg)
+(defun collect-buffers-modified (&optional arg)
   "list buffers that are modified.  with optional ARG, restrict to only buffers with files"
   (loop for x in (real-buffer-list) when (and (buffer-modified-p x) (or (not arg) (buffer-file-name x)) ) collect x)
   )
 
-(defun buffer-list-not-modified (&optional arg)
+(defun collect-buffers-not-modified (&optional arg)
   "list buffers that are not modified.  with optional ARG, restrict to only buffers with files"
   (loop for x in (real-buffer-list) when (and (not (buffer-modified-p x)) (or (not arg) (buffer-file-name x)) ) collect x)
   )
@@ -84,7 +84,7 @@ when called interactively, displays a pretty list"
 (defun kill-buffers-mode (mode)
   "kill all buffers in mode"
   (interactive (list (intern (completing-read "mode: "  (mapcar 'list (symbols-like "-mode$" t))))))
-  (loop for x in (buffer-list-mode mode)
+  (loop for x in (collect-buffers-mode mode)
 	do
 	(kill-buffer x))
   )
@@ -93,30 +93,30 @@ when called interactively, displays a pretty list"
   "kill all buffers in mode"
   (interactive)
   (and (y-or-n-p "kill-buffers-not-modified.  are you sure? ")
-       (loop for x in (buffer-list-not-modified)
+       (loop for x in (collect-buffers-not-modified)
 	     do
 	     (kill-buffer x)))
   )
 
 (defun unbury-buffer () (interactive) 
   (unless (member last-command '(unbury-buffer bury-buffer-1))
-    (setq *buffer-list-vector* (apply 'vector (real-buffer-list))
-	  *buffer-list-vector-length* (length *buffer-list-vector*)
-	  *buffer-list-vector-index* 0))
-  (let ((next (% (1+ *buffer-list-vector-index*) (length *buffer-list-vector*))))
-    (switch-to-buffer (aref *buffer-list-vector* next))
-    (setq *buffer-list-vector-index* next)
+    (setq *collect-buffers-vector* (apply 'vector (real-buffer-list))
+	  *collect-buffers-vector-length* (length *collect-buffers-vector*)
+	  *collect-buffers-vector-index* 0))
+  (let ((next (% (1+ *collect-buffers-vector-index*) (length *collect-buffers-vector*))))
+    (switch-to-buffer (aref *collect-buffers-vector* next))
+    (setq *collect-buffers-vector-index* next)
     )
   )
 
 (defun bury-buffer-1 () (interactive) 
   (unless (member last-command '(unbury-buffer bury-buffer-1))
-    (setq *buffer-list-vector* (apply 'vector (real-buffer-list))
-	  *buffer-list-vector-length* (length *buffer-list-vector*)
-	  *buffer-list-vector-index* 0))
-  (let ((next (abs (% (1- *buffer-list-vector-index*) (length *buffer-list-vector*)))))
-    (switch-to-buffer (aref *buffer-list-vector* next))
-    (setq *buffer-list-vector-index* next)
+    (setq *collect-buffers-vector* (apply 'vector (real-buffer-list))
+	  *collect-buffers-vector-length* (length *collect-buffers-vector*)
+	  *collect-buffers-vector-index* 0))
+  (let ((next (abs (% (1- *collect-buffers-vector-index*) (length *collect-buffers-vector*)))))
+    (switch-to-buffer (aref *collect-buffers-vector* next))
+    (setq *collect-buffers-vector-index* next)
     )
   )
 

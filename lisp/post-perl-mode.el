@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.22 2004-04-18 20:01:19 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.23 2004-04-26 21:54:43 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -10,7 +10,7 @@
 
 	     (modify-syntax-entry ?$ "w" perl-mode-syntax-table)
 	     (modify-syntax-entry ?_ "w" perl-mode-syntax-table)
-	     (set-tabs 2)
+	     (set-tabs 8)
 	     ))
 
 ; see reg.el

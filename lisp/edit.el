@@ -1,5 +1,5 @@
 (put 'edit 'rcsid 
- "$Id: edit.el,v 1.10 2003-05-25 20:55:11 cvs Exp $")
+ "$Id: edit.el,v 1.11 2004-04-26 21:54:43 cvs Exp $")
 
 ;; edit and format functions
 
@@ -138,8 +138,9 @@ if optional arg N is specified deletes additional N subsequent chars also"
     (if (or (not (buffer-modified-p)) 
 	    (y-or-n-p (format "buffer %s is modified. discard changes? " (buffer-name))))
 	(progn
+	  (push-mark p t)
 	  (revert-buffer nil t t)
-	  (goto-char (min p (point-max)))
+	  (goto-char (max p (point-max)))
 	  )
       )
     )

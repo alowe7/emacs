@@ -1,4 +1,4 @@
-;; $Id: buff.el,v 1.1 2004-03-27 19:03:09 cvs Exp $
+;; $Id: buff.el,v 1.2 2004-04-26 21:54:43 cvs Exp $
 
 (defun list-buffers (&optional files-only)
   "Display a list of names of existing buffers.
@@ -118,21 +118,21 @@ The R column contains a % for buffers that are read-only."
       (current-buffer))))
 
 
-; (display-buffer (list-buffers-noselect nil '(lambda () (buffer-list-mode 'dired-mode))))
-; (display-buffer (list-buffers-noselect nil '(lambda () (list-buffers-named "IDL"))))
-; (display-buffer (list-buffers-noselect nil '(lambda () (buffer-list-mode 'shell-mode))))
+; (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-mode 'dired-mode))))
+; (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-named "buf"))))
+; (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-mode 'shell-mode))))
 
 
 (defun list-buffers-modified ()
   (interactive)
   (condition-case x (kill-buffer "*Buffer List*") (error nil))
-  (display-buffer (list-buffers-noselect nil '(lambda () (buffer-list-modified))))
+  (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-modified))))
   )
 
 (defun list-buffers-not-modified ()
   (interactive)
   (condition-case x (kill-buffer "*Buffer List*") (error nil))
-  (display-buffer (list-buffers-noselect nil '(lambda () (buffer-list-not-modified))))
+  (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-not-modified))))
   )
 
 (defun list-buffers-mode (mode)
@@ -146,20 +146,20 @@ The R column contains a % for buffers that are read-only."
       (if (string* m) (intern m) major-mode))))
 
     (condition-case x (kill-buffer "*Buffer List*") (error nil))
-    (pop-to-buffer (list-buffers-noselect nil '(lambda () (buffer-list-mode mode))))
+    (pop-to-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-mode mode))))
   )
 
 (defun list-buffers-in (pat)
   (interactive "sbuffers with files matching: ")
   (condition-case x (kill-buffer "*Buffer List*") (error nil))
-  (display-buffer (list-buffers-noselect nil '(lambda () (buffer-list-in pat))))
+  (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-in pat))))
 )
 
 (defun list-buffers-with (pat)
   (interactive "sbuffers with contents matching: ")
-  (let ((buffer-list-name (format "*Buffer List With \'%s\'*" pat)))
+  (let ((collect-buffers-name (format "*Buffer List With \'%s\'*" pat)))
     (condition-case x (kill-buffer buffer-list-name) (error nil))
-    (display-buffer (list-buffers-noselect nil '(lambda () (buffer-list-with pat)) buffer-list-name))
+    (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-with pat)) buffer-list-name))
     )
   )
 
