@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.7 2000-11-02 17:40:45 cvs Exp $")
+ "$Id: config.el,v 1.8 2000-11-19 20:22:06 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -151,7 +151,9 @@ no errors if files don't exist.
 (unless (loop for x in load-history
 	      thereis (string-match (concat "fns-" emacs-version) (car x)))
   (load
-   (format "/usr/lib/emacs/%s.%s/%s/fns-%s" emacs-major-version emacs-minor-version system-configuration emacs-version)))
+   (format "%s/fns-%s" 
+	   (getenv "EMACSPATH")
+	   emacs-version)))
 
 ; then execute post hooks for any preloaded modules.  too late for pre hooks...
 (loop for module in hooked-modules

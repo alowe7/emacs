@@ -1,5 +1,5 @@
 (put 'fontview 'rcsid 
- "$Id: fontview.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: fontview.el,v 1.6 2000-11-19 20:22:06 cvs Exp $")
 (require 'view)
 
 (defvar fontview-mode-map nil "")
@@ -27,7 +27,7 @@ see fontview-mode-map keymap & fontview-mode-syntax-table
 	(use-local-map
 	 (or fontview-mode-map (prog1
 				   (setq fontview-mode-map (copy-keymap view-mode-map)
-					 (define-key fontview-mode-map "" 
+					 (define-key fontview-mode-map "" 
 					   '(lambda () (interactive) (set-indicated-font) (next-line 1)))
 				)
 	     )
