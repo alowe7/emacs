@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.9 2000-10-17 20:39:47 cvs Exp $")
+ "$Id: fb.el,v 1.10 2000-10-17 20:53:11 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -310,7 +310,7 @@ w		fb-w3-file
     )
   )
 
-(defun fh (args)
+(defun fh ()
   "fast find working drive -- search for file matching pat in *fb-h-db*"
   (interactive)
   (let ((*fb-db* *fb-h-db* )) (call-interactively 'ff))
