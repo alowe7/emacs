@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.12 2003-10-24 13:29:41 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.13 2003-11-17 21:38:52 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 100)
@@ -98,6 +98,11 @@
 (setq comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *")
 (make-variable-buffer-local 'comint-prompt-regexp)
 (set-default 'comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *")
+
+(defun comint-mode-hook () 
+  (setq comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *")
+  )
+(defvar comint-mode-hook 'comint-mode-hook)
 
 (setq *default-swordfile* "~/.private/bj")
 

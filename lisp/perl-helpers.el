@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.6 2003-03-26 22:51:20 cvs Exp $
+;; $Id: perl-helpers.el,v 1.7 2003-11-17 21:38:53 cvs Exp $
 
 (require 'perl-command)
 
@@ -14,27 +14,36 @@
 ; (assert (file-exists-p perlfunc-file))
 ; run pod on perlfunc.pod
 
+
 (defun perlfunc (func)
   (interactive "sfunc: ")
-  (let* ((b (find-file-noselect perlfunc-file))
-	 (p (save-excursion 
-	      (set-buffer b)
-	      (goto-char (point-min))
-	      (and (re-search-forward (format "^    %s[^a-z]" func) nil t)
-		   (backward-word 1)
-		   (point))
-	      )))
-    (if p 
-	(progn 
-	  (unless (eq b (current-buffer))
-	    (switch-to-buffer-other-window b))
-	  (goto-char p))
-      (message (format "%s not found" func))
+  (if (string-match "::" func)
+      (let ((module (substring func 0 (match-beginning 0)))
+	    (func (substring func (match-end 0))))
+	(perlmod module)
+	(search-forward func)
+	)
+    (let* ((b (find-file-noselect perlfunc-file))
+	   (p (save-excursion 
+		(set-buffer b)
+		(goto-char (point-min))
+		(and (re-search-forward (format "^    %s[^a-z]" func) nil t)
+		     (backward-word 1)
+		     (point))
+		)))
+      (if p 
+	  (progn 
+	    (unless (eq b (current-buffer))
+	      (switch-to-buffer-other-window b))
+	    (goto-char p))
+	(message (format "%s not found" func))
+	)
       )
     )
   )
 
 ; (perlfunc "open")
+; (perlfunc "CGI::start_html")
 
 (defun perlop (op)
   (interactive "sop: ")

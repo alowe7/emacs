@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.21 2003-11-07 21:53:22 cvs Exp $")
+ "$Id: W32.el,v 1.22 2003-11-17 21:38:52 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -300,11 +300,15 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   (setq comint-prompt-regexp "^[a-zA-Z]:.*>")
   )
 
+(define-derived-mode cmd-mode shell-mode "Cmd"
+  "trivial derivation of shell-mode"
+  (make-variable-buffer-local 'comint-prompt-regexp)
+  (setq comint-prompt-regexp "^[a-zA-Z]:[^>]*>")
+  )
+
 (defun cmd (&optional num)
   (interactive "p")
-  (let ((comint-prompt-regexp "^[A-Z]:.*>*"))
-    (shell2 (or num -1) nil "cmd")
-    )
+  (shell2 (or num -1) nil "cmd" 'cmd-mode)
   )
 
 (global-set-key (vector -8388595) 'cmd)
@@ -1076,7 +1080,7 @@ host must respond within optional TIMEOUT msec"
 
 ; (if (ad-is-advised 'w32-drag-n-drop) (ad-unadvise 'w32-drag-n-drop))
 
-(defun ie (arg) 
+(defun internet-explorer (arg) 
   " run ie on `buffer-file-name', assuming it maps to a uri.
 interactively with arg means use the contents of region instead"
   (interactive "P")        

@@ -1,20 +1,20 @@
 (put 'shell2 'rcsid 
- "$Id: shell2.el,v 1.8 2003-10-24 13:30:31 cvs Exp $")
+ "$Id: shell2.el,v 1.9 2003-11-17 21:38:53 cvs Exp $")
 (require 'comint)
 (require 'shell)
 (defvar shell-popper 'switch-to-buffer) ; could also use pop-to-buffer
 
-(defun shell2 (&optional shell-num &optional other-frame specific-shell-file-name)
+(defun shell2 (&optional shell-num &optional other-frame specific-shell-file-name mode)
   "Run an inferior shell, with I/O through buffer *shell*.
 If buffer exists but shell process is not running, make new shell.
 If buffer exists and shell process is running, just switch to buffer `*shell*'.
-Program used comes from variable `explicit-shell-file-name',
+unless SPECIFIC-SHELL-FILE-NAME is specified, program used comes from variable `explicit-shell-file-name',
  or (if that is nil) from the ESHELL environment variable,
  or else from SHELL if there is no ESHELL.
 If a file `~/.emacs_SHELLNAME' exists, it is given as initial input
  (Note that this may lose due to a timing error if the shell
   discards input when it starts up.)
-The buffer is put in Shell mode, giving commands for sending input
+unless optional MODE is specified, the buffer is put in Shell mode, giving commands for sending input
 and controlling the subjobs of the shell.  See `shell-mode'.
 See also the variable `shell-prompt-pattern'.
 
@@ -46,7 +46,8 @@ Otherwise, one argument `-i' is passed to the shell.
 				 '("-i"))))
 	    (setq shell-buffer (current-buffer))
 
-	    (shell-mode)
+	    (if mode (funcall mode)
+	      (shell-mode))
 
 	    ;; this is now buffer-local
 	    (setq explicit-shell-file-name prog)

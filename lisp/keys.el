@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.40 2003-10-27 15:34:44 cvs Exp $")
+ "$Id: keys.el,v 1.41 2003-11-17 21:38:53 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -235,6 +235,7 @@
 (define-key alt-SPC-map "l" 'roll-buffer-like)
 (define-key alt-SPC-map "m" 'roll-buffer-named)
 (define-key alt-SPC-map "/" 'roll-buffer-with)
+(define-key alt-SPC-map "." 'roll-buffer-with-mode)
 (define-key alt-SPC-map "" 'roll-buffer-no-files)
 (define-key alt-SPC-map " " 'roll-server-clients)
 (define-key alt-SPC-map "s" 'first-shell)
