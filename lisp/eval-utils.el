@@ -1,6 +1,8 @@
 (put 'eval-utils 'rcsid
- "$Id: eval-utils.el,v 1.1 2003-04-08 15:39:45 cvs Exp $")
+ "$Id: eval-utils.el,v 1.2 2003-04-15 16:32:15 cvs Exp $")
 (provide 'eval-utils)
+(require 'cat-utils)
+
 (require 'zap)
 
 ;; file and directory handling utilities
@@ -11,9 +13,9 @@
        (save-window-excursion
 	 (let ((b (zap-buffer " *tmp*")) s)
 	   (insert-file-contents f)
-	   (setq s (buffer-substring (point-min) (if all (point-max) (1- (point-max)))))
+	   (setq s (buffer-string))
 	   (kill-buffer b)
-	   s)
+	   (if all s (chomp s)))
 	 )
        )
   )

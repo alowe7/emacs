@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid 
- "$Id: post-worlds.el,v 1.9 2003-04-02 21:34:53 cvs Exp $")
+ "$Id: post-worlds.el,v 1.10 2003-04-15 16:32:15 cvs Exp $")
 
 
 (defun push-world-p (w)
@@ -53,4 +53,51 @@ a null argument means pop-world from world-stack"
 (add-hook 'world-post-change-hook
 	  (lambda () 
 	    (write-region 
-	     (concat "cd " (w32-canonify (expand-file-name (fw)))) nil (expand-file-name "/w.cmd"))))
+	     (concat "cd " (w32-canonify (expand-file-name (fw)))) nil (expand-file-name "/w.cmd"))
+	    (lastworld t)
+	    )
+	  )
+
+; (require 'fb)
+
+(defvar *wfpat* (concat (if (eq window-system 'w32) "^(.:)*" "^")
+		       "/[" (mapconcat '(lambda (x) (substring x 1)) wdirs "") "]/.*%s*"))
+
+(defun wf (pat)
+  "fastfind within `wdirs'.  see `ff'"
+  (interactive "spat: ")
+  (let* ((top "/")
+	 (b (zap-buffer *fastfind-buffer*))
+	 (pat (format *wfpat* pat)))
+    (ff1 *fb-db* pat b top)
+
+    (if (interactive-p) 
+	(pop-to-buffer b)
+      (split (buffer-string) "
+")
+      )
+    )
+  )
+
+(defun wfw (pat)
+  "fastfind within `fw'.  see `ff'"
+  (interactive "spat: ")
+  (catch 'ret
+    (or  (let* ((top (or (fw) (throw 'done nil)))
+		(b (zap-buffer *fastfind-buffer*))
+		(pat (format 
+		      (concat (if (eq window-system 'w32) "^(.:)*" "^") 
+			      (fw) "/.*%s*")
+		      pat)))
+	   (ff1 *fb-db* pat b top)
+
+	   (if (interactive-p) 
+	       (pop-to-buffer b)
+	     (split (buffer-string) "
+")
+	     )
+	   )
+	 (message "no world")
+	 )
+    )
+  )

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.4 2003-04-07 21:52:47 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.5 2003-04-15 16:32:15 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 23)
@@ -66,8 +66,10 @@
 
 (setq *shell-track-worlds* t)
 
-; this is very weird...
+; this is so wrong...
 ; (scan-file-p "~/.xdbrc")
+(setq *txdb-options*  '("-b" "x" "-h" "kim.alowe.com"))
+(add-hook 'xdb-init-hook 'xdb-login)
 
 (if (and (not (evilnat)) 
 	 (string* (getenv "XDBHOST"))
@@ -105,3 +107,16 @@
 	    (chomp (queryvalue "machine" "software/javasoft/java development kit/1.4" "javahome")))
 	   )
   )
+
+; use working versions. will this stuff ever stabilize?
+(add-to-list 'load-path  "/x/tw/site-lisp")
+(add-to-list 'load-path  "/x/db/site-lisp")
+(add-to-list 'load-path  "/x/xz/site-lisp")
+(add-to-list 'load-path  "/x/elisp")
+
+; (setq debug-on-error t)
+(require 'worlds)
+; (debug)
+(let ((lw (read-file (concat wbase "/" *lastworld-file-name*)))) (and lw (world lw)))
+; ; (lastworld)
+

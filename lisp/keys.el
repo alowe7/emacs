@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.33 2003-02-22 17:36:43 cvs Exp $")
+ "$Id: keys.el,v 1.34 2003-04-15 16:32:15 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -193,6 +193,10 @@
 
 (global-set-key "\M-;" (quote eval-expression))
 
+; these are broken...
+(global-set-key "\M-n" '(lambda () (interactive) (let* ((l (real-buffer-list)) (b (pop l))) (switch-to-buffer b))))
+(global-set-key "\M-p" '(lambda () (interactive) (let* ((l (real-buffer-list t)) (b (pop l))) (switch-to-buffer b))))
+
 (unless (fboundp 'alt-SPC-prefix) 
     (define-prefix-command 'alt-SPC-prefix))
 
@@ -212,6 +216,7 @@
 (define-key alt-SPC-map "" 'roll-buffer-no-files)
 (define-key alt-SPC-map " " 'roll-server-clients)
 (define-key alt-SPC-map "s" 'first-shell)
+(define-key alt-SPC-map "?" '(lambda () (interactive) (message "")))
 
 (global-set-key (vector '\C-tab) 'set-tabs)
 (global-set-key "" 'describe-key-sequence)
