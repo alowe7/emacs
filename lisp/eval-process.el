@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: eval-process.el,v 1.3 2000-07-30 21:07:45 andy Exp $")
+(defconst rcs-id "$Id: eval-process.el,v 1.4 2000-08-02 22:02:26 cvs Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)
@@ -10,11 +10,13 @@
   "execute CMD as a process, giving it optional ARGS.
 this function evaluates to the process output  "
   (let
-      ((buffer (get-buffer-create " *eval*"))
+      ((dir default-directory)
+       (buffer (get-buffer-create " *eval*"))
        v)
     (save-excursion
       (set-buffer buffer)
       (erase-buffer)
+      (setq default-directory dir)
       (apply 'call-process (nconc (list cmd nil (list buffer nil) nil) args))
   ;    (set-buffer buffer)
   ;    (setq v (buffer-string))
