@@ -54,11 +54,14 @@
 	  *buffer-list-vector-length* (length *buffer-list-vector*)
 	  *buffer-list-vector-index* 0))
   
-  (switch-to-buffer
-   (aref *buffer-list-vector* 
-	 (setq *buffer-list-vector-index* 
-	       (% (1+ *buffer-list-vector-index*)
-		  (length *buffer-list-vector*)))))
+  (if (> (length *buffer-list-vector*) 0)
+      (switch-to-buffer
+       (aref *buffer-list-vector* 
+	     (setq *buffer-list-vector-index* 
+		   (% (1+ *buffer-list-vector-index*)
+		      (length *buffer-list-vector*)))))
+    (message "no more scratch buffers")
+    )
   )
 
 (defmacro %% (x y)

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.53 2004-05-27 18:25:06 cvs Exp $")
+ "$Id: fb.el,v 1.54 2004-06-10 14:55:27 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -536,8 +536,8 @@ with prefix argument, prompt for additional args for grep
   (interactive "p")
   (let* ((s (read-string "Search for: "))
 	 (grep-command (if (> arg 1) (read-string "grep command : " grep-command grep-command) grep-command))
-	 (p1 (min (point) (mark)))
-	 (p2 (max (point) (mark)))
+	 (p1 (point-min))
+	 (p2 (point-max))
 	 (b (get-buffer-create (format "*%s %s*" grep-command s)))
 	 (err  "*Shell-Command-Error*")
 	 )

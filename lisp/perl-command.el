@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.10 2004-04-18 20:01:19 cvs Exp $")
+ "$Id: perl-command.el,v 1.11 2004-06-10 14:55:27 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -117,25 +117,29 @@ args is a list with car = 'eval
 stderr is available on the file `*perl-stderr*' 
 so for example use (read-file *perl-stderr*) to inspect it.
 " 
+  (interactive "sperl script: ")
+
   (save-excursion
     (let* ((b (get-buffer-create-1 *perl-stdout*))
 	   (e *perl-stderr*)
 	   (fs (find-script s)))
-      (if (not fs)
-	  (progn (message "warning: script %s not found" s) "")
-	(progn
-	  (condition-case x
-	      (delete-file *perl-stderr*)
-	    (error nil))
 
-	  (apply 'call-process
-		 (nconc
-		  (list *perl-command* nil (list b e) nil fs)
-		  (remove* nil args)))
-	  )
-	(chomp (buffer-string)))
-      )
-    )
+      (if (file-exists-p *perl-stderr*)
+  ;		   (> (nth 7 (file-attributes *perl-stderr*)) 0)
+	  (delete-file *perl-stderr*))
+
+      (cond ((not fs)
+	     (message "warning: script %s not found" s)
+	     nil)
+	    ((apply 'call-process
+		    (nconc
+		     (list *perl-command* nil (list b e) nil fs)
+		     (remove* nil args)))
+	     (if (interactive-p) 
+		 (progn (switch-to-buffer b) (beginning-of-buffer))
+	       (progn (set-buffer b) ) (chomp (buffer-string))))
+	    (t (message (read-file *perl-stderr* t)))
+	    )))
   )
 
 (defun perl-command-region (start end s delete buffer display &rest args)

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.5 2004-03-03 15:15:18 cvs Exp $")
+ "$Id: fb.el,v 1.6 2004-06-10 14:55:27 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 
@@ -8,11 +8,40 @@
 (require 'xdb)
 (let ((load-path (nconc '(".") load-path))) (require 'xq))
 
-(defun regexp-to-sql (pat)
-  (setq pat (if (eq (aref pat 0) ?^) (substring pat 1) (concat "%" pat)))
-  (setq pat (if (eq (aref pat (1- (length pat))) ?$) (substring pat 0 -1) (concat pat "%")))
-  (tr pat '((?* "%")))
+(defun regexp-to-sql (pat &optional exact)
+  "simpleminded conversion of PAT from regexp syntax to sql syntax.
+wraps in wildcards unless optional EXACT is set.
+otherwise, converts '*' to '%' and '.' to '_'
+
+pattern may also contain environment variables
+"
+
+  (unless exact
+    (progn 
+      (setq pat (cond ((eq (aref pat 0) ?^) 
+		       (substring pat 1))
+		      ((string-match  "^&[/]*" pat)
+		       (concat "/./%" (substring pat (match-end 0)))) ; not really regexp anymore
+		      ((eq (aref pat 0) ?$)
+		       pat)
+		      (t
+		       (concat "%" pat))))
+      (setq pat (if (eq (aref pat (1- (length pat))) ?$) (substring pat 0 -1) (concat pat "%")))))
+
+  (condition-case err
+      (setq pat 
+	    (canonify 
+	     (substitute-in-file-name pat)
+	    0))
+; attempting to substitute non-existent environment variables is a bad idea.
+; remind me to hack the emacs source: (substitute-in-file-name FILENAME &optional noerror)
+    (error pat))
+
+  (tr pat '((?* "%") (?. "_")))
+
   )
+; (regexp-to-sql "$NOTTHERE")
+
 
 (defun ffsql (pat)
   (interactive (list (string* (read-string (format "find files matching pattern (%s): " (current-word))) (current-word))))

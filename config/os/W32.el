@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.26 2004-03-27 22:26:53 cvs Exp $")
+ "$Id: W32.el,v 1.27 2004-06-10 14:55:27 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -121,7 +121,9 @@ optional second arg MIXED says do not translate
 letter drive names.
 if MIXED is 0, then ignore letter drive names.
 "
-  (let ((f (expand-file-name f)))
+  (let* 
+      ((default-directory "/")
+       (f (expand-file-name f)))
     (if (null mixed)
 	f
       (let
