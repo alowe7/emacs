@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.15 2001-09-08 20:50:36 cvs Exp $")
+ "$Id: config.el,v 1.16 2001-10-28 20:14:26 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -170,14 +170,6 @@ no errors if files don't exist.
 	when (string-match "\\(post-\\)\\([a-z\-]+\\)\\(\\.el\\)" x)
 	collect (substring x (match-beginning 2) (match-end 2)))
   )
-
-; make sure load-history is correct
-(unless (loop for x in load-history
-	      thereis (string-match (concat "fns-" emacs-version) (car x)))
-  (load
-   (format "%s/fns-%s" 
-	   (getenv "EMACSPATH")
-	   emacs-version)))
 
 ; then execute post hooks for any preloaded modules.  too late for pre hooks...
 (loop for module in hooked-modules
