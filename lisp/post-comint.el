@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.11 2001-08-15 21:49:00 cvs Exp $")
+ "$Id: post-comint.el,v 1.12 2001-08-20 00:28:34 cvs Exp $")
 
 (setq comint-prompt-regexp "^[0-9a-zA-Z]*% *")
 
@@ -18,7 +18,11 @@
 (unless (and (boundp 'ctl-RET-map) ctl-RET-map)
   (setq ctl-RET-map (symbol-function 'ctl-RET-prefix)))
 
-(global-set-key  (vector 'C-return) 'ctl-RET-prefix)
+; apparently C-RET is not a good prefix key if you're on telnet session
+(if window-system
+    (global-set-key  (vector 'C-return) 'ctl-RET-prefix)
+  (global-set-key "\C-j" 'ctl-RET-prefix)
+  )
 
 (defvar *max-ret-shells* 9)
 (loop for x from 0 to *max-ret-shells* do 
