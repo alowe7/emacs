@@ -1,5 +1,5 @@
 (put 'html-view 'rcsid 
- "$Id: html-view.el,v 1.10 2002-03-13 17:57:56 cvs Exp $")
+ "$Id: html-view.el,v 1.11 2002-03-14 17:56:13 cvs Exp $")
 (provide 'html-view)
 
 (defun dired-html-view () (interactive)
@@ -21,10 +21,8 @@
 
 
 (defun html-browse (fn) (interactive "sfn: ")
-  (let ((p (format "*html-browse %s*" fn)))
-    (start-process p (zap-buffer p) "cmd"
-		   "/c" (file-association fn)
-		   (if (string-match "^http://" fn) fn (w32-canonify fn))
-		   )
-    )
+  (start-process (format "*html-browse %s*" fn) "cmd"
+		 "/c" (file-association fn)
+		 (if (string-match "^http://" fn) fn (w32-canonify fn))
+		 )
   )
