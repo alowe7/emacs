@@ -1,6 +1,7 @@
 (put 'post-help 'rcsid 
- "$Id: post-help.el,v 1.3 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: post-help.el,v 1.4 2000-11-02 17:40:45 cvs Exp $")
 
+(require 'view)
 (require 'advice)
 (require 'qsave)
 
