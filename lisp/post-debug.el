@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-debug.el,v 1.3 2000-07-30 21:07:47 andy Exp $")
+(defconst rcs-id "$Id: post-debug.el,v 1.4 2000-08-07 15:59:32 cvs Exp $")
 (define-key debugger-mode-map "x" 'debug-indicated-word)
 
 ;(add-hook 'debugger-mode-hook '(lambda ()
@@ -11,3 +11,11 @@
 ; ))
 ;)))
 
+
+
+(defun debug-on-error () 
+  "toggle state of debug-on-error variable"
+  (interactive)
+  (setq debug-on-error (not debug-on-error))
+  (message "debug-on-error %s" (if debug-on-error "enabled" "disabled"))
+  )

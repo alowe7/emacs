@@ -1,6 +1,4 @@
-(defconst rcs-id "$Id: default.el,v 1.2 2000-07-30 21:07:45 andy Exp $")
-; default-lib is stuff that ought to be pure
-;(load-library "default-lib")
+(defconst rcs-id "$Id: default.el,v 1.3 2000-08-07 15:59:31 cvs Exp $")
 
 (require 'config) ; this feature should not be required for anything up to this point
 
@@ -15,10 +13,6 @@
 (and (boundp 'emacs-major-version)
      (load (concat "Emacs" emacs-major-version) t t))
 
-(or (fboundp 'set-tabs)
-    (defun set-tabs (w) (interactive "ntab width: ") (setq tab-width w)))
-
-
 (load "keys" nil t) ;key bindings
 (load "autoloads" nil t) ;automatically generated now
 
@@ -27,7 +21,6 @@
 (defvar list-directory-verbose-switches	"-alt")
 
 (defvar horizontal-scroll-delta 20)
-
 
 ;;; todo: c++ mode for .C files?
 (setq auto-mode-alist '(
@@ -100,9 +93,6 @@
       message-log-max 10000
       list-command-history-max 10000)
 
-
-(setq explicit-bash-args '("-login" "-i"))
-
 (modify-syntax-entry ?* "w" emacs-lisp-mode-syntax-table)
 
 (add-hook 'write-file-hooks 'time-stamp)
@@ -116,86 +106,7 @@
 	  t)
 
 
-(defun line-as-region ()
-	(let ((x (point)) y z)
-	  (beginning-of-line)
-	  (setq y (point))
-	  (end-of-line)
-	  (setq z (point))
-	  (goto-char x)
-	  (list y z)))
-
-
-(defun highlight-next-line (arg)
-  (interactive "p")
-
-  (apply 'hilit-unhighlight-region
-	 (nconc 
-	  (line-as-region)
-	  (list
-	   t))
-	 )
-
-
-  (next-line arg)
-
-  (apply 'hilit-highlight-region
-	 (nconc 
-	  (line-as-region)
-	  (list
-	   '(("." nil highlight))
-	   t))
-	 )
-
-  )
-
-(defun highlight-previous-line (arg)
-  (interactive "p")
-
-  (apply 'hilit-unhighlight-region
-	 (nconc 
-	  (line-as-region)
-	  (list
-	   t))
-	 )
-
-
-  (previous-line arg)
-
-  (apply 'hilit-highlight-region
-	 (nconc 
-	  (line-as-region)
-	  (list
-	   '(("." nil highlight))
-	   t))
-	 )
-
-  )
-
-(add-hook 'logview-mode-hook
-	  `(lambda () 
-	     (define-key logview-mode-map "" 'highlight-next-line)
-	     (define-key logview-mode-map "" 'highlight-previous-line)
-	     )
-	  )
-
-(defun unhighlight-buffer () (interactive) 
-  (hilit-unhighlight-region (point-min) (point-max) t))
-
-;(unhighlight-buffer)
-;(load "~/emacs/play/tasks.el" nil t)
-
-(add-hook 'emacs-startup-hook 
-	  '(lambda () 
-	     (find-file "~/todo")
-	     (end-of-buffer)))
-
 
 ;; optional host-specific overrides
 (load (hostname) t t t)
 
-; load display-specific init if any
-
-;; should run after hooks
-;; this is sometimes useful in X if DISPLAY is not localhost
-;(load (displayhost) t t)

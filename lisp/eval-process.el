@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: eval-process.el,v 1.4 2000-08-02 22:02:26 cvs Exp $")
+(defconst rcs-id "$Id: eval-process.el,v 1.5 2000-08-07 15:59:31 cvs Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)
@@ -24,21 +24,6 @@ this function evaluates to the process output  "
   ;    v
       (buffer-string)
       )
-    )
-  )
-
-(defun eval-process-1 (cmd &rest args)
-  "execute CMD as a process, giving it optional ARGS.
-this function evaluates to the process output  "
-  (let
-      ((buffer (prog1 (set-buffer (get-buffer-create " *tmp*")) (erase-buffer)))
-       v)
-    (apply 'call-process (nconc (list cmd nil (list buffer nil) nil) args))
-    (set-buffer buffer)
-    (setq v (buffer-string))
-    (kill-buffer buffer) ; may be faster not to do this.
-    (replace-letter (chop v) "
- " ? )
     )
   )
 
@@ -109,9 +94,3 @@ cleans up linefeeds in resulting output"
   )
 )
 
-
-(defun chop (s &optional c)
-  "maybe chop trailing linefeed"
-  (if (eq (aref (substring s -1) 0) (or c ?
-					)	  ) (substring s 0 -1) s)
-  )

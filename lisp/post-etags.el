@@ -1,4 +1,4 @@
-(defconst rcs-id "$Id: post-etags.el,v 1.2 2000-07-30 21:07:47 andy Exp $")
+(defconst rcs-id "$Id: post-etags.el,v 1.3 2000-08-07 15:59:32 cvs Exp $")
 
 ; find-tag-hook
 
@@ -80,3 +80,14 @@ the current directory.  otherwise, just use tags-file-name")
   )
 
 (defun next-tag () (interactive) (find-tag nil t))
+
+(defun findcmd (cmd)
+  "visit file containing COMMAND"
+  (interactive "Ccommand: ")
+  (catch 'done
+    (let ((p load-path)
+	  q)
+      (while p
+	(if (file-exists-p (setq q (concat (car p) "/TAGS"))) (throw 'done q)
+	  (setq p (cdr p))))))
+  )
