@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.26 2002-05-28 01:26:47 cvs Exp $")
+ "$Id: w32,v 1.27 2002-06-06 10:54:36 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -329,7 +329,7 @@ if `interprogram-cut-function' is defined, it is invoked with the canonified res
 when called from a program, if BEGIN is a string, then use it as the kill text instead of the region"
   (interactive "r")
   (let* ((txt
-	  (unix-canonify (string* begin (buffer-substring begin end)) t)))
+	  (unix-canonify (string* begin (buffer-substring begin end)))))
     (kill-new txt)
     (if interprogram-cut-function
 	(funcall interprogram-cut-function txt t))
