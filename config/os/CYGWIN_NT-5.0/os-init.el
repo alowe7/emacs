@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.7 2001-06-29 13:08:53 cvs Exp $")
+ "$Id: os-init.el,v 1.8 2001-07-01 09:18:47 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 ;; config file for gnuwin-1.0
@@ -72,7 +72,7 @@ host must respond within optional TIMEOUT msec"
 ;; (host-ok "//deadite/C" t)
 ;; (host-ok "c:/")
 
-
+;; add this to post-load-hook so it evals late. see `default.el'
 (add-hook 'post-load-hook '(lambda () 
 			     (defvar cygmounts
 			       (loop for x in (cdr (split (eval-process "mount") "
