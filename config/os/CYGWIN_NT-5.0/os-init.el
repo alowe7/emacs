@@ -1,5 +1,5 @@
 (put 'CYGWIN_NT-5.0 'rcsid 
- "$Id: os-init.el,v 1.8 2001-07-01 09:18:47 cvs Exp $")
+ "$Id: os-init.el,v 1.9 2001-07-09 16:16:07 cvs Exp $")
 (put 'os-init 'rcsid 'CYGWIN_NT-5.0)
 
 ;; config file for gnuwin-1.0
@@ -72,14 +72,42 @@ host must respond within optional TIMEOUT msec"
 ;; (host-ok "//deadite/C" t)
 ;; (host-ok "c:/")
 
-;; add this to post-load-hook so it evals late. see `default.el'
-(add-hook 'post-load-hook '(lambda () 
-			     (defvar cygmounts
-			       (loop for x in (cdr (split (eval-process "mount") "
+;; build a list of ((<regexp> <mountpoint>) ...)
+;; later used for autosubstitution
+
+;; maybe it would be better to comb the registry.
+(cond ((string-match "1.3.2" (eval-process "uname" "-r"))
+
+       ;; mount output format for (beta) release 1.3.2
+       (defun cygmounts ()
+	 " list of cygwin mounts"
+	 (setq cygmounts
+	       (loop for x in (split (eval-process "mount") "
+")
+		     collect 
+		     (let ((l (split x " ")))
+		       (list (caddr l) (car l))))
+	       )
+	 )
+       )
+
+      (t 
+       ;; mount output format for release 1.0
+       (defun cygmounts ()
+	 " list of cygwin mounts"
+	 (setq cygmounts
+	       (loop for x in (cdr (split (eval-process "mount") "
 "))
-				     collect (let ((l (split (replace-in-string "[ ]+" " " x)))) (list (cadr l) (car l))))
-			       " list of cygwin mounts")
-			     ))
+		     collect
+		     (let
+			 ((l (split (replace-in-string "[ ]+" " " x))))
+		       (list (cadr l) (car l))))
+	       )
+	 )
+       )
+      )
+
+(add-hook 'after-init-hook '(lambda () (cygmounts)))
 
 (defadvice cd (around 
 		     hook-cd
@@ -127,3 +155,27 @@ host must respond within optional TIMEOUT msec"
 
 ; (ad-is-advised 'dired)
 ; (ad-unadvise 'dired)
+
+
+(defadvice find-file-noselect (around 
+			       hook-find-file-noselect
+			       first activate)
+  ""
+
+  ; check cygmounts for drive changes
+  
+  (let* ((d (ad-get-arg 0))
+	 (d1 (unless (string-match "^//" d)
+	       (loop for x in cygmounts when 
+		     (string-match (concat "^" (car x)) d)
+		     return 
+		     (replace-in-string (concat "^" (car x)) (cadr x) d)
+		     )))
+	 (d2 (and d1 (expand-file-name d1))))
+    (and d2 (ad-set-arg 0 d2))
+    ad-do-it
+    )
+  )
+
+; (ad-is-advised 'find-file-noselect)
+; (ad-unadvise 'find-file-noselect)
