@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.8 2000-11-19 20:22:06 cvs Exp $")
+ "$Id: config.el,v 1.9 2001-01-10 15:22:03 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -141,7 +141,7 @@ no errors if files don't exist.
 
 ; enumerate hooked modules
 (defvar hooked-modules 
-  (loop for x in (directory-files hookdir nil "post-")
+  (loop for x in (directory-files hookdir nil "post-[^\.]*\.el[c]*$")
 	unless (string-match "^\\.$" x)
 	when (string-match "\\(post-\\)\\([a-z\-]+\\)\\(\\.el\\)" x)
 	collect (substring x (match-beginning 2) (match-end 2)))
@@ -192,12 +192,13 @@ no errors if files don't exist.
   (load (format "post-%s" f) t t)
   )
 
-(let ((l '("compile" "cl")))
-  (loop for x in l
-	do
-	(or (member
-	     `(,x (post-wrap ,x)) after-load-alist)
-	    (push 
-	     `(,x (post-wrap ,x)) after-load-alist))
-	))
+(defvar hooked-preloaded-modules nil)
+
+(loop for x in hooked-preloaded-modules
+      do
+      (or (member
+	   `(,x (post-wrap ,x)) after-load-alist)
+	  (push 
+	   `(,x (post-wrap ,x)) after-load-alist))
+      )
 ; (pop after-load-alist)

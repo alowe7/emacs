@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.11 2000-12-07 17:57:34 cvs Exp $")
+ "$Id: default.el,v 1.12 2001-01-10 15:22:03 cvs Exp $")
 
 (setq home (getenv "HOME"))
 (setq emacsdir (expand-file-name (getenv "EMACSDIR")))
@@ -15,6 +15,7 @@
 	 )
 	(directory-files (concat home "/emacs/site-lisp") t "^[a-zA-Z]")
 	(directory-files (concat emacsdir "/site-lisp") t "^[a-zA-Z]")
+	(directory-files "/usr/share/emacs/site-lisp" t "^[a-zA-Z]")
 	)
  )
 
