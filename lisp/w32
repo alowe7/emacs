@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'w32 'rcsid 
- "$Id: w32,v 1.5 2001-02-09 14:29:51 cvs Exp $")
+ "$Id: w32,v 1.6 2001-02-27 12:39:47 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -247,13 +247,10 @@ a null argument means pop-world from world-stack"
   (define-key map " " 'roll-world-list)
   map)
 
-
+(make-variable-buffer-local 'explicit-shell-file-name)
 (defun cmd (&optional num)
   (interactive)
-  (let ((explicit-shell-file-name "cmd")) 
-    (shell2 (or num -1))
-		(shell-dirtrackp nil)
-)
+  (shell2 (or num -1) nil "cmd")
   )
 
 (global-set-key (vector -8388595) 'cmd)
@@ -669,6 +666,24 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 	(find-file f)
       (message "%s not found" f))
     )
+  )
+
+(defun net (cmd) 
+  "implement net command"
+  (interactive (list
+		(completing-read "cmd: " '(("use")))))
+
+  (cond
+   ((string-equal cmd "use")
+    (let* ((host (read-string "host: " ))
+	   (user (read-string (format "username for %s: " host)))
+	   (sword (comint-read-noecho "password: " ))
+	   (res (eval-process "net" "use" 
+			      (format "\\\\%s" host)
+			      sword 
+			      (format "/user:%s" user))))
+      (message res)))
+   (t (message "you lose")))
   )
 
 (defun host (n) 
