@@ -1,11 +1,11 @@
 (put 'perl-helpers 'rcsid
- "$Id: perl-helpers.el,v 1.1 2002-06-06 12:02:31 cvs Exp $")
+ "$Id: perl-helpers.el,v 1.2 2002-06-06 12:52:19 cvs Exp $")
 
 ;; run perl script on region.  default is same as last time, any if
 (defvar *last-perl-script* "")
 
 (defun perl-command-region-1 (script)
-  (interactive (list (read-string "script: ")))
+  (interactive (list (read-string (format "script (%s): " *last-perl-script*))))
   (let ((p (point))
 	(m (mark))
 	(b (get-buffer-create "*perl output*"))
@@ -21,3 +21,4 @@
     )
   )
 
+(global-set-key "\C-c!" 'perl-command-region-1)
