@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.4 2002-12-23 17:48:57 cvs Exp $")
+ "$Id: W32.el,v 1.5 2003-02-11 23:11:51 cvs Exp $")
 
 (require 'cat-utils)
 (load "frames" t t)
@@ -899,7 +899,9 @@ host must respond within optional TIMEOUT msec"
 					  (string-match (concat "^" (car y) "$") d))
 				      return (replace-in-string (concat "^" (car y)) (cadr y) d)
 				      )))
-			  (d2 (and d1 (expand-file-name d1))))
+			  (d2 (and d1 (if (ad-is-advised 'expand-file-name)
+					  (ad-Orig-expand-file-name d1)
+					(expand-file-name d1)))))
 		     (and d2 (ad-set-arg 0 d2))
 		     ad-do-it
 		     )
@@ -975,3 +977,31 @@ host must respond within optional TIMEOUT msec"
 
 ; make sure post-man gets loaded the first time man is called.
 (global-set-key "\C-h\C-m" '(lambda () (interactive) (load-library "post-man") (global-set-key "\C-h\C-m" 'man) (call-interactively 'man)))
+
+; (load-library "lnk-view")
+
+
+;; this works, but breaks host-ok...
+
+;; advise expand-file-name to be aware of cygmounts
+
+;; (defadvice expand-file-name (around expand-file-name-hook activate)
+;;   (let* ((d (ad-get-arg 0))
+;; 	 (d1 (unless (string-match "^//\\|^~\\|^[a-zA-`]:" d)
+;; 	       (loop for y in cygmounts 
+;; 		     if (or
+;; 			 (string-match (concat "^" (car y) "/") d)
+;; 			 (string-match (concat "^" (car y) "$") d))
+;; 		     return (replace-in-string (concat "^" (car y)) (cadr y) d)
+;; 		     ))))
+;;     (if d1 (ad-set-arg 0 d1))
+;; 
+;;     ad-do-it
+;;     )
+;; )
+
+
+; (if (ad-is-advised 'expand-file-name) (ad-unadvise 'expand-file-name))
+; (expand-file-name (fw "broadjump"))
+; (funcall 'ad-Orig-expand-file-name (fw "broadjump"))
+

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.26 2002-12-02 18:47:11 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.27 2003-02-11 23:11:51 cvs Exp $")
 
 (setq default-frame-alist
       '((width . 102)
@@ -22,7 +22,9 @@
 
 (add-hook 'people-load-hook (lambda () ; (require 'worlds)
 			      (setq *people-database*
-				    (list (xwf "n/people.csv" "broadjump")
+				    (list 
+; xxx todo: put (get-directory-files (expand-file-name ...)) into xwf if F is a dir, add optional argz
+(car (reverse (get-directory-files (expand-file-name (xwf "n" "broadjump")) t "people.*\.csv$")))
 					  "~/n/people"))))
 (add-hook 'xz-load-hook 
 	  '(lambda ()
@@ -39,19 +41,21 @@
 				)))
 
 (add-hook 'world-init-hook '(lambda ()
-			      (setq *howto-path* 
-				    (loop for w in (la) 
-					  when (file-exists-p (fwf "n" w))
-					  collect (fwf "n" w)))
+;; 
+;; 			      (setq *howto-path* 
+;; 				    (loop for w in (la) 
+;; 					  when (file-exists-p (fwf "n" w))
+;; 					  collect (fwf "n" w)))
+;; 
+;; 			      (setq *howto-alist* 
+;; 				    (loop
+;; 				     for x in *howto-path*
+;; 				     with l = nil
+;; 				     nconc (loop for y in (get-directory-files x)
+;; 						 collect (list y x)) into l
+;; 				     finally return l)
+;; 				    )
 
-			      (setq *howto-alist* 
-				    (loop
-				     for x in *howto-path*
-				     with l = nil
-				     nconc (loop for y in (get-directory-files x)
-						 collect (list y x)) into l
-				     finally return l)
-				    )
 			      (load "world-advice")
 			      (load "post-worlds")
 			      )
