@@ -1,7 +1,27 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.27 2004-03-27 19:03:09 cvs Exp $")
+ "$Id: config.el,v 1.28 2004-03-27 22:26:53 cvs Exp $")
 (require 'advice)
 (require 'cl)
+
+(if (file-exists-p "~/emacs/.autoloads")
+    (load-file  "~/emacs/.autoloads")
+  )
+
+(defvar *hostname* (or (getenv "COMPUTERNAME") (getenv "HOSTNAME")))
+
+; XXX this is redundant with "~/config/.fns"
+(defvar *config-load-path*
+	(mapcar 'expand-file-name (list (format "~/config/hosts/%s" *hostname*) 
+																	(format "~/config/os/%s" (symbol-name window-system)) "~"))
+	)
+
+(defvar *debug-config-error* nil)
+
+;; hooks for these preloaded modules need to be run now
+(defvar hooked-preloaded-modules
+	'("compile" "cl" "dired" "vc" "comint" "cc-mode" "info")
+  "list of functions that may be preloaded, invoke `post-wrap' at startup, also push onto `after-load-alist'"
+  )
 
 ;; this advice allows pre- and post- hooks on all loaded features
 ;; this way customization can be tailored to the feature instead of all lumped together
@@ -108,8 +128,6 @@ no errors if files don't exist.
 ; (ad-unadvise 'require)
 ; (ad-is-advised 'require)
 
-
-
 ; warning: this fails for any built in functions, so ...
 ; we need to get fancy
 
@@ -120,85 +138,27 @@ no errors if files don't exist.
   )
 ; (make-hook-name 'dired-mode)
 
-;;  Not Used
-;; 
-;; (defmacro hookfn (fn &optional file)
-;; 
-;;   "this macro hooks the first invocation of FUNCTION from optional FILE.
-;; it attempts to load a pair of libraries before proceeding with the call.  
-;; 
-;; the library names are constructed like: pre-<file>.el and post-<file>.el where
-;; <file> defaults to the pname of the hooked function.  after loading the library, this
-;; advice removes itself."
-;; 
-;;   (let* ((f (eval fn))
-;; 	 (hook-name (make-hook-name f))
-;; 	 (pre-lib-name (concat "pre-" (or (eval file) (symbol-name f))))
-;; 	 (post-lib-name (concat "post-" (or (eval file) (symbol-name f)))))
-;; 
-;;     `(defadvice ,f (around
-;; 		    ,hook-name
-;; 		    first 
-;; 		    activate)
-;; 
-;;        (load ,pre-lib-name t t)
-;; 
-;;        ad-do-it
-;; 
-;; ; don't remove this advice until after invocation, or the advice
-;; ; package gets confused.
-;; 
-;;        (ad-remove-advice (quote ,f) 'around (quote ,hook-name))
-;;        (ad-activate (quote ,f))
-;; 
-;;        (load ,post-lib-name t t)
-;; 
-;;        )
-;;     )
-;;   )
+(defun add-to-load-path (x &optional append subdirs)
+  (if (file-directory-p x)
+      (progn
+	(if (and
+	     (not (member x load-path))
+	     (not (string-match "/CVS$" x)))
+	    (funcall 
+	     (if append
+		 'append-to-list 'add-to-list)
+	     'load-path (expand-file-name x)))
 
-; (hookfn 'dired-mode)
-;; (mapcar '(lambda (x) (hookfn x)) hooked-functions)
+	(if subdirs
+	    (mapcar '(lambda (y) 
+		       (if (and (file-directory-p (concat x "/" y)) (not (string= y ".")) (not (string= y "..")))
+			   (add-to-load-path (concat x "/" y))))
+		    (directory-files x)))
 
-
-(defvar hookdir  "~/emacs/lisp")
-
-; enumerate hooked modules
-(defvar hooked-modules 
-  (loop for x in (directory-files hookdir nil "post-[^\.]*\.el[c]*$")
-	unless (string-match "^\\.$" x)
-	when (string-match "\\(post-\\)\\([a-z\-]+\\)\\(\\.el\\)" x)
-	collect (substring x (match-beginning 2) (match-end 2)))
-  )
-
-; then execute post hooks for any preloaded modules.  too late for pre hooks...
-(loop for module in hooked-modules
-      do
-      (loop for x in load-history
-	    when (string-equal module (car x))
-	    do
-	    (and *debug-post-load-hook* (debug))
-	    (load (concat "post-" module) t t)
-	    (setq hooked-functions (remove module hooked-modules))
-	    )
-)
-
-; (ad-is-advised 'dired-mode)
-; (ad-is-advised 'shell-mode)
-
-(provide 'config)
-
-(defun addloadpath (dir &optional prepend)
-  (let ((dir (substitute-in-file-name dir)))
-    (cond ((not (member dir load-path))
-	   (setq load-path
-		 (apply 'nconc
-			(if prepend 
-			    (list (list dir) load-path)
-			  (list load-path (list dir)))))
-	   (run-hooks 'load-path-mod-hook)
-	   dir)
-	  )
+	(if (file-exists-p (concat x "/.autoloads"))
+  ; maybe automatically generated 
+	    (load (concat x "/.autoloads") nil t))
+	)
     )
   )
 
@@ -210,31 +170,11 @@ no errors if files don't exist.
   (load (format "post-%s" f) t t)
   )
 
-(defvar hooked-preloaded-modules nil
-  "list of functions that may be preloaded, invoke `post-wrap' at startup, also push onto `after-load-alist'"
-  )
-
-
 (defun load-list (pat)
   (interactive "spat: ")
   (mapconcat 'identity (loop for x in load-history when (string-match pat (car x)) collect (car x)) " ")
   )
 ; (load-list "post-cc")
-
-(defvar *hostname*
-  (hostname))
-
-;; (defvar *host-init*
-;;   (and (string* *hostname*)
-;;        (let ((fn 
-;; 	      (format "~/emacs/config/hosts/%s/host-init.el" *hostname*)))
-;; 	 (and (file-exists-p fn) fn)))
-;;   )
-
-(defun find-host-init ()
-  (interactive)
-  (and *host-init* (find-file *host-init*))
-  )
 
 ; this helper function gives init files a weak inheritance capability
 
@@ -271,13 +211,40 @@ or override them by post-chaining.
   (interactive)
   (let ((f (chain-parent-file)))
     (if (and f (file-exists-p f))
-	(find-file f)
+				(find-file f)
       (message "no parent found"))))
 
-(defvar *debug-config-error* nil)
+(defun dotfn (fn)
+  (loop for a in *config-load-path*
+	do (let ((afn (format "%s/%s" a fn)))
+	  (if (-f afn) (scan-file afn))
+	  )))
+
+; these go at the head of the list
+(mapcar 
+ 'add-to-load-path
+ (list 
+  (expand-file-name "~/emacs/config/os")
+  (expand-file-name (concat "~/emacs/config/os/" (symbol-name window-system)))
+  (expand-file-name (concat "~/emacs/config/hosts/"  *hostname*))
+  (expand-file-name (concat "~/emacs/config/" (format "%d.%d" emacs-major-version emacs-minor-version)))
+  )
+ )
+
+; these go at the end of the list
+(condition-case e 
+    (mapcar 
+     '(lambda (x) (add-to-load-path x t))
+     (nconc 
+      (and emacsdir (directory-files (concat emacsdir "/site-lisp") t "^[a-zA-Z]"))
+      (directory-files (concat share "/site-lisp") t "^[a-zA-Z]")
+      (list (concat share "/site-lisp"))
+      )
+     )
+  (file-error t)
+  )
 
 (condition-case x
-
     (loop for x in hooked-preloaded-modules
 	  do
 	  (or (member
@@ -299,14 +266,21 @@ or override them by post-chaining.
 		(if *debug-config-error* (debug))))
   )
 
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
 
+(or 
+ (and (boundp 'window-system) (load (symbol-name window-system) t t))	; window system specific
+ (and (getenv "TERM") (load (getenv "TERM") t t))		;terminal specific
+)
 
-; XXX this is redundant with "~/config/.fns"
+(load "os-init" t t)		; load os-specific info
 
-(setq *config-load-path* (mapcar 'expand-file-name (list (format "~/config/hosts/%s" (hostname)) (format "~/config/os/%s" (uname)) "~")))
+;; optional host-specific overrides
+(load "host-init" t t)
 
-(defun dotfn (fn)
-  (loop for a in *config-load-path*
-	do (let ((afn (format "%s/%s" a fn)))
-	  (if (-f afn) (scan-file afn))
-	  )))
+;; optional emacs-version-specific overrides
+(load (format "Emacs%d" emacs-major-version) t t)
+
+(provide 'config)
+

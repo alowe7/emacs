@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.25 2004-03-04 02:35:21 cvs Exp $")
+ "$Id: W32.el,v 1.26 2004-03-27 22:26:53 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -905,7 +905,10 @@ host must respond within optional TIMEOUT msec"
 	       )
 	 )
        )
-
+      ((string-match "1.5" (eval-process "uname" "-r"))
+;;  this was originally intended to catch interminable timeouts on disconnected drives
+       (defun cygmounts () (setq cygmounts nil))
+       )
       (t 
        ;; mount output format for release 1.0
        (defun cygmounts ()

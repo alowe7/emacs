@@ -1,13 +1,7 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.36 2004-03-26 20:52:46 cvs Exp $")
+ "$Id: default.el,v 1.37 2004-03-27 22:26:53 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
-
-; emacs specific initialization
-; epoch, lucid, and xemacs variants caused problems once upon a time, ...
-
-(and (boundp 'emacs-major-version)
-     (load (concat "Emacs" (int-to-string emacs-major-version)) t t))
 
 (load "keys" nil t) ;key bindings
 
@@ -184,5 +178,94 @@
        )
   )
 
+(defun replace-in-string (from to str)
+  "replace occurrences of REGEXP with TO in  STRING" 
+  (if (string= from "^")
+      (concat to (replace-in-string "
+" (concat "
+" to) str)) 
+    (let (new-str
+	  (sp 0)
+	  )
+      (while (string-match from str sp)
+	(setq new-str (concat new-str (substring str sp (match-beginning 0)) to))
+	(setq sp (match-end 0)))
+      (setq new-str (concat new-str (substring str sp)))
+      new-str))
+  )
+
+(defun bgets ()
+  "do gets on current line from buffer. return as string"
+  (let ((x (point)) y z)
+    (beginning-of-line)
+    (setq y (point))
+    (end-of-line)
+    (setq z (point))
+    (goto-char x)
+    (buffer-substring y z)
+    )
+  )
+
+
+;; xxx there's an internal fn to do this..
+;; modify indicate fns to use this & take optional string as arg
+(defvar end-of-word nil)
+(defvar *wordchars* "[ 	]*[^ 	(,;/\=]+[ 	(,;/\=]?" "pattern to match words")
+
+(defun string-to-word (s &optional n)
+  " return NTH word in string
+ default is n=0 (first word)
+if n > # words in string, returns last word.
+if n < 0 counts from end of string
+"
+  (trim-white-space
+   (catch 'done
+     (let ((z nil) (m (or n 0)))
+       (while (string-match *wordchars* s)
+	 (let ((x (substring s (match-beginning 0) (setq end-of-word (match-end 0)))))
+	   (if (= m 0) (throw 'done x))
+	   (push x z)
+	   (setq m (1- m))
+	   (setq s  (substring s (match-end 0) (length s)))
+	   )
+	 )
+  ;       (read-string (format " (%d: %s)" (min (1- (length z)) n) (nth  z)))
+       (throw 'done 
+	      (if (< m 0) (nth m z) 
+		(nth (min (1- (length z)) m) (reverse z))))
+       )
+     )
+   )
+  )
+
 (run-hooks 'post-load-hook)
 
+;; (defadvice load (around 
+;; 		 hook-load
+;; 		 first 
+;; 		 activate)
+;; (read-string (format "load %s" (ad-get-arg 0)))
+;;     ad-do-it
+;; (read-string (format "after load %s" (ad-get-arg 0)))
+;; )
+;; (defadvice require (around 
+;; 		 hook-load
+;; 		 first 
+;; 		 activate)
+;; (read-string (format "require %s" (ad-get-arg 0)))
+;;     ad-do-it
+;; )
+
+;; (defadvice  command-line (around 
+;; 		 hook-command-line
+;; 		 first 
+;; 		 activate)
+;; (debug)
+;;     ad-do-it
+;; (debug)
+;; )
+;    (add-hook 'before-init-hook 'debug)
+; (add-hook 'after-init-hook 'debug)
+; (debug-on-entry 'w32-add-charset-info)
+; (add-hook 'term-setup-hook 'debug)
+; (add-hook 'window-setup-hook 'debug)
