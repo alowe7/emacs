@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.4 2003-02-25 16:41:09 cvs Exp $
+;; $Id: perl-helpers.el,v 1.5 2003-03-03 15:28:01 cvs Exp $
 
 (require 'perl-command)
 
@@ -151,12 +151,15 @@ see `*perl-libs*'"
 (defun perlmod (m)
   "find pod for perl module found along library path"
   (interactive "smod: ")
-  (let ((mm (concat (replace-in-string "::" "/" m) ".pm")))
+  (let ((mm  (replace-in-string "::" "/" m)))
     (loop for x in *perl-libs*  
 	  with mmm=nil
-	  if (file-exists-p (setq mmm (concat x "/" mm)))
-	  return
-	  (prog1 (pop-to-buffer (pod2text mmm (concat mm " *pod*"))) (cd (file-name-directory mmm)))
+	  thereis
+	  (loop for ext in '(".pod" ".pm")
+		if (file-exists-p (setq mmm (concat x "/" mm ext)))
+		return
+		(prog1 (pop-to-buffer (pod2text mmm (concat mm " *pod*"))) (cd (file-name-directory mmm)))
+		)
 	  )
     )
   )
