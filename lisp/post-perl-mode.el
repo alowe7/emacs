@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.23 2004-04-26 21:54:43 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.24 2004-07-03 20:51:43 cvs Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -22,6 +22,7 @@
   (interactive "ffile: ")
   (let* ((b (cond ((buffer-live-p buffer) buffer)
 		  (t (zap-buffer (or buffer "*pod*"))))))
+    (set-buffer b)
     (insert 
      (perl-command pod2text f))
 
