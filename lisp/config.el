@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.35 2004-05-18 20:11:51 cvs Exp $")
+ "$Id: config.el,v 1.36 2004-05-27 15:26:46 cvs Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -266,6 +266,17 @@ or override them by post-chaining.
 		 (loop for x in load-path when (file-exists-p (setq z (concat x "/" y))) collect z))
 		(tail (funcall *file-name-member* f l))
 		(parent (and tail (cadr tail))))
+
+  ; before we load the parent, see if we have a rcsid
+	   
+	   (let* ((base (intern (file-name-sans-extension y)))
+		  (rcsid (get base 'rcsid))
+		  (rcsid-chain (get base 'rcsid-chain)))
+	     (if rcsid
+		 (progn (push rcsid rcsid-chain) 
+			(put base 'rcsid-chain rcsid-chain)))
+	     )
+
 	   (if (and arg parent)
 	       (load parent)
 	     parent)
