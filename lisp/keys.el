@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.10 2001-03-19 10:41:53 cvs Exp $")
+ "$Id: keys.el,v 1.11 2001-04-02 16:34:14 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -22,11 +22,6 @@
 ;; ugh!
 (define-key global-map (vector 27 'C-return) '(lambda () (interactive) (shell2 1)))
 
-
-(global-set-key " " 'roll-buffer-list)
-(global-set-key (vector 'C-return ? ) 'roll-buffers-named)
-(global-set-key " " 'roll-buffer-like)
-(global-set-key " " 'roll-buffer-mode)
 
 ;(global-set-key "y" 'clipboard-yank)	;; emacs works as a clipboard viewer
 
@@ -206,3 +201,20 @@
 
 
 (global-set-key "\M-;" (quote eval-expression))
+
+(unless (fboundp 'alt-SPC-prefix) 
+    (define-prefix-command 'alt-SPC-prefix))
+
+(unless (and (boundp 'alt-SPC-map) alt-SPC-map)
+  (setq alt-SPC-map (symbol-function 'alt-SPC-prefix)))
+
+(global-set-key  " " 'alt-SPC-prefix)
+
+(define-key alt-SPC-map " " 'roll-buffer-list)
+(define-key ctl-x-map " " 'roll-buffer-list)
+(define-key alt-SPC-map "\C-m" '(lambda () (interactive) (pop-to-buffer (car (get-real-buffer-list nil)))))
+(define-key alt-SPC-map "m" 'iconify-frame)
+(define-key alt-SPC-map "n" 'roll-buffers-named)
+(define-key alt-SPC-map "/" 'roll-buffers-with)
+(define-key alt-SPC-map "l" 'roll-buffer-like)
+(define-key alt-SPC-map "o" 'roll-buffer-mode)
