@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.29 2004-10-01 23:07:54 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.30 2004-10-02 19:23:45 cvs Exp $")
 
 (require 'default-frame-configurations)
 
@@ -66,7 +66,9 @@
 
 (setq grep-command "grep -n -i -e ")
 
-(setq font-lock-support-mode 'fast-lock-mode)
+; unnecessary performance hack
+(setq font-lock-support-mode nil)
+; (setq font-lock-support-mode 'fast-lock-mode)
 ; (setq font-lock-support-mode 'lazy-lock-mode)
 
 (add-hook 'perl-mode-hook (lambda () (font-lock-mode)))
