@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.17 2004-03-03 15:15:18 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.18 2004-03-04 05:00:47 cvs Exp $")
 
 (setq default-frame-alist
       '((top . 100)
@@ -73,12 +73,6 @@
 	  )
 
 (setq *shell-track-worlds* t)
-
-; this is so wrong...
-; (scan-file-p "~/.xdbrc")
-(setq *txdb-options* '("-b" "a/q-1pzl@x" "-h" "localhost:13306"))
-
-; (add-hook 'xdb-init-hook 'xdb-login)
 
 (if (and (not (evilnat)) 
 	 (string* (getenv "XDBHOST"))

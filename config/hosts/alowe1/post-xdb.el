@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id: post-xdb.el,v 1.7 2004-03-03 15:15:18 cvs Exp $")
+ "$Id: post-xdb.el,v 1.8 2004-03-04 05:01:29 cvs Exp $")
 
 (chain-parent-file t)
 
@@ -76,6 +76,4 @@
     )
   )
 
-
-
-
+(add-hook 'xdb-init-hook 'xdb-login)
