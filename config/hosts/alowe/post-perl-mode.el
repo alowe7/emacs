@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid
- "$Id: post-perl-mode.el,v 1.1 2004-04-26 03:04:07 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.2 2004-08-21 20:05:56 cvs Exp $")
 
 (defun perldoc (thing)
   "find perldoc for THING"
@@ -22,3 +22,5 @@
 ; (let ((*perl-command* "/bin/perl"))
 ;   (perldoc "perlref")
 ;  )
+
+(add-hook 'perl-mode-hook '(lambda () (lazy-lock-mode)))
