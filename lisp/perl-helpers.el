@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.14 2005-01-20 22:25:56 cvs Exp $
+;; $Id: perl-helpers.el,v 1.15 2005-04-19 00:20:45 cvs Exp $
 
 (require 'perl-command)
 
@@ -183,17 +183,22 @@ see `*perl-libs*'"
 
 (defun perlmod (m)
   "find pod for perl module found along library path"
+  (interactive (list
+		(let ((w (indicated-word ":"))) (string* (read-string (format "perl module (%s): " w)) w))
+		))
   (interactive "smod: ")
   (let ((mm  (replace-in-string "::" "/" m)))
-    (loop for x in *perl-libs*  
-	  with mmm=nil
-	  thereis
-	  (loop for ext in '(".pod" ".pm")
-		if (file-exists-p (setq mmm (concat x "/" mm ext)))
-		return
-		(prog1 (pop-to-buffer (pod2text mmm (concat mm " *pod*"))) (cd (file-name-directory mmm)))
-		)
-	  )
+    (or
+     (loop for x in *perl-libs*  
+	   with mmm=nil
+	   thereis
+	   (loop for ext in '(".pod" ".pm")
+		 if (file-exists-p (setq mmm (concat x "/" mm ext)))
+		 return
+		 (prog1 (pop-to-buffer (pod2text mmm (concat mm " *pod*"))) (cd (file-name-directory mmm)))
+		 )
+	   )
+     (message "module %s not found" m))
     )
   )
 
@@ -249,3 +254,5 @@ F is a function taking one arg, the line as a string"
 (define-key help-map "p" 'perlfunc)
 (define-key help-map "" 'perldoc)
 (define-key help-map "" 'perlfaq)
+
+(provide 'perl-helpers)

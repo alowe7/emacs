@@ -1,5 +1,5 @@
 (put 'define 'rcsid 
- "$Id: define.el,v 1.12 2005-01-24 21:50:14 cvs Exp $")
+ "$Id: define.el,v 1.13 2005-04-19 00:20:45 cvs Exp $")
 
 (require 'w3m)
 
@@ -14,13 +14,19 @@
 
 (defvar define-search-pat "http://bartleby.com/cgi-bin/texis/webinator/sitesearch?FILTER=col61&query=%s")
 (defvar usage-search-pat  "http://bartleby.com/cgi-bin/texis/webinator/sitesearch?FILTER=col64&query=%s")
+(defvar thesaurus-search-pat "http://bartleby.com/cgi-bin/texis/webinator/sitesearch?FILTER=colThesaurus&query=%s")
+
+(defun lookerupper (term filter)
+  "look up TERM in bartleby"
+
+  (w3m-goto-url (format filter term))
+
+  )
 
 (defun define (term)
-  "look up TERM in bartleby dictionary"
   (interactive (list (string* (read-string (format "term (%s): " (indicated-word))) (indicated-word))))
-
-  (w3m-goto-url (format define-search-pat term))
-
+  "look up TERM in bartleby dictionary"
+  (lookerupper term define-search-pat)
   )
 
 ; (define "specified")
@@ -30,7 +36,7 @@
   "look up TERM in bartleby dictionary"
   (interactive (list (string* (read-string (format "term (%s): " (indicated-word))) (indicated-word))))
 
-  (w3m-goto-url (format usage-search-pat term))
+  (lookerupper term usage-search-pat)
 
   )
 
@@ -39,10 +45,20 @@
 (defun refer (term)
   "look up TERM in bartleby all reference"
   (interactive "sterm: ")
-  (let ((define-serach-pat "http://www.bartleby.com/cgi-bin/texis/webinator/sitesearch?FILTER=colReference&query=%s"))
-    (define "power")
-    )
+
+  (lookerupper term
+	       "http://www.bartleby.com/cgi-bin/texis/webinator/sitesearch?FILTER=colReference&query=%s")
   )
+
+(defun thesaurus (term)
+  (interactive (list (string* (read-string (format "term (%s): " (indicated-word))) (indicated-word))))
+  "look up TERM in bartleby dictionary"
+  (lookerupper term define-search-pat)
+  )
+
+; (define "specified")
+
+
 
 ; hold on a sec.  see w3m-search.el
 (defvar google-search-pat
@@ -50,8 +66,10 @@
 
 (defun google (term)
   "google.  v.t. --  to search for TERM using the search engine du jour"
-  (interactive "sterm: ")
-  (w3m-goto-url 
-   (format google-search-pat term)
-   )
+  (interactive "sgoogle search for: ")
+
+  (lookerupper term google-search-pat)
   )
+
+(require 'ctl-ret)
+(define-key ctl-RET-map "g" 'google)

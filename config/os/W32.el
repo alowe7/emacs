@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.41 2005-03-06 23:06:38 cvs Exp $")
+ "$Id: W32.el,v 1.42 2005-04-19 00:20:45 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -187,7 +187,15 @@ if optional VISIT is non-nil and no file association can be found just visit fil
  display a message  "
   (interactive "sFile: ")
   (let* ((ext (file-name-extension f))
-	 (handler (aexec-handler ext)))
+	 (handler 
+	  (or     
+	   (aexec-handler ext)
+	   (progn
+	     (condition-case x
+		 (require (intern (format "%s-view" ext)))
+	       (file-error nil))
+	     (aexec-handler ext)
+	     ))))
     (if handler (funcall (cdr handler) f)
       (let ((cmd (file-association f)))
 	(cond

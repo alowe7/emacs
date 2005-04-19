@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.32 2005-04-04 23:40:18 cvs Exp $")
+ "$Id: post-dired.el,v 1.33 2005-04-19 00:20:45 cvs Exp $")
 (require 'eval-process)
 (require 'tar-view)
 (require 'zip-view)
@@ -361,10 +361,15 @@ see `file-assoc-list'"
 (define-key ctl-x-v-map "l" 'dired-cvs-log)
 (define-key ctl-x-v-map "u" 'dired-cvs-update)
 
+(defun kill-dired-filename () 
+  (interactive)
+  (kill-new (w32-canonify (dired-get-filename)))
+  )
+
 (add-hook 'dired-mode-hook '(lambda () 
 			      (define-key  dired-mode-map "\C-m" 'dired-aexec)
 			      (define-key  dired-mode-map "P" '(lambda () (interactive) (dos-print (dired-get-filename))))
-			      (define-key  dired-mode-map (vector ? ?\C-0) '(lambda () (interactive) (kill-new (w32-canonify (dired-get-filename)))))
+			      (define-key  dired-mode-map (vector ? ?\C-0) 'kill-dired-filename)
 			      (define-key dired-mode-map "|" 'dired-pipe-file)
 			      (define-key  dired-mode-map "\C-cx" 'dired-copy-filename-as-kill)
 			      (define-key  dired-mode-map "\M-~" 'dired-make-backup)

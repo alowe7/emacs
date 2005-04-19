@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.22 2005-02-14 22:47:40 cvs Exp $")
+ "$Id: helps.el,v 1.23 2005-04-19 00:20:45 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -45,27 +45,23 @@
   )
 
 
-(defun help-for-map (map &optional buf) 
+(defun help-for-map (map) 
   "MAP is a keymap (vector or sparse keymap).
   display a relatively nice wall chart of keys on map.
 MAP may be also be a string or symbol name of a map
 "
-  (interactive (list (intern (completing-read "mode: "  (mapcar 'list (symbols-like "-map" t))))))
-  (let* ((m (if (symbolp map) (eval map) map))
-	 (b (or buf (zap-buffer "*Help*"))))
-    (if buf (set-buffer b) (switch-to-buffer-other-window b))
-    (buffer-flush-undo b)
-    (if (vectorp m)
-	(loop for x across m do
-	  (insert (format "%c\t%s\n" x (aref m x))))
-      (if (and (listp m) (eq (car m) 'keymap))
+  (interactive (list (intern (completing-read "map: "  (mapcar 'list (symbols-like "-map" t))))))
+  (let* ((m (if (symbolp map) (eval map) map)))
+    (with-output-to-temp-buffer "*Help*"
+      (if (vectorp m)
+	  (loop for x across m do
+		(insert (format "%c\t%s\n" x (aref m x))))
+	(if (and (listp m) (eq (car m) 'keymap))
   ;					(help-for-sparse-map m)
-	  (pp (prettify-keymap m) b)
-	))
-    (or buf
-	(beginning-of-buffer)
-	(set-buffer-modified-p nil)
-	)
+	    (pp (prettify-keymap m) b)
+	  ))
+      (beginning-of-buffer)
+      )
     )
   )
 
@@ -469,12 +465,8 @@ with optional prefix arg, wrap by line "
   (let* ((m 
 	  (cond ((and (symbolp m) (boundp m)) (eval m))
 		(t m)))
-	 (b (zap-buffer "*Help*"))
 	 )
-    (pp (mapcar 'integerify m) b)
-    (switch-to-buffer b)
-    (beginning-of-buffer)
-    (help-mode)
+    (pp (mapcar 'integerify m))
     )
   )
 ; (prettify-keymap 'xz-mode-map)

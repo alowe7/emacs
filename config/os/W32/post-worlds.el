@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid
- "$Id: post-worlds.el,v 1.5 2003-12-09 17:23:18 cvs Exp $")
+ "$Id: post-worlds.el,v 1.6 2005-04-19 00:20:45 cvs Exp $")
 
 (chain-parent-file t)
 
@@ -62,3 +62,9 @@
 (defun ewd  (&optional w go sub)
   (interactive "P")
   (wd w 'explore))
+
+(global-set-key (vector 'C-M-up) 'pop-world)
+(global-set-key (vector 'C-M-down) 'roll-world-stack)
+(global-set-key (vector 'C-M-left) 'swap-world)
+(global-set-key (vector 'C-M-right) 'swap-world)
+(global-set-key (vector 'C-M-return) 'push-world-p)

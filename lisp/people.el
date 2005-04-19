@@ -1,5 +1,5 @@
 (put 'people 'rcsid 
- "$Id: people.el,v 1.17 2005-03-04 23:26:19 cvs Exp $")
+ "$Id: people.el,v 1.18 2005-04-19 00:20:45 cvs Exp $")
 (provide 'people)
 ;; manage people databases
 (require 'compile)
@@ -8,8 +8,8 @@
 (defvar *people-database* "" "list of contact files")
 
 (defun note (&optional arg) 
-  "find person in database.
-with optional arg, add line to database"
+  "find person in database.  see `find-person'
+with optional arg, add line to database.  see `find-person-1'"
   (interactive "P")
   (if arg (call-interactively 'find-person-1)
     (call-interactively 'find-person))

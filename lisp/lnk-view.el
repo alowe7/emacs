@@ -1,5 +1,5 @@
 (put 'lnk-view 'rcsid 
- "$Id: lnk-view.el,v 1.8 2004-08-11 14:55:52 cvs Exp $")
+ "$Id: lnk-view.el,v 1.9 2005-04-19 00:20:45 cvs Exp $")
 (require 'cl)
 
 (defun dired-lnk-view () (interactive)
@@ -7,17 +7,19 @@
 	)
 
 (make-variable-buffer-local 'lnk-file)
-(defun lnk-view (f) (interactive)
-	(let* ((b (zap-buffer (format "%s *lnk*" f))))
+(defun lnk-view (f)
+  "view the contents of a windows shortcut"
+  (interactive)
+  (let* ((b (zap-buffer (format "%s *lnk*" f))))
 
-		(call-process "shortcut" nil b nil "-t" f "-u" "all")
-		(switch-to-buffer b)
-		(lnk-mode)
-		(setq lnk-file f)
-		(set-buffer-modified-p nil)
-		(beginning-of-buffer)
-		)
-	)
+    (call-process "shortcut" nil b nil "-t" f "-u" "all")
+    (switch-to-buffer b)
+    (lnk-mode)
+    (setq lnk-file f)
+    (set-buffer-modified-p nil)
+    (beginning-of-buffer)
+    )
+  )
 
 (defvar lnk-mode-map nil "")
 (if lnk-mode-map
@@ -78,3 +80,4 @@
 
 (add-file-association "lnk" 'lnk-view)
 
+(provide 'lnk-view)

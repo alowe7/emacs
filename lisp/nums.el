@@ -1,5 +1,5 @@
 (put 'nums 'rcsid 
- "$Id: nums.el,v 1.10 2004-01-21 18:46:44 cvs Exp $")
+ "$Id: nums.el,v 1.11 2005-04-19 00:20:45 cvs Exp $")
 (provide 'nums)
 
 (defun exp (n m)
@@ -134,7 +134,7 @@ with arg, prompt for number.
   "convert region of text to hex"
   (ascii2 (buffer-substring beg end)))
 
-(defun number-lines (&optional base column separator)
+(defun number-lines (&optional base column separator zeros)
   " insert line numbers in region starting at optional number BASE.
   if called interactively line numbers are inserted at the current column (default 0)"
   (interactive "P")
@@ -142,21 +142,34 @@ with arg, prompt for number.
     (let* 
 	((i (cond ((and (interactive-p) (not (null base)) (listp base)) (car base))
 		  ((numberp base) base)
-		  (t 0)))
-	 (z (+ i (count-lines (point) (mark))))
-	 (goal-column (if (interactive-p) (current-column) column))
-	 (separator (or separator " "))
+		  (t 1)))
+	 (p (point))
+	 (q (mark))
+	 (z (+ i (count-lines p q)))
+	 (goal-column (or column goal-column (current-column)))
+	 (separator (or separator ". "))
+	 (iformat (if zeros "%03d" "%d"))
 	 )
-      (narrow-to-region (save-excursion (beginning-of-line) (point)) (mark))
-      (beginning-of-buffer)
-      (while (< i z)
-	(insert (concat (format "%03d" i) separator)) 
+
+      (goto-char p)
+      (move-to-column goal-column t)
+
+      (while (and (< i z) (<= (point) q))
+	(insert (concat (format iformat i) separator)) 
 	(next-line 1)
 	(setq i (1+ i))
 	)
       )
-    (widen)
     )
+  )
+
+(defun denumber-lines (beg end)
+  "remove line numbering from lines in region"
+
+  (interactive "r")
+
+  (replace-regexp "[0-9]+\\)\\.? ?" "" t beg end)
+
   )
 
 
