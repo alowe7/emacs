@@ -1,5 +1,5 @@
 (put 'indicate 'rcsid 
- "$Id: indicate.el,v 1.14 2005-04-03 22:56:11 cvs Exp $")
+ "$Id: indicate.el,v 1.15 2005-05-19 20:52:25 cvs Exp $")
 
 (require 'thingatpt) ; which see
 
@@ -22,82 +22,84 @@
   "holds region containing most recent indicated-word.
 see `indicated-word-region'")
 
-(if nil
-;; something about this sets up a time bomb that really breaks fontlock and java-mode down the road somehow...
-(defun indicated-word (&optional include-chars from to)
+;; this may be too round-about, but the original implementation set off an undebuggable time-bomb 
+
+(defun indicated-word (&optional include-chars from to exclude-chars)
   "evaluates to word indicated by cursor
    if string  INCLUDE-CHARS is specified, 
 temporarily change the syntax entry for each char in the string to \"w\"
 in the current buffer
 " 
   (interactive)
-  (let ((syntax-ref '(
-		      (0 " "  "whitespace")
-		      (1 "."  "punctuation")
-		      (2 "w"   "word")
-		      (3 "_"   "symbol")
-		      (4 "("   "open parenthesis")
-		      (5 ")"   "close parenthesis")
-		      (6 "\'"  "expression prefix")
-		      (7 "\""  "string quote")
-		      (8 "$"   "paired delimiter")
-		      (9  "\\" "escape")
-		      (10 "/"  "character quote")
-		      (11 "<"  "comment-start")
-		      (12 ">"  "comment-end")))
-	syntax-chars w i x)
 
-    (if (and (syntax-table) include-chars)
-	(dotimes (i (length include-chars))
-	  (let ((char (aref include-chars i)))
-	    (if (> (car (aref (syntax-table) char)) 12) 
-		(debug) ; what's up?
-	      )
-	    (push (cons char (aref (syntax-table) char)) syntax-chars)
-	    (modify-syntax-entry char "w" (syntax-table)))
-	  )
-      )
+  (let* ((old-table (syntax-table))
+	(new-table (copy-syntax-table old-table))
+	w)
 
     (save-restriction 
       (narrow-to-region (or from (point-min)) (or to (point-max)))
-      (setq *indicated-word-region* (bounds-of-thing-at-point 'word))
-      (setq w
-	    (if *indicated-word-region*
-		(buffer-substring (car *indicated-word-region*) (cdr *indicated-word-region*))
-	      "")
-	    )
+
+      (set-syntax-table new-table)
+
+      (loop for char across include-chars do
+      	    (modify-syntax-entry char "w"))
+      (loop for char across exclude-chars do
+      	    (modify-syntax-entry char "."))
+
+      (setq *indicated-word-region* (bounds-of-thing-at-point 'word)
+	    w (if *indicated-word-region*
+		  (buffer-substring (car *indicated-word-region*) (cdr *indicated-word-region*))
+		""))
+
+      (set-syntax-table old-table)
+
+      (if (interactive-p) (message w) w)
       )
-
-    (dolist (x syntax-chars)
-      (let ((ref (cadr (assoc (cadr x) syntax-ref))))
-	(if ref
-	    (modify-syntax-entry (car x)
-				 ref
-				 (syntax-table))
-	  (debug) ;; what's up?
-	  )
-	))
-
-    (if (interactive-p) (message w) w))
-  )
-
-(defun indicated-word (&optional include-chars from to)
-  "evaluates to word indicated by cursor
-   if string  INCLUDE-CHARS is specified, 
-temporarily change the syntax entry for each char in the string to \"w\"
-in the current buffer
-" 
-  (interactive)
-  (setq *indicated-word-region* (bounds-of-thing-at-point 'word))
-  (let ((w (if *indicated-word-region*
-	       (buffer-substring (car *indicated-word-region*) (cdr *indicated-word-region*))
-	     "")))
-    (if (interactive-p) (message w) w)
     )
   )
 
-)
 
+
+(defun indicated (&optional thing include-chars exclude-chars from to)
+  "evaluates to THING indicated by cursor
+see `bounds-of-thing-at-point' for possible values of thing.
+   if string  INCLUDE-CHARS is specified, 
+temporarily change the syntax entry for each char in the string to \"w\"
+see `modify-syntax-entry' for possible values for that.
+in the current buffer
+" 
+  (interactive)
+
+  (let* (
+	 (thing (or thing 'symbol))
+	 (old-table (syntax-table))
+	 (new-table (copy-syntax-table old-table))
+	 (include-syntax-char (cond ((eq thing 'symbol) "_")
+				    (t "w")))
+	 (exclude-syntax-char ".")
+	 w)
+
+    (save-restriction 
+      (narrow-to-region (or from (point-min)) (or to (point-max)))
+
+      (set-syntax-table new-table)
+
+      (loop for char across include-chars do
+      	    (modify-syntax-entry char include-syntax-char))
+      (loop for char across exclude-chars do
+      	    (modify-syntax-entry char exclude-syntax-char))
+
+      (setq *indicated-word-region* (bounds-of-thing-at-point thing)
+	    w (if *indicated-word-region*
+		  (buffer-substring (car *indicated-word-region*) (cdr *indicated-word-region*))
+		""))
+
+      (set-syntax-table old-table)
+
+      (if (interactive-p) (message w) w)
+      )
+    )
+  )
 
 (defun op-arg (prompt &rest args)
   "acquire an argument using prompt.  default to indicated word.

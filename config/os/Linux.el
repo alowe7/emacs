@@ -1,7 +1,7 @@
 (put 'Linux 'rcsid 
- "$Id: Linux.el,v 1.7 2004-01-12 19:07:54 cvs Exp $")
+ "$Id: Linux.el,v 1.8 2005-05-19 20:52:25 cvs Exp $")
 
-; (message "Linux")
+(message "Linux")
 
 ; overloads 
 

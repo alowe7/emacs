@@ -1,29 +1,17 @@
-(put 'default-frame-configurations 'rcsid
- "$Id: default-frame-configurations.el,v 1.2 2005-05-19 20:52:25 cvs Exp $")
+(put 'host-init 'rcsid
+ "$Id: host-init.el,v 1.1 2005-05-19 20:52:25 cvs Exp $")
 
-(chain-parent-file t)
+(require 'default-frame-configurations)
 
-(defun grab-frame-parms ()
-
-  (let ((l (frame-parameters))
-	(parms '(font top left width height)))
-    (loop for x in parms collect (assoc x l)))
-  )
-
-(defun insert-frame-parms ()
-  (interactive)
-  (insert (pp (grab-frame-parms)))
-  nil
-  )
-; (insert-frame-parms)
+(tool-bar-mode -1)
 
 (setq default-frame-configurations
       `(
-	("tahoma"
+	("laptop"
 	 (top . 20)
 	 (left . 23)
-	 (width . 164)
-	 (height . 45)
+	 (width . 60)
+	 (height . 40)
 	 (background-mode . light)
 	 (cursor-type . box)
 	 (border-color . "black")
@@ -34,14 +22,14 @@
 	 (vertical-scroll-bars)
 	 (internal-border-width . 0)
 	 (border-width . 2)
-	 (font .  "-*-tahoma-normal-r-*-*-16-normal-*-*-*-*-*-*-")
+	 (font .  "-adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso10646-1")
 	 (menu-bar-lines . 0)
 	 )
-	("arial"
+	("helvetica"
 	 (top . 20)
 	 (left . 23)
-	 (width . 150)
-	 (height . 44)
+	 (width . 60)
+	 (height . 40)
 	 (background-mode . light)
 	 (cursor-type . box)
 	 (border-color . "black")
@@ -52,14 +40,14 @@
 	 (vertical-scroll-bars)
 	 (internal-border-width . 0)
 	 (border-width . 2)
-	 (font .  "-outline-arial-normal-r-normal-normal-17-102-120-120-p-80-*-")
+	 (font .  "-adobe-helvetica-medium-r-normal--14-140-75-75-p-77-iso8859-1")
 	 (menu-bar-lines . 0)
 	 )
-	("courier new"
+	("lucida"
 	 (top . 20)
 	 (left . 23)
-	 (width . 121)
-	 (height . 41)
+	 (width . 60)
+	 (height . 40)
 	 (background-mode . light)
 	 (cursor-type . box)
 	 (border-color . "black")
@@ -70,11 +58,18 @@
 	 (vertical-scroll-bars)
 	 (internal-border-width . 0)
 	 (border-width . 2)
-	 (font . "-outline-courier new-normal-r-normal-normal-17-102-120-120-c-100-*-")
+	 (font . 
+	       "-b&h-lucida-medium-r-normal-sans-14-100-100-100-p-80-iso10646-1"
+	       )
 	 (menu-bar-lines . 0)
 	 )
 	)
       )
 
+; (default-frame-configuration "laptop")
+; (default-frame-configuration "lucida")
+(default-frame-configuration "helvetica")
 
+(require 'gnuserv)
+(display-time)
 
