@@ -1,8 +1,7 @@
 (put 'os-init 'rcsid
- "$Id: os-init.el,v 1.8 2005-05-20 20:24:53 cvs Exp $")
+ "$Id: os-init.el,v 1.9 2005-05-20 20:25:15 cvs Exp $")
 
-(read-string "Linux")
-
+;; (read-string "Linux")
 
 ; overloads 
 

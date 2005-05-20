@@ -1,7 +1,10 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.45 2005-02-14 22:47:40 cvs Exp $")
+ "$Id: config.el,v 1.46 2005-05-20 20:28:11 cvs Exp $")
 (require 'advice)
 (require 'cl)
+
+; would rather avoid this during init...
+(require 'uname)
 
 (defvar *file-name-member*  'member "function to apply to determine filename equivalence")
 
@@ -12,10 +15,8 @@
 (defvar *hostname* (or 
 		    (getenv "COMPUTERNAME") 
 		    (getenv "HOSTNAME")
-		    (progn 
-		      (require 'uname)
-		      (hostname)
-		      ))
+		    (hostname)
+		    )
   )
 
 ; XXX this is redundant with "~/config/.fns"
@@ -346,6 +347,7 @@ searches first for config unadorned, then with extension .el"
  'add-to-load-path
  (list 
   (expand-file-name "~/emacs/config/os")
+  (expand-file-name (concat "~/emacs/config/os/" (uname)))
   (expand-file-name (concat "~/emacs/config/os/" (symbol-name window-system)))
   (expand-file-name (concat "~/emacs/config/hosts/"  *hostname*))
   (expand-file-name (concat "~/emacs/config/" (format "%d.%d" emacs-major-version emacs-minor-version)))
@@ -395,15 +397,15 @@ searches first for config unadorned, then with extension .el"
  (and (getenv "TERM") (load (getenv "TERM") t t))		;terminal specific
 )
 
-;; optional emacs-version-specific overrides
-(load (format "Emacs%d" emacs-major-version) t t)
-;; optional emacs-version-specific overrides
-(load (format "Emacs%d.%d" emacs-major-version emacs-minor-version) t t)
+(load (format "Emacs%d" emacs-major-version) t t)	;; optional emacs-version specific overrides
 
-(load "os-init" t t)		; load os-specific info
+(load (format "Emacs%d.%d" emacs-major-version emacs-minor-version) t t)	;; optional emacs-minor-version specific overrides
 
-;; optional host-specific overrides
-(load "host-init" t t)
+(load "os-init" t t)		; optional os specific info
+
+(load "window-system-init" t t)		; optional window-system specific info
+
+(load "host-init" t t)		; optional host specific info
 
 (provide 'config)
 
