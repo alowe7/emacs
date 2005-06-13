@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.29 2005-04-04 23:40:18 cvs Exp $")
+ "$Id: post-w3m.el,v 1.30 2005-06-13 20:41:03 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -173,6 +173,9 @@
       )
     )
   )
+
+; for some reason this is easier to remember
+(fset 'specs 'all-docs)
 
 (defun emacswiki () (interactive)
   (w3m-goto-url "http://www.emacswiki.org/cgi-bin/wiki")

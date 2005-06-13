@@ -1,5 +1,5 @@
 (put 'define 'rcsid 
- "$Id: define.el,v 1.13 2005-04-19 00:20:45 cvs Exp $")
+ "$Id: define.el,v 1.14 2005-06-13 20:41:03 cvs Exp $")
 
 (require 'w3m)
 
@@ -55,7 +55,7 @@
   "look up TERM in bartleby dictionary"
   (lookerupper term define-search-pat)
   )
-
+(fset 'synonyms 'thesaurus)
 ; (define "specified")
 
 

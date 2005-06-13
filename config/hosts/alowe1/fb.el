@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.15 2005-01-24 21:50:14 cvs Exp $")
+ "$Id: fb.el,v 1.16 2005-06-13 20:41:03 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 
@@ -118,5 +118,27 @@ with optional arg SHOW, displays the list as if it had been called interactively
 ; supercedes `ff'
 (defalias 'off (symbol-function 'ff))
 (defalias 'ff 'ffsql)
+
+; if worlds loads first, define these features now, else defer.
+
+(defun wfb-init ()
+
+  ; hack-pat doesn't understand [lbpx]
+  (defun wfsql (pat)
+    "fastfind within `wdirs'.  see `ff'"
+    (interactive "spat: ")
+
+    (let ((x (format "^/%s/*%s*" 
+		     (if current-prefix-arg "." (or (wclass) "."))
+		     pat)))
+      (ffsql x nil t)
+      )
+    )
+  (defalias 'wf 'wfsql)
+  )
+
+(if (featurep 'worlds)
+    (funcall 'wfb-init)
+  (add-hook 'world-init-hook 'wfb-init))
 
 (provide 'ffsql)

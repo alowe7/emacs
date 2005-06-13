@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.47 2005-03-01 20:13:12 cvs Exp $")
+ "$Id: default.el,v 1.48 2005-06-13 20:41:03 cvs Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -29,7 +29,7 @@
 			("\\.l$" . c++-mode) ; lex
 			("\\.java$" . java-mode)
 			("\\.js$" . java-mode)
-			("\\.jsp$" . sgml-mode)
+			("\\.jsp$" . java-mode)
 			("\\.php$" . perl-mode)
 			("\\.pl$" . perl-mode)
 			("\\.pm$" . perl-mode)

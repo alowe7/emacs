@@ -1,5 +1,5 @@
 (put 'keys 'rcsid
- "$Id: keys.el,v 1.1 2004-09-10 15:21:43 cvs Exp $")
+ "$Id: keys.el,v 1.2 2005-06-13 20:41:03 cvs Exp $")
 
 (chain-parent-file t)
 
@@ -18,3 +18,16 @@
 (setq ctl-/-ctl-/-map (symbol-function  'ctl-/-ctl-/-prefix))
 
 (define-key ctl-/-ctl-/-map "\C-l" 'xll)
+
+(require 'ctl-ret)
+
+(define-key ctl-RET-map "\`" 'diff-backup)
+(defun visit-backup () (interactive)
+  (let* ((f (buffer-file-name))
+	(b (and f (make-backup-file-name f))))
+    (if (file-exists-p b)
+	(find-file b)
+      (message (format "no backup file for: %s" f))))
+  )
+
+(define-key ctl-RET-map "~" 'visit-backup)
