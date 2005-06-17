@@ -1,9 +1,6 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.33 2005-04-19 00:20:45 cvs Exp $")
-(require 'eval-process)
-(require 'tar-view)
-(require 'zip-view)
-(require 'html-view)
+ "$Id: post-dired.el,v 1.34 2005-06-17 00:30:00 cvs Exp $")
+
 (require 'dired-advice)
 
 ;; dired stuff
@@ -242,14 +239,9 @@ warns if more than one file is to be moved and target is not a directory"
 	     )
 	  )
 
-(autoload 'dired-tar-view "tar-view")
-(autoload 'dired-zip-view "zip-view")
-(autoload 'dired-html-view "html-view")
-
 (define-key dired-mode-map "e" 'dired-decrypt-find-file)
 
 (define-key dired-mode-map (vector 'C-return ? ) 'dired-unmark-all-files)
-(add-file-association "key" '(lambda (f) (interactive) (let ((key (comint-read-noecho "key: " t))) (decrypt-find-file f key))))
 
 (defvar file-assoc-list nil
   "assoc mapping of downcased file extensions to handlers")
@@ -265,6 +257,8 @@ see `file-assoc-list'"
      (cons type handler)
      file-assoc-list))
   )
+
+(add-file-association "key" '(lambda (f) (interactive) (let ((key (comint-read-noecho "key: " t))) (decrypt-find-file f key))))
 
 
 (defun file-association-1 (f &optional notrim)

@@ -1,6 +1,6 @@
 (put 'tar-view 'rcsid 
- "$Id: tar-view.el,v 1.10 2004-08-11 14:55:52 cvs Exp $")
-(provide 'tar-view)
+ "$Id: tar-view.el,v 1.11 2005-06-17 00:30:00 cvs Exp $")
+
 (require 'cl)
 
 (defun dired-tar-view () (interactive)
@@ -88,3 +88,4 @@
 
 (add-file-association "gz" 'gz-view)
 
+(provide 'tar-view)

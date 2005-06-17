@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.12 2005-02-14 22:47:49 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/enoch/host-init.el,v 1.13 2005-06-17 00:30:00 cvs Exp $")
 
 ; enoch
 ; (require 'xz-loads)
@@ -73,9 +73,11 @@
 (global-set-key (vector 'f2) '(lambda () (interactive) (shell2 2)))
 
 ; (setq comint-use-prompt-regexp-instead-of-fields nil)
+
 ; (add-to-load-path "/usr/local/src/emacs-w3m/emacs-w3m" t)
 (setq w3m-home-page "http://enoch")
-(load-library "w3m")
+; (load-library "w3m")
+
 (load-library "ctl-slash")
 
 (load-library "bookmark")
@@ -84,3 +86,16 @@
 
 (global-set-key "r" 'rmail)
 
+(global-set-key (quote [f9]) (quote undo))
+
+(setq *default-gpg-file*  "/nathan/d/a/.private/bang2")
+
+(setq x-select-enable-clipboard t)
+
+; lets move on... 
+(global-set-key (vector 25165856) 'roll-buffer-list)
+
+(defun compare-with-slash () (interactive)
+  (find-file-other-window (concat "/slash" (buffer-file-name)))
+  )
+(define-key ctl-/-map "" 'compare-with-slash)
