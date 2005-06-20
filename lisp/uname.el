@@ -1,5 +1,5 @@
 (put 'uname 'rcsid 
- "$Id: uname.el,v 1.7 2003-06-27 21:39:32 cvs Exp $")
+ "$Id: uname.el,v 1.8 2005-06-20 17:28:42 cvs Exp $")
 (require 'eval-process)
 
 ;; misc stuff that uses eval process
@@ -11,10 +11,7 @@
      (string-match "\\." s)
      (substring s 0 (match-beginning 0)))))
 
-(defvar uname-equivalence-map
-  '(("CYGWIN_NT-5.1" . "W32")
-    ("CYGWIN_NT-4.0" . "W32")
-    ("CYGWIN_NT-5.0" . "W32"))
+(defvar uname-equivalence-map nil
   "for the purposes of uname, these system names are equivalent"
   )
 

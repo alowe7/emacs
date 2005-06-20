@@ -1,5 +1,5 @@
 (put 'define 'rcsid 
- "$Id: define.el,v 1.14 2005-06-13 20:41:03 cvs Exp $")
+ "$Id: define.el,v 1.15 2005-06-20 17:28:42 cvs Exp $")
 
 (require 'w3m)
 
@@ -66,7 +66,7 @@
 
 (defun google (term)
   "google.  v.t. --  to search for TERM using the search engine du jour"
-  (interactive "sgoogle search for: ")
+  (interactive (list (string* (read-string (format "term (%s): " (indicated-line))) (indicated-line))))
 
   (lookerupper term google-search-pat)
   )
