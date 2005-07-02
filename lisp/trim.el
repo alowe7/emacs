@@ -1,6 +1,6 @@
 (put 'trim 'rcsid
- "$Id: trim.el,v 1.4 2004-10-14 21:37:58 cvs Exp $")
-(provide 'trim)
+ "$Id: trim.el,v 1.5 2005-07-02 20:12:18 cvs Exp $")
+
 
 (defun trim-trailing-white-space (&optional s) (interactive)
   " trim trailing white space from STRING"
@@ -68,3 +68,5 @@
 " "" s)
 	)
 )
+
+(provide 'trim)

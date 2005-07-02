@@ -1,5 +1,5 @@
 (put 'define 'rcsid 
- "$Id: define.el,v 1.15 2005-06-20 17:28:42 cvs Exp $")
+ "$Id: define.el,v 1.16 2005-07-02 20:12:18 cvs Exp $")
 
 (require 'w3m)
 
@@ -69,6 +69,14 @@
   (interactive (list (string* (read-string (format "term (%s): " (indicated-line))) (indicated-line))))
 
   (lookerupper term google-search-pat)
+  )
+
+;; this is lame.  put links like this on an autocompletion list
+;  tweak w3m-input-url and w3m-input-url-history to allow friendly names.
+(defun ascap ()
+  "search ascap db"
+  (interactive)
+  (w3m-goto-url "http://www.ascap.com/ace/search.cfm?mode=search")
   )
 
 (require 'ctl-ret)

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.37 2005-03-11 16:33:38 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.38 2005-07-02 20:12:18 cvs Exp $")
 
 (require 'default-frame-configurations)
 
@@ -140,6 +140,8 @@
 
 ; find-script will look along path for certain commands 
 (addpathp "/z/pl" "PATH")
+
+(addpathp "/j2sdk1.4.2_04/bin" "PATH")
 
 ; this ensure calendar comes up in a frame with a fixed-width font
 (load-library "mycal")

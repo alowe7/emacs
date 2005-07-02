@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.61 2005-02-08 15:01:40 cvs Exp $")
+ "$Id: fb.el,v 1.62 2005-07-02 20:12:18 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -127,6 +127,7 @@
   (qsave-search (current-buffer) *find-file-query* default-directory)
   )
 
+; probably should rename as after-fb-find-file-hook
 (defvar after-find-file-hook nil)
 (add-hook 'after-find-file-hook 'find-file-save-search)
 
@@ -285,7 +286,7 @@ see variable *fb-db* "
 	       (get-buffer-create
 		(generate-new-buffer-name
 		 (expand-file-name (pwd))))))
-	(whatever (shell-command "find . -print" b))
+	(whatever (shell-command "find . -type f -print" b))
 	(w (get-buffer-window b)))
     
     (or (and w (select-window w))
@@ -294,6 +295,10 @@ see variable *fb-db* "
     (beginning-of-buffer)
     (fb-mode))
   )
+
+; xxx smart.
+(and (boundp 'dired-mode-map)
+     (define-key dired-mode-map "" 'fb))
 
 (defun fb-search-forward (pat) 
   (interactive 
@@ -544,7 +549,13 @@ with prefix argument, prompt for additional args for grep
 	 (grep-command (if (> arg 1) (read-string "grep command : " grep-command grep-command) grep-command))
 	 (p1 (point-min))
 	 (p2 (point-max))
-	 (b (let ((b (get-buffer-create "*grep*"))) (save-excursion (set-buffer b) (erase-buffer) (compilation-mode)) b))
+	 (b (let ((b (get-buffer-create "*grep*")))
+	      (save-excursion
+		(set-buffer b)
+		(setq buffer-read-only nil)
+		(erase-buffer)
+		(compilation-mode))
+	      b))
 	 (err (get-buffer-create (generate-new-buffer-name "*Shell-Command-Error*")))
 	 (resize-mini-windows nil)
 	 )

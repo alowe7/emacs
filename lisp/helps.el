@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.23 2005-04-19 00:20:45 cvs Exp $")
+ "$Id: helps.el,v 1.24 2005-07-02 20:12:18 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -58,7 +58,7 @@ MAP may be also be a string or symbol name of a map
 		(insert (format "%c\t%s\n" x (aref m x))))
 	(if (and (listp m) (eq (car m) 'keymap))
   ;					(help-for-sparse-map m)
-	    (pp (prettify-keymap m) b)
+	    (pp (prettify-keymap m))
 	  ))
       (beginning-of-buffer)
       )

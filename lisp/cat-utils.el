@@ -174,7 +174,7 @@ except if PAT is not specifed, splits on newline, rather than all whitespace
 (defun split (s &optional pat)
   "split STRING at optional PAT, returning resulting substrings in a list.
 tries to behave like perl's split function.
-if PAT is not specieifed, splits on all white space: [SPC, TAB, RET]
+if PAT is not specified, splits on all white space: [SPC, TAB, RET]
 "
   (and (string* s)
        (let* (

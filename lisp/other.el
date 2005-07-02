@@ -1,5 +1,5 @@
 (put 'other 'rcsid
- "$Id: other.el,v 1.3 2004-09-13 04:20:47 cvs Exp $")
+ "$Id: other.el,v 1.4 2005-07-02 20:12:18 cvs Exp $")
 
 (defun other-lastline (&optional p) 
   (cond ((< p (point-max))
@@ -84,7 +84,7 @@
 (fset 'move-file-other-window 'rfo)
 
 (defun cfo () (interactive)
-; todo: if target exists, rename to backup 
+  ; todo: if target exists, rename to backup 
   (let* ((p (point))
 	 (from (other-get-filename))
 	 (fn (file-name-nondirectory from))
@@ -92,7 +92,18 @@
 		(other-window-1)
 		default-directory))
 	 (to (expand-file-name fn dir)))
-    (copy-file from to t t)
+
+    (cond
+     ((and (file-directory-p from) 
+	   (file-directory-p to))
+      (error (format "tbd -- would clobber directory %s" to)))
+     ((file-directory-p from) 
+      (shell-command (format "cp -r %s %s" from dir))
+      )
+     (t
+      (copy-file from to t t)
+      ))
+
     (save-window-excursion 
       (other-window-1)
       (other-revert-buffer)

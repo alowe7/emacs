@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid
- "$Id: post-worlds.el,v 1.6 2005-04-19 00:20:45 cvs Exp $")
+ "$Id: post-worlds.el,v 1.7 2005-07-02 20:12:18 cvs Exp $")
 
 (chain-parent-file t)
 
@@ -68,3 +68,21 @@
 (global-set-key (vector 'C-M-left) 'swap-world)
 (global-set-key (vector 'C-M-right) 'swap-world)
 (global-set-key (vector 'C-M-return) 'push-world-p)
+
+
+(require 'advice)
+
+(setq wtop "c:")
+
+(defadvice fw (around 
+	       hook-fw
+	       first activate)
+  ; as programmed, fw ignores absolute drive letters or mounted unc filenames
+
+  ; always true:  (if (string-match *absolute-filepath-pattern* default-directory)
+  (let* ((default-directory (concat wtop "/")))
+    ad-do-it
+    (setq ad-return-value (concat wtop ad-return-value))
+    )
+  )
+; (if (ad-is-advised 'fw) (ad-unadvise 'fw))

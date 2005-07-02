@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.30 2005-06-13 20:41:03 cvs Exp $")
+ "$Id: post-w3m.el,v 1.31 2005-07-02 20:12:18 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -109,6 +109,10 @@
       (add-association x '*all-docs-alist* t)
       finally return *all-docs-alist*
       )
+
+(add-association '("tomcat api" "http://localhost:8080/tomcat-docs/catalina/docs/api/overview-summary.html") '*all-docs-alist* t)
+
+;(pop *all-docs-alist*)
 
 (defun head (url)
   "send a http head to URL.  return nil if there's an error, t otherwise"
