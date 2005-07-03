@@ -1,5 +1,5 @@
 (put 'tar-view 'rcsid 
- "$Id: tar-view.el,v 1.11 2005-06-17 00:30:00 cvs Exp $")
+ "$Id: tar-view.el,v 1.12 2005-07-03 01:47:10 cvs Exp $")
 
 (require 'cl)
 
@@ -9,16 +9,15 @@
 
 (make-variable-buffer-local 'tar-file)
 (defun tar-view (f) (interactive)
-	(let* ((b (zap-buffer (format "%s *tar*" f))))
-
-		(call-process "tar" nil b nil "tf"  (canonify f 0))
-		(pop-to-buffer b)
-		(setq tar-file f)
-		(tar-view-mode)
-		(set-buffer-modified-p nil)
-		(beginning-of-buffer)
-		)
-	)
+  (let* ((b (zap-buffer (format "%s *tar*" f))))
+    (call-process "tar" nil b nil "tf"  f)
+    (pop-to-buffer b)
+    (setq tar-file f)
+    (tar-view-mode)
+    (set-buffer-modified-p nil)
+    (beginning-of-buffer)
+    )
+  )
 
 
 (add-file-association "tar" 'tar-view)
