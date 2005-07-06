@@ -1,5 +1,5 @@
 (put 'typesafe 'rcsid
- "$Id: typesafe.el,v 1.4 2005-04-19 00:20:45 cvs Exp $")
+ "$Id: typesafe.el,v 1.5 2005-07-06 16:36:53 cvs Exp $")
 
 (require 'trim)
 
@@ -49,7 +49,7 @@ the result of `read-string' is passed to `string*'
 	 (*d* (eval **default**))
 	 (*s* (read-string (format *prompt* *d*))))
  
-    (or (and (sequencep *s*) (> (length *s*) 0) *s*) *d*)
+    (if (and (sequencep *s*) (> (length *s*) 0)) *s* *d*)
     )
   )
 

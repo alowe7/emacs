@@ -1,5 +1,5 @@
 (put 'trim 'rcsid
- "$Id: trim.el,v 1.5 2005-07-02 20:12:18 cvs Exp $")
+ "$Id: trim.el,v 1.6 2005-07-06 16:36:53 cvs Exp $")
 
 
 (defun trim-trailing-white-space (&optional s) (interactive)
@@ -56,17 +56,29 @@
 	)
 
 (defun trim-blank-lines (&optional s)
-	(interactive)
-	(if (and (interactive-p) (null s))
-			(let ((s (buffer-substring (point) (mark))))
-				(delete-region (point) (mark))
-				(insert
-	(replace-in-string "^[	 ]*
-" "" s)))
+"trim blank lines from region.  with prefix arg, just squish redundant blank lines.
+when called from a program, operates on input string.
+"
+  (interactive "P")
+  (if (interactive-p)
+  ; interactive
+      (let ((s (buffer-substring (point) (mark))))
+	(delete-region (point) (mark))
+	(if s
+	    (insert
+	     (replace-in-string "^[	 ]*
 
-	(replace-in-string "^[	 ]*
-" "" s)
+" "
+" s))
+
+	  (insert
+	   (replace-in-string "^[	 ]*
+" "" s)))
 	)
-)
+  ; else
+    (replace-in-string "^[	 ]*
+" "" s)
+    )
+  )
 
 (provide 'trim)

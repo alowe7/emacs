@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.31 2005-07-02 20:12:18 cvs Exp $")
+ "$Id: post-w3m.el,v 1.32 2005-07-06 16:36:53 cvs Exp $")
 (require 'w3m)
 
 ;; from emacs-w3m/TIPS
@@ -86,6 +86,7 @@
   )
 
 ; todo -- externalize to xml a/o links?  rationalize with all-docs
+; tie in with error handler from man
 (defvar *all-docs-alist* nil "alist mapping quick references to urls.  see `all-docs'")
 (loop for x in '(
 		 ("apache"  "http://alowe1/manual/")
@@ -96,7 +97,8 @@
   ; ...
 		 ("w3m" "http://localhost/u/w3m-0.3/doc/MANUAL.html")
   ; ...
-		 ("ant" "/usr/local/lib/ant-1.5.3-1/docs/manual/index.html")
+  ; frames 	 ("ant" "/usr/local/lib/ant-1.5.3-1/docs/manual/index.html")
+		 ("ant" "/usr/local/lib/ant-1.5.3-1/docs/manual/toc.html")
 		 ("xerces" "/xerces/docs/api.html")
 		 ("struts" "http://struts.apache.org/api/overview-summary.html")
 		 ("beans:" "http://struts.apache.org/api/org/apache/struts/taglib/bean/package-summary.html")
