@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid
- "$Id: host-init.el,v 1.6 2004-10-13 17:28:28 cvs Exp $")
+ "$Id: host-init.el,v 1.7 2005-07-25 17:48:39 cvs Exp $")
 
 (defvar process-environment-list (loop for x in  process-environment collect (split x "=")))
 
@@ -92,3 +92,5 @@
 ; (locals)
 
 (add-to-load-path "~/x/db/site-lisp")
+
+(tool-bar-mode -1)
