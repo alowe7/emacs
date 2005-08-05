@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.15 2005-03-04 23:26:19 cvs Exp $")
+ "$Id: perl-command.el,v 1.16 2005-08-05 20:44:45 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -135,6 +135,8 @@ so for example use (read-file *perl-stderr*) to inspect it.
       (if (file-exists-p *perl-stderr*)
   ;		   (> (nth 7 (file-attributes *perl-stderr*)) 0)
 	  (delete-file *perl-stderr*))
+
+      (assert (not (file-exists-p *perl-stderr*)) t "delete file failed")
 
       (cond ((not fs)
 	     (message "warning: script %s not found" s)

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.3 2004-06-28 02:18:50 cvs Exp $")
+ "$Id: fb.el,v 1.4 2005-08-05 20:44:45 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 ; by default on windows platforms, locate via grep 
@@ -132,22 +132,6 @@ if none given, uses `*default-fb-db*'
   )
 
 
-(defun fh (pat)
-  "fast find working drive -- search for file matching pat in homedirs"
-  (interactive "spat: ")
-;  (pop-to-buffer (ff1  *fb-db* (concat "^/[abcdpx]/*" pat)))
-  (pop-to-buffer (ff1 *fb-h-db* pat))
-  )
-
-
-(defun fh2 ()
-  "fast find working drive -- search for file matching pat in *fb-h-db*"
-  (interactive)
-  (let ((*fb-db* *fb-h-db* )) (call-interactively 'ff2)
-  )
-)
-
-
 (defun ff2-helper (n pat)
   (let ((b (zap-buffer " _ff"))
 	(fn (mktemp (format "_ff%d" n))))
@@ -201,11 +185,6 @@ if none given, uses `*default-fb-db*'
      for x in l
      do (delete-file x))
     b)
-  )
-
-(defun fall () 
-  (interactive)
-  (let ((*fb-db* *fb-full-db*)) (call-interactively 'ff))
   )
 
 

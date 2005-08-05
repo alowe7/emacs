@@ -1,6 +1,9 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.32 2005-07-06 16:36:53 cvs Exp $")
+ "$Id: post-w3m.el,v 1.33 2005-08-05 20:44:45 cvs Exp $")
 (require 'w3m)
+
+;; from url-helpers
+(defvar *url-regexp*  "^\\([a-z]+\\)://\\(.*\\)")
 
 ;; from emacs-w3m/TIPS
 ;; 

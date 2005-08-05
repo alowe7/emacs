@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.29 2004-11-08 14:45:20 cvs Exp $")
+ "$Id: roll.el,v 1.30 2005-08-05 20:44:45 cvs Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -151,21 +151,30 @@ calling SELECTFN to choose one
   (delete* b l)
   )
 
-(defun roll-buffer-mode (mode)
-  "apply `list-mode-buffers' to specified major mode (in `atoms-like' \"-mode\")
+; treat list r as a ring and roll it 
+(defun roll-ring (r) (nconc (cdr r) (list (car r))))
+
+(defun roll-buffer-mode (arg)
+  "apply `roll-list' to buffers in `collect-buffers-mode' using current `major-mode'
+with prefix arg, prompts for major mode (completing from `atoms-like' \"-mode\")
 "
-  (interactive 
-   (list 
-    (let ((m (completing-read (format "mode (%s): " major-mode)
-			      (mapcar '(lambda (x) 
-					 (cons
-					  (format "%s" x) x))
-				      (atoms-like "-mode")))))
-      (if (string* m) (intern m) major-mode))))
+  (interactive "P")
 
-  (roll-list (collect-buffers-mode mode) 'buffer-name 'kill-buffer-1 'switch-to-buffer
-	     '((?o (lambda (v i) (switch-to-buffer-other-window (aref v i)) (throw 'done nil)))))
+  (let* ((m 
+	 (and arg (completing-read (format "mode (%s): " major-mode)
+				   (mapcar '(lambda (x) 
+					      (cons
+					       (format "%s" x) x))
+					   (atoms-like "-mode")))))
+	(mode (if (string* m) (intern m) major-mode))
+	(l (roll-ring (collect-buffers-mode mode)))
+	)
 
+; ensure current buffer isn't at the front of the list
+    (roll-list l 'buffer-name 'kill-buffer-1 'switch-to-buffer
+	       '((?o (lambda (v i) (switch-to-buffer-other-window (aref v i)) (throw 'done nil)))))
+
+    )
   )
 
 

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.62 2005-07-02 20:12:18 cvs Exp $")
+ "$Id: fb.el,v 1.63 2005-08-05 20:44:45 cvs Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -111,15 +111,6 @@
       "/var/spool/f")
   "cache of working file list.")
 
-(defconst *fb-h-db* 
-  (or (getenv "FBHDB")
-      "/var/spool/fh")
-  "cache of file list on home drive.")
-
-(defconst *fb-full-db*
-  (or (getenv "FBFULLDB")
-      "/var/spool/fall")
-  "cache of file list all drives")
 
 ;; these add qsave capability to fb-search buffer
 (defvar *find-file-query* nil)
@@ -544,9 +535,12 @@ returns a filename containing results"
   "search for REGEXP in files in region
 with prefix argument, prompt for additional args for grep
 "
-  (interactive "p")
-  (let* ((s (read-string "Search for: "))
-	 (grep-command (if (> arg 1) (read-string "grep command : " grep-command grep-command) grep-command))
+  (interactive "spat: ")
+  (let* ((s 
+	  (cond ((or (not (interactive-p)) (and arg (not (listp arg)))) arg)
+		(t (read-string "Search for: "))))
+	 (grep-command (if (and (interactive-p) arg (listp arg) (> (car arg) 1)) (read-string "grep command : " grep-command grep-command) grep-command))
+	 (dir (if (string= "/" (buffer-substring (point-min) (1+ (point-min)))) "/" default-directory))
 	 (p1 (point-min))
 	 (p2 (point-max))
 	 (b (let ((b (get-buffer-create "*grep*")))
@@ -590,7 +584,7 @@ with prefix argument, prompt for additional args for grep
 	  (switch-to-buffer b)))
       ; insert grep-command locus so next-error will work
       (goto-char (point-min))
-      (insert (format "cd /\nxargs %s %s\n" grep-command s))
+      (insert (format "cd %s\nxargs %s %s\n" dir grep-command s))
       )
      ((interactive-p) 
       (message "no matches found"))

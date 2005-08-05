@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.38 2005-04-04 23:40:18 cvs Exp $
+# $Id: Makefile,v 1.39 2005-08-05 20:44:45 cvs Exp $
 
 SHELL=/bin/sh
 
@@ -16,7 +16,7 @@ TOP := $(shell pwd)
 .PHONY: FORCE
 
 XZ=xz
-# XZFLAGS = -t1
+XZFLAGS = -t1
 
 SOURCES := $(shell find ./lisp -type f -name "*.el")
 
@@ -40,7 +40,7 @@ all: .autoloads
 	@echo .autoloads rebuilt
 
 .xz.dat: $(SOURCES) $(CONFIGS) $(SITE_LISP) ~/.emacs
-	$(XZ) $(XZFLAGS) -ywqn $^
+	$(XZ) $(XZFLAGS) -n $^
 	@echo .xz.dat rebuilt
 
 .emacs.dat: 

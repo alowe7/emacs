@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.29 2005-01-03 15:45:31 cvs Exp $")
+ "$Id: post-comint.el,v 1.30 2005-08-05 20:44:45 cvs Exp $")
 
 (setq explicit-bash-args '("-i"))
 
@@ -36,7 +36,8 @@
 ;; under what circumstances is this useful?
 ;; (defun my-comint-mode-hook ()
 ;;   (setq comint-use-prompt-regexp-instead-of-fields t)
-;;   (setq shell-prompt-pattern "^[a-zA-Z0-9]+[$%] *")
+;;   (setq comint-prompt-regexp "^[0-9]+[\%] *")
+;;   (setq paragraph-start comint-prompt-regexp)
 ;; )
 ;; 
 ;; (add-hook 'comint-mode-hook 'my-comint-mode-hook)
