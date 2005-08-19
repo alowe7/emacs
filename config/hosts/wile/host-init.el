@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid
- "$Id: host-init.el,v 1.7 2005-07-25 17:48:39 cvs Exp $")
+ "$Id: host-init.el,v 1.8 2005-08-19 19:08:32 cvs Exp $")
 
 (defvar process-environment-list (loop for x in  process-environment collect (split x "=")))
 
@@ -18,7 +18,7 @@
 	      (concat (car x) "=" (cadr x))))
   )
 
-(setenv* "PATH" "/u00/oracle/product/8.1.7/bin:/net/monolith/homes/alowe/bin:/usr/local/ActivePerl-5.6/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:sbin:/usr/openwin/bin")
+(setenv* "PATH" "/u00/oracle/product/8.1.7/bin:/net/motive/homes/alowe/bin:/usr/local/ActivePerl-5.6/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:sbin:/usr/openwin/bin")
 
 (setq comint-prompt-regexp "^[0-9]+[>$%] *")
 
@@ -28,8 +28,6 @@
 (global-set-key "~" 'diff-backup)
 
 (require 'eval-process)
-
-(modify-frame-parameters (selected-frame) (list (cons 'title (format "%s@%s" (eval-process "whoami") (eval-process "uname" "-n")))))
 
 (setq wbase (expand-file-name "~/w"))
 (defvar wlog (format "%s/log" wbase))
@@ -42,6 +40,10 @@
   ; a write-file-hook needs to return nil else the write is aborted
   )
 (add-hook 'write-file-hooks 'write-file-log)
+
+(require 'long-comment)
+(/*
+(modify-frame-parameters (selected-frame) (list (cons 'title (format "%s@%s" (eval-process "whoami") (eval-process "uname" "-n")))))
 
 (setq default-frame-alist
       '((top + -2)
@@ -85,10 +87,12 @@
 		) collect (assoc x (frame-parameters)))
 	)
   )
+)
 
-(add-to-load-path "/z/elisp")
+(add-to-load-path "~alowe/z/elisp")
+
 (require 'mintw)
-(setq W "/l/upm")
+; (setq W "/l/upm")
 ; (locals)
 
 (add-to-load-path "~/x/db/site-lisp")
