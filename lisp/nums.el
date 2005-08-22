@@ -1,5 +1,5 @@
 (put 'nums 'rcsid 
- "$Id: nums.el,v 1.11 2005-04-19 00:20:45 cvs Exp $")
+ "$Id: nums.el,v 1.12 2005-08-22 20:55:03 cvs Exp $")
 (provide 'nums)
 
 (defun exp (n m)
@@ -134,17 +134,26 @@ with arg, prompt for number.
   "convert region of text to hex"
   (ascii2 (buffer-substring beg end)))
 
-(defun number-lines (&optional base column separator zeros)
+(defun number-lines (&optional beg end base column separator zeros)
   " insert line numbers in region starting at optional number BASE.
-  if called interactively line numbers are inserted at the current column (default 0)"
+  if called interactively line numbers are inserted at the current column (default 0)
+interactively with arg, arg specifies the starting point
+
+when called from a program, arguments are BEG END BASE COLUMN SEPARATOR ZEROS
+BEG and END are character positions defining the operand region 
+BASE indicates the starting line number
+COLUMN defines where on the line the number appears
+SEPARATOR seperates the number from the line
+ZEROS if set, line number includes leading zeros
+"
   (interactive "P")
   (save-excursion
     (let* 
 	((i (cond ((and (interactive-p) (not (null base)) (listp base)) (car base))
 		  ((numberp base) base)
 		  (t 1)))
-	 (p (point))
-	 (q (mark))
+	 (p (if (interactive-p) (min (point) (mark)) (min beg end)))
+	 (q (if (interactive-p) (max (point) (mark)) (max beg end)))
 	 (z (+ i (count-lines p q)))
 	 (goal-column (or column goal-column (current-column)))
 	 (separator (or separator ". "))
@@ -154,7 +163,7 @@ with arg, prompt for number.
       (goto-char p)
       (move-to-column goal-column t)
 
-      (while (and (< i z) (<= (point) q))
+      (while (< i z)
 	(insert (concat (format iformat i) separator)) 
 	(next-line 1)
 	(setq i (1+ i))

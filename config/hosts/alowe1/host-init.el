@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.38 2005-07-02 20:12:18 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.39 2005-08-22 20:55:03 cvs Exp $")
 
 (require 'default-frame-configurations)
 
@@ -23,21 +23,6 @@
 	      '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
 
 (add-hook 'world-init-hook '(lambda ()
-			      ;; 
-			      ;; 			      (setq *howto-path* 
-			      ;; 				    (loop for w in (la) 
-			      ;; 					  when (file-exists-p (fwf "n" w))
-			      ;; 					  collect (fwf "n" w)))
-			      ;; 
-			      ;; 			      (setq *howto-alist* 
-			      ;; 				    (loop
-			      ;; 				     for x in *howto-path*
-			      ;; 				     with l = nil
-			      ;; 				     nconc (loop for y in (get-directory-files x)
-			      ;; 						 collect (list y x)) into l
-			      ;; 				     finally return l)
-			      ;; 				    )
-
   ; 			      (load "world-advice")
 			      (load "post-worlds")
 			      )

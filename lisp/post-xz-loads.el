@@ -1,5 +1,5 @@
 (put 'post-xz-loads 'rcsid 
- "$Id: post-xz-loads.el,v 1.12 2004-12-10 18:15:17 cvs Exp $")
+ "$Id: post-xz-loads.el,v 1.13 2005-08-22 20:55:03 cvs Exp $")
 
 (require 'advice)
 (require 'long-comment)
@@ -207,6 +207,7 @@ if in shell mode, assume an interactive xz process
 
 (defun xz-qsave-search () 
   ; save output of each xz search on a stack for retrieval
+
   (cond (*xz-vec*
 	 (qsave-search (xz-hit-buffer)
 		       *xz-query* (list (xz-process) *xz-result* *xz-vec*))

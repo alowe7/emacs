@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.43 2005-06-13 20:41:03 cvs Exp $")
+ "$Id: W32.el,v 1.44 2005-08-22 20:55:03 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -356,7 +356,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (global-set-key "e" 'yank-dos-environment-variable)
 
-(defun yank-dos-filename (begin &optional end)
+(defun cut-dos-filename (begin &optional end)
   "this function translates the region between BEGIN and END using `w32-canonify' and copies the result into the kill-ring.
 if `interprogram-cut-function' is defined, it is invoked with the canonified result.
 when called from a program, if BEGIN is a string, then use it as the kill text instead of the region
@@ -369,7 +369,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 	(funcall interprogram-cut-function txt t))
     txt))
 
-(defun dired-yank-dos-filename ()
+(defun dired-cut-dos-filename ()
   "this function translates the region between BEGIN and END using `w32-canonify' and copies the result into the kill-ring.
 if `interprogram-cut-function' is defined, it is invoked with the canonified result.
 when called from a program, if BEGIN is a string, then use it as the kill text instead of the region
@@ -381,9 +381,31 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 	(if interprogram-cut-function
 	    (funcall interprogram-cut-function txt t))
 	txt)
-    (error (call-interactively 'yank-dos-filename)))
+    (error (call-interactively 'cut-dos-filename)))
   )
-(add-hook 'dired-mode-hook '(lambda () (define-key dired-mode-map "\C-cw" 'dired-yank-dos-filename)))
+(add-hook 'dired-mode-hook '(lambda () (define-key dired-mode-map "\C-cw" 'dired-cut-dos-filename)))
+
+(defun cut-unix-filename (begin &optional end)
+  "this function translates the region between BEGIN and END using `unix-canonify' and copies the result into the kill-ring.
+if `interprogram-cut-function' is defined, it is invoked with the canonified result.
+when called from a program, if BEGIN is a string, then use it as the kill text instead of the region"
+  (interactive "r")
+  (let* ((txt
+	  (unix-canonify (string* begin (buffer-substring begin end)) 0)))
+    (kill-new txt)
+    (if interprogram-cut-function
+	(funcall interprogram-cut-function txt t))
+    txt))
+
+(global-set-key "w" 'cut-dos-filename) ; mnemonic: Windows
+(global-set-key "u" 'cut-unix-filename) ; mnemonic: Unix
+
+(defun yank-unix-filename ()
+  "unix canonify the `current-kill' and paste it"
+  (interactive)
+  (insert (unix-canonify (current-kill 0) 0))
+  )
+(global-set-key "y" 'yank-unix-filename) ; mnemonic: Unix
 
 (defun yank-unix-filename (begin &optional end)
   "this function translates the region between BEGIN and END using `unix-canonify' and copies the result into the kill-ring.
@@ -396,9 +418,6 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
     (if interprogram-cut-function
 	(funcall interprogram-cut-function txt t))
     txt))
-
-(global-set-key "w" 'yank-dos-filename)
-(global-set-key "y" 'yank-unix-filename)
 
 (defun yank-pwd (arg)
   ""

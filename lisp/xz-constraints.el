@@ -1,5 +1,5 @@
 (put 'xz-constraints 'rcsid
- "$Id: xz-constraints.el,v 1.2 2004-12-10 18:15:17 cvs Exp $")
+ "$Id: xz-constraints.el,v 1.3 2005-08-22 20:55:03 cvs Exp $")
 
 (defvar *xz-constrain-queries* t "if set, enables constrained queries.  see `xz-issue-query' for constraints")
 (defvar *xz-last-constraint* nil)
@@ -28,7 +28,7 @@ format and pop to hit buffer.
 see `xz-issue-query' for descriptions of string and constraint
 "
   (interactive (list 
-		(let ((n (debug)) (s (read-string (format "constrained query (%s): " (indicated 'symbol)))))
+		(let ((s (read-string (format "constrained query (%s): " (indicated 'symbol)))))
 		  (or (and (> (length s) 0) s) (indicated 'symbol)))
 		(let* ((splat (reverse (split (buffer-file-name) "/")))
 		       (f (car splat))

@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.34 2005-06-17 00:30:00 cvs Exp $")
+ "$Id: post-dired.el,v 1.35 2005-08-22 20:55:03 cvs Exp $")
 
 (require 'dired-advice)
 
@@ -306,8 +306,10 @@ see `file-assoc-list'"
 (defun dired-copy-filename-as-kill (arg) 
   "apply `kill-new' to `dired-get-filename' with optional ARG, canonify first"
   (interactive "P")
-  (let ((s (canonify (dired-get-filename) 0)))
-    (and arg (setq s (w32-canonify s)))
+  (let ((s  (dired-get-filename)))
+    (if arg
+	(setq s (w32-canonify s))
+      (canonify s 0))
     (kill-new s)
     (message s))
   )
