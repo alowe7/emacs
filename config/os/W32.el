@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.44 2005-08-22 20:55:03 cvs Exp $")
+ "$Id: W32.el,v 1.45 2005-08-29 23:25:16 cvs Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -47,6 +47,7 @@ optional DRIVE says which drive to use. "
 			)
 		      )
   )
+(fset 'unc-canonify 'w32-canonify)
 
 (defun unix-canonify (f &optional mixed)
   " expands FILENAME, using forward slashes.

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.39 2005-08-22 20:55:03 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.40 2005-08-29 23:25:16 cvs Exp $")
 
 (require 'default-frame-configurations)
 
@@ -78,9 +78,12 @@
   ; font locking is broken in java mode
   (set-buffer-modified-p nil)
 
-;  (font-lock-fontify-buffer) 
+  ; (font-lock-fontify-buffer) 
   ; this ain't so swift neither 
-  ;			    (setq c-syntactic-indentation nil)
+  (setq c-syntactic-indentation t)
+
+  ; set this so eclipse and emacs will agree on how indentation is done
+  (setq indent-tabs-mode nil)
   )
 ; (pop java-mode-hook)
 

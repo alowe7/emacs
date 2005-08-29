@@ -1,5 +1,5 @@
 (put 'Emacs21 'rcsid
- "$Id: Emacs21.el,v 1.13 2005-08-05 20:44:45 cvs Exp $")
+ "$Id: Emacs21.el,v 1.14 2005-08-29 23:25:16 cvs Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -10,7 +10,7 @@
 ; silence the dinger
 (setq ring-bell-function '(lambda () nil))
 
-(defvar default-weight "*")
+(defvar default-weight "normal")
 (defvar *default-font-family* "tahoma")
 (defvar *default-point-size* 16)
 

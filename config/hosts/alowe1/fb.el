@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.16 2005-06-13 20:41:03 cvs Exp $")
+ "$Id: fb.el,v 1.17 2005-08-29 23:25:16 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 
@@ -78,40 +78,47 @@ with optional arg SHOW, displays the list as if it had been called interactively
 	      )
       )
 
-    (cond ((string* s)
-	   (let ((b (zap-buffer-2 *fastfind-buffer*)))
-
-	     (setq *find-file-query*
-		   (setq mode-line-buffer-identification 
-			 pat))
-
-	     (insert s)
-
-	     (goto-char (point-min))
-	     (fb-mode)
-
-	     (run-hooks 'after-find-file-hook)
-
-  ; try to avoid splitting (buffer-string) 
-	     (cond ((and *fb-auto-go* 
-			 (or show (interactive-p))
-			 (= (count-lines (point-min) (point-max)) 1)
-			 (not (probably-binary-file (bgets))))
-  ; pop to singleton if appropriate
-		    (find-file (car (split (buffer-string) "
+    (cond 
+  ; pop to singleton if appropriate 
+     ((not (string-match "\n" (string* s)))
+      (cond      
+       ((and 
+	 *fb-auto-go* 
+	 (or (interactive-p) show)
+	 (not (probably-binary-file (bgets))))
+	(find-file (car (split (buffer-string) "
 "))))
-  ; else pop to listing if interactive
-		   ((or show (interactive-p))
-		    (let ((w (get-buffer-window b)))
-		      (or (and w (select-window w))
-			  (pop-to-buffer b))))
+       (t s)))
+     ((string* s)
+      (let ((b (zap-buffer-2 *fastfind-buffer*)))
+
+	(setq *find-file-query*
+	      (setq mode-line-buffer-identification 
+		    pat))
+
+	(insert s)
+
+	(goto-char (point-min))
+	(fb-mode)
+
+	(run-hooks 'after-find-file-hook)
+
+
+	(cond
+	 ((or show (interactive-p))
+  ; pop to listing if interactive
+	  (let ((w (get-buffer-window b)))
+	    (or (and w (select-window w))
+		(pop-to-buffer b))))
   ; else just return the list
-		   (t (or slack (split2 s))))
-	     ))
-	  ((or show (interactive-p))
+	 (t (or slack (split2 s))))
+	)
+      )
+
   ; not (string* s)
-	   (message "no files matching <%s> found." pat))
-	  )
+     ((or show (interactive-p))
+      (message "no files matching <%s> found." pat))
+     )
     )
   )
 

@@ -1,8 +1,9 @@
 (put 'html-format 'rcsid 
- "$Id: html-format.el,v 1.9 2005-01-04 00:19:58 cvs Exp $")
+ "$Id: html-format.el,v 1.10 2005-08-29 23:25:16 cvs Exp $")
 (provide 'html-format)
 
 (defvar *margin* 4)
+(defvar *w3m* (expand-file-name (whence "w3m")))
 
 (defun html-format-region (start end buffer &optional delete)
   (interactive "r")
@@ -21,7 +22,7 @@
   "return contents of FILE formatted as html"
   (interactive "fFilename: ")
   ; w3m is preferred.  if not found, use HTML::FormatText
-  (if (whence "w3m")
+  (if *w3m*
       (eval-process "w3m" f)
     (perl-command "fast-html-format" f))
   )
