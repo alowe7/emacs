@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.12 2005-04-04 23:40:18 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.13 2005-09-02 21:00:58 noah Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -24,7 +24,7 @@
 
 (setq default-frame-alist  initial-frame-alist)
 
-(setq *people-database*  '("/a/n/people"))
+(setq *people-database*  (expand-file-name (concat (getenv "HOME") "/n/people")))
 
 ; xz-squish is currently global.  todo: make per process
 (add-hook 'xz-load-hook '(lambda () 

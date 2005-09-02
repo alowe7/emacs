@@ -1,7 +1,7 @@
 ; -*-emacs-lisp-*-
 
 (put 'W32 'rcsid 
- "$Id: W32.el,v 1.45 2005-08-29 23:25:16 cvs Exp $")
+ "$Id: W32.el,v 1.46 2005-09-02 21:00:58 noah Exp $")
 
 (require 'cat-utils)
 (require 'file-association)
@@ -1048,6 +1048,16 @@ host must respond within optional TIMEOUT msec"
   )
 
 ; (if (ad-is-advised 'w32-drag-n-drop) (ad-unadvise 'w32-drag-n-drop))
+(defun whence-p (f)
+  (and (file-exists-p f) (expand-file-name f))
+  )
+
+(defvar preferred-browser
+  (let ((pf (format ($ "$HOMEDRIVE/Program Files/"))))
+    (or (whence-p (concat pf "Mozilla Firefox/firefox.exe"))
+	(whence-p (concat pf "/Internet Explorer/iexplore.exe")))
+    )
+  )
 
 (defun iexplore-url (f &optional new-window) 
   " run ie on indicated url.
@@ -1061,7 +1071,8 @@ returns process handle
   (start-process
    (symbol-name (gensym "ie"))
    nil
-   "c:\\Program Files\\Internet Explorer\\iexplore.exe" f)
+   preferred-browser
+   f)
   ;  (lower-frame)
   )
 ; (setq v (iexplore-url "http://www.nytimes.com"))
