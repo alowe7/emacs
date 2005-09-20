@@ -1,5 +1,5 @@
 (put 'frames 'rcsid 
- "$Id: frames.el,v 1.10 2004-10-01 23:07:54 cvs Exp $")
+ "$Id: frames.el,v 1.11 2005-09-20 21:29:58 cvs Exp $")
 ;; simple frame abstraction functions
 
 (defun name-frame (name &optional f)
@@ -55,7 +55,7 @@
 (if *clone-frames*
     (defadvice switch-to-buffer-other-frame (around 
 					     hook-switch-to-buffer-other-frame
-					     first activate)
+					     last activate)
 
       "advise `switch-to-buffer-other-frame' to create a frame similar in
 appearance to the current frame "

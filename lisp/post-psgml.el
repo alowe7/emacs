@@ -1,5 +1,9 @@
 (put 'post-psgml 'rcsid
- "$Id: post-psgml.el,v 1.8 2004-11-08 14:45:20 cvs Exp $")
+ "$Id: post-psgml.el,v 1.9 2005-09-20 21:29:58 cvs Exp $")
+
+;; override sgml-list-implications to not popup the stupid error buffer
+
+(defvar bang nil "this is a hack to avoid popping up the all too frequent error buffer")
 
 (define-key sgml-mode-map (vector '\C-right) 'sgml-forward-element)
 (define-key sgml-mode-map (vector '\C-left) 'sgml-backward-element)
@@ -10,14 +14,16 @@
 
 
 (define-key sgml-mode-map "\C-c\C-f\C-f" 'find-file-force-refresh)
+(define-key sgml-mode-map "\C-c\C-ff" 'font-lock-fontify-buffer)
 
-(add-hook 'sgml-mode-hook 
-	  '(lambda ()
-	     (font-lock-mode)
-	     (define-key sgml-mode-map "\C-c\C-l" 'goto-line)
-	     (setq sgml-indent-data t)
-	     )
-	  )
+(defun my-sgml-mode-hook () 
+  (set-tabs 2)
+  (font-lock-mode)
+  (define-key sgml-mode-map "\C-c\C-l" 'goto-line)
+  (setq sgml-indent-data t)
+  (recenter)
+  )
+(add-hook 'sgml-mode-hook 'my-sgml-mode-hook)
 
 (setq-default sgml-set-face t)
   ;;
@@ -78,3 +84,49 @@
 ;; "W3C//DTD HTML"
 ;; (regexp . filename)
 ;; 
+
+
+;; override
+
+(defun sgml-list-implications (token type)
+  "Return a list of the tags implied by a token TOKEN.
+TOKEN is a token, and the list elements are either tokens or `t'.
+Where the latter represents end-tags."
+  (let ((state sgml-current-state)
+	(tree sgml-current-tree)
+	(temp nil)
+	(imps nil))
+    (while				; Until token accepted
+	(cond
+	 ;; Test if accepted in state
+	 ((or (eq state sgml-any)
+	      (and (sgml-model-group-p state)
+		   (not (memq token (sgml-tree-excludes tree)))
+		   (or (memq token (sgml-tree-includes tree))
+		       (sgml-get-move state token))))
+	  nil)
+	 ;; Test if end tag implied
+	 ((or (eq state sgml-empty)
+	      (and (sgml-final-p state)
+		   (not (eq tree sgml-top-tree))))
+	  (unless (eq state sgml-empty)	; not really implied
+	    (push t imps))
+	  (setq state (sgml-tree-pstate tree)
+		tree (sgml-fake-close-element tree))
+	  t)
+	 ;; Test if start-tag can be implied
+	 ((and (setq temp (sgml-required-tokens state))
+	       (null (cdr temp)))
+	  (setq temp (car temp)
+		tree (sgml-fake-open-element tree temp
+					     (sgml-get-move state temp))
+		state (sgml-element-model tree))
+	  (push temp imps)
+	  t)
+	 ;; No implictions and not accepted
+	 (t
+	  (and bang (debug)) ;;; XXX
+	  (sgml-log-warning "Out of context %s" type)
+	  (setq imps nil))))
+    ;; Return the implications in correct order
+    (nreverse imps)))

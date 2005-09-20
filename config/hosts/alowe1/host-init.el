@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.40 2005-08-29 23:25:16 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe1/host-init.el,v 1.41 2005-09-20 21:29:58 cvs Exp $")
 
 (require 'default-frame-configurations)
 
@@ -142,5 +142,9 @@
 (load-library "unbury")
 
 (fset 'try 'condition-case)
+
+
+(add-file-association "html" '(lambda (x) (let ((f (canonify (expand-file-name x))) (default-directory "/")) (html-view f))))
+(add-file-association "htm" '(lambda (x) (let ((f (canonify (expand-file-name x))) (default-directory "/")) (html-view f))))
 
 (provide 'host-init)
