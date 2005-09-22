@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.24 2005-07-02 20:12:18 cvs Exp $")
+ "$Id: helps.el,v 1.25 2005-09-22 20:41:33 cvs Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -64,6 +64,7 @@ MAP may be also be a string or symbol name of a map
       )
     )
   )
+(fset 'describe-map 'help-for-map)
 
 ;; examples
 (defvar *KeyMaps* '(
@@ -460,15 +461,17 @@ with optional prefix arg, wrap by line "
 
 
 (defun prettify-keymap (m)
-  (interactive (intern (completing-read "map: "  (mapcar 'list (symbols-like "-map" t)))))
+  (interactive (list (intern (completing-read "map: "  (mapcar 'list (symbols-like "-map" t))))))
 
   (let* ((m 
-	  (cond ((and (symbolp m) (boundp m)) (eval m))
-		(t m)))
-	 )
-    (pp (mapcar 'integerify m))
-    )
+		  (cond ((and (symbolp m) (boundp m)) (eval m))
+				(t m)))
+		 )
+
+	(mapcar 'integerify m)
+	)
   )
+
 ; (prettify-keymap 'xz-mode-map)
 
 
