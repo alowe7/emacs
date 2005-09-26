@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.13 2005-09-02 21:00:58 noah Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.14 2005-09-26 19:43:45 cvs Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -146,3 +146,7 @@
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
 
 (scan-file-p "~/.private/.xdbrc")
+
+; todo: get to the bottom of this
+(add-to-list 'hooked-preloaded-modules "man")
+(load-library "post-man")
