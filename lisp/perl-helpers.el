@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.15 2005-04-19 00:20:45 cvs Exp $
+;; $Id: perl-helpers.el,v 1.16 2005-09-26 16:40:46 cvs Exp $
 
 (require 'perl-command)
 
@@ -84,6 +84,14 @@
     (insert s)
     (pop-to-buffer b)
     (beginning-of-buffer)
+    ; fix man page
+    (let ((buffer-read-only nil))
+      (save-excursion
+	(kill-pattern "_") ; hack for roff underlining
+	(kill-pattern ".")
+	(kill-pattern "8")
+	(kill-pattern "9")
+	))
     (view-mode)
     )
   )
