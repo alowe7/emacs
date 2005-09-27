@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.4 2005-08-05 20:44:45 cvs Exp $")
+ "$Id: fb.el,v 1.5 2005-09-27 02:45:43 alowe Exp $")
 
 ; this module overrides some functions defined in fb.el
 ; by default on windows platforms, locate via grep 
@@ -90,8 +90,8 @@ if none given, uses `*default-fb-db*'
   "fast find files -- search for file matching PAT in `*fb-db*'"
 
   (interactive "sfind files: ")
-
   (let* ((top default-directory)
+	 (default-directory "/")
 	 (b (zap-buffer *fastfind-buffer*))
 	 f)
 
