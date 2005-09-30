@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid
- "$Id: post-comint.el,v 1.4 2005-02-02 22:35:00 cvs Exp $")
+ "$Id: post-comint.el,v 1.5 2005-09-30 20:19:10 cvs Exp $")
 
 (require 'whencepath)
 
@@ -29,24 +29,5 @@
   )
 ; (processes)
 
-
-; workaround issues with cygwin signal passing
-(defun interrupt-subjob () (interactive)
-  (and (eq major-mode 'shell-mode)
-       (let ((p (buffer-process)))
-	 (if (process-running-child-p p)
-	     (let* ((pid (process-id (buffer-process)))
-		   (l (processes))
-		   (r (loop for x in l when (= (elt x 1) pid) collect x))
-		   (s (and r (eval-process "kill" "-15" (format "%d" (caar r))))))
-	       (if (not (interactive-p)) s
-		 (message s))
-	       )
-	   )
-	 )
-       )
-  )
-
-(add-hook 'shell-mode-hook '(lambda () (define-key shell-mode-map "" 'interrupt-subjob)))
 
 (add-to-list 'comint-output-filter-functions 'comint-watch-for-password-prompt)

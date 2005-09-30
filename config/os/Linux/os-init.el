@@ -1,7 +1,7 @@
 (put 'os-init 'rcsid
- "$Id: os-init.el,v 1.9 2005-05-20 20:25:15 cvs Exp $")
+ "$Id: os-init.el,v 1.10 2005-09-30 20:19:09 cvs Exp $")
 
-;; (read-string "Linux")
+(chain-parent-file t)
 
 ; overloads 
 

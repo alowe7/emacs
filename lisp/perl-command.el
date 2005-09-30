@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.16 2005-08-05 20:44:45 cvs Exp $")
+ "$Id: perl-command.el,v 1.17 2005-09-30 20:19:10 cvs Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -132,11 +132,7 @@ so for example use (read-file *perl-stderr*) to inspect it.
 	   (e *perl-stderr*)
 	   (fs (find-script s)))
 
-      (if (file-exists-p *perl-stderr*)
-  ;		   (> (nth 7 (file-attributes *perl-stderr*)) 0)
-	  (delete-file *perl-stderr*))
-
-      (assert (not (file-exists-p *perl-stderr*)) t "delete file failed")
+      (delete-file-p *perl-stderr*)
 
       (cond ((not fs)
 	     (message "warning: script %s not found" s)
@@ -188,5 +184,17 @@ see `call-process-region'"
   )
 
 (global-set-key "\C-c!" 'perl-command-region-1)
+
+(defun delete-file-p (f)
+  ; if ignore errors ...
+  (condition-case x
+      (if (file-exists-p *perl-stderr*)
+  ;		   (> (nth 7 (file-attributes *perl-stderr*)) 0)
+	  (delete-file *perl-stderr*))
+    (error nil)
+    )
+  ; else
+  ;      (assert (not (file-exists-p *perl-stderr*)) t "delete file failed")
+  )
 
 (provide 'perl-command)

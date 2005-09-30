@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.17 2005-08-29 23:25:16 cvs Exp $")
+ "$Id: fb.el,v 1.18 2005-09-30 20:19:09 cvs Exp $")
 
 ; this module overrides some functions defined in fb.el
 
@@ -80,15 +80,12 @@ with optional arg SHOW, displays the list as if it had been called interactively
 
     (cond 
   ; pop to singleton if appropriate 
-     ((not (string-match "\n" (string* s)))
-      (cond      
-       ((and 
-	 *fb-auto-go* 
-	 (or (interactive-p) show)
-	 (not (probably-binary-file (bgets))))
-	(find-file (car (split (buffer-string) "
-"))))
-       (t s)))
+     ((and
+       *fb-auto-go* 
+       (or (interactive-p) show)
+       (not (string-match "\n" (string* s)))
+       (not (probably-binary-file s)))
+      (find-file s))
      ((string* s)
       (let ((b (zap-buffer-2 *fastfind-buffer*)))
 

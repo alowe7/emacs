@@ -1,7 +1,7 @@
-; -*-emacs-lisp-*-
+(put 'os-init 'rcsid 
+ "$Id: os-init.el,v 1.1 2005-09-30 20:19:09 cvs Exp $")
 
-(put 'W32 'rcsid 
- "$Id: W32.el,v 1.47 2005-09-22 20:50:10 cvs Exp $")
+(chain-parent-file t)
 
 (require 'cat-utils)
 (require 'file-association)
@@ -796,6 +796,9 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (setq doc-directory data-directory)
 
+;; config file for gnuwin-1.0
+(autoload 'shell2 "shell2" t)
+
 (make-variable-buffer-local 'explicit-shell-file-name)
 (make-variable-buffer-local 'shell-command-switch)
 (make-variable-buffer-local 'binary-process-input)
@@ -1138,3 +1141,4 @@ keys for the alist include:
   )
 
 (provide 'w32)
+

@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.36 2005-08-29 23:25:16 cvs Exp $")
+ "$Id: post-dired.el,v 1.37 2005-09-30 20:19:10 cvs Exp $")
 
 (require 'dired-advice)
 
@@ -303,19 +303,13 @@ see `file-assoc-list'"
   (dired-cvs-cmd "up")
   )
 
-(defun dired-copy-filename-as-kill (arg) 
-  "apply `kill-new' to `dired-get-filename' with optional ARG, canonify first"
-  (interactive "P")
-  (let* (
-	 (f (dired-get-filename))
-	 (s 
-	  (or
-  ; try a normal canonify.  if that errs, try a unc canonify
-	   (condition-case x (canonify f 0) (error nil))
-	   (unc-canonify f)
-	   )))
-    (kill-new s)
-    (message s))
+(defun dired-copy-filename-as-kill () 
+  "apply `kill-new' to `dired-get-filename'"
+  (interactive)
+  (let* ((f (dired-get-filename))
+	 (s (copy-filename-as-kill f)))
+    (if (interactive-p) (message s))
+    )
   )
 
 (defun dired-make-backup ()
