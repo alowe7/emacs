@@ -1,5 +1,5 @@
 (put 'todo 'rcsid 
- "$Id: todo.el,v 1.12 2005-02-11 23:46:04 cvs Exp $")
+ "$Id: todo.el,v 1.13 2005-10-06 15:22:24 cvs Exp $")
 (require 'eval-process)
 (require 'input)
 
@@ -121,12 +121,12 @@
 			  (if (not (mark)) (error "mark is not set")
 			    (buffer-substring (point) (mark))))))
 	 (result (y-or-n-*-p
-		  (apply 'format
-			 (cons "not done with \"%s ... %s\" (y/n/e)? "
+		  (fudge-format
+		   "not done with \"%s ... %s\" (y/n/e)? "
 			       (if (> (length thing1) trimlen1)
 				   (list (substring thing1 0 trimlen1)
 					 (substring thing1 trimlen2))
-				 (list thing1 ""))))
+				 (list thing1 "")))
 		  "e"))
 	 (thing (cond ((eq result ?e) (xa "edit thing" thing1))
 		      (result thing1))))
@@ -155,6 +155,7 @@
 		       (window-buffer x)))
 		do (progn (set-buffer (window-buffer x)) (recenter)))
 
+	  (if (looking-at "^$") (kill-line)) ; normal usage leaves an extra blank line.  kill it.
 	  )
       (message "not done.")
       )

@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.1 2005-09-30 20:19:09 cvs Exp $")
+ "$Id: os-init.el,v 1.2 2005-10-06 15:22:24 cvs Exp $")
 
 (chain-parent-file t)
 
@@ -188,6 +188,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
  display a message  "
   (interactive "sFile: ")
   (let* ((ext (file-name-extension f))
+	 (default-directory (file-name-directory f))
 	 (handler 
 	  (or     
 	   (aexec-handler ext)
