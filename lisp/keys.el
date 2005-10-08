@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.55 2005-08-05 20:44:45 cvs Exp $")
+ "$Id: keys.el,v 1.56 2005-10-08 00:12:18 cvs Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -27,6 +27,7 @@
 
 (global-set-key "" 'auto-fill-mode) ; gets clobbered when cscope comes in
 (global-set-key "c" 'calendar) ;
+(global-set-key "x" 'calc) ;
 
 (global-set-key "r." 'register-to-point)
 
