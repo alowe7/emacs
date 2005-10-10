@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.14 2005-09-26 19:43:45 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.15 2005-10-10 22:55:48 cvs Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -92,13 +92,18 @@
 
 ; all kinds of crap here
 (add-to-load-path "/z/el" t)
+(condition-case x (load "/z/el/.autoloads") (error nil))
+
 ; and some lisp here too
 (add-to-load-path "/z/pl" t)
+(condition-case x (load "/z/pl/.autoloads") (error nil))
+
+; gpg is here
+(add-to-load-path "/z/gpg" t)
+(condition-case x (load "/z/gpg/.autoloads") (error nil))
 
 ; and some here too
-(condition-case x (load "/z/el/.autoloads") (error nil))
 (condition-case x (load "/z/soap/.autoloads") (error nil))
-(condition-case x (load "/z/pl/.autoloads") (error nil))
 
 ; find-script will look along path for certain commands 
 (addpathp "/z/pl" "PATH")
