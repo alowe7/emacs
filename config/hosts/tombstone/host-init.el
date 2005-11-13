@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.1 2005-11-13 15:42:40 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.2 2005-11-13 17:31:22 cvs Exp $")
 
 ; enoch
 ; (require 'xz-loads)
@@ -33,13 +33,29 @@
 	    (set-frame-height nil 28)
 	    (set-face-attribute 'default nil :font "-adobe-helvetica-medium-r-normal--17-120-100-100-p-88-iso8859-1")
 	    )
+
 	(progn
 	  (setq default-font
-		"lucidasanstypewriter-14"
+		"-adobe-helvetica-medium-r-normal--17-120-100-100-p-88-iso8859-1"
+  ; "lucidasanstypewriter-14"
   ; "-b&h-lucida-medium-r-normal-sans-18-180-75-75-p-106-iso10646-1"
+		default-frame-alist
+		`(
+		  (top . 56)
+		  (left . 70)
+		  (width . 47)
+		  (height . 28)
+		  (vertical-scroll-bars)
+		  (tool-bar-lines . 0)
+		  (menu-bar-lines . 0)
+		  (font . ,default-font))
+		initial-frame-alist  
+		default-frame-alist
 		)
 	  (set-default-font default-font)
 	  (set-face-attribute 'default nil :font default-font)
+	  (set-frame-width nil 47)
+	  (set-frame-height nil 28)
 	  )
 	)
       )
