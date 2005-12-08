@@ -1,12 +1,12 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/emu/host-init.el,v 1.1 2005-09-30 03:39:26 noah Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/emu/host-init.el,v 1.2 2005-12-08 20:50:28 noah Exp $")
 
 (setq default-fontspec "-*-verdana-normal-r-*-*-16-normal-*-*-*-*-*-*-")
 
 (setq initial-frame-alist
       `((top . 40)
- 	(left . 0)
- 	(width . 142)
+ 	(left . 20)
+ 	(width . 112)
  	(height . 30)
 	(background-mode . light)
 	(cursor-type . box)
@@ -120,3 +120,6 @@
 ; todo: get to the bottom of this
 (add-to-list 'hooked-preloaded-modules "man")
 (load-library "post-man")
+
+; not sure why this is necessary
+(select-frame  (car (frame-list)))
