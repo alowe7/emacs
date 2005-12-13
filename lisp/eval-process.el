@@ -1,5 +1,5 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.18 2005-01-24 21:50:14 cvs Exp $")
+ "$Id: eval-process.el,v 1.19 2005-12-13 17:05:22 nathan Exp $")
 ;; a package to return process evaulation as a string
 
 (provide 'eval-process)
@@ -33,7 +33,16 @@ this function evaluates to the process output  "
       (set-buffer buffer)
       (erase-buffer)
       (setq default-directory dir)
-      (setq last-exit-status (apply 'call-process (nconc (list cmd nil (list buffer nil) nil) args)))
+      (setq last-exit-status
+	    (condition-case x
+		(apply 'call-process (nconc (list cmd nil (list buffer nil) nil) args))
+	      (error
+	       (cond
+		((eq 'file-error (car x))
+		 (message (mapconcat 'identity (cddr x) ": ")))
+		))
+	      )
+	    )
   ;    (set-buffer buffer)
   ;    (setq v (buffer-string))
   ;    (kill-buffer buffer) ; may be faster not to bother with this.

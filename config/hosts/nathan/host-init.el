@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.15 2005-10-10 22:55:48 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.16 2005-12-13 17:04:09 nathan Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -101,6 +101,12 @@
 ; gpg is here
 (add-to-load-path "/z/gpg" t)
 (condition-case x (load "/z/gpg/.autoloads") (error nil))
+; defaults
+(setq *gpg-command* "/usr/local/lib/gpg-1.4.1/gpg.exe")
+(setq *gpg-default-file*  "~/.private/wink")
+; keyrings on removable compact flash card
+(setq *gpg-default-homedir*  "h:/.gnupg")
+; (setq *gpg-default-homedir*  "~/.gnupg")
 
 ; and some here too
 (condition-case x (load "/z/soap/.autoloads") (error nil))

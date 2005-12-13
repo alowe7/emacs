@@ -1,15 +1,19 @@
 (put 'uname 'rcsid 
- "$Id: uname.el,v 1.8 2005-06-20 17:28:42 cvs Exp $")
+ "$Id: uname.el,v 1.9 2005-12-13 17:05:22 nathan Exp $")
 (require 'eval-process)
+(require 'typesafe)
 
 ;; misc stuff that uses eval process
 
 (defun unix-version ()
   "return unix version as a string"
-  (let ((s (clean-string (eval-process "uname"  "-r")))) 
-    (and
-     (string-match "\\." s)
-     (substring s 0 (match-beginning 0)))))
+  (let ((s (string* (clean-string (eval-process "uname"  "-r"))))) 
+    (cond
+     ((null s)
+      ; try harder.
+      (getenv "OS"))
+     ((string-match "\\." s)
+      (substring s 0 (match-beginning 0))))))
 
 (defvar uname-equivalence-map nil
   "for the purposes of uname, these system names are equivalent"
@@ -19,8 +23,13 @@
   "return os"
   (interactive "sargs: ")
   (let* ((uarg (or arg "-s"))
-	 (s (clean-string (eval-process "uname"  uarg)))
-	 (u (or (cdr (assoc s uname-equivalence-map)) s)))
+	 (s (string* (clean-string (eval-process "uname"  uarg))))
+	 (u 
+	  (cond
+	   ((null s)
+  ; try harder.
+	    (getenv "OS"))
+	   (t (or (cdr (assoc s uname-equivalence-map)) s)))))
     (if (interactive-p) (message u) u))
   )
 
