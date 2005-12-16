@@ -1,7 +1,8 @@
-# $Id: Makefile,v 1.5 2005-01-28 19:37:47 cvs Exp $
+# $Id: Makefile,v 1.6 2005-12-16 00:31:47 tombstone Exp $
 
 SHELL=/bin/sh
-EMACS=$(EMACS_DIR)/bin/emacs
+#EMACS=$(EMACS_DIR)/bin/emacs
+EMACS=$(shell which emacs)
 
 #SOURCES=$(shell -c ls -t *.el)
 SOURCES=*.el
@@ -22,6 +23,6 @@ TAGS: $(SOURCES)
 	$(ETAGS) $(SOURCES)
 
 compile:
-	$(EMACS) --batch -l byte-compile-directory
+	$(EMACS) --batch -l byte-compile-directory.el
 
 .PHONY: compile

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.63 2005-08-05 20:44:45 cvs Exp $")
+ "$Id: fb.el,v 1.64 2005-12-16 00:31:47 tombstone Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -484,24 +484,6 @@ returns a filename containing results"
       fn1)
     )
   )
-
-(require 'advice)
-
-(defadvice locate (around 
-		   hook-locate
-		   first activate)
-  ""
-
-  (let ((pat (ad-get-arg 0)))
-    (and (buffer-live-p (get-buffer locate-buffer-name))
-	 (save-excursion (set-buffer locate-buffer-name) (setq buffer-read-only nil)))
-    ad-do-it
-    (setq *find-file-query*
-	  (setq mode-line-buffer-identification (format "%-22s" pat)))
-    (fb-mode)
-    (run-hooks 'after-find-file-hook))
-  )
-; (if (ad-is-advised 'locate) (ad-unadvise 'locate))
 
 (defun ff (&optional search-string filter show)
   (interactive)

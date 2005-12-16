@@ -1,10 +1,12 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.46 2005-05-20 20:28:11 cvs Exp $")
+ "$Id: config.el,v 1.47 2005-12-16 00:31:47 tombstone Exp $")
 (require 'advice)
 (require 'cl)
 
 ; would rather avoid this during init...
 (require 'uname)
+
+(defvar *configdir* "~/emacs/config/")
 
 (defvar *file-name-member*  'member "function to apply to determine filename equivalence")
 
@@ -12,11 +14,15 @@
     (load-file  "~/emacs/.autoloads")
   )
 
-(defvar *hostname* (or 
-		    (getenv "COMPUTERNAME") 
-		    (getenv "HOSTNAME")
-		    (hostname)
-		    )
+; if a config dir exists for hostname, use it.  else if hostname contains the domain, use just the host part
+(defvar *hostname* 
+  (let ((*h* (hostname)))
+    (cond 
+     ((file-exists-p (concat *configdir* *h*)) *h*)
+     ((string-match "\\." *h*) 
+      (setq *h* (substring *h* 0 (match-beginning 0))))
+     )
+    )
   )
 
 ; XXX this is redundant with "~/config/.fns"
@@ -203,6 +209,9 @@ no errors if files don't exist.
       (load (concat x "/.autoloads") nil t))
   )
 
+(unless (fboundp 'read-directory-name)
+  (fset 'read-directory-name 'read-file-name)
+  )
 
 (defun add-to-load-path (x &optional append subdirs)
   "add ELEMENT to `load-path` if it exists, and isn't already there.
@@ -212,7 +221,7 @@ with optional second arg SUBDIRS, add all subdirectories as well.
 if successful, runs the value of `add-to-load-path-hook` and returns the new value of load-path.
 returns nil otherwise.
 "
-  (interactive (list (read-directory-name "sAdd to load-path: ")))
+  (interactive (list (read-directory-name "Add to load-path: ")))
   (if (and
        (file-directory-p x)
        (not (funcall *file-name-member* x load-path))
@@ -337,6 +346,28 @@ searches first for config unadorned, then with extension .el"
     )
   )
 
+(defun host-config () 
+  "find host specific config directory"
+  (interactive)
+  (let ((d 
+	 (loop for x in load-path thereis (and (string-match "/hosts/" x) x))))
+    (if (interactive-p)
+	(if (file-name-directory d) (dired d) (message (format "directory %s doesn't exist" d)))
+      d)
+    )
+  )
+
+(defun os-config () 
+  "find os specific config directory"
+  (interactive)
+  (let ((d 
+	 (loop for x in load-path thereis (and (string-match (concat "/os/" (uname)) x) x))))
+    (if (interactive-p)
+	(if (file-name-directory d) (dired d) (message (format "directory %s doesn't exist" d)))
+      d)
+    )
+  )
+
 (defun host-init ()
   "shortcut for `find-config-file' \"host-init\""
   (interactive)
@@ -346,12 +377,12 @@ searches first for config unadorned, then with extension .el"
 (mapcar 
  'add-to-load-path
  (list 
-  (expand-file-name "~/emacs/config/os")
-  (expand-file-name (concat "~/emacs/config/os/" (uname)))
-  (expand-file-name (concat "~/emacs/config/os/" (symbol-name window-system)))
-  (expand-file-name (concat "~/emacs/config/hosts/"  *hostname*))
-  (expand-file-name (concat "~/emacs/config/" (format "%d.%d" emacs-major-version emacs-minor-version)))
-  (expand-file-name (concat "~/emacs/config/" (format "%d" emacs-major-version)))
+  (expand-file-name *configdir* "os")
+  (expand-file-name (concat *configdir* "os/" (uname)))
+  (expand-file-name (concat *configdir* "os/" (symbol-name window-system)))
+  (expand-file-name (concat *configdir* "hosts/"  *hostname*))
+  (expand-file-name (concat *configdir* (format "%d.%d" emacs-major-version emacs-minor-version)))
+  (expand-file-name (concat *configdir* (format "%d" emacs-major-version)))
   )
  )
 
@@ -389,6 +420,7 @@ searches first for config unadorned, then with extension .el"
 		(if *debug-config-error* (debug))))
   )
 
+; XXX these don't belong here
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 

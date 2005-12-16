@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.16 2005-09-26 16:40:46 cvs Exp $
+;; $Id: perl-helpers.el,v 1.17 2005-12-16 00:31:47 tombstone Exp $
 
 (require 'perl-command)
 
@@ -6,17 +6,33 @@
 (require 'cl)
 
 ; ask perl where it lives
-(defvar perldir (expand-file-name (eval-process "perl" "-MConfig" "-e" "print  $Config{prefix}")))
+; xxx tbd use config tree
+(defvar perldir
+ (expand-file-name (eval-process "perl" "-MConfig" "-e" 
+				 (format "print  $Config{%s}"
+					 (if (string= "Linux" (uname)) "installprivlib" "prefix")
+					 )
+				 )
+		   )
+)
 ;; alternative methods:
 ; (expand-file-name (eval-process "perl" "/usr/local/bin/perl-config" "prefix")))
 ; (clean-string (reg-query "machine" "software/perl" "")) ; windows only
 (defvar perldocdir (expand-file-name "doc" perldir))
 (defvar perldoc-cmd (whence "perldoc"))
+(defvar perlfunc-pod (concat (expand-file-name "pod" perldir)  "/perlfunc.pod"))
 (defvar perlfunc-file (expand-file-name "perlfunc" perldocdir))
 (defvar perlop-file (expand-file-name "perlop" perldocdir))
               
 ; (assert (file-exists-p perlfunc-file))
 ; run pod on perlfunc.pod
+(or (file-directory-p (file-name-directory perlfunc-file))
+		(shell-command (format "mkdir -p %s" (file-name-directory perlfunc-file))))
+
+; (assert (file-exists-p perlfunc-pod))
+; also need write permission to this dir to create it the first time
+(or (file-exists-p perlfunc-file)
+		(shell-command (format "pod2text %s > %s" perlfunc-pod perlfunc-file)))
 
 (define-derived-mode perldoc-mode view-mode "perldoc" "")
 
@@ -250,6 +266,11 @@ F is a function taking one arg, the line as a string"
   (mapcar fn (split (buffer-string) "
 ")
 	  )
+  )
+
+(defun perl-config ()
+  (interactive)
+  (shell-command "perl -MConfig -e 'foreach (keys %Config) {print $_, \"\t\", $Config{$_}, \"\n\"}'")
   )
 
 ; apparently C-RET is not a good prefix key if you're on telnet session
