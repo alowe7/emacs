@@ -10,6 +10,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   (interactive "sFile: ")
   (let* ((ext (condition-case x (downcase (file-name-extension f)) (wrong-type-argument nil)))
 	 (handler (assoc ext file-assoc-list)))
+
     (if handler (funcall (cdr handler) f)
       (message "handler not found"))
     )

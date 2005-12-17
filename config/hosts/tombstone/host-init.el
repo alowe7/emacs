@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.3 2005-12-02 01:53:58 tombstone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.4 2005-12-17 05:01:09 tombstone Exp $")
 
 ; enoch
 ; (require 'xz-loads)
@@ -94,7 +94,7 @@
 ; (setq comint-use-prompt-regexp-instead-of-fields nil)
 
 ; (add-to-load-path "/usr/local/src/emacs-w3m/emacs-w3m" t)
-(setq w3m-home-page "http://enoch")
+(setq w3m-home-page "http://tombstone")
 ; (load-library "w3m")
 
 (load-library "ctl-slash")
@@ -149,3 +149,18 @@
 ; (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 ; (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
 
+
+(defun w3m-view-file (f)
+  (interactive)
+  (let* ((b (zap-buffer (concat (file-name-sans-extension (file-name-nondirectory f)) " *w3m*"))))
+    (shell-command (format "w3m %s" f) b)
+    (pop-to-buffer b)
+    (beginning-of-buffer)
+    (view-mode)
+    )
+  )
+
+(add-file-association "htm" 'w3m-view-file)
+(add-file-association "html" 'w3m-view-file)
+
+; (pop file-assoc-list)

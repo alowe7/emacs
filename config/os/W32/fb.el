@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.5 2005-09-27 02:45:43 alowe Exp $")
+ "$Id: fb.el,v 1.6 2005-12-17 05:01:10 tombstone Exp $")
 
 ; this module overrides some functions defined in fb.el
 ; by default on windows platforms, locate via grep 
@@ -243,3 +243,22 @@ if none given, uses `*default-fb-db*'
     )
   )
 ; (fbf "fbf")
+
+; moved from parent
+(require 'advice)
+
+(defadvice locate (around 
+		   hook-locate
+		   first activate)
+  ""
+
+  (let ((pat (ad-get-arg 0)))
+    (and (buffer-live-p (get-buffer locate-buffer-name))
+	 (save-excursion (set-buffer locate-buffer-name) (setq buffer-read-only nil)))
+    ad-do-it
+    (setq *find-file-query*
+	  (setq mode-line-buffer-identification (format "%-22s" pat)))
+    (fb-mode)
+    (run-hooks 'after-find-file-hook))
+  )
+; (if (ad-is-advised 'locate) (ad-unadvise 'locate))

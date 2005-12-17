@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid
- "$Id: os-init.el,v 1.10 2005-09-30 20:19:09 cvs Exp $")
+ "$Id: os-init.el,v 1.11 2005-12-17 05:01:09 tombstone Exp $")
 
 (chain-parent-file t)
 
@@ -32,3 +32,6 @@ t)
   )
 
 (defvar file-name-buffer-file-type-alist nil "found in dos-w32, noop on linux")
+
+;; cause mouse wheel to operate some scroll functions
+(mwheel-install)

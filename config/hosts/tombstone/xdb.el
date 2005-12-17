@@ -1,5 +1,7 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.1 2005-11-13 15:42:40 cvs Exp $")
+ "$Id: xdb.el,v 1.2 2005-12-17 05:01:09 tombstone Exp $")
+
+(read-string "post-xdb is getting called")
 
 (chain-parent-file t)
 
