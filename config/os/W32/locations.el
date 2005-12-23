@@ -1,5 +1,5 @@
 (put 'locations 'rcsid
- "$Id: locations.el,v 1.1 2005-06-13 20:41:03 cvs Exp $")
+ "$Id: locations.el,v 1.2 2005-12-23 02:23:46 nathan Exp $")
 
 (defun domainname () 
   (clean-string (reg-query "machine" 
@@ -31,7 +31,7 @@
   "top level dir for current users documents and settings")
 
 (defvar quicklaunch
-  (w32-canonify 
+  (expand-file-name
    (concat user-profile
 	   "\\Application Data\\Microsoft\\Internet Explorer\\Quick Launch"
 	   )))
