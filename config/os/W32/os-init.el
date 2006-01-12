@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.2 2005-10-06 15:22:24 cvs Exp $")
+ "$Id: os-init.el,v 1.3 2006-01-12 00:43:40 nathan Exp $")
 
 (chain-parent-file t)
 
@@ -37,7 +37,7 @@
 (defun w32-canonify (f &optional sysdrive)
   " expands FILENAME, using backslashes
 optional DRIVE says which drive to use. "
-  (replace-in-string  "/" "\\" 
+  (replace-in-string  "/" "\\\\" 
 		      (if sysdrive (expand-file-name 
 				    (substitute-in-file-name
 				     (chomp f ?/))
