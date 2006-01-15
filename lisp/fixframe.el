@@ -1,5 +1,5 @@
 (put 'fixframe 'rcsid
- "$Id: fixframe.el,v 1.4 2005-11-13 18:09:48 cvs Exp $")
+ "$Id: fixframe.el,v 1.5 2006-01-15 19:07:15 nathan Exp $")
 
 (defun fixed-font ()
   (if (and (eq window-system 'x) (fboundp 'x-list-fonts))
@@ -30,3 +30,5 @@
   )
 ; (call-interactively 'switch-to-buffer-fixed-frame)
 (define-key ctl-x-5-map "x" 'switch-to-buffer-fixed-frame)
+
+(provide 'fixframe)

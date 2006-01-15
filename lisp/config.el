@@ -1,14 +1,20 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.47 2005-12-16 00:31:47 tombstone Exp $")
+ "$Id: config.el,v 1.48 2006-01-15 19:07:15 nathan Exp $")
 (require 'advice)
 (require 'cl)
 
 ; would rather avoid this during init...
 (require 'uname)
 
+(setq *debug-config-error* t)
+
 (defvar *configdir* "~/emacs/config/")
 
-(defvar *file-name-member*  'member "function to apply to determine filename equivalence")
+(defvar *config-file-name-member*
+  (if (eq window-system 'w32)
+      'member-ignore-case
+    'member)
+  "function to apply to determine filename equivalence")
 
 (if (file-exists-p "~/emacs/.autoloads")
     (load-file  "~/emacs/.autoloads")
@@ -18,7 +24,8 @@
 (defvar *hostname* 
   (let ((*h* (hostname)))
     (cond 
-     ((file-exists-p (concat *configdir* *h*)) *h*)
+     ((file-exists-p 
+       (expand-file-name (concat *configdir* "hosts/"  *h*))) *h*)
      ((string-match "\\." *h*) 
       (setq *h* (substring *h* 0 (match-beginning 0))))
      )
@@ -30,8 +37,6 @@
   (mapcar 'expand-file-name (list (format "~/config/hosts/%s" *hostname*) 
 				  (format "~/config/os/%s" (symbol-name window-system)) "~"))
   )
-
-(defvar *debug-config-error* nil)
 
 ;; hooks for these preloaded modules need to be run now
 (defvar hooked-preloaded-modules
@@ -60,7 +65,7 @@ specify string to trap an explicit load, specify an atom to trap a require")
   (let* ((f0 (file-name-nondirectory (format "%s" file)))
 	 (f1 (format "%s%s" prefix f0))
 	 (f2 (loop for x in load-path thereis (if (file-exists-p (format "%s/%s.el" x f1)) (format "%s/%s.el" x f1)))))
-    (if (and (atom file) (funcall *file-name-member* file *debug-config-list*))
+    (if (and (atom file) (funcall *config-file-name-member* file *debug-config-list*))
 	(debug)
       )
     (and f2 (load f2 t t)))
@@ -224,7 +229,7 @@ returns nil otherwise.
   (interactive (list (read-directory-name "Add to load-path: ")))
   (if (and
        (file-directory-p x)
-       (not (funcall *file-name-member* x load-path))
+       (not (funcall *config-file-name-member* x load-path))
        (not (string-match "/CVS$" x))
        (funcall 
 	(if append
@@ -294,7 +299,7 @@ or override them by post-chaining.
 		(y (file-name-nondirectory f))
 		(l 
 		 (loop for x in load-path when (file-exists-p (setq z (concat x "/" y))) collect z))
-		(tail (funcall *file-name-member* f l))
+		(tail (funcall *config-file-name-member* f l))
 		(parent (and tail (cadr tail))))
 
   ; before we load the parent, see if we have a rcsid
@@ -371,7 +376,8 @@ searches first for config unadorned, then with extension .el"
 (defun host-init ()
   "shortcut for `find-config-file' \"host-init\""
   (interactive)
-  (find-config-file "host-init"))
+  (find-config-file "host-init")
+  )
 
 ; these go at the head of the list
 (mapcar 
@@ -401,8 +407,9 @@ searches first for config unadorned, then with extension .el"
 (condition-case x
     (loop for x in hooked-preloaded-modules
 	  do
-	  (or (funcall *file-name-member*
-	       `(,x (post-wrap ,x)) after-load-alist)
+	  (or 
+	   (member
+	    `(,x (post-wrap ,x)) after-load-alist)
 	      (push 
 	       `(,x (post-wrap ,x)) after-load-alist))
 	  )

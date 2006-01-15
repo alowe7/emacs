@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.49 2005-07-02 20:12:18 cvs Exp $")
+ "$Id: default.el,v 1.50 2006-01-15 19:07:15 nathan Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -12,8 +12,6 @@
 (setq horizontal-scroll-delta 20)
 
 (fset 'html-mode 'sgml-mode)
-
-(autoload 'css-mode "css-mode")
 
 ;; sort in order of decreasing frequency
 (setq auto-mode-alist '(
@@ -96,8 +94,6 @@
 (setq kill-ring-max 10000
       message-log-max 10000
       list-command-history-max 10000)
-
-(modify-syntax-entry ?* "w" emacs-lisp-mode-syntax-table)
 
 (add-hook 'write-file-hooks 'time-stamp)
 
