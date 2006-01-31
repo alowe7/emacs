@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.4 2005-12-17 05:01:09 tombstone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.5 2006-01-31 01:39:41 tombstone Exp $")
 
 ; enoch
 ; (require 'xz-loads)
@@ -94,7 +94,8 @@
 ; (setq comint-use-prompt-regexp-instead-of-fields nil)
 
 ; (add-to-load-path "/usr/local/src/emacs-w3m/emacs-w3m" t)
-(setq w3m-home-page "http://tombstone")
+; (setq w3m-home-page "http://tombstone")
+(setq w3m-home-page "http://www.alowe.com")
 ; (load-library "w3m")
 
 (load-library "ctl-slash")
@@ -164,3 +165,10 @@
 (add-file-association "html" 'w3m-view-file)
 
 ; (pop file-assoc-list)
+
+; for some reason the fontspec isn't computing the char width correctly
+(if (eq window-system 'x) (setenv "COLUMNS" "132"))
+
+(global-set-key (vector ? ?)  'font-lock-fontify-buffer)
+(global-set-key (vector ?) 'undo)
+
