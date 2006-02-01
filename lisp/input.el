@@ -1,11 +1,21 @@
 (put 'input 'rcsid 
- "$Id: input.el,v 1.6 2005-02-02 22:35:00 cvs Exp $")
+ "$Id: input.el,v 1.7 2006-02-01 22:57:33 alowe Exp $")
+
+(cond ((featurep 'xemacs)
+       (fset 'whack-key-sequence '(lambda (k)
+				    (cadr (assoc 
+					   (cadr (member 'key (event-properties k)))
+					   '((backspace ?)))))))
+      (t (fset 'whack-key-sequence '(lambda (k)))))
 
 (defun read-char-p ()
   (condition-case err
       (read-char)
-    (error nil))
+    (error 
+     (whack-key-sequence last-input-event)
+     ))
   )
+;(read-char-p)
 
 (defun y-or-n-*-p (prompt &optional chars &rest args)
   "display PROMPT and read characters.
@@ -51,10 +61,11 @@ returns t for y, nil for n ?q for q, else loop
 with optional string CHARS, also matches specified characters.
 "
   (interactive)
+
   (catch 'done
     (while t
       (apply 'message (cons (remove-text-properties-from-string prompt) args))
-      (let ((c (read-char)) x)
+      (let ((c (read-char-p)) x)
 	(cond 
 	 ((char-equal c ?q) (throw 'done ?q))
 	 ((char-equal c ?y) (throw 'done t))

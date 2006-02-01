@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.30 2005-08-05 20:44:45 cvs Exp $")
+ "$Id: post-comint.el,v 1.31 2006-02-01 22:57:33 alowe Exp $")
 
 (setq explicit-bash-args '("-i"))
 
@@ -21,7 +21,9 @@
 (define-key comint-mode-map "." 'comint-last-arg)
 (define-key comint-mode-map "	" 'comint-dynamic-complete-filename)
 (define-key comint-mode-map "	" 'comint-dynamic-complete)
-(modify-syntax-entry ?% "." comint-mode-syntax-table)
+
+(and (boundp 'comint-mode-syntax-table) ; not bound in xemacs?
+     (modify-syntax-entry ?% "." comint-mode-syntax-table))
 
 (require 'lru-shell)
 

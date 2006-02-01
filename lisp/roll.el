@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.31 2005-08-22 20:55:03 cvs Exp $")
+ "$Id: roll.el,v 1.32 2006-02-01 22:57:33 alowe Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -37,13 +37,14 @@ this might make it easier to adjust navigation through the list by redefining na
 		     (quit
 		      ?q)
 		     (next
-		      ? )
+		      ?\ )
 		     )
 
       )
 
 (defun roll-nav (key fn)
-  (member key (cdr (assoc fn roll-nav-map))))
+  (member key (cdr (assoc fn roll-nav-map)))
+  )
 
 (defun roll-dispatch (key dispatch-map a i)
   (let ((fn (assoc key dispatch-map)))
@@ -85,7 +86,7 @@ calling SELECTFN to choose one
 		(let* ((bb (aref a i))
 		       (name (if displayfn (funcall displayfn bb) bb))
 		       (v (y-or-n-q-p ; name can have formatting characters in it
-			   (replace-in-string "%" "%%" name) 
+			   (replace-in-string name "%" "%%") 
 			   (concat "dp/\C-m ?"
 				   (apply 'vector (loop for x in dispatch collect (car x))))
 			   )))
@@ -105,7 +106,7 @@ calling SELECTFN to choose one
 		   ((roll-nav v 'help)
 		    (progn
 		      (message "roll-buffer: RET: goto; BS,p: back; SPACE,n: forward; DEL,d: delete; ?: help; q: quit")
-		      (read-char)
+		      (read-key-p)
 		      (setq i (1- i))
 		      ))
 
@@ -238,7 +239,7 @@ with optional ARG, returns in reverse order
     (dolist (x (if arg bl (reverse bl)))
       (setq bn (buffer-name x))
   ;skip killed buffers & those whose name begins with a space
-      (and bn (> (length bn) 0) (not (eq ?  (aref bn 0))) (push x val)))
+      (and bn (> (length bn) 0) (not (eq ?\  (aref bn 0))) (push x val)))
     val))
 
 (defun* buffer-list-2 (&key mode named in modified notmodified withpat)
