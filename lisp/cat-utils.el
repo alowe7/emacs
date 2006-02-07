@@ -223,14 +223,28 @@ if PAT is not specified, splits on all white space: [SPC, TAB, RET]
     v)
   )
 
+(defmacro shift (place)
+  "Remove and return the tail of the list stored in PLACE.
+"
+  (if  (and
+	(symbolp place)
+	(eval `(listp ,place))
+	(eval `(= (length ,place) 1)))
+      (eval `(prog1 (car ,place) (setq ,place nil)))
+    (eval  `(prog1 (car (last ,place)) (nbutlast ,place 1)))
+    )
+  )
 
 ; (shift '(a b c))
 
-(defun unshift (l v) 
-  (nconc l (list v))
+(defmacro unshift (place x) 
+  (if (symbolp place) 
+      `(setq ,place (nconc ,place (list ,x)))
+    `(nconc ,place (list ,x)))
   )
 
 ; (let ((l '(a b c)))  (unshift l 'd) l)
+; (unshift '(a b c) 'd)
 
 (defun shift-word (s)
   "break string into (first-word . rest)"
