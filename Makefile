@@ -1,11 +1,11 @@
-# $Id: Makefile,v 1.41 2005-12-17 05:01:09 tombstone Exp $
+# $Id: Makefile,v 1.42 2006-02-08 15:45:22 alowe Exp $
 
 SHELL=/bin/sh
 
 INSTALL = install
 LOCALBIN = /usr/local/bin
 SHARE=/usr/share/emacs/site-lisp
-EXTRA=/x /z
+EXTRA=/x
 
 EMACS := $(shell which emacs  2> /dev/null)
 ifeq ($(strip $(EMACS)),)

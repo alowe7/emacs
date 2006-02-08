@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.56 2005-10-08 00:12:18 cvs Exp $")
+ "$Id: keys.el,v 1.57 2006-02-08 15:45:22 alowe Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -17,10 +17,6 @@
 (define-key ctl-x-5-map "\C-m" '(lambda () (interactive) (switch-to-buffer-other-frame (current-buffer)))) 
 
 (global-set-key (vector 24 67108923) 'indent-for-comment) ; C-x C-;
-
-;; ugh!
-(define-key global-map (vector 27 'C-return) '(lambda () (interactive) (shell2 1)))
-
 
 ;(global-set-key "y" 'clipboard-yank)	;; emacs works as a clipboard viewer
 (global-set-key "" 'goto-char)

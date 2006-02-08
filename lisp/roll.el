@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.32 2006-02-01 22:57:33 alowe Exp $")
+ "$Id: roll.el,v 1.33 2006-02-08 15:45:22 alowe Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -86,7 +86,7 @@ calling SELECTFN to choose one
 		(let* ((bb (aref a i))
 		       (name (if displayfn (funcall displayfn bb) bb))
 		       (v (y-or-n-q-p ; name can have formatting characters in it
-			   (replace-in-string name "%" "%%") 
+			   (replace-regexp-in-string "%" "%%" name) 
 			   (concat "dp/\C-m ?"
 				   (apply 'vector (loop for x in dispatch collect (car x))))
 			   )))

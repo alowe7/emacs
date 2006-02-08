@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.50 2006-01-15 19:07:15 nathan Exp $")
+ "$Id: default.el,v 1.51 2006-02-08 15:45:22 alowe Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -198,23 +198,6 @@ clobber an existing mapping if optional CLOBBER is nonnil
 ; (setq x '((a 1) (b 2) (c 3)))
 ; (add-association '(d 4) 'x t)
 
-
-(defun replace-in-string (from to str)
-  "replace occurrences of REGEXP with TO in  STRING" 
-  (if (string= from "^")
-      (concat to (replace-in-string "
-" (concat "
-" to) str)) 
-    (let (new-str
-	  (sp 0)
-	  )
-      (while (string-match from str sp)
-	(setq new-str (concat new-str (substring str sp (match-beginning 0)) to))
-	(setq sp (match-end 0)))
-      (setq new-str (concat new-str (substring str sp)))
-      new-str))
-  )
-
 (defun bgets ()
   "do gets on current line from buffer. return as string"
   (let ((x (point)) y z)
@@ -314,3 +297,4 @@ if n < 0 counts from end of string
 (fset 'host-ok 'identity)
 
 
+(require 'compat)
