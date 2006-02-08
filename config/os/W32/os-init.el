@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.3 2006-01-12 00:43:40 nathan Exp $")
+ "$Id: os-init.el,v 1.4 2006-02-08 04:50:56 tombstone Exp $")
 
 (chain-parent-file t)
 
@@ -445,38 +445,6 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 				    (define-key Buffer-menu-mode-map "" 'dired-cut-filename)))
 
 
-(defun hard-fill  (from to)
-  (interactive "r")
-  (goto-char from)
-  (while (search-forward  "
-" nil t)
-    (replace-match  "
-
-" nil t))
-
-  (fill-nonuniform-paragraphs from to nil)
-  )
-
-(defun soft-fill-region (from to)
-  (interactive (list (region-beginning) (region-end)))
-  (call-interactively 'trim-white-space)
-  (let ((a (min from to)) (b (max from to)))
-    (dolist (x '(
-		 ("
-
-" "|")
-		 ("
-" " ")
-		 ("|" "
-
-")))
-      (goto-char a)
-      (while (search-forward (car x) b t)
-	(replace-match (cadr x) t))
-      )
-    ))
-
-(global-set-key "" 'soft-fill-region)
 
 (setq w3-load-hooks '(lambda () 
 		       (load-library "w3-helpers") 
