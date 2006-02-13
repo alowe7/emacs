@@ -1,4 +1,5 @@
-# $Id: Makefile,v 1.6 2005-12-16 00:31:47 tombstone Exp $
+# $Id: Makefile,v 1.7 2006-02-13 15:32:30 alowe Exp $
+.PHONY:FORCE
 
 SHELL=/bin/sh
 #EMACS=$(EMACS_DIR)/bin/emacs

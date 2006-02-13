@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.42 2006-02-08 15:45:22 alowe Exp $
+# $Id: Makefile,v 1.43 2006-02-13 15:32:30 alowe Exp $
 
 SHELL=/bin/sh
 
@@ -37,7 +37,7 @@ ETAGS=etags
 all: .autoloads
 
 .autoloads: FORCE 
-	./make-autoloads --top $(TOP)  $(CONFIGS) $(SOURCES)  > .autoloads
+	./make-autoloads --top $(TOP)  $(CONFIGS) $(SOURCES)  $(SITE_LISP) > .autoloads
 	[ -z "$(SITE_LOADS)" ] || cat $(SITE_LOADS) >> .autoloads
 	@echo .autoloads rebuilt
 

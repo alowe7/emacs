@@ -1,5 +1,5 @@
 (put 'mywiki 'rcsid
- "$Id: mywiki.el,v 1.1 2006-02-08 15:45:22 alowe Exp $")
+ "$Id: mywiki.el,v 1.2 2006-02-13 15:32:30 alowe Exp $")
 
 ;; mywiki
 
@@ -43,7 +43,7 @@
   )
 
 (defun generate-dscm-entry-name (area) (interactive)
-  (format  "%s/dscm/%s/%s.php" my-documents area (format-time-string "%y%m%d%H%M%S"))
+  (format  "%s/dscm/%s/%s" my-documents area (format-time-string "%y%m%d%H%M%S"))
   )
 
 (defun mywiki () (interactive)
@@ -55,22 +55,22 @@
 	 (body (get-scratch-buffer-contents "*wiki*"))
 	 (content
 	  (format "
-<div class=\"blog\">
+<blog>
 
-<h2 class=\"date\">
+<date>
 %s
-</h2>
+</date>
 
-<div class=\"blogbody\">
+<body>
 
-<h3 class=\"title\">
+<title>
 %s
-</h3>
+</title>
 
 %s
-</div>
+</body>
 
-</div>
+</blog>
 " timestring subject 
 (replace-regexp-in-string "
 " "<br/>

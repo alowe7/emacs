@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.27 2004-12-22 23:56:07 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.28 2006-02-13 15:32:30 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -53,7 +53,6 @@
 	      '(lambda (x) (load x t t)) 
 		     '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
 
-(defvar *people-database* '("~/n/people") "list of contact files")
 
 (display-time)
 
@@ -63,37 +62,44 @@
 ; (require 'worlds)
 ; (require 'world-advice)
 
-(require 'xz-loads)
-(setq *xz-show-status* nil)
-(setq *xz-squish* 4)
-
-(scan-file-p "~/.xdbrc")
-
-(if (and (not (evilnat)) 
-	 (string* (getenv "XDBHOST"))
-	 (string* (getenv "XDBDOMAIN"))
-	 (not (string-match (getenv "XDBDOMAIN") (getenv "XDBHOST"))))
-    (setenv "XDBHOST" (concat (getenv "XDBHOST") "." (getenv "XDBDOMAIN"))))
-
+;; what a coincidence.  two machines same name
+;; (require 'xz-loads)
+;; (setq *xz-show-status* nil)
+;; (setq *xz-squish* 4)
+;; 
+;; (scan-file-p "~/.xdbrc")
+;; 
+;; (if (and (not (evilnat)) 
+;; 	 (string* (getenv "XDBHOST"))
+;; 	 (string* (getenv "XDBDOMAIN"))
+;; 	 (not (string-match (getenv "XDBDOMAIN") (getenv "XDBHOST"))))
+;;     (setenv "XDBHOST" (concat (getenv "XDBHOST") "." (getenv "XDBDOMAIN"))))
+;; 
 (require 'gnuserv)
 
 (mount-hook-file-commands)
 
 (defvar grep-command "grep -n -i -e ")
 
-(add-hook 'xdb-init-hook
-	  '(lambda ()
-	     (require 'ctl-slash)
-	     (define-key ctl-/-map "x" 'xdb)
-
-	     (if (evilnat)
-		 (setq *txdb-options* '("-b" "a/q-1pzl@x" "-h" "enoch:3306"))
-	       (setq *txdb-options* '("-b" "a/q-1pzl@x" "-h" "localhost:13306"))
-	       )
-	     )
-	  )
-
 (setq *advise-help-mode-finish* t)
 
-(setq xosust-file "/usr/share/specs/xosus3.htm")
+(require 'w3m)
+(setq w3m-home-page "http://localhost:10080")
+(defvar *w3m-tabs* nil)
 
+(defun w3m-goto-url-with-cache (url) 
+  (interactive "surl: ")
+  (let ((l (assoc  "http://localhost:10080/php-manual/"  *w3m-tabs*)))
+    (if (and l (buffer-live-p (cadr l)))
+	(switch-to-buffer-other-window (cadr l))
+      (progn
+	(w3m-goto-url-new-session url)
+	(add-to-list '*w3m-tabs* (list url (current-buffer) ))
+	)
+      )
+    )
+  )
+
+(defun php-manual () (interactive) 
+  (w3m-goto-url-with-cache  "http://localhost:10080/php-manual/")
+  )
