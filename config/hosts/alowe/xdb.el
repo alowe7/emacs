@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.2 2005-02-16 22:20:10 cvs Exp $")
+ "$Id: xdb.el,v 1.3 2006-02-13 16:35:22 alowe Exp $")
 
 (put 'post-xdb 'host-init (this-load-file))
 
@@ -28,21 +28,5 @@
     )
   )
 
-(setq *local-txdb-options* '("-h" "-" "-b" "upm" "-u" "a"))
+(defvar *local-txdb-options* nil "list of options to provide txdb for local connections")
 
-; extend the default implementation
-(defadvice  txdb-options (around 
-			  hook-txdb-options
-			  first 
-			  activate)
-
-  (let ((*txdb-options* *txdb-options*)
-	(extra-args (ad-get-args 0)))
-    (unless (member "-h" extra-args)
-      (if (evilnat)
-	  (add-txdb-option "-h" "enoch:3306")
-	(add-txdb-option "-h" "localhost:13306")))
-    ad-do-it
-    *txdb-options*)
-  )
-; (if (ad-is-advised 'txdb-options) (ad-unadvise 'txdb-options))

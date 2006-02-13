@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.4 2006-02-08 04:50:56 tombstone Exp $")
+ "$Id: os-init.el,v 1.5 2006-02-13 16:35:22 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -433,16 +433,16 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (global-set-key "p" 'yank-pwd)
 
-(defun dired-cut-filename ()
+(defun dired-kill-filename ()
   "yank expanded filename under point"
   (interactive)
-  (yank-dos-filename (dired-get-filename))
+  (kill-new (canonify (dired-get-filename) 0))
   )
 
 (add-hook 'dired-mode-hook '(lambda () 
-			      (define-key dired-mode-map "" 'dired-cut-filename)))
+			      (define-key dired-mode-map "" 'dired-kill-filename)))
 (add-hook 'buffer-menu-mode-hook '(lambda () 
-				    (define-key Buffer-menu-mode-map "" 'dired-cut-filename)))
+				    (define-key Buffer-menu-mode-map "" 'dired-kill-filename)))
 
 
 
