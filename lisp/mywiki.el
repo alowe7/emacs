@@ -1,5 +1,5 @@
 (put 'mywiki 'rcsid
- "$Id: mywiki.el,v 1.2 2006-02-13 15:32:30 alowe Exp $")
+ "$Id: mywiki.el,v 1.3 2006-02-14 21:58:44 alowe Exp $")
 
 ;; mywiki
 
@@ -61,12 +61,11 @@
 %s
 </date>
 
-<body>
-
 <title>
 %s
 </title>
 
+<body>
 %s
 </body>
 

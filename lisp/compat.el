@@ -1,5 +1,8 @@
 (put 'compat 'rcsid
- "$Id: compat.el,v 1.1 2006-02-08 15:45:22 alowe Exp $")
+ "$Id: compat.el,v 1.2 2006-02-14 21:58:44 alowe Exp $")
+
+(defun* package-provide (package-name &key version &key author-version &key type)
+  )
 
 (if (fboundp 'replace-regexp-in-string)
   ; some other genius at fsf finally decided this would be a good idea
