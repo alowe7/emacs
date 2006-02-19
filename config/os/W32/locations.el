@@ -1,45 +1,22 @@
 (put 'locations 'rcsid
- "$Id: locations.el,v 1.2 2005-12-23 02:23:46 nathan Exp $")
+ "$Id: locations.el,v 1.3 2006-02-19 19:59:10 nathan Exp $")
 
-(defun domainname () 
-  (clean-string (reg-query "machine" 
-			   "system/currentcontrolset/services/tcpip/parameters" "domain"))
+(defun expand-file-name-1 (f)
+  (expand-file-name (substitute-in-file-name f))
   )
 
-(defvar all-users-profile
-  (expand-file-name (substitute-in-file-name "$ALLUSERSPROFILE"))
-  "top level dir for all user documents and settings")
-
-(defvar user-profile
-  (expand-file-name (substitute-in-file-name "$USERPROFILE"))
-  "top level dir for current users documents and settings")
-
-(defvar my-documents
-  (expand-file-name (concat user-profile "/My Documents"))
-  "top level dir for current users documents and settings")
-
-(defvar my-favorites
-  (expand-file-name (concat user-profile "/Favorites"))
-  "top level dir for ie bookmarks")
-
-(defvar my-links
-  (expand-file-name (concat my-favorites "/Links"))
-  "top level dir for ie quick links")
-
-(defvar start-menu
-  (expand-file-name (substitute-in-file-name "$USERPROFILE/Start Menu"))
-  "top level dir for current users documents and settings")
-
-(defvar quicklaunch
-  (expand-file-name
-   (concat user-profile
-	   "\\Application Data\\Microsoft\\Internet Explorer\\Quick Launch"
-	   )))
-
-(mapcar '(lambda (x) 
-	   (eval (list 'defun x nil '(interactive) (list 'dired x))))
-	'(all-users-profile user-profile my-documents my-favorites my-links start-menu quicklaunch))
-
+(loop for x in '(
+		 (all-users-profile "$ALLUSERSPROFILE")
+		 (user-profile "$USERPROFILE")
+		 (desktop "$USERPROFILE/Desktop")
+		 (my-documents "$USERPROFILE/My Documents")
+		 (my-favorites "$USERPROFILE/Favorites")
+		 (my-links "$USERPROFILE/Favorites/Links")
+		 (start-menu "$USERPROFILE/Start Menu")
+		 (quicklaunch "$USERPROFILE/Application Data/Microsoft/Internet Explorer/Quick Launch")
+		 )
+      do
+      (eval `(defun ,(car x)  () (interactive) (dired (expand-file-name-1 ,(cadr x))))))
 
 (defvar etc (canonify (concat *systemroot* "/system32/drivers/etc")))
 

@@ -1,11 +1,11 @@
-# $Id: Makefile,v 1.43 2006-02-13 15:32:30 alowe Exp $
+# $Id: Makefile,v 1.44 2006-02-19 19:59:10 nathan Exp $
 
 SHELL=/bin/sh
 
 INSTALL = install
 LOCALBIN = /usr/local/bin
 SHARE=/usr/share/emacs/site-lisp
-EXTRA=/x
+EXTRA=/x /z
 
 EMACS := $(shell which emacs  2> /dev/null)
 ifeq ($(strip $(EMACS)),)
@@ -30,7 +30,8 @@ SITE_LISP := $(shell find $(SHARE) -type f -name "*.el")
 EXTRA_LISP := $(shell find $(EXTRA) -type f -name "*.el")
 
 # search for autoloads among site lisps
-SITE_LOADS := $(shell find $(EXTRA) -type f -name ".autoloads")
+# SITE_LOADS := $(shell find $(EXTRA) -type f -name ".autoloads")
+# [ -z "$(SITE_LOADS)" ] || cat $(SITE_LOADS) >> .autoloads
 
 ETAGS=etags
 
@@ -38,7 +39,7 @@ all: .autoloads
 
 .autoloads: FORCE 
 	./make-autoloads --top $(TOP)  $(CONFIGS) $(SOURCES)  $(SITE_LISP) > .autoloads
-	[ -z "$(SITE_LOADS)" ] || cat $(SITE_LOADS) >> .autoloads
+	find $(EXTRA) -type f -name ".autoloads" -exec cat {} >> .autoloads \;
 	@echo .autoloads rebuilt
 
 .xz.dat: $(SOURCES) $(CONFIGS) $(SITE_LISP) $(EXTRA_LISP) ~/.emacs
