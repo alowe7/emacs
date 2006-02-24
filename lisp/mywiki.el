@@ -1,7 +1,9 @@
 (put 'mywiki 'rcsid
- "$Id: mywiki.el,v 1.3 2006-02-14 21:58:44 alowe Exp $")
+ "$Id: mywiki.el,v 1.4 2006-02-24 16:24:44 alowe Exp $")
 
 ;; mywiki
+
+(require 'locations)
 
 ;; this stuff should be in db, presentation layer should do all formatting.
 
@@ -81,7 +83,20 @@
     )
   )
 
+(defun lastwiki () 
+  "visit the last wiki edited"
+  (interactive)
+
+  (let* ((default-directory (format  "%s/dscm/%s" my-documents *default-area*))
+	 (files (loop for x in (get-directory-files  ".") when (not (file-directory-p x)) collect x)))
+
+    (find-file
+     (car (sort* files '(lambda (x y) (string-lessp y x))))))
+  )
+
+
 (require 'ctl-slash)
 (define-key ctl-/-map "w" 'mywiki)
+(define-key ctl-/-map "l" 'lastwiki)
 
 (provide 'mywiki)

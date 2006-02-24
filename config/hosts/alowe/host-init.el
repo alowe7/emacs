@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.28 2006-02-13 15:32:30 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.29 2006-02-24 16:24:44 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -103,3 +103,7 @@
 (defun php-manual () (interactive) 
   (w3m-goto-url-with-cache  "http://localhost:10080/php-manual/")
   )
+
+;; whack, whack
+(modify-syntax-entry ?< "(")
+(modify-syntax-entry ?> ")")

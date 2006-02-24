@@ -1,5 +1,5 @@
 (put 'locations 'rcsid
- "$Id: locations.el,v 1.3 2006-02-19 19:59:10 nathan Exp $")
+ "$Id: locations.el,v 1.4 2006-02-24 16:24:44 alowe Exp $")
 
 (defun expand-file-name-1 (f)
   (expand-file-name (substitute-in-file-name f))
@@ -23,3 +23,5 @@
 (defun hosts () (interactive)
   (find-file (concat etc "/hosts"))
   )
+
+(provide 'locations)

@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.25 2005-09-22 20:41:33 cvs Exp $")
+ "$Id: helps.el,v 1.26 2006-02-24 16:24:44 alowe Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -494,3 +494,11 @@ with optional prefix arg, wrap by line "
 ; (fmakunbound 'find-function-or-variable)
 
 (load-library "post-view")
+
+
+(defun find-library (thing)
+  (interactive "sthing: ")
+  (let ((fn (locate-library thing)))
+    (find-file fn)
+    )
+  )
