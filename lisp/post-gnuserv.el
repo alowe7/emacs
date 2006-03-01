@@ -1,5 +1,5 @@
 (put 'post-gnuserv 'rcsid 
- "$Id: post-gnuserv.el,v 1.9 2004-04-08 01:27:25 cvs Exp $")
+ "$Id: post-gnuserv.el,v 1.10 2006-03-01 02:52:43 tombstone Exp $")
 
 (condition-case x (gnuserv-start) 
   (error 
@@ -89,31 +89,32 @@
   )
 
 ; override this function as its broken
-(defun server-process-filter (proc string)
-  "Process client gnuserv requests to execute Emacs commands."
-;  (debug)
-  (setq server-string (concat server-string string))
-  (if (string-match "\^D$" server-string) ; requests end with ctrl-D
-      (if (string-match "^[0-9]+" server-string) ; client request id
-	(progn
-	  (server-log server-string)
-	  (let ((header (read-from-string server-string)))
-	    (setq current-client (car header))
-	    (condition-case oops
-		(eval (car (read-from-string server-string 
-					     (cdr header))))
-	      (error (setq server-string "")
-		     (server-write-to-client current-client oops)
-		     (setq current-client nil)
-		     (signal (car oops) (cdr oops)))
-	      (quit (setq server-string "")
-		    (server-write-to-client current-client oops)
-		    (setq current-client nil)
-		    (signal 'quit nil)))
-	    (setq server-string "")))
-	(progn				;error string from server
-	  (server-process-display-error server-string)
-	  (setq server-string "")))))
+;; (defun server-process-filter (proc string)
+;;   "Process client gnuserv requests to execute Emacs commands."
+;; 
+;;   (setq server-string (concat server-string string))
+;;   (if (string-match "\^D$" server-string) ; requests end with ctrl-D
+;;       (if (string-match "^[0-9]+" server-string) ; client request id
+;; 	(progn
+;; 	  (server-log server-string)
+;; 	  (let ((header (read-from-string server-string)))
+;; 	    (setq current-client (car header))
+;; 
+;; 	    (condition-case oops
+;; 		(eval (car (read-from-string server-string 
+;; 					     (cdr header))))
+;; 	      (error (setq server-string "")
+;; 		     (server-write-to-client current-client oops)
+;; 		     (setq current-client nil)
+;; 		     (signal (car oops) (cdr oops)))
+;; 	      (quit (setq server-string "")
+;; 		    (server-write-to-client current-client oops)
+;; 		    (setq current-client nil)
+;; 		    (signal 'quit nil)))
+;; 	    (setq server-string "")))
+;; 	(progn				;error string from server
+;; 	  (server-process-display-error server-string)
+;; 	  (setq server-string "")))))
 
 (setq *gnuserv-buffer-lim* 255)
 

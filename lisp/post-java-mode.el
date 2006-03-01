@@ -1,10 +1,11 @@
 (put 'post-java-mode 'rcsid
- "$Id: post-java-mode.el,v 1.5 2005-02-11 23:46:04 cvs Exp $")
+ "$Id: post-java-mode.el,v 1.6 2006-03-01 02:52:43 tombstone Exp $")
 
 (require 'proof-compat)
 
 (define-key java-mode-map "\M-\C-a" `java-beginning-of-defun)
 (define-key java-mode-map "\M-\C-e" `java-end-of-defun)
+(define-key java-mode-map "\C-c\C-b" `font-lock-fontify-buffer)
 
 (defun java-beginning-of-defun (&optional arg)
   "Move point to beginning of current method definition.

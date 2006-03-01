@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.34 2005-12-16 00:31:47 tombstone Exp $")
+ "$Id: post-w3m.el,v 1.35 2006-03-01 02:52:43 tombstone Exp $")
 (require 'w3m)
 
 ;; from url-helpers
@@ -317,3 +317,8 @@
 	     (define-key dired-mode-map "W" (lambda () (interactive) (w3m-goto-url (format "http://alowe1/%s" (unix-canonify (dired-get-filename) 0)))))
 	     ))
 
+(setq w3m-icon-directory "/usr/share/pixmaps/w3m-el")
+
+; hmmm.
+(define-key w3m-mode-map (vector 'f1) 'google)
+(define-key w3m-mode-map (vector 'kp-f1) 'google)

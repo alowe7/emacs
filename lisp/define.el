@@ -1,5 +1,5 @@
 (put 'define 'rcsid 
- "$Id: define.el,v 1.16 2005-07-02 20:12:18 cvs Exp $")
+ "$Id: define.el,v 1.17 2006-03-01 02:52:43 tombstone Exp $")
 
 (require 'w3m)
 
@@ -63,12 +63,13 @@
 ; hold on a sec.  see w3m-search.el
 (defvar google-search-pat
   "http://www.google.com/search?hl=en&ie=UTF-8&oe=UTF-8&q=%s&spell=1" )
-
+(defvar *last-google-term* "")
 (defun google (term)
   "google.  v.t. --  to search for TERM using the search engine du jour"
-  (interactive (list (string* (read-string (format "term (%s): " (indicated-line))) (indicated-line))))
-
-  (lookerupper term google-search-pat)
+  (interactive (list (string* (read-string (format "term (%s): " *last-google-term*)) *last-google-term*)))
+  (cond ((not (string* term))
+	 (message ""))
+	(t (lookerupper term google-search-pat)))
   )
 
 ;; this is lame.  put links like this on an autocompletion list
