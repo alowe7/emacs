@@ -1,5 +1,5 @@
 (put 'mywiki 'rcsid
- "$Id: mywiki.el,v 1.4 2006-02-24 16:24:44 alowe Exp $")
+ "$Id: mywiki.el,v 1.5 2006-03-03 20:24:26 alowe Exp $")
 
 ;; mywiki
 
@@ -72,10 +72,7 @@
 </body>
 
 </blog>
-" timestring subject 
-(replace-regexp-in-string "
-" "<br/>
-" body))))
+" timestring subject body)))
 
     (setq *lastcontent* content)
 
@@ -94,9 +91,109 @@
      (car (sort* files '(lambda (x y) (string-lessp y x))))))
   )
 
+(defun grepwiki (pat) 
+  "grep for pat among wikis"
+  (interactive "spat: ")
+  (let ((default-directory (format  "%s/dscm/%s/" my-documents *default-area*)))
+    (grep (format "%s %s *" grep-command pat))
+    )
+  )
 
 (require 'ctl-slash)
 (define-key ctl-/-map "w" 'mywiki)
 (define-key ctl-/-map "l" 'lastwiki)
+(define-key ctl-/-map "a" 'grepwiki)
 
 (provide 'mywiki)
+
+
+;; fancy
+(defun qc (expr)
+  "perform a quick calculation of expression like '100 + 1000' or 'x  + y' assuming both are bound
+evaluation of variables is done like that in `backquote`
+supports big ints"
+  (let* (
+	 (l (loop for a in (split expr)
+		  collect
+		  (let ((s (intern a)))
+		    (if (boundp s)
+			(let ((v (eval s)))
+			  (cond ((stringp v) v)
+				((integerp v) (format "%d" v))))
+		      a)
+		    )
+		  ))
+	 (sexpr (mapconcat 'identity l " ")))
+    (eval-process "perl" "-e" (concat "print " sexpr))
+    )
+  )
+
+; (let* ((x 100) (y 1000)) (qc "x + y"))
+
+;;; xxx police line do not cross
+(defun datestamp (spec)
+  "spec can be a mixed argument like -1d meaning yesterday or +1h meaning one hour from now"
+  (let ((sec (eval-process "date" "+%s"))
+	(factor 1) (nsec 1) (deltasec 0) otherdate)
+
+    (cond ((string-match "h$" spec)
+	   (setq factor (* 60 60))
+	   (setq spec (substring spec 0 (match-beginning 0))))
+	  ((string-match "m$" spec)
+	   (setq factor 60)
+	   (setq spec (substring spec 0 (match-beginning 0))))
+	  ((string-match "s$" spec)
+	   (setq factor 1)
+	   (setq spec (substring spec 0 (match-beginning 0))))
+	  ((string-match "d$" spec)
+	   (setq factor (* 60 60 24))
+	   (setq spec (substring spec 0 (match-beginning 0))))
+	  ((string-match "w$" spec)
+	   (setq factor (* 7 60 60 24))
+	   (setq spec (substring spec 0 (match-beginning 0))))
+	  (t ;; default is secs
+	   (setq factor 1)
+	   ))
+
+    (cond ((string-match "^+$" spec)
+	   (setq spec (substring spec (match-end 0))))
+	  ((string-match "^-$" spec)
+	   (setq factor (- factor))
+	   (setq spec (substring spec (match-end 0))))
+	  )
+
+    (setq delta (read spec))
+
+;; stupid lisp arithmetic cant handle this calculation
+;   (setq sec (+ (read sec) (* factor delta)))
+ 
+    (setq sec (qc (format "%s + (%d * %d)" sec factor delta)))
+
+    (setq otherdate (mktime sec t))
+
+  ; assert spec is a string representation of a valid integer
+
+    (eval-process "date" "+%y%m%d%H%M%S" (format "--date=%s" otherdate))
+    )
+  )
+; produce a datestamp for yesterday
+; (datestamp "-1d")
+; (datestamp "-3d")
+; (datestamp "-3h")
+
+(defun mktime (&optional sec reverse)
+  (let ((v
+	 (cond ((and sec reverse)
+		(apply 'eval-process (list "mktime" "-v" sec)))
+	       (sec
+		(apply 'eval-process (list "mktime" sec)))
+	       (t
+		(apply 'eval-process (list "mktime")))
+	       )))
+    (chomp (chomp v))
+    )
+  )
+
+; (mktime "1141230058" t)
+; (mktime)
+

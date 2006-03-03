@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.5 2006-02-13 16:35:22 alowe Exp $")
+ "$Id: os-init.el,v 1.6 2006-03-03 20:24:26 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -60,7 +60,7 @@ if MIXED is 0, then ignore letter drive names.
       (loop for x in f collect (unix-canonify x mixed))
     (let* 
 	((default-directory "/")
-	 (f (expand-file-name f)))
+	 (f (expand-file-name (substitute-in-file-name f))))
       (if (null mixed)
 	  f
 	(let

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.29 2006-02-24 16:24:44 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.30 2006-03-03 20:24:26 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -107,3 +107,7 @@
 ;; whack, whack
 (modify-syntax-entry ?< "(")
 (modify-syntax-entry ?> ")")
+
+(require 'ctl-slash)
+(define-key ctl-/-map "f" 'locate)
+

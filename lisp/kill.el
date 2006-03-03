@@ -1,5 +1,5 @@
 (put 'kill 'rcsid
- "$Id: kill.el,v 1.6 2004-12-10 18:15:17 cvs Exp $")
+ "$Id: kill.el,v 1.7 2006-03-03 20:24:26 alowe Exp $")
 
 (defun yank-like (pat)
   "search for PAT among kill ring, rolling through hits, inserting selected.
@@ -25,13 +25,15 @@ see `roll-list` for roll navigation"
     (message s))
   )
 
-(defun copy-filename-as-kill (arg) 
+(defun copy-filename-as-kill (f) 
   "apply `kill-new' to `default-directory' with optional ARG, canonify first"
-  (interactive "P")
-  (let ((s (buffer-file-name)))
-    (and arg (setq s (w32-canonify s)))
-    (kill-new s)
-    (message s))
+  (interactive (list (read-file-name (format "filename (%s): " (buffer-file-name) ))))
+
+  (if f
+      (let ((s (w32-canonify f)))
+	(kill-new s)
+	(message s))
+    )
   )
 
 (global-set-key (vector ? ?\C-.) 'copy-cwd-as-kill)

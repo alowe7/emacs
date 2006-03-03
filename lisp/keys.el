@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.57 2006-02-08 15:45:22 alowe Exp $")
+ "$Id: keys.el,v 1.58 2006-03-03 20:24:26 alowe Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -256,7 +256,6 @@
 
 
 (require 'ctl-slash)
-(define-key ctl-/-map "f" 'ff)
 
 (define-key ctl-/-map "s" 'all-docs)
 (global-set-key "" 'all-docs)
