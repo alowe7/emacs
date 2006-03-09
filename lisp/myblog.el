@@ -1,32 +1,32 @@
-(put 'mywiki 'rcsid
- "$Id: mywiki.el,v 1.6 2006-03-09 15:00:02 alowe Exp $")
+(put 'myblog 'rcsid
+ "$Id: myblog.el,v 1.1 2006-03-09 15:00:34 alowe Exp $")
 
-;; mywiki
+;; myblog
 
 (require 'locations)
 
 ;; this stuff should be in db, presentation layer should do all formatting.
 
-(defvar *wiki-home* "http://localhost:10080/dcgs")
+(defvar *blog-home* "http://localhost:10080/dcgs")
 
 (defvar *areas* '((".net") ("biz") ("crypto") ("dcgs") ("j2ee") ("personal") ("tech") ("pub")))
 (defvar *default-area* "pub")
 
-(defvar *mywiki-db* (expand-file-name "~/.dscm"))
+(defvar *myblog-db* (expand-file-name "~/.dscm"))
 
-(defun persist-mywiki-state ()
-  (write-region (format "%s\n" *default-area*) nil *mywiki-db*)
+(defun persist-myblog-state ()
+  (write-region (format "%s\n" *default-area*) nil *myblog-db*)
   )
 
-(defun restore-mywiki-state ()
-  (let ((s (read-file *mywiki-db*)))
+(defun restore-myblog-state ()
+  (let ((s (read-file *myblog-db*)))
     (and (string* s) (setq *default-area* s))
     )
   )
 
-(restore-mywiki-state)
+(restore-myblog-state)
 
-(add-hook 'kill-emacs-hook 'persist-mywiki-state)
+(add-hook 'kill-emacs-hook 'persist-myblog-state)
 
 (defun get-scratch-buffer-contents (name)
   (interactive "sname: ")
@@ -52,13 +52,13 @@
 
 ;; tbd: encode entities in content.  e.g. "&" -> "&amp;"
 
-(defun mywiki () (interactive)
+(defun myblog () (interactive)
   (let* (
 	 (area (setq *default-area* (completing-read (format "area (%s): " *default-area*) *areas* nil t nil nil *default-area*)))
 	 (subject (read-string "subject: "))
 	 (timestring (format-time-string "%y%m%d %H:%M:%S"))
 	 (file (generate-dscm-entry-name area))
-	 (body (get-scratch-buffer-contents "*wiki*"))
+	 (body (get-scratch-buffer-contents "*blog*"))
 	 (content
 	  (format "
 <blog>
@@ -84,8 +84,8 @@
     )
   )
 
-(defun lastwiki (&optional arg) 
-  "visit the last wiki edited"
+(defun lastblog (&optional arg) 
+  "visit the last blog edited"
   (interactive "P")
 
   (let* ((default-directory (format  "%s/dscm/%s" my-documents *default-area*))
@@ -93,7 +93,7 @@
 	 (thing (first (sort* files '(lambda (x y) (string-lessp y x))))))
 
     (if arg
-	(let ((url (concat *wiki-home* "/?pat=" thing "&raw")))
+	(let ((url (concat *blog-home* "/?pat=" thing "&raw")))
 	  (w3m-goto-url url)
 	  )
       (find-file thing)
@@ -101,8 +101,25 @@
     )
   )
 
-(defun grepwiki (pat) 
-  "grep for pat among wikis"
+(defun priorblog (&optional arg) 
+  "visit the blog prior to this one"
+  (interactive "P")
+
+  (let* ((default-directory (format  "%s/dscm/%s" my-documents *default-area*))
+	 (files (loop for x in (get-directory-files  ".") when (not (or (file-directory-p x) (string-match "~" x))) collect x))
+	 (thing (first (sort* files '(lambda (x y) (string-lessp y x))))))
+
+    (if arg
+	(let ((url (concat *blog-home* "/?pat=" thing "&raw")))
+	  (w3m-goto-url url)
+	  )
+      (find-file thing)
+      )
+    )
+  )
+
+(defun grepblog (pat) 
+  "grep for pat among blogs"
   (interactive "spat: ")
   (let ((default-directory (format  "%s/dscm/%s/" my-documents *default-area*)))
     (grep (format "%s %s *" grep-command pat))
@@ -110,11 +127,11 @@
   )
 
 (require 'ctl-slash)
-(define-key ctl-/-map "w" 'mywiki)
-(define-key ctl-/-map "l" 'lastwiki)
-(define-key ctl-/-map "a" 'grepwiki)
+(define-key ctl-/-map "w" 'myblog)
+(define-key ctl-/-map "l" 'lastblog)
+(define-key ctl-/-map "a" 'grepblog)
 
-(provide 'mywiki)
+(provide 'myblog)
 
 
 ;; fancy
@@ -207,18 +224,18 @@ supports big ints"
 ; (mktime "1141230058" t)
 ; (mktime)
 
-(defun allwikis ()
+(defun allblogs ()
   (let* ((default-directory (format  "%s/dscm/%s" my-documents *default-area*))
 	 (files (loop for x in (get-directory-files  ".") when (not (or (file-directory-p x) (string-match "~" x))) collect x)))
     files)
   )
-; (allwikis)
+; (allblogs)
 
-(defun rawiki (thing)
+(defun rawblog (thing)
   (interactive
-   (list (completing-read "thing: " (loop for x in (allwikis) collect (list x x)) nil t)))
+   (list (completing-read "thing: " (loop for x in (allblogs) collect (list x x)) nil t)))
 
-  (let ((url (concat *wiki-home* "/?pat=" thing "&raw")))
+  (let ((url (concat *blog-home* "/?pat=" thing "&raw")))
     (w3m-goto-url url)
     )
   )

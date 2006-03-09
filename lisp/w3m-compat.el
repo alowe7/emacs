@@ -7,4 +7,10 @@
 (fset 'custom-set-face-bold 'identity)
 (fset 'custom-face-bold 'identity)
 
-(provide 'compat)
+(defun code-detect-region (start end)
+)
+
+(defun get-base-code (coding-system)
+)
+
+(provide 'w3m-compat)
