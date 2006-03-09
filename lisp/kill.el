@@ -1,5 +1,5 @@
 (put 'kill 'rcsid
- "$Id: kill.el,v 1.7 2006-03-03 20:24:26 alowe Exp $")
+ "$Id: kill.el,v 1.8 2006-03-09 15:00:34 alowe Exp $")
 
 (defun yank-like (pat)
   "search for PAT among kill ring, rolling through hits, inserting selected.
@@ -30,7 +30,7 @@ see `roll-list` for roll navigation"
   (interactive (list (read-file-name (format "filename (%s): " (buffer-file-name) ))))
 
   (if f
-      (let ((s (w32-canonify f)))
+      (let ((s (canonify f)))
 	(kill-new s)
 	(message s))
     )

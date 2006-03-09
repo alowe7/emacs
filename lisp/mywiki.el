@@ -1,11 +1,13 @@
 (put 'mywiki 'rcsid
- "$Id: mywiki.el,v 1.5 2006-03-03 20:24:26 alowe Exp $")
+ "$Id: mywiki.el,v 1.6 2006-03-09 15:00:02 alowe Exp $")
 
 ;; mywiki
 
 (require 'locations)
 
 ;; this stuff should be in db, presentation layer should do all formatting.
+
+(defvar *wiki-home* "http://localhost:10080/dcgs")
 
 (defvar *areas* '((".net") ("biz") ("crypto") ("dcgs") ("j2ee") ("personal") ("tech") ("pub")))
 (defvar *default-area* "pub")
@@ -48,6 +50,8 @@
   (format  "%s/dscm/%s/%s" my-documents area (format-time-string "%y%m%d%H%M%S"))
   )
 
+;; tbd: encode entities in content.  e.g. "&" -> "&amp;"
+
 (defun mywiki () (interactive)
   (let* (
 	 (area (setq *default-area* (completing-read (format "area (%s): " *default-area*) *areas* nil t nil nil *default-area*)))
@@ -80,15 +84,21 @@
     )
   )
 
-(defun lastwiki () 
+(defun lastwiki (&optional arg) 
   "visit the last wiki edited"
-  (interactive)
+  (interactive "P")
 
   (let* ((default-directory (format  "%s/dscm/%s" my-documents *default-area*))
-	 (files (loop for x in (get-directory-files  ".") when (not (file-directory-p x)) collect x)))
+	 (files (loop for x in (get-directory-files  ".") when (not (or (file-directory-p x) (string-match "~" x))) collect x))
+	 (thing (first (sort* files '(lambda (x y) (string-lessp y x))))))
 
-    (find-file
-     (car (sort* files '(lambda (x y) (string-lessp y x))))))
+    (if arg
+	(let ((url (concat *wiki-home* "/?pat=" thing "&raw")))
+	  (w3m-goto-url url)
+	  )
+      (find-file thing)
+      )
+    )
   )
 
 (defun grepwiki (pat) 
@@ -197,3 +207,18 @@ supports big ints"
 ; (mktime "1141230058" t)
 ; (mktime)
 
+(defun allwikis ()
+  (let* ((default-directory (format  "%s/dscm/%s" my-documents *default-area*))
+	 (files (loop for x in (get-directory-files  ".") when (not (or (file-directory-p x) (string-match "~" x))) collect x)))
+    files)
+  )
+; (allwikis)
+
+(defun rawiki (thing)
+  (interactive
+   (list (completing-read "thing: " (loop for x in (allwikis) collect (list x x)) nil t)))
+
+  (let ((url (concat *wiki-home* "/?pat=" thing "&raw")))
+    (w3m-goto-url url)
+    )
+  )
