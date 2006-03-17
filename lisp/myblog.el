@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.1 2006-03-09 15:00:34 alowe Exp $")
+ "$Id: myblog.el,v 1.2 2006-03-17 19:34:04 alowe Exp $")
 
 ;; myblog
 
@@ -7,7 +7,8 @@
 
 ;; this stuff should be in db, presentation layer should do all formatting.
 
-(defvar *blog-home* "http://localhost:10080/dcgs")
+(defvar *blog-home-url* "http://localhost:10080/dcgs")
+(defvar *blog-home* (expand-file-name "dscm" my-documents))
 
 (defvar *areas* '((".net") ("biz") ("crypto") ("dcgs") ("j2ee") ("personal") ("tech") ("pub")))
 (defvar *default-area* "pub")
@@ -47,7 +48,7 @@
   )
 
 (defun generate-dscm-entry-name (area) (interactive)
-  (format  "%s/dscm/%s/%s" my-documents area (format-time-string "%y%m%d%H%M%S"))
+  (format  "%s/%s/%s"  *blog-home* area (format-time-string "%y%m%d%H%M%S"))
   )
 
 ;; tbd: encode entities in content.  e.g. "&" -> "&amp;"
@@ -84,6 +85,27 @@
     )
   )
 
+(defun nthblog (rel)
+  ; assert: in a blog buffer
+  (unless (string-match *blog-home* default-directory)
+    (lastblog))
+
+  (let ((l (allblogs))
+	(this (file-name-nondirectory (buffer-file-name))))
+    (if (member this l)
+	(progn 
+	  (while (not (string= this (car l)))
+	    (setq l (roll l))
+	    )
+	  (if (< rel 0)
+	      (nth (- rel) (reverse l))
+	    (nth rel l))
+	  )
+      )
+    )
+  )
+; (nthblog -1)
+
 (defun lastblog (&optional arg) 
   "visit the last blog edited"
   (interactive "P")
@@ -93,30 +115,38 @@
 	 (thing (first (sort* files '(lambda (x y) (string-lessp y x))))))
 
     (if arg
-	(let ((url (concat *blog-home* "/?pat=" thing "&raw")))
+	(let ((url (concat *blog-home-url* "/?pat=" thing "&raw")))
 	  (w3m-goto-url url)
 	  )
       (find-file thing)
       )
     )
   )
+
+;; xxx wet paint
+(defun nextblog (&optional arg) 
+  "visit the blog prior to this one"
+  (interactive "p")
+
+  (let* ((default-directory (format  "%s/dscm/%s" my-documents *default-area*))
+	 (n arg)
+	 )
+    (find-file  (nthblog n))
+    )
+  )
+(global-set-key "\M-n" 'nextblog)
 
 (defun priorblog (&optional arg) 
   "visit the blog prior to this one"
-  (interactive "P")
+  (interactive "p")
 
   (let* ((default-directory (format  "%s/dscm/%s" my-documents *default-area*))
-	 (files (loop for x in (get-directory-files  ".") when (not (or (file-directory-p x) (string-match "~" x))) collect x))
-	 (thing (first (sort* files '(lambda (x y) (string-lessp y x))))))
-
-    (if arg
-	(let ((url (concat *blog-home* "/?pat=" thing "&raw")))
-	  (w3m-goto-url url)
-	  )
-      (find-file thing)
-      )
+	 (n (- arg))
+	 )
+    (find-file  (nthblog n))
     )
   )
+(global-set-key "\M-p" 'priorblog)
 
 (defun grepblog (pat) 
   "grep for pat among blogs"
@@ -235,7 +265,7 @@ supports big ints"
   (interactive
    (list (completing-read "thing: " (loop for x in (allblogs) collect (list x x)) nil t)))
 
-  (let ((url (concat *blog-home* "/?pat=" thing "&raw")))
+  (let ((url (concat *blog-home-url* "/?pat=" thing "&raw")))
     (w3m-goto-url url)
     )
   )

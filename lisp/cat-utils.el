@@ -223,9 +223,9 @@ if PAT is not specified, splits on all white space: [SPC, TAB, RET]
     v)
   )
 
+; todo: try to eval place only once
 (defmacro shift (place)
-  "Remove and return the tail of the list stored in PLACE.
-"
+  "Remove and return the tail of the list stored in PLACE."
   (if  (and
 	(symbolp place)
 	(eval `(listp ,place))

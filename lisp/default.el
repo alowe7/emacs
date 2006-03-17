@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.52 2006-02-14 21:58:44 alowe Exp $")
+ "$Id: default.el,v 1.53 2006-03-17 19:34:04 alowe Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -296,5 +296,3 @@ if n < 0 counts from end of string
 ;; default implementation.  custom configs can override
 (fset 'host-ok 'identity)
 
-
-(require 'compat)

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.30 2006-03-03 20:24:26 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.31 2006-03-17 19:34:04 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -46,6 +46,7 @@
 	    )
       )
 
+(add-to-load-path "/z/el" t)
 
 (add-hook 'xz-load-hook 
 	  '(lambda ()
@@ -111,3 +112,4 @@
 (require 'ctl-slash)
 (define-key ctl-/-map "f" 'locate)
 
+(setq compile-command "/usr/local/lib/apache-ant-1.6.5/bin/ant ")
