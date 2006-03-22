@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.53 2006-03-17 19:34:04 alowe Exp $")
+ "$Id: default.el,v 1.54 2006-03-22 22:53:33 alowe Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -94,6 +94,8 @@
 (setq kill-ring-max 10000
       message-log-max 10000
       list-command-history-max 10000)
+
+(add-hook 'find-file-hooks 'auto-auto-mode)
 
 (add-hook 'write-file-hooks 'time-stamp)
 

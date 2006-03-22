@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.31 2006-03-17 19:34:04 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.32 2006-03-22 22:53:33 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -9,10 +9,10 @@
       )
 
 (setq initial-frame-alist
-      `((top . 40)
- 	(left . 0)
- 	(width . 142)
- 	(height . 30)
+      `((top . 75)
+ 	(left . 80)
+ 	(width . 150)
+ 	(height . 42)
 	(background-mode . light)
 	(cursor-type . box)
 	(border-color . "black")
@@ -28,6 +28,48 @@
       )
 
 (setq default-frame-alist  initial-frame-alist)
+
+; re-added top and left.
+; see frames.el  
+(setq *clone-frame-parameters* '(
+				  ; window-id
+				  top
+				  left
+				  ; buffer-list
+				  ; minibuffer
+				   width
+				   height
+				  ; name
+				   display
+				   visibility
+				  ; icon-name
+				  ; unsplittable
+				  ; modeline
+				   background-mode
+				   display-type
+				   scroll-bar-width
+				   cursor-type
+				  ; auto-lower
+				  ; auto-raise
+				   icon-type
+				  ; title
+				  ; buffer-predicate
+				   tool-bar-lines
+				   menu-bar-lines
+				   line-spacing
+				   screen-gamma
+				   border-color
+				   cursor-color
+				   mouse-color
+				   background-color
+				   foreground-color
+				   vertical-scroll-bars
+				   internal-border-width
+				   border-width
+				   font
+				   )
+)
+
 
 ; tweak load-path to use working versions if found. will this stuff ever stabilize?
 (loop for e in '(

@@ -1,5 +1,5 @@
 (put 'frames 'rcsid 
- "$Id: frames.el,v 1.11 2005-09-20 21:29:58 cvs Exp $")
+ "$Id: frames.el,v 1.12 2006-03-22 22:53:33 alowe Exp $")
 ;; simple frame abstraction functions
 
 (defun name-frame (name &optional f)
@@ -87,8 +87,33 @@ appearance to the current frame "
   )
 
 (defun delete-all-other-frames ()
-	(interactive)
-	"delete all frames except the currently focused one."
-	(dolist (a (frame-list))
-		(if (not (eq a (selected-frame)))
-				(delete-frame a))))
+  (interactive)
+  "delete all frames except the currently focused one."
+  (loop for x in (frame-list) do
+	(if (not (eq a (selected-frame)))
+	    (delete-frame a)))
+  )
+
+(defun list-frame-buffers ()
+  (save-window-excursion 
+    (loop for x in (frame-list)
+	  collect 
+	  (list x (buffer-name (window-buffer (frame-selected-window x))))
+	  )
+    )
+  )
+; (list-frame-buffers)
+(defun cadr-equal (a b)
+  (string= (cadr a) (cadr b))
+  )
+
+(defun delete-duplicate-frames ()
+  "delete multiple frames showing the same buffer"
+  ; note: really having the same buffer selected
+  (interactive)
+  (let* ((l  (list-frame-buffers))
+	 (m (set-difference l (remove-duplicates l :test 'cadr-equal))))
+    (loop for x in m do (delete-frame (car x)))
+    )
+  )
+

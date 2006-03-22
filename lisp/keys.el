@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.58 2006-03-03 20:24:26 alowe Exp $")
+ "$Id: keys.el,v 1.59 2006-03-22 22:53:33 alowe Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -14,6 +14,7 @@
 
 (global-set-key "" 'shell2)
 (define-key ctl-x-5-map "-" 'delete-all-other-frames)
+(define-key ctl-x-5-map "=" 'delete-duplicate-frames)
 (define-key ctl-x-5-map "\C-m" '(lambda () (interactive) (switch-to-buffer-other-frame (current-buffer)))) 
 
 (global-set-key (vector 24 67108923) 'indent-for-comment) ; C-x C-;

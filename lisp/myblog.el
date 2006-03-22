@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.2 2006-03-17 19:34:04 alowe Exp $")
+ "$Id: myblog.el,v 1.3 2006-03-22 22:53:33 alowe Exp $")
 
 ;; myblog
 
@@ -73,7 +73,9 @@
 </title>
 
 <body>
+<![CDATA[
 %s
+]]>
 </body>
 
 </blog>

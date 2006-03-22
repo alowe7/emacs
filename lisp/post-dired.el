@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.37 2005-09-30 20:19:10 cvs Exp $")
+ "$Id: post-dired.el,v 1.38 2006-03-22 22:53:33 alowe Exp $")
 
 (require 'dired-advice)
 
@@ -303,9 +303,9 @@ see `file-assoc-list'"
   (dired-cvs-cmd "up")
   )
 
-(defun dired-copy-filename-as-kill () 
+(defun dired-copy-filename-as-kill (arg) 
   "apply `kill-new' to `dired-get-filename'"
-  (interactive)
+  (interactive "P")
   (let* ((f (dired-get-filename))
 	 (s (copy-filename-as-kill f)))
     (if (interactive-p) (message s))

@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.17 2005-12-16 00:31:47 tombstone Exp $
+;; $Id: perl-helpers.el,v 1.18 2006-03-22 22:53:33 alowe Exp $
 
 (require 'perl-command)
 
@@ -94,21 +94,24 @@
 (defun perldoc (thing)
   "find perldoc for THING"
   (interactive "sperldoc: ")
-  (let* ((b (zap-buffer (format "*perldoc %s*" thing)))
-	 (s (perl-command perldoc-cmd thing)))
-    (set-buffer b)
-    (insert s)
-    (pop-to-buffer b)
-    (beginning-of-buffer)
-    ; fix man page
-    (let ((buffer-read-only nil))
-      (save-excursion
-	(kill-pattern "_") ; hack for roff underlining
-	(kill-pattern ".")
-	(kill-pattern "8")
-	(kill-pattern "9")
-	))
-    (view-mode)
+  (if (null perldoc-cmd)
+      (message "error: perldoc not found")
+    (let* ((b (zap-buffer (format "*perldoc %s*" thing)))
+	   (s (perl-command perldoc-cmd thing)))
+      (set-buffer b)
+      (insert s)
+      (pop-to-buffer b)
+      (beginning-of-buffer)
+  ; fix man page
+      (let ((buffer-read-only nil))
+	(save-excursion
+	  (kill-pattern "_") ; hack for roff underlining
+	  (kill-pattern ".")
+	  (kill-pattern "8")
+	  (kill-pattern "9")
+	  ))
+      (view-mode)
+      )
     )
   )
 ; (perldoc "perlfaq1")
