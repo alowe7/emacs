@@ -1,5 +1,5 @@
 (put 'post-simple 'rcsid
- "$Id: post-simple.el,v 1.2 2004-05-27 18:25:06 cvs Exp $")
+ "$Id: post-simple.el,v 1.3 2006-03-24 21:35:24 alowe Exp $")
 
 (require 'advice)
 (require 'qsave)
@@ -54,4 +54,14 @@
 ; (if (ad-is-advised 'shell-command) (ad-unadvise 'shell-command) )
 
 ; (if (ad-is-advised 'shell-command-on-region) (ad-unadvise 'shell-command-on-region) )
+
+(defun roll-mark ()
+  (interactive)
+  (setq mark-ring (remove-duplicates mark-ring :test '(lambda (a b) (= (marker-position a) (marker-position b)))))
+  (let ((marker (roll mark-ring)))
+  ;  '(lambda (x) (format "%d" (marker-position x))))))
+    (goto-char (car marker)))
+  )
+(define-key alt-SPC-map "\M-." 'roll-mark)
+
 

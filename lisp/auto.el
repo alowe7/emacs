@@ -4,6 +4,7 @@
 ]*<" )
 (defvar *peek-php-pat* "^[ 	
 ]*<\\?php")
+(defvar *peek-perl-pat* "^#!(perl|/usr/local/bin/perl)")
 
 (defun auto-auto-mode ()
   "when a member of  `find-file-hooks' this function provides an alternative way to derive an auto mode.
@@ -17,6 +18,8 @@ for example, by directory, or maybe peeking."
        ((string-match *peek-xml-pat* (buffer-string))
   ; if the first non-whitespace char is langle, guess sgml.  this includes jsp
 	(sgml-mode))
+       ((string-match  *peek-perl-pat* (buffer-string))
+	(perl-mode))
        )
     )
   )

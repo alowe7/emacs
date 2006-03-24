@@ -1,5 +1,5 @@
 (put 'frames 'rcsid 
- "$Id: frames.el,v 1.12 2006-03-22 22:53:33 alowe Exp $")
+ "$Id: frames.el,v 1.13 2006-03-24 21:35:24 alowe Exp $")
 ;; simple frame abstraction functions
 
 (defun name-frame (name &optional f)
@@ -90,8 +90,8 @@ appearance to the current frame "
   (interactive)
   "delete all frames except the currently focused one."
   (loop for x in (frame-list) do
-	(if (not (eq a (selected-frame)))
-	    (delete-frame a)))
+	(if (not (eq x (selected-frame)))
+	    (delete-frame x)))
   )
 
 (defun list-frame-buffers ()

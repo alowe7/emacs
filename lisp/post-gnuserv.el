@@ -1,5 +1,5 @@
 (put 'post-gnuserv 'rcsid 
- "$Id: post-gnuserv.el,v 1.10 2006-03-01 02:52:43 tombstone Exp $")
+ "$Id: post-gnuserv.el,v 1.11 2006-03-24 21:35:24 alowe Exp $")
 
 (condition-case x (gnuserv-start) 
   (error 
@@ -64,7 +64,7 @@
 
 ;; set default frame for gnuserving
 (setq gnuserv-frame
-      (caadr (current-frame-configuration)))
+      (cadr (current-frame-configuration)))
 
 ;; keep it valid after changes to frame configuration
 (defadvice delete-all-other-frames (after 
@@ -76,8 +76,7 @@
 	(caadr (current-frame-configuration)))
   )
 
-; (ad-is-advised 'delete-all-other-frames)
-; (ad-unadvise 'delete-all-other-frames)
+; (if (ad-is-advised 'delete-all-other-frames) (ad-unadvise 'delete-all-other-frames))
 
 (defadvice delete-frame (after 
 			 hook-delete-frame
@@ -87,6 +86,7 @@
   (setq gnuserv-frame 
 	(caadr (current-frame-configuration)))
   )
+; (if (ad-is-advised 'delete-frame) (ad-unadvise 'delete-frame))
 
 ; override this function as its broken
 ;; (defun server-process-filter (proc string)

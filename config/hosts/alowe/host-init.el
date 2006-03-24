@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.32 2006-03-22 22:53:33 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.33 2006-03-24 21:35:24 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -155,3 +155,7 @@
 (define-key ctl-/-map "f" 'locate)
 
 (setq compile-command "/usr/local/lib/apache-ant-1.6.5/bin/ant ")
+
+(add-hook 'perl-mode-hook
+	  '(lambda () (font-lock-mode t)))
+

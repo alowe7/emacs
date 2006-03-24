@@ -1,15 +1,17 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.33 2006-02-08 15:45:22 alowe Exp $")
+ "$Id: roll.el,v 1.34 2006-03-24 21:35:24 alowe Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
 
-(defun roll (l)
-  "roll LIST as a ring"
-  (let ((h (pop l)))
-    (nconc l (list h)))
+(defmacro roll (l)
+  "destructively roll LIST as a ring"
+  (if (symbolp l)
+      `(setq ,l (nconc (copy-list (cdr ,l)) (list (car ,l))))
+    `(nconc (copy-list (cdr ,l)) (list (car ,l))))
   )
 ; (roll (roll (roll '(a b c))))
+; (progn (setq a '(a b c)) (roll a))
 
 (defun roll-search (a pat displayfn i)
   (position pat a 
