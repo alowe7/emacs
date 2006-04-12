@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.54 2006-03-22 22:53:33 alowe Exp $")
+ "$Id: default.el,v 1.55 2006-04-12 20:07:36 alowe Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -199,6 +199,18 @@ clobber an existing mapping if optional CLOBBER is nonnil
   )
 ; (setq x '((a 1) (b 2) (c 3)))
 ; (add-association '(d 4) 'x t)
+
+(defun remove-association (key list)
+  "remove any assoc mapping key in a-list LIST.
+uses `string='
+"
+  (if (symbolp list)
+      (set list (remove* key (eval list) :test (lambda (x y) (string= x (car y)))))
+    (remove* key (eval list) :test (lambda (x y) (string= x (car y)))))
+  )
+
+; (let ((l '(("bar" 1) ("foo" 2) ("foo" 3))))  (remove-association "foo" 'l)  l)
+;  (remove-association "foo" '(("bar" 1) ("foo" 2) ("foo" 3)))
 
 (defun bgets ()
   "do gets on current line from buffer. return as string"

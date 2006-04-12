@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.33 2006-03-24 21:35:24 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.34 2006-04-12 20:07:36 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -159,3 +159,18 @@
 (add-hook 'perl-mode-hook
 	  '(lambda () (font-lock-mode t)))
 
+(defun makeunbound (symbol-name)
+  (interactive (list (read-string* "make unbound (%s): " (thing-at-point 'symbol))))
+  (let ((symbol (intern symbol-name)))
+    (and (boundp symbol) (makunbound symbol))
+    )
+  )
+(define-key ctl-/-map "u" 'makeunbound)
+
+; make f1 available for binding
+(if (eq (key-binding (vector 'f1)) 'help-command)
+    (global-set-key (vector 'f1) nil))
+
+(defun undedicate-window () 
+(interactive)
+(set-window-dedicated-p (selected-window) nil))

@@ -1,5 +1,5 @@
 (put 'people 'rcsid
- "$Id: people.el,v 1.1 2006-02-13 15:32:15 alowe Exp $")
+ "$Id: people.el,v 1.2 2006-04-12 20:07:36 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -38,12 +38,17 @@
 		(message "%s" (clean-string (buffer-string)))
 		(kill-buffer b)
 		t)))
-      (pop-to-buffer b)
       (beginning-of-buffer)
       (set-buffer-modified-p nil)
       (setq buffer-read-only t)
+      (let ((w (get-buffer-window b)))
+	(if w (select-window w)
+	  (switch-to-buffer b)))
       )
     )
   )
 
 ; (find-person "george")
+
+  (define-key people-mode-map "\C-m" 'find-person)
+  (define-key  people-mode-map "?" 'find-person)

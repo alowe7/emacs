@@ -1,5 +1,5 @@
 (put 'fixframe 'rcsid
- "$Id: fixframe.el,v 1.5 2006-01-15 19:07:15 nathan Exp $")
+ "$Id: fixframe.el,v 1.6 2006-04-12 20:07:36 alowe Exp $")
 
 (defun fixed-font ()
   (if (and (eq window-system 'x) (fboundp 'x-list-fonts))
@@ -10,15 +10,24 @@
 			  (car (x-list-fonts pat))))))
 
   ; just make one up
-    "-*-Courier-*-r-*-*-18-normal-*-*-*-*-*-*-"
+  ;    "-*-Courier-*-r-*-*-18-normal-*-*-*-*-*-*-"
+    "-*-Lucida Console-normal-r-*-*-15-normal-*-*-*-*-*-*-"
     )
   )
+
+(defvar *fixed-frame-parameters*
+ `((font  . ,(fixed-font)) (top . 100) (left . 100) (width . 100) (height . 30)))
 
 (defun switch-to-buffer-fixed-frame (b &optional parameters)
   (interactive "bswitch to buffer fixed frame: ")
   (let ((default-frame-alist default-frame-alist))
-    (push (cons 'font  (fixed-font)) default-frame-alist)
-    (loop for x in parameters do (add-association x 'default-frame-alist t))
+
+    (loop for x in *fixed-frame-parameters* do
+	  (add-association x 'default-frame-alist t))
+
+    (loop for x in parameters do 
+	  (add-association x 'default-frame-alist t))
+
     (if (eq window-system 'x)
 	(switch-to-buffer-other-frame b)
   ; use internal method, since switch-to-buffer-other-frame is advised to clone frames

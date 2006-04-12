@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.44 2006-02-19 19:59:10 nathan Exp $
+# $Id: Makefile,v 1.45 2006-04-12 20:07:36 alowe Exp $
 
 SHELL=/bin/sh
 
@@ -42,7 +42,8 @@ all: .autoloads
 	find $(EXTRA) -type f -name ".autoloads" -exec cat {} >> .autoloads \;
 	@echo .autoloads rebuilt
 
-.xz.dat: $(SOURCES) $(CONFIGS) $(SITE_LISP) $(EXTRA_LISP) ~/.emacs
+#  $(SITE_LISP)
+.xz.dat: $(SOURCES) $(CONFIGS) $(EXTRA_LISP) ~/.emacs
 	$(XZ) $(XZFLAGS) -n $^
 	@echo .xz.dat rebuilt
 

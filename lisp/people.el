@@ -1,5 +1,5 @@
 (put 'people 'rcsid 
- "$Id: people.el,v 1.18 2005-04-19 00:20:45 cvs Exp $")
+ "$Id: people.el,v 1.19 2006-04-12 20:07:36 alowe Exp $")
 (provide 'people)
 ;; manage people databases
 (require 'compile)
@@ -147,7 +147,8 @@ to find the text that grep hits refer to."
 					  (find-file (car v))
 					  (goto-line (cadr v))))))
   (define-key  people-mode-map "p" 'roll-qsave)
-  (define-key  people-mode-map "n" ''roll-qsave-1)
+  (define-key  people-mode-map "n" 'roll-qsave-1)
+  (define-key  people-mode-map "q" 'bury-buffer)
 
   (define-key  people-mode-map ""
     '(lambda (n) (interactive "nprune to depth: ")
@@ -235,7 +236,7 @@ to find the text that grep hits refer to."
 		       (message "%s" (clean-string (buffer-string)))
 		       (kill-buffer b)
 		       t)))
-	     (pop-to-buffer b)
+	     (display-buffer b)
 	     (beginning-of-buffer)
 	     (set-buffer-modified-p nil)
 	     (setq buffer-read-only t)
@@ -281,7 +282,7 @@ to find the text that grep hits refer to."
 		       (message "%s" (clean-string (buffer-string)))
 		       (kill-buffer b)
 		       t)))
-	     (pop-to-buffer b)
+	     (display-buffer b)
 	     (beginning-of-buffer)
 	     (set-buffer-modified-p nil)
 	     (setq buffer-read-only t)

@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.6 2006-03-03 20:24:26 alowe Exp $")
+ "$Id: os-init.el,v 1.7 2006-04-12 20:07:36 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -316,8 +316,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 (global-set-key (vector -8388595) 'cmd)
 
 (global-set-key (vector 'f9) '(lambda () (interactive) (switch-to-buffer (symbol-name (gensym "tmp")))))
-(global-set-key (vector 'f10) 'ewn)
-(global-set-key (vector 'f11) 'ewd)
+
 (global-set-key (vector 'f12) 'md)
 (global-set-key (vector 'f4) 'arun)
 (global-set-key (vector 'f5) 'aexec)

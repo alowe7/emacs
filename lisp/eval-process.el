@@ -1,8 +1,7 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.19 2005-12-13 17:05:22 nathan Exp $")
+ "$Id: eval-process.el,v 1.20 2006-04-12 20:07:36 alowe Exp $")
 ;; a package to return process evaulation as a string
 
-(provide 'eval-process)
 (require 'zap)
 
 ;; processes that return values
@@ -162,3 +161,5 @@ see `format-time-string' and `time-stamp'"
 				collect x)
 			  )))
   )
+
+(provide 'eval-process)
