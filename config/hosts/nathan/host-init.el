@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.17 2006-02-19 19:59:10 nathan Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.18 2006-04-13 15:39:05 nathan Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -108,9 +108,8 @@
 (setq *gpg-default-homedir*  "h:/.gnupg")
 ; (setq *gpg-default-homedir*  "~/.gnupg")
 
-(setq *gpg-extra-args* (nconc `("--homedir" ,*gpg-default-homedir*) *gpg-extra-args*))
-
-
+(setq *gpg-encode-target* "Andrew")
+(setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
 
 ; and some here too
 (condition-case x (load "/z/soap/.autoloads") (error nil))
