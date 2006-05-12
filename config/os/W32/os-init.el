@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.7 2006-04-12 20:07:36 alowe Exp $")
+ "$Id: os-init.el,v 1.8 2006-05-12 20:03:54 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -297,6 +297,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   )
 ; (1+ (apply 'max (or (distinct-shell-buffers) 0)))
 
+(defvar *cmd* "/WINDOWS/system32/cmd.exe")
 (defun cmd (&optional num)
   (interactive "p")
   ; (= num 4) is magic, becuase its the prefix
@@ -309,7 +310,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 				  )
 			    default-directory)
 	  ))
-    (shell2 (or num -1) nil "cmd" 'cmd-mode)
+    (shell2 (or num -1) nil *cmd* 'cmd-mode)
     )
   )
 
@@ -801,7 +802,9 @@ TIMEOUT may be an integer or a string representation of an integer.
 	   "-w" stimeout "-n" "1" host)))
 
     (not (or (loop for x in 
-		   '("Request timed out"
+		   '(
+		     "Ping request could not find host"
+		     "Request timed out"
 		     "Destination host unreachable" 
 		     "Unknown host")
 		   thereis (string-match x ps))))
@@ -895,7 +898,7 @@ host must respond within optional TIMEOUT msec"
 	(eval `(if (ad-is-advised (quote ,x)) (ad-unadvise (quote ,x))))))
 ; (mount-unhook-file-commands)
 
-(defvar *absolute-filepath-pattern* "^//\\|^~\\|^[a-zA-`]:" 
+(defvar *absolute-filepath-pattern* "^\\([/]+\\|~\\|[a-zA-`]:\\)" 
   "pattern matching an absolute file path")
 (defun absolute-path (f) (and (string-match *absolute-filepath-pattern* f) f))
 
@@ -904,23 +907,46 @@ host must respond within optional TIMEOUT msec"
       (if (ad-is-advised 'expand-file-name) (symbol-function 'ad-Orig-expand-file-name)
 	(symbol-function 'expand-file-name)))
 
-(defun mount-hook (f)
-  "apply mounts to FILE if applicable"
-  (or (absolute-path f)
-      (let ((e (if (absolute-path default-directory)
-		   (concat (cadr (assoc "/" cygmounts)) f)
-		 (loop for y in cygmounts
-		       if (or
-			   (string-match (concat "^" (car y) "/") f)
-			   (string-match (concat "^" (car y) "$") f))
-		       return (replace-in-string (concat "^" (car y)) (cadr y) f)
-		       ))))
-	(and e (mount-orig-expand-file-name e))
-	)
-      f
-      )
+(defun check-unc-path (f)
+  " dwim with short timeout if caller set a unc path unintentionally "
+  ; assert absolute-path was just called
+  ; (string= (substring f (match-beginning 0) (match-end 0)) "//")
+  (let* ((top (and
+	       (string-match "^//\\([^/]+\\)\\(.*\\)" f)
+	       (substring f (match-beginning 1) (match-end 1))
+	       ))
+	 )
+    (cond ((and top (or
+		     (not (host-exists top 65))
+  ; warn if local dir also exists
+		     (and (file-directory-p (concat "/" top))  
+			  (progn (debug)
+				 (y-or-n-p (format "did you mean local directory %s? " (concat "/" top)))))))
+  ; trim off extra leading slash
+	   (substring f 1))
+	  (t f))
+    )
   )
 
+(defun mount-hook (f)
+  "apply mounts to FILE if applicable"
+  (cond ((absolute-path f)
+	 (check-unc-path f))
+	(t
+	 (let ((e (if (absolute-path default-directory)
+		      (concat (cadr (assoc "/" cygmounts)) f)
+		    (loop for y in cygmounts
+			  if (or
+			      (string-match (concat "^" (car y) "/") f)
+			      (string-match (concat "^" (car y) "$") f))
+			  return (replace-in-string (concat "^" (car y)) (cadr y) f)
+			  ))))
+	   (and e (mount-orig-expand-file-name e))
+	   )
+	 f
+	 )
+	)
+  )
 (defun mount-hook-file-commands ()
   (mount-unhook-file-commands)
   (loop for x in mount-hook-file-commands do

@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.4 2006-04-12 20:07:36 alowe Exp $")
+ "$Id: myblog.el,v 1.5 2006-05-12 20:03:54 alowe Exp $")
 
 ;; myblog
 
@@ -56,10 +56,11 @@
 (defun myblog () (interactive)
   (let* (
 	 (area (setq *default-area* (completing-read (format "area (%s): " *default-area*) *areas* nil t nil nil *default-area*)))
-	 (subject (read-string "subject: "))
+	 (subject1 (read-string "subject: "))
 	 (timestring (format-time-string "%y%m%d %H:%M:%S"))
 	 (file (generate-dscm-entry-name area))
 	 (body (get-scratch-buffer-contents "*blog*"))
+	 (subject (or (string* subject1 (read-string "subject: "))))
 	 (content
 	  (format "
 <blog>

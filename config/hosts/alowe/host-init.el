@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.34 2006-04-12 20:07:36 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.35 2006-05-12 20:03:54 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -174,3 +174,17 @@
 (defun undedicate-window () 
 (interactive)
 (set-window-dedicated-p (selected-window) nil))
+
+; lie
+(autoload 'calendar "mycal")
+; force post-load hook now
+(load-library "people")
+
+(defvar *path-sep* ";")
+; (add-to-path "c:\\Program Files\\Java\\j2re1.4.2_03\\bin")
+(defun add-to-path (dir)
+  (unless (member dir (split (getenv "PATH") *path-sep*))
+    (setenv "PATH" 
+	    (concat (getenv "PATH") *path-sep* dir)
+	    ))
+  )
