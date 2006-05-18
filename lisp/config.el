@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.48 2006-01-15 19:07:15 nathan Exp $")
+ "$Id: config.el,v 1.49 2006-05-18 14:26:36 alowe Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -335,16 +335,28 @@ or override them by post-chaining.
 	  (if (-f afn) (scan-file afn))
 	  )))
 
-(defun find-config-file (fn)
+(defun locate-config-file (fn)
   "find CONFIG along load-path.
-searches first for config unadorned, then with extension .el"
-  (interactive "sconfig file: ")
+searches first for config unadorned, then with extension .el
+returns full path name.
+"
   (let ((afn (loop for a in load-path
 		   thereis (let ((afn (format "%s/%s" a fn)))
 			     (or (and (-f afn) afn)
 				 (and (-f (setq afn (concat afn ".el"))) afn))
 			     )
 		   )))
+    afn)
+  )
+; (locate-config-file "host-init")
+; (locate-config-file "os-init")
+
+(defun find-config-file (fn)
+  "visit CONFIG along load-path, if it exists.
+see `locate-config-file'"
+
+  (interactive "sconfig file: ")
+  (let ((afn (locate-config-file fn)))
     (if afn (find-file afn) 
       (message "%s not found along load-path" fn)
       )
@@ -356,6 +368,18 @@ searches first for config unadorned, then with extension .el"
   (interactive)
   (let ((d 
 	 (loop for x in load-path thereis (and (string-match "/hosts/" x) x))))
+    (if (interactive-p)
+	(if (file-name-directory d) (dired d) (message (format "directory %s doesn't exist" d)))
+      d)
+    )
+  )
+
+(defun ws-config () 
+  "find os specific config directory"
+  (interactive)
+  (let* ((window-system-name (symbol-name window-system))
+	(d 
+	 (loop for x in load-path thereis (and (string-match (concat "/os/" window-system-name) x) x))))
     (if (interactive-p)
 	(if (file-name-directory d) (dired d) (message (format "directory %s doesn't exist" d)))
       d)
@@ -377,6 +401,12 @@ searches first for config unadorned, then with extension .el"
   "shortcut for `find-config-file' \"host-init\""
   (interactive)
   (find-config-file "host-init")
+  )
+
+(defun os-init ()
+  "shortcut for `find-config-file' \"os-init\""
+  (interactive)
+  (find-config-file "os-init")
   )
 
 ; these go at the head of the list
