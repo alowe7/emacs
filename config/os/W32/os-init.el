@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.8 2006-05-12 20:03:54 alowe Exp $")
+ "$Id: os-init.el,v 1.9 2006-05-19 14:46:11 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -37,7 +37,7 @@
 (defun w32-canonify (f &optional sysdrive)
   " expands FILENAME, using backslashes
 optional DRIVE says which drive to use. "
-  (replace-in-string  "/" "\\\\" 
+  (replace-in-string  "/" "\\" 
 		      (if sysdrive (expand-file-name 
 				    (substitute-in-file-name
 				     (chomp f ?/))
@@ -137,9 +137,11 @@ if MIXED is 0, then ignore letter drive names.
 
 (defun explore (&optional f)  
   (interactive "P")
-  (shell-command (format "explorer %s" (w32-canonify (or f default-directory))))
-  (run-hooks 'explore-hooks)
-)
+  (let ((d  (w32-canonify (or f default-directory))))
+    (shell-command (format "explorer %s" d))
+    (run-hooks 'explore-hooks)
+    )
+  )
 
 
 (defun arun (f) (interactive "sCommand: "))

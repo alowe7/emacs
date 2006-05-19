@@ -1,7 +1,7 @@
 (put 'locations 'rcsid
- "$Id: locations.el,v 1.5 2006-03-03 20:24:26 alowe Exp $")
+ "$Id: locations.el,v 1.6 2006-05-19 14:46:11 alowe Exp $")
 
-(defun expand-file-name-1 (f)
+(defun substitute-expand-file-name (f)
   (expand-file-name (substitute-in-file-name f))
   )
 
@@ -17,7 +17,7 @@
 		 (quicklaunch "$USERPROFILE/Application Data/Microsoft/Internet Explorer/Quick Launch")
 		 )
       do
-      (eval `(defun ,(car x)  () (interactive) (dired (expand-file-name-1 ,(cadr x)))))
+      (eval `(defun ,(car x)  () (interactive) (dired (substitute-expand-file-name ,(cadr x)))))
       (eval `(defvar ,(car x)  ,(canonify (cadr x))))
       )
 
