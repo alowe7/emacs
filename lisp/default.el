@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.55 2006-04-12 20:07:36 alowe Exp $")
+ "$Id: default.el,v 1.56 2006-05-19 14:40:29 tombstone Exp $")
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -135,10 +135,6 @@
       (let ((na (list (cons extension mode))))
 	(append na (copy-alist auto-mode-alist)))))
 
-
-(defmacro ifp (ifp-s ifp-a ifp-b)
-  "if EXPRESSION is a non-empty string eval A else eval B" 
-  (if (and ifp-s (> (length (eval ifp-s)) 0)) ifp-a ifp-b))
 
 (autoload '/* "long-comment")
 

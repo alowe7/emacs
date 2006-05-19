@@ -1,5 +1,5 @@
-#!perl
-#      $Id: make-autoloads,v 1.31 2006-02-08 15:45:22 alowe Exp $
+#!/usr/local/bin/perl
+#      $Id: make-autoloads,v 1.32 2006-05-19 14:40:29 tombstone Exp $
 
 =pod
 =head1 NAME
@@ -42,11 +42,11 @@ GetOptions(
 	   'prefix=s' => \$opt_prefix
 	   );
 
-$opt_help && pod2usage( { -verbose => 2 });
+!($opt_help || ((scalar @ARGV) > 0)) && pod2usage( { -verbose => 2, -output => \*STDERR });
 
 if ($opt_version) {
 # sadly gives goofy trailing $
-#    $version="$Revision: 1.31 $";
+#    $version="$Revision: 1.32 $";
     print "make-autoloads version 1.24\n";
     exit;
 }

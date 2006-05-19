@@ -1,6 +1,9 @@
 (put 'keys 'rcsid
- "$Id: keys.el,v 1.1 2006-01-31 01:39:41 tombstone Exp $")
+ "$Id: keys.el,v 1.2 2006-05-19 14:40:29 tombstone Exp $")
 
 (chain-parent-file t)
 
 (global-set-key "\M-_"  'undo)
+
+(require 'ctl-slash)
+(define-key ctl-/-map "f" 'locate)

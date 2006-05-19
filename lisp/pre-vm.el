@@ -1,10 +1,10 @@
 (put 'pre-vm 'rcsid
- "$Id: pre-vm.el,v 1.1 2006-03-01 02:45:15 tombstone Exp $")
+ "$Id: pre-vm.el,v 1.2 2006-05-19 14:40:29 tombstone Exp $")
 
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/vm-7.19")
 (require 'vm)
 
-(setq vm-accounts '("a" "devr" "net" "root"))
+(setq vm-accounts '("a" "devr" "net" "anita" "root"))
 (setq *imap-server* "mail.alowe.com")
 (setq vm-imap-server-alist
       (loop for x in vm-accounts 
@@ -70,3 +70,5 @@
     (call-interactively 'vm-visit-imap-folder)
     )
   )
+
+(provide 'pre-vm)

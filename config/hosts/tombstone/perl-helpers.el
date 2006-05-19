@@ -1,10 +1,12 @@
 (put 'perl-helpers 'rcsid
- "$Id: perl-helpers.el,v 1.1 2005-11-13 15:42:40 cvs Exp $")
+ "$Id: perl-helpers.el,v 1.2 2006-05-19 14:40:29 tombstone Exp $")
 
 (chain-parent-file t)
 
-(setq perlfunc-file "/usr/lib/perl5/5.8.0/pod/perlfunc.pod"
-      perlfunc-buffer-name "perlfunc *pod*")
+(setq
+ ; perlfunc-file "/usr/lib/perl5/5.8.0/pod/perlfunc.pod"
+ perlfunc-file "/usr/lib/perl5/5.8.6/doc/perlfunc"
+ perlfunc-buffer-name "perlfunc *pod*")
 
 (defun perlfunc (func)
   (interactive "sfunc: ")
@@ -16,7 +18,10 @@
         )
       (let* ((b (get-buffer (progn 
                 (and (not (buffer-exists-p perlfunc-buffer-name)) 
-                     (pod2text perlfunc-file (get-buffer-create perlfunc-buffer-name)))
+                     ; (pod2text perlfunc-file (get-buffer-create perlfunc-buffer-name))
+		     (find-file-noselect-1 (get-buffer-create perlfunc-buffer-name) 
+					    perlfunc-file nil nil nil nil)
+		     )
                 perlfunc-buffer-name))) 
            p)
     (save-excursion

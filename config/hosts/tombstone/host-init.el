@@ -1,8 +1,8 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.5 2006-01-31 01:39:41 tombstone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.6 2006-05-19 14:40:29 tombstone Exp $")
 
 ; enoch
-; (require 'xz-loads)
+(require 'xz-loads)
 (require 'cat-utils)
 (require 'gnuserv)
 (display-time)
@@ -75,8 +75,6 @@
 
 ; (setq *perl-libs* (split (perl-command-2 "map {print \"$_ \"} @INC")))
 
-(defvar perldir "/usr/lib/perl5/5.6.0")
-
 (defun evilnat () t)
 
 (setq mail-default-reply-to "a@alowe.com")
@@ -108,8 +106,6 @@
 
 (global-set-key (quote [f9]) (quote undo))
 
-(setq *default-gpg-file*  "/nathan/d/a/.private/bang2")
-
 (setq x-select-enable-clipboard t)
 
 ; lets move on... 
@@ -134,6 +130,10 @@
 ; gpg is here
 (add-to-load-path "/z/gpg" t)
 (condition-case x (load "/z/gpg/.autoloads") (error nil))
+(setq *gpg-default-file*  "/nathan/c/home/a/.private/wink")
+(setq *gpg-default-homedir*  "/nathan/h/.gnupg") 
+(setq *gpg-encode-target* "Andrew")
+(setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
 
 ; and some here too
 (condition-case x (load "/z/soap/.autoloads") (error nil))
@@ -169,6 +169,11 @@
 ; for some reason the fontspec isn't computing the char width correctly
 (if (eq window-system 'x) (setenv "COLUMNS" "132"))
 
-(global-set-key (vector ? ?)  'font-lock-fontify-buffer)
 (global-set-key (vector ?) 'undo)
+(global-set-key (vector ?\C-c ?\C-j) 'font-lock-fontify-buffer)
+
+(defun email ()
+  (interactive)
+  (vm-visit-inbox)
+  )
 
