@@ -1,5 +1,5 @@
 (put 'mktime 'rcsid
- "$Id: mktime.el,v 1.1 2006-05-19 14:48:36 tombstone Exp $")
+ "$Id: mktime.el,v 1.2 2006-05-19 14:58:51 tombstone Exp $")
 
 ; some date and timestamp utilities
 
@@ -27,19 +27,30 @@
     )
   )
 
-(defun mktimestamp (arg)
+(defun mktimestamp (&optional arg)
+  "generate a timestamp.  with optional arg use date under point, if applicable.
+otherwise use current time.  
+when called interactively, result is pushed onto kill-ring
+"
   (interactive "P")
   (let* ((args '("date" "+%s")) 
-	 (displayfn (if (interactive-p) 'message 'identity)) )
-    (if arg
-	(nconc args (list (format"--date=%s" (thing-at-point 'date)))))
+	 (displayfn (if (interactive-p) 'message 'identity))
+	 (date (and arg (thing-at-point 'date)))
+	 result
+	 )
+    (if date
+	(nconc args (list (format"--date=%s" date))))
 
-    (funcall displayfn
-	     (kill-new (apply 'eval-process args)))
+    (setq result (apply 'eval-process args))
+    (kill-new result)
+    (funcall displayfn result)
     )
   )
+; (mktimestamp)
 
 (defun mktime (&optional sec reverse)
+"generate a timestamp.  with optional SEC use that as the time.
+with second optional arg REVERSE, convert a timestamp into a rfc822 time string"
   (interactive (list (read-string* "tm (%s) " (thing-at-point 'word))))
   (let ((v
 	 (chomp (chomp 
@@ -56,6 +67,6 @@
 
 ; (mktime "1141230058" t)
 ; (mktime "1141230058")
-; (mktime)
+; (mktime nil t)
 
 (provide 'mktime)
