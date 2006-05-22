@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.35 2006-05-12 20:03:54 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.36 2006-05-22 15:01:12 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -106,7 +106,8 @@
 ; (require 'world-advice)
 
 ;; what a coincidence.  two machines same name
-;; (require 'xz-loads)
+(require 'xz-loads)
+
 ;; (setq *xz-show-status* nil)
 ;; (setq *xz-squish* 4)
 ;; 
@@ -175,8 +176,9 @@
 (interactive)
 (set-window-dedicated-p (selected-window) nil))
 
-; lie
+; its a lie.  
 (autoload 'calendar "mycal")
+
 ; force post-load hook now
 (load-library "people")
 
