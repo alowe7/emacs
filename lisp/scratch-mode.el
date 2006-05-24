@@ -1,5 +1,5 @@
 (put 'scratch-mode 'rcsid
- "$Id: scratch-mode.el,v 1.10 2005-02-25 04:14:24 cvs Exp $")
+ "$Id: scratch-mode.el,v 1.11 2006-05-24 16:55:20 tombstone Exp $")
 
 (require 'ctl-ret)
 (require 'buff)
@@ -15,9 +15,13 @@
 	)
   )
 
-(defun get-scratch-buffer (x)
+(defun get-scratch-buffer (&optional x)
   (interactive)
-  (zap-buffer (make-temp-name x) '(scratch-mode))
+  (let* ((x (or x (mktimestamp)))
+	 (b (zap-buffer (make-temp-name x) '(scratch-mode))))
+    (if (interactive-p) (switch-to-buffer b))
+    b
+    )
   )
 
 (defun pop-to-last-scratch-buffer ()

@@ -1,5 +1,5 @@
 (put 'pre-vm 'rcsid
- "$Id: pre-vm.el,v 1.2 2006-05-19 14:40:29 tombstone Exp $")
+ "$Id: pre-vm.el,v 1.3 2006-05-24 16:55:20 tombstone Exp $")
 
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/vm-7.19")
 (require 'vm)
@@ -58,6 +58,15 @@
   )
 
 ; (vm-devr)
+
+(defun vm-net ()
+  (interactive)
+  (let  ((vm-imap-server-list '("imap:mail.alowe.com:143:inbox:login:net:*")))
+    (call-interactively 'vm-visit-imap-folder)
+    )
+  )
+
+; (vm-net)
 
 
 ; xxx wet paint
