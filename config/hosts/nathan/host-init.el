@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.18 2006-04-13 15:39:05 nathan Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.19 2006-06-07 00:56:54 nathan Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -142,7 +142,7 @@
 ; (setq Info-default-directory-list '())
 ; (let (Info-dir-contents Info-directory-list) (info "/usr/share/info/dir"))
 
-(setq Info-default-directory-list '("/usr/share/info" "/usr/share/emacs/info" "/usr/local/info"))
+(setq Info-default-directory-list '("/usr/share/info" "/usr/share/emacs/info" "/usr/local/info" "/usr/local/lib/emacs-21.3/info"))
 (setq Info-directory-list  Info-default-directory-list)
 
 (defun flush-info-cache (dir)
