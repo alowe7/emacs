@@ -1,5 +1,5 @@
 (put 'post-locate 'rcsid 
- "$Id: post-locate.el,v 1.4 2006-05-19 14:46:11 alowe Exp $")
+ "$Id: post-locate.el,v 1.5 2006-06-07 21:36:10 alowe Exp $")
 
 (require 'fb)
 
@@ -26,7 +26,8 @@
   ""
 
   ad-do-it
-  (run-hooks 'after-find-file-hook)
+
+  (qsave-search (current-buffer) (ad-get-arg 0) default-directory)
   )
 
 ; (if (ad-is-advised 'locate) (ad-unadvise 'locate))

@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.6 2006-05-19 14:48:46 tombstone Exp $")
+ "$Id: myblog.el,v 1.7 2006-06-07 21:36:10 alowe Exp $")
 
 ;; myblog
 
@@ -54,7 +54,7 @@
 
 ;; tbd: encode entities in content.  e.g. "&" -> "&amp;"
 
-(defun myblog () (interactive)
+(defun myblog (&optional datestamp) (interactive)
   (let* (
 	 (area (setq *default-area* (completing-read (format "area (%s): " *default-area*) *areas* nil t nil nil *default-area*)))
 	 (subject1 (read-string "subject: "))
@@ -154,16 +154,17 @@
 
 (defun grepblog (pat) 
   "grep for pat among blogs"
-  (interactive "spat: ")
+  (interactive "sgrep blogs for: ")
   (let ((default-directory (format  "%s/dscm/%s/" my-documents *default-area*)))
-    (grep (format "%s %s *" grep-command pat))
+  ; need sh -c to get wildcard expansion to work right
+    (grep (format "sh -c '%s %s *[^~]'" grep-command pat))
     )
   )
 
 (require 'ctl-slash)
-(define-key ctl-/-map "w" 'myblog)
+(define-key ctl-/-map "b" 'myblog)
 (define-key ctl-/-map "l" 'lastblog)
-(define-key ctl-/-map "a" 'grepblog)
+(define-key ctl-/-map "g" 'grepblog)
 
 (provide 'myblog)
 

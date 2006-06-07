@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.64 2005-12-16 00:31:47 tombstone Exp $")
+ "$Id: fb.el,v 1.65 2006-06-07 21:36:10 alowe Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -340,7 +340,7 @@ see variable *fb-db* "
 		 (elt a 2)
 		 "everyone"
 		 (elt a 7)
-		 (format-time-string "%b %d %Y" (elt a 5))
+		 (format-time-string "%b %d %Y %H:%M:%S" (elt a 5))
 		 (file-name-nondirectory fn)
 		 )
       (message "file not found"))

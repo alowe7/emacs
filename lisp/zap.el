@@ -1,7 +1,27 @@
 (put 'zap 'rcsid 
- "$Id: zap.el,v 1.12 2005-01-07 17:36:01 cvs Exp $")
+ "$Id: zap.el,v 1.13 2006-06-07 21:36:10 alowe Exp $")
 (provide 'zap)
 ;;; todo -- use (get-buffer-create (generate-new-buffer-name bname))
+
+(defun eval-p (body)
+  " eval BODY.  
+kludgy special case if  body is a symbol with a function definition of no (required) args, eval the function def"
+  (cond 
+   ((and (symbolp body) (fboundp body))
+    (let* ((args (copy-list (cadr (symbol-function body))))
+	   (pos (and args (1- (position '&optional args)))))
+      (cond
+       ((or (null pos) (< pos 0)) (setq args nil))
+       (t  (rplacd (nthcdr pos args) nil))
+       )
+      (if (= (length args) 0)
+  ; its a function of no args.  call it.
+	  (funcall body)
+	)
+      ))
+   (t (eval body))
+   )
+  )
 
 (defun zap-buffer (bname &optional postop preop)
   "set buffer BUFFER, create if necessary, erase contents if necessary
@@ -10,12 +30,12 @@ with optional PREOP, evaluates PREOP before calling `get-buffer-create'
 "
   (interactive "Bbuffer: ")
   (let (v)
-    (and preop (eval preop))
+    (and preop (eval-p preop))
   ; if buffer existed and was read only, there's probably little 
   ; utility in keeping it that way, after zapping it!
     (and (buffer-exists-p bname) (kill-buffer bname))
     (setq v (set-buffer (get-buffer-create bname)))
-    (and postop (eval postop))
+    (and postop (eval-p postop))
     v)
   )
 

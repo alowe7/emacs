@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.36 2006-05-22 15:01:12 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.37 2006-06-07 21:36:10 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -149,8 +149,14 @@
   )
 
 ;; whack, whack
-(modify-syntax-entry ?< "(")
-(modify-syntax-entry ?> ")")
+(let ((x (format "%c" (char-syntax ?<))))
+  ; treat angles like parens everywhere
+  (modify-syntax-entry ?< "(")
+  (modify-syntax-entry ?> ")")
+  ; except...
+  (modify-syntax-entry ?< x emacs-lisp-mode-syntax-table)
+  (modify-syntax-entry ?> x emacs-lisp-mode-syntax-table)
+  )
 
 (require 'ctl-slash)
 (define-key ctl-/-map "f" 'locate)
@@ -183,10 +189,15 @@
 (load-library "people")
 
 (defvar *path-sep* ";")
-; (add-to-path "c:\\Program Files\\Java\\j2re1.4.2_03\\bin")
-(defun add-to-path (dir)
+
+(defun add-to-path (dir &optional prepend)
   (unless (member dir (split (getenv "PATH") *path-sep*))
     (setenv "PATH" 
 	    (concat (getenv "PATH") *path-sep* dir)
 	    ))
   )
+
+; (add-to-path "c:\\Program Files\\Java\\j2re1.4.2_03\\bin")
+; (add-to-path "c:\\Program Files\\Java\\j2re1.4.2_03\\bin" t)
+
+(setq *minibuffer-display-unique-hit* t)

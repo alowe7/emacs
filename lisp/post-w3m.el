@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.36 2006-03-17 19:34:04 alowe Exp $")
+ "$Id: post-w3m.el,v 1.37 2006-06-07 21:36:10 alowe Exp $")
 (require 'w3m)
 
 ;; from url-helpers
@@ -281,15 +281,24 @@
   (w3m-reload-this-page)
   )
 
+(defun my-w3m-goto-url (arg)
+  "frontend to w3m-goto-url that creates a new session with interactive ARG.
+"
+  (interactive "P")
+
+  (call-interactively
+   (if arg 'w3m-goto-url-new-session 'w3m-goto-url)
+   )
+  )
+
 (require 'ctl-slash)
 
 (define-key ctl-/-map (vector (ctl ?/)) 'w3m-goto-current-file-as-url-new-session)
 (define-key ctl-/-map "d" 'dired-w3m-find-file)
 (define-key ctl-/-map "" 'find-anchor-named)
-(define-key ctl-/-map "w" 'w3m-goto-url)
+(define-key ctl-/-map "w" 'my-w3m-goto-url)
 (define-key ctl-/-map "" 'w3m-goto-this-url-new-session)
 (define-key ctl-/-map "z" 'w3m-copy-current-url)
-(define-key ctl-/-map "g" 'w3m-goto-url-new-session)
 ; 
 (define-key ctl-/-map "r" ' w3m-force-refresh)
 ;
