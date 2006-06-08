@@ -1,5 +1,5 @@
 (put 'fixframe 'rcsid
- "$Id: fixframe.el,v 1.6 2006-04-12 20:07:36 alowe Exp $")
+ "$Id: fixframe.el,v 1.7 2006-06-08 16:11:18 alowe Exp $")
 
 (defun fixed-font ()
   (if (and (eq window-system 'x) (fboundp 'x-list-fonts))
@@ -37,7 +37,19 @@
       )
     )
   )
+
+(defun find-file-fixed-frame (filename &optional wildcards)
+  (interactive "FFind file fixed frame: \np")
+; todo be smarter in dired-mode
+  (let ((b  (find-file-noselect filename)))
+    (if (listp b)
+	(mapcar 'switch-to-buffer-fixed-frame (nreverse b))
+      (switch-to-buffer-fixed-frame b))
+    )
+  )
+
 ; (call-interactively 'switch-to-buffer-fixed-frame)
 (define-key ctl-x-5-map "x" 'switch-to-buffer-fixed-frame)
+(define-key ctl-x-4-map "x" 'find-file-fixed-frame)
 
 (provide 'fixframe)

@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.37 2006-06-07 21:36:10 alowe Exp $")
+ "$Id: post-w3m.el,v 1.38 2006-06-08 16:11:18 alowe Exp $")
 (require 'w3m)
 
 ;; from url-helpers
@@ -331,6 +331,9 @@
 ; hmmm.
 (define-key w3m-mode-map (vector 'f1) 'google)
 (define-key w3m-mode-map (vector 'kp-f1) 'google)
+
+(require 'ctl-slash)
+(define-key ctl-/-map "s" 'all-docs)
 
 ;; w3m-om overrides some standard lisp in an incompatible way.
 (load-library "rect")

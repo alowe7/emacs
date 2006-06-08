@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.37 2006-06-07 21:36:10 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.38 2006-06-08 16:11:18 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -157,9 +157,6 @@
   (modify-syntax-entry ?< x emacs-lisp-mode-syntax-table)
   (modify-syntax-entry ?> x emacs-lisp-mode-syntax-table)
   )
-
-(require 'ctl-slash)
-(define-key ctl-/-map "f" 'locate)
 
 (setq compile-command "/usr/local/lib/apache-ant-1.6.5/bin/ant ")
 
