@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#  $Id: find-configs,v 1.12 2006-05-19 14:40:29 tombstone Exp $
+#  $Id: find-configs,v 1.13 2006-06-08 15:45:26 alowe Exp $
 
 use Sys::Hostname;
 use POSIX qw(uname);
@@ -10,16 +10,16 @@ GetOptions(
 
 $dir="." unless $dir;
 
-my($hostname)= hostname();
+# canonical host names are not case sensitive, but filenames might be
+my($hostname)= lc(hostname());
 my($sysname, $nodename, $release, $version, $machine) = uname();
 
 # XXX
 $sysname="W32" unless ($sysname cmp "Windows NT");
 
 # use bare hostname in case its fully qualified
-if (($host,undef,$domain)=($hostname=~ /^(\w+)(\.)(.*)/)) {
-    $hostname=$host;
-}
+($host,undef,$domain)=($hostname=~ /^(\w+)(\.)(.*)/);
+$hostname=$host if ($host);
 
 # XXX this reflects config.el paths.  should just ask it to tell me, or let emacs compute it.
 
