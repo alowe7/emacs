@@ -1,6 +1,8 @@
 (put 'lnk-view 'rcsid 
- "$Id: lnk-view.el,v 1.9 2005-04-19 00:20:45 cvs Exp $")
+ "$Id: lnk-view.el,v 1.10 2006-06-09 19:19:04 alowe Exp $")
 (require 'cl)
+
+(defvar *shortcut-helper* (whence "shortcut"))
 
 (defun dired-lnk-view () (interactive)
 	(lnk-view (dired-get-filename)) 
@@ -12,7 +14,7 @@
   (interactive)
   (let* ((b (zap-buffer (format "%s *lnk*" f))))
 
-    (call-process "shortcut" nil b nil "-t" f "-u" "all")
+    (call-process *shortcut-helper* nil b nil "-t" f "-u" "all")
     (switch-to-buffer b)
     (lnk-mode)
     (setq lnk-file f)
@@ -59,13 +61,13 @@
 
 (defun update-shortcut (target name)
   (call-process 
-   "shortcut" nil nil nil "-c" "-t" target "-n" name)
+   *shortcut-helper* nil nil nil "-c" "-t" target "-n" name)
   )
 
 (defun query-shortcut (name &optional attr)
   (let ((a (loop
 	    for x in (split  (eval-process
-			      "shortcut" "-u" "all" "-n" name) "
+			      *shortcut-helper* "-u" "all" "-n" name) "
 ")
 	    collect 
 	    (let* ((l (split x ":"))

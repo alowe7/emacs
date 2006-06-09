@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.38 2006-06-08 16:11:18 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.39 2006-06-09 19:19:04 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -148,15 +148,16 @@
   (w3m-goto-url-with-cache  "http://localhost:10080/php-manual/")
   )
 
-;; whack, whack
-(let ((x (format "%c" (char-syntax ?<))))
+;; xxx this is probably wrong...
+
   ; treat angles like parens everywhere
   (modify-syntax-entry ?< "(")
   (modify-syntax-entry ?> ")")
   ; except...
-  (modify-syntax-entry ?< x emacs-lisp-mode-syntax-table)
-  (modify-syntax-entry ?> x emacs-lisp-mode-syntax-table)
-  )
+  (modify-syntax-entry ?< "w" emacs-lisp-mode-syntax-table)
+  (modify-syntax-entry ?> "w" emacs-lisp-mode-syntax-table)
+
+; still broken for eval-expression, via read-from-minibuffer
 
 (setq compile-command "/usr/local/lib/apache-ant-1.6.5/bin/ant ")
 

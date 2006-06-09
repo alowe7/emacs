@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.9 2006-05-19 14:46:11 alowe Exp $")
+ "$Id: os-init.el,v 1.10 2006-06-09 19:19:04 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -211,9 +211,16 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 	       "no handler for type %s ... " 
 	       (file-name-extension f))
 	      (sit-for 0 500)
-	      (message "visiting file %s ..." f)
-	      (sit-for 0 800)
-	      (find-file f)
+
+	      (let ((doit (y-or-n-q-p "explore %s [ynqv ]? " " v" f)))
+		(cond
+		 ((or (eq doit ?y) (eq doit ? ))
+		  (explore f))
+		 ((eq doit ?v)
+		  (message "visiting file %s ..." f)
+		  (sit-for 0 800)
+		  (find-file f)))
+		)
 	      (message ""))
 	    )
 	 )
@@ -454,110 +461,6 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 		       ))
 
 (defvar catalogs '("c:/tmp/f")) ;  "d:/f"
-
-(defun fastfind (pat) 
-  "find files matching PATTERN in catalogs"
-  (interactive "spattern to find: ")
-  (let ((b (zap-buffer "*fastfind*")))
-    (dolist (f catalogs)
-      (if (file-exists-p f)
-	  (progn
-	    (insert "***" f "***\n") 
-	    (call-process "egrep" f b t "-i" pat)
-	    ))
-      )
-    (pop-to-buffer b)
-    (beginning-of-buffer)
-    (set-buffer-modified-p nil)
-    ))
-
-; ESC-@ initialize printer
-; ESC-l left margin
-(defconst dos-print-header-format "@l%c")
-(defconst dos-print-trailer "@" "special printing characters")
-
-(defvar print-processes nil)
-;(pop print-processes)
-;(setq c (caar print-processes))
-;(cdr (assq c  print-processes))
-
-(defun print-process-sentinel (process msg)
-  ;  (read-string (format "gotcha: %s" msg))
-  (if (string-match "finished" msg) 
-      (let ((a (assq process print-processes)))
-	(setq print-processes (remq process print-processes))
-	(and (file-exists-p (cdr a)) (delete-file (cdr a)))
-  ;				(pop-to-buffer " *PRN*")
-	)
-    )
-  )
-
-(defconst esc-font-format "k%c")
-(defconst esc-fonts '(Roman
-		      SansSerif
-		      Courier
-		      Prestige
-		      Script))
-(defconst esc-proprotional "!")
-
-(defun relt (sequence val)
-  "reverse elt: return n of sequence whose value equals val"
-  (let ((len (length sequence)))
-    (loop with i = 0
-	  when (equal (elt sequence i) val) return i
-	  when (> i len) return nil
-	  do (setq i (1+ i))))
-  )
-
-
-(defun* dos-print-region (from to &key font fixed)
-
-  "print REGION as text.
- with prefix ARG, use that as left margin.
- see dos-print-header for default parameters."
-
-  (interactive "r")
-
-  (let* ((dos-print-header
-	  (format dos-print-header-format
-		  (or current-prefix-arg 2)))
-	 (esc-font (relt esc-fonts font))
-	 (s (buffer-substring from to))
-	 (b (generate-new-buffer " *print*"))
-	 (fn (concat "c:\\tmp\\" (make-temp-name (format "__%s" (gensym)))))
-	 p)
-    (set-buffer b)
-    (insert dos-print-header)
-    (and esc-font (insert (format esc-font-format esc-font)))
-    (unless fixed (insert esc-proprotional))
-    (insert s)
-    (insert dos-print-trailer)
-    (write-region (point-min) (point-max) fn)
-    (kill-buffer b)
-  ; use process-sentinel to catch completion
-  ;		(call-process "cmd" nil 0 nil "/c" "print" fn)
-    (set-process-sentinel 
-     (setq p (start-process "prn" (get-buffer-create " *PRN*") "cmd" "/c" "print" fn))
-     'print-process-sentinel)
-    (push (cons p fn) print-processes)
-    )
-  )
-
-(defun dos-print-buffer ()
-  (interactive)
-  (dos-print-region (point-min) (point-max))
-  )
- 
-(defun dos-print (file) 
-  (interactive "fFile: ")
-  (let* ((ob (find-buffer-visiting file))
-	 (b (or ob (find-file-noselect file))))
-    (if b
-	(save-excursion
-	  (set-buffer b)
-	  (dos-print-buffer)))
-    (or ob (kill-buffer b))))
-
 
 (add-hook 'dired-load-hook
 	  '(lambda () 

@@ -1,5 +1,5 @@
 (put 'post-locate 'rcsid 
- "$Id: post-locate.el,v 1.6 2006-06-08 16:11:18 alowe Exp $")
+ "$Id: post-locate.el,v 1.7 2006-06-09 19:19:04 alowe Exp $")
 
 (require 'fb)
 
@@ -46,3 +46,26 @@
   )
 
 ; (if (ad-is-advised 'locate-word-at-point) (ad-unadvise 'locate-word-at-point))
+
+
+(defun buffer-string-no-properties() 
+  (buffer-substring-no-properties (point-min) (point-max))
+  )
+
+(defun locate-with-filter-1 (search-string filter)
+  "run `locate-with-filter' and return results as a list
+"
+  (interactive "ssearch-string: \nsfilter: ")
+
+  (condition-case err
+      (save-window-excursion
+	(cons
+	 (with-output-to-string
+	   (locate-with-filter search-string filter))
+	 (mapcar 'trim (nthcdr 2 (split (buffer-string-no-properties) "\n"))))
+	)
+    (error nil)
+    )
+  )
+
+; (setq x (locate-with-filter-1 "ant" "docs/manual/toc.html"))

@@ -1,4 +1,4 @@
-;; $Id: buff.el,v 1.5 2005-07-06 16:36:53 cvs Exp $
+;; $Id: buff.el,v 1.6 2006-06-09 19:19:04 alowe Exp $
 
 (require 'typesafe)
 
@@ -159,6 +159,7 @@ The R column contains a % for buffers that are read-only."
 
 (defun list-buffers-with (pat)
   (interactive (list (read-string* "buffers with contents matching (%s): " (indicated-word))))
+; todo: keep track of line numbers, transient advise buffer list visit to jump to hit
   (let ((collect-buffers-name (format "*Buffer List With \'%s\'*" pat)))
     (condition-case x (kill-buffer collect-buffers-name) (error nil))
     (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-with pat)) collect-buffers-name))

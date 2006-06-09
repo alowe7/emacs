@@ -1,19 +1,9 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.3 2006-02-13 16:35:22 alowe Exp $")
+ "$Id: xdb.el,v 1.4 2006-06-09 19:19:04 alowe Exp $")
 
 (put 'post-xdb 'host-init (this-load-file))
 
 (chain-parent-file t)
-
-(require 'ctl-slash)
-(define-key ctl-/-map "x" 'txdbi)
-(define-key ctl-/-map "q" 'xq)
-(define-key ctl-/-map "t" 'xt)
-(define-key ctl-/-map "l" 'xl)
-(define-key ctl-/-map "n" 'xn)
-(define-key ctl-/-map "w" 'xql)
-
-(define-key ctl-/-map "\C-l" 'xlq) ; not to be confused with xql ...?-)
 
 ; (add-hook 'xdb-init-hook 'xdb-login)
 (require 'comint)
