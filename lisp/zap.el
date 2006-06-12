@@ -1,5 +1,5 @@
 (put 'zap 'rcsid 
- "$Id: zap.el,v 1.14 2006-06-09 19:19:04 alowe Exp $")
+ "$Id: zap.el,v 1.15 2006-06-12 17:40:13 alowe Exp $")
 (provide 'zap)
 ;;; todo -- use (get-buffer-create (generate-new-buffer-name bname))
 
@@ -22,7 +22,10 @@ returns only required args
 
    ((and (symbolp body) (fboundp body))
   ; its a function
-    (let ((body (symbol-function body)))
+    (let (
+	  (sym body)
+	  (body (symbol-function body))
+	  )
       (cond ((symbolp body)
   ; if func is another symbol, recurse
 	     (arglist body))
@@ -32,7 +35,7 @@ returns only required args
 		      (cond
 		       ((subrp body)
   ; whew boy
-			(ad-subr-arglist 'setcdr)
+			(ad-subr-arglist sym)
 			)
   ; if func is byte compiled, its an array
 		       ((byte-code-function-p body)
@@ -41,7 +44,7 @@ returns only required args
 		       (t (cadr body)))
 		      ))
   ; ignore optional args
-		    (pos (and args (position '&optional args))))
+		    (pos (and args (or (position '&optional args) (position '&rest args)))))
 	       (cond
 		((or (null pos) (< pos 1)) args)
 		(t  (progn (setcdr (nthcdr (1- pos) args) nil) args))
@@ -53,23 +56,27 @@ returns only required args
     )
    )
   )
+
 ; (arglist 'rplacd)
 ; (arglist 'eval-p)
 ; (arglist 'zap-buffer)
-
-
+; (arglist 'message)
+; (let ((body 'message)) (length (arglist body)))
 
 (defun eval-p (body)
   " eval BODY.  
 kludgy special case if  body is a symbol with a function definition of no (required) args, eval the function def"
-	       (if (= (length args) 0)
+  (cond ((and (symbolp body) (fboundp body)) (= (length (arglist body)) 0)
   ; its a function of no args.  call it.
-		   (funcall body)
-		 )
-	       )))))
-   (t (eval body))
-   )
+	 (funcall body)
+	 )
+	(t (eval body))
+	)
   )
+
+; (condition-case x (eval-p 'message) (error (cond ((eq (car x) 'wrong-number-of-arguments) (message "expected result: wrong-number-of-arguments")) (t (apply 'error x)))))
+
+
 
 (defun zap-buffer (bname &optional postop preop)
   "set buffer BUFFER, create if necessary, erase contents if necessary
