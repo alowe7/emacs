@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.6 2006-05-19 14:40:29 tombstone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.7 2006-06-14 00:41:57 tombstone Exp $")
 
 ; enoch
 (require 'xz-loads)
@@ -177,3 +177,24 @@
   (vm-visit-inbox)
   )
 
+;; user-mail-address is initialized from user-login-name, and system-name or mail-host-address
+;; see /usr/share/emacs/21.4/lisp/startup.el
+
+;; these will likely be the wrong thing to use, so just clobber it
+(let* ((username (user-login-name))
+       (system-name (system-name))
+       (domainname (if (string-match (concat (hostname-non-domain) ".") system-name)
+		       (substring system-name (match-end 0))
+		     system-name)))
+
+  (if (string* username (string= username "root"))
+      (setq username (user-login-name 500)))
+
+
+  (setq user-mail-address (concat username "@" domainname)
+	mail-specify-envelope-from t
+	)
+  )
+
+; use locate for everything else
+(setq  *fb-db* "/backup/f")

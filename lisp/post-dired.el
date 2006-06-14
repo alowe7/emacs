@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.38 2006-03-22 22:53:33 alowe Exp $")
+ "$Id: post-dired.el,v 1.39 2006-06-14 00:41:58 tombstone Exp $")
 
 (require 'dired-advice)
 
@@ -248,6 +248,7 @@ warns if more than one file is to be moved and target is not a directory"
 
 (defun add-file-association (type handler)
   "add assoc mapping of downcased file extension to handler.
+TYPE is a string sans dot.  HANDLER is a function of one arg to process the file 
 see `file-assoc-list'"
 
   (let ((v (assoc* type file-assoc-list :test 'string=)))

@@ -1,6 +1,5 @@
 (put 'zip-view 'rcsid 
- "$Id: zip-view.el,v 1.12 2005-01-03 19:56:59 cvs Exp $")
-(provide 'zip-view)
+ "$Id: zip-view.el,v 1.1 2006-06-14 00:41:57 tombstone Exp $")
 
 (defun zip-view (f) (interactive)
   (let* ((f (if (string-match " " f) (gsn f) f))
@@ -72,3 +71,5 @@
 (defun dired-zip-add (fn) (interactive "szip file: ")
   (apply 'zip-add (nconc (list fn) (dired-get-marked-files t)))
   )
+
+(provide 'zip-view)
