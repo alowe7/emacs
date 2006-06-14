@@ -1,17 +1,18 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.7 2006-06-07 21:36:10 alowe Exp $")
+ "$Id: myblog.el,v 1.8 2006-06-14 20:34:42 alowe Exp $")
 
 ;; myblog
 
 (require 'locations)
 (require 'mktime)
+(require 'psgml)
 
 ;; this stuff should be in db, presentation layer should do all formatting.
 
 (defvar *blog-home-url* "http://localhost:10080/dcgs")
 (defvar *blog-home* (expand-file-name "dscm" my-documents))
 
-(defvar *areas* '((".net") ("biz") ("crypto") ("dcgs") ("j2ee") ("personal") ("tech") ("pub")))
+(defvar *areas* '((".net") ("biz") ("crypto") ("dcgs") ("j2ee") ("personal") ("tech") ("pub") ("priv")))
 (defvar *default-area* "pub")
 
 (defvar *myblog-db* (expand-file-name "~/.dscm"))
@@ -49,7 +50,10 @@
   )
 
 (defun generate-dscm-entry-name (area) (interactive)
-  (format  "%s/%s/%s"  *blog-home* area (format-time-string "%y%m%d%H%M%S"))
+  (if (string= area "priv")
+      (format  "%s/%s/%s"  (expand-file-name "~") ".private/blog" (format-time-string "%y%m%d%H%M%S"))
+    (format  "%s/%s/%s"  *blog-home* area (format-time-string "%y%m%d%H%M%S"))
+    )
   )
 
 ;; tbd: encode entities in content.  e.g. "&" -> "&amp;"
@@ -138,7 +142,6 @@
     (find-file  (nthblog n))
     )
   )
-(global-set-key "\M-n" 'nextblog)
 
 (defun priorblog (&optional arg) 
   "visit the blog prior to this one"
@@ -150,7 +153,6 @@
     (find-file  (nthblog n))
     )
   )
-(global-set-key "\M-p" 'priorblog)
 
 (defun grepblog (pat) 
   "grep for pat among blogs"
@@ -259,3 +261,7 @@ supports big ints"
     (w3m-goto-url url)
     )
   )
+
+(define-derived-mode blog-mode xml-mode "blog")
+(define-key blog-mode-map "\M-n" 'nextblog)
+(define-key blog-mode-map "\M-p" 'priorblog)

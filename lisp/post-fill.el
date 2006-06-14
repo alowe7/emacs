@@ -1,5 +1,5 @@
 (put 'post-fill 'rcsid
- "$Id: post-fill.el,v 1.1 2006-03-01 02:52:43 tombstone Exp $")
+ "$Id: post-fill.el,v 1.2 2006-06-14 20:34:42 alowe Exp $")
 
 ;; moved from w32
 
@@ -36,3 +36,5 @@
 
 (global-set-key "" 'soft-fill-region)
 
+(provide 'soft-fill)
+(provide 'hard-fill)

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.39 2006-06-09 19:19:04 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.40 2006-06-14 20:34:42 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -199,3 +199,8 @@
 ; (add-to-path "c:\\Program Files\\Java\\j2re1.4.2_03\\bin" t)
 
 (setq *minibuffer-display-unique-hit* t)
+
+(require 'ancestors)
+(loop for x in (ancestors (locate-library "post-fill")) do 
+      (condition-case err (load-file x) (error nil)))
+; (unless (featurep 'fill-width) (message "warning: feature fill-width not provided?") (sit-for 2))
