@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.7 2006-06-14 00:41:57 tombstone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.8 2006-06-15 02:48:42 tombstone Exp $")
 
 ; enoch
 (require 'xz-loads)
@@ -198,3 +198,5 @@
 
 ; use locate for everything else
 (setq  *fb-db* "/backup/f")
+
+(setq grep-command "grep -n -i -e ")
