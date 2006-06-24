@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.10 2006-06-09 19:19:04 alowe Exp $")
+ "$Id: os-init.el,v 1.11 2006-06-24 17:20:50 nathan Exp $")
 
 (chain-parent-file t)
 
@@ -306,7 +306,8 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   )
 ; (1+ (apply 'max (or (distinct-shell-buffers) 0)))
 
-(defvar *cmd* "/WINDOWS/system32/cmd.exe")
+(defvar *cmd* (expand-file-name (substitute-in-file-name "$SYSTEMROOT/system32/cmd.exe")))
+
 (defun cmd (&optional num)
   (interactive "p")
   ; (= num 4) is magic, becuase its the prefix
