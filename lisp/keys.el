@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.60 2006-06-08 16:11:18 alowe Exp $")
+ "$Id: keys.el,v 1.61 2006-07-01 14:01:14 tombstone Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -264,11 +264,13 @@
 
 (require 'cl)
 
-; \C-\\[0-9] create scratch buffers 
-(loop for x from 0 to 9 do
-      (let ((k (format "%d" x)))
-	(define-key ctl-/-map k 
-	  `(lambda () (interactive) (switch-to-buffer (get-scratch-buffer ,k))))
+; create scratch buffers with various default modes
+(loop for x in 
+      '("4" ("e" ".el") ("p" ".php") ("h" ".html") ("x" ".xml") ("j" ".java"))
+      do
+      (let ((thing (if (listp x) x (list x x))))
+	(define-key ctl-/-map (car thing)
+	  `(lambda () (interactive) (switch-to-buffer (get-scratch-buffer ,(cadr thing)))))
 	)
       )
 

@@ -1,5 +1,5 @@
 (put 'scratch-mode 'rcsid
- "$Id: scratch-mode.el,v 1.12 2006-07-01 13:43:58 tombstone Exp $")
+ "$Id: scratch-mode.el,v 1.13 2006-07-01 14:01:20 tombstone Exp $")
 
 (require 'ctl-ret)
 (require 'buff)
@@ -35,7 +35,7 @@ while (get-scratch-buffer \"el\") will generate a scratch buffer like el57748p2 
 											 (cdr (assoc (concat "\\" prefix  "$") auto-mode-alist)))
 										(list
 										 (make-temp-name prefix)
-										 scratch-mode
+										 'scratch-mode
 										 ))
 									)))
     (if (interactive-p) (switch-to-buffer b))
