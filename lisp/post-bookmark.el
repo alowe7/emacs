@@ -1,10 +1,12 @@
 (put 'post-bookmark 'rcsid
- "$Id: post-bookmark.el,v 1.4 2005-02-16 23:25:15 cvs Exp $")
+ "$Id: post-bookmark.el,v 1.5 2006-07-01 13:43:53 tombstone Exp $")
  
-(require 'ctl-slash)
-(define-key ctl-/-map (vector (ctl ?.)) 'bookmark-save)
-(define-key ctl-/-map (vector (ctl ?,)) 'bookmark-reload)
-(define-key ctl-/-map "e" 'edit-bookmarks)
+(require 'ctl-ret)
+(define-key ctl-RET-map "e" 'edit-bookmarks)
+(define-key ctl-RET-map "m" 'bookmark-set)
+(define-key ctl-RET-map "" 'bookmark-save)
+(define-key ctl-RET-map "" 'bookmark-reload)
+(define-key ctl-RET-map (vector (ctl ?.)) 'bookmark-jump) ; [\C-RET \C-.]
 
 (defun bookmark-reload () (interactive)
   (bookmark-load  bookmark-default-file t)
@@ -13,6 +15,3 @@
 (fset 'bookmark-add 'bookmark-set)
 
 ; don't use tags too much anymore
-(global-set-key "\M-." 'bookmark-set)
-(global-set-key "\M-," 'bookmark-jump)
-(global-set-key "\M-," 'bookmark-jump)
