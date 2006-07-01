@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.65 2006-06-07 21:36:10 alowe Exp $")
+ "$Id: fb.el,v 1.66 2006-07-01 15:36:11 tombstone Exp $")
 (require 'view)
 (require 'isearch)
 (require 'cat-utils)
@@ -485,27 +485,50 @@ returns a filename containing results"
     )
   )
 
-(defun ff (&optional search-string filter show)
-  (interactive)
-  (if (or show (interactive-p))
-      (call-interactively 'locate)
-    (save-window-excursion
-      (if (and
-	   (condition-case err (funcall 'locate search-string) (error nil))
-	   (string-match "Matches for .*: 
+; tbd promote/merge config/os/*/fb.el ...
 
-" (buffer-string)))
-	  (let ((l
-		 (remove* "" (mapcar 'trim-white-space (split (buffer-substring (match-end 0) (point-max)) "
-")) :test 'string=)))
+(defun ff (pat)
+  "fast find files -- search for file matching PAT in `*fb-db*'"
 
-	    (if filter
-		(remove* nil 
-			 (loop for x in l collect (funcall filter x)))
-	      l)
-	    )
+  (interactive "sfind files: ")
+  (let* ((top default-directory)
+	 (default-directory "/")
+	 (b (zap-buffer *fastfind-buffer*))
+	 f)
+
+    (if (= (length *fb-db*) 0)
+	(progn
+	  (setq *fb-db* *default-fb-db*)
+	  (setq top "/")
+	  )
+
+      (progn 
+	(if (file-directory-p *fb-db*)
+	    (setq *fb-db* (concat *fb-db* "/f")))
+	(setq 
+	 top (file-name-directory *fb-db*)
+	 )
 	)
       )
+
+    (ff1 *fb-db* pat b top)
+
+  ; try to avoid splitting (buffer-string) 
+
+    (cond ((and *fb-auto-go* 
+		(interactive-p) 
+		(= (count-lines (point-min) (point-max)) 1)
+		(not (probably-binary-file (setq f (car (split (buffer-string) "
+"))))))
+  ; pop to singleton if appropriate
+	   (find-file f))
+  ; else pop to listing if interactive
+	  ((interactive-p)
+	   (pop-to-buffer b))
+  ; else just return the list
+	  (t (split (buffer-string) "
+")
+	     ))
     )
   )
 

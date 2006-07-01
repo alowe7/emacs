@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.8 2006-06-15 02:48:42 tombstone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.9 2006-07-01 15:36:11 tombstone Exp $")
 
 ; enoch
 (require 'xz-loads)
@@ -200,3 +200,4 @@
 (setq  *fb-db* "/backup/f")
 
 (setq grep-command "grep -n -i -e ")
+(setq jit-lock-stealth-time 1)

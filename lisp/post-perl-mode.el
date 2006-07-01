@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.25 2004-08-11 14:55:52 cvs Exp $")
+ "$Id: post-perl-mode.el,v 1.26 2006-07-01 15:36:11 tombstone Exp $")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
@@ -140,6 +140,32 @@ with optional FILE, operate on that"
 	(pod2text m)
       )
     )
+  )
+
+(defun list-perl-subs ()
+  "collect all the subs in current buffer
+"
+  (list-things
+   (format "^%s[ 	]+\\(.*\\)[ 	]"  "sub"))
+  )
+
+(defun list-things (pat)
+"collect all the subs in current buffer
+"
+  (save-excursion
+    (goto-char (point-min))
+    (loop 
+     while (re-search-forward pat nil t)
+     collect (buffer-substring (match-beginning 1) (match-end 1))
+     )
+    )
+  )
+
+(defun perl-package-exports ()
+  (insert "    @EXPORT      = qw(")
+  (loop for x in (list-perl-subs) do (insert x " "))
+  (insert ");
+")
   )
 
 ;;; 
