@@ -1,6 +1,7 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.4 2006-06-09 19:19:04 alowe Exp $")
+ "$Id: xdb.el,v 1.5 2006-07-07 19:17:55 alowe Exp $")
 
+; what does this do?
 (put 'post-xdb 'host-init (this-load-file))
 
 (chain-parent-file t)

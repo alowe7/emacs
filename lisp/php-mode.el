@@ -1,8 +1,10 @@
 (put 'php-mode 'rcsid
- "$Id: php-mode.el,v 1.1 2006-03-01 02:52:43 tombstone Exp $")
+ "$Id: php-mode.el,v 1.2 2006-07-07 19:17:36 alowe Exp $")
 
 (define-derived-mode php-mode java-mode "PHP" "")
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+
+(modify-syntax-entry ?_ "w" php-mode-syntax-table)
 
 (defvar *php-manual* "http://localhost/php-manual/")
 (defun php-helpers ()
@@ -18,3 +20,4 @@
     (php-helpers)
   (add-hook 'w3m-load-hook 'php-helpers))
 
+(provide 'php-mode)

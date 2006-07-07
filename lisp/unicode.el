@@ -1,9 +1,14 @@
+(put 'unicode 'rcsid
+ "$Id: unicode.el,v 1.5 2006-07-07 19:17:36 alowe Exp $")
+
+(defvar *unicode-signature* (vector 2303 2302 ))  ;  "Ã¿Ã¾" 
+
 ;; put this on file load hook, with utf-8 recognition/view only
 
 (defun fix-unicode-file () (interactive)
   (save-excursion
     (goto-char (point-min))
-    (if (looking-at "ÿþ")
+    (if (looking-at *unicode-signature*)
 	(progn
 	  (delete-char 2)
 	  (while (not (eobp))
@@ -21,7 +26,7 @@
 (defun utf-8-hook () (interactive)
   (save-excursion
     (goto-char (point-min))
-    (if (looking-at "ÿþ")
+    (if (looking-at *unicode-signature*)
 	(fix-unicode-file)))
   )
 

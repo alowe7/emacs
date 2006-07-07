@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.61 2006-07-01 14:01:14 tombstone Exp $")
+ "$Id: keys.el,v 1.62 2006-07-07 19:17:36 alowe Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -259,6 +259,7 @@
 (require 'ctl-slash)
 
 (define-key ctl-/-map "f" 'locate)
+(define-key ctl-/-map "" 'locate-with-filter)
 
 (define-key ctl-/-map "/" 'vars-like-with)
 
@@ -274,7 +275,14 @@
 	)
       )
 
-(provide 'keys)
-
+; what's this about?
 (global-set-key "\M-" 'backward-word)
 (global-set-key "\M-\\" 'forward-word)
+
+(require 'ctl-ret)
+
+(define-key ctl-RET-map "e" 'edit-bookmarks)
+(define-key ctl-RET-map "m" 'bookmark-set)
+
+(provide 'keys)
+

@@ -1,5 +1,5 @@
 (put 'post-psgml 'rcsid
- "$Id: post-psgml.el,v 1.10 2006-07-01 15:36:11 tombstone Exp $")
+ "$Id: post-psgml.el,v 1.11 2006-07-07 19:17:36 alowe Exp $")
 
 ;; override sgml-list-implications to not popup the stupid error buffer
 
@@ -130,3 +130,11 @@ Where the latter represents end-tags."
 	  (setq imps nil))))
     ;; Return the implications in correct order
     (nreverse imps)))
+
+; this should shut up the warning log window
+(fset 'orig-sgml-log-warning (symbol-function 'sgml-log-warning))
+(defun sgml-log-warning (format &rest things)
+  (and bang
+       (message (apply 'format (nconc (list format) things)))
+       )
+  )

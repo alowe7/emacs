@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.38 2006-06-08 16:11:18 alowe Exp $")
+ "$Id: post-w3m.el,v 1.39 2006-07-07 19:17:36 alowe Exp $")
 (require 'w3m)
 
 ;; from url-helpers
@@ -307,14 +307,15 @@
 ;
 (define-key w3m-mode-map "i" 'w3m-display-current-url)
 
-; xxx finish this...
-(defun w3m-view-file-url (arg)
+(defun w3m-view-file-url (&optional s)
   "view current buffer's file via w3m.  interactive with arg, prompt for file name"
   (interactive "P")
-  (let* ((xfn (if (eq window-system 'w32) 'gsn 'identity))
-	 (f (funcall xfn (if arg (read-file-name "view file via w3m: ") (buffer-file-name)))))
-    (shell-command 
-     (format "w3m %s" f))
+
+  (let ((f 
+	 (expand-file-name (cond ((null s)
+				  (cond ((eq major-mode 'dired-mode)  (dired-get-filename))))
+				 (t s)))))
+    (w3m-goto-url f) 
     )
   )
 

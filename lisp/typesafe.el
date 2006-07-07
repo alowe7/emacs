@@ -1,5 +1,5 @@
 (put 'typesafe 'rcsid
- "$Id: typesafe.el,v 1.5 2005-07-06 16:36:53 cvs Exp $")
+ "$Id: typesafe.el,v 1.6 2006-07-07 19:17:36 alowe Exp $")
 
 (require 'trim)
 
@@ -65,6 +65,24 @@ see `read-string*' and `read-file-name'
 	 (*s* (read-file-name (format *prompt* *d*))))
  
     (or (and (sequencep *s*) (> (length *s*) 0) *s*) *d*)
+    )
+  )
+
+(defmacro completing-read* (**prompt** **table** &optional **default** **rest**)
+  "interactively read for string, prompting with PROMPT, completing from LIST with default value DEFAULT.
+optional ARGS may be a list of args for `completing-read'
+pat may have formatting strings in it, see `format'
+the result of `read-string' is passed to `string*'
+"
+  (let* ((*prompt* (eval **prompt**))
+	 (*d* (eval **default**))
+	 (*table* (eval **table**))
+	 (*rest* (eval **rest**))
+	 (*s* (apply 'completing-read (nconc (list (format *prompt* *d*) *table*) *rest*)))
+	 (v (if (or (null *s*) (= (length *s*) 0)) *d* *s*))
+	 )
+
+    v
     )
   )
 

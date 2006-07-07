@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.12 2006-06-25 16:32:08 nathan Exp $")
+ "$Id: os-init.el,v 1.13 2006-07-07 19:17:55 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -380,22 +380,6 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
     (if interprogram-cut-function
 	(funcall interprogram-cut-function txt t))
     txt))
-
-(defun dired-cut-dos-filename ()
-  "this function translates the region between BEGIN and END using `w32-canonify' and copies the result into the kill-ring.
-if `interprogram-cut-function' is defined, it is invoked with the canonified result.
-when called from a program, if BEGIN is a string, then use it as the kill text instead of the region
-"
-  (interactive)
-  (condition-case x
-      (let ((txt (w32-canonify (dired-get-filename))))
-	(kill-new txt)
-	(if interprogram-cut-function
-	    (funcall interprogram-cut-function txt t))
-	txt)
-    (error (call-interactively 'cut-dos-filename)))
-  )
-(add-hook 'dired-mode-hook '(lambda () (define-key dired-mode-map "\C-cw" 'dired-cut-dos-filename)))
 
 (defun cut-unix-filename (begin &optional end)
   "this function translates the region between BEGIN and END using `unix-canonify' and copies the result into the kill-ring.

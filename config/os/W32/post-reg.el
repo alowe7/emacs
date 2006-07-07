@@ -1,5 +1,7 @@
 (put 'post-reg 'rcsid
- "$Id: post-reg.el,v 1.3 2004-07-27 22:20:26 cvs Exp $")
+ "$Id: post-reg.el,v 1.4 2006-07-07 19:17:55 alowe Exp $")
+
+(require 'reg)
 
 (defun lsrun (arg) (interactive "P") 
   "show the contents of the windows/currentversion/run key in the machine hive.
