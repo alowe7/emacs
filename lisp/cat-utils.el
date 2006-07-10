@@ -269,8 +269,15 @@ if PAT is not specified, splits on all white space: [SPC, TAB, RET]
   )
 
 (defun basename (f &optional ext)
+  "perl flavored composition of `file-name-sans-extension' and `file-name-nondirectory'
+"
   (file-name-sans-extension (file-name-nondirectory f) ext)
   )
 
+(defun cmp (s1 s2 &optional ignore-case) 
+  "perl flavored version of `compare-strings'
+"
+  (compare-strings s1 nil nil s2 nil nil ignore-case) 
+  )
 
 (provide 'cat-utils)

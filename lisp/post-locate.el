@@ -1,5 +1,5 @@
 (put 'post-locate 'rcsid 
- "$Id: post-locate.el,v 1.7 2006-06-09 19:19:04 alowe Exp $")
+ "$Id: post-locate.el,v 1.8 2006-07-10 16:15:09 tombstone Exp $")
 
 (require 'fb)
 
@@ -18,6 +18,7 @@
   )
 
 ; (if (ad-is-advised 'locate-mode) (ad-unadvise 'locate-mode))
+
 
 (defadvice locate (around 
 		   post-hook-locate
