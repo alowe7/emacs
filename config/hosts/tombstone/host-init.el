@@ -1,10 +1,41 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.9 2006-07-01 15:36:11 tombstone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.10 2006-07-10 01:55:53 tombstone Exp $")
 
 ; enoch
+
+; run xfontsel, then...
+; (insert (x-get-selection))
+(require 'long-comment)
+(/*
+ (setq default-fontspec "-*-*-medium-r-normal-*-17-*-*-*-p-*-iso8859-1")
+  ; (setq default-fontspec "-*-*-medium-r-normal-*-18-*-*-*-p-*-iso8859-1")
+
+ (setq initial-frame-alist
+       `(
+	 (top . 71)
+	 (left . 111)
+	 (width . 58)
+	 (height . 36)
+	 (background-mode . light)
+	 (cursor-type . box)
+	 (border-color . "black")
+	 (cursor-color . "black")
+	 (mouse-color . "black")
+	 (background-color . "white")
+	 (foreground-color . "black")
+	 (vertical-scroll-bars)
+	 (internal-border-width . 0)
+	 (border-width . 2)
+	 (font . ,default-fontspec)
+	 (menu-bar-lines . 0))
+       )
+ (setq default-frame-alist initial-frame-alist)
+ )
+
 (require 'xz-loads)
 (require 'cat-utils)
 (require 'gnuserv)
+(setq display-time-day-and-date t)
 (display-time)
 
 (defvar *xdpyinfo* nil)
@@ -14,70 +45,15 @@
 ") collect (split x ":"))))
   (if attr (assoc attr *xdpyinfo*) *xdpyinfo*))
 
-;; 
-;;  ;; not sure what's wrong here... set-default-font and set-face-attribute are taking forever
-;; 
-;; ; (string-match "Hummingbird Ltd."  (cadr (xdpyinfo "vendor string")))
-;; 
-;; (if (eq window-system 'x)
-;;   ;      (set-background-color "white")
-;;   ;      (set-foreground-color "black")
-;;   ; hummingbird sets up different fonts from xfree86
-;;     (if (string-match "Hummingbird Ltd."  (cadr (xdpyinfo "vendor string")))
-;; 	(progn
-;; 	  (setq initial-frame-alist 
-;; 		'(
-;; 		  (top . 56)
-;; 		  (left . 70)
-;; 		  (width . 47)
-;; 		  (height . 28)
-;; 		  (font . "-adobe-helvetica-medium-r-normal--17-120-100-100-p-88-iso8859-1")))
-;; 	  (set-frame-width nil 47)
-;; 	  (set-frame-height nil 28)
-;; 	  (set-face-attribute 'default nil :font "-adobe-helvetica-medium-r-normal--17-120-100-100-p-88-iso8859-1")
-;; 	  )
-;;       )
-;; 
-;;   ;;       (progn
-;;   ;; 	(setq default-font
-;;   ;; 	      "-adobe-helvetica-medium-r-normal--17-120-100-100-p-88-iso8859-1"
-;;   ;;   ; "lucidasanstypewriter-14"
-;;   ;;   ; "-b&h-lucida-medium-r-normal-sans-18-180-75-75-p-106-iso10646-1"
-;;   ;; 	      default-frame-alist
-;;   ;; 	      `(
-;;   ;; 		(top . 56)
-;;   ;; 		(left . 70)
-;;   ;; 		(width . 47)
-;;   ;; 		(height . 28)
-;;   ;; 		(vertical-scroll-bars)
-;;   ;; 		(tool-bar-lines . 0)
-;;   ;; 		(menu-bar-lines . 0)
-;;   ;; 		(font . ,default-font))
-;;   ;; 	      initial-frame-alist  
-;;   ;; 	      default-frame-alist
-;;   ;; 	      )
-;;   ;; 	(set-default-font default-font)
-;;   ;; 	(set-face-attribute 'default nil :font default-font)
-;;   ;; 	(set-frame-width nil 47)
-;;   ;; 	(set-frame-height nil 28)
-;;   ;; 	)
-;;   ;;
-;;   )
-;; 
-
 (scroll-bar-mode -1)
 
-; (add-to-list 'Info-default-directory-list "/simon/e/usr/local/lib/info" )
 (setenv "PERL5LIB" "/usr/local/site-lib/perl")
 
 ; (require 'xz-loads)
-; (define-key xz-map "" 'xz-query-format)
-
-; (setq *perl-libs* (split (perl-command-2 "map {print \"$_ \"} @INC")))
 
 (defun evilnat () t)
 
-(setq mail-default-reply-to "a@alowe.com")
+(setq mail-default-reply-to "alowe7@alowe.com")
 
 (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -110,11 +86,6 @@
 
 ; lets move on... 
 (global-set-key (vector 25165856) 'roll-buffer-list)
-
-(defun compare-with-slash () (interactive)
-  (find-file-other-window (concat "/slash" (buffer-file-name)))
-  )
-(define-key ctl-/-map "" 'compare-with-slash)
 
 (if (file-exists-p "~/.private/.xdbrc")
     (scan-file "~/.private/.xdbrc"))
