@@ -1,5 +1,7 @@
 (put 'post-vc 'rcsid
- "$Id: post-vc.el,v 1.15 2004-09-27 22:02:42 cvs Exp $")
+ "$Id: post-vc.el,v 1.16 2006-07-15 02:07:34 tombstone Exp $")
+
+(require 'cat-utils) ;; just for chomp
 
 (defun identify () 
   "insert a sccs ID string at head of file."
@@ -27,9 +29,15 @@ else if ARG, read file name. "
 		  ((and arg (symbolp arg)) (symbol-name arg))
 		  (arg (read-file-name "file: "))
 		  (t (buffer-file-name))))
-	 (id (and f (get (intern (file-name-sans-extension (file-name-nondirectory f))) (quote rcsid)))))
+	 (base (and f (intern (file-name-sans-extension (file-name-nondirectory f)))))
+	 (id (and base (get base (quote rcsid))))
+	 (chain (and base (get base (quote rcsid-chain))))
+	 )
     (if (interactive-p)
-	(message (or id (format "no rcsid for library %s" f)))
+	(message (if id
+		     (chomp (pp (nconc (list id) chain)))
+		   (format "no rcsid for library %s" f)
+		   ))
       id)
     )
   )
