@@ -1,5 +1,5 @@
 (put 'people 'rcsid
- "$Id: people.el,v 1.3 2006-06-07 21:36:10 alowe Exp $")
+ "$Id: people.el,v 1.4 2006-08-08 16:17:51 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -15,7 +15,8 @@
   (let* (
 	 (db (or db 
 		 *dscm-database*))
-	 (sql (format "select Employee, Ext from people where Employee like '%%%s%%'" name))
+  ; see /content/personal/people.sql for the schema
+	 (sql (format "select * from people where name like '%%%s%%' order by name" name))
 	 (retval (perl-command-1 "txodbc" :args (list "-n" *dscm-database* sql)))
 	 (b (zap-buffer "*people*" 'people-mode)))
 

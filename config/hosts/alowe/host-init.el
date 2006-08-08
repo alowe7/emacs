@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.40 2006-06-14 20:34:42 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.41 2006-08-08 16:17:51 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -119,8 +119,10 @@
 ;; 	 (not (string-match (getenv "XDBDOMAIN") (getenv "XDBHOST"))))
 ;;     (setenv "XDBHOST" (concat (getenv "XDBHOST") "." (getenv "XDBDOMAIN"))))
 ;; 
+
 (require 'gnuserv)
 
+; this shortens the timeout for \\localdir\file being interpreted as \\host\file
 (mount-hook-file-commands)
 
 (defvar grep-command "grep -n -i -e ")
@@ -204,3 +206,13 @@
 (loop for x in (ancestors (locate-library "post-fill")) do 
       (condition-case err (load-file x) (error nil)))
 ; (unless (featurep 'fill-width) (message "warning: feature fill-width not provided?") (sit-for 2))
+
+; gpg is here
+(add-to-load-path "/z/gpg" t)
+(setq *gpg-default-homedir*  (expand-file-name "~/.private/gnupg"))
+(condition-case x (load "/z/gpg/.autoloads") (error nil))
+(setq *gpg-command* "/home/alowe/bin/gpg.exe")
+(setq *gpg-default-file*  "~/.private/wink")
+; (setq *gpg-default-homedir*  "~/.gnupg")
+(setq *gpg-encode-target* "Andrew Lowe")
+(setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
