@@ -1,11 +1,11 @@
 (put 'myblog2 'rcsid
- "$Id: myblog2.el,v 1.1 2006-07-07 19:17:36 alowe Exp $")
+ "$Id: myblog2.el,v 1.2 2006-08-08 14:20:13 alowe Exp $")
 
 ; clean room version of MyBlog that uses asp
 
 (require 'eval-process)
 
-(defvar *basedir* (expand-file-name "~/www/pub/dscm/"))
+(defvar *basedir* (expand-file-name "/content/"))
 
 (defun myblog2 (&optional datestamp)
   (interactive)
