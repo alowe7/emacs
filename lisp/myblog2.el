@@ -1,5 +1,5 @@
 (put 'myblog2 'rcsid
- "$Id: myblog2.el,v 1.2 2006-08-08 14:20:13 alowe Exp $")
+ "$Id: myblog2.el,v 1.3 2006-08-22 00:51:09 alowe Exp $")
 
 ; clean room version of MyBlog that uses asp
 
@@ -98,3 +98,5 @@ non-interactively with arg, likewise, with url instead of filename
 
 ; if you are looking at a file in *basedir*, assume its a blog
 (add-hook 'find-file-hooks 'blog-find-file-hook)
+
+(provide 'myblog2)

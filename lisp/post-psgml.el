@@ -1,5 +1,5 @@
 (put 'post-psgml 'rcsid
- "$Id: post-psgml.el,v 1.11 2006-07-07 19:17:36 alowe Exp $")
+ "$Id: post-psgml.el,v 1.12 2006-08-22 00:51:09 alowe Exp $")
 
 ;; override sgml-list-implications to not popup the stupid error buffer
 
@@ -22,6 +22,10 @@
   (define-key sgml-mode-map "\C-c\C-l" 'goto-line)
   (setq sgml-indent-data t)
   (recenter)
+
+  ; think of a better way to do this...
+  (and (string= (file-name-nondirectory (buffer-file-name)) "build.xml")
+       (setq compile-command (format "%s -emacs " *ant-command* )))
   )
 (add-hook 'sgml-mode-hook 'my-sgml-mode-hook)
 

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.41 2006-08-08 16:17:51 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.42 2006-08-22 00:51:09 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -161,7 +161,10 @@
 
 ; still broken for eval-expression, via read-from-minibuffer
 
-(setq compile-command "/usr/local/lib/apache-ant-1.6.5/bin/ant ")
+(setq *ant-command* "/usr/local/lib/apache-ant-1.6.5/bin/ant ")
+(setq compile-command *ant-command*)
+(make-variable-buffer-local 'compile-command)
+(set-default 'compile-command  *ant-command*)
 
 (add-hook 'perl-mode-hook
 	  '(lambda () (font-lock-mode t)))
@@ -216,3 +219,7 @@
 ; (setq *gpg-default-homedir*  "~/.gnupg")
 (setq *gpg-encode-target* "Andrew Lowe")
 (setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
+
+(require 'logview-mode)
+
+(require 'myblog)

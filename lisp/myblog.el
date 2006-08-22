@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.10 2006-08-08 14:20:13 alowe Exp $")
+ "$Id: myblog.el,v 1.11 2006-08-22 00:51:09 alowe Exp $")
 
 ;; myblog
 
@@ -62,13 +62,19 @@
 
 ;; tbd: encode entities in content.  e.g. "&" -> "&amp;"
 
+(defun fix-utf8-chars-in-string (s)
+  (let ((utf8-chars '(("\205" "...") ("\222" "\'") ("\223" "\"") ("\224" "\""))))
+    (loop for x in utf8-chars do (setq s (replace-regexp-in-string (car x) (cadr x) s)))
+    s)
+  )
+
 (defun myblog (&optional datestamp) (interactive)
   (let* (
 	 (area (setq *default-area* (completing-read (format "area (%s): " *default-area*) *areas* nil t nil nil *default-area*)))
 	 (subject1 (read-string "subject: "))
 	 (timestring (format-time-string "%y%m%d %H:%M:%S"))
 	 (file (generate-dscm-entry-name area))
-	 (body (get-scratch-buffer-contents "*blog*"))
+	 (body (fix-utf8-chars-in-string (get-scratch-buffer-contents "*blog*")))
 	 (subject (or (string* subject1 (read-string "subject: "))))
 	 (content
 	  (format "

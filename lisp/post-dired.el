@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.40 2006-08-08 14:20:13 alowe Exp $")
+ "$Id: post-dired.el,v 1.41 2006-08-22 00:51:09 alowe Exp $")
 
 (require 'dired-advice)
 
@@ -304,15 +304,6 @@ see `file-assoc-list'"
   (dired-cvs-cmd "up")
   )
 
-(defun dired-copy-filename-as-kill (arg) 
-  "apply `kill-new' to `dired-get-filename'"
-  (interactive "P")
-  (let* ((f (dired-get-filename))
-	 (s (copy-filename-as-kill f)))
-    (if (interactive-p) (message s))
-    )
-  )
-
 (defun dired-make-backup ()
   "make a backup of `dired-get-filename' using `make-backup-file-name'"
  (interactive)
@@ -366,7 +357,7 @@ see `file-assoc-list'"
 			      (define-key  dired-mode-map "P" '(lambda () (interactive) (dos-print (dired-get-filename))))
 			      (define-key  dired-mode-map (vector ? ?\C-0) 'kill-dired-filename)
 			      (define-key dired-mode-map "|" 'dired-pipe-file)
-			      (define-key  dired-mode-map "\C-cx" 'dired-copy-filename-as-kill)
+			      (define-key  dired-mode-map "\C-cw" 'dired-what-file)
 			      (define-key  dired-mode-map "\M-~" 'dired-make-backup)
 
 			      (define-key  dired-mode-map "\C-cu" 'dired-zip-extract)
@@ -399,11 +390,11 @@ see `file-assoc-list'"
   "apply `kill-new' to `dired-get-filename' with optional ARG, canonify first"
   (interactive "P")
 
-  (let* ((f (dired-get-filename))
-	 (s (if arg (canonify f) f)))
+  (let* ((f (or (dired-get-filename nil t) default-directory))
+	 (s (if arg (w32-canonify f) f)))
     (kill-new s)
     (message s)
     )
   )
-(define-key dired-mode-map (vector ? ?\C-.)  'dired-what-file)
+
 
