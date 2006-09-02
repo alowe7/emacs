@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.19 2006-06-07 00:56:54 nathan Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.20 2006-09-02 21:17:16 nathan Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -37,8 +37,8 @@
 ; (requirex 'worlds)
 (defun evilnat () (not (string-match "ok" (perl-command "evilnat"))))
 
-(require 'xz-loads)
-(require 'gnuserv)
+; xxxtbd (require 'xz-loads)
+; xxxtbd (require 'gnuserv)
 
 ;(load-library "xdb")
 
@@ -87,6 +87,7 @@
 	)
   )
 
+
 (add-to-load-path "/u/emacs-w3m-1.3.2")
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
 
@@ -105,7 +106,7 @@
 (setq *gpg-command* "/usr/local/lib/gpg-1.4.1/gpg.exe")
 (setq *gpg-default-file*  "~/.private/wink")
 ; keyrings on removable compact flash card
-(setq *gpg-default-homedir*  "h:/.gnupg")
+(setq *gpg-default-homedir*  "g:/.gnupg")
 ; (setq *gpg-default-homedir*  "~/.gnupg")
 
 (setq *gpg-encode-target* "Andrew")
@@ -156,6 +157,8 @@
 (setenv "INFOPATH" "/usr/share/info")
 ; (setenv "INFOPATH" "/usr/share/emacs/info/")
 
+(add-to-load-path "/usr/share/emacs/site-lisp/psgml-1.2.5")
+
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
 
@@ -164,3 +167,5 @@
 ; todo: get to the bottom of this
 (add-to-list 'hooked-preloaded-modules "man")
 (load-library "post-man")
+
+(define-key ctl-x-map (vector 'f10) 'maximize-frame)
