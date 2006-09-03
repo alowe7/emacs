@@ -1,11 +1,11 @@
 (put 'xa 'rcsid
- "$Id: xa.el,v 1.5 2005-02-23 00:44:42 cvs Exp $")
+ "$Id: xa.el,v 1.6 2006-09-03 15:42:15 tombstone Exp $")
 
 (define-derived-mode xa-mode fundamental-mode "xa" "")
 
 (defun xa (&optional prompt initial-input buffer cancel-message)
   "switch to a temp buffer to edit an entry.
-giving optional PROMPT
+giving optional PROMPT INITIAL-INPUT BUFFER CANCEL-MESSAGE
 return the bufferstring"
 
   (condition-case v

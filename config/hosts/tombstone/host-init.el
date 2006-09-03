@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.10 2006-07-10 01:55:53 tombstone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.11 2006-09-03 15:42:14 tombstone Exp $")
 
 ; enoch
 
@@ -101,8 +101,9 @@
 ; gpg is here
 (add-to-load-path "/z/gpg" t)
 (condition-case x (load "/z/gpg/.autoloads") (error nil))
-(setq *gpg-default-file*  "/nathan/c/home/a/.private/wink")
-(setq *gpg-default-homedir*  "/nathan/h/.gnupg") 
+(setq *gpg-command* (whence "gpg"))
+(setq *gpg-default-file*  "~/.private/wink")
+(setq *gpg-default-homedir*  "~/.private/.gnupg")
 (setq *gpg-encode-target* "Andrew")
 (setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
 
@@ -145,6 +146,7 @@
 
 (defun email ()
   (interactive)
+  (require 'defun-maybe) ; this is broken in pym.el
   (vm-visit-inbox)
   )
 

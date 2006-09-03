@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.11 2006-08-22 00:51:09 alowe Exp $")
+ "$Id: myblog.el,v 1.12 2006-09-03 15:42:15 tombstone Exp $")
 
 ;; myblog
 
@@ -9,8 +9,8 @@
 
 ;; this stuff should be in db, presentation layer should do all formatting.
 
-(defvar *blog-home-url* "http://localhost:10080/dcgs")
-(defvar *blog-home* (expand-file-name "content" my-documents))
+(defvar *blog-home-url* "http://localhost:20080")
+(defvar *blog-home* (expand-file-name "/content"))
 
 (defvar *areas*
   (loop for x in  (split (eval-process  (format "find %s -mindepth 1 -maxdepth 1 -type d" *blog-home*)) "\n") collect (list  (file-name-nondirectory x)))
