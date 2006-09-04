@@ -1,5 +1,5 @@
-(put 'xdb 'rcsid
- "$Id: unicode.el,v 1.1 2006-09-04 19:04:52 nathan Exp $")
+(put 'unicode 'rcsid
+ "$Id: unicode.el,v 1.2 2006-09-04 19:05:51 nathan Exp $")
 
 ; tbd figure out why some systems like:
 ;	(vector 2303 2302 )
