@@ -1,5 +1,5 @@
 (put 'other 'rcsid
- "$Id: other.el,v 1.4 2005-07-02 20:12:18 cvs Exp $")
+ "$Id: other.el,v 1.5 2006-09-22 20:01:51 alowe Exp $")
 
 (defun other-lastline (&optional p) 
   (cond ((< p (point-max))
@@ -114,11 +114,6 @@
   )
 
 (fset 'copy-file-other-window 'cfo)
-
-(add-hook 'dired-mode-hook '(lambda ()
-			      (define-key dired-mode-map (vector 'f11) 'rfo)
-			      (define-key dired-mode-map (vector 'f10) 'cfo)
-			      ))
 
 (defun cfa () (interactive)
   (dired-copy-marked-files

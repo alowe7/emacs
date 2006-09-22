@@ -1,5 +1,5 @@
 (put 'mktime 'rcsid
- "$Id: mktime.el,v 1.2 2006-05-19 14:58:51 tombstone Exp $")
+ "$Id: mktime.el,v 1.3 2006-09-22 20:01:51 alowe Exp $")
 
 ; some date and timestamp utilities
 
@@ -61,7 +61,7 @@ with second optional arg REVERSE, convert a timestamp into a rfc822 time string"
 		       (t
 			(apply 'eval-process (list "mktime")))
 		       )))))
-    (if (interactive-p) (message v) v)
+    (if (interactive-p) (message (kill-new v)) v)
     )
   )
 

@@ -1,5 +1,5 @@
 (put 'todo 'rcsid 
- "$Id: todo.el,v 1.13 2005-10-06 15:22:24 cvs Exp $")
+ "$Id: todo.el,v 1.14 2006-09-22 20:01:51 alowe Exp $")
 (require 'eval-process)
 (require 'input)
 
@@ -15,11 +15,15 @@
   (end-of-buffer)
   )
 
+(define-derived-mode todo-mode fundamental-mode ".todo.")
+(define-key todo-mode-map "" 'done)
+
 (defun vt ()
   " suck todo file into an edit buffer"
   (interactive)
   (find-file master-todo-file)
   (end-of-buffer)
+  (todo-mode)
   )
 
 
