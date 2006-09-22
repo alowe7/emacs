@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.42 2006-08-22 00:51:09 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.43 2006-09-22 20:07:36 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -161,10 +161,17 @@
 
 ; still broken for eval-expression, via read-from-minibuffer
 
-(setq *ant-command* "/usr/local/lib/apache-ant-1.6.5/bin/ant ")
+(defvar *ant-command* "/usr/local/lib/apache-ant-1.6.5/bin/ant ")
+(defvar *make-command* "make -k")
 (setq compile-command *ant-command*)
 (make-variable-buffer-local 'compile-command)
 (set-default 'compile-command  *ant-command*)
+
+(defadvice compile (around  hook-compile first  activate)
+  "hook compile to call make if default-directory contains a makefile, ant otherwise"
+  (and (file-exists-p "Makefile") (setq compile-command *make-command*) )
+  ad-do-it
+  )
 
 (add-hook 'perl-mode-hook
 	  '(lambda () (font-lock-mode t)))
