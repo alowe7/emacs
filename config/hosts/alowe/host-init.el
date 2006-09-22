@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.43 2006-09-22 20:07:36 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.44 2006-09-22 20:19:49 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -162,15 +162,26 @@
 ; still broken for eval-expression, via read-from-minibuffer
 
 (defvar *ant-command* "/usr/local/lib/apache-ant-1.6.5/bin/ant ")
-(defvar *make-command* "make -k")
+(defvar *make-command* "make -k ")
 (setq compile-command *ant-command*)
 (make-variable-buffer-local 'compile-command)
 (set-default 'compile-command  *ant-command*)
 
-(defadvice compile (around  hook-compile first  activate)
+; advice won't work to tweak an interactive form
+(unless (and (boundp 'orig-compile) orig-compile)
+  (setq orig-compile (symbol-function 'compile)))
+(defun compile (command)
   "hook compile to call make if default-directory contains a makefile, ant otherwise"
-  (and (file-exists-p "Makefile") (setq compile-command *make-command*) )
-  ad-do-it
+  (interactive
+   (let ((compile-command
+	  (or (and (file-exists-p "Makefile") *make-command*) compile-command)))
+     (if (or compilation-read-command current-prefix-arg)
+	 (list (read-from-minibuffer "Compile command: "
+				     (eval compile-command) nil nil
+				     '(compile-history . 1)))
+       (list (eval compile-command)))))
+
+  (funcall orig-compile command)
   )
 
 (add-hook 'perl-mode-hook
