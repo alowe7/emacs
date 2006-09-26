@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.62 2006-07-07 19:17:36 alowe Exp $")
+ "$Id: keys.el,v 1.63 2006-09-26 18:56:13 alowe Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -266,14 +266,8 @@
 (require 'cl)
 
 ; create scratch buffers with various default modes
-(loop for x in 
-      '("4" ("e" ".el") ("p" ".php") ("h" ".html") ("x" ".xml") ("j" ".java"))
-      do
-      (let ((thing (if (listp x) x (list x x))))
-	(define-key ctl-/-map (car thing)
-	  `(lambda () (interactive) (switch-to-buffer (get-scratch-buffer ,(cadr thing)))))
-	)
-      )
+(define-key ctl-/-map "4"
+  `(lambda (&optional arg) (interactive "P") (switch-to-buffer (get-scratch-buffer arg))))
 
 ; what's this about?
 (global-set-key "\M-" 'backward-word)

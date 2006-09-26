@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.39 2006-07-07 19:17:36 alowe Exp $")
+ "$Id: post-w3m.el,v 1.40 2006-09-26 18:56:13 alowe Exp $")
 (require 'w3m)
 
 ;; from url-helpers
@@ -62,8 +62,12 @@
     )
   )
 
+(defun urlencode (thing) (replace-regexp-in-string " " "%20" thing))
 (defun w3m-copy-current-url (&optional arg) (interactive "P")
-  (kill-new (if (and arg (w3m-anchor)) (w3m-anchor) w3m-current-url))
+  (let* ((url (if (or arg (null (w3m-anchor))) w3m-current-url  (w3m-anchor)))
+	 (and arg (setq url (urlencode url))))
+    (kill-new url)
+    )
   )
 
 (defun w3m-display-current-url () (interactive)

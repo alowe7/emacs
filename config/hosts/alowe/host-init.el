@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.44 2006-09-22 20:19:49 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.45 2006-09-26 18:56:13 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -241,3 +241,7 @@
 (require 'logview-mode)
 
 (require 'myblog)
+
+; string quoting logic in font-lock if f***-ed up
+
+(setq font-lock-string-face 'default)
