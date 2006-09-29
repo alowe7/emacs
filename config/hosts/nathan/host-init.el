@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.20 2006-09-02 21:17:16 nathan Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.21 2006-09-29 23:06:32 nathan Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -37,10 +37,10 @@
 ; (requirex 'worlds)
 (defun evilnat () (not (string-match "ok" (perl-command "evilnat"))))
 
-; xxxtbd (require 'xz-loads)
+(require 'xz-loads)
 ; xxxtbd (require 'gnuserv)
 
-;(load-library "xdb")
+(load-library "xdb")
 
 ; use working versions. will this stuff ever stabilize?
 (let ((r '(
@@ -103,7 +103,7 @@
 (add-to-load-path "/z/gpg" t)
 (condition-case x (load "/z/gpg/.autoloads") (error nil))
 ; defaults
-(setq *gpg-command* "/usr/local/lib/gpg-1.4.1/gpg.exe")
+; (setq *gpg-command* "/usr/local/lib/gpg-1.4.1/gpg.exe")
 (setq *gpg-default-file*  "~/.private/wink")
 ; keyrings on removable compact flash card
 (setq *gpg-default-homedir*  "g:/.gnupg")

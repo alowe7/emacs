@@ -52,15 +52,6 @@
     )
   )
 
-(defun maximize-frame () (interactive)
-  (let ((f (current-frame)))
-    (set-frame-width f 128)
-    (set-frame-height f 59)
-
-    (set-frame-position f 0 0)
-    (raise-frame f)
-    )
-  )
 
 ; (tile-frames)
 ; (reset-frame)
