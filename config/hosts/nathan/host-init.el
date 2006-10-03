@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.21 2006-09-29 23:06:32 nathan Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/nathan/host-init.el,v 1.22 2006-10-03 00:14:01 nathan Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -114,6 +114,10 @@
 
 ; and some here too
 (condition-case x (load "/z/soap/.autoloads") (error nil))
+
+; don't forget to factor all this crap...
+(add-to-load-path "/z/wordpress" t)
+(condition-case x (load "/z/wordpress/.autoloads") (error nil))
 
 ; find-script will look along path for certain commands 
 (addpathp "/z/pl" "PATH")
