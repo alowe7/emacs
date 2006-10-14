@@ -1,5 +1,5 @@
 (put 'mktime 'rcsid
- "$Id: mktime.el,v 1.3 2006-09-22 20:01:51 alowe Exp $")
+ "$Id: mktime.el,v 1.4 2006-10-14 15:49:49 nathan Exp $")
 
 ; some date and timestamp utilities
 
@@ -30,7 +30,7 @@
 (defun mktimestamp (&optional arg)
   "generate a timestamp.  with optional arg use date under point, if applicable.
 otherwise use current time.  
-when called interactively, result is pushed onto kill-ring
+when called interactively, result is also pushed onto kill-ring
 "
   (interactive "P")
   (let* ((args '("date" "+%s")) 
@@ -42,7 +42,7 @@ when called interactively, result is pushed onto kill-ring
 	(nconc args (list (format"--date=%s" date))))
 
     (setq result (apply 'eval-process args))
-    (kill-new result)
+    (and (interactive-p) (kill-new result))
     (funcall displayfn result)
     )
   )
