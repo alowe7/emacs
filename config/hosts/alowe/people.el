@@ -1,5 +1,5 @@
 (put 'people 'rcsid
- "$Id: people.el,v 1.4 2006-08-08 16:17:51 alowe Exp $")
+ "$Id: people.el,v 1.5 2006-10-27 21:21:56 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -51,3 +51,23 @@
 
   (define-key people-mode-map "\C-m" 'find-person)
   (define-key  people-mode-map "?" 'find-person)
+
+
+(defun add-person (name extension &optional db)
+  " add NAME and EXTENSION to `*dscm-database*' 
+    if optional DB is specified, search that instead.
+"
+  (interactive "sname: \nsextension: ")
+  (let* (
+	 (db (or db 
+		 *dscm-database*))
+  ; see /content/personal/people.sql for the schema
+	 (sql (format "insert into people (name, extension) values ('%s', '%s')" name extension))
+	 (retval (perl-command-1 "txodbc" :args (list "-n" *dscm-database* sql)))
+	 (b (zap-buffer "*people*" 'people-mode)))
+
+    (message retval)
+
+    )
+  )
+

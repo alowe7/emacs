@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.47 2006-07-01 15:36:11 tombstone Exp $
+# $Id: Makefile,v 1.48 2006-10-27 21:21:56 alowe Exp $
 
 SHELL=/bin/sh
 
@@ -62,3 +62,4 @@ ship: FORCE
 
 compile:
 	$(shell cd lisp; $(EMACS) --batch --load ~/emacs/lisp/byte-compile-directory.el)
+
