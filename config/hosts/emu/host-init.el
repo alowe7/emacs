@@ -1,12 +1,12 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/emu/host-init.el,v 1.2 2005-12-08 20:50:28 noah Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/emu/host-init.el,v 1.3 2006-11-12 06:17:46 noah Exp $")
 
-(setq default-fontspec "-*-verdana-normal-r-*-*-16-normal-*-*-*-*-*-*-")
+(setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
 (setq initial-frame-alist
       `((top . 40)
- 	(left . 20)
- 	(width . 112)
+ 	(left . 0)
+ 	(width . 142)
  	(height . 30)
 	(background-mode . light)
 	(cursor-type . box)
@@ -24,12 +24,42 @@
 
 (setq default-frame-alist  initial-frame-alist)
 
-(setq *people-database*  (expand-file-name "//nathan/C/home/a/n/people"))
+(setq *people-database*  (expand-file-name (concat (getenv "HOME") "/n/people")))
+
+; xz-squish is currently global.  todo: make per process
+(add-hook 'xz-load-hook '(lambda () 
+			   (xz-squish 2)
+			   (setq *xz-lastdb* "~/emacs/.xz.dat")
+			   )
+	  )
 
 (display-time)
+; (requirex 'worlds)
 (defun evilnat () (not (string-match "ok" (perl-command "evilnat"))))
 
+;(require 'xz-loads)
 (require 'gnuserv)
+
+;(load-library "xdb")
+
+; use working versions. will this stuff ever stabilize?
+(let ((r '(
+	   ("site-lisp/tw-3.01" "/x/tw/site-lisp")
+	   ("site-lisp/db-1.0" "/x/db/site-lisp")
+	   ("site-lisp/xz-3.1" "/x/xz/site-lisp")
+	   ("site-lisp/tx-1.0" "/x/elisp")
+	   ))
+      )
+  (loop for e in r do 
+	(setq load-path
+  ; first remove published versions, if any
+	      (nconc (remove-if '(lambda (x) 
+				   (string-match (car e) x)) load-path)
+  ; then add working versions
+		     (cdr e))
+	      )
+	)
+  )
 
 ; man don't work with default path
 (load-library "post-man")
@@ -62,13 +92,27 @@
 
 ; all kinds of crap here
 (add-to-load-path "/z/el" t)
+(condition-case x (load "/z/el/.autoloads") (error nil))
+
 ; and some lisp here too
 (add-to-load-path "/z/pl" t)
+(condition-case x (load "/z/pl/.autoloads") (error nil))
+
+; gpg is here
+(add-to-load-path "/z/gpg" t)
+(condition-case x (load "/z/gpg/.autoloads") (error nil))
+; defaults
+(setq *gpg-command* "/usr/local/lib/gpg-1.4.1/gpg.exe")
+(setq *gpg-default-file*  "~/.private/wink")
+; keyrings on removable compact flash card
+(setq *gpg-default-homedir*  "h:/.gnupg")
+; (setq *gpg-default-homedir*  "~/.gnupg")
+
+(setq *gpg-encode-target* "Andrew")
+(setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
 
 ; and some here too
-(condition-case x (load "/z/el/.autoloads") (error nil))
 (condition-case x (load "/z/soap/.autoloads") (error nil))
-(condition-case x (load "/z/pl/.autoloads") (error nil))
 
 ; find-script will look along path for certain commands 
 (addpathp "/z/pl" "PATH")
@@ -98,7 +142,7 @@
 ; (setq Info-default-directory-list '())
 ; (let (Info-dir-contents Info-directory-list) (info "/usr/share/info/dir"))
 
-(setq Info-default-directory-list '("/usr/share/info" "/usr/share/emacs/info" "/usr/local/info"))
+(setq Info-default-directory-list '("/usr/share/info" "/usr/share/emacs/info" "/usr/local/info" "/usr/local/lib/emacs-21.3/info"))
 (setq Info-directory-list  Info-default-directory-list)
 
 (defun flush-info-cache (dir)
@@ -121,5 +165,6 @@
 (add-to-list 'hooked-preloaded-modules "man")
 (load-library "post-man")
 
-; not sure why this is necessary
-(select-frame  (car (frame-list)))
+; this is a problem..
+(defun perl-font-lock-syntactic-keywords ()  perl-font-lock-syntactic-keywords) 
+
