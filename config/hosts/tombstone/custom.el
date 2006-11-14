@@ -1,23 +1,45 @@
 (put 'custom 'rcsid
- "$Id: custom.el,v 1.1 2006-01-31 01:39:41 tombstone Exp $")
+ "$Id: custom.el,v 1.2 2006-11-14 18:00:38 tombstone Exp $")
 
 ; random convenience functions for tombstone
+(require 'perl-command)
 
-(defun virtual-users () (interactive)
+(defvar *virtusertable* "/etc/mail/virtusertable")
+
+(defun all-virtual-users () (interactive)
   (let ((b (zap-buffer "*virtual users*")))
-    (call-process *perl-command* "/etc/mail/virtusertable"
+    (call-process *perl-command* *virtusertable* 
 		  b
 		  nil
 		  "-n"
 		  "-e"
 		  "unless (/nouser/) {split;print $_[0],'\n'}"
 		  )
+
     (pop-to-buffer b)
     (sort-lines nil (point-min) (point-max))
     (beginning-of-buffer)
     (view-mode)
     )
   )
+
+(defun virtusers () 
+  (loop for x in  (split (eval-process *perl-command*
+				       "-n"
+				       "-e"
+				       "unless (/nouser/) {split;print $_[0],'\n'}"
+				       *virtusertable* 
+				       ) "\n") collect (car (split x "@"))))
+; 
+
+(defun virtuser (name) 
+  (interactive (list (completing-read "virtuser like: " (loop for x in (virtusers) collect (list x x)))))
+  (let ((res (split (eval-process "grep" name *virtusertable*) "	")))
+    (message (format "%s => %s" (car (split (car res) "@")) (cadr res)))
+    )
+  )
+
+; (virtuser "cingular")
 
 ; no reason
 (setenv "MANWIDTH" "132")
