@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.12 2006-10-14 21:44:07 tombstone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.13 2006-12-25 22:25:17 tombstone Exp $")
 
 ; enoch
 
@@ -79,7 +79,8 @@
 (setq w3m-home-page "http://www.alowe.com")
 ; (load-library "w3m")
 
-(load-library "ctl-slash")
+(require 'ctl-slash)
+(require 'ctl-ret)
 
 (load-library "bookmark")
 ; xxx todo: figure out why post-bookmark doesn't get loaded
@@ -109,8 +110,10 @@
 (add-to-load-path "/z/gpg" t)
 (condition-case x (load "/z/gpg/.autoloads") (error nil))
 (setq *gpg-command* (whence "gpg"))
-(setq *gpg-default-file*  "~/.private/wink")
-(setq *gpg-default-homedir*  "~/.private/.gnupg")
+; (setq *gpg-default-file*  "~/.private/wink")
+(setq *gpg-default-file*  "/nathan/g/wink")
+; (setq *gpg-default-homedir*  "~/.private/.gnupg")
+(setq *gpg-default-homedir*  "/nathan/g/.gnupg")
 (setq *gpg-encode-target* "Andrew")
 (setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
 
