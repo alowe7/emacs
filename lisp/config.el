@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.49 2006-05-18 14:26:36 alowe Exp $")
+ "$Id: config.el,v 1.50 2006-12-30 17:37:31 noah Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -363,6 +363,7 @@ see `locate-config-file'"
     )
   )
 
+; xxx obsolete?
 (defun host-config () 
   "find host specific config directory"
   (interactive)
@@ -400,7 +401,12 @@ see `locate-config-file'"
 (defun host-init ()
   "shortcut for `find-config-file' \"host-init\""
   (interactive)
-  (find-config-file "host-init")
+
+  (let ((fn (locate-config-file "host-init")))
+    (if current-prefix-arg (dired (file-name-directory fn))
+      (find-config-file "host-init")
+      )
+    )
   )
 
 (defun os-init ()
