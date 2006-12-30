@@ -1,5 +1,5 @@
 (put 'fontview 'rcsid 
- "$Id: fontview.el,v 1.8 2004-08-11 14:55:52 cvs Exp $")
+ "$Id: fontview.el,v 1.9 2006-12-30 19:15:20 noah Exp $")
 (require 'view)
 
 (defvar fontview-mode-map nil "")
@@ -71,3 +71,5 @@ see fontview-mode-map keymap & fontview-mode-syntax-table
     (beginning-of-buffer)
     (fontview-mode)
     ))
+
+(provide 'fontview)
