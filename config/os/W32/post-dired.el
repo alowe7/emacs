@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid
- "$Id: post-dired.el,v 1.2 2006-07-07 19:17:55 alowe Exp $")
+ "$Id: post-dired.el,v 1.3 2007-01-02 15:50:04 alowe Exp $")
 
 ; tbd promote these...
 
@@ -39,3 +39,14 @@ optional DRIVE says which drive to use. "
 
 (define-key dired-mode-map "\C-c\C-x\C-c" 'dired-copy-directory-as-kill)
 
+
+; override to expand default-directory... w32 only
+
+(defun dired-read-dir-and-switches (str)
+  ;; For use in interactive.
+  (reverse (list
+	    (if current-prefix-arg
+		(read-string "Dired listing switches: "
+			     dired-listing-switches))
+	    (read-file-name (format "Dired %s(directory): " str)
+			    nil (expand-file-name default-directory) nil))))

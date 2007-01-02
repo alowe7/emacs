@@ -1,5 +1,5 @@
 (put 'people 'rcsid
- "$Id: people.el,v 1.5 2006-10-27 21:21:56 alowe Exp $")
+ "$Id: people.el,v 1.6 2007-01-02 15:50:04 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -33,7 +33,7 @@
 		     (= 1 n)
 		     *minibuffer-display-unique-hit*)
 		(progn
-		  (message "%s" (clean-string (buffer-string)))
+		  (message "%s" (kill-new (clean-string (buffer-string))))
 		  (kill-buffer b)
 		  t)))
 	(beginning-of-buffer)

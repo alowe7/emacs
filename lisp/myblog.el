@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.12 2006-09-03 15:42:15 tombstone Exp $")
+ "$Id: myblog.el,v 1.13 2007-01-02 15:50:04 alowe Exp $")
 
 ;; myblog
 
@@ -124,13 +124,24 @@
   )
 ; (nthblog -1)
 
+(require 'filetime)
+
+(defun sort-files-by-name (files) (sort* (copy-list files) '(lambda (x y) (string-lessp y x))))
+(defun sort-files-by-modtime (files) (sort* files '(lambda (x y) (= (compare-filetime (filemodtime y) (filemodtime x)) -1))))
+
 (defun lastblog (&optional arg) 
-  "visit the last blog edited"
+  "visit the last blog edited
+with optional ARG, visit the url.
+"
   (interactive "P")
 
   (let* ((default-directory (format  "%s/%s" *blog-home* *default-area*))
-	 (files (loop for x in (get-directory-files  ".") when (not (or (file-directory-p x) (string-match "~" x))) collect x))
-	 (thing (first (sort* files '(lambda (x y) (string-lessp y x))))))
+	 (files 
+	  (sort-files-by-modtime
+	   (loop for x in (get-directory-files  ".")
+		 when (not (or (file-directory-p x) (string-match "~" x)))
+		 collect x)))
+	 (thing (first files)))
 
     (if arg
 	(let ((url (concat *blog-home-url* "/?pat=" thing "&raw")))

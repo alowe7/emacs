@@ -1,5 +1,5 @@
 (put 'sh 'rcsid
- "$Id: sh.el,v 1.2 2004-08-17 17:50:53 cvs Exp $")
+ "$Id: sh.el,v 1.3 2007-01-02 15:50:04 alowe Exp $")
 
 (require 'typesafe)
 (require 'eval-utils)
@@ -186,6 +186,8 @@ this is probably too hard."
   )
 
 ;(handle-curlies "${WTOP}w")
+
+; tbd: this might get redefined should you ever load doctor.el
 
 (defun $ (path) 
   (join

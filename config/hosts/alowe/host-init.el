@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.45 2006-09-26 18:56:13 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.46 2007-01-02 15:50:04 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -130,7 +130,7 @@
 (setq *advise-help-mode-finish* t)
 
 (require 'w3m)
-(setq w3m-home-page "http://localhost:10080")
+(setq w3m-home-page "http://localhost")
 (defvar *w3m-tabs* nil)
 
 (defun w3m-goto-url-with-cache (url) 
@@ -153,11 +153,13 @@
 ;; xxx this is probably wrong...
 
   ; treat angles like parens everywhere
-  (modify-syntax-entry ?< "(")
-  (modify-syntax-entry ?> ")")
+;  (modify-syntax-entry ?< "(")
+;  (modify-syntax-entry ?> ")")
+;  (modify-syntax-entry ?< ".")
+;  (modify-syntax-entry ?> ".")
   ; except...
-  (modify-syntax-entry ?< "w" emacs-lisp-mode-syntax-table)
-  (modify-syntax-entry ?> "w" emacs-lisp-mode-syntax-table)
+;  (modify-syntax-entry ?< "w" emacs-lisp-mode-syntax-table)
+;  (modify-syntax-entry ?> "w" emacs-lisp-mode-syntax-table)
 
 ; still broken for eval-expression, via read-from-minibuffer
 

@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.5 2006-07-07 19:17:55 alowe Exp $")
+ "$Id: xdb.el,v 1.6 2007-01-02 15:50:04 alowe Exp $")
 
 ; what does this do?
 (put 'post-xdb 'host-init (this-load-file))
@@ -21,3 +21,14 @@
 
 (defvar *local-txdb-options* nil "list of options to provide txdb for local connections")
 
+; override
+(defun maybe-browse-url-at-point () 
+  " `w3m-browse-url' to view indicated url
+"
+  (interactive)
+  (save-excursion
+    (let ((url (thing-at-point 'url)))
+      (w3m-browse-url url)
+      )
+    )
+  )

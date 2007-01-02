@@ -2,13 +2,15 @@
 
 (defun really-kill-process () 
   (interactive)
-  (condition-case nil
-      (progn 
-	(interrupt-process p)
-	(sit-for 1)
-	(delete-process p)
-	)
-    (error nil)
+  (let ((p (get-buffer-process (current-buffer))))
+    (condition-case nil
+	(progn 
+	  (interrupt-process p)
+	  (sit-for 1)
+	  (delete-process p)
+	  )
+      (error nil)
+      )
     )
   )
 

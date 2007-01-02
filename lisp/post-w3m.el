@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.40 2006-09-26 18:56:13 alowe Exp $")
+ "$Id: post-w3m.el,v 1.41 2007-01-02 15:50:04 alowe Exp $")
 (require 'w3m)
 
 ;; from url-helpers
@@ -216,7 +216,9 @@
     (if (w3m-anchor) (w3m-goto-url-new-session (w3m-anchor))
       (call-interactively 'w3m-goto-this-url-new-session)
       )
-    (if (> (count-windows) 1) (progn (switch-to-buffer-other-window b) (other-window-1)))
+    (if (< (count-windows) 2)
+	(split-window-vertically))
+    (progn (switch-to-buffer-other-window b) (other-window-1))
     )
   )
 
@@ -234,7 +236,7 @@
 ; ugh ?2 ?
 (define-key ctl-RET-map "w" 'w3m)
 
-(define-key w3m-mode-map "G" 'w3m-goto-this-url-new-session)
+(define-key w3m-mode-map "o" 'w3m-goto-this-url-new-session)
 (define-key w3m-mode-map "/" 'find-anchor-named)
 (define-key w3m-mode-map "U" '(lambda () (interactive) (find-anchor-named "Up")))
 (define-key w3m-mode-map "N" '(lambda () (interactive) (find-anchor-named "Next")))
