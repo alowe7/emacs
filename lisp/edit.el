@@ -1,5 +1,5 @@
 (put 'edit 'rcsid 
- "$Id: edit.el,v 1.15 2005-03-11 16:33:38 cvs Exp $")
+ "$Id: edit.el,v 1.16 2007-01-03 01:08:31 noah Exp $")
 
 ;; edit and format functions
 
@@ -12,6 +12,22 @@
 	  (setq z (point))
 	  (goto-char x)
 	  (list y z)))
+
+(defun paragraph-as-region ()
+  "return paragraph as a region"
+  (interactive)
+  (save-excursion 
+    (list
+     (progn
+       (backward-paragraph 1)
+       (point))
+     (progn
+       (forward-paragraph 1)
+       (point)
+       )
+     )
+    )
+  )
 
 (defvar *tab-width-ring* (vector 2 4 8))
 (defvar *tab-width-ring-index* 1)
@@ -171,3 +187,5 @@ see `trim-blank-lines' `trim-white-space' `squish'"
   "insert value of specified environment VARIABLE"
   (interactive "sName of variable:")
   (insert (getenv v)))
+
+(provide 'edit)
