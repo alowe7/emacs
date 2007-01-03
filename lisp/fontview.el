@@ -1,9 +1,7 @@
 (put 'fontview 'rcsid 
- "$Id: fontview.el,v 1.9 2006-12-30 19:15:20 noah Exp $")
+ "$Id: fontview.el,v 1.10 2007-01-03 00:04:28 noah Exp $")
 (require 'view)
 
-(defvar fontview-mode-map nil "")
-(defvar fontview-mode-syntax-table nil "")
 (defvar fontview-mode-hook nil "hook run when viewing font list")
 
 (defun set-indicated-font (&optional face frame)
@@ -14,45 +12,39 @@
     (internal-set-face-1 facep 'font font 3 frame))
   )
 
-(defun fontview-mode (&optional force)
+(define-derived-mode fontview-mode view-mode "FONTVIEW"
   "enter fontview mode on current buffer, unless already there
-if optional arg FORCE is non-nil, enter mode anyway.
 
 runs value of fontview-mode-hook on entry.
 see fontview-mode-map keymap & fontview-mode-syntax-table
 "
   (interactive)
-  (or (and (not force) (eq major-mode 'fontview-mode))
-      (progn
-	(use-local-map
-	 (or fontview-mode-map (prog1
-				   (setq fontview-mode-map (copy-keymap view-mode-map)
-					 (define-key fontview-mode-map "" 
-					   '(lambda () (interactive) (set-indicated-font) (next-line 1)))
-					 )
-				 )
-	     )
+  (use-local-map
+   (or fontview-mode-map (prog1
+			     (setq fontview-mode-map (copy-keymap view-mode-map)
+				   (define-key fontview-mode-map "" 
+				     '(lambda () (interactive) (set-indicated-font) (next-line 1)))
+				   )
+			   )
+       ))
 
-	 (set-syntax-table 
-	  (or fontview-mode-syntax-table
-	      (prog1
-		  (setq fontview-mode-syntax-table (make-syntax-table))
-		(modify-syntax-entry ?_ "w" fontview-mode-syntax-table)
-		(modify-syntax-entry ?, "w" fontview-mode-syntax-table)
-		(modify-syntax-entry ?- "w" fontview-mode-syntax-table)
-		(modify-syntax-entry ?* "w" fontview-mode-syntax-table)
-		(modify-syntax-entry ?  "w" fontview-mode-syntax-table)
-		)
-	      )
-	  )
-
-	 (setq mode-name "Fontview")
-	 (setq major-mode 'fontview-mode)
-	 (setq mode-line-process nil)
-	 (run-hooks 'fontview-mode-hook)
+  (set-syntax-table 
+   (or fontview-mode-syntax-table
+       (prog1
+	   (setq fontview-mode-syntax-table (make-syntax-table))
+	 (modify-syntax-entry ?_ "w" fontview-mode-syntax-table)
+	 (modify-syntax-entry ?, "w" fontview-mode-syntax-table)
+	 (modify-syntax-entry ?- "w" fontview-mode-syntax-table)
+	 (modify-syntax-entry ?* "w" fontview-mode-syntax-table)
+	 (modify-syntax-entry ?  "w" fontview-mode-syntax-table)
 	 )
-	)
-      )
+       )
+   )
+
+  (setq mode-name "Fontview")
+  (setq major-mode 'fontview-mode)
+  (setq mode-line-process nil)
+  (run-hooks 'fontview-mode-hook)
   )
 
 (defun nt-list-fonts (face)

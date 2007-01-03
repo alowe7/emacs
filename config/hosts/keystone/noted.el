@@ -1,5 +1,5 @@
 (put 'noted 'rcsid
- "$Id: noted.el,v 1.1 2006-12-30 00:39:37 noah Exp $")
+ "$Id: noted.el,v 1.2 2007-01-03 00:04:28 noah Exp $")
 
 ; a version of noted for windows...
 
@@ -38,3 +38,5 @@
 
 (defvar *notedfile* (expand-file-name "~/noted"))
 (defvar *didfile* (expand-file-name "~/did"))
+
+(provide 'noted)

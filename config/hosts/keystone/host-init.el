@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.1 2006-12-16 21:01:28 noah Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.2 2007-01-03 00:04:28 noah Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -168,3 +168,4 @@
 ; this is a problem..
 (defun perl-font-lock-syntactic-keywords ()  perl-font-lock-syntactic-keywords) 
 
+(require 'noted)
