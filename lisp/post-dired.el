@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.41 2006-08-22 00:51:09 alowe Exp $")
+ "$Id: post-dired.el,v 1.42 2007-01-11 17:52:02 alowe Exp $")
 
 (require 'dired-advice)
 
@@ -214,35 +214,6 @@ warns if more than one file is to be moved and target is not a directory"
     )
   )
 
-(defvar dired-mode-syntax-table (copy-syntax-table))
-(modify-syntax-entry ?- "w" dired-mode-syntax-table)
-(modify-syntax-entry ?. "w" dired-mode-syntax-table)  
-
-(add-hook 'dired-mode-hook 
-	  '(lambda nil 
-	     (define-key dired-mode-map "t" 'dired-change-file-type)
-	     (define-key dired-mode-map "" 'dired-enumerate-scripts)
-	     (define-key  dired-mode-map "b" '(lambda () (interactive)
-						(find-file-binary (dired-get-filename))))
-	     (define-key  dired-mode-map "I" '(lambda () (interactive)
-						(info (dired-get-filename))))
-	     (define-key dired-mode-map "r" 'dired-move-file)
-	     (define-key dired-mode-map "t" 'dired-touch-file)
-	     (define-key dired-mode-map "c" 'dired-copy-file-1)
-	     (define-key dired-mode-map "%~" 'dired-diff-backup)
-	     (define-key dired-mode-map "%M" 'dired-move-marked-files)
-	     (define-key dired-mode-map "%t" 'dired-change-file-type)
-	     (define-key dired-mode-map "%%" '(lambda (beg end) (interactive "r") (dired-mark-files-in-region beg end)))
-	     (define-key dired-mode-map "%x" '(lambda (beg end) (interactive "r") (dired-mark-files-in-region beg end) (mapcar 'delete-file (dired-get-marked-files))))
-
-	     (set-syntax-table dired-mode-syntax-table)  
-	     )
-	  )
-
-(define-key dired-mode-map "e" 'dired-decrypt-find-file)
-
-(define-key dired-mode-map (vector 'C-return ? ) 'dired-unmark-all-files)
-
 (defvar file-assoc-list nil
   "assoc mapping of downcased file extensions to handlers")
 
@@ -397,4 +368,40 @@ see `file-assoc-list'"
     )
   )
 
+(require 'filetime)
+(defun dired-what-filetime ()
+  "displays full filetime for indicated file"
+  (interactive)
+  (kill-new (message (format-time-string "%a %b %d %H:%M:%S %Y" (filemodtime (dired-get-filename)))))
+  )
 
+(defvar dired-mode-syntax-table (copy-syntax-table))
+(modify-syntax-entry ?- "w" dired-mode-syntax-table)
+(modify-syntax-entry ?. "w" dired-mode-syntax-table)  
+
+(add-hook 'dired-mode-hook 
+	  '(lambda nil 
+	     (define-key dired-mode-map "t" 'dired-change-file-type)
+	     (define-key dired-mode-map "" 'dired-enumerate-scripts)
+	     (define-key  dired-mode-map "b" '(lambda () (interactive)
+						(find-file-binary (dired-get-filename))))
+	     (define-key  dired-mode-map "I" '(lambda () (interactive)
+						(info (dired-get-filename))))
+	     (define-key dired-mode-map "r" 'dired-move-file)
+	     (define-key dired-mode-map "t" 'dired-touch-file)
+	     (define-key dired-mode-map "c" 'dired-copy-file-1)
+	     (define-key dired-mode-map "%~" 'dired-diff-backup)
+	     (define-key dired-mode-map "%M" 'dired-move-marked-files)
+	     (define-key dired-mode-map "%t" 'dired-change-file-type)
+	     (define-key dired-mode-map "%%" '(lambda (beg end) (interactive "r") (dired-mark-files-in-region beg end)))
+	     (define-key dired-mode-map "%x" '(lambda (beg end) (interactive "r") (dired-mark-files-in-region beg end) (mapcar 'delete-file (dired-get-marked-files))))
+
+	     (define-key dired-mode-map "e" 'dired-decrypt-find-file)
+
+	     (define-key dired-mode-map (vector 'C-return ? ) 'dired-unmark-all-files)
+
+	     (define-key dired-mode-map "i" 'dired-what-filetime)
+
+	     (set-syntax-table dired-mode-syntax-table)  
+	     )
+	  )

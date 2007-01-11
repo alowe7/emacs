@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.13 2007-01-02 15:50:04 alowe Exp $")
+ "$Id: myblog.el,v 1.14 2007-01-11 17:52:02 alowe Exp $")
 
 ;; myblog
 
@@ -8,6 +8,8 @@
 (require 'psgml)
 
 ;; this stuff should be in db, presentation layer should do all formatting.
+;; tbd function to adjust modtimes on files, when organized by datestamp.  see modtime.el
+
 
 (defvar *blog-home-url* "http://localhost:20080")
 (defvar *blog-home* (expand-file-name "/content"))
@@ -216,9 +218,10 @@ supports big ints"
 ; (let* ((x 100) (y 1000)) (qc "x + y"))
 
 ;;; xxx police line do not cross
-(defun datestamp (spec)
+(defun datestamp (&optional spec)
   "spec can be a mixed argument like -1d meaning yesterday or +1h meaning one hour from now"
-  (let ((sec (eval-process "date" "+%s"))
+  (let ((spec (or spec "0"))
+	(sec (eval-process "date" "+%s"))
 	(factor 1) (nsec 1) (deltasec 0) otherdate)
 
     (cond ((string-match "h$" spec)
@@ -263,9 +266,12 @@ supports big ints"
   )
 ; produce a datestamp for yesterday
 ; (datestamp "-1d")
+; three days ago
 ; (datestamp "-3d")
+; three hours ago
 ; (datestamp "-3h")
-
+; now
+; (datestamp)
 
 (defun allblogs ()
   (let* ((default-directory (format  "%s/dscm/%s" my-documents *default-area*))
