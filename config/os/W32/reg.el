@@ -1,5 +1,5 @@
 (put 'reg 'rcsid
- "$Id: reg.el,v 1.12 2006-05-22 15:01:12 alowe Exp $")
+ "$Id: reg.el,v 1.13 2007-01-12 00:41:29 noah Exp $")
 (require 'qsave)
 
 (defun reg-canonify (s)	(if (and s (stringp s) (> (length s) 0)) (replace-in-string  "/" "\\" s) ""))
@@ -9,8 +9,6 @@
 ; (eval-process  "perl" "e:/a/bin/queryval -v machine software/Technology-x/tw wbase")
 ; (perl-command "queryval" "-v machine software/Technology-x/tw wbase")
 
-; tbd rewrite using cygwin regtool?
-; maintain syntactical backward compatibility
 (defun reg-query (hive key val) 
   " evaluates to the contents of HIVE stored in KEY"
 
