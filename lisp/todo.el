@@ -1,6 +1,7 @@
 (put 'todo 'rcsid 
- "$Id: todo.el,v 1.14 2006-09-22 20:01:51 alowe Exp $")
+ "$Id: todo.el,v 1.15 2007-01-16 19:06:16 noah Exp $")
 (require 'eval-process)
+(require 'edit)
 (require 'input)
 
 (defvar master-todo-file (expand-file-name "~/.todo" ) 
@@ -64,9 +65,11 @@
   
   (let* ((trimlen1 (/ (frame-width) 5))
 	 (trimlen2 (- (1+ (/ trimlen1 2))))
-	 (thing1 (chomp (if (not arg) (apply 'buffer-substring (line-as-region))
-			  (if (not (mark)) (error "mark is not set")
-			    (buffer-substring (point) (mark))))))
+	 (thing1 (chomp 
+		  (apply 'buffer-substring
+			 (cond (arg (sort (list (point) (mark)) (quote <)))
+			       ((eq major-mode 'todo-mode) (paragraph-as-region))
+			       (t (line-as-region))))))
 	 (result (y-or-n-*-p
 		  (fudge-format
 			  "done with \"%s ... %s\" (y/n/e)? "
@@ -102,6 +105,7 @@
 		       (window-buffer x)))
 		do (progn (set-buffer (window-buffer x)) (recenter)))
 
+	  (if (looking-at paragraph-start) (kill-line))
 	  (if (looking-at "^$") (kill-line)) ; normal usage leaves an extra blank line.  kill it.
 	  )
       (message "not done.")

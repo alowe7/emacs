@@ -1,28 +1,30 @@
 (put 'edit 'rcsid 
- "$Id: edit.el,v 1.16 2007-01-03 01:08:31 noah Exp $")
+ "$Id: edit.el,v 1.17 2007-01-16 19:06:16 noah Exp $")
 
 ;; edit and format functions
 
 (defun line-as-region ()
-" return indicated line as a region"
-	(let ((x (point)) y z)
-	  (beginning-of-line)
-	  (setq y (point))
-	  (end-of-line)
-	  (setq z (point))
-	  (goto-char x)
-	  (list y z)))
+  "return indicated line as a region
+"
+  (let ((x (point)) y z)
+    (beginning-of-line)
+    (setq y (point))
+    (end-of-line)
+    (setq z (point))
+    (goto-char x)
+    (list y z)))
 
 (defun paragraph-as-region ()
-  "return paragraph as a region"
+  "return paragraph as a region
+"
   (interactive)
   (save-excursion 
     (list
      (progn
-       (backward-paragraph 1)
+       (forward-paragraph 1)
        (point))
      (progn
-       (forward-paragraph 1)
+       (backward-paragraph 1)
        (point)
        )
      )
