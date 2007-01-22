@@ -1,5 +1,5 @@
 (put 'custom 'rcsid
- "$Id: custom.el,v 1.2 2006-11-14 18:00:38 tombstone Exp $")
+ "$Id: custom.el,v 1.3 2007-01-22 21:31:05 tombstone Exp $")
 
 ; random convenience functions for tombstone
 (require 'perl-command)
@@ -43,3 +43,5 @@
 
 ; no reason
 (setenv "MANWIDTH" "132")
+
+; tbd add-virtuser
