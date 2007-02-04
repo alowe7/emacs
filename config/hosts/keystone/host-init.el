@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.2 2007-01-03 00:04:28 noah Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.3 2007-02-04 22:45:19 noah Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -152,9 +152,6 @@
   (info dir)
   )
 ; (flush-info-cache "/usr/share/info/dir")
-
-(setenv "INFOPATH" "/usr/share/info")
-; (setenv "INFOPATH" "/usr/share/emacs/info/")
 
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
