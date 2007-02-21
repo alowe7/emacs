@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.42 2007-01-11 17:52:02 alowe Exp $")
+ "$Id: post-dired.el,v 1.43 2007-02-21 02:39:14 tombstone Exp $")
 
 (require 'dired-advice)
 
@@ -357,14 +357,15 @@ see `file-assoc-list'"
   )
 (define-key dired-mode-map (vector '\C-return ?\C-r) 'dired-rename-file)
 
-(defun dired-what-file (arg) 
+(defun dired-what-file (&optional arg) 
   "apply `kill-new' to `dired-get-filename' with optional ARG, canonify first"
   (interactive "P")
 
   (let* ((f (or (dired-get-filename nil t) default-directory))
 	 (s (if arg (w32-canonify f) f)))
     (kill-new s)
-    (message s)
+    (and (interactive-p) (message s))
+    s
     )
   )
 
