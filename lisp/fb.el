@@ -1,5 +1,6 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.67 2007-02-04 22:45:19 noah Exp $")
+ "$Id: fb.el,v 1.68 2007-02-21 02:37:04 tombstone Exp $")
+
 (require 'locate)
 (require 'isearch)
 (require 'cat-utils)
@@ -12,7 +13,6 @@
 (defvar *fb-show-lines* t)
 (defvar *fb-auto-go* t)
 (defvar fb-load-hook nil)
-
 
 (defvar fb-mode-hook nil)
 (defvar fb-last-pat nil)
@@ -275,7 +275,7 @@ see variable *fb-db* "
 
 
 
-(define-derived-mode fb-mode locate-mode "Fb"
+(define-derived-mode fb-mode fundamental-mode "Fb"
   "mode for managing file index.
 like locate mode, with the following exceptions:
 d	`fb-dired-file'
