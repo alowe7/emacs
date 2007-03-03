@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.43 2007-02-21 02:39:14 tombstone Exp $")
+ "$Id: post-dired.el,v 1.44 2007-03-03 23:56:11 noah Exp $")
 
 (require 'dired-advice)
 
@@ -15,20 +15,18 @@
 
 (defun dired-copy-file-1 () (interactive)
   (let* ((f (dired-get-filename))
-	 (to (read-file-name
-	      (format "copy %s to: " 
-		      (file-name-nondirectory f)))))
+		 (to (read-string* "copy %s to: " (file-name-nondirectory f))))
 
     (if (file-directory-p to) 
-	(setq to (concat to 
-			 (if (not (string= (substring to -1) "/")) "/")
-			 (file-name-nondirectory f))))
+		(setq to (concat to 
+						 (if (not (string= (substring to -1) "/")) "/")
+						 (file-name-nondirectory f))))
 
     (and
      (or (not (file-exists-p to))
-	 (y-or-n-p (format "file %s exists.  overwrite? " to)))
+		 (y-or-n-p (format "file %s exists.  overwrite? " to)))
      (progn (copy-file f to t)
-	    (revert-buffer)))))
+			(revert-buffer)))))
 
 
 (defun dired-change-file-type (newtype)
