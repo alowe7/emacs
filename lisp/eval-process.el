@@ -1,5 +1,5 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.20 2006-04-12 20:07:36 alowe Exp $")
+ "$Id: eval-process.el,v 1.21 2007-03-16 17:18:17 alowe Exp $")
 ;; a package to return process evaulation as a string
 
 (require 'zap)
@@ -153,7 +153,11 @@ see `format-time-string' and `time-stamp'"
   (insert (format-time-string (string* format "%Y/%m/%d %T")))
   )
 
-(defun sum (f) (interactive "ffile: ")
+(defun cksum (f)
+  "returns the checksum of FILE
+see cksum(1)
+"
+  (interactive "ffile: ")
   (car (read-from-string (car
 			  (loop for x in
 				(split (eval-shell-command (format "cksum %s" f)))
