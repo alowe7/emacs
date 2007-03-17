@@ -1,43 +1,43 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.13 2006-12-25 22:25:17 tombstone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.14 2007-03-17 16:41:20 tombstone Exp $")
 
 ; enoch
 
 ; run xfontsel, then...
 ; (insert (x-get-selection))
 (require 'long-comment)
-(if (eq window-system 'x)
-    (progn
+;; (if (eq window-system 'x)
+;;     (progn
 
-;      (setq default-fontspec "-*-*-medium-r-normal-*-17-*-*-*-p-*-iso8859-1")
-      (setq default-fontspec "-*-lucida-medium-r-normal-*-14-140-*-*-*-*-iso8859-1")
-  ; (setq default-fontspec "-*-*-medium-r-normal-*-18-*-*-*-p-*-iso8859-1")
+;; ;      (setq default-fontspec "-*-*-medium-r-normal-*-17-*-*-*-p-*-iso8859-1")
+;;       (setq default-fontspec "-*-lucida-medium-r-normal-*-14-140-*-*-*-*-iso8859-1")
+;;   ; (setq default-fontspec "-*-*-medium-r-normal-*-18-*-*-*-p-*-iso8859-1")
 
-      (setq initial-frame-alist
-	    `(
-	      (top . 71)
-	      (left . 111)
-	      (width . 58)
-	      (height . 36)
-	      (background-mode . light)
-	      (cursor-type . box)
-	      (border-color . "black")
-	      (cursor-color . "black")
-	      (mouse-color . "black")
-	      (background-color . "white")
-	      (foreground-color . "black")
-	      (vertical-scroll-bars)
-	      (internal-border-width . 0)
-	      (border-width . 2)
-	      (font . ,default-fontspec)
-	      (menu-bar-lines . 0)
-	      (tool-bar-mode . nil)
-	      )
-	    )
-      (setq default-frame-alist initial-frame-alist)
+;;       (setq initial-frame-alist
+;; 	    `(
+;; 	      (top . 71)
+;; 	      (left . 111)
+;; 	      (width . 58)
+;; 	      (height . 36)
+;; 	      (background-mode . light)
+;; 	      (cursor-type . box)
+;; 	      (border-color . "black")
+;; 	      (cursor-color . "black")
+;; 	      (mouse-color . "black")
+;; 	      (background-color . "white")
+;; 	      (foreground-color . "black")
+;; 	      (vertical-scroll-bars)
+;; 	      (internal-border-width . 0)
+;; 	      (border-width . 2)
+;; 	      (font . ,default-fontspec)
+;; 	      (menu-bar-lines . 0)
+;; 	      (tool-bar-mode . nil)
+;; 	      )
+;; 	    )
+;;       (setq default-frame-alist initial-frame-alist)
 
-      )
-  )
+;;       )
+;;   )
 
 (require 'xz-loads)
 (require 'cat-utils)
@@ -76,7 +76,8 @@
 
 ; (add-to-load-path "/usr/local/src/emacs-w3m/emacs-w3m" t)
 ; (setq w3m-home-page "http://tombstone")
-(setq w3m-home-page "http://www.alowe.com")
+; (setq w3m-home-page "http://www.alowe.com")
+(setq w3m-home-page "about:blank")
 ; (load-library "w3m")
 
 (require 'ctl-slash)
