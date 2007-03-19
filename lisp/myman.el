@@ -1,5 +1,5 @@
 (put 'myman 'rcsid 
- "$Id: myman.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: myman.el,v 1.5 2007-03-19 15:25:03 alowe Exp $")
 (autoload 'man-page-mode "man-page")
 (require 'dosman)
 
@@ -100,7 +100,7 @@
 			    (setq cmd (substring cmd 0 (match-beginning 0)))
 			    )))
 	 )
-    (cond ((buffer-exists-p cmdbuf)
+    (cond ((get-buffer cmdbuf)
 	   (progn
 	     (pop-to-buffer cmdbuf)
 	     (beginning-of-buffer)))

@@ -1,5 +1,7 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.58 2006-08-22 00:51:09 alowe Exp $")
+ "$Id: default.el,v 1.59 2007-03-19 15:25:02 alowe Exp $")
+
+(require 'assoc-helpers)
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
 
@@ -112,23 +114,6 @@
 (add-hook 'sh-mode-hook '(lambda () (use-local-map nil)))
 (add-hook 'css-mode-hook '(lambda () (font-lock-mode)))
 
-;; from default-lib
-
-(defun buffer-exists-p (bname)
-  " return buffer with specified NAME or nil"
-  (interactive "Bbuffer name:") 
-  (let ((bl (buffer-list)))
-    (while (and bl  (not (string-equal bname  (buffer-name (car bl))))
-		(setq bl (cdr bl))))
-    (and bl (car bl))
-    ))
-
-
-(defun assocd (a l d)
-  " like assoc, but return d if a is not on l"
-  (let ((v (cdr (assoc a l))))
-    (or v d)))
-
 (defun add-auto-mode (extension mode)
 "add EXTENSION as a filetype for MODE, if not already defined on `auto-mode-alist'
 "
@@ -171,39 +156,6 @@
 
 (defun region ()
   (buffer-substring (region-beginning) (region-end))
-  )
-
-(defun modify-alist (x y z)
-  (set x (loop for w in (eval x) collect 
-	       (if (eq (car w) y) (cons y z) w))
-       )
-  )
-
-(defun add-association (mapping list &optional clobber)
-  "add an assoc MAPPING to a-list LIST.
-clobber an existing mapping if optional CLOBBER is nonnil
-"
-  (let ((l (eval list)))
-    (cond ((not (assoc (car mapping) l))
-	   (push mapping l))
-	  (clobber
-	   (setq l (remove* mapping l :test '(lambda (x y)     
-					       (equal (car x) (car y)))))
-	   (push mapping l))
-	  )
-    (set list l)
-    )
-  )
-; (setq x '((a 1) (b 2) (c 3)))
-; (add-association '(d 4) 'x t)
-
-(defun remove-association (key list)
-  "remove any assoc mapping key in a-list LIST.
-uses `string='
-"
-  (if (symbolp list)
-      (set list (remove* key (eval list) :test (lambda (x y) (string= x (car y)))))
-    (remove* key (eval list) :test (lambda (x y) (string= x (car y)))))
   )
 
 ; (let ((l '(("bar" 1) ("foo" 2) ("foo" 3))))  (remove-association "foo" 'l)  l)
@@ -307,3 +259,4 @@ if n < 0 counts from end of string
 ;; default implementation.  custom configs can override
 (fset 'host-ok 'identity)
 
+(provide 'default)

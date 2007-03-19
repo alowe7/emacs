@@ -1,5 +1,5 @@
 (put 'w32-oblist 'rcsid 
- "$Id: w32-oblist.el,v 1.8 2004-08-20 14:54:46 cvs Exp $")
+ "$Id: w32-oblist.el,v 1.9 2007-03-19 15:25:03 alowe Exp $")
 (provide 'w32-oblist)
 (require 'fapropos)
 
@@ -1882,11 +1882,11 @@
 	 (p (assoc ffn w32-oblist))
 	 (hbn (concat "*win32 " ffn)))
 
-    (if (buffer-exists-p hbn) (pop-to-buffer hbn)
+    (if (get-buffer hbn) (pop-to-buffer hbn)
 
       (if p 
 	  (let* ((bn "*w32t*")
-		 (b (buffer-exists-p bn))
+		 (b (get-buffer bn))
 		 )
 	    (if (not b) (progn
 			  (setq b (zap-buffer bn))
@@ -1920,7 +1920,7 @@
   (interactive (op-arg "Win32 Function (%s): "))
 
   (let* ((bn "*win32sig*")
-	 (b (buffer-exists-p bn))
+	 (b (get-buffer bn))
 	 (hb (zap-buffer "*Help*")))
     (if (not b) (progn
 		  (setq b (zap-buffer bn))

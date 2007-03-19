@@ -1,5 +1,5 @@
 (put 'zap 'rcsid 
- "$Id: zap.el,v 1.15 2006-06-12 17:40:13 alowe Exp $")
+ "$Id: zap.el,v 1.16 2007-03-19 15:25:03 alowe Exp $")
 (provide 'zap)
 ;;; todo -- use (get-buffer-create (generate-new-buffer-name bname))
 
@@ -88,7 +88,7 @@ with optional PREOP, evaluates PREOP before calling `get-buffer-create'
     (and preop (eval-p preop))
   ; if buffer existed and was read only, there's probably little 
   ; utility in keeping it that way, after zapping it!
-    (and (buffer-exists-p bname) (kill-buffer bname))
+    (and (get-buffer bname) (kill-buffer bname))
     (setq v (set-buffer (get-buffer-create bname)))
     (and postop (eval-p postop))
     v)
@@ -104,7 +104,7 @@ with optional PREOP, evaluates PREOP before calling `get-buffer-create'
     (and preop (eval preop))
   ; if buffer existed and was read only, there's probably little 
   ; utility in keeping it that way, after zapping it!
-    (and (buffer-exists-p bname) (kill-buffer bname))
+    (and (get-buffer bname) (kill-buffer bname))
     (setq v (get-buffer-create bname))
     (and postop (eval postop))
     v)
@@ -118,7 +118,7 @@ takes no action and returns nil if buffer exists and is read-only
 "
   (interactive "Bbuffer name: ")
 
-  (let ((b (buffer-exists-p name)))
+  (let ((b (get-buffer name)))
     (if b (save-excursion (set-buffer b) 
 			  (condition-case err
 			      (progn
@@ -143,7 +143,7 @@ note: leaves focus in the newly created buffer.
 "
   (interactive "Bbuffer name: ")
 
-  (let ((b (or (buffer-exists-p name))))
+  (let ((b (or (get-buffer name))))
     (if b (progn
 	    (set-buffer b) 
 	    (setq buffer-read-only nil)

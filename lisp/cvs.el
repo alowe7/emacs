@@ -1,5 +1,5 @@
 (put 'cvs 'rcsid 
- "$Id: cvs.el,v 1.11 2003-08-29 16:50:28 cvs Exp $")
+ "$Id: cvs.el,v 1.12 2007-03-19 15:25:02 alowe Exp $")
 (require 'vc)
 (require 'indicate)
 
@@ -44,7 +44,7 @@
 	     (cmd (format "cvs %s %s" cmd args)))
 	(shell-command cmd b)
 	(push cmd cvs-command-history)
-	(if (buffer-exists-p bname) 
+	(if (get-buffer bname) 
 	    (progn (pop-to-buffer b)
 		   (beginning-of-buffer)
 		   (view-mode))

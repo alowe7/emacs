@@ -1,5 +1,5 @@
 (put 'assoc-helpers 'rcsid
- "$Id: assoc-helpers.el,v 1.1 2007-03-19 14:58:09 alowe Exp $")
+ "$Id: assoc-helpers.el,v 1.2 2007-03-19 15:25:02 alowe Exp $")
 
 (defun modify-alist (x y z)
   (set x (loop for w in (eval x) collect 
@@ -33,5 +33,11 @@ uses `string='
       (set list (remove* key (eval list) :test (lambda (x y) (string= x (car y)))))
     (remove* key (eval list) :test (lambda (x y) (string= x (car y)))))
   )
+
+(defun assocd (a l d)
+  " like assoc, but return d if a is not on l"
+  (let ((v (cdr (assoc a l))))
+    (or v d)))
+
 
 (provide 'assoc-helpers)

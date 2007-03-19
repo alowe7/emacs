@@ -1,5 +1,5 @@
 (put 'scratch-mode 'rcsid
- "$Id: scratch-mode.el,v 1.15 2006-09-26 18:56:13 alowe Exp $")
+ "$Id: scratch-mode.el,v 1.16 2007-03-19 15:25:03 alowe Exp $")
 
 (require 'ctl-ret)
 (require 'buff)
@@ -21,7 +21,7 @@
   (interactive)
 	(let ((pat (or prefix *scratch-pattern*))
 				bname)
-		(loop with i = 0 while (buffer-exists-p (setq bname (format "%s %d" pat i))) do (setq i (1+ i)) finally return bname)
+		(loop with i = 0 while (get-buffer (setq bname (format "%s %d" pat i))) do (setq i (1+ i)) finally return bname)
 		)
   )
 

@@ -1,5 +1,5 @@
 (put 'xosus 'rcsid 
- "$Id: xosus.el,v 1.6 2004-08-11 14:55:53 cvs Exp $")
+ "$Id: xosus.el,v 1.7 2007-03-19 15:25:03 alowe Exp $")
 ;; not really required, but..
 (defvar xosust-file (expand-file-name (getenv "XOSUST")))
 
@@ -546,11 +546,11 @@
   (let* ((p (assoc fn xosus-oblist))
 	 (hbn (concat "*xosus " fn)))
 
-    (if (buffer-exists-p hbn) (pop-to-buffer hbn)
+    (if (get-buffer hbn) (pop-to-buffer hbn)
 
       (if p 
 	  (let* ((bn " *xosust*")
-		 (b (buffer-exists-p bn))
+		 (b (get-buffer bn))
 		 )
 	    (if (not b) (progn
 			  (setq b (zap-buffer bn))

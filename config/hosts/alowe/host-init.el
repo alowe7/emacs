@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.46 2007-01-02 15:50:04 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.47 2007-03-19 15:25:02 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -247,3 +247,9 @@
 ; string quoting logic in font-lock if f***-ed up
 
 (setq font-lock-string-face 'default)
+
+(setq Info-default-directory-list
+      '("/usr/local/info/" "c:/usr/local/lib/emacs-21.3/info/" "/usr/local/share/info/")
+      )
+
+

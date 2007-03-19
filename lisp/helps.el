@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.26 2006-02-24 16:24:44 alowe Exp $")
+ "$Id: helps.el,v 1.27 2007-03-19 15:25:03 alowe Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -246,7 +246,7 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 	(find-file fn) ;not compressed.
 
       (let* ((bname (or bufname a))
-	     (b (or (buffer-exists-p bname) (zap-buffer bname))))
+	     (b (or (get-buffer bname) (zap-buffer bname))))
 
 	(if  (buffer-modified-p b)
 	    (let ((doit 
