@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.14 2006-09-22 20:01:50 alowe Exp $")
+ "$Id: os-init.el,v 1.15 2007-03-19 17:37:13 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -37,7 +37,7 @@
 (defun w32-canonify (f &optional sysdrive)
   " expands FILENAME, using backslashes
 optional DRIVE says which drive to use. "
-  (replace-in-string  "/" "\\" 
+  (replace-regexp-in-string  "/" "\\\\" 
 		      (if sysdrive (expand-file-name 
 				    (substitute-in-file-name
 				     (chomp f ?/))
@@ -766,7 +766,7 @@ host must respond within optional TIMEOUT msec"
 "))
 		     collect
 		     (let
-			 ((l (split (replace-in-string "[ ]+" " " x))))
+			 ((l (split (replace-regexp-in-string "[ ]+" " " x))))
 		       (list (cadr l) (car l))))
 	       )
 	 )
@@ -829,7 +829,7 @@ host must respond within optional TIMEOUT msec"
 			  if (or
 			      (string-match (concat "^" (car y) "/") f)
 			      (string-match (concat "^" (car y) "$") f))
-			  return (replace-in-string (concat "^" (car y)) (cadr y) f)
+			  return (replace-regexp-in-string (concat "^" (car y)) (cadr y) f)
 			  ))))
 	   (and e (mount-orig-expand-file-name e))
 	   )
@@ -898,7 +898,7 @@ host must respond within optional TIMEOUT msec"
 ;; 		     if (or
 ;; 			 (string-match (concat "^" (car y) "/") d)
 ;; 			 (string-match (concat "^" (car y) "$") d))
-;; 		     return (replace-in-string (concat "^" (car y)) (cadr y) d)
+;; 		     return (replace-regexp-in-string (concat "^" (car y)) (cadr y) d)
 ;; 		     ))))
 ;;     (if d1 (ad-set-arg 0 d1))
 ;; 

@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.18 2006-03-22 22:53:33 alowe Exp $
+;; $Id: perl-helpers.el,v 1.19 2007-03-19 17:37:13 alowe Exp $
 
 (require 'perl-command)
 
@@ -174,7 +174,7 @@ see `*perl-libs*'"
 (defun find-perl-module (m)
   "pop to named perl MODULE along library path"
   (interactive "smod: ")
-  (let ((mm (concat (replace-in-string "::" "/" m) ".pm")))
+  (let ((mm (concat (replace-regexp-in-string "::" "/" m) ".pm")))
     (loop for x in *perl-libs*  
 	  with mmm=nil
 	  if (file-exists-p (setq mmm (concat x "/" mm)))
@@ -214,7 +214,7 @@ see `*perl-libs*'"
 		(let ((w (indicated-word ":"))) (string* (read-string (format "perl module (%s): " w)) w))
 		))
   (interactive "smod: ")
-  (let ((mm  (replace-in-string "::" "/" m)))
+  (let ((mm  (replace-regexp-in-string "::" "/" m)))
     (or
      (loop for x in *perl-libs*  
 	   with mmm=nil

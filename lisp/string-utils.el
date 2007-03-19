@@ -1,10 +1,10 @@
 (put 'string-utils 'rcsid
- "$Id: string-utils.el,v 1.1 2005-07-02 20:12:18 cvs Exp $")
+ "$Id: string-utils.el,v 1.2 2007-03-19 17:37:13 alowe Exp $")
 
 (defun string^ (s pat)
   "perform exclusive or of STRING with PAT."
   (if (string-match pat s)
-      (replace-in-string pat "" s)
+      (replace-regexp-in-string pat "" s)
     (concat s pat))
   )
 

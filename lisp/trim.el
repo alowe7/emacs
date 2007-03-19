@@ -1,5 +1,5 @@
 (put 'trim 'rcsid
- "$Id: trim.el,v 1.7 2005-08-05 20:44:45 cvs Exp $")
+ "$Id: trim.el,v 1.8 2007-03-19 17:37:13 alowe Exp $")
 
 
 (defun trim-trailing-white-space (&optional s) (interactive)
@@ -18,8 +18,8 @@
 	(replace-regexp "^[ 	]*" "")
 	)
     (and s 
-	 (replace-in-string "^[ 	]+" "" 
-			    (replace-in-string "
+	 (replace-regexp-in-string "^[ 	]+" "" 
+			    (replace-regexp-in-string "
 [ 	]+" "
 " s)
 			    )))
@@ -63,10 +63,10 @@
       (let ((s (buffer-substring (point) (mark))))
 	(delete-region (point) (mark))
 	(insert
-	 (replace-in-string "^[	 ]*
+	 (replace-regexp-in-string "^[	 ]*
 " "" s)))
 
-    (replace-in-string "^[	 ]*
+    (replace-regexp-in-string "^[	 ]*
 " "" s)
     )
   )
