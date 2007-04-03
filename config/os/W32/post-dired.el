@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid
- "$Id: post-dired.el,v 1.4 2007-04-03 19:17:35 alowe Exp $")
+ "$Id: post-dired.el,v 1.5 2007-04-03 19:21:13 noah Exp $")
 
 ; tbd promote these...
 
@@ -7,7 +7,7 @@
 (defun w32-canonify (f &optional sysdrive)
   " expands FILENAME, using backslashes
 optional DRIVE says which drive to use. "
-  (replace-regexp-in-string  "/" "\\\\" 
+  (replace-in-string  "/" "\\" 
 		      (if sysdrive (expand-file-name 
 				    (substitute-in-file-name
 				     (chomp f ?/))
