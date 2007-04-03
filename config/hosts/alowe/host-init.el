@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.47 2007-03-19 15:25:02 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.48 2007-04-03 19:17:35 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -252,4 +252,5 @@
       '("/usr/local/info/" "c:/usr/local/lib/emacs-21.3/info/" "/usr/local/share/info/")
       )
 
-
+; xxx mongrify
+(add-hook 'locate-mode-hook 'fb-mode)

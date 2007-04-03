@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid
- "$Id: post-dired.el,v 1.3 2007-01-02 15:50:04 alowe Exp $")
+ "$Id: post-dired.el,v 1.4 2007-04-03 19:17:35 alowe Exp $")
 
 ; tbd promote these...
 
@@ -7,7 +7,7 @@
 (defun w32-canonify (f &optional sysdrive)
   " expands FILENAME, using backslashes
 optional DRIVE says which drive to use. "
-  (replace-in-string  "/" "\\" 
+  (replace-regexp-in-string  "/" "\\\\" 
 		      (if sysdrive (expand-file-name 
 				    (substitute-in-file-name
 				     (chomp f ?/))
@@ -21,7 +21,8 @@ optional DRIVE says which drive to use. "
 (defun dired-copy-filename-as-kill (arg) 
   "apply `kill-new' to `dired-get-filename'"
   (interactive "P")
-  (let* ((f (funcall (if arg 'w32-canonify 'identity) (dired-get-filename))))
+  (let* ((of (or (dired-get-filename nil t) default-directory))
+	 (f (funcall (if arg 'w32-canonify 'identity) of)))
     (kill-new f)
     (if (interactive-p) (message f))
     )

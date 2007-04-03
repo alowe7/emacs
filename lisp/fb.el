@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.68 2007-02-21 02:37:04 tombstone Exp $")
+ "$Id: fb.el,v 1.69 2007-04-03 19:17:35 alowe Exp $")
 
 (require 'locate)
 (require 'isearch)
@@ -85,14 +85,18 @@
 
 ; sometimes filelists include letter drive names like c:/foo/bar, sometimes they contain line numbers like /foo/bar:20
 (defun fb-indicated-file ()
-  (trim-white-space
-   (let* ((s (bgets))
-	  (l (split s ":"))
-	  (file (elt l 0))
-	  (line (int* (elt l 1))))
-     (if line file s)))
+  (interactive)
+  (let* ((s (bgets))
+		 (l (split s ":"))
+		 (file (elt l 0))
+		 (line (int* (elt l 1)))
+		 (v (trim-white-space (if line file s)))
+		 )
+	(if (interactive-p)
+		(message v))
+	v)
   )
-
+(fset 'fb-get-filename 'fb-indicated-file)
 
 
 (defun fb-indicated-line ()
