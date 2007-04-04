@@ -1,5 +1,5 @@
 (put 'Emacs21 'rcsid
- "$Id: Emacs21.el,v 1.14 2005-08-29 23:25:16 cvs Exp $")
+ "$Id: Emacs21.el,v 1.15 2007-04-04 19:50:41 alowe Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -73,6 +73,9 @@
 (defun remove-all-text-properties  (start end)
   "Remove all text properties from the region."
   (interactive "*r") ; error if buffer is read-only despite the next line.
-  (and (text-properties-at (point))
-       (remove-text-properties start end (text-properties-at (point))))
+  (loop for p from start to end do
+	(let ((props (text-properties-at p)))
+	  (remove-text-properties start end props))
+	)
   )
+
