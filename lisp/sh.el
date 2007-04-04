@@ -1,5 +1,5 @@
 (put 'sh 'rcsid
- "$Id: sh.el,v 1.3 2007-01-02 15:50:04 alowe Exp $")
+ "$Id: sh.el,v 1.4 2007-04-04 02:59:54 noah Exp $")
 
 (require 'typesafe)
 (require 'eval-utils)
@@ -10,6 +10,7 @@
 ;; by Andy Lowe at PSW, copyright (c) 1994, 1995, 1996, 1997, 1998, 1999
 ;; by Andy Lowe at BroadJump, copyright (c) 2000,2001,2002
 ;; by Andy Lowe at Motive, copyright (c) 2003,2004
+;; by Andy Lowe at Overwatch, copyright (c) 2006,2007
 
 ;; ksh-like functions:
 
@@ -190,6 +191,9 @@ this is probably too hard."
 ; tbd: this might get redefined should you ever load doctor.el
 
 (defun $ (path) 
+  "dollar-expand environment variables in PATH
+handles ksh-like ${foo} syntax
+"
   (join
    (apply 'vector
 	  (mapcar 'handle-dollars 
@@ -395,12 +399,17 @@ value is a function cell taking the input line to parse.  returns nil if it coul
   "THING exists and is a file"
   (and (file-exists-p ($ x)) x))
 
-(defun -f (x) "THING is a file and not a directory"
+(defun -f (x)
+  "THING is a file and not a directory
+if thing has environment variables embedded, they are expanded
+"
   (let ((y  ($ x))) (and (file-exists-p y) (not (file-directory-p y)) x))
   )
 
 (defun -x (x) 
-  "THING exists, is a non-directory file and is executable"
+  "THING exists, is a non-directory file and is executable
+if thing has environment variables embedded, they are expanded
+"
   (let ((y  ($ x)) attrs)
     (and (file-exists-p y)
 	 (not (file-directory-p y))
@@ -409,7 +418,9 @@ value is a function cell taking the input line to parse.  returns nil if it coul
 
 
 (defun -r (x) 
-  "thing is a file"
+  "THING is a file that is readable
+thing is `$' expanded
+"
   ;; todo check file-modes
   (and (file-exists-p ($ x)) x))
 
