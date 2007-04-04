@@ -138,7 +138,9 @@ default is ':'
 		     ((numberp pat) (format "%c" pat))
 		     (t ":")))
 	 (seq 
-	  (cond ((vectorp v)
+	  (cond ((<= (length patp) 0)
+		 v)
+		 ((vectorp v)
 		 (loop for x across v
 		       collect
 		       (concat x patp)))
@@ -148,14 +150,18 @@ default is ':'
 		       (concat x patp)))
 		(t v)))
 	 )
+
     (if (> (length seq) 0) ; remove the last pat
 	(substring (apply 'concat seq)
-		   0 (- (length patp)))
+		   0  (and 
+		       (> (length patp) 0)
+			  (- (length patp))))
       "")
     )
   )
 
 ; (join (list "a" "b" "c"))
+; (join (vector "a" "b" "c"))
 
 (defun split2 (s &optional pat)
   "more scalable version of `split'
