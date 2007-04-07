@@ -1,0 +1,8 @@
+# $Id: pre-locate,v 1.1 2007-04-07 17:31:51 noah Exp $ 
+
+; override
+(defvar locate-make-command-line 'my-locate-make-command-line)
+(defvar locate-options "--ignore-case")
+(defun my-locate-make-command-line (search-string)
+  (list locate-command locate-options search-string))
+
