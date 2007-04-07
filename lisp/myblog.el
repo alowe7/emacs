@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.14 2007-01-11 17:52:02 alowe Exp $")
+ "$Id: myblog.el,v 1.15 2007-04-07 17:19:11 noah Exp $")
 
 ;; myblog
 
@@ -19,7 +19,7 @@
 )
 ; (defvar *areas* '((".net") ("biz") ("crypto") ("dcgs") ("j2ee") ("personal") ("tech") ("pub") ("priv")))
 
-(defvar *default-area* "pub")
+(defvar *default-area* "personal")
 
 (defvar *myblog-db* (expand-file-name "~/.dscm"))
 

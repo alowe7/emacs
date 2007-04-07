@@ -1,6 +1,10 @@
 
 ; xxx unfortunately named.  see proof-compat.el
 
+; needed for compatibility with xemacs packages
+      (defun replace-in-string (str regexp newtext &optional literal)
+        (replace-regexp-in-string regexp newtext str 'fixedcase literal))
+
 ;; (defun replace-in-string (str regexp to &optional ignored)
 ;;   "replace occurrences of REGEXP with TO in  STRING
 ;; note: this function is defined somewhat differently in xemacs

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.3 2007-02-04 22:45:19 noah Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.4 2007-04-07 17:19:11 noah Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -22,7 +22,8 @@
 	(menu-bar-lines . 0))
       )
 
-(setq default-frame-alist  initial-frame-alist)
+(setq default-frame-alist initial-frame-alist)
+(add-association '(height . 20) 'default-frame-alist t)
 
 (setq *people-database*  (expand-file-name (concat (getenv "HOME") "/n/people")))
 
@@ -37,7 +38,7 @@
 ; (requirex 'worlds)
 (defun evilnat () (not (string-match "ok" (perl-command "evilnat"))))
 
-;(require 'xz-loads)
+(require 'xz-loads)
 (require 'gnuserv)
 
 ;(load-library "xdb")
@@ -50,7 +51,10 @@
 	   ("site-lisp/tx-1.0" "/x/elisp")
 	   ))
       )
-  (loop for e in r do 
+  (loop for e in r 
+	when
+	(file-exists-p (cadr e))
+	do 
 	(setq load-path
   ; first remove published versions, if any
 	      (nconc (remove-if '(lambda (x) 
@@ -60,6 +64,7 @@
 	      )
 	)
   )
+; (setq load-path (remove-if '(lambda (x) (string-match "^/x" x)) load-path))
 
 ; man don't work with default path
 (load-library "post-man")
@@ -102,10 +107,10 @@
 (add-to-load-path "/z/gpg" t)
 (condition-case x (load "/z/gpg/.autoloads") (error nil))
 ; defaults
-(setq *gpg-command* "/usr/local/lib/gpg-1.4.1/gpg.exe")
-(setq *gpg-default-file*  "~/.private/wink")
+(setq *gpg-command* "/usr/local/bin/gpg.exe")
+(setq *gpg-default-file*  "e:/home/alowe/.private/wink")
 ; keyrings on removable compact flash card
-(setq *gpg-default-homedir*  "h:/.gnupg")
+(setq *gpg-default-homedir*  "e:/home/alowe/.gnupg")
 ; (setq *gpg-default-homedir*  "~/.gnupg")
 
 (setq *gpg-encode-target* "Andrew")
@@ -166,3 +171,6 @@
 (defun perl-font-lock-syntactic-keywords ()  perl-font-lock-syntactic-keywords) 
 
 (require 'noted)
+
+(require 'emacs-wiki-load)
+
