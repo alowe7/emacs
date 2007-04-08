@@ -1,0 +1,5 @@
+; (add-to-load-path "/usr/local/src/emacs-w3m/emacs-w3m" t)
+; (setq w3m-home-page "http://tombstone")
+; (setq w3m-home-page "http://www.alowe.com")
+(setq w3m-home-page "about:blank")
+; (load-library "w3m")

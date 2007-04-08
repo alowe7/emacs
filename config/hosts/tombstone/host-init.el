@@ -1,7 +1,7 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.14 2007-03-17 16:41:20 tombstone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.15 2007-04-08 22:46:25 tombstone Exp $")
 
-; enoch
+; enoch..tombstone
 
 ; run xfontsel, then...
 ; (insert (x-get-selection))
@@ -65,11 +65,6 @@
 (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
-(defun nautilus ()
-  (interactive)
-  (call-process "/usr/bin/nautilus" nil nil nil default-directory)
-  )
-(global-set-key (vector 'f12) 'nautilus)
 (global-set-key (vector 'f2) '(lambda () (interactive) (shell2 2)))
 
 ; (setq comint-use-prompt-regexp-instead-of-fields nil)
