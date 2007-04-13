@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.41 2007-01-02 15:50:04 alowe Exp $")
+ "$Id: post-w3m.el,v 1.42 2007-04-13 18:04:19 alowe Exp $")
 (require 'w3m)
 
 ;; from url-helpers
@@ -96,7 +96,7 @@
 ; tie in with error handler from man
 (defvar *all-docs-alist* nil "alist mapping quick references to urls.  see `all-docs'")
 (loop for x in '(
-		 ("apache"  "http://alowe1/manual/")
+		 ("apache"  "http://localhost/manual/")
 		 ("css" "http://localhost/usr/share/specs/css2.0/cover.html")     
 		 ("html" "http://localhost/usr/share/specs/html4.0/cover.html")
 		 ("forms" "http://localhost/usr/share/specs/html4.0/interact/forms.html")
@@ -195,7 +195,7 @@
   )
 
 (defun modperlmanual () (interactive)
-  (w3m-goto-url-new-session "http://alowe1/usr/local/lib/mod_perl-1.99_08/docs/")
+  (w3m-goto-url-new-session "http://localhost/usr/local/lib/mod_perl-1.99_08/docs/")
   )
 
 (defun phpmanual () (interactive)
@@ -327,17 +327,12 @@
 
 (mapcar '(lambda (x) (add-file-association x 'w3m-view-file-url)) '("html" "htm"))
 
-
 (add-hook 'dired-mode-hook
 	  '(lambda ()
-	     (define-key dired-mode-map "W" (lambda () (interactive) (w3m-goto-url (format "http://alowe1/%s" (unix-canonify (dired-get-filename) 0)))))
+	     (define-key dired-mode-map "W" (lambda () (interactive) (w3m-goto-url (format "http://localhost/%s" (unix-canonify (dired-get-filename) 0)))))
 	     ))
 
 (setq w3m-icon-directory "/usr/share/pixmaps/w3m-el")
-
-; hmmm.
-(define-key w3m-mode-map (vector 'f1) 'google)
-(define-key w3m-mode-map (vector 'kp-f1) 'google)
 
 (require 'ctl-slash)
 (define-key ctl-/-map "s" 'all-docs)
