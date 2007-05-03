@@ -1,8 +1,9 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.21 2007-03-16 17:18:17 alowe Exp $")
+ "$Id: eval-process.el,v 1.22 2007-05-03 16:57:49 tombstone Exp $")
 ;; a package to return process evaulation as a string
 
 (require 'zap)
+(require 'trim)
 
 ;; processes that return values
 
@@ -128,8 +129,8 @@ cleans up linefeeds in resulting output"
 
 (defun clean-string (s &optional c)
   "replace occurrences of ^J in STRING with CHAR (default nil)"
-  (replace-letter s "
-" c)
+  (trim (replace-letter s "
+" c))
   )
 
 ;;; *** from c-fill.el ***

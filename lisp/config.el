@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.50 2006-12-30 17:37:31 noah Exp $")
+ "$Id: config.el,v 1.51 2007-05-03 16:57:48 tombstone Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -390,8 +390,9 @@ see `locate-config-file'"
 (defun os-config () 
   "find os specific config directory"
   (interactive)
-  (let ((d 
-	 (loop for x in load-path thereis (and (string-match (concat "/os/" (uname)) x) x))))
+  (let* ((uname (uname))
+	 (d 
+	 (loop for x in load-path thereis (and (string-match (concat "/os/" uname) x) x))))
     (if (interactive-p)
 	(if (file-name-directory d) (dired d) (message (format "directory %s doesn't exist" d)))
       d)

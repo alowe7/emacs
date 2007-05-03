@@ -1,5 +1,5 @@
 (put 'pre-xdb 'rcsid
- "$Id: pre-xdb.el,v 1.10 2006-06-07 21:36:10 alowe Exp $")
+ "$Id: pre-xdb.el,v 1.11 2007-05-03 16:57:49 tombstone Exp $")
 
 ;; this is so wrong
 
@@ -44,9 +44,26 @@
 (defun xh* (thing)
   " select where what or how like THING in x.howto"
   (interactive "show to where what or how like: ")
-	(let ((*txdb-options* *txdb-options*))
+	(let* ((*txdb-options* *txdb-options*)
+	       (words (split thing))
+	       (query
+		(concat "("
+			(mapconcat 'identity
+				   (list
+				    (mapconcat 'identity
+					       (loop for x in words collect (format "what like '%%%s%%'" x))
+					       " and ")
+
+				    (mapconcat 'identity
+					       (loop for x in words collect (format "how like '%%%s%%'" x))
+					       " and ")
+				    )
+				   ") or (")
+			")"))
+	       )
+
 		(add-txdb-option "-v" "2")
-		(x-query-1 (format  "select * from howto where what like '%%%s%%' or how like '%%%s%%'" thing thing))
+		(x-query-1 (format  "select * from howto where %s" query))
 		)
   )
 
