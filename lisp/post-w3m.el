@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.42 2007-04-13 18:04:19 alowe Exp $")
+ "$Id: post-w3m.el,v 1.43 2007-05-07 15:54:09 alowe Exp $")
 (require 'w3m)
 
 ;; from url-helpers
@@ -198,10 +198,24 @@
   (w3m-goto-url-new-session "http://localhost/usr/local/lib/mod_perl-1.99_08/docs/")
   )
 
-(defun phpmanual () (interactive)
-  (w3m-goto-url-new-session "http://localhost/php/manual")
+; don't think this is really useful
+(defun w3m-goto-url-with-cache (url) 
+  (interactive "surl: ")
+  (let ((l (assoc  url *w3m-tabs*)))
+    (if (and l (buffer-live-p (cadr l)))
+	(switch-to-buffer-other-window (cadr l))
+      (progn
+	(w3m-goto-url-new-session url)
+	(add-to-list '*w3m-tabs* (list url (current-buffer) ))
+	)
+      )
+    )
   )
-; ( phpmanual)
+
+(defun phpmanual () (interactive)
+  (w3m-goto-url-new-session  "http://localhost/php-manual/")
+  )
+; (phpmanual)
 ; xxx todo generalize this ala bookmarks
 (defun html40 () (interactive)   
   (w3m-goto-url-new-session "http://localhost/usr/share/specs/html4.0/cover.html")

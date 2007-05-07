@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.48 2007-04-03 19:17:35 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.49 2007-05-07 15:54:08 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -133,22 +133,6 @@
 (setq w3m-home-page "http://localhost")
 (defvar *w3m-tabs* nil)
 
-(defun w3m-goto-url-with-cache (url) 
-  (interactive "surl: ")
-  (let ((l (assoc  "http://localhost:10080/php-manual/"  *w3m-tabs*)))
-    (if (and l (buffer-live-p (cadr l)))
-	(switch-to-buffer-other-window (cadr l))
-      (progn
-	(w3m-goto-url-new-session url)
-	(add-to-list '*w3m-tabs* (list url (current-buffer) ))
-	)
-      )
-    )
-  )
-
-(defun php-manual () (interactive) 
-  (w3m-goto-url-with-cache  "http://localhost:10080/php-manual/")
-  )
 
 ;; xxx this is probably wrong...
 
