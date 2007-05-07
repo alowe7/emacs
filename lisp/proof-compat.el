@@ -174,7 +174,7 @@ and replace a sub-expression, e.g.
       noninteractive))
 
 ;; Replacing in string (useful function from subr.el in XEmacs 21.1.9)
-(or (fboundp 'replace-in-string)
+(or (and (fboundp 'replace-in-string)  (not (and (listp (symbol-function (quote replace-in-string))) (eq 'autoload (car (symbol-function (quote replace-in-string)))))))
     (if (fboundp 'replace-regexp-in-string)
       (defun replace-in-string (str regexp newtext &optional literal)
         (replace-regexp-in-string regexp newtext str 'fixedcase literal))
