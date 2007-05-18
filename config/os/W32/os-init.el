@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.15 2007-03-19 17:37:13 alowe Exp $")
+ "$Id: os-init.el,v 1.16 2007-05-18 15:11:01 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -37,16 +37,24 @@
 (defun w32-canonify (f &optional sysdrive)
   " expands FILENAME, using backslashes
 optional DRIVE says which drive to use. "
-  (replace-regexp-in-string  "/" "\\\\" 
-		      (if sysdrive (expand-file-name 
-				    (substitute-in-file-name
-				     (chomp f ?/))
-				    (and (string* sysdrive) (concat sysdrive "/")))
-			(substitute-in-file-name
-			 (chomp f ?/))
-			)
-		      )
+
+  (cond
+   ((string= f "/") "\\")
+   (t
+    (replace-regexp-in-string  "/" "\\\\" 
+			       (if sysdrive (expand-file-name 
+					     (substitute-in-file-name
+					      (chomp f ?/))
+					     (and (string* sysdrive) (concat sysdrive "/")))
+				 (substitute-in-file-name
+				  (chomp f ?/))
+				 )
+			       )
+    )
+   )
   )
+;(w32-canonify "/a/b/c")
+;(w32-canonify "/")
 (fset 'unc-canonify 'w32-canonify)
 
 (defun unix-canonify (f &optional mixed)

@@ -1,5 +1,5 @@
 (put 'xa 'rcsid
- "$Id: xa.el,v 1.6 2006-09-03 15:42:15 tombstone Exp $")
+ "$Id: xa.el,v 1.7 2007-05-18 15:11:01 alowe Exp $")
 
 (define-derived-mode xa-mode fundamental-mode "xa" "")
 
@@ -18,7 +18,7 @@ return the bufferstring"
 		(if prompt (setq mode-line-buffer-identification prompt))
 		(if initial-input (progn (insert initial-input) (beginning-of-buffer)))
 		(local-set-key "" '(lambda () (interactive)
-					 (setq s (buffer-string))
+					 (kill-new (setq s (buffer-string))) ; save as a kill in case caller loses
 					 (throw 'done nil)))
 		(local-set-key "" '(lambda () (interactive) (y-or-n-p "are you sure? ") (throw 'done  t)))
 		(setq fill-column (max (- (frame-width) 15) 70))

@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.43 2007-05-07 15:54:09 alowe Exp $")
+ "$Id: post-w3m.el,v 1.44 2007-05-18 15:11:01 alowe Exp $")
 (require 'w3m)
 
 ;; from url-helpers
@@ -353,3 +353,43 @@
 
 ;; w3m-om overrides some standard lisp in an incompatible way.
 (load-library "rect")
+
+(defvar *firefox-bin* "c:/Program Files/Mozilla Firefox/firefox.exe")
+
+(defun w3m-w32-browser-with-firefox (url)
+  (let ((proc (start-process "w3m-w32-browser-with-firefox"
+			     (current-buffer)
+			     *firefox-bin*
+			     (if (w3m-url-local-p url)
+				 (w3m-url-to-file-name url)
+			       url))))
+    (set-process-filter proc 'ignore)
+    (set-process-sentinel proc 'ignore)))
+
+(setq w3m-content-type-alist
+      `(("text/plain" "\\.\\(txt\\|tex\\|el\\)" nil)
+	("text/html" "\\.s?html?$"  w3m-w32-browser-with-firefox)
+	("image/jpeg" "\\.jpe?g$"
+	 (,*firefox-bin* file))
+	("image/png" "\\.png$"
+	 (,*firefox-bin* file))
+	("image/gif" "\\.gif$"
+	 (,*firefox-bin* file))
+	("image/tiff" "\\.tif?f$"
+	 (,*firefox-bin* file))
+	("image/x-xwd" "\\.xwd$"
+	 (,*firefox-bin* file))
+	("image/x-xbm" "\\.xbm$"
+	 (,*firefox-bin* file))
+	("image/x-xpm" "\\.xpm$"
+	 (,*firefox-bin* file))
+	("image/x-bmp" "\\.bmp$"
+	 (,*firefox-bin* file))
+	("video/mpeg" "\\.mpe?g$"
+	 (,*firefox-bin* file))
+	("video/quicktime" "\\.mov$"
+	 (,*firefox-bin* file))
+	("application/postscript" "\\.\\(ps\\|eps\\)$"
+	 (,*firefox-bin* file))
+	("application/pdf" "\\.pdf$"
+	 (,*firefox-bin* file))))
