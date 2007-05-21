@@ -29,12 +29,12 @@ see `cmd-mode' `shell2'
 			      (knr-argdecl-intro . -)))
 	  (c-echo-syntactic-information-p . t))
 	)
-;
-(define-key python-mode-map "," 'self-insert-command)
-(define-key python-mode-map ";" 'self-insert-command)
+  ;
+  (define-key python-mode-map "," 'self-insert-command)
+  (define-key python-mode-map ";" 'self-insert-command)
   )
 ; (loop for x in (symbols-like "python-mode") do (makunbound x))
-(add-to-list 'auto-mode-alist '("\\.py\\" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.py" . python-mode))
 (add-to-list 'font-lock-defaults-alist
 	     '(python-mode
 	       (perl-font-lock-keywords perl-font-lock-keywords-1 perl-font-lock-keywords-2)

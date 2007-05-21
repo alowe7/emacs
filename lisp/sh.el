@@ -1,5 +1,5 @@
 (put 'sh 'rcsid
- "$Id: sh.el,v 1.4 2007-04-04 02:59:54 noah Exp $")
+ "$Id: sh.el,v 1.5 2007-05-21 18:36:45 alowe Exp $")
 
 (require 'typesafe)
 (require 'eval-utils)
@@ -356,8 +356,9 @@ value is a function cell taking the input line to parse.  returns nil if it coul
 (defun scan-file (fn)
   "interpret shell script FILE to some extent."
   (interactive "ffilename: ")
-  (mapcar 'sh-parse-line (split (read-file fn) "
-"))
+  (not (not (mapcar 'sh-parse-line (split (read-file fn) "
+"))))
+
   )
 
 (defun scan-indicated-file ()

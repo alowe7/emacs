@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.19 2007-05-21 14:39:35 alowe Exp $")
+ "$Id: perl-command.el,v 1.20 2007-05-21 18:36:45 alowe Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -203,7 +203,7 @@ see `call-process-region'"
 
 (defun read-stderr ()
   (and (file-exists-p *stderr*)
-       (read-file *stderr* t))
+       (read-file *stderr* t))
   )
 
 ; tbd promote
