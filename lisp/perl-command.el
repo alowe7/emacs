@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.18 2007-05-21 14:35:05 alowe Exp $")
+ "$Id: perl-command.el,v 1.19 2007-05-21 14:39:35 alowe Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -148,15 +148,17 @@ so for example use (read-stderr) to inspect it.
 		    (nconc
 		     (list *perl-command* nil (list b e) nil fs)
 		     (remove* nil args)))
-	     (cond ((interactive-p) 
-		    (switch-to-buffer b) 
-		    (beginning-of-buffer))
-		   (t 
-		    (set-buffer b)
-		    (chomp (buffer-string)))
-		   )
-	     (let ((ret (read-stderr)))
-	       (and ret (message ret)))
+	     (prog1 
+		 (cond ((interactive-p) 
+			(switch-to-buffer b) 
+			(beginning-of-buffer))
+		       (t 
+			(set-buffer b)
+			(chomp (buffer-string)))
+		       )
+	       (let ((ret (read-stderr)))
+		 (and ret (message ret)))
+	       )
 	     )
 	    (t (message (read-stderr))))
       ))
