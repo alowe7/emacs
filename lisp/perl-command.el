@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.17 2005-09-30 20:19:10 cvs Exp $")
+ "$Id: perl-command.el,v 1.18 2007-05-21 14:35:05 alowe Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -9,7 +9,16 @@
 
 (defvar *perl-command* "perl")
 (defvar *perl-stdout* " *stdout*")
-(defvar *perl-stderr* (concat (string* (getenv "TMP") "/tmp") "/" (make-temp-name "err")))
+(defvar *stderr* nil)
+(defmacro stderr ()
+  "generate a temp filename to use for stderr using `make-temp-name'
+sets `*stderr*' by side effect so contents can be examined
+does not create a file.
+"
+  (setq *stderr* (concat (string* (getenv "TMP") "/tmp") "/" (make-temp-name "err")))
+  )
+; (assert (string= (stderr) *stderr*))
+
 
 (defun find-script (s &optional processor l)
   (interactive "sscript: ")
@@ -122,17 +131,15 @@ args is a list with car = 'eval
 
 (defun perl-command (s &rest args)
   " run perl script S on ARGS returning stdout as a string.
-stderr is available on the file `*perl-stderr*' 
-so for example use (read-file *perl-stderr*) to inspect it.
+stderr is available on the file `*stderr*' 
+so for example use (read-stderr) to inspect it.
 " 
   (interactive "sperl script: ")
 
   (save-excursion
     (let* ((b (get-buffer-create-1 *perl-stdout*))
-	   (e *perl-stderr*)
+	   (e (stderr))
 	   (fs (find-script s)))
-
-      (delete-file-p *perl-stderr*)
 
       (cond ((not fs)
 	     (message "warning: script %s not found" s)
@@ -141,11 +148,18 @@ so for example use (read-file *perl-stderr*) to inspect it.
 		    (nconc
 		     (list *perl-command* nil (list b e) nil fs)
 		     (remove* nil args)))
-	     (if (interactive-p) 
-		 (progn (switch-to-buffer b) (beginning-of-buffer))
-	       (progn (set-buffer b) ) (chomp (buffer-string))))
-	    (t (message (read-file *perl-stderr* t)))
-	    )))
+	     (cond ((interactive-p) 
+		    (switch-to-buffer b) 
+		    (beginning-of-buffer))
+		   (t 
+		    (set-buffer b)
+		    (chomp (buffer-string)))
+		   )
+	     (let ((ret (read-stderr)))
+	       (and ret (message ret)))
+	     )
+	    (t (message (read-stderr))))
+      ))
   )
 
 (defun perl-command-region (start end s &optional delete buffer display &rest args)
@@ -185,16 +199,22 @@ see `call-process-region'"
 
 (global-set-key "\C-c!" 'perl-command-region-1)
 
+(defun read-stderr ()
+  (and (file-exists-p *stderr*)
+       (read-file *stderr* t))
+  )
+
+; tbd promote
 (defun delete-file-p (f)
   ; if ignore errors ...
   (condition-case x
-      (if (file-exists-p *perl-stderr*)
-  ;		   (> (nth 7 (file-attributes *perl-stderr*)) 0)
-	  (delete-file *perl-stderr*))
+      (if (file-exists-p f)
+  ;		   (> (nth 7 (file-attributes f)) 0)
+	  (delete-file f))
     (error nil)
     )
   ; else
-  ;      (assert (not (file-exists-p *perl-stderr*)) t "delete file failed")
+  ;      (assert (not (file-exists-p f)) t "delete file failed")
   )
 
 (provide 'perl-command)
