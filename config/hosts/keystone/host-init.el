@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.4 2007-04-07 17:19:11 noah Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.5 2007-06-16 01:21:36 noah Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -95,6 +95,8 @@
 (add-to-load-path "/u/emacs-w3m-1.3.2")
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
 
+(add-to-load-path "/u/Mule-UCS-0.84/lisp/")
+
 ; all kinds of crap here
 (add-to-load-path "/z/el" t)
 (condition-case x (load "/z/el/.autoloads") (error nil))
@@ -108,9 +110,11 @@
 (condition-case x (load "/z/gpg/.autoloads") (error nil))
 ; defaults
 (setq *gpg-command* "/usr/local/bin/gpg.exe")
-(setq *gpg-default-file*  "e:/home/alowe/.private/wink")
+;(setq *gpg-default-file*  "e:/home/alowe/.private/wink")
+(setq *gpg-default-file*  "h:/wink")
 ; keyrings on removable compact flash card
-(setq *gpg-default-homedir*  "e:/home/alowe/.gnupg")
+;(setq *gpg-default-homedir*  "e:/home/alowe/.gnupg")
+(setq *gpg-default-homedir*  "h:/.gnupg")
 ; (setq *gpg-default-homedir*  "~/.gnupg")
 
 (setq *gpg-encode-target* "Andrew")
@@ -173,4 +177,6 @@
 (require 'noted)
 
 (require 'emacs-wiki-load)
+
+(load-library "locate")
 

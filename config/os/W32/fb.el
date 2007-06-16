@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.8 2006-06-08 16:11:18 alowe Exp $")
+ "$Id: fb.el,v 1.9 2007-06-16 01:21:36 noah Exp $")
 
 ; this module overrides some functions defined in fb.el
 ; by default on windows platforms, locate via grep 
@@ -261,4 +261,5 @@ if none given, uses `*default-fb-db*'
     (fb-mode)
     (run-hooks 'after-find-file-hook))
   )
+; (if (ad-find-advice 'locate 'around 'fb-hook-locate) (ad-remove-advice 'locate 'around 'fb-hook-locate)))
 ; (if (ad-is-advised 'locate) (ad-unadvise 'locate))

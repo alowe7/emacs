@@ -1,5 +1,5 @@
 (put 'todo 'rcsid 
- "$Id: todo.el,v 1.15 2007-01-16 19:06:16 noah Exp $")
+ "$Id: todo.el,v 1.16 2007-06-16 01:21:36 noah Exp $")
 (require 'eval-process)
 (require 'edit)
 (require 'input)
@@ -54,7 +54,7 @@
 
 (defun fudge-format (format stuff)
   "just apply FORMAT to list STUFF, but quote any % characters in elements of stuff"
-  (apply 'format (nconc (list format) (mapcar '(lambda (x) (replace-in-string "%" "%%" x)) stuff)))
+  (apply 'format (nconc (list format) (mapcar '(lambda (x) (replace-regexp-in-string "%" "%%" x)) stuff)))
   )
 
 (defun done (&optional arg)
@@ -112,6 +112,7 @@
       )
     )
   )
+
 
 
 (defvar *notdone-record-separator* "----------------------------------

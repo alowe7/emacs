@@ -1,11 +1,10 @@
 (put 'post-locate 'rcsid 
- "$Id: post-locate.el,v 1.8 2006-07-10 16:15:09 tombstone Exp $")
+ "$Id: post-locate.el,v 1.9 2007-06-16 01:21:36 noah Exp $")
 
 (require 'fb)
 
 (setq locate-mode-map fb-mode-map)
 
-;; todo -- add qsave history
 (defadvice locate-mode (around 
 			hook-locate-mode
 			last
@@ -18,21 +17,6 @@
   )
 
 ; (if (ad-is-advised 'locate-mode) (ad-unadvise 'locate-mode))
-
-
-(defadvice locate (around 
-		   post-hook-locate
-		   last
-		   activate)
-  ""
-
-  ad-do-it
-
-  (qsave-search (current-buffer) (ad-get-arg 0) default-directory)
-  )
-
-; (if (ad-is-advised 'locate) (ad-unadvise 'locate))
-
 
 ; generally, this is useful only in certain modes...
 
@@ -70,3 +54,4 @@
   )
 
 ; (setq x (locate-with-filter-1 "ant" "docs/manual/toc.html"))
+
