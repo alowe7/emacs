@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.5 2007-06-16 01:21:36 noah Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.6 2007-07-06 03:31:51 noah Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -112,9 +112,11 @@
 (setq *gpg-command* "/usr/local/bin/gpg.exe")
 ;(setq *gpg-default-file*  "e:/home/alowe/.private/wink")
 (setq *gpg-default-file*  "h:/wink")
+
 ; keyrings on removable compact flash card
 ;(setq *gpg-default-homedir*  "e:/home/alowe/.gnupg")
-(setq *gpg-default-homedir*  "h:/.gnupg")
+;(setq *gpg-default-homedir*  "h:/.gnupg")
+(setq *gpg-default-homedir*  "k:/home/alowe/.gnupg")
 ; (setq *gpg-default-homedir*  "~/.gnupg")
 
 (setq *gpg-encode-target* "Andrew")
