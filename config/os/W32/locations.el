@@ -1,5 +1,5 @@
 (put 'locations 'rcsid
- "$Id: locations.el,v 1.7 2007-01-12 00:45:18 noah Exp $")
+ "$Id: locations.el,v 1.8 2007-07-25 16:13:11 alowe Exp $")
 
 (defun substitute-expand-file-name (f)
   (expand-file-name (substitute-in-file-name f))
@@ -8,6 +8,23 @@
 (require 'regtool)
 (require 'typesafe)
 
+(defun w32-environment-variable (s)
+  (unix-canonify
+   (if (string-match "%\\([^%]+\\)%" s)
+       (concat (substring s 0 (match-beginning 0)) 
+	       "$"
+	       (substring s (match-beginning 1) (match-end 1))
+	       (substring s (match-end 0)))
+     s
+     )
+   )
+  )
+
+(defun personal-folders ()
+  (w32-environment-variable
+   (regtool "get" "/user/Software/Microsoft/Windows/CurrentVersion/Explorer/User Shell Folders/Personal"))
+  )
+
 (loop for x in `(
 		 (all-users-profile "$ALLUSERSPROFILE")
 		 (user-profile "$USERPROFILE")
@@ -15,7 +32,7 @@
 		 (my-documents
 		  ,(or
 		    (string*
-		     (regtool "get" "/user/Software/Microsoft/Windows/CurrentVersion/Explorer/User Shell Folders/Personal"))
+		     (personal-folders))
 		    "$USERPROFILE/My Documents")
 		  )
 		  (my-favorites "$USERPROFILE/Favorites")

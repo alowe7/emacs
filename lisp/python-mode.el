@@ -69,3 +69,12 @@ see `cmd-mode' `shell2'
 	)
   "alist mapping all derived modes to their respective parents"
   )
+
+(require 'gud)
+
+(defun pydbg (module)
+  (interactive "smodule: ")
+  (gud-common-init "python" `("-m" "pdb" ,module)
+		   'gud-gdb-marker-filter 'gud-gdb-find-file)
+  (set (make-local-variable 'gud-minor-mode) 'pydbg)
+  )

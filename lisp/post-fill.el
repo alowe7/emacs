@@ -1,9 +1,9 @@
 (put 'post-fill 'rcsid
- "$Id: post-fill.el,v 1.2 2006-06-14 20:34:42 alowe Exp $")
+ "$Id: post-fill.el,v 1.3 2007-07-25 16:13:11 alowe Exp $")
 
 ;; moved from w32
 
-(defun hard-fill  (from to)
+(defun hard-fill (from to)
   (interactive "r")
   (goto-char from)
   (while (search-forward  "
