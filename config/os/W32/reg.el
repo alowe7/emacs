@@ -1,8 +1,8 @@
 (put 'reg 'rcsid
- "$Id: reg.el,v 1.13 2007-01-12 00:41:29 noah Exp $")
+ "$Id: reg.el,v 1.14 2007-08-19 20:52:51 noah Exp $")
 (require 'qsave)
 
-(defun reg-canonify (s)	(if (and s (stringp s) (> (length s) 0)) (replace-in-string  "/" "\\" s) ""))
+(defun reg-canonify (s) (if (and s (stringp s) (> (length s) 0)) (replace-regexp-in-string "\\\\"  "/" s) ""))
 
 ; 
 ; (reg-query "machine" "software/Technology-X/tw" "wbase")
