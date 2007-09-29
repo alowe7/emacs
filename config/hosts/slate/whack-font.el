@@ -1,7 +1,9 @@
 ; run xfontsel, then...
 ; (insert (x-get-selection))
-
 (if (eq window-system 'x)
+
+; on probably redundant with .Xresources...
+
     (progn
 
 ;      (setq default-fontspec "-*-*-medium-r-normal-*-17-*-*-*-p-*-iso8859-1")
@@ -12,8 +14,8 @@
 	    `(
 	      (top . 71)
 	      (left . 111)
-	      (width . 136)
-	      (height . 36)
+	      (width . 120)
+	      (height . 32)
 	      (background-mode . light)
 	      (cursor-type . box)
 	      (border-color . "black")
