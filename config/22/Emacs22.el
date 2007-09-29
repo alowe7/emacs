@@ -1,5 +1,5 @@
 (put 'Emacs21 'rcsid
- "$Id: Emacs21.el,v 1.16 2007-09-29 20:57:12 b Exp $")
+ "$Id: Emacs22.el,v 1.1 2007-09-29 20:58:00 b Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -79,6 +79,3 @@
 	)
   )
 
-
-(setq hooked-preloaded-modules 
-	'("compile" "cl" "dired" "vc" "comint" "cc-mode" "info" "view"))

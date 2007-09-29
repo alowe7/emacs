@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.51 2007-05-03 16:57:48 tombstone Exp $")
+ "$Id: config.el,v 1.52 2007-09-29 20:57:12 b Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -39,10 +39,7 @@
   )
 
 ;; hooks for these preloaded modules need to be run now
-(defvar hooked-preloaded-modules
-	'("compile" "cl" "dired" "vc" "comint" "cc-mode" "info" "view")
-  "list of functions that may be preloaded, invoke `post-wrap' at startup, also push onto `after-load-alist'"
-  )
+(defvar hooked-preloaded-modules nil)
 
 ;; this advice allows pre- and post- hooks on all loaded features
 ;; this way customization can be tailored to the feature instead of all lumped together
@@ -255,6 +252,7 @@ returns nil otherwise.
 (defun post-wrap (f) 
   "load any post-* modules for module F"
   (interactive "smodule: ")
+  (debug)
   (load (format "post-%s" f) t t)
   )
 
