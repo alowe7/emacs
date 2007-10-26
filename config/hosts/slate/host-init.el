@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.1 2007-09-29 20:57:12 b Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.2 2007-10-26 04:57:40 slate Exp $")
 
 ; enoch..tombstone
 
@@ -30,3 +30,51 @@
 
 (setq grep-command "grep -n -i -e ")
 (setq jit-lock-stealth-time 1)
+
+(defun lframe ()
+  (interactive)
+  (let* ((default-frame-alist default-frame-alist))
+
+    (loop for x in 
+	  '(
+	    (width . 119)
+	    (height . 29)
+	    (top . 62)
+	    (left . 32)
+	    (font . "-*-lucida-medium-r-normal-*-14-140-*-*-*-*-iso8859-1"))
+	  do (add-association x 'default-frame-alist t)
+	  )
+    (call-interactively 'switch-to-buffer-other-frame)
+    )
+  )
+
+(add-to-list 'load-path "/u/z/el")
+(load-library "mpg123")
+
+
+(defun nd (&optional dir)
+  (interactive)
+  (let* (
+	 (dir (or dir default-directory))
+	 (pname (concat "*nautilus " dir "*"))
+	 (p (loop for p in (process-list) when (string= pname (process-name p)) return p)))
+
+    (if p
+	(message (format "process %s already exists" pname))
+      (start-process pname nil "nautilus" dir)
+      )
+    )
+  )
+(global-set-key (vector 'f12) 'nd)
+(require 'lazy-lock)
+
+(post-wrap "dired")
+(post-wrap "compile")
+
+(define-key ctl-RET-map (vector ?\C- ) 'zz)
+
+; uncompress isn't as obsolete as someone thinks.
+(autoload 'uncompress-while-visiting "uncompress")
+
+(define-key ctl-RET-map "" 'flush-lines)
+(define-key ctl-RET-map "" 'keep-lines)

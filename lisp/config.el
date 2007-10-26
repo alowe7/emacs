@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.52 2007-09-29 20:57:12 b Exp $")
+ "$Id: config.el,v 1.53 2007-10-26 04:57:40 slate Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -252,7 +252,7 @@ returns nil otherwise.
 (defun post-wrap (f) 
   "load any post-* modules for module F"
   (interactive "smodule: ")
-  (debug)
+;  (debug)
   (load (format "post-%s" f) t t)
   )
 

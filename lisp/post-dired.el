@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.44 2007-03-03 23:56:11 noah Exp $")
+ "$Id: post-dired.el,v 1.45 2007-10-26 04:57:40 slate Exp $")
 
 (require 'dired-advice)
 
@@ -346,7 +346,7 @@ see `file-assoc-list'"
   )
 (define-key dired-mode-map (vector '\C-return ?\C-y) 'dired-yank-filename)
 
-(defun dired-rename-file (pat)
+(defun my-dired-rename-file (pat)
   (interactive "spat: ")
   (let ((f (dired-get-filename t)))
     (rename-file f (concat f "." (string* pat "bak")))
