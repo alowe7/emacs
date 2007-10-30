@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.45 2007-10-26 04:57:40 slate Exp $")
+ "$Id: post-dired.el,v 1.46 2007-10-30 03:54:17 slate Exp $")
 
 (require 'dired-advice)
 
@@ -404,3 +404,5 @@ see `file-assoc-list'"
 	     (set-syntax-table dired-mode-syntax-table)  
 	     )
 	  )
+
+(provide 'post-dired)
