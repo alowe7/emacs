@@ -1,5 +1,5 @@
 (put 'reg 'rcsid
- "$Id: reg.el,v 1.14 2007-08-19 20:52:51 noah Exp $")
+ "$Id: reg.el,v 1.15 2007-10-31 03:57:48 keystone Exp $")
 (require 'qsave)
 
 (defun reg-canonify (s) (if (and s (stringp s) (> (length s) 0)) (replace-regexp-in-string "\\\\"  "/" s) ""))
@@ -56,24 +56,6 @@
   )
 
 ; (setq k (browse-to-key "machine"))
-
-(defun reg-dump (hive &optional key)
-  (interactive (list
-		(complete-hive "Hive: ")))
-
-  (let ((key (cond (key key)
-		   ((interactive-p) (browse-to-key hive "Key: "))))
-	(s (perl-command
-	    "regdmp" "-v" hive (reg-canonify key)))
-	(b (zap-buffer "*Perl*")))		
-    (insert s)
-    (set-buffer-modified-p nil)
-    (setq buffer-read-only t)
-    (beginning-of-buffer)
-    (pop-to-buffer b)
-    (reg-view-mode)
-    )
-  )
 
 ;(reg-dump "machine" "software/digitalequipmentcorporation")
 
