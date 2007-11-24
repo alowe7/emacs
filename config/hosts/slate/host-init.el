@@ -1,7 +1,9 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.2 2007-10-26 04:57:40 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.3 2007-11-24 21:54:07 slate Exp $")
 
-; enoch..tombstone
+; enoch..tombstone..slate
+
+(require 'post-dired)
 
 (require 'ctl-slash)
 (require 'ctl-ret)
@@ -78,3 +80,5 @@
 
 (define-key ctl-RET-map "" 'flush-lines)
 (define-key ctl-RET-map "" 'keep-lines)
+
+; (add-to-list 'load-path "/usr/share/emacs/22.1/lisp")
