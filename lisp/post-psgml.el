@@ -1,5 +1,5 @@
 (put 'post-psgml 'rcsid
- "$Id: post-psgml.el,v 1.12 2006-08-22 00:51:09 alowe Exp $")
+ "$Id: post-psgml.el,v 1.13 2007-11-30 03:38:49 slate Exp $")
 
 ;; override sgml-list-implications to not popup the stupid error buffer
 
@@ -22,10 +22,6 @@
   (define-key sgml-mode-map "\C-c\C-l" 'goto-line)
   (setq sgml-indent-data t)
   (recenter)
-
-  ; think of a better way to do this...
-  (and (string= (file-name-nondirectory (buffer-file-name)) "build.xml")
-       (setq compile-command (format "%s -emacs " *ant-command* )))
   )
 (add-hook 'sgml-mode-hook 'my-sgml-mode-hook)
 
@@ -134,11 +130,3 @@ Where the latter represents end-tags."
 	  (setq imps nil))))
     ;; Return the implications in correct order
     (nreverse imps)))
-
-; this should shut up the warning log window
-(fset 'orig-sgml-log-warning (symbol-function 'sgml-log-warning))
-(defun sgml-log-warning (format &rest things)
-  (and bang
-       (message (apply 'format (nconc (list format) things)))
-       )
-  )
