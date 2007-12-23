@@ -5,3 +5,7 @@
 (define-key ctl-RET-map "" 'keep-lines)
 
 
+(global-set-key (vector 'f10) 'maximize-frame)
+(global-set-key (vector 'C-f10) 'iconify-frame)
+
+
