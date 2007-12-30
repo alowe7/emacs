@@ -1,11 +1,9 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.16 2007-07-30 23:52:08 tombstone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/tombstone/host-init.el,v 1.17 2007-12-30 02:00:36 tombstone Exp $")
 
 ; enoch..tombstone
 
-
 (require 'long-comment)
-(require 'whack-font)
 
 (require 'xz-loads)
 (require 'cat-utils)
@@ -148,3 +146,4 @@
 
 (setq grep-command "grep -n -i -e ")
 (setq jit-lock-stealth-time 1)
+

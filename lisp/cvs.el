@@ -1,5 +1,5 @@
 (put 'cvs 'rcsid 
- "$Id: cvs.el,v 1.12 2007-03-19 15:25:02 alowe Exp $")
+ "$Id: cvs.el,v 1.13 2007-12-30 02:00:36 tombstone Exp $")
 (require 'vc)
 (require 'indicate)
 
@@ -11,6 +11,7 @@
     ("history")
     ("import")
     ("log")
+    ("add")
     ("rdiff")
     ("release")
     ("update")

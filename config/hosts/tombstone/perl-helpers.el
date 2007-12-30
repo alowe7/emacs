@@ -1,5 +1,5 @@
 (put 'perl-helpers 'rcsid
- "$Id: perl-helpers.el,v 1.2 2006-05-19 14:40:29 tombstone Exp $")
+ "$Id: perl-helpers.el,v 1.3 2007-12-30 02:00:36 tombstone Exp $")
 
 (chain-parent-file t)
 
@@ -17,7 +17,7 @@
         (search-forward func)
         )
       (let* ((b (get-buffer (progn 
-                (and (not (buffer-exists-p perlfunc-buffer-name)) 
+                (and (not (buffer-live-p perlfunc-buffer-name)) 
                      ; (pod2text perlfunc-file (get-buffer-create perlfunc-buffer-name))
 		     (find-file-noselect-1 (get-buffer-create perlfunc-buffer-name) 
 					    perlfunc-file nil nil nil nil)

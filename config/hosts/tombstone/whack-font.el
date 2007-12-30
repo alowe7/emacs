@@ -2,10 +2,12 @@
 ; (insert (x-get-selection))
 
 (if (eq window-system 'x)
+
     (progn
 
 ;      (setq default-fontspec "-*-*-medium-r-normal-*-17-*-*-*-p-*-iso8859-1")
-      (setq default-fontspec "-*-lucida-medium-r-normal-*-14-140-*-*-*-*-iso8859-1")
+;      (setq default-fontspec "-*-lucida-medium-r-normal-*-14-140-*-*-*-*-iso8859-1")
+      (setq default-fontspec "-adobe-helvetica-medium-r-normal--17-120-100-100-p-88-iso8859-1")
   ; (setq default-fontspec "-*-*-medium-r-normal-*-18-*-*-*-p-*-iso8859-1")
 
       (setq initial-frame-alist
