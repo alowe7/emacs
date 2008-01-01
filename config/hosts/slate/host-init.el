@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.3 2007-11-24 21:54:07 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.4 2008-01-01 20:57:32 slate Exp $")
 
 ; enoch..tombstone..slate
 
@@ -26,10 +26,6 @@
 
 (setq x-select-enable-clipboard t)
 
-
-(global-set-key (vector ?) 'undo)
-(global-set-key (vector ?\C-c ?\C-j) 'font-lock-fontify-buffer)
-
 (setq grep-command "grep -n -i -e ")
 (setq jit-lock-stealth-time 1)
 
@@ -54,31 +50,17 @@
 (load-library "mpg123")
 
 
-(defun nd (&optional dir)
-  (interactive)
-  (let* (
-	 (dir (or dir default-directory))
-	 (pname (concat "*nautilus " dir "*"))
-	 (p (loop for p in (process-list) when (string= pname (process-name p)) return p)))
-
-    (if p
-	(message (format "process %s already exists" pname))
-      (start-process pname nil "nautilus" dir)
-      )
-    )
-  )
-(global-set-key (vector 'f12) 'nd)
 (require 'lazy-lock)
 
 (post-wrap "dired")
 (post-wrap "compile")
 
-(define-key ctl-RET-map (vector ?\C- ) 'zz)
-
 ; uncompress isn't as obsolete as someone thinks.
 (autoload 'uncompress-while-visiting "uncompress")
 
-(define-key ctl-RET-map "" 'flush-lines)
-(define-key ctl-RET-map "" 'keep-lines)
+; append to load path to find sources 
+(add-to-list 'load-path "/u/emacs-22.1/lisp/emacs-lisp/" t)
+; (member  "/u/emacs-22.1/lisp/emacs-lisp/" load-path)
 
-; (add-to-list 'load-path "/usr/share/emacs/22.1/lisp")
+(require 'xz-loads)
+(require 'post-view)
