@@ -1,5 +1,5 @@
 (put 'keys 'rcsid
- "$Id: keys.el,v 1.3 2008-01-01 20:56:16 slate Exp $")
+ "$Id: keys.el,v 1.4 2008-01-01 20:57:32 slate Exp $")
 
 ; machine specific key bindings.  needs factoring
 
@@ -18,6 +18,4 @@
 
 (global-set-key (vector ?) 'undo)
 (global-set-key (vector ?\C-c ?\C-j) 'font-lock-fontify-buffer)
-
-
 
