@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.6 2007-07-06 03:31:51 noah Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.7 2008-01-06 23:55:50 keystone Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -34,7 +34,9 @@
 			   )
 	  )
 
+(setq display-time-day-and-date t)
 (display-time)
+
 ; (requirex 'worlds)
 (defun evilnat () (not (string-match "ok" (perl-command "evilnat"))))
 
@@ -177,8 +179,9 @@
 (defun perl-font-lock-syntactic-keywords ()  perl-font-lock-syntactic-keywords) 
 
 (require 'noted)
-
+(require  'locations)
 (require 'emacs-wiki-load)
 
 (load-library "locate")
+
 
