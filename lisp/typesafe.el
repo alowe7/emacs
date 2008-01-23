@@ -1,5 +1,5 @@
 (put 'typesafe 'rcsid
- "$Id: typesafe.el,v 1.6 2006-07-07 19:17:36 alowe Exp $")
+ "$Id: typesafe.el,v 1.7 2008-01-23 05:51:11 alowe Exp $")
 
 (require 'trim)
 
@@ -54,15 +54,14 @@ the result of `read-string' is passed to `string*'
   )
 
 (defmacro read-file-name* (**prompt** &optional **default**)
-  "interactively read for existing filename, prompting with PAT, with default value DEFAULT.
-pat may have formatting strings in it, see `format'
-the result of `read-string' is passed to `string*'
+  "interactively read for existing filename, prompting with PROMPT, with default value DEFAULT.
+prompt may have formatting strings in it, see `format'
 
-see `read-string*' and `read-file-name'
+see `read-file-name'
 "
   (let* ((*prompt* (eval **prompt**))
 	 (*d* (eval **default**))
-	 (*s* (read-file-name (format *prompt* *d*))))
+	 (*s* (read-file-name (format *prompt* *d*) "")))
  
     (or (and (sequencep *s*) (> (length *s*) 0) *s*) *d*)
     )

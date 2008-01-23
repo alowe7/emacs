@@ -1,7 +1,8 @@
 (put 'post-locate 'rcsid 
- "$Id: post-locate.el,v 1.9 2007-06-16 01:21:36 noah Exp $")
+ "$Id: post-locate.el,v 1.10 2008-01-23 05:51:11 alowe Exp $")
 
 (require 'fb)
+(require 'qsave)
 
 (setq locate-mode-map fb-mode-map)
 
@@ -55,3 +56,21 @@
 
 ; (setq x (locate-with-filter-1 "ant" "docs/manual/toc.html"))
 
+
+(defadvice locate (around 
+			hook-locate
+			last
+			activate)
+  ""
+
+  ad-do-it
+
+  (let ((search-string (ad-get-arg 0)))
+
+    ad-do-it
+
+    (qsave-search (current-buffer) search-string default-directory)
+    )
+
+  )
+; (if (ad-is-advised 'locate) (ad-unadvise 'locate))

@@ -15,6 +15,4 @@
   )
 
 ; (lookup-key comint-mode-map "")
-(define-key comint-mode-map ""  'comint-interrupt-subjob)
-(define-key comint-mode-map ""  'really-kill-process)
-
+(define-key comint-mode-map ""  'really-kill-process)

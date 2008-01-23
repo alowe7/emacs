@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.15 2007-04-07 17:19:11 noah Exp $")
+ "$Id: myblog.el,v 1.16 2008-01-23 05:51:11 alowe Exp $")
 
 ;; myblog
 
@@ -131,35 +131,53 @@
 (defun sort-files-by-name (files) (sort* (copy-list files) '(lambda (x y) (string-lessp y x))))
 (defun sort-files-by-modtime (files) (sort* files '(lambda (x y) (= (compare-filetime (filemodtime y) (filemodtime x)) -1))))
 
+(defun default-area (&optional arg)
+  (if arg 
+      (completing-read (format "area (%s): " *default-area*) *areas* nil t nil nil *default-area*)
+    *default-area*)
+  )
+
+(defun get-blog-files (&optional dir)
+  (interactive)
+  (let ((dir (or dir ".")))
+    (loop for x in (get-directory-files dir)
+	  when (not (or (file-directory-p x) (string-match "~" x)))
+	  collect x)
+    )
+  )
+
 (defun lastblog (&optional arg) 
   "visit the last blog edited
-with optional ARG, visit the url.
+with optional ARG, prompts for area.
 "
   (interactive "P")
 
-  (let* ((default-directory (format  "%s/%s" *blog-home* *default-area*))
+  (let* ((default-directory (format  "%s/%s" *blog-home* (default-area arg)))
 	 (files 
-	  (sort-files-by-modtime
-	   (loop for x in (get-directory-files  ".")
-		 when (not (or (file-directory-p x) (string-match "~" x)))
-		 collect x)))
+	  (sort-files-by-modtime (get-blog-files)))
 	 (thing (first files)))
+    (find-file thing)
+    )
+  )
 
-    (if arg
-	(let ((url (concat *blog-home-url* "/?pat=" thing "&raw")))
-	  (w3m-goto-url url)
-	  )
-      (find-file thing)
-      )
+(defun w3m-lastblog (&optional arg)
+  (interactive "P")
+
+  (let ((url (concat *blog-home-url* "/?pat=" thing "&raw")))
+    (w3m-goto-url url)
     )
   )
 
 ;; xxx wet paint
+(defun blog-context ()
+  (format  "%s/%s" *blog-home* *default-area*)
+)
+
 (defun nextblog (&optional arg) 
   "visit the blog prior to this one"
   (interactive "p")
 
-  (let* ((default-directory (format  "%s/dscm/%s" my-documents *default-area*))
+  (let* ((default-directory (blog-context))
 	 (n arg)
 	 )
     (find-file  (nthblog n))
@@ -220,6 +238,8 @@ supports big ints"
 ;;; xxx police line do not cross
 (defun datestamp (&optional spec)
   "spec can be a mixed argument like -1d meaning yesterday or +1h meaning one hour from now"
+  (interactive)
+
   (let ((spec (or spec "0"))
 	(sec (eval-process "date" "+%s"))
 	(factor 1) (nsec 1) (deltasec 0) otherdate)
@@ -260,8 +280,10 @@ supports big ints"
     (setq otherdate (mktime sec t))
 
   ; assert spec is a string representation of a valid integer
-
-    (eval-process "date" "+%y%m%d%H%M%S" (format "--date=%s" otherdate))
+    (let ((v 
+	   (kill-new (eval-process "date" "+%y%m%d%H%M%S" (format "--date=%s" otherdate)))))
+      (if (interactive-p) (message v))
+      v)
     )
   )
 ; produce a datestamp for yesterday
@@ -272,9 +294,10 @@ supports big ints"
 ; (datestamp "-3h")
 ; now
 ; (datestamp)
+(require 'timezone)
 
 (defun allblogs ()
-  (let* ((default-directory (format  "%s/dscm/%s" my-documents *default-area*))
+  (let* ((default-directory (blog-context))
 	 (files (loop for x in (get-directory-files  ".") when (not (or (file-directory-p x) (string-match "~" x))) collect x)))
     files)
   )

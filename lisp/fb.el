@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.69 2007-04-03 19:17:35 alowe Exp $")
+ "$Id: fb.el,v 1.70 2008-01-23 05:51:11 alowe Exp $")
 
 (require 'locate)
 (require 'isearch)
@@ -107,9 +107,13 @@
     (or line 0))
   )
 
-(defun fb-dired-file ()
-  (interactive)
-  (dired (fb-indicated-file))
+(defun fb-dired-file (&optional arg)
+  "run dired on indicated file. with optional ARG, dired containing directory
+"
+  (interactive "P")
+  (let ((f (fb-indicated-file)))
+    (dired (or (and arg (file-name-directory f)) f))
+    )
   )
 
 (defun fb-delete-file ()

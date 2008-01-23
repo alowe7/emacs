@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.16 2007-05-18 15:11:01 alowe Exp $")
+ "$Id: os-init.el,v 1.17 2008-01-23 05:51:11 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -144,7 +144,11 @@ if MIXED is 0, then ignore letter drive names.
 (defvar explore-hooks nil "hooks to run after exploring a directory")
 
 (defun explore (&optional f)  
-  (interactive "P")
+  "w32 explore file
+" 
+  (interactive   
+   (list (read-file-name* "explore (%s): " (thing-at-point (quote filename)))))
+
   (let ((d  (w32-canonify (or f default-directory))))
     (shell-command (format "explorer %s" d))
     (run-hooks 'explore-hooks)
@@ -337,6 +341,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 (global-set-key (vector 'f9) 'undo)
 
 (global-set-key (vector 'f12) 'md)
+(global-set-key (vector 'f11) 'explore)
 (global-set-key (vector 'f4) 'arun)
 (global-set-key (vector 'f5) 'aexec)
 (global-set-key (vector 'f6) 'dosexec)
@@ -442,7 +447,8 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
   )
 
 (add-hook 'dired-mode-hook '(lambda () 
-			      (define-key dired-mode-map "" 'dired-kill-filename)))
+			      (define-key dired-mode-map "" 'dired-kill-filename)
+			      (define-key dired-mode-map "S" 'dired-w32-shortcut)))
 (add-hook 'buffer-menu-mode-hook '(lambda () 
 				    (define-key Buffer-menu-mode-map "" 'dired-kill-filename)))
 
@@ -1001,6 +1007,18 @@ keys for the alist include:
 	 (eval-process "shortcut" "-u" "all" f) "
 ")
 	collect (split x ": "))
+  )
+
+(defun dired-w32-shortcut ()
+  (interactive)
+  (let* ((l (w32-shortcut (dired-get-filename)))
+	 (f (cadr (assoc "Target" l))))
+    (cond
+     ((not (file-exists-p f)) (message (format "target %s not found" f)))
+     ((file-directory-p f) (dired f))
+     (t (find-file f))
+     )
+    )
   )
 
 ;; this be broken:

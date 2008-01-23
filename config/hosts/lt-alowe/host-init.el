@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.50 2008-01-23 05:51:11 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.1 2008-01-23 05:51:11 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -9,8 +9,8 @@
       )
 
 (setq initial-frame-alist
-      `((top . 75)
- 	(left . 80)
+      `((top . 79)
+ 	(left . 171)
  	(width . 150)
  	(height . 42)
 	(background-mode . light)
@@ -129,24 +129,6 @@
 
 (setq *advise-help-mode-finish* t)
 
-(require 'w3m)
-(setq w3m-home-page "http://localhost")
-(defvar *w3m-tabs* nil)
-
-
-;; xxx this is probably wrong...
-
-  ; treat angles like parens everywhere
-;  (modify-syntax-entry ?< "(")
-;  (modify-syntax-entry ?> ")")
-;  (modify-syntax-entry ?< ".")
-;  (modify-syntax-entry ?> ".")
-  ; except...
-;  (modify-syntax-entry ?< "w" emacs-lisp-mode-syntax-table)
-;  (modify-syntax-entry ?> "w" emacs-lisp-mode-syntax-table)
-
-; still broken for eval-expression, via read-from-minibuffer
-
 (defvar *ant-command* "/usr/local/lib/apache-ant-1.6.5/bin/ant ")
 (defvar *make-command* "make -k ")
 (setq compile-command *ant-command*)
@@ -209,11 +191,6 @@
 
 (setq *minibuffer-display-unique-hit* t)
 
-(require 'ancestors)
-(loop for x in (ancestors (locate-library "post-fill")) do 
-      (condition-case err (load-file x) (error nil)))
-; (unless (featurep 'fill-width) (message "warning: feature fill-width not provided?") (sit-for 2))
-
 ; gpg is here
 (add-to-load-path "/z/gpg" t)
 (setq *gpg-default-homedir*  (expand-file-name "~/.private/gnupg"))
@@ -238,8 +215,3 @@
 
 ; xxx mongrify
 (add-hook 'locate-mode-hook 'fb-mode)
-
-; surprise!  dst extended for 1 week in 2007 to the first sunday in nov, not last sun 
-; (setenv "TZ" "CST5CDT") ; hack, for the intervening week :-(
-
-

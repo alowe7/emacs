@@ -1,5 +1,5 @@
 (put 'todo 'rcsid 
- "$Id: todo.el,v 1.16 2007-06-16 01:21:36 noah Exp $")
+ "$Id: todo.el,v 1.17 2008-01-23 05:51:11 alowe Exp $")
 (require 'eval-process)
 (require 'edit)
 (require 'input)
@@ -18,6 +18,7 @@
 
 (define-derived-mode todo-mode fundamental-mode ".todo.")
 (define-key todo-mode-map "" 'done)
+(define-key todo-mode-map "" 'done-page)
 
 (defun vt ()
   " suck todo file into an edit buffer"
@@ -111,6 +112,16 @@
       (message "not done.")
       )
     )
+  )
+
+(defun done-page ()
+  " move todo bounded by `page-delimiter' under point to done list
+"
+  (interactive)
+  (mark-page)
+  (done t)
+; if after maybe need to reinsert a linebreak
+  (and (not (bolp)) (save-excursion (beginning-of-line) (looking-at page-delimiter)) (insert "\n"))
   )
 
 

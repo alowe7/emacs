@@ -1,5 +1,5 @@
 (put 'people 'rcsid 
- "$Id: people.el,v 1.19 2006-04-12 20:07:36 alowe Exp $")
+ "$Id: people.el,v 1.20 2008-01-23 05:51:11 alowe Exp $")
 (provide 'people)
 ;; manage people databases
 (require 'compile)
@@ -256,7 +256,7 @@ to find the text that grep hits refer to."
   (let* ((b (prog1 (zap-buffer "*people*") (people-mode)))
 	 (tmpfilename (make-temp-file "note"))
 	 (e (apply 'call-process
-		   (nconc (list "grep" nil (list b tmpfilename) nil "-i" "-n" name) db)))
+		   (nconc (list *note-program* nil (list b tmpfilename) nil "-i" "-n" name) (and db (list db)))))
 	 n)
 
     (cond ((> (nth 7 (file-attributes tmpfilename)) 0)

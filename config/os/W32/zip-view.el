@@ -1,16 +1,17 @@
 (put 'zip-view 'rcsid 
- "$Id: zip-view.el,v 1.1 2006-06-14 00:41:57 tombstone Exp $")
+ "$Id: zip-view.el,v 1.2 2008-01-23 05:51:11 alowe Exp $")
 
 (defun zip-view (f) (interactive)
   (let* ((f (if (string-match " " f) (gsn f) f))
 	 (b (zap-buffer (format "%s *zip*" f))))
 
     (call-process "pkzip" nil b nil "-view" 
-		  (replace-in-string " " "\\ " 
-				     (w32-canonify 
-				      (file-name-sans-extension f)
-				      )
-				     )
+		  (replace-regexp-in-string
+		   (w32-canonify 
+		    (file-name-sans-extension f)
+		    ) " " "\\ " 
+				
+		   )
 		  )
     (pop-to-buffer b)
     (set-buffer-modified-p nil)
