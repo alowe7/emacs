@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.53 2007-10-26 04:57:40 slate Exp $")
+ "$Id: config.el,v 1.54 2008-01-26 20:13:48 slate Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -412,6 +412,12 @@ see `locate-config-file'"
   "shortcut for `find-config-file' \"os-init\""
   (interactive)
   (find-config-file "os-init")
+  )
+
+(defun window-system-init ()
+  "shortcut for `find-config-file' \"window-system-init\""
+  (interactive)
+  (find-config-file "window-system-init")
   )
 
 ; these go at the head of the list

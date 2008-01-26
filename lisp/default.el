@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.59 2007-03-19 15:25:02 alowe Exp $")
+ "$Id: default.el,v 1.60 2008-01-26 20:13:48 slate Exp $")
 
 (require 'assoc-helpers)
 
@@ -115,11 +115,11 @@
 (add-hook 'css-mode-hook '(lambda () (font-lock-mode)))
 
 (defun add-auto-mode (extension mode)
-"add EXTENSION as a filetype for MODE, if not already defined on `auto-mode-alist'
+  "add EXTENSION as a filetype for MODE, if not already defined on `auto-mode-alist'
 "
   (if (not (assoc extension auto-mode-alist))
       (let ((na (list (cons extension mode))))
-	(append na (copy-alist auto-mode-alist)))))
+	(add-to-list 'auto-mode-alist na))))
 
 
 (autoload '/* "long-comment")

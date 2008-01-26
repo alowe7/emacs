@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.4 2008-01-01 20:57:32 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.5 2008-01-26 20:13:48 slate Exp $")
 
 ; enoch..tombstone..slate
 
@@ -29,6 +29,8 @@
 (setq grep-command "grep -n -i -e ")
 (setq jit-lock-stealth-time 1)
 
+(defvar default-font "-*-lucida-medium-r-normal-*-14-140-*-*-*-*-iso8859-1")
+
 (defun lframe ()
   (interactive)
   (let* ((default-frame-alist default-frame-alist))
@@ -39,7 +41,7 @@
 	    (height . 29)
 	    (top . 62)
 	    (left . 32)
-	    (font . "-*-lucida-medium-r-normal-*-14-140-*-*-*-*-iso8859-1"))
+	    (font . default-font))
 	  do (add-association x 'default-frame-alist t)
 	  )
     (call-interactively 'switch-to-buffer-other-frame)
@@ -64,3 +66,4 @@
 
 (require 'xz-loads)
 (require 'post-view)
+

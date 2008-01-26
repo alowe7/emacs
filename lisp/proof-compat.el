@@ -327,7 +327,7 @@ The modified ALIST is returned."
   "Dummy function for PG; please upgrade your Emacs."
   nil))
 
-(or (fboundp 'process-live-p)
+(or (and (fboundp 'process-live-p) (not (eq (car (symbol-function 'process-live-p))  'autoload)))
 (defun process-live-p (obj)
   "Return t if OBJECT is a process that is alive"
   (and (processp obj)

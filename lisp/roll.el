@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.34 2006-03-24 21:35:24 alowe Exp $")
+ "$Id: roll.el,v 1.35 2008-01-26 20:13:48 slate Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -86,7 +86,7 @@ calling SELECTFN to choose one
 	      (while (> len 0)
 		(if (< i 0) (setq i (1- len)))
 		(let* ((bb (aref a i))
-		       (name (if displayfn (funcall displayfn bb) bb))
+		       (name (cond (displayfn (funcall displayfn bb)) ((stringp bb) bb) ((symbolp bb) (symbol-name bb)) (string* (condition-case err (format "%s" bb) (error nil)) "*unprintable*")))
 		       (v (y-or-n-q-p ; name can have formatting characters in it
 			   (replace-regexp-in-string "%" "%%" name) 
 			   (concat "dp/\C-m ?"

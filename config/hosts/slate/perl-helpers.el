@@ -1,5 +1,5 @@
 (put 'perl-helpers 'rcsid
- "$Id: perl-helpers.el,v 1.1 2007-09-29 20:57:12 b Exp $")
+ "$Id: perl-helpers.el,v 1.2 2008-01-26 20:13:48 slate Exp $")
 
 (chain-parent-file t)
 
@@ -7,6 +7,7 @@
  ; perlfunc-file "/usr/lib/perl5/5.8.0/pod/perlfunc.pod"
  perlfunc-file "/usr/lib/perl5/5.8.6/doc/perlfunc"
  perlfunc-buffer-name "perlfunc *pod*")
+(fset 'buffer-exists-p 'buffer-live-p)
 
 (defun perlfunc (func)
   (interactive "sfunc: ")
