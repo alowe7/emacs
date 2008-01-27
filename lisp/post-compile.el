@@ -1,5 +1,5 @@
 (put 'post-compile 'rcsid 
- "$Id: post-compile.el,v 1.9 2004-10-14 21:37:58 cvs Exp $")
+ "$Id: post-compile.el,v 1.10 2008-01-27 17:59:33 slate Exp $")
 
 ; (read-string "loading post-compile")
 
@@ -62,7 +62,7 @@
 	     ))
 
 (defadvice compilation-sentinel (around 
-				 hook-compile
+				 hook-compilation-sentinel
 				 first activate)
   ""
 
