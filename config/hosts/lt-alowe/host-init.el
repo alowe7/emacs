@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.1 2008-01-23 05:51:11 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.2 2008-02-03 22:22:12 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -10,9 +10,9 @@
 
 (setq initial-frame-alist
       `((top . 79)
- 	(left . 171)
- 	(width . 150)
- 	(height . 42)
+ 	(left . 100)
+ 	(width . 100)
+ 	(height . 32)
 	(background-mode . light)
 	(cursor-type . box)
 	(border-color . "black")
@@ -215,3 +215,7 @@
 
 ; xxx mongrify
 (add-hook 'locate-mode-hook 'fb-mode)
+
+; honk?
+(setq wlog (expand-file-name "~/tw/wlog"))
+(setq wdirs (list "/z"))

@@ -1,8 +1,19 @@
 (put 'lnk-view 'rcsid 
- "$Id: lnk-view.el,v 1.11 2006-06-25 16:31:51 nathan Exp $")
+ "$Id: lnk-view.el,v 1.12 2008-02-03 22:22:12 alowe Exp $")
 (require 'cl)
 
-(defvar *shortcut-helper* (whence "shortcut"))
+(defvar *shortcut-helper*  (whence "shortcut"))
+(defvar *readshortcut-helper* (whence "readshortcut"))
+
+(defun read-shortcut (b f)
+  " prefer shortcut-helper, use readshortcut as backup
+"
+  (cond (*shortcut-helper*
+	 (call-process *shortcut-helper* nil b nil "-t" f "-u" "all"))
+	(*readshortcut-helper*
+	 (call-process *readshortcut-helper* nil b nil f)
+	 ))
+  )
 
 (defun dired-lnk-view () (interactive)
 	(lnk-view (dired-get-filename)) 
@@ -16,7 +27,7 @@
 	 (f (w32-canonify (expand-file-name f)))
 	 (b (zap-buffer (format "%s *lnk*" bn))))
 
-    (call-process *shortcut-helper* nil b nil "-t" f "-u" "all")
+    (read-shortcut b f)
     (switch-to-buffer b)
     (lnk-mode)
     (setq lnk-file f)

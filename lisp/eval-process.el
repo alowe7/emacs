@@ -1,11 +1,16 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.22 2007-05-03 16:57:49 tombstone Exp $")
+ "$Id: eval-process.el,v 1.23 2008-02-03 22:22:12 alowe Exp $")
 ;; a package to return process evaulation as a string
 
 (require 'zap)
 (require 'trim)
 
 ;; processes that return values
+
+(defun default-directory* ()
+  ; handle case where default-directory is unavailable for some reason
+  (if (file-directory-p default-directory) default-directory (expand-file-name "/"))
+  )
 
 (defvar last-exit-status nil)
 (defun eval-process (cmd &rest args)
@@ -26,13 +31,14 @@ this function evaluates to the process output  "
 	(let ((cmd1 (if (listp cmd) cmd (split cmd))))
 	  (setq args (nconc (cdr cmd1) args))
 	  (car cmd1)))
-       (dir default-directory)
+       (dir (default-directory*))
        (buffer (get-buffer-create " *eval*"))
        v)
     (save-excursion
       (set-buffer buffer)
       (erase-buffer)
       (setq default-directory dir)
+      (setq last-exit-status nil)
       (setq last-exit-status
 	    (condition-case x
 		(apply 'call-process (nconc (list cmd nil (list buffer nil) nil) args))

@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.63 2006-09-26 18:56:13 alowe Exp $")
+ "$Id: keys.el,v 1.64 2008-02-03 22:22:12 alowe Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -167,7 +167,7 @@
 (global-set-key "44" 'split-window-horizontally)
 
 
-(define-key emacs-lisp-mode-map ""  'debug-indicated-word)
+(define-key emacs-lisp-mode-map ","  'debug-indicated-word)
 (global-set-key "d"  'cd)
 
 (global-set-key "\C-h\C-m" 'man)
