@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.7 2008-01-06 23:55:50 keystone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.8 2008-02-09 20:22:13 keystone Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -131,7 +131,7 @@
 (addpathp "/z/pl" "PATH")
 
 ; this ensure calendar comes up in a frame with a fixed-width font
-(load-library "mycal")
+; (load-library "mycal")
 
 ; xxx check out why this isn't autoloading
 (load-library "post-bookmark")
