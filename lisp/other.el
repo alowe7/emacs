@@ -1,5 +1,5 @@
 (put 'other 'rcsid
- "$Id: other.el,v 1.6 2007-12-30 02:00:36 tombstone Exp $")
+ "$Id: other.el,v 1.7 2008-02-16 00:51:50 slate Exp $")
 
 (defun other-lastline (&optional p) 
   (cond ((< p (point-max))
@@ -64,7 +64,13 @@
 		default-directory))
 	 (to (expand-file-name fn dir)))
     (cond
-     ((file-directory-p from) (debug))
+     ((file-directory-p from)
+	  (let ((cmd (format "mv %s %s" from to)))
+		(shell-command cmd nil nil)
+		(save-window-excursion (other-window-1) (other-revert-buffer))
+		(other-revert-buffer)
+		)
+	  )
      (t
       (rename-file from to t)
       (other-next-line 1)
