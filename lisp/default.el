@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.60 2008-01-26 20:13:48 slate Exp $")
+ "$Id: default.el,v 1.61 2008-03-06 00:24:12 alowe Exp $")
 
 (require 'assoc-helpers)
 
@@ -29,6 +29,7 @@
 			("\\.l$" . c++-mode) ; lex
 			("\\.java$" . java-mode)
 			("\\.js$" . java-mode)
+			("\\.pac$" . java-mode)
 			("\\.jsp$" . html-mode)
 			("\\.jws$" . html-mode)
 			("\\.php$" . php-mode)

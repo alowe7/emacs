@@ -1,5 +1,5 @@
 (put 'fb 'rcsid 
- "$Id: fb.el,v 1.70 2008-01-23 05:51:11 alowe Exp $")
+ "$Id: fb.el,v 1.71 2008-03-06 00:24:12 alowe Exp $")
 
 (require 'locate)
 (require 'isearch)
@@ -305,6 +305,10 @@ also see `fb-mode-map'
   (setq mode-name "Fb")
 
   (setq major-mode 'fb-mode)
+
+  ; for windows
+  (setq default-directory (expand-file-name default-directory))
+
   (setq mode-line-process nil)
   (run-hooks 'fb-mode-hook)
   )

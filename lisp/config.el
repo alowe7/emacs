@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.54 2008-01-26 20:13:48 slate Exp $")
+ "$Id: config.el,v 1.55 2008-03-06 00:24:12 alowe Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -58,15 +58,24 @@
   "list of atoms or strings representing names of functions to trap on pre- or post- load
 specify string to trap an explicit load, specify an atom to trap a require") 
 
+(defvar *config-log-hook* nil "if set, log configured pre- and post- load actions to message buffer")
+
 (defun loadp (prefix file)
-  (let* ((f0 (file-name-nondirectory (format "%s" file)))
+  (let* ((f0 (file-name-sans-extension (file-name-nondirectory (format "%s" file))))
 	 (f1 (format "%s%s" prefix f0))
-	 (f2 (loop for x in load-path thereis (if (file-exists-p (format "%s/%s.el" x f1)) (format "%s/%s.el" x f1)))))
-    (if (and (atom file) (funcall *config-file-name-member* file *debug-config-list*))
-	(debug)
-      )
-    (and f2 (load f2 t t)))
+	 (f2 (loop for x in load-path when (file-exists-p (format "%s/%s.el" x f1)) collect (format "%s/%s.el" x f1))))
+    
+    (cond ((null f2)
+	   (and *config-log-hook*
+		(message (format  "no matches for %s found in %s" f1 (pp load-path)))))
+	  (t
+	   (loop for f in f2 do
+		 (load f t t)
+		 (and *config-log-hook*
+		      (message (format  "(loadp %s)" f))))))
+    )
   )
+
 
 (defadvice load (around 
 		 hook-load

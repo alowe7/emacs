@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.2 2008-02-03 22:22:12 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.3 2008-03-06 00:24:12 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -219,3 +219,7 @@
 ; honk?
 (setq wlog (expand-file-name "~/tw/wlog"))
 (setq wdirs (list "/z"))
+
+(setq Info-default-directory-list  '("/usr/share/info/" "c:/usr/local/lib/emacs-21.3/info/" "/usr/local/share/info/"))
+
+

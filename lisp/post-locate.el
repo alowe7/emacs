@@ -1,5 +1,5 @@
 (put 'post-locate 'rcsid 
- "$Id: post-locate.el,v 1.10 2008-01-23 05:51:11 alowe Exp $")
+ "$Id: post-locate.el,v 1.11 2008-03-06 00:24:12 alowe Exp $")
 
 (require 'fb)
 (require 'qsave)
@@ -14,6 +14,7 @@
 
   ad-do-it
 
+  (setq default-directory (expand-file-name default-directory))
   (set-syntax-table fb-mode-syntax-table)
   )
 

@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.19 2007-03-19 17:37:13 alowe Exp $
+;; $Id: perl-helpers.el,v 1.20 2008-03-06 00:24:12 alowe Exp $
 
 (require 'perl-command)
 
@@ -274,12 +274,6 @@ F is a function taking one arg, the line as a string"
 (defun perl-config ()
   (interactive)
   (shell-command "perl -MConfig -e 'foreach (keys %Config) {print $_, \"\t\", $Config{$_}, \"\n\"}'")
-  )
-
-; apparently C-RET is not a good prefix key if you're on telnet session
-(if window-system
-    (define-key perldoc-mode-map  (vector 'C-return) 'perlfunc)
-  (define-key perldoc-mode-map "\C-j" 'perlfunc)
   )
 
 (define-key help-map "" 'perlmod)
