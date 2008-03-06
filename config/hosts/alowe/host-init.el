@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.50 2008-01-23 05:51:11 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe/host-init.el,v 1.51 2008-03-06 02:40:04 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -112,12 +112,6 @@
 ;; (setq *xz-squish* 4)
 ;; 
 ;; (scan-file-p "~/.xdbrc")
-;; 
-;; (if (and (not (evilnat)) 
-;; 	 (string* (getenv "XDBHOST"))
-;; 	 (string* (getenv "XDBDOMAIN"))
-;; 	 (not (string-match (getenv "XDBDOMAIN") (getenv "XDBHOST"))))
-;;     (setenv "XDBHOST" (concat (getenv "XDBHOST") "." (getenv "XDBDOMAIN"))))
 ;; 
 
 (require 'gnuserv)

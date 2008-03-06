@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.17 2008-01-23 05:51:11 alowe Exp $")
+ "$Id: os-init.el,v 1.18 2008-03-06 02:40:04 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -884,11 +884,6 @@ host must respond within optional TIMEOUT msec"
 
 (require 'perl-command)
 (provide 'unicode) ; adds a hook to hammer unicode files
-
-(defun evilnat ()
-  "returns t if we are running from behind a nat device, nil otherwise"
-  (not (string-match "ok" (perl-command "evilnat")))
-  )
 
 (defun cygwin-find-file-hook ()
   "automatically follow symlink unless prefix is given"

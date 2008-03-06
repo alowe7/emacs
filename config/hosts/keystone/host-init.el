@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.8 2008-02-09 20:22:13 keystone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.9 2008-03-06 02:40:04 alowe Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -38,7 +38,6 @@
 (display-time)
 
 ; (requirex 'worlds)
-(defun evilnat () (not (string-match "ok" (perl-command "evilnat"))))
 
 (require 'xz-loads)
 (require 'gnuserv)

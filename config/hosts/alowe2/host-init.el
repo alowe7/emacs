@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.30 2005-04-04 23:40:18 cvs Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/alowe2/host-init.el,v 1.31 2008-03-06 02:40:04 alowe Exp $")
 
 (setq default-frame-alist
       '((width . 102)
@@ -65,7 +65,7 @@
 
 (scan-file-p "~/.private/.xdbrc")
 
-(if (and (not (evilnat)) 
+(if (and 
 	 (string* (getenv "XDBHOST"))
 	 (string* (getenv "XDBDOMAIN"))
 	 (not (string-match (getenv "XDBDOMAIN") (getenv "XDBHOST"))))
