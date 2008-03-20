@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.5 2008-01-26 20:13:48 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.6 2008-03-20 03:29:15 slate Exp $")
 
 ; enoch..tombstone..slate
 
@@ -48,7 +48,7 @@
     )
   )
 
-(add-to-list 'load-path "/u/z/el")
+; do not  (add-to-list 'load-path "/u/z/el")
 (load-library "mpg123")
 
 

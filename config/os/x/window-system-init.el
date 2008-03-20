@@ -1,19 +1,20 @@
 (put 'window-system-init 'rcsid
- "$Id: window-system-init.el,v 1.2 2008-01-26 20:13:48 slate Exp $")
+ "$Id: window-system-init.el,v 1.3 2008-03-20 03:29:15 slate Exp $")
 
 (setq x-select-enable-clipboard t)
 (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 
-(when (file-directory-p "/z/el")
-  (add-to-load-path "/z/el")
-  (require 'ssh-helpers)
+(defun load-p (fn)
+  (and (file-exists-p fn) (load-file fn) t)
+  )
+
+(when (load-p "/z/el/ssh-helpers.el")
   (setq *remote-host* (ssh-client-host))
-
-  (add-to-load-path
-   (expand-file-name (concat *configdir* "hosts/"  *remote-host*)) t)
-
-  ; tbd pull in host-init for *remote-host* ?
-
+  (let ((dir (expand-file-name (concat *configdir* "hosts/"  *remote-host*))))
+    (and (file-directory-p dir)
+	 (add-to-load-path dir t)
+	 )
+    )
   )
 
 ; look for any remote-host specific config files
