@@ -1,5 +1,5 @@
 (put 'locations 'rcsid
- "$Id: locations.el,v 1.10 2008-03-28 02:41:45 keystone Exp $")
+ "$Id: locations.el,v 1.11 2008-03-28 02:42:15 keystone Exp $")
 
 (defun substitute-expand-file-name (f)
   (expand-file-name (substitute-in-file-name f))
@@ -35,7 +35,7 @@
 		     (personal-folders))
 		    "$USERPROFILE/My Documents")
 		  )
-		 (my-local-documents "$SYSTEMROOT/My Documents")
+		 (my-local-documents "$HOMEDRIVE/My Documents")
 		 (my-favorites "$USERPROFILE/Favorites")
 		 (my-links "$USERPROFILE/Favorites/Links")
 		 (start-menu "$USERPROFILE/Start Menu")
