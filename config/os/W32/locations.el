@@ -1,5 +1,5 @@
 (put 'locations 'rcsid
- "$Id: locations.el,v 1.9 2008-01-23 05:51:11 alowe Exp $")
+ "$Id: locations.el,v 1.10 2008-03-28 02:41:45 keystone Exp $")
 
 (defun substitute-expand-file-name (f)
   (expand-file-name (substitute-in-file-name f))
@@ -35,11 +35,12 @@
 		     (personal-folders))
 		    "$USERPROFILE/My Documents")
 		  )
-		  (my-favorites "$USERPROFILE/Favorites")
-		  (my-links "$USERPROFILE/Favorites/Links")
-		  (start-menu "$USERPROFILE/Start Menu")
-		  (quicklaunch "$USERPROFILE/Application Data/Microsoft/Internet Explorer/Quick Launch")
-		  )
+		 (my-local-documents "$SYSTEMROOT/My Documents")
+		 (my-favorites "$USERPROFILE/Favorites")
+		 (my-links "$USERPROFILE/Favorites/Links")
+		 (start-menu "$USERPROFILE/Start Menu")
+		 (quicklaunch "$USERPROFILE/Application Data/Microsoft/Internet Explorer/Quick Launch")
+		 )
       do
       (eval `(defun ,(car x)  () (interactive) (dired (substitute-expand-file-name ,(cadr x)))))
       (eval `(defvar ,(car x)  ,(canonify (cadr x))))
