@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.3 2008-03-06 00:24:12 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.4 2008-06-22 17:27:50 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -89,6 +89,9 @@
       )
 
 (add-to-load-path "/z/el" t)
+(autoload 'rtf-mode "rtf-mode" "RTF mode" t)
+(add-to-list 'auto-mode-alist
+  '("\\.rtf$" . rtf-mode))
 
 (add-hook 'xz-load-hook 
 	  '(lambda ()
@@ -108,17 +111,15 @@
 ;; what a coincidence.  two machines same name
 (require 'xz-loads)
 
-;; (setq *xz-show-status* nil)
-;; (setq *xz-squish* 4)
-;; 
-;; (scan-file-p "~/.xdbrc")
-;; 
-;; (if (and (not (evilnat)) 
-;; 	 (string* (getenv "XDBHOST"))
-;; 	 (string* (getenv "XDBDOMAIN"))
-;; 	 (not (string-match (getenv "XDBDOMAIN") (getenv "XDBHOST"))))
-;;     (setenv "XDBHOST" (concat (getenv "XDBHOST") "." (getenv "XDBDOMAIN"))))
-;; 
+(scan-file-p "~/.private/.xdbrc")
+;; (require 'proxy-autoconfig)
+;; (if (let ((ip (myIpAddress)))
+;;       (or (isInNet "10.0.0.0/255" ip) (isInNet "10.0.0.0/255" ip)))
+;; ...)
+
+(setq *txdb-options* (list "-b" (getenv "XDB") "-h" (getenv "XDBHOST")))
+
+
 
 (require 'gnuserv)
 
@@ -128,29 +129,6 @@
 (defvar grep-command "grep -n -i -e ")
 
 (setq *advise-help-mode-finish* t)
-
-(defvar *ant-command* "/usr/local/lib/apache-ant-1.6.5/bin/ant ")
-(defvar *make-command* "make -k ")
-(setq compile-command *ant-command*)
-(make-variable-buffer-local 'compile-command)
-(set-default 'compile-command  *ant-command*)
-
-; advice won't work to tweak an interactive form
-(unless (and (boundp 'orig-compile) orig-compile)
-  (setq orig-compile (symbol-function 'compile)))
-(defun compile (command)
-  "hook compile to call make if default-directory contains a makefile, ant otherwise"
-  (interactive
-   (let ((compile-command
-	  (or (and (file-exists-p "Makefile") *make-command*) compile-command)))
-     (if (or compilation-read-command current-prefix-arg)
-	 (list (read-from-minibuffer "Compile command: "
-				     (eval compile-command) nil nil
-				     '(compile-history . 1)))
-       (list (eval compile-command)))))
-
-  (funcall orig-compile command)
-  )
 
 (add-hook 'perl-mode-hook
 	  '(lambda () (font-lock-mode t)))
@@ -174,8 +152,10 @@
 ; its a lie.  
 (autoload 'calendar "mycal")
 
-; force post-load hook now
+; force post-load hooks now... tbd find a better way
 (load-library "people")
+(load-library "locate")
+(load-library "dired")
 
 (defvar *path-sep* ";")
 
@@ -223,3 +203,9 @@
 (setq Info-default-directory-list  '("/usr/share/info/" "c:/usr/local/lib/emacs-21.3/info/" "/usr/local/share/info/"))
 
 
+; struggling with daylight savings time again
+; (getenv "TZ")
+; (current-time-zone)
+; (set-time-zone-rule "CST6CDT")
+(set-time-zone-rule "EST5EDT")
+; (format-time-string "%H"  (current-time))

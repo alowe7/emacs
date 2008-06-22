@@ -1,13 +1,13 @@
 (put 'trim 'rcsid
- "$Id: trim.el,v 1.8 2007-03-19 17:37:13 alowe Exp $")
+ "$Id: trim.el,v 1.9 2008-06-22 17:27:50 alowe Exp $")
 
 
 (defun trim-trailing-white-space (&optional s) (interactive)
   " trim trailing white space from STRING"
   (if (interactive-p)
-      (replace-regexp "[ 	]*$" "")
+      (replace-regexp "[ 	]*$" "")
     (and s 
-	 (let* ((p (string-match "[ 	]$" s)))
+	 (let* ((p (string-match "[ 	]$" s)))
 	   (substring s 0 p)))))
 
 (defun trim-leading-white-space (&optional s) 

@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.17 2008-03-06 00:24:12 alowe Exp $")
+ "$Id: myblog.el,v 1.18 2008-06-22 17:27:50 alowe Exp $")
 
 ;; myblog
 
@@ -278,96 +278,9 @@ with optional ARG, prompts for area.
     )
   )
 
-(require 'ctl-slash)
-(define-key ctl-/-map "o" 'myblog)
-(define-key ctl-/-map "l" 'find-lastblog)
-(define-key ctl-/-map "g" 'grepblog)
-
-(provide 'myblog)
 
 
-;; fancy
-(defun qc (expr)
-  "perform a quick calculation of expression like '100 + 1000' or 'x  + y' assuming both are bound
-evaluation of variables is done like that in `backquote`
-supports big ints"
-  (let* (
-	 (l (loop for a in (split expr)
-		  collect
-		  (let ((s (intern a)))
-		    (if (boundp s)
-			(let ((v (eval s)))
-			  (cond ((stringp v) v)
-				((integerp v) (format "%d" v))))
-		      a)
-		    )
-		  ))
-	 (sexpr (mapconcat 'identity l " ")))
-    (eval-process "perl" "-e" (concat "print " sexpr))
-    )
-  )
 
-; (let* ((x 100) (y 1000)) (qc "x + y"))
-
-;;; xxx police line do not cross
-(defun datestamp (&optional spec)
-  "spec can be a mixed argument like -1d meaning yesterday or +1h meaning one hour from now"
-  (interactive)
-
-  (let ((spec (or spec "0"))
-	(sec (eval-process "date" "+%s"))
-	(factor 1) (nsec 1) (deltasec 0) otherdate)
-
-    (cond ((string-match "h$" spec)
-	   (setq factor (* 60 60))
-	   (setq spec (substring spec 0 (match-beginning 0))))
-	  ((string-match "m$" spec)
-	   (setq factor 60)
-	   (setq spec (substring spec 0 (match-beginning 0))))
-	  ((string-match "s$" spec)
-	   (setq factor 1)
-	   (setq spec (substring spec 0 (match-beginning 0))))
-	  ((string-match "d$" spec)
-	   (setq factor (* 60 60 24))
-	   (setq spec (substring spec 0 (match-beginning 0))))
-	  ((string-match "w$" spec)
-	   (setq factor (* 7 60 60 24))
-	   (setq spec (substring spec 0 (match-beginning 0))))
-	  (t ;; default is secs
-	   (setq factor 1)
-	   ))
-
-    (cond ((string-match "^+$" spec)
-	   (setq spec (substring spec (match-end 0))))
-	  ((string-match "^-$" spec)
-	   (setq factor (- factor))
-	   (setq spec (substring spec (match-end 0))))
-	  )
-
-    (setq delta (read spec))
-
-;; stupid lisp arithmetic cant handle this calculation
-;   (setq sec (+ (read sec) (* factor delta)))
- 
-    (setq sec (qc (format "%s + (%d * %d)" sec factor delta)))
-
-    (setq otherdate (mktime sec t))
-
-  ; assert spec is a string representation of a valid integer
-    (let ((v 
-	   (kill-new (eval-process "date" "+%y%m%d%H%M%S" (format "--date=%s" otherdate)))))
-      (if (interactive-p) (message v))
-      v)
-    )
-  )
-; produce a datestamp for yesterday
-; (datestamp "-1d")
-; three days ago
-; (datestamp "-3d")
-; three hours ago
-; (datestamp "-3h")
-; now
-; (datestamp)
 (require 'timezone)
 
 (defun allblogs ()
@@ -386,17 +299,48 @@ supports big ints"
     )
   )
 
-(define-derived-mode blog-mode xml-mode "blog")
+(define-derived-mode blog-mode xml-mode "blog"
+
+  (setq fill-column 164)
+  (auto-fill-mode 1)
+  )
+
 (define-key blog-mode-map "\M-n" 'nextblog)
 (define-key blog-mode-map "\M-p" 'priorblog)
 (define-key blog-mode-map (vector 'f1) 'thisblog2text)
-(define-key ctl-/-map "b" 'blog2text)
 
 (define-derived-mode blog-view-mode fundamental-mode "blog view")
 (define-key blog-mode-map "\M-n" 'viewnextblog)
 (define-key blog-mode-map "\M-p" 'viewpriorblog)
+
+(defun whatblog () (file-name-nondirectory (buffer-file-name)))
+(defun allblogs () (sort (get-directory-files nil nil "^[0-9]*$") 'string-lessp))
 (defun viewnextblog () (interactive)
-)
+  (let* ((thisblog (whatblog))
+	 (nextblog (loop with next = nil
+			 for x across (apply 'vector (allblogs))
+			 when next return x
+			 do (if (string= x thisblog) (setq next t))
+			 )))
+    (if nextblog (find-blog nextblog) (error "no more blogs"))
+    )
+  )
 (defun viewpriorblog () (interactive)
-)
+  (let* ((thisblog (whatblog))
+	 (priorblog (loop with prior = nil
+			  for x across (apply 'vector (allblogs))
+			  when (string= x thisblog) return prior
+			  do (setq prior x)
+			  )))
+    (if priorblog (find-blog priorblog) (error "no more blogs"))
+    )
+  )
+
+(require 'ctl-dot)
+(define-key ctl-.-map "o" 'myblog)
+(define-key ctl-.-map "l" 'find-lastblog)
+(define-key ctl-.-map "g" 'grepblog)
+(define-key ctl-.-map "b" 'blog2text)
+
+(provide 'myblog)
 
