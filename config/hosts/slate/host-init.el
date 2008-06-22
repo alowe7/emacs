@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.6 2008-03-20 03:29:15 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.7 2008-06-22 17:29:24 slate Exp $")
 
 ; enoch..tombstone..slate
 
@@ -49,13 +49,15 @@
   )
 
 ; do not  (add-to-list 'load-path "/u/z/el")
-(load-library "mpg123")
+; (load-library "mpg123")
 
 
 (require 'lazy-lock)
 
 (post-wrap "dired")
-(post-wrap "compile")
+
+; necessary when compile is preloaded, 
+; (post-wrap "compile")
 
 ; uncompress isn't as obsolete as someone thinks.
 (autoload 'uncompress-while-visiting "uncompress")
@@ -66,4 +68,7 @@
 
 (require 'xz-loads)
 (require 'post-view)
+
+; disable stupid comint `field' properties
+(setq comint-use-prompt-regexp-instead-of-fields t)
 
