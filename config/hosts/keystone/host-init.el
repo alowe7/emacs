@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.9 2008-03-06 02:40:04 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.10 2008-06-28 14:32:02 keystone Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -98,17 +98,27 @@
 
 (add-to-load-path "/u/Mule-UCS-0.84/lisp/")
 
+(defun add-to-load-path-p (dir &optional append)
+  (let ((dir (expand-file-name dir))
+	(f (expand-file-name ".autoloads" dir)))
+    (and (file-directory-p dir)
+	 (add-to-load-path dir append)
+
+	 (and (file-exists-p f) 
+	      (condition-case x (load f) (error  nil)))
+	 )
+    )
+  )
+
 ; all kinds of crap here
-(add-to-load-path "/z/el" t)
-(condition-case x (load "/z/el/.autoloads") (error nil))
+(add-to-load-path-p "/z/el" t)
 
 ; and some lisp here too
-(add-to-load-path "/z/pl" t)
-(condition-case x (load "/z/pl/.autoloads") (error nil))
+(add-to-load-path-p "/z/pl" t)
 
 ; gpg is here
-(add-to-load-path "/z/gpg" t)
-(condition-case x (load "/z/gpg/.autoloads") (error nil))
+(add-to-load-path-p "/z/gpg" t)
+
 ; defaults
 (setq *gpg-command* "/usr/local/bin/gpg.exe")
 ;(setq *gpg-default-file*  "e:/home/alowe/.private/wink")
@@ -122,9 +132,6 @@
 
 (setq *gpg-encode-target* "Andrew")
 (setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
-
-; and some here too
-(condition-case x (load "/z/soap/.autoloads") (error nil))
 
 ; find-script will look along path for certain commands 
 (addpathp "/z/pl" "PATH")
