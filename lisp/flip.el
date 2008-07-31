@@ -1,20 +1,39 @@
 (put 'flip 'rcsid 
- "$Id: flip.el,v 1.7 2001-07-17 11:14:19 cvs Exp $")
+ "$Id: flip.el,v 1.8 2008-07-31 18:02:44 slate Exp $")
 
-(defun flip (arg)
-  "convert contents of buffer from cr-lf to stream-lf format.  
-with optional ARG do the opposite"
-  (interactive "P")
-  (shell-command-on-region 
-   (point-min) (point-max)
-   (format "flip %s -" (if arg "-d" "")) t t (get-buffer "*Messages*")
+(defvar *flip-command* (string* (eval-process "which dos2unix")))
+(defvar *flop-command* (string* (eval-process "which unix2dos")))
+
+(defun flip ()
+  "convert contents of buffer from cr-lf to stream-lf format.  "
+  (interactive)
+
+  (cond
+   ((null *flip-command*)
+    (message "*flip-command* not found"))
+   ((eq major-mode 'dired-mode)
+    (eval-process (format "%s %s" *flip-command* (dired-get-filename))))
+   (t
+    (shell-command-on-region 
+     (point-min) (point-max)
+     *flip-command*))
    )
   )
 
-(defun flop (fn)
+(defun flop ()
   "convert contents of buffer from stream-lf to cr-lf format.  "
-  (interactive "sfn: ")
-  (shell-command
-   (format "flop %s " fn))
+  (interactive)
+
+  (cond
+   ((null *flop-command)
+    (message "*flop-command* not found"))
+   ((eq major-mode 'dired-mode)
+    (eval-process (format "%s %s" *flop-command* (dired-get-filename))))
+   (t
+    (shell-command-on-region 
+     (point-min) (point-max)
+     *flop-command*))
+   )
   )
+
 
