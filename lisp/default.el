@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.61 2008-03-06 00:24:12 alowe Exp $")
+ "$Id: default.el,v 1.62 2008-08-27 00:48:59 alowe Exp $")
 
 (require 'assoc-helpers)
 
@@ -16,6 +16,14 @@
 (fset 'html-mode 'sgml-mode)
 
 ;; sort in order of decreasing frequency
+
+(defun add-auto-mode (extension mode)
+  "add EXTENSION as a filetype for MODE, if not already defined on `auto-mode-alist'
+"
+  (if (not (assoc extension auto-mode-alist))
+      (let ((na (cons extension mode)))
+	(add-to-list 'auto-mode-alist na))))
+
 (setq auto-mode-alist '(
 			("\\.HTM$" . html-mode)
 			("\\.htm$" . html-mode)
@@ -86,7 +94,8 @@
 			("\\.lisp$" . lisp-mode)
 			("\\.f$" . fortran-mode)
 			("\\.mss$" . scribe-mode)
-			("\\.css\\'" . css-mode)
+			("\\.css$" . css-mode)
+			("\\.log$" . logview-mode)
 			))
 
 ;;(add-auto-mode "\\.sh$" 'shell-mode)
@@ -114,14 +123,6 @@
 
 (add-hook 'sh-mode-hook '(lambda () (use-local-map nil)))
 (add-hook 'css-mode-hook '(lambda () (font-lock-mode)))
-
-(defun add-auto-mode (extension mode)
-  "add EXTENSION as a filetype for MODE, if not already defined on `auto-mode-alist'
-"
-  (if (not (assoc extension auto-mode-alist))
-      (let ((na (list (cons extension mode))))
-	(add-to-list 'auto-mode-alist na))))
-
 
 (autoload '/* "long-comment")
 

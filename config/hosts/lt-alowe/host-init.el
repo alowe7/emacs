@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.4 2008-06-22 17:27:50 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.5 2008-08-27 00:48:59 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -117,9 +117,12 @@
 ;;       (or (isInNet "10.0.0.0/255" ip) (isInNet "10.0.0.0/255" ip)))
 ;; ...)
 
-(setq *txdb-options* (list "-b" (getenv "XDB") "-h" (getenv "XDBHOST")))
-
-
+(setq *txdb-options* 
+      (let (l)
+	(and (string* (getenv "XDBHOST")) (setq l (nconc l (list "-h" (getenv "XDBHOST")))))
+	(and (string* (getenv "XDB")) (setq l (nconc l (list "-b" (getenv "XDB") ))))
+	)
+      )
 
 (require 'gnuserv)
 
@@ -206,6 +209,6 @@
 ; struggling with daylight savings time again
 ; (getenv "TZ")
 ; (current-time-zone)
-; (set-time-zone-rule "CST6CDT")
-(set-time-zone-rule "EST5EDT")
+(set-time-zone-rule "CST6CDT")
+; (set-time-zone-rule "EST5EDT")
 ; (format-time-string "%H"  (current-time))
