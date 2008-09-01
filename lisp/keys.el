@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.64 2008-02-03 22:22:12 alowe Exp $")
+ "$Id: keys.el,v 1.65 2008-09-01 14:35:41 alowe Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -266,8 +266,9 @@
 (require 'cl)
 
 ; create scratch buffers with various default modes
-(define-key ctl-/-map "4"
-  `(lambda (&optional arg) (interactive "P") (switch-to-buffer (get-scratch-buffer arg))))
+(define-key ctl-/-map "4" 'switch-to-new-scratch-buffer)
+(define-key ctl-/-map "1" 'yank-to-new-scratch-buffer)
+(define-key ctl-RET-map "s" 'pop-to-last-scratch-buffer)
 
 ; what's this about?
 (global-set-key "\M-" 'backward-word)

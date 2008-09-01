@@ -1,5 +1,5 @@
 (put 'scratch-mode 'rcsid
- "$Id: scratch-mode.el,v 1.16 2007-03-19 15:25:03 alowe Exp $")
+ "$Id: scratch-mode.el,v 1.17 2008-09-01 14:35:41 alowe Exp $")
 
 (require 'ctl-ret)
 (require 'buff)
@@ -66,10 +66,26 @@ the default mode used is `major-mode'
   )
 
 (defun pop-to-last-scratch-buffer ()
+  "find the most recently used scratch buffer and pop to it
+"
   (interactive)
   (let ((b (loop for x being the buffers when (eq (quote scratch-mode) (progn (set-buffer x) major-mode)) return x)))
     (if (buffer-live-p b) (pop-to-buffer b) (message "no scratch buffers found"))))
-(define-key ctl-RET-map "s" 'pop-to-last-scratch-buffer)
+
+(defun switch-to-new-scratch-buffer (&optional arg)
+  "`get-scratch-buffer' and switch to it
+"
+  (interactive "P")
+  (switch-to-buffer (get-scratch-buffer arg)))
+
+
+(defun yank-to-new-scratch-buffer (&optional arg)
+  "`switch-to-new-scratch-buffer' and yank into it
+"
+  (interactive "P")
+  (switch-to-buffer (get-scratch-buffer arg))
+  (yank)
+  )
 
 (defun collect-scratch-buffers ()
   (save-excursion

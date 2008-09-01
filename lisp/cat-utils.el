@@ -244,6 +244,8 @@ if PAT is not specified, splits on all white space: [SPC, TAB, RET]
 ; (shift '(a b c))
 
 (defmacro unshift (place x) 
+  "does the opposite of shift, or push depending on how you look at it.
+"
   (if (symbolp place) 
       `(setq ,place (nconc ,place (list ,x)))
     `(nconc ,place (list ,x)))
