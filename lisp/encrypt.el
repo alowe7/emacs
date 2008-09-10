@@ -1,5 +1,5 @@
 (put 'encrypt 'rcsid 
- "$Id: encrypt.el,v 1.6 2002-04-14 04:22:37 cvs Exp $")
+ "$Id: encrypt.el,v 1.7 2008-09-10 04:43:53 alowe Exp $")
 (provide 'encrypt)
 (require 'comint) ; for non-echoing read
 
@@ -59,28 +59,39 @@ backup versions are not kept."
     ;;    (unless (string* key)
     ;;      (message "please specify a key")
 
-    (if (not fn)
-	(encrypt-write-buffer
-	 (read-file-name "encrypt save file: ")
-	 key)
+    (let ((oldkey (get (intern (buffer-name)) 'key)))
+      (if (or (not (string* oldkey))
+	      (string= oldkey key)
+	      (y-or-n-p (format "new key (%s) doesn't match old key (%s).  are you sure?"
+				(make-string (length key) ?*)
+				(make-string (length oldkey) ?*)))
+	      (progn (message "") nil)
+	      )
 
-      (if (file-exists-p fn)
-	  (copy-file fn (make-backup-file-name fn) t))
+	  (if (not fn)
+	      (encrypt-write-buffer
+	       (read-file-name "encrypt save file: ")
+	       key)
 
-      (call-process-region (point-min) (point-max) *key-program*
-			   nil 
-			   (setq b (get-buffer-create " *sub*"))
-			   nil "-k" key "-o" fn "-")
-      (unless
-	  (message* 
-	   (save-excursion 
-	     (set-buffer b)
-	     (string* (buffer-string))
-	     ))
-	(set-buffer-modified-p nil)
+	    (if (file-exists-p fn)
+		(copy-file fn (make-backup-file-name fn) t))
+
+	    (call-process-region (point-min) (point-max) *key-program*
+				 nil 
+				 (setq b (get-buffer-create " *sub*"))
+				 nil "-k" key "-o" fn "-")
+	    (unless
+		(message* 
+		 (save-excursion 
+		   (set-buffer b)
+		   (string* (buffer-string))
+		   ))
+	      (set-buffer-modified-p nil)
+	      )
+
+	    (kill-buffer b)
+	    )
 	)
-
-      (kill-buffer b)
       )
 
     ;;      (and *enable-fast-save-key*
@@ -109,6 +120,7 @@ backup versions are not kept."
     (auto-save-mode -1)
     (set-buffer-modified-p nil)
     (decrypt-mode)
+    (put (intern (buffer-name)) 'key key)
     )
   )
 

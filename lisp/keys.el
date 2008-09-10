@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.65 2008-09-01 14:35:41 alowe Exp $")
+ "$Id: keys.el,v 1.66 2008-09-10 04:43:53 alowe Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -264,6 +264,7 @@
 (define-key ctl-/-map "/" 'vars-like-with)
 
 (require 'cl)
+(require 'ctl-ret)
 
 ; create scratch buffers with various default modes
 (define-key ctl-/-map "4" 'switch-to-new-scratch-buffer)
@@ -273,8 +274,6 @@
 ; what's this about?
 (global-set-key "\M-" 'backward-word)
 (global-set-key "\M-\\" 'forward-word)
-
-(require 'ctl-ret)
 
 (define-key ctl-RET-map "e" 'edit-bookmarks)
 (define-key ctl-RET-map "m" 'bookmark-set)

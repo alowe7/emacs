@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.5 2008-08-27 00:48:59 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.6 2008-09-10 04:43:53 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -212,3 +212,7 @@
 (set-time-zone-rule "CST6CDT")
 ; (set-time-zone-rule "EST5EDT")
 ; (format-time-string "%H"  (current-time))
+
+(add-to-load-path "/z/db" t)
+(load-library "zt")
+; (find-whence-lib "zt.el")
