@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.18 2008-06-22 17:27:50 alowe Exp $")
+ "$Id: myblog.el,v 1.19 2008-09-26 00:14:32 keystone Exp $")
 
 ;; myblog
 
@@ -336,11 +336,15 @@ with optional ARG, prompts for area.
     )
   )
 
-(require 'ctl-dot)
-(define-key ctl-.-map "o" 'myblog)
-(define-key ctl-.-map "l" 'find-lastblog)
-(define-key ctl-.-map "g" 'grepblog)
-(define-key ctl-.-map "b" 'blog2text)
+; tbd -- wha?
+(condition-case x
+    (require 'ctl-dot)
+  (define-key ctl-.-map "o" 'myblog)
+  (define-key ctl-.-map "l" 'find-lastblog)
+  (define-key ctl-.-map "g" 'grepblog)
+  (define-key ctl-.-map "b" 'blog2text)
+  (error (debug))
+  )
 
 (provide 'myblog)
 

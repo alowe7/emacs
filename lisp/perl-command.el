@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.20 2007-05-21 18:36:45 alowe Exp $")
+ "$Id: perl-command.el,v 1.21 2008-09-26 00:14:32 keystone Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -30,16 +30,17 @@ if LIST is specified, it is used instead of default PATH
   ;; let's not overlook the obvious
 
   (let (l (s* (expand-file-name (substitute-in-file-name s))))
-    (if 
-	(file-exists-p s*) s*
-      (setq l (or l (getenv "PATH")))
-      (loop for x in (mapcar 'expand-file-name (split l path-separator))
-	    with cript = nil
-	    when (and (file-exists-p (setq cript (concat x "/" s)))
-		      (or (not processor)
-			  (string-match processor (eval-process "head" "-1" cript))))
-	    return cript)
-      )
+    (cond 
+     ((file-exists-p s*) s*)
+     (t (let ((default-directory (expand-file-name "/" (getenv "HOMEDRIVE")))
+	      (l (or l (getenv "PATH"))))
+	  (loop for x in (mapcar 'expand-file-name (split l path-separator))
+		with cript = nil
+		when (and (file-exists-p (setq cript (concat x "/" s)))
+			  (or (not processor)
+			      (string-match processor (eval-process "head" "-1" cript))))
+		return cript)))
+     )
     )
   )
 
