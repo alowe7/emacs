@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.11 2008-09-27 21:49:35 keystone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.12 2008-09-27 21:58:30 keystone Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -40,7 +40,7 @@
 ; (requirex 'worlds)
 
 (require 'xz-loads)
-(require 'gnuserv)
+; (when (not (and (boundp 'server-process) (process-live-p server-process))) (require 'gnuserv))
 
 ;(load-library "xdb")
 
@@ -101,12 +101,11 @@
 (defun add-to-load-path-p (dir &optional append)
   (let ((dir (expand-file-name dir))
 	(f (expand-file-name ".autoloads" dir)))
-    (and (file-directory-p dir)
-	 (add-to-load-path dir append)
-
-	 (and (file-exists-p f) 
-	      (condition-case x (load f) (error  nil)))
-	 )
+    (when (file-directory-p dir)
+      (add-to-load-path dir append)
+      (when (file-exists-p f) 
+	(condition-case x (load f) (error  nil)))
+      )
     )
   )
 
