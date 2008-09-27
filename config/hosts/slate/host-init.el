@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.7 2008-06-22 17:29:24 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.8 2008-09-27 15:25:12 slate Exp $")
 
 ; enoch..tombstone..slate
 
@@ -48,10 +48,6 @@
     )
   )
 
-; do not  (add-to-list 'load-path "/u/z/el")
-; (load-library "mpg123")
-
-
 (require 'lazy-lock)
 
 (post-wrap "dired")
@@ -70,5 +66,10 @@
 (require 'post-view)
 
 ; disable stupid comint `field' properties
-(setq comint-use-prompt-regexp-instead-of-fields t)
+; (setq comint-use-prompt-regexp-instead-of-fields t)
 
+(setq *sisdirs* '(("/root/slash/.p" "/root/.p") ("/root/slash" "")))
+
+; string quoting logic in font-lock if f***-ed up
+
+(setq font-lock-string-face 'default)
