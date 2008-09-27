@@ -1,8 +1,8 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.47 2008-09-27 16:34:01 keystone Exp $")
+ "$Id: post-dired.el,v 1.48 2008-09-27 22:15:09 slate Exp $")
 
 (require 'dired-advice)
-
+(require 'ctl-backslash)
 ;; dired stuff
 
 

@@ -1,5 +1,5 @@
 (put 'keys 'rcsid
- "$Id: keys.el,v 1.5 2008-09-27 15:25:12 slate Exp $")
+ "$Id: keys.el,v 1.6 2008-09-27 22:15:09 slate Exp $")
 
 ; machine specific key bindings.  needs factoring
 
@@ -20,7 +20,7 @@
 (global-set-key (vector ?\C-c ?\C-j) 'font-lock-fontify-buffer)
 
 (require 'ctl-backslash)
-(define-key ctl-\-map "u" 'unbind)
+(define-key ctl-\\-map "u" 'unbind)
 
 (require 'ctl-slash)
 (define-key ctl-/-map "" 'sisdir)

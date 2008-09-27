@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.56 2008-09-27 21:49:35 keystone Exp $")
+ "$Id: config.el,v 1.57 2008-09-27 22:15:09 slate Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -59,6 +59,18 @@
 specify string to trap an explicit load, specify an atom to trap a require") 
 
 (defvar *config-log-hook* nil "if set, log configured pre- and post- load actions to message buffer")
+
+; a couple of helpr functions
+(defun add-to-load-path-p (dir &optional append)
+  (let ((dir (expand-file-name dir))
+	(f (expand-file-name ".autoloads" dir)))
+    (when (file-directory-p dir)
+      (add-to-load-path dir append)
+      (when (file-exists-p f) 
+	(condition-case x (load f) (error  nil)))
+      )
+    )
+  )
 
 (defun loadp (prefix file)
   (let* ((f0 (file-name-sans-extension (file-name-nondirectory (format "%s" file))))

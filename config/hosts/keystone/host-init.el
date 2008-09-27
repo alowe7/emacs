@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.12 2008-09-27 21:58:30 keystone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.13 2008-09-27 22:15:09 slate Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -97,17 +97,6 @@
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
 
 (add-to-load-path "/u/Mule-UCS-0.84/lisp/")
-
-(defun add-to-load-path-p (dir &optional append)
-  (let ((dir (expand-file-name dir))
-	(f (expand-file-name ".autoloads" dir)))
-    (when (file-directory-p dir)
-      (add-to-load-path dir append)
-      (when (file-exists-p f) 
-	(condition-case x (load f) (error  nil)))
-      )
-    )
-  )
 
 ; all kinds of crap here
 (add-to-load-path-p "/z/el" t)

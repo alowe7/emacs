@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.8 2008-09-27 15:25:12 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.9 2008-09-27 22:15:09 slate Exp $")
 
 ; enoch..tombstone..slate
 
@@ -73,3 +73,6 @@
 ; string quoting logic in font-lock if f***-ed up
 
 (setq font-lock-string-face 'default)
+
+(add-to-load-path-p "/z/db" t)
+(require 'zt-loads)
