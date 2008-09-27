@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.55 2008-03-06 00:24:12 alowe Exp $")
+ "$Id: config.el,v 1.56 2008-09-27 21:49:35 keystone Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -339,7 +339,7 @@ or override them by post-chaining.
 (defun dotfn (fn)
   (loop for a in *config-load-path*
 	do (let ((afn (format "%s/%s" a fn)))
-	  (if (-f afn) (scan-file afn))
+	  (if (file-exists-p afn) (scan-file afn))
 	  )))
 
 (defun locate-config-file (fn)
@@ -349,8 +349,8 @@ returns full path name.
 "
   (let ((afn (loop for a in load-path
 		   thereis (let ((afn (format "%s/%s" a fn)))
-			     (or (and (-f afn) afn)
-				 (and (-f (setq afn (concat afn ".el"))) afn))
+			     (or (and (file-exists-p afn) afn)
+				 (and (file-exists-p (setq afn (concat afn ".el"))) afn))
 			     )
 		   )))
     afn)

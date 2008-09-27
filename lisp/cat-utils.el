@@ -26,11 +26,14 @@ seq may be a list or vector
 
 
 (defun split (s &optional pat)
-  "split STRING into a list at regexp PAT
-if PAT is not specified, splits on all white space: [SPC, TAB, RET]"
+  "split STRING into a list at regexp or character PAT
+if PAT is not specified, splits on all white space: [SPC, TAB, RET]
+"
   (let ((start 0)
-	(pat (or pat "[ 	
-]")))
+	(pat (cond 
+	      ((char-valid-p pat) (format "%c" pat))
+	      ((string* pat) pat) 
+	      (t "[ \C-i\C-j]"))))
     (remove* ""
 	     (nconc 
 	      (loop
@@ -44,6 +47,7 @@ if PAT is not specified, splits on all white space: [SPC, TAB, RET]"
     )
   )
 ; (split "abcd efgh, ijkl	mnop  " )
+; (split "foo;bar;baz" ?;)
 
 
 (defun split2 (s &optional pat)

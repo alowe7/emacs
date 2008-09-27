@@ -1,5 +1,7 @@
 (put 'cat-seq 'rcsid
- "$Id: cat-seq.el,v 1.1 2008-09-27 16:34:01 keystone Exp $")
+ "$Id: cat-seq.el,v 1.2 2008-09-27 21:49:35 keystone Exp $")
+
+(require 'cat-utils)
 
 ;; utilities for converting between strings and lists or vectors of strings
 
@@ -108,3 +110,4 @@ string s (default \":\")"
 	  (setq result (concat result x ps)))
     (substring result 0 (- (length ps)))))
 
+(provide 'cat-seq)

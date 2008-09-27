@@ -1,16 +1,12 @@
 (put 'sh 'rcsid
- "$Id: sh.el,v 1.5 2007-05-21 18:36:45 alowe Exp $")
+ "$Id: sh.el,v 1.6 2008-09-27 21:49:35 keystone Exp $")
 
 (require 'typesafe)
 (require 'eval-utils)
 (require 'trim)
+(require 'cat-seq)
 
 ;; sh -- bain-damaged interpreter for shell scripts
-;; by Andy Lowe at TKG, copyright (c) 4/10/1993
-;; by Andy Lowe at PSW, copyright (c) 1994, 1995, 1996, 1997, 1998, 1999
-;; by Andy Lowe at BroadJump, copyright (c) 2000,2001,2002
-;; by Andy Lowe at Motive, copyright (c) 2003,2004
-;; by Andy Lowe at Overwatch, copyright (c) 2006,2007
 
 ;; ksh-like functions:
 
@@ -222,6 +218,7 @@ handles ksh-like ${foo} syntax
   " setenv it.  checks val for $ evaluator" 
   ;; if set -a is used, exports may not be explicit
   ;; if val is a null string, effect is to unset var
+
   (if (not (string-match "^export[ 	]*" line)) (string-match "^" line))
   (let* ((p (match-end 0))
 	 (q (string-match "=" line))
@@ -356,9 +353,7 @@ value is a function cell taking the input line to parse.  returns nil if it coul
 (defun scan-file (fn)
   "interpret shell script FILE to some extent."
   (interactive "ffilename: ")
-  (not (not (mapcar 'sh-parse-line (split (read-file fn) "
-"))))
-
+  (not (not (mapcar 'sh-parse-line (split (read-file fn) "\C-j"))))
   )
 
 (defun scan-indicated-file ()

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.10 2008-06-28 14:32:02 keystone Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.11 2008-09-27 21:49:35 keystone Exp $")
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
@@ -134,6 +134,7 @@
 (setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
 
 ; find-script will look along path for certain commands 
+(require 'path-utils)
 (addpathp "/z/pl" "PATH")
 
 ; this ensure calendar comes up in a frame with a fixed-width font
@@ -190,4 +191,6 @@
 
 (load-library "locate")
 
+(add-to-load-path-p "/z/db" t)
+(require 'zt-loads)
 
