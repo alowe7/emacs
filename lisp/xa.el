@@ -1,5 +1,5 @@
 (put 'xa 'rcsid
- "$Id: xa.el,v 1.8 2008-08-27 00:48:59 alowe Exp $")
+ "$Id: xa.el,v 1.9 2008-09-27 19:33:13 alowe Exp $")
 
 (define-derived-mode xa-mode fundamental-mode "xa" "")
 
@@ -24,9 +24,7 @@ return the bufferstring
 		(if prompt (setq mode-line-buffer-identification prompt))
 		(if initial-input (progn (insert initial-input) (beginning-of-buffer)))
   ; todo make this a custom sub mode
-		(local-set-key "\C-c\C-c" '(lambda () (interactive)
-					     (kill-new (setq s (buffer-string))) ; save as a kill in case caller loses
-					     (throw 'done nil)))
+		(local-set-key "\C-c\C-c" 'xa-done)
 		(local-set-key "\C-c\C-u" '(lambda () (interactive) (y-or-n-p "are you sure? ") (throw 'done  t)))
 		(setq fill-column (max (- (frame-width) 15) 70))
 		(message "C-c C-c to exit	 C-c C-u to cancel")
@@ -42,5 +40,10 @@ return the bufferstring
     (error nil)
     )
   )
+
+(defun xa-done ()
+  (interactive)
+  (kill-new (setq s (buffer-string))) ; save as a kill in case caller loses
+  (throw 'done nil))
 
 (provide 'xa)
