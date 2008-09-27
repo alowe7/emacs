@@ -45,7 +45,7 @@ see `cmd-mode' `shell2'
 	     )
 
 (require 'ctl-backslash)
-(define-key ctl-\-map "p" 'python)
+(define-key ctl-\\-map "p" 'python)
 
 
 (defun collect-buffers-mode-1 (mode)

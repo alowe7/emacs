@@ -1,5 +1,5 @@
 (put 'other 'rcsid
- "$Id: other.el,v 1.7 2008-02-16 00:51:50 slate Exp $")
+ "$Id: other.el,v 1.8 2008-09-27 16:34:01 keystone Exp $")
 
 (defun other-lastline (&optional p) 
   (cond ((< p (point-max))
@@ -54,87 +54,106 @@
   )
 ; (other-width)
 
-(defun rfo () (interactive)
- 
-  (let* ((p (point))
-	 (from (other-get-filename))
-	 (fn (file-name-nondirectory from))
-	 (dir (save-window-excursion 
-		(other-window-1)
-		default-directory))
-	 (to (expand-file-name fn dir)))
-    (cond
-     ((file-directory-p from)
-	  (let ((cmd (format "mv %s %s" from to)))
-		(shell-command cmd nil nil)
-		(save-window-excursion (other-window-1) (other-revert-buffer))
-		(other-revert-buffer)
-		)
-	  )
-     (t
-      (rename-file from to t)
-      (other-next-line 1)
-      (setq x (point))
-      (other-revert-buffer)
-      (other-window-1)
-  ;    (read-string (format "1 %s: " (buffer-name)))
-      (other-next-line 1)
-      (setq y (point))
-      (other-revert-buffer)
-      (goto-char y)
-      (other-window-1)
-  ;    (read-string (format "2 %s: " (buffer-name)))
-      (goto-char x)
-  ;    (search-forward fn)
-      (other-lastline p)))
-    )
+(defun get-filename ()
+  "if in dired mode, returns `dired-get-marked-files' 
+if in fb-mode, returns `fb-get-filename'
+else returns `buffer-file-name'
+"
+  (cond
+   ((eq major-mode 'dired-mode) 
+    (condition-case err (dired-get-marked-files) (error nil)))
+   ((eq major-mode 'fb-mode)
+    (string* (fb-get-filename)))
+   (t 
+    (or (string* (thing-at-point 'filename)) (buffer-file-name)))
+   )
   )
 
-(fset 'move-file-other-window 'rfo)
+(defun cfo1 (f obd)
+  (let
+      ((target (and f (concat obd (file-name-nondirectory f)) )) force1)
+
+    (if (or (and (boundp 'force) force)
+	    (not (file-exists-p target))
+
+	    (let ((ret (y-or-n-q-p (format "file %s exists.  overwrite?" target) "!")))
+	      (if (eq ret ?!) (setq force t))
+	      (if (eq ret ?q) (setq bail t))
+	      (if (eq ret ?y) (setq force1 t))
+	      (or force force1)))
+
+
+	(cond ((file-directory-p f)
+	       (shell-command (concat "cp -r \"" f "\" " obd)))
+	      (t    
+	       (copy-file f target (or force force1))
+					; (revert-buffer nil t)
+	       (save-window-excursion (other-window 1) (revert-buffer nil t))
+	       ))
+      (message "")
+      )
+    )
+  )
 
 (defun cfo () (interactive)
-  ; todo: if target exists, rename to backup 
-  (let* ((p (point))
-	 (from (other-get-filename))
-	 (fn (file-name-nondirectory from))
-	 (dir (save-window-excursion 
-		(other-window-1)
-		default-directory))
-	 (to (expand-file-name fn dir)))
-
-    (cond
-     ((and (file-directory-p from) 
-	   (file-directory-p to))
-      (error (format "tbd -- would clobber directory %s" to)))
-     ((file-directory-p from) 
-      (shell-command (format "cp -r %s %s" from dir))
+  (let* ((obd (save-window-excursion (other-window 1) default-directory))
+	 (f (get-filename)))
+    (cond 
+     ((null f) (error "not looking at a filename") )
+     ((string= default-directory obd)
+      (message (format "error: other window is in same directory (%s)" obd)))
+     ((listp f)
+      (loop
+       with force = nil
+       with bail = nil
+       when bail return (message "bail!") 
+       for x in f
+       do (cfo1 x obd))
       )
-     (t
-      (copy-file from to t t)
-      ))
-
-    (save-window-excursion 
-      (other-window-1)
-      (other-revert-buffer)
-  ; (search-forward fn)
-      )
-    (other-lastline p)
+     )
     )
   )
 
-(fset 'copy-file-other-window 'cfo)
 
-(defun cfa () (interactive)
-  (dired-copy-marked-files
-   (save-window-excursion 
-     (other-window-1)
-     default-directory))
-    (save-window-excursion 
-      (other-window-1)
-      (other-revert-buffer))
-  (message "")
+(defun rfo1 (f obd)
+  (let
+      ((target (and f (concat obd (file-name-nondirectory f)) )) force1)
+
+    (if (or (and (boundp 'force) force)
+	    (not (file-exists-p target))
+
+	    (let ((ret (y-or-n-q-p (format "file %s exists.  overwrite?" target) "!")))
+	      (if (eq ret ?!) (setq force t))
+	      (if (eq ret ?q) (setq bail t))
+	      (if (eq ret ?y) (setq force1 t))
+	      (or force force1)))
+
+	(progn
+	  (rename-file f target (or force force1))
+	  (revert-buffer nil t)
+	  (save-window-excursion (other-window 1) (revert-buffer nil t))
+	  ))
+    (message "")
+    )
   )
 
-(fset 'dired-copy-marked-files-other-window  'cfa)
+(defun rfo () (interactive)
+  (let* ((obd (save-window-excursion (other-window 1) default-directory))
+	 (f (get-filename)))
+    (cond 
+     ((null f) (error "not looking at a filename") )
+     ((string= default-directory obd)
+      (message (format "error: other window is in same directory (%s)" obd)))
+     ((listp f)
+      (loop
+       with force = nil
+       with bail = nil
+       when bail return (message "bail!") 
+       for x in f
+       do (rfo1 x obd))
+      )
+     )
+    )
+  )
 
 (provide 'other)

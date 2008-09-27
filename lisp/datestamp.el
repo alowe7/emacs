@@ -1,5 +1,5 @@
 (put 'datestamp 'rcsid
- "$Id: datestamp.el,v 1.1 2006-08-08 14:20:13 alowe Exp $")
+ "$Id: datestamp.el,v 1.2 2008-09-27 16:34:01 keystone Exp $")
 
 ;;; xxx police line do not cross
 ;; fancy
@@ -87,3 +87,11 @@ supports big ints"
 ; (datestamp "-3d")
 ; (datestamp "-3h")
 
+
+(defun mkdatestampdir () (interactive)
+  (let ((dirname (format-time-string "%y%m%d")))
+    (dired-create-directory dirname)
+    (dired (expand-file-name dirname))
+    dirname
+    )
+  )

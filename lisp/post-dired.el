@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.46 2007-10-30 03:54:17 slate Exp $")
+ "$Id: post-dired.el,v 1.47 2008-09-27 16:34:01 keystone Exp $")
 
 (require 'dired-advice)
 
@@ -12,6 +12,19 @@
   (diff-backup (dired-get-filename))
   )
 
+(defun diff-marked-files ()
+  (interactive)
+  (let* ((l (dired-get-marked-files)) 
+	 (b
+	  (cond ((< (length l) 2) (message "need 2 marked files"))
+		((> (length l) 2) (message "too many marked files"))
+		(t (apply 'diff l)))))
+    (and (bufferp b)
+	 (set-buffer b)
+	 (diff-mode)
+	 (font-lock-mode t))
+    )
+  )
 
 (defun dired-copy-file-1 () (interactive)
   (let* ((f (dired-get-filename))
@@ -41,9 +54,17 @@
 
 ;;; dired stuff -- see dired helpers
 
-(defun dired-execute-file ()
+(defvar dired-exec-file-type-list nil)
+
+(defun dired-exec-file ()
   (interactive)
-  (call-process (dired-get-filename) nil 0)
+  (let* ((f (dired-get-filename))
+	 (ext (file-name-extension f))
+	 (dispatch (assoc ext  dired-exec-file-type-list)))
+
+    (if dispatch (funcall (cdr dispatch) f)
+      (find-file f))
+    )
   )
 
 (defvar last-dired-move-to nil)
@@ -121,7 +142,6 @@ warns if more than one file is to be moved and target is not a directory"
   (or no-update (revert-buffer))
 
   )
-(define-key dired-mode-map (vector '\C-return ?\C--) 'dired-canonify-filename)
 
 ;(defun dired-move-marked-files (to) (interactive "Ddir: ")
 ;  (mapcar '(lambda (x) (dired-move-file to x)) (dired-get-marked-files)))
@@ -195,21 +215,6 @@ warns if more than one file is to be moved and target is not a directory"
 	   )
 	 )
 	)
-  )
-
-(defun execute-indicated-file ()
-  (interactive)
-  (let ((cmd  (indicated-word))
-	(buffer (get-buffer-create "*output*")))
-    (save-excursion
-      (set-buffer buffer)
-      (auto-save-mode 0)
-      (end-of-buffer)
-      (insert (concat cmd "
-"))
-      (call-process cmd nil t nil)
-      )
-    )
   )
 
 (defvar file-assoc-list nil
@@ -313,28 +318,53 @@ see `file-assoc-list'"
 (unless (and (boundp 'ctl-x-v-map) ctl-x-v-map)
   (setq ctl-x-v-map (symbol-function 'ctl-x-v-prefix)))
 
-(define-key ctl-x-v-map "l" 'dired-cvs-log)
-(define-key ctl-x-v-map "u" 'dired-cvs-update)
-
 (defun kill-dired-filename () 
   (interactive)
   (kill-new (w32-canonify (dired-get-filename)))
   )
 
 (add-hook 'dired-mode-hook '(lambda () 
-			      (define-key  dired-mode-map "\C-m" 'dired-aexec)
+			      (define-key dired-mode-map "\C-m" 'dired-aexec)
+  ;			      (define-key dired-mode-map "\C-m" 'dired-exec-file)
 			      (define-key  dired-mode-map "P" '(lambda () (interactive) (dos-print (dired-get-filename))))
 			      (define-key  dired-mode-map (vector ? ?\C-0) 'kill-dired-filename)
 			      (define-key dired-mode-map "|" 'dired-pipe-file)
 			      (define-key  dired-mode-map "\C-cw" 'dired-what-file)
+
 			      (define-key  dired-mode-map "\M-~" 'dired-make-backup)
 
 			      (define-key  dired-mode-map "\C-cu" 'dired-zip-extract)
 
 			      (define-key dired-mode-map "\C-xv" 'ctl-x-v-prefix)
 			      (define-key dired-mode-map "V" 'dired-html-view)
+
+			      (define-key dired-mode-map (vector 'f4) 'cfo)
+			      (define-key dired-mode-map (vector 'f5) 'rfo)
+
+
+			      (let ((was (lookup-key  dired-mode-map "t")))
+				(unless (eq was 'dired-touch-file)
+				  (define-key dired-mode-map "T" was)
+				  )
+				)
+			      (define-key dired-mode-map "t" 'dired-touch-file)
+
+  ; see datestamp.el
+  ; (define-key dired-mode-map (vector 'C-return ?d) 'mkdatestampdir)
+
+			      (define-key dired-mode-map (vector '\C-return ?\C--) 'dired-canonify-filename)
+
 			      ))
 
+
+(define-key ctl-x-v-map "l" 'dired-cvs-log)
+(define-key ctl-x-v-map "u" 'dired-cvs-update)
+
+(define-key ctl-\\-map  ""  'diff-marked-files)
+
+; turns out this interacts negatively with clearcase-hook-dired-mode-hook.
+(unless (boundp 'clearcase-hook-dired-mode-hook)
+  (add-hook 'dired-mode-hook 'turn-on-font-lock))
 
 ; todo generesize
 (defun dired-yank-filename (&optional arg)
@@ -372,6 +402,11 @@ see `file-assoc-list'"
   "displays full filetime for indicated file"
   (interactive)
   (kill-new (message (format-time-string "%a %b %d %H:%M:%S %Y" (filemodtime (dired-get-filename)))))
+  )
+
+(defun dired-md5-compare ()
+  (interactive)
+  (eval-process "md5sum " (dired-get-filename))
   )
 
 (defvar dired-mode-syntax-table (copy-syntax-table))

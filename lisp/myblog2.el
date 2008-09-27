@@ -1,11 +1,12 @@
 (put 'myblog2 'rcsid
- "$Id: myblog2.el,v 1.3 2006-08-22 00:51:09 alowe Exp $")
+ "$Id: myblog2.el,v 1.4 2008-09-27 16:34:01 keystone Exp $")
 
-; clean room version of MyBlog that uses asp
+; quick and dirty blogo/wiki
 
 (require 'eval-process)
+(require 'line-regions)
 
-(defvar *basedir* (expand-file-name "/content/"))
+(defvar *blog-basedir* (expand-file-name "~/blog/"))
 
 (defun myblog2 (&optional datestamp)
   (interactive)
@@ -57,17 +58,34 @@ non-interactively with arg, likewise, with url instead of filename
 (defun grepblog (arg)
   (interactive "P")
   (let* ((default-directory *basedir*)
-	 (pat (read-string "grep for: "))
+	 (pat (read-string "grep blogs for: "))
 	 )
 
     (grep (concat "grep -n -i -e " pat " [0-9]*" ))
     )
   )
 
+; clobber compilation sentinel to reverse two lines.  
+; why are we doing this?
+
+(unless (boundp 'orig-compilation-sentinel)
+  (setq orig-compilation-sentinel (symbol-function 'compilation-sentinel))
+  )
+
+(defun my-compilation-sentinel (proc msg)
+  " my-compilation-sentinel"
+  (apply orig-compilation-sentinel (list proc msg))
+  (save-excursion
+    (set-buffer (process-buffer proc))
+    (apply 'reverse-lines (mark-lines 2 -2))
+    )
+  )
+
 (define-derived-mode blog-mode text-mode "BLOG")
 
 (defun blog-find-file-hook ()
-  (if (string-match (expand-file-name *basedir*)  default-directory)
+  (if (and (string-match (expand-file-name *basedir*)  default-directory)
+	   (null (file-name-extension (buffer-file-name))))
       (blog-mode))
   )
 
@@ -83,20 +101,20 @@ non-interactively with arg, likewise, with url instead of filename
 (defun previous-blog ()
   (interactive)
   (find-file (car (last (this-blog))))
+  (kill-new (undatestamp (car (this-blog))))
   )
 
 (defun next-blog ()
   (interactive)
   (find-file (cadr (this-blog)))
+  (kill-new (undatestamp (car (this-blog))))
   )
 (define-key blog-mode-map "\M-p" 'previous-blog)
 (define-key blog-mode-map "\M-n" 'next-blog)
 
-(require 'ctl-slash)
-(define-key ctl-/-map "g" 'grepblog)
-(define-key ctl-/-map "l" 'lastblog)
-
 ; if you are looking at a file in *basedir*, assume its a blog
 (add-hook 'find-file-hooks 'blog-find-file-hook)
+
+(run-hooks 'myblog2-hooks)
 
 (provide 'myblog2)
