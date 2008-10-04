@@ -1,5 +1,5 @@
 (put 'perl-command 'rcsid
- "$Id: perl-command.el,v 1.21 2008-09-26 00:14:32 keystone Exp $")
+ "$Id: perl-command.el,v 1.22 2008-10-04 02:38:28 slate Exp $")
 ; facilitate running perl commands
 (require 'cl)
 (require 'zap)
@@ -141,6 +141,8 @@ so for example use (read-stderr) to inspect it.
     (let* ((b (get-buffer-create-1 *perl-stdout*))
 	   (e (stderr))
 	   (fs (find-script s)))
+
+      (unless fs (error "%s script not found" s))
 
       (cond ((not fs)
 	     (message "warning: script %s not found" s)
