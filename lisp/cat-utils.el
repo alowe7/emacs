@@ -25,30 +25,35 @@ seq may be a list or vector
 
 
 
-(defun split (s &optional pat)
+(defun split (s &optional pat keep-empty-strings)
   "split STRING into a list at regexp or character PAT
 if PAT is not specified, splits on all white space: [SPC, TAB, RET]
+removes empty strings unless optional third parameter KEEP-EMPTY-STRINGS is set
 "
-  (let ((start 0)
-	(pat (cond 
-	      ((char-valid-p pat) (format "%c" pat))
-	      ((string* pat) pat) 
-	      (t "[ \C-i\C-j]"))))
-    (remove* ""
-	     (nconc 
-	      (loop
-	       while (string-match pat s start)
-	       collect (prog1 (substring s start (match-beginning 0)) (setq start (match-end 0)))
-	       )
-	      (list (substring s start))
-	      )
-	     :test 'string=
-	     )
+  (let* ((start 0)
+	 (pat (cond 
+	       ((char-valid-p pat) (format "%c" pat))
+	       ((string* pat) pat) 
+	       (t "[ \C-i\C-j]")))
+	 (ret
+	  (nconc 
+	   (loop
+	    while (string-match pat s start)
+	    collect (prog1 (substring s start (match-beginning 0)) (setq start (match-end 0)))
+	    )
+	   (list (substring s start))
+	   )))
+
+    (if keep-empty-strings
+	ret
+      (remove* "" ret :test 'string=)
+      )
+
     )
   )
 ; (split "abcd efgh, ijkl	mnop  " )
 ; (split "foo;bar;baz" ?;)
-
+; (split "-outline-Arial-bold-r-normal-normal-13-97-96-96-p-60-iso10646-1" "-" t)
 
 (defun split2 (s &optional pat)
   "more scalable version of `split'
