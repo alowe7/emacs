@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.19 2008-09-26 00:14:32 keystone Exp $")
+ "$Id: myblog.el,v 1.20 2008-10-29 01:01:44 alowe Exp $")
 
 ;; myblog
 
@@ -334,16 +334,6 @@ with optional ARG, prompts for area.
 			  )))
     (if priorblog (find-blog priorblog) (error "no more blogs"))
     )
-  )
-
-; tbd -- wha?
-(condition-case x
-    (require 'ctl-dot)
-  (define-key ctl-.-map "o" 'myblog)
-  (define-key ctl-.-map "l" 'find-lastblog)
-  (define-key ctl-.-map "g" 'grepblog)
-  (define-key ctl-.-map "b" 'blog2text)
-  (error (debug))
   )
 
 (provide 'myblog)

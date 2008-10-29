@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.66 2008-09-10 04:43:53 alowe Exp $")
+ "$Id: keys.el,v 1.67 2008-10-29 01:01:44 alowe Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -203,11 +203,12 @@
 
 ;; this particular set of key bindings are so obscure, they're a barrier to use.
 
-(define-key alt-SPC-map " " 'roll-server-clients)
-(define-key alt-SPC-map " " 'roll-buffer-list)
+(define-key alt-SPC-map " " 'roll-buffer-with-mode)
 (define-key alt-SPC-map "," 'roll-scratch-buffers)
-(define-key alt-SPC-map "." 'roll-buffer-with-mode)
-(define-key alt-SPC-map "/" 'roll-buffer-with)
+(define-key alt-SPC-map "." 'roll-server-clients)
+(define-key alt-SPC-map " " 'roll-buffer-list)
+(define-key alt-SPC-map " " 'roll-buffer-with)
+
 (define-key alt-SPC-map "?" '(lambda () (interactive) (message "")))
 (define-key alt-SPC-map "\M-/" 'list-buffers-with)
 (define-key alt-SPC-map "\M-6" 'list-buffers-not-modified)
@@ -277,6 +278,13 @@
 
 (define-key ctl-RET-map "e" 'edit-bookmarks)
 (define-key ctl-RET-map "m" 'bookmark-set)
+
+(define-key ctl-/-map (vector (ctl ? )) 'myblog)
+(define-key ctl-/-map "g" 'grepblog)
+(define-key ctl-/-map "l" 'find-lastblog)
+
+; that's a hole nutha thang
+(require 'ctl-dot)
 
 (provide 'keys)
 

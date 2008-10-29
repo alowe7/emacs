@@ -1,5 +1,5 @@
 (put 'myblog2 'rcsid
- "$Id: myblog2.el,v 1.4 2008-09-27 16:34:01 keystone Exp $")
+ "$Id: myblog2.el,v 1.5 2008-10-29 01:01:44 alowe Exp $")
 
 ; quick and dirty blogo/wiki
 
@@ -11,7 +11,7 @@
 (defun myblog2 (&optional datestamp)
   (interactive)
   (let ((datestamp (or datestamp (eval-process "date +%y%m%d%H%M%S"))))
-    (find-file (concat *basedir* datestamp))
+    (find-file (concat *blog-basedir* datestamp))
     )
   )
 
@@ -33,7 +33,7 @@ non-interactively just return filename (also adds to kill ring using `kill-new`)
 non-interactively with arg, likewise, with url instead of filename
 "
   (interactive "P")
-  (let* ((default-directory *basedir*)
+  (let* ((default-directory *blog-basedir*)
 	 (files 
 	  (sort*
 	   (loop for x in (directory-files ".")
@@ -57,7 +57,7 @@ non-interactively with arg, likewise, with url instead of filename
 
 (defun grepblog (arg)
   (interactive "P")
-  (let* ((default-directory *basedir*)
+  (let* ((default-directory *blog-basedir*)
 	 (pat (read-string "grep blogs for: "))
 	 )
 
@@ -84,7 +84,7 @@ non-interactively with arg, likewise, with url instead of filename
 (define-derived-mode blog-mode text-mode "BLOG")
 
 (defun blog-find-file-hook ()
-  (if (and (string-match (expand-file-name *basedir*)  default-directory)
+  (if (and (boundp '*blog-basedir*) (string-match (expand-file-name *blog-basedir*)  default-directory)
 	   (null (file-name-extension (buffer-file-name))))
       (blog-mode))
   )
@@ -112,7 +112,7 @@ non-interactively with arg, likewise, with url instead of filename
 (define-key blog-mode-map "\M-p" 'previous-blog)
 (define-key blog-mode-map "\M-n" 'next-blog)
 
-; if you are looking at a file in *basedir*, assume its a blog
+; if you are looking at a file in *blog-basedir*, assume its a blog
 (add-hook 'find-file-hooks 'blog-find-file-hook)
 
 (run-hooks 'myblog2-hooks)

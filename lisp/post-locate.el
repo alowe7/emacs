@@ -1,5 +1,5 @@
 (put 'post-locate 'rcsid 
- "$Id: post-locate.el,v 1.12 2008-10-11 17:14:01 alowe Exp $")
+ "$Id: post-locate.el,v 1.13 2008-10-29 01:01:44 alowe Exp $")
 
 (require 'fb)
 (require 'qsave)
@@ -106,7 +106,7 @@
 " s)
 	  (let* ((filelist (substring s (match-end 0)))
 		 (files (mapcar 'trim-white-space (split filelist "\n"))))
-	    (add-to-list 'locate-result-stack files)
+	    (push files locate-result-stack)
 	    )
 	  )
 	)
@@ -137,3 +137,22 @@
     )
   )
 (define-key ctl-/-map "\C-s" ' grep-in-locate-result)
+
+(defun grep-in-locate-files-like-under (search-pattern filename-pattern &optional filter)
+  (interactive (list 
+		(read-string* "grep for (%s): " (thing-at-point 'word))
+		(read-string* "in locate files like (%s): " (thing-at-point 'word))
+		(read-string* "using filter: ")
+		))
+
+  ;  (let ((n (length locate-result-stack)))
+  (locate filename-pattern filter)
+  ;    (when (> (length locate-result-stack) n) 
+  (let ((filelist (car locate-result-stack)))
+    (grep (concat "grep -n -i -e " search-pattern " " (join filelist " ")))
+    )
+  ;      )
+  ;    )
+  )
+(define-key ctl-/-map "s" 'grep-in-locate-files-like-under)
+

@@ -1,14 +1,12 @@
 (put 'xdb 'rcsid
- "$Id: xdb.el,v 1.2 2005-01-18 03:08:09 cvs Exp $")
+ "$Id: xdb.el,v 1.3 2008-10-29 01:01:44 alowe Exp $")
 
 (chain-parent-file t)
 
 (require 'ctl-slash)
 
-(define-key ctl-/-map "q" 'xq)
-(define-key ctl-/-map "t" 'xt)
-(define-key ctl-/-map "n" 'xn)
-(define-key ctl-/-map "b" 'txdbi)
+(define-key ctl-RET-map "q" 'xq)
+(define-key ctl-RET-map "b" 'txdbi)
 
 (define-key ctl-RET-map "l" 'xl)
 (define-key ctl-RET-map "=" 'xl=)

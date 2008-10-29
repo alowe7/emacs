@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.6 2008-09-10 04:43:53 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.7 2008-10-29 01:01:44 alowe Exp $")
 
 (setq default-fontspec
       (default-font 
@@ -7,6 +7,7 @@
 	(setq default-style "normal")
 	(setq default-point-size 16))
       )
+; "-outline-tahoma-normal-r-normal-normal-16-120-96-96-p-70-*-"
 
 (setq initial-frame-alist
       `((top . 79)
@@ -87,11 +88,6 @@
 		   (cdr e))
 	    )
       )
-
-(add-to-load-path "/z/el" t)
-(autoload 'rtf-mode "rtf-mode" "RTF mode" t)
-(add-to-list 'auto-mode-alist
-  '("\\.rtf$" . rtf-mode))
 
 (add-hook 'xz-load-hook 
 	  '(lambda ()
@@ -192,10 +188,6 @@
 
 (setq font-lock-string-face 'default)
 
-(setq Info-default-directory-list
-      '("/usr/local/info/" "c:/usr/local/lib/emacs-21.3/info/" "/usr/local/share/info/")
-      )
-
 ; xxx mongrify
 (add-hook 'locate-mode-hook 'fb-mode)
 
@@ -204,7 +196,6 @@
 (setq wdirs (list "/z"))
 
 (setq Info-default-directory-list  '("/usr/share/info/" "c:/usr/local/lib/emacs-21.3/info/" "/usr/local/share/info/"))
-
 
 ; struggling with daylight savings time again
 ; (getenv "TZ")
@@ -216,3 +207,29 @@
 (add-to-load-path "/z/db" t)
 (load-library "zt")
 ; (find-whence-lib "zt.el")
+
+(define-key ctl-RET-map "" 'yank-like)
+
+
+(unless (get 'post-comint 'rcsid)
+  (load-library "post-comint"))
+
+(defun isearch-thing-at-point ()
+  (interactive)
+  (isearch-update-ring (thing-at-point 'symbol))
+  (isearch-forward)
+  )
+(define-key ctl-RET-map "\C-s" 'isearch-thing-at-point)
+
+(load-library "xz-loads")
+
+
+(setq sgml-default-doctype-name  "-//W3C//DTD XHTML 1.0 Transitional//EN")
+(setq sgml-catalog-files '("/a/lib/DTD/catalog"))
+(add-auto-mode "\\.csproj$" 'xml-mode)
+
+(global-font-lock-mode 1)
+
+; for now...
+(require 'cs-mode)
+(add-auto-mode "\\.cs$" 'cs-mode)

@@ -1,31 +1,23 @@
 (put 'mru-shell 'rcsid
- "$Id: mru-shell.el,v 1.5 2005-08-22 20:55:03 cvs Exp $")
+ "$Id: mru-shell.el,v 1.6 2008-10-29 01:01:44 alowe Exp $")
 
 (defun mru-shell (arg)
-  (interactive "P")
   "grab the most recently used extant shell buffer, pop to it and pushd to the current directory
-with numeric prefix ARG, go to that shell, creating it if necessary."
+start up a new shell if necessary.
+interactively with prefix ARG, pushd even if that buffer thinks it isn't necessary."
+  (interactive "P")
 
 
   (let* ((d default-directory)
-	 (b
-	  (if
-	      (and arg (numberp arg))
-	      (progn (shell2 arg) (current-buffer))
-  ; else
-	    (if arg
-		(progn (shell) (current-buffer))
-	      (let ((l (collect-buffers-mode 'shell-mode)))
-		(and l (pop l)))
-	      )))
-	 )
+	 (b (let ((l (collect-buffers-mode 'shell-mode)))
+		(and l (pop l)))))
 
     (if b 	    
 	(let ((w (get-buffer-window b)))
 	  (if w (select-window w)
 	    (pop-to-buffer b))
 	  (end-of-buffer)
-	  (unless (string= d default-directory) 
+	  (when (or arg (not (string= d default-directory) ))
 	    (cd d)
 	    (comint-send-string (buffer-process) (format "pushd \"%s\"\n" d))
 	    )

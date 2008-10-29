@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.35 2008-01-26 20:13:48 slate Exp $")
+ "$Id: roll.el,v 1.36 2008-10-29 01:01:44 alowe Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -12,6 +12,18 @@
   )
 ; (roll (roll (roll '(a b c))))
 ; (progn (setq a '(a b c)) (roll a))
+
+(defmacro roll-1 (l)
+  "destructively roll LIST as a ring"
+  (if (symbolp l)
+      `(setq ,l (nconc (last ,l) (butlast ,l)))
+    `(nconc (last ,l) (butlast ,l)))
+  )
+; (roll-1 '(a b c))
+; (progn (setq z '(a b c))  (roll-1 z))
+; (roll '(a b c))
+; (roll (roll (roll '(a b c))))
+; (let ((a '(a b c))) (roll a))
 
 (defun roll-search (a pat displayfn i)
   (position pat a 

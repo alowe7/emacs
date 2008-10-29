@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.48 2008-09-27 22:15:09 slate Exp $")
+ "$Id: post-dired.el,v 1.49 2008-10-29 01:01:44 alowe Exp $")
 
 (require 'dired-advice)
 (require 'ctl-backslash)
@@ -360,7 +360,7 @@ see `file-assoc-list'"
 (define-key ctl-x-v-map "l" 'dired-cvs-log)
 (define-key ctl-x-v-map "u" 'dired-cvs-update)
 
-(define-key ctl-\\-map  ""  'diff-marked-files)
+(define-key ctl-\\-map  "d"  'diff-marked-files)
 
 ; turns out this interacts negatively with clearcase-hook-dired-mode-hook.
 (unless (boundp 'clearcase-hook-dired-mode-hook)
