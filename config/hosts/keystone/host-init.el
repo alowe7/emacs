@@ -1,11 +1,14 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.13 2008-09-27 22:15:09 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.14 2008-11-13 03:00:13 noah Exp $")
+
+(tool-bar-mode -1)
+(menu-bar-mode -1)
 
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
 (setq initial-frame-alist
-      `((top . 40)
- 	(left . 0)
+      `((top . 320)
+ 	(left . 400)
  	(width . 142)
  	(height . 30)
 	(background-mode . light)
@@ -68,12 +71,12 @@
 ; (setq load-path (remove-if '(lambda (x) (string-match "^/x" x)) load-path))
 
 ; man don't work with default path
-(load-library "post-man")
+; xxx (load-library "post-man")
 (defvar mandirs (catlist (getenv "MANPATH") ?;))
 
-(setq font-lock-support-mode 'lazy-lock-mode)
-(add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))
-(add-hook 'java-mode-hook (lambda () (lazy-lock-mode)))
+; xxx (setq font-lock-support-mode 'lazy-lock-mode)
+; xxx (add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))
+; xxx (add-hook 'java-mode-hook (lambda () (lazy-lock-mode)))
 
 ; use working versions. will this stuff ever stabilize?
 (let ((r '(
@@ -167,8 +170,8 @@
 (scan-file-p "~/.private/.xdbrc")
 
 ; todo: get to the bottom of this
-(add-to-list 'hooked-preloaded-modules "man")
-(load-library "post-man")
+; xxx (add-to-list 'hooked-preloaded-modules "man")
+; xxx (load-library "post-man")
 
 ; this is a problem..
 (defun perl-font-lock-syntactic-keywords ()  perl-font-lock-syntactic-keywords) 
@@ -180,5 +183,5 @@
 (load-library "locate")
 
 (add-to-load-path-p "/z/db" t)
-(require 'zt-loads)
+;(require 'zt-loads)
 
