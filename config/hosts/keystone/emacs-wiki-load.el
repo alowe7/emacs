@@ -1,5 +1,5 @@
 (put 'emacs-wiki-load 'rcsid
- "$Id: emacs-wiki-load.el,v 1.3 2008-09-27 21:49:35 keystone Exp $")
+ "$Id: emacs-wiki-load.el,v 1.4 2008-11-14 00:10:30 noah Exp $")
 
 ;???
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/emacs-wiki")
@@ -18,6 +18,6 @@
     (error (debug)))
   )
 
-(define-key emacs-wiki-mode-map (vector 'RET) 'maybe-emacs-wiki-follow-name-at-point)
+(define-key emacs-wiki-mode-map "\r" 'maybe-emacs-wiki-follow-name-at-point)
 
 (provide 'emacs-wiki-load)
