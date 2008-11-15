@@ -1,5 +1,5 @@
 (put 'people 'rcsid
- "$Id: people.el,v 1.2 2008-10-29 01:01:44 alowe Exp $")
+ "$Id: people.el,v 1.3 2008-11-15 03:05:19 alowe Exp $")
 (require 'eval-utils)
 
 (chain-parent-file t)
@@ -7,7 +7,7 @@
 
 
 ; this just needs to be more context sensitive...
-(defvar *ows-contact-file* (expand-file-name "~/n/overwatch-phone.csv"))
+(defvar *ows-contact-file* (expand-file-name "~/n/overwatch-phone-list-081111.csv"))
 
 ; what's the best way to lazy eval on first use?
 ; (defvar *dscm-database* 
