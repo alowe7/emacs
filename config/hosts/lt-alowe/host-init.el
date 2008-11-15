@@ -1,5 +1,8 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.7 2008-10-29 01:01:44 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.8 2008-11-15 20:45:23 alowe Exp $")
+
+(tool-bar-mode -1)
+(menu-bar-mode -1)
 
 (setq default-fontspec
       (default-font 
