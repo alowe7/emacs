@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.14 2008-11-13 03:00:13 noah Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.15 2008-11-15 22:11:38 noah Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -112,14 +112,12 @@
 
 ; defaults
 (setq *gpg-command* "/usr/local/bin/gpg.exe")
-;(setq *gpg-default-file*  "e:/home/alowe/.private/wink")
-(setq *gpg-default-file*  "h:/wink")
 
-; keyrings on removable compact flash card
-;(setq *gpg-default-homedir*  "e:/home/alowe/.gnupg")
-;(setq *gpg-default-homedir*  "h:/.gnupg")
-(setq *gpg-default-homedir*  "k:/home/alowe/.gnupg")
-; (setq *gpg-default-homedir*  "~/.gnupg")
+; content on skull & crossbones
+(setq *gpg-default-file*  "f:/wink")
+
+; keyrings on gizmo
+(setq *gpg-default-homedir*  "j:/home/a/.gnupg")
 
 (setq *gpg-encode-target* "Andrew")
 (setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
