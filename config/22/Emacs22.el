@@ -1,5 +1,5 @@
-(put 'Emacs21 'rcsid
- "$Id: Emacs22.el,v 1.1 2007-09-29 20:58:00 b Exp $")
+(put 'Emacs22 'rcsid
+ "$Id: Emacs22.el,v 1.2 2008-11-28 18:04:17 alowe Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -79,3 +79,5 @@
 	)
   )
 
+; this fixes a problem in  Man-getpage-in-background where it tries to use cmdproxy to run shell script
+(setq shell-file-name "sh")

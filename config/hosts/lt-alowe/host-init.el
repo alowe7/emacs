@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.8 2008-11-15 20:45:23 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.9 2008-11-28 18:04:17 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -128,7 +128,7 @@
 ; this shortens the timeout for \\localdir\file being interpreted as \\host\file
 (mount-hook-file-commands)
 
-(defvar grep-command "grep -n -i -e ")
+(defvar grep-command "grep -nH -i -e ")
 
 (setq *advise-help-mode-finish* t)
 
