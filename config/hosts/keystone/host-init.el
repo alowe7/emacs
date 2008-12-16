@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.15 2008-11-15 22:11:38 noah Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.16 2008-12-16 23:52:46 noah Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -181,5 +181,6 @@
 (load-library "locate")
 
 (add-to-load-path-p "/z/db" t)
-;(require 'zt-loads)
+
+(require 'zt-loads)
 
