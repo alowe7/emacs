@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.18 2008-03-06 02:40:04 alowe Exp $")
+ "$Id: os-init.el,v 1.19 2008-12-21 20:05:22 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -282,8 +282,8 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 
 
 (defun md (&optional arg) (interactive "P") 
-  (explore  (if arg 
-		(read-file-name "Directory to browse: " (pwd) nil t)))
+  (explore (if arg 
+	       (read-file-name "Directory to browse: " (pwd) nil t) "."))
   )
 
 (defun explore-file (f) (interactive "ffile: ")
