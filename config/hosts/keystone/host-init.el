@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.16 2008-12-16 23:52:46 noah Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.17 2008-12-27 03:46:31 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -7,8 +7,8 @@
 (setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
 
 (setq initial-frame-alist
-      `((top . 320)
- 	(left . 400)
+      `((top . 116)
+ 	(left . 133)
  	(width . 142)
  	(height . 30)
 	(background-mode . light)
