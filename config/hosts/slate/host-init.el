@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.9 2008-09-27 22:15:09 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.10 2009-01-23 23:10:08 slate Exp $")
 
 ; enoch..tombstone..slate
 
@@ -76,3 +76,5 @@
 
 (add-to-load-path-p "/z/db" t)
 (require 'zt-loads)
+
+(add-to-list 'warning-suppress-types '(undo discard-info))
