@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.17 2008-12-27 03:46:31 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.18 2009-03-20 22:58:37 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -175,7 +175,7 @@
 (defun perl-font-lock-syntactic-keywords ()  perl-font-lock-syntactic-keywords) 
 
 (require 'noted)
-(require  'locations)
+(require 'locations)
 (require 'emacs-wiki-load)
 
 (load-library "locate")
