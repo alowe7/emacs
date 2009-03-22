@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.10 2009-01-23 23:10:08 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.11 2009-03-22 20:52:25 slate Exp $")
 
 ; enoch..tombstone..slate
 
@@ -29,7 +29,8 @@
 (setq grep-command "grep -n -i -e ")
 (setq jit-lock-stealth-time 1)
 
-(defvar default-font "-*-lucida-medium-r-normal-*-14-140-*-*-*-*-iso8859-1")
+; (defvar default-font "-*-lucida-medium-r-normal-*-14-140-*-*-*-*-iso8859-1")
+(defvar default-font "-adobe-new century schoolbook-medium-r-normal--16-154-75-75-p-0-iso8859-2")
 
 (defun lframe ()
   (interactive)
@@ -77,4 +78,9 @@
 (add-to-load-path-p "/z/db" t)
 (require 'zt-loads)
 
+(defvar warning-suppress-types nil)
 (add-to-list 'warning-suppress-types '(undo discard-info))
+
+(setq user-mail-address "l7@alowe.com")
+
+; mail-default-directory

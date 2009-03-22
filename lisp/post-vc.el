@@ -1,5 +1,5 @@
 (put 'post-vc 'rcsid
- "$Id: post-vc.el,v 1.16 2006-07-15 02:07:34 tombstone Exp $")
+ "$Id: post-vc.el,v 1.17 2009-03-22 20:52:25 slate Exp $")
 
 (require 'cat-utils) ;; just for chomp
 
@@ -34,12 +34,13 @@ else if ARG, read file name. "
 	 (chain (and base (get base (quote rcsid-chain))))
 	 )
     (if (interactive-p)
-	(message (if id
-		     (chomp (pp (nconc (list id) chain)))
-		   (format "no rcsid for library %s" f)
-		   ))
-      id)
-    )
+	(if id
+	    (message (chomp (pp (nconc (list id) chain))))
+	  (if (y-or-n-p (format "no rcsid for library %s.  identify?" f))
+	      (identify))
+	  )
+      )
+    id)
   )
 
 (require 'advice)
