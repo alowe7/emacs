@@ -88,7 +88,10 @@ with optional FAMILY, changes it"
     )
   )
 
-;(default-font nil "*" "17")
+(defun reset-font () (interactive)
+  (default-font "Arial" "20" "*")
+  )
+; (reset-font)
 
 (defun font-1 (arg) (interactive "p")
   (default-font (default-font-family) (- (default-pointsize) (or arg 1)) nil)

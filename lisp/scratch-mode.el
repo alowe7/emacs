@@ -1,5 +1,5 @@
 (put 'scratch-mode 'rcsid
- "$Id: scratch-mode.el,v 1.17 2008-09-01 14:35:41 alowe Exp $")
+ "$Id: scratch-mode.el,v 1.18 2009-08-15 17:40:27 alowe Exp $")
 
 (require 'ctl-ret)
 (require 'buff)
@@ -77,6 +77,12 @@ the default mode used is `major-mode'
 "
   (interactive "P")
   (switch-to-buffer (get-scratch-buffer arg)))
+
+(defun switch-to-new-scratch-buffer-other-window (&optional arg)
+  "`get-scratch-buffer' and switch to it in another window
+"
+  (interactive "P")
+  (switch-to-buffer-other-window (get-scratch-buffer arg)))
 
 
 (defun yank-to-new-scratch-buffer (&optional arg)

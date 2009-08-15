@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.9 2008-11-28 18:04:17 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.10 2009-08-15 17:40:27 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -128,7 +128,7 @@
 ; this shortens the timeout for \\localdir\file being interpreted as \\host\file
 (mount-hook-file-commands)
 
-(defvar grep-command "grep -nH -i -e ")
+(setq grep-command "grep -nH -i -e ")
 
 (setq *advise-help-mode-finish* t)
 
@@ -155,9 +155,12 @@
 (autoload 'calendar "mycal")
 
 ; force post-load hooks now... tbd find a better way
-(load-library "people")
-(load-library "locate")
-(load-library "dired")
+; (load-library "people")
+; (load-library "locate")
+; (load-library "dired")
+; (debug)
+; (setq *debug-post-load-hook* t)
+
 
 (defvar *path-sep* ";")
 
@@ -236,3 +239,7 @@
 ; for now...
 (require 'cs-mode)
 (add-auto-mode "\\.cs$" 'cs-mode)
+
+
+
+; (add-to-list 'warning-suppress-types '(undo discard-info))

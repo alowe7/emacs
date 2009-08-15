@@ -1,16 +1,42 @@
 (put 'zip-view 'rcsid 
- "$Id: zip-view.el,v 1.2 2008-01-23 05:51:11 alowe Exp $")
+ "$Id: zip-view.el,v 1.3 2009-08-15 17:40:27 alowe Exp $")
+(require 'whencepath)
+
+(cond 
+ ((whence "pkzip")
+  (setq *unzip-command* "pkzip"
+	*unzip-view-options* "-view"
+	*zip-command* "pkzip"
+	*zip-extract-options* "-extract" 
+	*zip-add-options* "-add")
+  )
+ (t
+  (when (whence "zip")
+    (setq *zip-command* "zip"
+	  *zip-add-options* nil))
+  (when (whence "unzip")
+    (setq *unzip-command* "unzip"
+	  *zip-extract-options* nil
+	  *unzip-view-options* "-l")
+    )
+  )
+ )
 
 (defun zip-view (f) (interactive)
+
+  (unless (boundp '*unzip-command*)
+    (error "*unzip-command* not bound.  please install a zipper"))
   (let* ((f (if (string-match " " f) (gsn f) f))
 	 (b (zap-buffer (format "%s *zip*" f))))
 
-    (call-process "pkzip" nil b nil "-view" 
+    (debug)
+
+    (call-process *unzip-command* nil b nil *unzip-view-options* 
 		  (replace-regexp-in-string
+		   " " "\\ " 
 		   (w32-canonify 
 		    (file-name-sans-extension f)
-		    ) " " "\\ " 
-				
+		    )	
 		   )
 		  )
     (pop-to-buffer b)
@@ -23,9 +49,13 @@
 
 
 (defun zip-extract (f) (interactive)
+
+  (unless (boundp '*unzip-command*)
+    (error "*unzip-command* not bound.  please install a zipper"))
+
   (let* ((b (zap-buffer (format "%s *zip*" f))))
 
-    (call-process "pkzip" nil b nil "-extract" 
+    (call-process *unzip-command* nil b nil  *zip-extract-options*
 		  (replace-in-string " " "\\ " 
 				     (w32-canonify 
 				      (file-name-sans-extension f)
@@ -42,10 +72,13 @@
 
 
 (defun zip-add (zipfile &rest files) (interactive)
+  (unless (boundp '*zip-command*)
+    (error "*zip-command* not bound.  please install a zipper"))
+
   (let* ((b (zap-buffer (format "%s *zip*" zipfile))))
 
     (debug)
-    (apply 'call-process (nconc (list "pkzip" nil b nil "-add" 
+    (apply 'call-process (nconc (list *zip-command* nil b nil *zip-add-options*
 				      (replace-in-string " " "\\ " 
 							 (w32-canonify 
 							  (file-name-sans-extension zipfile)

@@ -1,5 +1,5 @@
 (put 'post-vc 'rcsid
- "$Id: post-vc.el,v 1.17 2009-03-22 20:52:25 slate Exp $")
+ "$Id: post-vc.el,v 1.18 2009-08-15 17:40:27 alowe Exp $")
 
 (require 'cat-utils) ;; just for chomp
 
@@ -50,7 +50,7 @@ else if ARG, read file name. "
 		    first activate)
   ""
 
-  (turn-on-lazy-lock)
+  (turn-on-font-lock)
   (setq tab-width 4)
   (recenter)
   )

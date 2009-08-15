@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.19 2008-12-21 20:05:22 alowe Exp $")
+ "$Id: os-init.el,v 1.20 2009-08-15 17:40:27 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -42,13 +42,15 @@ optional DRIVE says which drive to use. "
    ((string= f "/") "\\")
    (t
     (replace-regexp-in-string  "/" "\\\\" 
-			       (if sysdrive (expand-file-name 
-					     (substitute-in-file-name
-					      (chomp f ?/))
-					     (and (string* sysdrive) (concat sysdrive "/")))
-				 (substitute-in-file-name
-				  (chomp f ?/))
-				 )
+			       (replace-regexp-in-string  "//" "\\\\\\\\" 
+							  (if sysdrive (expand-file-name 
+									(substitute-in-file-name
+									 (chomp f ?/))
+									(and (string* sysdrive) (concat sysdrive "/")))
+							    (substitute-in-file-name
+							     (chomp f ?/))
+							    )
+							  )
 			       )
     )
    )
@@ -143,13 +145,15 @@ if MIXED is 0, then ignore letter drive names.
 
 (defvar explore-hooks nil "hooks to run after exploring a directory")
 
+; (add-hook 'explore-hooks 'lower-frame)
+
 (defun explore (&optional f)  
   "w32 explore file
 " 
   (interactive   
    (list (read-file-name* "explore (%s): " (thing-at-point (quote filename)))))
 
-  (let ((d  (w32-canonify (or f default-directory))))
+  (let ((d   (replace-regexp-in-string "\\\\" "\\\\\\\\" (w32-canonify (or f default-directory)))))
     (shell-command (format "explorer %s" d))
     (run-hooks 'explore-hooks)
     )
@@ -280,16 +284,15 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   (dired dir)
   )
 
-
-(defun md (&optional arg) (interactive "P") 
-  (explore (if arg 
-	       (read-file-name "Directory to browse: " (pwd) nil t) "."))
+(defun md-get-arg (&optional arg)
+  "."
   )
 
-(defun explore-file (f) (interactive "ffile: ")
-  (shell-command (format "explorer %s" (file-name-nondirectory f)))
-  (lower-frame)
+(defun md (&optional arg) 
+  (interactive "P") 
+  (explore (md-get-arg arg))
   )
+
 
 (defun set-cmd-prompt-regexp () (interactive)
   (setq comint-prompt-regexp "^[a-zA-Z]:.*>")
@@ -1047,3 +1050,6 @@ keys for the alist include:
 
 (provide 'w32)
 
+(add-file-association "key" '(lambda (f) (interactive) (let ((key (comint-read-noecho "key: " t))) (decrypt-find-file f key))))
+(add-file-association "htm" 'html-view)
+(add-file-association "html" 'html-view)

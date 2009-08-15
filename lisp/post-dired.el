@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.49 2008-10-29 01:01:44 alowe Exp $")
+ "$Id: post-dired.el,v 1.50 2009-08-15 17:40:27 alowe Exp $")
 
 (require 'dired-advice)
 (require 'ctl-backslash)
@@ -232,8 +232,6 @@ see `file-assoc-list'"
      (cons type handler)
      file-assoc-list))
   )
-
-(add-file-association "key" '(lambda (f) (interactive) (let ((key (comint-read-noecho "key: " t))) (decrypt-find-file f key))))
 
 
 (defun file-association-1 (f &optional notrim)

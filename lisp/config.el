@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.57 2008-09-27 22:15:09 slate Exp $")
+ "$Id: config.el,v 1.58 2009-08-15 17:40:27 alowe Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -113,6 +113,8 @@ no errors if files don't exist.
     )
 
   ad-do-it
+
+;; tbd -- this has a bug if the hooked module has been required inside (eval-when-compile (require ...))
 
   (unless *disable-load-hook*
     (and *debug-post-load-hook* (debug))

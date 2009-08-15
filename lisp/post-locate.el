@@ -1,5 +1,5 @@
 (put 'post-locate 'rcsid 
- "$Id: post-locate.el,v 1.13 2008-10-29 01:01:44 alowe Exp $")
+ "$Id: post-locate.el,v 1.14 2009-08-15 17:40:27 alowe Exp $")
 
 (require 'fb)
 (require 'qsave)
@@ -156,3 +156,42 @@
   )
 (define-key ctl-/-map "s" 'grep-in-locate-files-like-under)
 
+
+(when (fboundp 'md-get-arg)
+  (if (ad-is-advised 'md-get-arg) (ad-unadvise 'md-get-arg))
+
+  (defadvice md-get-arg (after 
+			 hook-md-get-arg
+			 last activate)
+    ""
+
+    (cond 
+     ((memq major-mode '(fb-mode))
+      (let* ((arg (ad-get-arg 0)))
+	(setq ad-return-value 
+	      (if arg (file-name-directory (fb-get-filename))
+		(fb-get-filename))
+	      )
+	)
+      )
+     ((memq major-mode '(bookmark-bmenu-mode))
+      (let* ((arg (ad-get-arg 0)))
+	(setq ad-return-value 
+	      (if arg (file-name-directory (bookmark-get-filename (bookmark-bmenu-bookmark)))
+		(bookmark-get-filename (bookmark-bmenu-bookmark)))
+	      )
+	)
+      )
+     )
+    )
+  )
+
+; (if (ad-is-advised 'md-get-arg) (ad-unadvise 'md-get-arg))
+
+(defun switch-to-locate-buffer-p ()
+  (interactive)
+  (let ((b (get-buffer "*Locate*")))
+    (and (buffer-live-p b) (switch-to-buffer b))
+    )
+  )
+(define-key ctl-/-map "" 'switch-to-locate-buffer-p)

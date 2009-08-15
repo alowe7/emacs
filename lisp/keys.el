@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.67 2008-10-29 01:01:44 alowe Exp $")
+ "$Id: keys.el,v 1.68 2009-08-15 17:40:27 alowe Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -261,7 +261,6 @@
 
 (define-key ctl-/-map "f" 'locate)
 (define-key ctl-/-map "" 'locate-with-filter)
-
 (define-key ctl-/-map "/" 'vars-like-with)
 
 (require 'cl)
