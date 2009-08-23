@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.10 2009-08-15 17:40:27 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.11 2009-08-23 21:37:55 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -108,7 +108,10 @@
 ; (require 'world-advice)
 
 ;; what a coincidence.  two machines same name
-(require 'xz-loads)
+; (require 'xz-loads)
+(load-library "people")
+(load-library "xz-loads")
+
 
 (scan-file-p "~/.private/.xdbrc")
 ;; (require 'proxy-autoconfig)
@@ -155,7 +158,6 @@
 (autoload 'calendar "mycal")
 
 ; force post-load hooks now... tbd find a better way
-; (load-library "people")
 ; (load-library "locate")
 ; (load-library "dired")
 ; (debug)
@@ -227,9 +229,6 @@
   )
 (define-key ctl-RET-map "\C-s" 'isearch-thing-at-point)
 
-(load-library "xz-loads")
-
-
 (setq sgml-default-doctype-name  "-//W3C//DTD XHTML 1.0 Transitional//EN")
 (setq sgml-catalog-files '("/a/lib/DTD/catalog"))
 (add-auto-mode "\\.csproj$" 'xml-mode)
@@ -243,3 +242,7 @@
 
 
 ; (add-to-list 'warning-suppress-types '(undo discard-info))
+
+; (setenv "PATH" (concat (getenv "PATH") ";c:\\usr\\local\\lib\\tw-3.01\\bin"))
+
+(setenv "JAVA_HOME" "c:/Program Files/Java/jre1.6.0_03")

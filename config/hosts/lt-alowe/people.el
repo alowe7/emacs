@@ -1,5 +1,5 @@
 (put 'people 'rcsid
- "$Id: people.el,v 1.3 2008-11-15 03:05:19 alowe Exp $")
+ "$Id: people.el,v 1.4 2009-08-23 21:37:55 alowe Exp $")
 (require 'eval-utils)
 
 (chain-parent-file t)
@@ -25,28 +25,33 @@
 	 (n (length l))
 	 )
 
-    (cond ((zerop n) (message "no matches"))
-	  ((= n 1) (message (car l)))
-	  (t
-	   (let ((b (zap-buffer "*people*" 'people-mode)))
-	     (loop for x in l do (insert x "\n"))
+    (cond 
+     ((zerop n) (message "no matches"))
+; singleton hit and target buffer is not already showing
+     ((and (= n 1)
+	   (not (let ((b (get-buffer "*people*"))) (and (buffer-live-p b) (get-buffer-window-list b)))))
+      (message (car l)))
+     (t
+      (let ((b (zap-buffer "*people*" 'people-mode)))
+	(loop for x in l do (insert x "\n"))
 
-	     ;; if result is one-line & buffer isn't already showing in a window, 
-	     ;; then message it.  otherwise, just display in buffer
-	     (let ((n (count-lines (point-min) (point-max))))
+	;; if result is one-line & buffer isn't already showing in a window, 
+	;; then message it.  otherwise, just display in buffer
+	(let ((n (count-lines (point-min) (point-max))))
 
-	       (beginning-of-buffer)
-	       (set-buffer-modified-p nil)
-	       (setq buffer-read-only t)
-	       (let ((w (get-buffer-window b)))
-		 (if w (select-window w)
-		   (switch-to-buffer b)))
-	       )
-	     )
-	   )
+	  (beginning-of-buffer)
+	  (set-buffer-modified-p nil)
+	  (setq buffer-read-only t)
+	  (let ((w (get-buffer-window b)))
+	    (if w (select-window w)
+	      (switch-to-buffer b)))
 	  )
+	)
+      )
+     )
     )
   )
+
 
 ; (find-person "george")
 

@@ -1,4 +1,4 @@
-(defvar *ant-command* "/usr/local/lib/apache-ant-1.6.5/bin/ant ")
+(defvar *ant-command* "/usr/local/lib/apache-ant-1.6.5/bin/ant")
 (defvar *make-command* "make -k ")
 (setq compile-command *ant-command*)
 (make-variable-buffer-local 'compile-command)
