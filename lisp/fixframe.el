@@ -1,5 +1,5 @@
 (put 'fixframe 'rcsid
- "$Id: fixframe.el,v 1.7 2006-06-08 16:11:18 alowe Exp $")
+ "$Id: fixframe.el,v 1.8 2009-08-28 23:24:35 alowe Exp $")
 
 (defun fixed-font ()
   (if (and (eq window-system 'x) (fboundp 'x-list-fonts))
@@ -11,7 +11,8 @@
 
   ; just make one up
   ;    "-*-Courier-*-r-*-*-18-normal-*-*-*-*-*-*-"
-    "-*-Lucida Console-normal-r-*-*-15-normal-*-*-*-*-*-*-"
+    ; "-*-Lucida Console-normal-r-*-*-15-normal-*-*-*-*-*-*-"
+    "-*-Consolas-normal-r-*-*-15-normal-*-*-*-*-*-*-"
     )
   )
 

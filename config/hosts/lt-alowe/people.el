@@ -1,5 +1,5 @@
 (put 'people 'rcsid
- "$Id: people.el,v 1.4 2009-08-23 21:37:55 alowe Exp $")
+ "$Id: people.el,v 1.5 2009-08-28 23:24:35 alowe Exp $")
 (require 'eval-utils)
 
 (chain-parent-file t)
@@ -30,7 +30,7 @@
 ; singleton hit and target buffer is not already showing
      ((and (= n 1)
 	   (not (let ((b (get-buffer "*people*"))) (and (buffer-live-p b) (get-buffer-window-list b)))))
-      (message (car l)))
+      (message (kill-new (car l))))
      (t
       (let ((b (zap-buffer "*people*" 'people-mode)))
 	(loop for x in l do (insert x "\n"))

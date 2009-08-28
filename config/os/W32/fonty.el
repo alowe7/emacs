@@ -1,5 +1,7 @@
-;; jean-luc fonty
+(put 'fonty 'rcsid
+ "$Id: fonty.el,v 1.6 2009-08-28 23:24:35 alowe Exp $")
 
+;; jean-luc fonty
 
 (defun parse-font (font &optional attribute)
   (let* ((font-attributes '(

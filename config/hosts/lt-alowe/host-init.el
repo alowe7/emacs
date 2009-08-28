@@ -1,79 +1,81 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.11 2009-08-23 21:37:55 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.12 2009-08-28 23:24:35 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
-(setq default-fontspec
-      (default-font 
-	(setq default-font-family "tahoma")
-	(setq default-style "normal")
-	(setq default-point-size 16))
-      )
-; "-outline-tahoma-normal-r-normal-normal-16-120-96-96-p-70-*-"
+(/*
+ (setq default-fontspec
+       (default-font 
+	 (setq default-font-family "tahoma")
+	 (setq default-style "normal")
+	 (setq default-point-size 16)
+	 )
+       )
+ ;; ; "-outline-tahoma-normal-r-normal-normal-16-120-96-96-p-70-*-"
 
-(setq initial-frame-alist
-      `((top . 79)
- 	(left . 100)
- 	(width . 100)
- 	(height . 32)
-	(background-mode . light)
-	(cursor-type . box)
-	(border-color . "black")
-	(cursor-color . "black")
-	(mouse-color . "black")
-	(background-color . "white")
-	(foreground-color . "black")
-	(vertical-scroll-bars)
-	(internal-border-width . 0)
-	(border-width . 2)
-	(font . ,default-fontspec)
-	(menu-bar-lines . 0))
-      )
+ (setq initial-frame-alist
+       `((top . 79)
+	 (left . 100)
+	 (width . 100)
+	 (height . 32)
+	 (background-mode . light)
+	 (cursor-type . box)
+	 (border-color . "black")
+	 (cursor-color . "black")
+	 (mouse-color . "black")
+	 (background-color . "white")
+	 (foreground-color . "black")
+	 (vertical-scroll-bars)
+	 (internal-border-width . 0)
+	 (border-width . 2)
+	 (font . ,default-fontspec)
+	 (menu-bar-lines . 0))
+       )
 
-(setq default-frame-alist  initial-frame-alist)
+ (setq default-frame-alist  initial-frame-alist)
 
-; re-added top and left.
-; see frames.el  
-(setq *clone-frame-parameters* '(
-				  ; window-id
+  ; re-added top and left.
+  ; see frames.el  
+ (setq *clone-frame-parameters* '(
+  ; window-id
 				  top
 				  left
-				  ; buffer-list
-				  ; minibuffer
-				   width
-				   height
-				  ; name
-				   display
-				   visibility
-				  ; icon-name
-				  ; unsplittable
-				  ; modeline
-				   background-mode
-				   display-type
-				   scroll-bar-width
-				   cursor-type
-				  ; auto-lower
-				  ; auto-raise
-				   icon-type
-				  ; title
-				  ; buffer-predicate
-				   tool-bar-lines
-				   menu-bar-lines
-				   line-spacing
-				   screen-gamma
-				   border-color
-				   cursor-color
-				   mouse-color
-				   background-color
-				   foreground-color
-				   vertical-scroll-bars
-				   internal-border-width
-				   border-width
-				   font
-				   )
-)
-
+  ; buffer-list
+  ; minibuffer
+				  width
+				  height
+  ; name
+				  display
+				  visibility
+  ; icon-name
+  ; unsplittable
+  ; modeline
+				  background-mode
+				  display-type
+				  scroll-bar-width
+				  cursor-type
+  ; auto-lower
+  ; auto-raise
+				  icon-type
+  ; title
+  ; buffer-predicate
+				  tool-bar-lines
+				  menu-bar-lines
+				  line-spacing
+				  screen-gamma
+				  border-color
+				  cursor-color
+				  mouse-color
+				  background-color
+				  foreground-color
+				  vertical-scroll-bars
+				  internal-border-width
+				  border-width
+				  font
+				  )
+       )
+ )
 
 ; tweak load-path to use working versions if found. will this stuff ever stabilize?
 (loop for e in '(
@@ -203,7 +205,7 @@
 (setq wlog (expand-file-name "~/tw/wlog"))
 (setq wdirs (list "/z"))
 
-(setq Info-default-directory-list  '("/usr/share/info/" "c:/usr/local/lib/emacs-21.3/info/" "/usr/local/share/info/"))
+(setq Info-default-directory-list  '("/usr/share/info/" "c:/usr/local/lib/emacs-22.3/info/" "/usr/local/share/info/"))
 
 ; struggling with daylight savings time again
 ; (getenv "TZ")
