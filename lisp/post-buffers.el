@@ -1,6 +1,7 @@
 (put 'post-buffers 'rcsid
- "$Id: post-buffers.el,v 1.2 2009-03-22 20:52:25 slate Exp $")
+ "$Id: post-buffers.el,v 1.3 2009-10-03 22:03:16 alowe Exp $")
 
+; (require 'buffer-util)
 (require  'ctl-backslash)
 
 (define-key ctl-\\-map "\C-t" 'roll-buffer-list)
@@ -16,11 +17,3 @@
 
 (define-key ctl-\\-map "~" 'kill-buffers-not-modified)
 (define-key ctl-\\-map "!" 'kill-buffers-mode)
-
-
-
-
-
-
-
-
