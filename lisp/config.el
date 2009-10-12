@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.58 2009-08-15 17:40:27 alowe Exp $")
+ "$Id: config.el,v 1.59 2009-10-12 03:18:25 alowe Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -272,11 +272,15 @@ returns nil otherwise.
 
 ; we need to apply some here on first invocation, since some functions come preloaded.
 
-(defun post-wrap (f) 
+(defun post-load (f) 
   "load any post-* modules for module F"
   (interactive "smodule: ")
 ;  (debug)
   (load (format "post-%s" f) t t)
+  )
+
+(defun post-after-load (f)
+  (eval-after-load f (post-load f))
   )
 
 (defun load-list (pat)
@@ -443,6 +447,30 @@ see `locate-config-file'"
   (find-config-file "window-system-init")
   )
 
+
+;; this constructs a load path from lisp and site-lisp dirs under HOME, EMACSDIR and SHARE
+;; platform and host specific stuff come from config/hosts/HOSTNAME and config/os/UNAME
+
+; these go at the head of the list
+(condition-case err
+    (mapcar 'add-to-load-path
+     (nconc 
+      (and emacsdir (directory-files (concat emacsdir "/site-lisp") t "^[a-zA-Z]"))
+      (and share
+	   (nconc (directory-files (concat share "/site-lisp") t "^[a-zA-Z]")
+		  (list (concat share "/site-lisp"))))
+      )
+     )
+  (file-error t)
+  )
+
+; load any init files out there
+(and share
+     (let ((site-start.d (concat share "/site-lisp/site-start.d")))
+       (mapcar 'load (and (file-directory-p site-start.d) (get-directory-files site-start.d)))
+       )
+     )
+
 ; these go at the head of the list
 (mapcar 
  'add-to-load-path
@@ -456,26 +484,15 @@ see `locate-config-file'"
   )
  )
 
-; these go at the head of the list
-(condition-case err
-    (mapcar 'add-to-load-path
-     (nconc 
-      (and emacsdir (directory-files (concat emacsdir "/site-lisp") t "^[a-zA-Z]"))
-      (directory-files (concat share "/site-lisp") t "^[a-zA-Z]")
-      (list (concat share "/site-lisp"))
-      )
-     )
-  (file-error t)
-  )
 
 (condition-case x
     (loop for x in hooked-preloaded-modules
 	  do
 	  (or 
 	   (member
-	    `(,x (post-wrap ,x)) after-load-alist)
+	    `(,x (post-load ,x)) after-load-alist)
 	      (push 
-	       `(,x (post-wrap ,x)) after-load-alist))
+	       `(,x (post-load ,x)) after-load-alist))
 	  )
   ; (pop after-load-alist)
 
