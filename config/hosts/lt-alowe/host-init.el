@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.12 2009-08-28 23:24:35 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.13 2009-10-12 03:22:47 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -160,11 +160,8 @@
 (autoload 'calendar "mycal")
 
 ; force post-load hooks now... tbd find a better way
-; (load-library "locate")
-; (load-library "dired")
-; (debug)
-; (setq *debug-post-load-hook* t)
-
+(post-after-load "locate")
+(post-after-load "dired")
 
 (defvar *path-sep* ";")
 
@@ -248,3 +245,28 @@
 ; (setenv "PATH" (concat (getenv "PATH") ";c:\\usr\\local\\lib\\tw-3.01\\bin"))
 
 (setenv "JAVA_HOME" "c:/Program Files/Java/jre1.6.0_03")
+
+(setenv "ANT_HOME"  "/usr/local/lib/apache-ant-1.6.5")
+(defvar *ant-command* (substitute-in-file-name "$ANT_HOME/bin/ant "))
+(defvar *make-command* "make -k ")
+(setq compile-command *ant-command*)
+(make-variable-buffer-local 'compile-command)
+(set-default 'compile-command  *ant-command*)
+
+; advice won't work to tweak an interactive form
+(unless (and (boundp 'orig-compile) orig-compile)
+  (setq orig-compile (symbol-function 'compile)))
+(defun compile (command)
+  "hook compile to call make if default-directory contains a makefile, ant otherwise"
+  (interactive
+   (let ((compile-command
+	  (or (and (file-exists-p "Makefile") *make-command*) compile-command)))
+     (if (or compilation-read-command current-prefix-arg)
+	 (list (read-from-minibuffer "Compile command: "
+				     (eval compile-command) nil nil
+				     '(compile-history . 1)))
+       (list (eval compile-command)))))
+
+  (funcall orig-compile command)
+  )
+
