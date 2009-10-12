@@ -1,5 +1,5 @@
 (put 'post-cygwin 'rcsid
- "$Id: post-cygwin.el,v 1.1 2009-08-29 00:53:47 alowe Exp $")
+ "$Id: post-cygwin.el,v 1.2 2009-10-12 03:24:15 alowe Exp $")
 
 (require 'reg)
 (defvar *cygdrive-prefix* (reg-query "machine" "software/cygnus solutions/cygwin/mounts v2" "cygdrive prefix"))
@@ -21,8 +21,7 @@
 
 ; (parse-cygdrive-path "/cygdrive/e/scratch/gorp/river song.txt")
 ; (parse-cygdrive-path "e:/scratch/gorp/river song.txt")
-
-)
+; (parse-cygdrive-path "song.txt")
 
 (defadvice expand-file-name (around 
 			     hook-expand-file-name

@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.20 2009-08-15 17:40:27 alowe Exp $")
+ "$Id: os-init.el,v 1.21 2009-10-12 03:23:12 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -40,6 +40,8 @@ optional DRIVE says which drive to use. "
 
   (cond
    ((string= f "/") "\\")
+   ((string-match "\\(file:\\)?///\\(.\\)\|\\(.*\\)$" f)
+    (concat (match-string 2 f) ":" (match-string 3 f)))
    (t
     (replace-regexp-in-string  "/" "\\\\" 
 			       (replace-regexp-in-string  "//" "\\\\\\\\" 
@@ -55,6 +57,7 @@ optional DRIVE says which drive to use. "
     )
    )
   )
+; (w32-canonify "file:///C|/home/a/.private/proxy.pac")
 ;(w32-canonify "/a/b/c")
 ;(w32-canonify "/")
 (fset 'unc-canonify 'w32-canonify)

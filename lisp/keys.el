@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.68 2009-08-15 17:40:27 alowe Exp $")
+ "$Id: keys.el,v 1.69 2009-10-12 03:19:55 alowe Exp $")
 (require 'nums)
 
 ;; all key bindings
@@ -277,6 +277,8 @@
 
 (define-key ctl-RET-map "e" 'edit-bookmarks)
 (define-key ctl-RET-map "m" 'bookmark-set)
+
+(define-key ctl-RET-map "\C-w" 'command-history)
 
 (define-key ctl-/-map (vector (ctl ? )) 'myblog)
 (define-key ctl-/-map "g" 'grepblog)

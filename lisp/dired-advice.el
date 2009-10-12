@@ -1,5 +1,5 @@
 (put 'dired-advice 'rcsid 
- "$Id: dired-advice.el,v 1.7 2002-01-10 18:47:23 cvs Exp $")
+ "$Id: dired-advice.el,v 1.8 2009-10-12 03:19:26 alowe Exp $")
 
 (require 'advice)
 
@@ -13,13 +13,15 @@
 			   first activate)
   ""
 
+  (let ((dir (ad-get-arg 0)))
   ; make sure host exists
-  (host-ok (ad-get-arg 0))
+    (host-ok dir)
   ; otherwise, just do it.
-  ad-do-it
-)
+    ad-do-it
+    )
+  )
 
-; (ad-unadvise 'dired-noselect)
+; (if (ad-is-advised 'dired-noselect) (ad-unadvise 'dired-noselect))
 ; (dired "//deadite/C")
 
 (defadvice find-file-noselect (around 
