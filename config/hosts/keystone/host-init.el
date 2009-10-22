@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.18 2009-03-20 22:58:37 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.19 2009-10-22 06:32:47 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -107,17 +107,15 @@
 ; and some lisp here too
 (add-to-load-path-p "/z/pl" t)
 
-; gpg is here
-(add-to-load-path-p "/z/gpg" t)
-
 ; defaults
 (setq *gpg-command* "/usr/local/bin/gpg.exe")
 
 ; content on skull & crossbones
-(setq *gpg-default-file*  "f:/wink")
+(setq *gpg-default-file*  "g:/wink")
 
-; keyrings on gizmo
-(setq *gpg-default-homedir*  "j:/home/a/.gnupg")
+; moved keyrings from gizmo to home
+; (setq *gpg-default-homedir*  "j:/home/a/.gnupg")
+(setq *gpg-default-homedir*  (expand-file-name "~/.private/.gnupg"))
 
 (setq *gpg-encode-target* "Andrew")
 (setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
@@ -151,7 +149,7 @@
 ; (setq Info-default-directory-list '())
 ; (let (Info-dir-contents Info-directory-list) (info "/usr/share/info/dir"))
 
-(setq Info-default-directory-list '("/usr/share/info" "/usr/share/emacs/info" "/usr/local/info" "/usr/local/lib/emacs-21.3/info"))
+(setq Info-default-directory-list '("/usr/share/info" "/usr/share/emacs/info" "/usr/local/info" "/usr/local/lib/emacs-22.3/info" "/usr/local/lib/emacs-21.3/info"))
 (setq Info-directory-list  Info-default-directory-list)
 
 (defun flush-info-cache (dir)
@@ -183,4 +181,8 @@
 (add-to-load-path-p "/z/db" t)
 
 (require 'zt-loads)
+(require 'xz-loads)
 
+(setq dired-dnd-protocol-alist nil)
+
+(setq comint-use-prompt-regexp t)
