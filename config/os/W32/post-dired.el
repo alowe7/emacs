@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid
- "$Id: post-dired.el,v 1.7 2009-10-12 03:23:59 alowe Exp $")
+ "$Id: post-dired.el,v 1.8 2009-11-08 22:38:08 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -42,7 +42,7 @@
 
 ;; special case for disambiguation of multiple drive letters 
 (defadvice expand-file-name (around 
-			     hook-expand-file-name
+			     w32-hook-expand-file-name
 			     first activate)
   ""
 

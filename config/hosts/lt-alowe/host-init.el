@@ -1,8 +1,10 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.13 2009-10-12 03:22:47 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.14 2009-11-08 22:38:08 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+; (tooltip-mode -1)
+(setq tooltip-use-echo-area t)
 
 (/*
  (setq default-fontspec
@@ -269,4 +271,7 @@
 
   (funcall orig-compile command)
   )
+
+(define-key isearch-mode-map "\M-y" (car kill-ring))
+
 
