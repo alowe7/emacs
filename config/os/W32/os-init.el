@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.21 2009-10-12 03:23:12 alowe Exp $")
+ "$Id: os-init.el,v 1.22 2009-11-13 04:08:22 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -1049,6 +1049,38 @@ keys for the alist include:
 	)
   ;       (t (or (read-coding-system (format "(%s): " buffer-file-coding-system)) buffer-file-coding-system))
   (find-file-force-refresh)
+  )
+
+;; error handler to catch situation where autoload fails because default-directory is not on *systemdrive*
+;; see make-autoloads
+
+(setq command-error-function  'my-command-error-function)
+; (setq debug-on-error nil)
+(defun my-command-error-function (data context caller)
+  (cond 
+   ((and (eq (car data) 'file-error)
+	 (string= (cadr data) "Cannot open load file")
+	 (not (let* ((thisdrive (car (split (expand-file-name default-directory) "/"))))
+		(string= (upcase thisdrive) (upcase *systemdrive*)))))
+  ; try again under system drive and continue
+  ; temporarily disable command-error-function to avoid infinite loop in case there's something else wrong
+    (let ((default-directory *systemdrive*)
+	  command-error-function)
+      (load (caddr data))
+  ; tbd unwind and retry
+      (message "try again")
+      ))
+
+   ;; else should really chain to previous handler, including debug-on-error
+   ;; anyway, should either rethrow or debug
+
+    (debug-on-error
+     (debug)
+    )
+
+   (t
+    (apply 'error (list data context caller)))
+   )
   )
 
 (provide 'w32)
