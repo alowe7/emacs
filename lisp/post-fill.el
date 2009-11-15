@@ -1,5 +1,5 @@
 (put 'post-fill 'rcsid
- "$Id: post-fill.el,v 1.4 2009-10-12 03:20:30 alowe Exp $")
+ "$Id: post-fill.el,v 1.5 2009-11-15 02:12:23 alowe Exp $")
 
 ;; moved from w32
 
@@ -13,6 +13,13 @@
 " nil t))
 
   (fill-nonuniform-paragraphs from to nil)
+  )
+
+(defun soft-fill-paragraph ()
+  (interactive)
+  (let ((r (bounds-of-thing-at-point 'paragraph)))
+    (soft-fill-region (1+ (car r)) (1- (cdr r)))
+    )
   )
 
 (defun soft-fill-region (from to)

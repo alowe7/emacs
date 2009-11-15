@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.22 2009-11-13 04:08:22 alowe Exp $")
+ "$Id: os-init.el,v 1.23 2009-11-15 02:12:23 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -94,8 +94,10 @@ if MIXED is 0, then ignore letter drive names.
   (insert (unix-canonify (expand-file-name (car kill-ring))))
   )
 
-(defun split-path (path)
-  (split (unix-canonify-path path) ":")
+(defun split-path (&optional path)
+  (let ((path (or path (getenv "PATH"))))
+    (split (unix-canonify-path path) ":")
+    )
   )
 
 (defun unix-canonify-env (name)

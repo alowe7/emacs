@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.20 2008-03-06 00:24:12 alowe Exp $
+;; $Id: perl-helpers.el,v 1.21 2009-11-15 02:12:23 alowe Exp $
 
 (require 'perl-command)
 
@@ -147,12 +147,14 @@
   )
 
 (defvar *perl-libs* 
-  (loop for val in '("lib" "sitelib")
-	with l=nil
-	nconc 
-	(split (perl-command-2 "map {print \"$_ \"} @INC"))
-	into l
-	finally return (mapcar 'expand-file-name l))
+  (remove-duplicates
+   (loop for val in '("lib" "sitelib")
+	 with l=nil
+	 nconc 
+	 (split (perl-command-2 "map {print \"$_ \"} @INC"))
+	 into l
+	 finally return (mapcar '(lambda (x) (downcase (expand-file-name x))) l))
+   :test 'string=)
   "list of known perl libraries"
   )
 

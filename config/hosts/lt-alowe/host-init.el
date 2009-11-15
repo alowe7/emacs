@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.14 2009-11-08 22:38:08 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.15 2009-11-15 02:12:23 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -116,12 +116,26 @@
 (load-library "people")
 (load-library "xz-loads")
 
+(/*
+  ; todo: be smarter about using http_proxy with w3m
+ (scan-file-p "~/.private/.xdbrc")
+  ; (string-match (i2n myIP) myIP)
+  ; (isinnet myIP "10.0.0.0/255")
+  ; (isinnet myIP "192.168.1.0/255.255.255.0")
+ )
 
-(scan-file-p "~/.private/.xdbrc")
-;; (require 'proxy-autoconfig)
-;; (if (let ((ip (myIpAddress)))
-;;       (or (isInNet "10.0.0.0/255" ip) (isInNet "10.0.0.0/255" ip)))
-;; ...)
+(add-to-load-path  "/z/el" t)
+(require 'proxy-autoconfig)
+
+(defvar myIpAddress (myIpAddress))
+(if (isInNet myIpAddress "172.17.0.0/255.255.0.0")
+  ; get money, do stuff
+    (if (scan-file-p (format "~/config/hosts/%s/.bashrc" (hostname)))
+	(setenv "HTTP_PROXY" (getenv "OWS_HTTP_PROXY")))
+
+  ; else
+  (setenv "HTTP_PROXY" nil)
+  )
 
 (setq *txdb-options* 
       (let (l)

@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.50 2009-08-15 17:40:27 alowe Exp $")
+ "$Id: post-dired.el,v 1.51 2009-11-15 02:12:23 alowe Exp $")
 
 (require 'dired-advice)
 (require 'ctl-backslash)
@@ -243,8 +243,8 @@ see `file-assoc-list'"
 (defun file-association (f &optional notrim)
   "find command associated with filetype of specified file"
   (interactive "sFile: ")
-  (let ((cmd (perl-command "plassoc" (concat "." (file-name-extension f)) )))
-    ;; sometimes command line args are appended to ocmd.
+  (let ((cmd (eval-shell-command (format "plassoc \".%s\"" (file-name-extension f)) )))
+    ;; sometimes command line args are appended to cmd.
     ;; we usually want just the executable
     (if cmd 
 	(if notrim cmd
@@ -253,6 +253,8 @@ see `file-assoc-list'"
       )
     )
   )
+; (file-association "foo.doc" t)
+; (file-association "foo.el" t)
 
 (defun dired-explore-file () (interactive)
   (explore-file (dired-get-filename))

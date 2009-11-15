@@ -1,5 +1,5 @@
 (put 'sh 'rcsid
- "$Id: sh.el,v 1.6 2008-09-27 21:49:35 keystone Exp $")
+ "$Id: sh.el,v 1.7 2009-11-15 02:12:23 alowe Exp $")
 
 (require 'typesafe)
 (require 'eval-utils)
@@ -368,7 +368,11 @@ value is a function cell taking the input line to parse.  returns nil if it coul
   )
 
 (defun scan-file-p (fn)
-  (if (-r fn) (scan-file fn)))
+  "scan FILE as a shell script.
+return nil if file does not exist or cannot be read.  else returns the filename
+"
+  (if (-r fn) (scan-file fn))
+  )
 
 
 ;;; some more hairy shell constructions
