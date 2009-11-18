@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.15 2009-11-15 02:12:23 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.16 2009-11-18 05:06:34 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -271,12 +271,16 @@
 
 ; advice won't work to tweak an interactive form
 (unless (and (boundp 'orig-compile) orig-compile)
-  (setq orig-compile (symbol-function 'compile)))
+  (fset 'orig-compile (symbol-function 'compile)))
 (defun compile (command)
-  "hook compile to call make if default-directory contains a makefile, ant otherwise"
+  "hook compile to call make if default-directory contains a makefile, ant otherwise
+see `orig-compile'
+"
   (interactive
    (let ((compile-command
-	  (or (and (file-exists-p "Makefile") *make-command*) compile-command)))
+	  (or 
+	   (cdr (assq (quote compile-command) (buffer-local-variables)))
+	   (and (file-exists-p "Makefile") *make-command*) compile-command)))
      (if (or compilation-read-command current-prefix-arg)
 	 (list (read-from-minibuffer "Compile command: "
 				     (eval compile-command) nil nil
@@ -286,6 +290,7 @@
   (funcall orig-compile command)
   )
 
-(define-key isearch-mode-map "\M-y" (car kill-ring))
+; this is bogus:
+; (define-key isearch-mode-map "\M-y" (car kill-ring))
 
 
