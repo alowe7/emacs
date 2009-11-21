@@ -1,5 +1,5 @@
 (put 'Emacs22 'rcsid
- "$Id: Emacs23.el,v 1.1 2009-11-13 04:08:22 alowe Exp $")
+ "$Id: Emacs23.el,v 1.2 2009-11-21 19:09:43 alowe Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -60,10 +60,12 @@
   (set-face-attribute 'default nil :font (indicated-word)))
 
 ; tbd completing-read from some alist...
+; emacs23 (x-select-font) uses simplified font names like "Tahoma-14"
+
 (defun fonty (font) 
   (interactive (list (read-string* (format "font (%s): " (default-font-family)))))
 
-  (set-face-attribute 'default nil :font  (default-font 
+  (set-face-attribute 'default nil :font  (default-font
 					    (setq default-font-family (string* font (string* default-font-family "verdana")))
 					    (setq default-style "normal")
 					    (setq default-point-size 16))

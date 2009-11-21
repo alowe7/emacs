@@ -1,5 +1,5 @@
 (put 'doom 'rcsid
- "$Id: doom.el,v 1.1 2008-09-27 16:34:01 keystone Exp $")
+ "$Id: doom.el,v 1.2 2009-11-21 19:09:43 alowe Exp $")
 
 (defvar *doomdir* "/doomed")
 
@@ -54,12 +54,11 @@ most recently doomed files or directories are pushed onto the kill ring (see `ki
 defaults for file are `dired-get-filename' if in `dired-mode' otherwise `buffer-file-name'
 "
   (interactive (list
-		(read-file-name* "filename (%s): " nil 
-
-				 (cond ((eq major-mode 'dired-mode)
-					(dired-get-filename))
-				       (t (buffer-file-name))
-				       ))))
+		(read-file-name* "filename (%s): " 
+				   (cond ((eq major-mode 'dired-mode)
+					  (dired-get-filename))
+					 (t (buffer-file-name))
+					 ))))
 
   (cond ((string* fn)
 	 (let* ((datestamp (eval-process "date +%y%m%d"))

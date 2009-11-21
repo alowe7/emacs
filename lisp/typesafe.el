@@ -1,5 +1,5 @@
 (put 'typesafe 'rcsid
- "$Id: typesafe.el,v 1.7 2008-01-23 05:51:11 alowe Exp $")
+ "$Id: typesafe.el,v 1.8 2009-11-21 19:09:43 alowe Exp $")
 
 (require 'trim)
 
@@ -61,7 +61,7 @@ see `read-file-name'
 "
   (let* ((*prompt* (eval **prompt**))
 	 (*d* (eval **default**))
-	 (*s* (read-file-name (format *prompt* *d*) "")))
+	 (*s* (read-file-name (format *prompt* *d*) *d*)))
  
     (or (and (sequencep *s*) (> (length *s*) 0) *s*) *d*)
     )
