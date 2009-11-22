@@ -1,5 +1,5 @@
 (put 'string-utils 'rcsid
- "$Id: string-utils.el,v 1.2 2007-03-19 17:37:13 alowe Exp $")
+ "$Id: string-utils.el,v 1.3 2009-11-22 22:44:36 alowe Exp $")
 
 (defun string^ (s pat)
   "perform exclusive or of STRING with PAT."
@@ -16,26 +16,46 @@
   )
 
 ;; xxx move to trim.el
-(defun tr (str trmap)
-  "replace chars in STRING according to alist MAP
+(defun tr (target trmap)
+  "replace chars in TARGET according to alist MAP
 where map is an alist of the form: ((char1 string1) (char2 string2))
+
+target may be a string or a buffer; 
+
+returns result;
 "
-  (let (prev)
-    (apply 'concat (remove nil (loop for x across str 
-				     collect
-				     (prog1
-					 (if (and 
-					      (assoc x trmap) 
-					      (not (and prev (char-equal prev ?\\ )))
-					      )
-					     (cadr (assoc x trmap))
-					   (format "%c" x))
-				       (setq prev x)
+
+  (cond 
+   ((stringp target)
+    (let (prev)
+      (apply 'concat (remove nil (loop for x across target 
+				       collect
+				       (prog1
+					   (if (and 
+						(assoc x trmap) 
+						(not (and prev (char-equal prev ?\\ )))
+						)
+					       (cadr (assoc x trmap))
+					     (format "%c" x))
+					 (setq prev x)
+					 )
 				       )
-				     )
-			   )
-	   )
-    )
+			     )
+	     )
+      ))
+   ((buffer-live-p target)
+    (save-excursion
+      (set-buffer target)
+        (loop for x in trmap
+	    do
+	    (goto-char (point-min))
+	    (replace-string (format "%c" (car x)) (cadr x) )
+	    )
+      (buffer-string)
+      ))
+   (t 
+    (error "invalid target for `tr'"))
+   )
   )
 ; (insert (tr "foo\\.bar" '((?* "%") (?. "_"))))
 
