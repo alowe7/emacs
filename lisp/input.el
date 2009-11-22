@@ -1,5 +1,5 @@
 (put 'input 'rcsid 
- "$Id: input.el,v 1.7 2006-02-01 22:57:33 alowe Exp $")
+ "$Id: input.el,v 1.8 2009-11-22 22:44:11 alowe Exp $")
 
 (cond ((featurep 'xemacs)
        (fset 'whack-key-sequence '(lambda (k)
@@ -49,6 +49,8 @@ with optional string CHARS, also matches specified characters.
 ; (y-or-n-*-p "test: ")
 
 (defun remove-text-properties-from-string (str)
+  "returns a copy of STRING with text properties removed
+"
   (with-temp-buffer 
     (insert str)
     (remove-text-properties (point-min) (point-max) '(face))
