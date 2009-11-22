@@ -1,5 +1,5 @@
 (put 'Emacs22 'rcsid
- "$Id: Emacs23.el,v 1.3 2009-11-22 17:42:17 alowe Exp $")
+ "$Id: Emacs23.el,v 1.4 2009-11-22 22:51:19 alowe Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -88,3 +88,89 @@
 
 ; this fixes a problem in  Man-getpage-in-background where it tries to use cmdproxy to run shell script
 (setq shell-file-name "sh")
+
+; determined by inspection of a bare load
+(loop for x in  '(
+		  help-fns
+		  help-mode
+		  easymenu
+		  view
+		  encoded-kb
+		  tooltip
+		  ediff-hook
+		  vc-hooks
+		  lisp-float-type
+		  dos-w32
+		  disp-table
+		  ls-lisp
+		  w32-win
+		  w32-vars
+		  tool-bar
+		  mwheel
+		  dnd
+		  fontset
+		  image
+		  fringe
+		  lisp-mode
+		  register
+		  page
+		  menu-bar
+		  rfn-eshadow
+		  timer
+		  select
+		  scroll-bar
+		  mouse
+		  mldrag
+		  jit-lock
+		  font-lock
+		  syntax
+		  facemenu
+		  font-core
+		  frame
+		  cham
+		  georgian
+		  utf-8-lang
+		  misc-lang
+		  vietnamese
+		  tibetan
+		  thai
+		  tai-viet
+		  lao
+		  korean
+		  japanese
+		  hebrew
+		  greek
+		  romanian
+		  slovak
+		  czech
+		  european
+		  ethiopic
+		  indian
+		  cyrillic
+		  chinese
+		  case-table
+		  epa-hook
+		  jka-cmpr-hook
+		  help
+		  simple
+		  abbrev
+		  loaddefs
+		  button
+		  minibuffer
+		  faces
+		  cus-face
+		  base64
+		  md5
+		  overlay
+		  text-properties
+		  format
+		  env
+		  code-pages
+		  mule
+		  custom
+		  widget
+		  backquote
+		  )
+      do
+      (add-to-list 'hooked-preloaded-modules x)
+      )

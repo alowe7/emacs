@@ -1,5 +1,5 @@
 (put 'keys 'rcsid
- "$Id: keys.el,v 1.2 2009-11-15 02:12:23 alowe Exp $")
+ "$Id: keys.el,v 1.3 2009-11-22 22:50:34 alowe Exp $")
 
 (chain-parent-file t)
 (autoload 'logview-hours "logview-mode")
@@ -14,5 +14,9 @@
 (require 'ctl-slash)
 (define-key ctl-/-map "u" 'unbind)
 
-; C-S-a
-(global-set-key (quote [33554433]) (quote soft-fill-paragraph))
+; (kbd "C-S-a") = (quote [33554433])
+(global-set-key (kbd "C-S-a") (quote soft-fill-paragraph))
+
+(global-set-key (kbd "C-x C-.") 'point-to-register)
+(global-set-key (kbd "C-x C-,") 'jump-to-register)
+
