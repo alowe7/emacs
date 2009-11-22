@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.20 2009-11-21 19:09:43 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.21 2009-11-22 17:41:36 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -149,7 +149,9 @@
 ; (setq Info-default-directory-list '())
 ; (let (Info-dir-contents Info-directory-list) (info "/usr/share/info/dir"))
 
-(setq Info-default-directory-list '("/usr/share/info" "/usr/share/emacs/info" "/usr/local/info" "/usr/local/lib/emacs-23.1/info" ))
+; (setq Info-default-directory-list '("/usr/share/info" "/usr/share/emacs/info" "/usr/local/info" "/usr/local/lib/emacs-23.1/info" ))
+(setq Info-default-directory-list '("/usr/local/lib/emacs-23.1/info" "/usr/share/info"))
+
 (setq Info-directory-list  Info-default-directory-list)
 
 (defun flush-info-cache (dir)
