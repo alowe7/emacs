@@ -1,5 +1,5 @@
 (put 'Emacs22 'rcsid
- "$Id: Emacs23.el,v 1.2 2009-11-21 19:09:43 alowe Exp $")
+ "$Id: Emacs23.el,v 1.3 2009-11-22 17:42:17 alowe Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -9,6 +9,11 @@
 
 ; silence the dinger
 (setq ring-bell-function '(lambda () nil))
+
+; prevent tooltips on modeline hover
+(setq tooltip-use-echo-area t)
+; uncomment to disable tooltips entirely
+; (tooltip-mode -1)
 
 (defvar default-weight "normal")
 (defvar *default-font-family* "tahoma")
