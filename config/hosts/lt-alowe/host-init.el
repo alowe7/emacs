@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.17 2009-11-22 17:42:17 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.18 2009-11-22 22:51:05 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -94,13 +94,6 @@
 	    )
       )
 
-(add-hook 'xz-load-hook 
-	  '(lambda ()
-	     (mapcar
-	      '(lambda (x) (load x t t)) 
-		     '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
-
-
 (display-time)
 
 (require 'trim)
@@ -109,10 +102,7 @@
 ; (require 'worlds)
 ; (require 'world-advice)
 
-;; what a coincidence.  two machines same name
-; (require 'xz-loads)
 (load-library "people")
-(load-library "xz-loads")
 
 (/*
   ; todo: be smarter about using http_proxy with w3m
@@ -270,6 +260,8 @@
 ; advice won't work to tweak an interactive form
 (unless (and (boundp 'orig-compile) orig-compile)
   (fset 'orig-compile (symbol-function 'compile)))
+(define-key ctl-x-map (vector 'C-S-return) 'orig-compile)
+
 (defun compile (command)
   "hook compile to call make if default-directory contains a makefile, ant otherwise
 see `orig-compile'
@@ -285,10 +277,25 @@ see `orig-compile'
 				     '(compile-history . 1)))
        (list (eval compile-command)))))
 
-  (funcall orig-compile command)
+  (orig-compile command)
   )
 
 ; this is bogus:
 ; (define-key isearch-mode-map "\M-y" (car kill-ring))
 
 
+;; what a coincidence.  two machines same name
+; (require 'xz-loads)
+(add-hook 'xz-load-hook 
+	  '(lambda ()
+	     (mapcar
+	      '(lambda (x) (load x t t)) 
+		     '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
+
+; why load when you can require?
+; (load-library "xz-loads")
+(require 'xz-loads)
+
+; moved from config.el -- these should be host specific
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
