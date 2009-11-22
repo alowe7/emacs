@@ -1,14 +1,15 @@
+"ÿþ"
 (put 'unicode 'rcsid
- "$Id: unicode.el,v 1.7 2006-12-31 22:56:38 noah Exp $")
+ "$Id: unicode.el,v 1.8 2009-11-22 22:44:58 alowe Exp $")
 
 (defvar *unicode-signatures* (list
 			      (vector 2303 2302 )
-			      "ÿþ"
-			      "��"))
+			      "Ã¿Ã¾"
+			      "ÿþ"))
 
 (defun is-utf8-p ()
   " determine if current buffer is utf8 encoded by looking at the signature
-not sure why different versions require either `*unicode-signature*' or `*alternate-unicode-signature*'
+not sure why different versions require various `*unicode-signatures*' 
 "
   (loop for x in  *unicode-signatures* thereis
 	(save-excursion
@@ -42,6 +43,9 @@ not sure why different versions require either `*unicode-signature*' or `*altern
 	  (add-hook 'local-write-file-hooks '(lambda () (message "cannot edit unicode file") t))
 	  )
       )
+
+  ; regardless of whether file is utf8, remap these high-code-page unicode chars
+    (tr (current-buffer)  '((?“ "\"") (?” "\"") (?– "-")))
     )
   )
 
