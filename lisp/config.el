@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.59 2009-10-12 03:18:25 alowe Exp $")
+ "$Id: config.el,v 1.60 2009-11-22 22:43:34 alowe Exp $")
 (require 'advice)
 (require 'cl)
 
@@ -37,9 +37,6 @@
   (mapcar 'expand-file-name (list (format "~/config/hosts/%s" *hostname*) 
 				  (format "~/config/os/%s" (symbol-name window-system)) "~"))
   )
-
-;; hooks for these preloaded modules need to be run now
-(defvar hooked-preloaded-modules nil)
 
 ;; this advice allows pre- and post- hooks on all loaded features
 ;; this way customization can be tailored to the feature instead of all lumped together
@@ -272,15 +269,20 @@ returns nil otherwise.
 
 ; we need to apply some here on first invocation, since some functions come preloaded.
 
-(defun post-load (f) 
-  "load any post-* modules for module F"
+(defun post-load (module) 
+  "load any post-* modules for MODULE.
+module may be a symbol or string.  
+the post-module is constructed as \"post-module\", and loaded if found along `load-path'
+"
   (interactive "smodule: ")
 ;  (debug)
-  (load (format "post-%s" f) t t)
+  (load (format "post-%s" module) t t)
   )
 
-(defun post-after-load (f)
-  (eval-after-load f (post-load f))
+(defun post-after-load (module)
+  "if module is preloaded, also has any after-load forms, evaluate them.
+"
+  (eval-after-load module (post-load module))
   )
 
 (defun load-list (pat)
@@ -435,6 +437,14 @@ see `locate-config-file'"
     )
   )
 
+(defun emacs-version-init ()
+  "shortcut for `find-config-file' \"EmacsXX\" where XX=`emacs-major-version'"
+  (interactive)
+  (let ((emacs-major-version-init-file-name (format  "Emacs%d" emacs-major-version)))
+    (find-config-file emacs-major-version-init-file-name)
+    )
+  )
+
 (defun os-init ()
   "shortcut for `find-config-file' \"os-init\""
   (interactive)
@@ -484,7 +494,13 @@ see `locate-config-file'"
   )
  )
 
+(defvar hooked-preloaded-modules nil
+  "list of preloaded modules.  if there's any load-hooks for these, they need to be run at init time
+members may be symbols or strings, see `post-load'
+"
+  )
 
+; todo -- put this logic on a eval when loaded form?
 (condition-case x
     (loop for x in hooked-preloaded-modules
 	  do
@@ -507,10 +523,6 @@ see `locate-config-file'"
   (error (progn (message "some kind of random error in %s" (if load-in-progress load-file-name (buffer-file-name))) 
 		(if *debug-config-error* (debug))))
   )
-
-; XXX these don't belong here
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
 
 (or 
  (and (boundp 'window-system) (load (symbol-name window-system) t t))	; window system specific
