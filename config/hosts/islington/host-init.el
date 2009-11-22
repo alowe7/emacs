@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/islington/host-init.el,v 1.1 2009-10-25 01:30:56 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/islington/host-init.el,v 1.2 2009-11-22 17:44:57 slate Exp $")
 
 ; enoch..tombstone..slate..islington
 
@@ -59,8 +59,7 @@
 (autoload 'uncompress-while-visiting "uncompress")
 
 ; append to load path to find sources 
-(add-to-list 'load-path "/u/emacs-22.1/lisp/emacs-lisp/" t)
-; (member  "/u/emacs-22.1/lisp/emacs-lisp/" load-path)
+(add-to-list 'load-path "/u/emacs-23.1/lisp")
 
 (require 'xz-loads)
 (require 'post-view)
@@ -83,3 +82,18 @@
 (setq user-mail-address "l7@alowe.com")
 
 ; mail-default-directory
+
+
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(blink-cursor-mode nil)
+ '(display-time-mode t))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 79 :width normal :foundry "unknown" :family "Liberation Sans")))))
