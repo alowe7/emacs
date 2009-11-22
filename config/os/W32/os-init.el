@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.24 2009-11-18 05:06:34 alowe Exp $")
+ "$Id: os-init.el,v 1.25 2009-11-22 22:49:46 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -186,6 +186,9 @@ if the new state is 'finished', deletes the associated buffer
 	   (if (buffer-live-p b)
 	       (kill-buffer b))
 	   ))
+	((string-match "^exited abnormally" (chomp s))
+	 (let ((aexec-process-parameters (get 'aexec-process-sentinel 'parameters)))
+	 (debug)))
 	(t  (debug))
 	)
   )
@@ -195,9 +198,18 @@ if the new state is 'finished', deletes the associated buffer
 name is generated from basename of command
 process is given an output buffer matching its name and a sentinel `aexec-sentinel'
 "
+
+  (unless (and (string* (trim cmd)) (string* (trim f)))
+    (debug)
+    )
+
   (let* ((name (symbol-name (gensym (downcase (basename cmd)))))
-	(p (start-process name (generate-new-buffer-name name)
-			  "cmd" "/c" (gsn cmd) (gsn f))))
+	 (buffer-name (generate-new-buffer-name name))
+	 (cmd-1 (w32-mangle-filename cmd))
+	 (f-1 (w32-mangle-filename f))
+	 (p (start-process name buffer-name
+			   "cmd" "/c" cmd-1 f-1)))
+    (put 'aexec-process-sentinel 'parameters (list name buffer-name cmd cmd-1 f f-1))
     (set-process-sentinel p 'aexec-sentinel)		 
     )
   )
@@ -225,7 +237,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
       (let ((cmd (file-association f)))
 	(cond
 	 (cmd
-	  (aexec-start-process cmd (if (string-match " " f) (gsn f) f)))
+	  (aexec-start-process cmd (if (string-match " " f) (w32-mangle-filename f) f)))
 	 (visit (find-file f))
 	 (t (progn
 	      (message
@@ -560,9 +572,8 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 
 (defun w32-mangle-filename (f)
-  "reports default-directory as a win32 8.3 file name"
-  (clean-string
-   (eval-process "gsn" f))
+  "enquote spaces in string filename"
+  (enquote-string f)
   )
 
 ; (w32-mangle-filename "d:/Program Files/Microsoft Visual Studio/VC98/Bin")
