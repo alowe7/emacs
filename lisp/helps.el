@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.27 2007-03-19 15:25:03 alowe Exp $")
+ "$Id: helps.el,v 1.28 2009-11-22 22:43:57 alowe Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -426,6 +426,10 @@ if *howto-path* is not set, searches in current directory
       )
     )
   )
+(defun enquote-string (s)
+  (replace-regexp-in-string " " "\\\\ " s)
+  )
+; (enquote-string "DCGS-A V3 Quality Audit Assessment Technical Brief.pdf")
 
 (defun enquote (arg)
   " wrap all words in quotes.
