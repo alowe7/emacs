@@ -1,5 +1,5 @@
 (put 'post-untranslate 'rcsid 
- "$Id: post-untranslate.el,v 1.1 2004-01-10 16:26:44 cvs Exp $")
+ "$Id: post-untranslate.el,v 1.2 2009-11-25 23:11:30 alowe Exp $")
 
 (defun fix-dos-file ()
   (interactive)
@@ -13,5 +13,7 @@
         (search-forward "\C-z" nil t)
       (backward-delete-char 1)
       )))
+(fset 'dos-fix-file 'fix-dos-file)
+
 
 

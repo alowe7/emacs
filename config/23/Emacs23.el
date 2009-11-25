@@ -1,5 +1,5 @@
-(put 'Emacs22 'rcsid
- "$Id: Emacs23.el,v 1.4 2009-11-22 22:51:19 alowe Exp $")
+(put 'Emacs23 'rcsid
+ "$Id: Emacs23.el,v 1.5 2009-11-25 23:11:30 alowe Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -174,3 +174,13 @@
       do
       (add-to-list 'hooked-preloaded-modules x)
       )
+
+;; this shows just how ingrained certain emacs behaviors have become in my brain.
+
+; default behavior changed in emacs23..?
+(setq pop-up-windows nil)
+
+; see split-window-sensibly
+; split-height-threshold
+; prefer split-window-vertically
+(setq split-width-threshold nil)

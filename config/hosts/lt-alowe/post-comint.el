@@ -1,3 +1,6 @@
+(put 'post-comint 'rcsid
+ "$Id: post-comint.el,v 1.3 2009-11-25 23:11:30 alowe Exp $")
+
 (chain-parent-file t)
 
 (defun process-tree ()

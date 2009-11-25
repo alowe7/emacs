@@ -1,5 +1,5 @@
 (put 'keys 'rcsid
- "$Id: keys.el,v 1.3 2009-11-22 22:50:34 alowe Exp $")
+ "$Id: keys.el,v 1.4 2009-11-25 23:11:30 alowe Exp $")
 
 (chain-parent-file t)
 (autoload 'logview-hours "logview-mode")
@@ -10,6 +10,9 @@
 
 (define-key ctl-RET-map "" 'flush-lines)
 (define-key ctl-RET-map "" 'keep-lines)
+
+(define-key ctl-RET-map "
+" 'select-locate-buffer)
 
 (require 'ctl-slash)
 (define-key ctl-/-map "u" 'unbind)

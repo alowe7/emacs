@@ -1,5 +1,5 @@
 (put 'qsave 'rcsid
-     "$Id: qsave.el,v 1.6 2005-03-11 16:33:38 cvs Exp $")
+     "$Id: qsave.el,v 1.7 2009-11-25 23:11:30 alowe Exp $")
 
 ;; by Andy Lowe (c) 1993, 1994, 1995, 1996, 1997, 1998
 
@@ -140,9 +140,12 @@ returns data on cell, if any.
       (if (< i (1- len))
 	  (let* ((j (1+ i))
 		 (x (nth j v))
+		 (save-buffer-read-only buffer-read-only)
 		 (buffer-read-only nil))
 	    (erase-buffer)
 	    (insert (qsave-cell-contents x))
+	    (set-buffer-modified-p nil)
+	    (setq buffer-read-only save-buffer-read-only)
 	    (goto-char (qsave-cell-point x))
 	    (setq mode-line-buffer-identification (pp (qsave-cell-label x) t))
 	    (set-window-start (display-buffer (current-buffer)) 1)
@@ -175,9 +178,12 @@ returns data on cell, if any.
       (if (> i 0)
 	  (let* ((j (1- i))
 		 (x (nth j v))
+		 (save-buffer-read-only buffer-read-only)
 		 (buffer-read-only nil))
 	    (erase-buffer)
 	    (insert (qsave-cell-contents x))
+	    (set-buffer-modified-p nil)
+	    (setq buffer-read-only save-buffer-read-only)
 	    (goto-char (qsave-cell-point x))
 	    (setq mode-line-buffer-identification (pp (qsave-cell-label x) t))
 	    (set-window-start (display-buffer (current-buffer)) 1)
@@ -207,7 +213,8 @@ returns data on cell, if any.
 
 ;  (condition-case x (cd (previous-qsave-search (current-buffer))) (error nil))
 
-(defun qsave-mode (arg)
+(defun qsave-mode (&optional arg)
+"toggle qsave mode.  with optional arg enter qsave mode iff arg > 0"
   (let ((prev-qsave-mode qsave-mode))
     (setq qsave-mode
 	  (if (null arg) (not qsave-mode)

@@ -1,5 +1,5 @@
 (put 'roll 'rcsid 
- "$Id: roll.el,v 1.36 2008-10-29 01:01:44 alowe Exp $")
+ "$Id: roll.el,v 1.37 2009-11-25 23:11:30 alowe Exp $")
 (provide 'roll)
 (require 'buffers)
 (require 'cl)
@@ -176,12 +176,15 @@ with prefix arg, prompts for major mode (completing from `atoms-like' \"-mode\")
   (interactive "P")
 
   (let* ((m 
-	 (and arg (completing-read (format "mode (%s): " major-mode)
-				   (mapcar '(lambda (x) 
-					      (cons
-					       (format "%s" x) x))
-					   (atoms-like "-mode")))))
-	(mode (if (string* m) (intern m) major-mode))
+	  (cond ((and (symbolp arg) (not (null arg))) arg)
+		(arg (completing-read (format "mode (%s): " major-mode)
+				      (mapcar '(lambda (x) 
+						 (cons
+						  (format "%s" x) x))
+					      (atoms-like "-mode"))))
+		(t major-mode)
+		))
+	(mode (if (string* m) (intern m) m))
 	(l (roll-ring (collect-buffers-mode mode)))
 	)
 

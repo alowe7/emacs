@@ -1,6 +1,6 @@
 "ÿþ"
 (put 'unicode 'rcsid
- "$Id: unicode.el,v 1.8 2009-11-22 22:44:58 alowe Exp $")
+ "$Id: unicode.el,v 1.9 2009-11-25 23:11:30 alowe Exp $")
 
 (defvar *unicode-signatures* (list
 			      (vector 2303 2302 )
@@ -26,7 +26,49 @@ not sure why different versions require various `*unicode-signatures*'
 
 (add-hook 'find-file-hooks 'utf8-hook)
 
-;; put this on file load hook, with utf8 recognition/view only
+;; todo: put this on file load hook, with utf8 recognition/view only
+
+(setq *unicode-uglies* '(
+			 (?‐ ; 8208
+			  "-" )
+			 (?– ; 8211
+			  "-" )
+			 (?— ; 8212
+			  "--" )
+			 (?― ; 8213
+			  "--" )
+			 (?‘ ; 8216
+			  "`" )
+			 (?’ ; 8217
+			  "'" )
+			 (?‚ ; 8218
+			  "," )
+			 (?“ ; 8220
+			  "\"" )
+			 (?” ; 8221
+			  "\"" )
+			 (?„ ; 8222
+			  "\"" )
+			 (?† ; 8224
+			  "+" )
+			 (?‡ ; 8225
+			  "++" )
+			 (?• ; 8226
+			  "-" )
+			 (?… ; 8230
+			  "..." )
+			 (?‰ ; 8240
+			  "%" )
+			 (?‹ ; 8249
+			  "<" )
+			 (?› ; 8250
+			  ">" )
+			 (?‽ ; 8253
+			  "?" )
+			 (?⁄ ; 8260
+			  "/" )
+			 ))
+
 
 (defun fix-unicode-file () (interactive)
   (save-excursion
@@ -45,9 +87,10 @@ not sure why different versions require various `*unicode-signatures*'
       )
 
   ; regardless of whether file is utf8, remap these high-code-page unicode chars
-    (tr (current-buffer)  '((?“ "\"") (?” "\"") (?– "-")))
+    (tr (current-buffer)  *unicode-uglies*)
     )
   )
+(fset 'unicode-fix-file 'fix-unicode-file)
 
 (defun dired-find-unicode-file ()
   (interactive)

@@ -1,8 +1,9 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.18 2009-11-22 22:51:05 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.19 2009-11-25 23:11:30 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+(scroll-bar-mode -1)
 
 (/*
  (setq default-fontspec
@@ -76,6 +77,9 @@
 				  )
        )
  )
+
+; -outline-Corbel-normal-normal-normal-sans-*-*-*-*-p-*-iso8859-2)
+; (set-default-font "-*-Corbel-normal-r-*-*-17-*-*-*-*-*-*-*")
 
 ; tweak load-path to use working versions if found. will this stuff ever stabilize?
 (loop for e in '(
@@ -283,7 +287,7 @@ see `orig-compile'
 ; this is bogus:
 ; (define-key isearch-mode-map "\M-y" (car kill-ring))
 
-
+; (debug)
 ;; what a coincidence.  two machines same name
 ; (require 'xz-loads)
 (add-hook 'xz-load-hook 
@@ -296,6 +300,9 @@ see `orig-compile'
 ; (load-library "xz-loads")
 (require 'xz-loads)
 
-; moved from config.el -- these should be host specific
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
+(defvar  locate-options '("--ignore-case"))
+(defun my-locate-default-make-command-line (search-string)
+  `(,locate-command ,@locate-options ,search-string))
+(setq locate-make-command-line 'my-locate-default-make-command-line)
+; (funcall locate-make-command-line "foo")
+
