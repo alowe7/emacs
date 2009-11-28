@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#      $Id: make-autoloads,v 1.36 2009-11-22 17:46:22 slate Exp $
+#      $Id: make-autoloads,v 1.37 2009-11-28 19:25:48 slate Exp $
 
 =pod
 
@@ -43,21 +43,21 @@ use File::Spec::Unix qw(catfile);
 binmode STDOUT;
 
 GetOptions(
-	   'help' => \$opt_help,
-	   'version' => \$opt_version,
-	   'force' => \$opt_force,
+	   'help|h' => \$opt_help,
+	   'version|v' => \$opt_version,
+	   'force|f' => \$opt_force,
 	   'top|d=s' => \$opt_top,
 	   'prefix=s' => \$opt_prefix
 	   );
 
-!($opt_help || ((scalar @ARGV) > 0)) && pod2usage( { -verbose => 2, -output => \*STDERR });
-
 if ($opt_version) {
-# sadly gives goofy trailing $
-#    $version="$Revision: 1.36 $";
-    print "make-autoloads version 1.24\n";
+    $revision='$Revision: 1.37 $ $Date: 2009-11-28 19:25:48 $';
+    (undef,$version)=split(/ /,$revision);
+    print "make-autoloads $version\n";
     exit;
 }
+
+!($opt_help || ((scalar @ARGV) > 0)) && pod2usage( { -verbose => 2, -output => \*STDERR });
 
 $top=$opt_top || getcwd;
 
