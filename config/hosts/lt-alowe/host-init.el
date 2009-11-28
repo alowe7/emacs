@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.19 2009-11-25 23:11:30 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.20 2009-11-28 20:09:54 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -306,3 +306,4 @@ see `orig-compile'
 (setq locate-make-command-line 'my-locate-default-make-command-line)
 ; (funcall locate-make-command-line "foo")
 
+(add-to-load-path "." t)

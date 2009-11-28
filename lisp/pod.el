@@ -1,5 +1,5 @@
 (put 'pod 'rcsid
- "$Id: pod.el,v 1.1 2007-05-09 19:16:33 tombstone Exp $")
+ "$Id: pod.el,v 1.2 2009-11-28 20:09:54 alowe Exp $")
 
 ; functions to facilitate using pod from emacs
 
@@ -51,10 +51,15 @@
 ;; these allow pod2text to catch non-found man pages, and if they're perl scripts, try to pod them.
 (defun man-cooked-fn () 
   (if (= 0 (length (buffer-string)))
-      (let* ((orig-man (cadr (split (cadr (split (buffer-name Man-buffer) "*")))))
-	     (f (find-script orig-man)))
-	(if f (save-window-excursion (pod2text f (current-buffer)))))))
+      (let* (
+	     (bufname (buffer-name Man-buffer))
+	     (orig-man (and bufname (car (split (cadr (split (car (split bufname "*"))))))))
+	     (f (and orig-man (find-script orig-man))))
 
+	(if f (save-window-excursion (pod2text f (current-buffer)))
+	  (error "not found")
+	  )
+	)))
 
 (add-hook 'Man-cooked-hook 'man-cooked-fn)
 
