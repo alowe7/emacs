@@ -1,11 +1,12 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.20 2008-10-29 01:01:44 alowe Exp $")
+ "$Id: myblog.el,v 1.21 2009-11-28 20:33:39 slate Exp $")
 
 ;; myblog
 
 (require 'locations)
 (require 'mktime)
 (require 'psgml)
+(require 'utf8)
 
 ;; this stuff should be in db, presentation layer should do all formatting.
 ;; tbd function to adjust modtimes on files, when organized by datestamp.  see modtime.el
@@ -71,12 +72,6 @@
   )
 
 ;; tbd: encode entities in content.  e.g. "&" -> "&amp;"
-
-(defun fix-utf8-chars-in-string (s)
-  (let ((utf8-chars '(("\205" "...") ("\222" "\'") ("\223" "\"") ("\224" "\""))))
-    (loop for x in utf8-chars do (setq s (replace-regexp-in-string (car x) (cadr x) s)))
-    s)
-  )
 
 ; tbd utf-8 codepage indicator, fancy xmlns
 (defun format-blog-entry (timestring subject body)

@@ -1,5 +1,6 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.60 2009-11-22 22:43:34 alowe Exp $")
+ "$Id: config.el,v 1.61 2009-11-28 20:33:39 slate Exp $")
+
 (require 'advice)
 (require 'cl)
 

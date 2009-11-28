@@ -1,9 +1,11 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.11 2009-03-22 20:52:25 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/slate/host-init.el,v 1.12 2009-11-28 20:33:18 slate Exp $")
 
 ; enoch..tombstone..slate
 
-(require 'post-dired)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
 
 (require 'ctl-slash)
 (require 'ctl-ret)
@@ -16,13 +18,7 @@
 (setq display-time-day-and-date t)
 (display-time)
 
-(scroll-bar-mode -1)
-
-(and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-
 (load-library "bookmark")
-(load-library "post-bookmark")
 
 (setq x-select-enable-clipboard t)
 
@@ -48,10 +44,6 @@
     (call-interactively 'switch-to-buffer-other-frame)
     )
   )
-
-(require 'lazy-lock)
-
-(post-wrap "dired")
 
 ; necessary when compile is preloaded, 
 ; (post-wrap "compile")
@@ -84,3 +76,5 @@
 (setq user-mail-address "l7@alowe.com")
 
 ; mail-default-directory
+
+(setq comint-use-prompt-regexp t)

@@ -1,5 +1,5 @@
 (put 'fapropos 'rcsid 
- "$Id: fapropos.el,v 1.20 2005-02-09 16:36:24 cvs Exp $")
+ "$Id: fapropos.el,v 1.21 2009-11-28 20:33:39 slate Exp $")
 (require 'indicate)
 (require 'oblists)
 (require 'lwhence)
@@ -169,8 +169,23 @@ fapropos will only find symbols which have already been interned
     l)
   )
 
+; (functions-like* "buffer" "window")
 
-(functions-like* "buffer" "window")
+(defun autoloaded-functions (&optional pat )
+  "return a list of symbols bound to autooaded functions
+with optional PATTERN, return matching symbols
+"
+
+  (loop for x being the symbols 
+	when
+	(and (or (not pat) (string-match pat (symbol-name x)))
+	     (functionp x)
+	     (condition-case nil (eq (car (symbol-function x)) 'autoload)  (error nil))) 
+	collect x)
+  )
+; (autoloaded-functions)
+; (loop for x in (autoloaded-functions "zt") do (fmakunbound x))
+
 
 ; (add-hook 'completion-setup-hook 'apropos-completion-setup-function)
 
