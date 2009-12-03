@@ -1,5 +1,5 @@
 (put 'frames 'rcsid 
- "$Id: frames.el,v 1.13 2006-03-24 21:35:24 alowe Exp $")
+ "$Id: frames.el,v 1.14 2009-12-03 02:41:17 alowe Exp $")
 ;; simple frame abstraction functions
 
 (defun name-frame (name &optional f)
@@ -13,6 +13,8 @@
 
 ;; this might not be so smart
 (defvar *clone-frames* t)
+(defvar *clone-frames-offsets* '((top . 10) (left . 10)))
+
 (defvar *clone-frame-parameters* '(
 				  ; window-id
 				  ; top
@@ -60,12 +62,23 @@
       "advise `switch-to-buffer-other-frame' to create a frame similar in
 appearance to the current frame "
 
-      (let ((p (loop for x in (frame-parameters)
-		     when (member (car x) *clone-frame-parameters*) 
-		     collect x)))
+      (let* ((frame-parameters (frame-parameters))
+	     (p (nconc
+		 (loop for x in *clone-frames-offsets* collect 
+		       (let ((y (assoc (car x) frame-parameters))) (rplacd y (+ (cdr y) (cdr x))) y)
+		       )
+		 (loop for x in frame-parameters
+		       when (member (car x) *clone-frame-parameters*) 
+		       collect x)
+		 )
+		)
+	     )
 
   ; just do it.
 	ad-do-it
+
+; special case for postion
+
 
 	(modify-frame-parameters nil p)
 	)
