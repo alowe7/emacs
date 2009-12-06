@@ -1,101 +1,16 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.22 2009-11-28 20:33:18 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.23 2009-12-06 19:39:37 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 
-(setq default-fontspec "-*-tahoma-normal-r-*-*-16-*-*-*-*-*-*-*-")
-
-(setq initial-frame-alist
-      `((top . 116)
- 	(left . 133)
- 	(width . 142)
- 	(height . 30)
-	(background-mode . light)
-	(cursor-type . box)
-	(border-color . "black")
-	(cursor-color . "black")
-	(mouse-color . "black")
-	(background-color . "white")
-	(foreground-color . "black")
-	(vertical-scroll-bars)
-	(internal-border-width . 0)
-	(border-width . 2)
-	(font . ,default-fontspec)
-	(menu-bar-lines . 0))
-      )
+(set-default-font "-*-Corbel-normal-r-*-*-17-*-*-*-*-*-*-*")
 
 (setq default-frame-alist initial-frame-alist)
-(add-association '(height . 20) 'default-frame-alist t)
-
-(setq *people-database*  (expand-file-name (concat (getenv "HOME") "/n/people")))
-
-; xz-squish is currently global.  todo: make per process
-(add-hook 'xz-load-hook '(lambda () 
-			   (xz-squish 2)
-			   (setq *xz-lastdb* "~/emacs/.xz.dat")
-			   )
-	  )
 
 (setq display-time-day-and-date t)
 (display-time)
-
-; (requirex 'worlds)
-
-(require 'xz-loads)
-; (when (not (and (boundp 'server-process) (process-live-p server-process))) (require 'gnuserv))
-
-;(load-library "xdb")
-
-; use working versions. will this stuff ever stabilize?
-(let ((r '(
-	   ("site-lisp/tw-3.01" "/x/tw/site-lisp")
-	   ("site-lisp/db-1.0" "/x/db/site-lisp")
-	   ("site-lisp/xz-3.1" "/x/xz/site-lisp")
-	   ("site-lisp/tx-1.0" "/x/elisp")
-	   ))
-      )
-  (loop for e in r 
-	when
-	(file-exists-p (cadr e))
-	do 
-	(setq load-path
-  ; first remove published versions, if any
-	      (nconc (remove-if '(lambda (x) 
-				   (string-match (car e) x)) load-path)
-  ; then add working versions
-		     (cdr e))
-	      )
-	)
-  )
-; (setq load-path (remove-if '(lambda (x) (string-match "^/x" x)) load-path))
-
-; man don't work with default path
-; xxx (load-library "post-man")
-(defvar mandirs (catlist (getenv "MANPATH") ?;))
-
-; xxx (setq font-lock-support-mode 'lazy-lock-mode)
-; xxx (add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))
-; xxx (add-hook 'java-mode-hook (lambda () (lazy-lock-mode)))
-
-; use working versions. will this stuff ever stabilize?
-(let ((r '(
-	   ("site-lisp/tw-3.01" "/x/tw/site-lisp")
-	   ("site-lisp/db-1.0" "/x/db/site-lisp")
-	   ("site-lisp/xz-3.1" "/x/xz/site-lisp")
-	   ("site-lisp/tx-1.0" "/x/elisp")
-	   ))
-      )
-  (loop for e in r do 
-	(setq load-path
-  ; first remove published versions, if any
-	      (nconc (remove-if '(lambda (x) (string-match (car e) x)) load-path)
-  ; then add working versions
-		     (cdr e))
-	      )
-	)
-  )
 
 (add-to-load-path "/u/emacs-w3m-1.3.2")
 (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
@@ -126,7 +41,7 @@
 (addpathp "/z/pl" "PATH")
 
 ; this ensure calendar comes up in a frame with a fixed-width font
-; (load-library "mycal")
+(load-library "mycal")
 
 ; xxx check out why this isn't autoloading
 (load-library "post-bookmark")
@@ -144,33 +59,13 @@
       )
   )
 
-(if (string-match "21" emacs-version)
-    (fonty "tahoma"))
-
-; (setq Info-default-directory-list '())
-; (let (Info-dir-contents Info-directory-list) (info "/usr/share/info/dir"))
-
-; (setq Info-default-directory-list '("/usr/share/info" "/usr/share/emacs/info" "/usr/local/info" "/usr/local/lib/emacs-23.1/info" ))
 (setq Info-default-directory-list '("/usr/local/lib/emacs-23.1/info" "/usr/share/info"))
-
 (setq Info-directory-list  Info-default-directory-list)
-
-(defun flush-info-cache (dir)
-  (setq Info-dir-contents-directory nil
-	Info-dir-contents nil
-	Info-directory-list nil)
-  (info dir)
-  )
-; (flush-info-cache "/usr/share/info/dir")
 
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
 
 (scan-file-p "~/.private/.xdbrc")
-
-; todo: get to the bottom of this
-; xxx (add-to-list 'hooked-preloaded-modules "man")
-; xxx (load-library "post-man")
 
 ; this is a problem..
 (defun perl-font-lock-syntactic-keywords ()  perl-font-lock-syntactic-keywords) 
