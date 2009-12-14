@@ -1,5 +1,5 @@
 (put 'sword 'rcsid
- "$Id: sword.el,v 1.5 2004-09-03 15:12:33 cvs Exp $")
+ "$Id: sword.el,v 1.6 2009-12-14 01:28:01 alowe Exp $")
 
 (require 'comint)
 
@@ -58,6 +58,7 @@ otherwise if `*cache-sword-key*' is set and a key is cached, use that.
   )
 
 ; (makunbound 'sword-font-lock-keywords)
+; (fmakunbound 'sword-font-lock-keywords)
 (defvar sword-font-lock-keywords
   (list (cons "http[s]?://[^\\ 	\n]*" 'font-lock-variable-name-face)
 	(cons "\\(1-\\)?\\((?[0-9][0-9][0-9])?\\)\\([- ]*\\)\\([0-9][0-9][0-9]\\)\\([- ]+\\)\\([0-9][0-9][0-9][0-9]\\)"  'font-lock-function-name-face)

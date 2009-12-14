@@ -1,5 +1,5 @@
 (put 'filetime 'rcsid 
- "$Id: filetime.el,v 1.7 2004-12-10 18:15:17 cvs Exp $")
+ "$Id: filetime.el,v 1.8 2009-12-14 01:28:01 alowe Exp $")
 
 
 (defun filemodtime (f)
@@ -31,7 +31,10 @@
 ; (ftime)
 
 (defun delta-time (t1 t2)
-  " return absolute difference between T1 and T2  see `current-time' for format"
+  " return absolute difference between T1 and T2  see `current-time' for format
+normally assert t1 > t2
+if it is not, then the arguments are reversed in order to return the absolute value of the delta
+"
 
   (let (t3) 
   ; make sure t1 > t2

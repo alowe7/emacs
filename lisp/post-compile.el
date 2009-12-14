@@ -1,5 +1,5 @@
 (put 'post-compile 'rcsid 
- "$Id: post-compile.el,v 1.10 2008-01-27 17:59:33 slate Exp $")
+ "$Id: post-compile.el,v 1.11 2009-12-14 01:28:01 alowe Exp $")
 
 ; (read-string "loading post-compile")
 
@@ -60,12 +60,15 @@
 	     (qsave-search (current-buffer) compile-command default-directory)
 	     (use-local-map compilation-mode-map)
 	     ))
-
+(defvar *compilation-sentinel-proc* nil)
+(defvar *compilation-sentinel-msg* nil)
 (defadvice compilation-sentinel (around 
 				 hook-compilation-sentinel
 				 first activate)
   ""
 
+  (setq *compilation-sentinel-proc* (ad-get-arg 0))
+  (setq *compilation-sentinel-msg* (ad-get-arg 1))
   ad-do-it
   (run-hooks 'compilation-completion-hook)
   )

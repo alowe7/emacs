@@ -1,9 +1,13 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.20 2009-11-28 20:09:54 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.21 2009-12-14 01:28:01 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+(blink-cursor-mode -1)
+(setq
+ cursor-type (quote (bar . 1))
+ cursor-in-non-selected-windows nil)
 
 (/*
  (setq default-fontspec
@@ -187,10 +191,10 @@
 
 ; gpg is here
 (add-to-load-path "/z/gpg" t)
-(setq *gpg-default-homedir*  (expand-file-name "~/.private/gnupg"))
+(setq *gpg-default-homedir*  (expand-file-name "i:/home/a/.gnupg"))
 (condition-case x (load "/z/gpg/.autoloads") (error nil))
-(setq *gpg-command* "/home/alowe/bin/gpg.exe")
-(setq *gpg-default-file*  "~/.private/wink")
+(setq *gpg-command* "/home/a/bin/gpg.exe")
+(setq *gpg-default-file*  "f:/wink")
 ; (setq *gpg-default-homedir*  "~/.gnupg")
 (setq *gpg-encode-target* "Andrew Lowe")
 (setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
@@ -307,3 +311,5 @@ see `orig-compile'
 ; (funcall locate-make-command-line "foo")
 
 (add-to-load-path "." t)
+
+(setq default-buffer-file-coding-system 'undecided-unix)

@@ -1,5 +1,5 @@
 (put 'zap 'rcsid 
- "$Id: zap.el,v 1.16 2007-03-19 15:25:03 alowe Exp $")
+ "$Id: zap.el,v 1.17 2009-12-14 01:28:01 alowe Exp $")
 (provide 'zap)
 ;;; todo -- use (get-buffer-create (generate-new-buffer-name bname))
 
@@ -134,7 +134,7 @@ takes no action and returns nil if buffer exists and is read-only
   )
 ; (zap-buffer-1 "foo")
 
-(defun zap-buffer-2 (name)
+(defun zap-buffer-2 (name &optional postop)
   "return existing buffer NAME, create if necessary, erase contents if necessary.
 see `get-buffer-create'
 toggles `buffer-read-only' erases buffer if buffer exists and is read-only
@@ -152,5 +152,6 @@ note: leaves focus in the newly created buffer.
       (progn
 	(set-buffer (get-buffer-create name)))
       )
+    (and postop (eval-p postop))
     )
   )

@@ -1,5 +1,5 @@
 (put 'qsave 'rcsid
-     "$Id: qsave.el,v 1.7 2009-11-25 23:11:30 alowe Exp $")
+     "$Id: qsave.el,v 1.8 2009-12-14 01:28:01 alowe Exp $")
 
 ;; by Andy Lowe (c) 1993, 1994, 1995, 1996, 1997, 1998
 
@@ -91,7 +91,8 @@ returns newly current cell data, if any
       )
     )
   )
-
+(fset 'qsave-prune-search 'prune-search)
+(fset 'prune-qsave 'prune-search)
 
 ;; the qsave property of the interned buffer name holds a stack
 ;; of previous queries
@@ -200,46 +201,47 @@ returns data on cell, if any.
   )
 
 ;; minor mode for qsave -- used for readonly buffers, where we can clobber the "p" and "n" keys.
-;; warning -- no way to back out these key bindings
 
-(defvar qsave-mode nil)
-(make-variable-buffer-local 'qsave-mode)
+(defvar *qsave-mode* nil)
+(make-variable-buffer-local '*qsave-mode*)
 
-(defvar saved-key-bindings nil)
-(make-variable-buffer-local 'saved-key-bindings)
+(defvar *saved-local-key-bindings* nil)
+(make-variable-buffer-local '*saved-local-key-bindings*)
 
 (defun roll-qsave () (interactive) (previous-qsave-search (current-buffer)))
 (defun roll-qsave-1 () (interactive) (next-qsave-search (current-buffer)))
 
 ;  (condition-case x (cd (previous-qsave-search (current-buffer))) (error nil))
 
+(defvar *qsave-mode-bindings* '(("p" roll-qsave) ("n" roll-qsave-1) ("d" prune-qsave)))
+
 (defun qsave-mode (&optional arg)
-"toggle qsave mode.  with optional arg enter qsave mode iff arg > 0"
-  (let ((prev-qsave-mode qsave-mode))
-    (setq qsave-mode
-	  (if (null arg) (not qsave-mode)
+  "toggle qsave mode.  with optional arg enter qsave mode iff arg > 0"
+  (let ((prev-qsave-mode *qsave-mode*))
+
+    (setq *qsave-mode*
+	  (if (null arg) (not *qsave-mode*)
 	    (> (prefix-numeric-value arg) 0)))
-    (if qsave-mode 
-					; entering
-	(unless prev-qsave-mode
-	  (progn
-	    (setq saved-key-bindings (list
-				      (cons "p" (local-key-binding "p"))
-				      (cons "n" (local-key-binding "n"))
-				      ))
-	    (local-set-key "p" 'roll-qsave)
-	    (local-set-key "n" 'roll-qsave-1)
-	    ))
-					; leaving
+
+    (if *qsave-mode*
+					; enter qsave mode
+
+	(unless prev-qsave-mode		; unless already in it
+
+					; save prior local key bindings, if any
+	  (setq *saved-local-key-bindings*
+		(loop for x in *qsave-mode-bindings* collect (list (car x) (local-key-binding (car x)))))
+
+					; apply qsave local key bindings
+	  (loop for x in *qsave-mode-bindings* do (apply 'local-set-key x))
+
+	  )
+					; leave qsave mode
       (progn
-	(and (assoc "p" saved-key-bindings)
-	     (local-set-key "p" (cdr (assoc "p" saved-key-bindings))))
-	(and (assoc "n" saved-key-bindings)
-	     (local-set-key "n" (cdr (assoc "n" saved-key-bindings))))
+	(loop for x in *saved-local-key-bindings* when (cadr x) do (local-set-key (car x) (cadr x)))
 
+	(force-mode-line-update)
 	)
-
-      (force-mode-line-update)
       )
     )
   )
@@ -247,13 +249,13 @@ returns data on cell, if any.
 (add-to-list 'minor-mode-alist '(qsave-mode "qsave"))
 
 ;; advice for using:
-;; (add-hook 'xz-after-search-hook 
+;; (add-hook 'qsave-minor-mode-after-search-hook 
 ;;   '(lambda () (qsave-search buffer))
-;;   " save output of each xz search on a stack for retrieval")
+;;   " save output of each qsave-minor-mode search on a stack for retrieval")
 ;; 
-;; (add-hook 'xz-init-hook '(lambda () 
-;; (define-key xz-mode-map "p" 'previous-xz-search)
-;; (define-key xz-mode-map "n" 'next-xz-search)
+;; (add-hook 'qsave-minor-mode-init-hook '(lambda () 
+;; (define-key qsave-minor-mode-mode-map "p" 'previous-qsave-minor-mode-search)
+;; (define-key qsave-minor-mode-mode-map "n" 'next-qsave-minor-mode-search)
 ;; ))
 ;; 
 

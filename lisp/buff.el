@@ -1,6 +1,7 @@
-;; $Id: buff.el,v 1.6 2006-06-09 19:19:04 alowe Exp $
+;; $Id: buff.el,v 1.7 2009-12-14 01:28:01 alowe Exp $
 
 (require 'typesafe)
+; todo combine buff.el with buffers.el
 
 (defun list-buffers (&optional files-only)
   "Display a list of names of existing buffers.
@@ -125,16 +126,20 @@ The R column contains a % for buffers that are read-only."
 ; (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-mode 'shell-mode))))
 
 
+(defun list-buffers-helper (pred bn)
+    (when (buffer-live-p (get-buffer bn))
+      (condition-case x (kill-buffer bn) (error nil)))
+    (display-buffer (list-buffers-noselect nil pred bn))
+    )
+
 (defun list-buffers-modified ()
   (interactive)
-  (condition-case x (kill-buffer "*Buffer List*") (error nil))
-  (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-modified))))
+  (list-buffers-helper 'collect-buffers-modified "*Buffer List <modified>*")
   )
 
 (defun list-buffers-not-modified ()
   (interactive)
-  (condition-case x (kill-buffer "*Buffer List*") (error nil))
-  (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-not-modified))))
+  (list-buffers-helper 'collect-buffers-not-modified "*Buffer List <not modified>*")
   )
 
 (defun list-buffers-mode (mode)
@@ -147,23 +152,34 @@ The R column contains a % for buffers that are read-only."
 				      (atoms-like "-mode")))))
       (if (string* m) (intern m) major-mode))))
 
-    (condition-case x (kill-buffer "*Buffer List*") (error nil))
-    (pop-to-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-mode mode))))
+  (list-buffers-helper
+   `(lambda () (collect-buffers-mode (quote ,mode)))
+   (format "*Buffer List <%s>*" mode))
   )
 
 (defun list-buffers-in (pat)
   (interactive "sbuffers with files matching: ")
-  (condition-case x (kill-buffer "*Buffer List*") (error nil))
-  (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-in pat))))
-)
+  (list-buffers-helper 
+   `(lambda () (collect-buffers-in (quote ,pat)))
+   (format "*Buffer List <%s>*" pat))
+  )
+
+(defun list-buffers-named (pat)
+  (interactive "sbuffers with names matching: ")
+
+  (list-buffers-helper 
+   `(lambda () (collect-buffers-named ,pat))
+   (format "*Buffer List <%s>*" pat))
+  )
 
 (defun list-buffers-with (pat)
   (interactive (list (read-string* "buffers with contents matching (%s): " (indicated-word))))
-; todo: keep track of line numbers, transient advise buffer list visit to jump to hit
-  (let ((collect-buffers-name (format "*Buffer List With \'%s\'*" pat)))
-    (condition-case x (kill-buffer collect-buffers-name) (error nil))
-    (display-buffer (list-buffers-noselect nil '(lambda () (collect-buffers-with pat)) collect-buffers-name))
-    )
+  ; todo: keep track of line numbers, transient advise buffer list visit to jump to hit
+
+  (list-buffers-helper 
+   `(lambda () (collect-buffers-with (quote ,pat)))
+   (format "*Buffer List With \'%s\'*" pat)
+   )
   )
 
 (provide 'buff)

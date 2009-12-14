@@ -1,5 +1,5 @@
 (put 'frames 'rcsid 
- "$Id: frames.el,v 1.14 2009-12-03 02:41:17 alowe Exp $")
+ "$Id: frames.el,v 1.15 2009-12-14 01:28:01 alowe Exp $")
 ;; simple frame abstraction functions
 
 (defun name-frame (name &optional f)
@@ -65,7 +65,14 @@ appearance to the current frame "
       (let* ((frame-parameters (frame-parameters))
 	     (p (nconc
 		 (loop for x in *clone-frames-offsets* collect 
-		       (let ((y (assoc (car x) frame-parameters))) (rplacd y (+ (cdr y) (cdr x))) y)
+		       (let ((y (assoc (car x) frame-parameters)))
+			 (cond 
+			  ((and (numberp (cdr y)) (numberp (cdr x)))
+			   (rplacd y (+ (cdr y) (cdr x)))) ; if numbers, add them
+			  (t
+			   (rplacd y (cdr x))) ; else replace
+			  )
+			 y)
 		       )
 		 (loop for x in frame-parameters
 		       when (member (car x) *clone-frame-parameters*) 
@@ -77,7 +84,7 @@ appearance to the current frame "
   ; just do it.
 	ad-do-it
 
-; special case for postion
+  ; special case for postion
 
 
 	(modify-frame-parameters nil p)

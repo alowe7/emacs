@@ -1,5 +1,5 @@
 (put 'pod 'rcsid
- "$Id: pod.el,v 1.2 2009-11-28 20:09:54 alowe Exp $")
+ "$Id: pod.el,v 1.3 2009-12-14 01:28:01 alowe Exp $")
 
 ; functions to facilitate using pod from emacs
 
@@ -98,7 +98,7 @@ with optional FILE, operate on that"
 
 =head1 DESCRIPTION
 
-	this macro serves to just hid a blob of pod from the lisp parser.
+	this macro serves to just hide a blob of pod from the lisp parser.
 	so just run pod2text on the elisp file and goodness results.
 
 =cut

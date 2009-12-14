@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid 
- "$Id: post-dired.el,v 1.51 2009-11-15 02:12:23 alowe Exp $")
+ "$Id: post-dired.el,v 1.52 2009-12-14 01:28:01 alowe Exp $")
 
 (require 'dired-advice)
 (require 'ctl-backslash)
@@ -261,8 +261,14 @@ see `file-assoc-list'"
   )
 
 (defun dired-aexec () (interactive)
-  (aexec
-   (file-name-nondirectory (dired-get-filename))
+  (cond
+   ((file-directory-p (dired-get-filename))
+    (explore-file (dired-get-filename)))
+   (t
+    (aexec
+     (file-name-nondirectory (dired-get-filename))
+     )
+    )
    )
   )
 

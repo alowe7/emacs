@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.25 2009-11-22 22:49:46 alowe Exp $")
+ "$Id: os-init.el,v 1.26 2009-12-14 01:28:01 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -85,6 +85,8 @@ if MIXED is 0, then ignore letter drive names.
 	  )))
     )
   )
+
+(defun unix-canonify-0 (f) (unix-canonify f 0))
 
 (defalias 'canonify 'unix-canonify)
 
