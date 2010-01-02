@@ -1,8 +1,65 @@
 (put 'long-comment 'rcsid 
- "$Id: long-comment.el,v 1.4 2000-10-03 16:50:28 cvs Exp $")
+ "$Id: long-comment.el,v 1.5 2010-01-02 21:33:09 alowe Exp $")
 (provide 'long-comment)
 
 (defmacro long-comment (&rest args) "long comment: ignore all arguments unevaluated" nil)
 
 
 (defalias '/* (symbol-function 'long-comment))
+
+(defvar long-comment-beginning "(/*
+")
+(defvar long-comment-end "
+  */)
+")
+(defvar long-comment-continue "  * ")
+
+(defun long-comment-region (beg end)
+  "add long-comment around region
+"
+  (interactive "r")
+
+  (save-excursion
+    (narrow-to-region beg end)
+    (goto-char (point-min))
+    (while (re-search-forward "^" nil t)
+      (replace-match long-comment-continue nil nil))
+
+
+    (goto-char (point-min))
+    (insert long-comment-beginning)
+    (goto-char (point-max))
+    (insert long-comment-end)
+
+    (widen)
+    )
+  )
+
+
+; this is kind of dumb
+(defun long-uncomment-region (beg end)
+  "remove long-comment around region
+"
+  (interactive "r")
+
+  (save-excursion
+    (narrow-to-region beg end)
+    (goto-char (point-min))
+  
+    (while (not (eobp))
+      (progn
+	(beginning-of-line)
+	(cond ((looking-at "(/\\*
+")
+	       (replace-match ""))
+	      ((looking-at " \\* ")
+	       (replace-match ""))
+	      ((looking-at " \\*/)")
+	       (replace-match ""))
+	      )
+	(forward-line 1)
+	)
+      )
+    (widen)    
+    )
+  )

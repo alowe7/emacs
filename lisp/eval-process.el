@@ -1,5 +1,5 @@
 (put 'eval-process 'rcsid 
- "$Id: eval-process.el,v 1.23 2008-02-03 22:22:12 alowe Exp $")
+ "$Id: eval-process.el,v 1.24 2010-01-02 21:33:09 alowe Exp $")
 ;; a package to return process evaulation as a string
 
 (require 'zap)
@@ -13,6 +13,10 @@
   )
 
 (defvar last-exit-status nil)
+
+(defvar *eval-process-stderr-file* nil "path to contain stderr from eval-process")
+; alternative is to (defun* eval-process .. &key *stderr* ...)
+
 (defun eval-process (cmd &rest args)
   "execute CMD as a process, giving it optional ARGS.
 CMD may be a string evaluating to a command, or a space separated list of strings indicating the command and arguments
@@ -41,7 +45,7 @@ this function evaluates to the process output  "
       (setq last-exit-status nil)
       (setq last-exit-status
 	    (condition-case x
-		(apply 'call-process (nconc (list cmd nil (list buffer nil) nil) args))
+		(apply 'call-process (nconc (list cmd nil (list buffer *eval-process-stderr-file*) nil) args))
 	      (error
 	       (cond
 		((eq 'file-error (car x))

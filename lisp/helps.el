@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.28 2009-11-22 22:43:57 alowe Exp $")
+ "$Id: helps.el,v 1.29 2010-01-02 21:33:09 alowe Exp $")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -486,9 +486,9 @@ with optional prefix arg, wrap by line "
   (let ((w (intern w )))
 
     (cond ((functionp w)
-	   (find-function-other-window w))
+	   (find-function w))
 	  ((boundp w)
-	   (find-variable-other-window w))
+	   (find-variable w))
 	  (t 
 	   (find-function-or-variable 
 	    (read-string
