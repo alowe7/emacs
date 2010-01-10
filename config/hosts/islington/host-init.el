@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/islington/host-init.el,v 1.3 2010-01-05 05:28:26 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/islington/host-init.el,v 1.4 2010-01-10 22:30:03 slate Exp $")
 
 ; enoch..tombstone..slate..islington
 
@@ -71,7 +71,8 @@
 
 (setq font-lock-string-face 'default)
 
-(add-to-load-path-p "/z/db" t)
+; should be found in /usr/share/emacs/site-lisp/zt-1.0
+;(add-to-load-path-p "/z/db" t)
 (require 'zt-loads)
 
 (defvar warning-suppress-types nil)
