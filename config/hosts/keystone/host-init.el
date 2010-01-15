@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.23 2009-12-06 19:39:37 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/keystone/host-init.el,v 1.24 2010-01-15 02:27:09 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -83,4 +83,4 @@
 
 (setq dired-dnd-protocol-alist nil)
 
-(setq comint-use-prompt-regexp t)
+; (setq comint-use-prompt-regexp t)
