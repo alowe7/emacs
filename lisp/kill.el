@@ -1,5 +1,5 @@
 (put 'kill 'rcsid
- "$Id: kill.el,v 1.8 2006-03-09 15:00:34 alowe Exp $")
+ "$Id: kill.el,v 1.9 2010-01-22 05:41:34 alowe Exp $")
 
 (defun yank-like (pat)
   "search for PAT among kill ring, rolling through hits, inserting selected.
@@ -49,5 +49,22 @@ see `roll-list` for roll navigation"
   )
 
 (global-set-key (vector ? ?\C-0) 'copy-buffer-file-name-as-kill)
+
+(defvar *yank-as-csv-separator* "\C-i")
+
+(defun yank-as-csv (arg)
+  "yank kill replacing the first word separator on each line with *yank-as-csv-separator* (default TAB)
+with optional arg, replace first N word separators"
+  (interactive "*P")
+  (let ((thing (current-kill (cond
+			      ((listp arg) 0)
+			      ((eq arg '-) -2)
+			      (t (1- arg))))))
+
+    (insert-for-yank 
+     (replace-regexp-in-string "^\\(\\w+\\)\\(\\W+\\)" *yank-as-csv-separator* thing nil nil 2))
+
+    )
+  )
 
 (provide 'kill)

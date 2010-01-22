@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid
- "$Id: post-perl-mode.el,v 1.1 2008-01-23 05:51:11 alowe Exp $")
+ "$Id: post-perl-mode.el,v 1.2 2010-01-22 05:41:34 alowe Exp $")
 
 (defun perldoc (thing)
   "find perldoc for THING"
@@ -23,4 +23,5 @@
 ;   (perldoc "perlref")
 ;  )
 
-(add-hook 'perl-mode-hook '(lambda () (lazy-lock-mode)))
+; I think lazy-lock-mode is no longer supported?
+; (add-hook 'perl-mode-hook '(lambda () (lazy-lock-mode)))
