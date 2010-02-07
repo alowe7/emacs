@@ -1,7 +1,10 @@
 (put 'sword 'rcsid
- "$Id: sword.el,v 1.6 2009-12-14 01:28:01 alowe Exp $")
-
+ "$Id: sword.el,v 1.7 2010-02-07 00:36:42 alowe Exp $")
+(require 'long-comment)
 (require 'comint)
+
+(/*
+)
 
 (defvar *key-program* "key")
 (defvar *default-swordfile* "~/.private/swords")

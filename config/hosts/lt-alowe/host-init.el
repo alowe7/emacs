@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.21 2009-12-14 01:28:01 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.22 2010-02-07 00:36:41 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -121,6 +121,9 @@
  )
 
 (add-to-load-path  "/z/el" t)
+
+(/* 
+; bug in /z/pl/ip2l
 (require 'proxy-autoconfig)
 
 (defvar myIpAddress (myIpAddress))
@@ -132,6 +135,7 @@
   ; else
   (setenv "HTTP_PROXY" nil)
   )
+)
 
 (setq *txdb-options* 
       (let (l)
