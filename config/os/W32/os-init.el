@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.26 2009-12-14 01:28:01 alowe Exp $")
+ "$Id: os-init.el,v 1.27 2010-03-21 18:45:41 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -941,14 +941,13 @@ host must respond within optional TIMEOUT msec"
 ; (expand-file-name (fw "broadjump"))
 ; (funcall 'ad-Orig-expand-file-name (fw "broadjump"))
 
-
 (defadvice w32-drag-n-drop (around 
 			    hook-w32-drag-n-drop
 			    first activate)
   ""
 
   ; apply file association, if exist
-
+  (debug)
   (let ((f (caar (cddr (ad-get-arg 0)))))
     (if (file-association-1 f)
 	(progn 
@@ -960,8 +959,8 @@ host must respond within optional TIMEOUT msec"
       )
     )
   )
-
 ; (if (ad-is-advised 'w32-drag-n-drop) (ad-unadvise 'w32-drag-n-drop))
+
 (defun whence-p (f)
   (and (file-exists-p f) (expand-file-name f))
   )

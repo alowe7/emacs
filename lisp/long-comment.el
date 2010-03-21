@@ -1,5 +1,5 @@
 (put 'long-comment 'rcsid 
- "$Id: long-comment.el,v 1.5 2010-01-02 21:33:09 alowe Exp $")
+ "$Id: long-comment.el,v 1.6 2010-03-21 18:45:41 alowe Exp $")
 (provide 'long-comment)
 
 (defmacro long-comment (&rest args) "long comment: ignore all arguments unevaluated" nil)
@@ -49,14 +49,14 @@
     (while (not (eobp))
       (progn
 	(beginning-of-line)
-	(cond ((looking-at "(/\\*
-")
-	       (replace-match ""))
-	      ((looking-at " \\* ")
-	       (replace-match ""))
-	      ((looking-at " \\*/)")
-	       (replace-match ""))
-	      )
+	(cond 
+	 ((looking-at "([\s ]*/\\*[\s ]*")
+	  (replace-match ""))
+	 ((looking-at "[\s ]*\\*/)")
+	  (replace-match ""))
+	 ((looking-at "[\s ]*[\\*]+[\s ]*")
+	  (replace-match ""))
+	 )
 	(forward-line 1)
 	)
       )

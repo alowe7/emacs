@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.22 2010-02-07 00:36:41 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.23 2010-03-21 18:45:41 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -218,7 +218,13 @@
 (setq wlog (expand-file-name "~/tw/wlog"))
 (setq wdirs (list "/z"))
 
-(setq Info-default-directory-list  '("/usr/share/info/" "c:/usr/local/lib/emacs-22.3/info/" "/usr/local/share/info/"))
+(setq Info-default-directory-list
+      `(
+	"/usr/share/info/"
+	,(canonify (expand-file-name "info"  (getenv "EMACS_DIR")) 0)
+	"/usr/local/share/info/")
+      )
+
 
 ; struggling with daylight savings time again
 ; (getenv "TZ")
