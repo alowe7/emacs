@@ -1,9 +1,13 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.1 2010-03-07 23:49:08 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.2 2010-03-29 04:13:56 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+(blink-cursor-mode -1)
+(setq
+ cursor-type (quote (bar . 1))
+ cursor-in-non-selected-windows nil)
 
 (set-default-font "-*-Corbel-normal-r-*-*-17-*-*-*-*-*-*-*")
 
@@ -85,3 +89,9 @@
 
 ; (setq comint-use-prompt-regexp t)
 
+; for now...
+(load-library "post-comint")
+
+
+; did the default for this change?
+(grep-apply-setting  'grep-find-command "find . -type f -print0 | xargs -0 -e grep -n -i -e ")
