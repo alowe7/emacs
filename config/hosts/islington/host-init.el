@@ -1,9 +1,7 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/islington/host-init.el,v 1.5 2010-04-17 18:53:08 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/islington/host-init.el,v 1.6 2010-04-17 20:32:50 slate Exp $")
 
 ; enoch..tombstone..slate..islington
-
-(require 'post-dired)
 
 (require 'ctl-slash)
 (require 'ctl-ret)
