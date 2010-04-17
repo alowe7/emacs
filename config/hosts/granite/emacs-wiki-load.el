@@ -1,5 +1,5 @@
 (put 'emacs-wiki-load 'rcsid
- "$Id: emacs-wiki-load.el,v 1.1 2010-03-07 23:49:08 alowe Exp $")
+ "$Id: emacs-wiki-load.el,v 1.2 2010-04-17 18:53:08 alowe Exp $")
 
 ;???
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/emacs-wiki")
@@ -8,8 +8,9 @@
 
 ; (emacs-wiki-index)
 
-(require 'ctl-backslash)
-(define-key ctl-\\-map "w" 'emacs-wiki-index)
+(require 'ctl-slash)
+(define-key ctl-/-map "w" 'emacs-wiki-index)
+
 (defun maybe-emacs-wiki-follow-name-at-point ()
   (interactive)
 ; whats all this about?

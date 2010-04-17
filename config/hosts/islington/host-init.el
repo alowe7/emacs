@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/islington/host-init.el,v 1.4 2010-01-10 22:30:03 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/islington/host-init.el,v 1.5 2010-04-17 18:53:08 alowe Exp $")
 
 ; enoch..tombstone..slate..islington
 
@@ -67,8 +67,7 @@
 
 (setq *sisdirs* '(("/root/slash/.p" "/root/.p") ("/root/slash" "")))
 
-; string quoting logic in font-lock if f***-ed up
-
+; string quoting logic in font-lock is f***-ed up
 (setq font-lock-string-face 'default)
 
 ; should be found in /usr/share/emacs/site-lisp/zt-1.0

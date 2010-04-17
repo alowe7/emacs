@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.2 2010-03-29 04:13:56 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.3 2010-04-17 18:53:08 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -80,7 +80,8 @@
 
 (load-library "locate")
 
-(add-to-load-path-p "/z/db" t)
+; should be found in /usr/share/emacs/site-lisp/zt-1.0
+; (add-to-load-path-p "/z/db" t)
 
 (require 'zt-loads)
 (require 'xz-loads)
@@ -93,5 +94,3 @@
 (load-library "post-comint")
 
 
-; did the default for this change?
-(grep-apply-setting  'grep-find-command "find . -type f -print0 | xargs -0 -e grep -n -i -e ")
