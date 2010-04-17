@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.64 2010-04-17 18:51:05 alowe Exp $")
+ "$Id: default.el,v 1.65 2010-04-17 19:27:49 slate Exp $")
 
 (require 'assoc-helpers)
 
@@ -86,7 +86,6 @@ items get added at the head so in effect override any previous definition.
 	  ("\\.H$" . c++-mode)
 	  ("\\.hh$" . c++-mode)
 	  ("\\.pgp$" . decrypt-mode)
-	  ("\\.9[56]$" . logview-mode)
 	  ("\\.Z$" . uncompress-while-visiting)
 	  ("\\.gz$" . uncompress-while-visiting)
 	  ("\\.tar$" . tar-mode)
@@ -97,7 +96,6 @@ items get added at the head so in effect override any previous definition.
 	  ("\\.f$" . fortran-mode)
 	  ("\\.mss$" . scribe-mode)
 	  ("\\.css$" . css-mode)
-	  ("\\.log$" . logview-mode)
 	  )
 	)
 
