@@ -1,5 +1,5 @@
 (put 'uname 'rcsid 
- "$Id: uname.el,v 1.11 2006-01-15 19:07:15 nathan Exp $")
+ "$Id: uname.el,v 1.12 2010-04-17 18:51:06 alowe Exp $")
 (require 'eval-process)
 (require 'typesafe)
 
@@ -33,20 +33,7 @@
     (if (interactive-p) (message u) u))
   )
 
-(defun hostname ()
-  "return hostname one way or another"
-  (interactive)
-  (let ((s 
-	 (or 
-	  (condition-case x
-	      (clean-string (eval-process "hostname"))
-	    (error nil))
-	  (getenv "COMPUTERNAME") 
-	  (getenv "HOSTNAME")
-	  )))
-    (if (interactive-p) (message s) s))
-  )
-
+(fset 'hostname 'system-name)
 ; (hostname)
 
 (defun hostname-non-domain ()

@@ -1,11 +1,9 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.63 2008-10-29 01:01:44 alowe Exp $")
+ "$Id: default.el,v 1.64 2010-04-17 18:51:05 alowe Exp $")
 
 (require 'assoc-helpers)
 
 (defvar post-load-hook nil "hook to run after initialization is complete")
-
-(load "keys" nil t) ;key bindings
 
 (modify-syntax-entry ?- "w")
 
