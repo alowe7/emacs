@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.62 2010-04-17 18:51:05 alowe Exp $")
+ "$Id: config.el,v 1.63 2010-04-17 20:32:47 slate Exp $")
 
 (require 'advice)
 (require 'cl)
@@ -304,9 +304,13 @@ or override them by post-chaining.
   (let ((f (this-load-file)))
     (and f
 	 (let* (z
-		(y (file-name-nondirectory f))
+		(y (file-name-sans-extension (file-name-nondirectory f)))
 		(l 
-		 (loop for x in load-path when (file-exists-p (setq z (concat x "/" y))) collect z))
+		 (loop for x in load-path when 
+		       (or
+			(file-exists-p (setq z (concat x "/" y ".elc")))
+			(file-exists-p (setq z (concat x "/" y ".el"))))
+		       collect z))
 		(tail (funcall *config-file-name-member* f l))
 		(parent (and tail (cadr tail))))
 
