@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.28 2010-04-17 18:52:36 alowe Exp $")
+ "$Id: os-init.el,v 1.29 2010-05-14 23:48:28 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -323,9 +323,11 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   (setq comint-prompt-regexp "^[a-zA-Z]:[^>]*>")
   )
 
-(defun read-directory-name (prompt)
-  (let ((f (read-file-name prompt)))
-    (or (-d f) (file-name-directory f) default-directory)
+(unless (fboundp 'read-directory-name)
+  (defun read-directory-name (&optional prompt)
+    (let ((f (read-file-name prompt)))
+      (or (-d f) (file-name-directory f) default-directory)
+      )
     )
   )
 ; (read-directory-name (format "run cmd in dir (%s): " default-directory))
@@ -847,8 +849,8 @@ host must respond within optional TIMEOUT msec"
   ""
 
   ; apply file association, if exist
-  (debug)
-  (let ((f (caar (cddr (ad-get-arg 0)))))
+  (let* ((ev (ad-get-arg 0))
+	 (f (caar (cddr ev))))
     (if (file-association-1 f)
 	(progn 
 	  (aexec f)

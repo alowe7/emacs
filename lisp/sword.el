@@ -1,5 +1,5 @@
 (put 'sword 'rcsid
- "$Id: sword.el,v 1.7 2010-02-07 00:36:42 alowe Exp $")
+ "$Id: sword.el,v 1.8 2010-05-14 23:46:36 alowe Exp $")
 (require 'long-comment)
 (require 'comint)
 
@@ -76,7 +76,7 @@ otherwise if `*cache-sword-key*' is set and a key is cached, use that.
   (define-key sword-mode-map "\C-C\C-C" ' kill-sword-buffer)
   (define-key sword-mode-map "\C-C\C-F" 'edit-swords)
   (define-key sword-mode-map "\C-m" 'maybe-browse-url-at-point)
-  (setq font-lock-defaults '((sword-font-lock-keywords)))
+;  (setq font-lock-defaults '((sword-font-lock-keywords)))
   (loop for x across "#?:+./-_~!"
 	do
 	(modify-syntax-entry x "w" sword-mode-syntax-table)

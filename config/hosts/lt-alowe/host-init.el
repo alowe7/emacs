@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.23 2010-03-21 18:45:41 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.24 2010-05-14 23:48:28 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -323,3 +323,6 @@ see `orig-compile'
 (add-to-load-path "." t)
 
 (setq default-buffer-file-coding-system 'undecided-unix)
+
+; not sure if this isn't just masking a bug
+(define-key isearch-mode-map "\C-m" 'isearch-exit)
