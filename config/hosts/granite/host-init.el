@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.3 2010-04-17 18:53:08 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.4 2010-05-14 23:09:47 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -31,7 +31,7 @@
 (setq *gpg-command* "/usr/local/bin/gpg.exe")
 
 ; content on skull & crossbones
-(setq *gpg-default-file*  "g:/wink")
+(setq *gpg-default-file*  "j:/wink")
 
 ; moved keyrings from gizmo to home
 ; (setq *gpg-default-homedir*  "j:/home/a/.gnupg")
