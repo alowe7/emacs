@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.1 2008-01-23 05:51:11 alowe Exp $")
+ "$Id: xdb.el,v 1.2 2010-05-15 01:03:45 alowe Exp $")
 
 ; what does this do?
 (put 'post-xdb 'host-init (this-load-file))
@@ -9,7 +9,9 @@
 ; (add-hook 'xdb-init-hook 'xdb-login)
 (require 'comint)
 
-(unless (member "-b" (txdb-options))
+(defvar *prompt-for-null-txdb-connection-string* nil "read txdb connection from minibuffer when not defined")
+
+(when (and (not (member "-b" (txdb-options))) *prompt-for-null-txdb-connection-string*)
   (let* ((default-user "a") 
 	 (default-db "x")
 	 (user (read-string (format "txdb user (%s): " default-user) nil nil default-user))
