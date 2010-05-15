@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.2 2010-05-15 01:03:45 alowe Exp $")
+ "$Id: xdb.el,v 1.3 2010-05-15 01:04:10 alowe Exp $")
 
 ; what does this do?
 (put 'post-xdb 'host-init (this-load-file))
@@ -11,6 +11,7 @@
 
 (defvar *prompt-for-null-txdb-connection-string* nil "read txdb connection from minibuffer when not defined")
 
+; todo -- promote and prompt on first use
 (when (and (not (member "-b" (txdb-options))) *prompt-for-null-txdb-connection-string*)
   (let* ((default-user "a") 
 	 (default-db "x")
