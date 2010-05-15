@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.4 2010-05-14 23:09:47 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.5 2010-05-15 04:16:42 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -9,88 +9,208 @@
  cursor-type (quote (bar . 1))
  cursor-in-non-selected-windows nil)
 
-(set-default-font "-*-Corbel-normal-r-*-*-17-*-*-*-*-*-*-*")
+(setq default-font  "-*-Corbel-normal-r-*-*-17-*-*-*-*-*-*-*")
+(set-default-font default-font)
+(setq initial-frame-alist
+      `(
+	(top . ,(truncate (* (frame-height) 0.2)))
+	(left . ,(truncate (* (frame-width) 0.2)))
+	(width . ,(truncate (* (frame-width) 0.8)))
+	(height . ,(truncate (* (frame-height) 0.8)))
+	(background-mode . light)
+	(cursor-type . box)
+	(border-color . "black")
+	(cursor-color . "black")
+	(mouse-color . "black")
+	(background-color . "white")
+	(foreground-color . "black")
+	(vertical-scroll-bars)
+	(internal-border-width . 0)
+	(border-width . 2)
+	(font . ,default-font)
+	(menu-bar-lines . 0))
+      )
+ (setq default-frame-alist  initial-frame-alist)
 
-(setq default-frame-alist initial-frame-alist)
-
-(setq display-time-day-and-date t)
 (display-time)
 
-(add-to-load-path "/u/emacs-w3m-1.3.2")
-(autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
+; (require 'trim)
+; (require 'sh)
 
-(add-to-load-path "/u/Mule-UCS-0.84/lisp/")
+; (require 'worlds)
+; (require 'world-advice)
 
-; all kinds of crap here
-(add-to-load-path-p "/z/el" t)
+; (load-library "people")
 
-; and some lisp here too
-(add-to-load-path-p "/z/pl" t)
+(add-to-load-path  "/z/el" t)
 
-; defaults
-(setq *gpg-command* "/usr/local/bin/gpg.exe")
+(require 'gnuserv)
 
-; content on skull & crossbones
-(setq *gpg-default-file*  "j:/wink")
+; this shortens the timeout for \\localdir\file being interpreted as \\host\file
+; (mount-hook-file-commands)
 
-; moved keyrings from gizmo to home
-; (setq *gpg-default-homedir*  "j:/home/a/.gnupg")
-(setq *gpg-default-homedir*  (expand-file-name "~/.private/.gnupg"))
+(setq grep-command "grep -nH -i -e ")
 
-(setq *gpg-encode-target* "Andrew")
-(setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
+(setq *advise-help-mode-finish* t)
 
-; find-script will look along path for certain commands 
-(require 'path-utils)
-(addpathp "/z/pl" "PATH")
+(add-hook 'perl-mode-hook
+	  '(lambda () (font-lock-mode t)))
 
-; this ensure calendar comes up in a frame with a fixed-width font
-(load-library "mycal")
+(defun makeunbound (symbol-name)
+  (interactive (list (read-string* "make unbound (%s): " (thing-at-point 'symbol))))
+  (let ((symbol (intern symbol-name)))
+    (and (boundp symbol) (makunbound symbol))
+    )
+  )
+(define-key ctl-/-map "u" 'makeunbound)
 
-; xxx check out why this isn't autoloading
-(load-library "post-bookmark")
+; make f1 available for binding
+(if (eq (key-binding (vector 'f1)) 'help-command)
+    (global-set-key (vector 'f1) nil))
 
-; (load-library "post-help")
-(load-library "fixframe")
-(load-library "unbury")
+(defun undedicate-window () 
+(interactive)
+(set-window-dedicated-p (selected-window) nil))
 
-(if (not (and
-	  (file-directory-p exec-directory)
-	  (string-match (format "%s.%s" emacs-major-version emacs-minor-version) exec-directory)))
-    (let ((dir (or (getenv "EMACS_DIR") (getenv "EMACSDIR"))))
-      (or (string= exec-directory dir)
-	  (setq exec-directory dir))
-      )
+; its a lie.  
+(autoload 'calendar "mycal")
+
+; force post-load hooks now... tbd find a better way
+(post-after-load "locate")
+(post-after-load "dired")
+
+(defvar *path-sep* ";")
+
+(defun add-to-path (dir &optional prepend)
+  (unless (member dir (split (getenv "PATH") *path-sep*))
+    (setenv "PATH" 
+	    (concat (getenv "PATH") *path-sep* dir)
+	    ))
   )
 
-(setq Info-default-directory-list '("/usr/local/lib/emacs-23.1/info" "/usr/share/info"))
-(setq Info-directory-list  Info-default-directory-list)
+; (add-to-path "c:\\Program Files\\Java\\j2re1.4.2_03\\bin")
+; (add-to-path "c:\\Program Files\\Java\\j2re1.4.2_03\\bin" t)
 
-(autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
-(autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
+(setq *minibuffer-display-unique-hit* t)
 
-(scan-file-p "~/.private/.xdbrc")
+; gpg is here
+(add-to-load-path "/z/gpg" t)
+(setq *gpg-default-homedir*  (expand-file-name "i:/home/a/.gnupg"))
+(condition-case x (load "/z/gpg/.autoloads") (error nil))
+(setq *gpg-command* "/home/a/bin/gpg.exe")
+(setq *gpg-default-file*  "f:/wink")
+; (setq *gpg-default-homedir*  "~/.gnupg")
+(setq *gpg-encode-target* "Andrew Lowe")
+(setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
 
-; this is a problem..
-(defun perl-font-lock-syntactic-keywords ()  perl-font-lock-syntactic-keywords) 
+(require 'logview-mode)
 
-(require 'noted)
-(require 'locations)
-(require 'emacs-wiki-load)
+(require 'myblog)
 
-(load-library "locate")
+; string quoting logic in font-lock if f***-ed up
 
-; should be found in /usr/share/emacs/site-lisp/zt-1.0
-; (add-to-load-path-p "/z/db" t)
+(setq font-lock-string-face 'default)
 
-(require 'zt-loads)
-(require 'xz-loads)
+; xxx mongrify
+(add-hook 'locate-mode-hook 'fb-mode)
 
-(setq dired-dnd-protocol-alist nil)
+; honk?
+(setq wlog (expand-file-name "~/tw/wlog"))
+(setq wdirs (list "/z"))
 
-; (setq comint-use-prompt-regexp t)
+(setq Info-default-directory-list
+      `(
+	"/usr/share/info/"
+	,(canonify (expand-file-name "info"  (getenv "EMACS_DIR")) 0)
+	"/usr/local/share/info/")
+      )
+
+
+; struggling with daylight savings time again
+; (getenv "TZ")
+; (current-time-zone)
+(set-time-zone-rule "CST6CDT")
+; (set-time-zone-rule "EST5EDT")
+; (format-time-string "%H"  (current-time))
+
+(add-to-load-path "/z/db" t)
+(load-library "zt")
+; (find-whence-lib "zt.el")
+
+(define-key ctl-RET-map "" 'yank-like)
+
+
+(unless (get 'post-comint 'rcsid)
+  (load-library "post-comint"))
+
+(defun isearch-thing-at-point ()
+  (interactive)
+  (isearch-update-ring (thing-at-point 'symbol))
+  (isearch-forward)
+  )
+(define-key ctl-RET-map "\C-s" 'isearch-thing-at-point)
+
+(setq sgml-default-doctype-name  "-//W3C//DTD XHTML 1.0 Transitional//EN")
+(setq sgml-catalog-files '("/a/lib/DTD/catalog"))
+(add-auto-mode "\\.csproj$" 'xml-mode)
+
+(global-font-lock-mode 1)
 
 ; for now...
-(load-library "post-comint")
+(require 'cs-mode)
+(add-auto-mode "\\.cs$" 'cs-mode)
 
 
+; (add-to-list 'warning-suppress-types '(undo discard-info))
+
+; advice won't work to tweak an interactive form
+(unless (and (boundp 'orig-compile) orig-compile)
+  (fset 'orig-compile (symbol-function 'compile)))
+(define-key ctl-x-map (vector 'C-S-return) 'orig-compile)
+
+(defun compile (command)
+  "hook compile to call make if default-directory contains a makefile, ant otherwise
+see `orig-compile'
+"
+  (interactive
+   (let ((compile-command
+	  (or 
+	   (cdr (assq (quote compile-command) (buffer-local-variables)))
+	   (and (file-exists-p "Makefile") *make-command*) compile-command)))
+     (if (or compilation-read-command current-prefix-arg)
+	 (list (read-from-minibuffer "Compile command: "
+				     (eval compile-command) nil nil
+				     '(compile-history . 1)))
+       (list (eval compile-command)))))
+
+  (orig-compile command)
+  )
+
+; this is bogus:
+; (define-key isearch-mode-map "\M-y" (car kill-ring))
+
+; (debug)
+;; what a coincidence.  two machines same name
+; (require 'xz-loads)
+(add-hook 'xz-load-hook 
+	  '(lambda ()
+	     (mapcar
+	      '(lambda (x) (load x t t)) 
+		     '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
+
+; why load when you can require?
+; (load-library "xz-loads")
+(require 'xz-loads)
+
+(defvar  locate-options '("--ignore-case"))
+(defun my-locate-default-make-command-line (search-string)
+  `(,locate-command ,@locate-options ,search-string))
+(setq locate-make-command-line 'my-locate-default-make-command-line)
+; (funcall locate-make-command-line "foo")
+
+(add-to-load-path "." t)
+
+(setq default-buffer-file-coding-system 'undecided-unix)
+
+; not sure if this isn't just masking a bug
+(define-key isearch-mode-map "\C-m" 'isearch-exit)

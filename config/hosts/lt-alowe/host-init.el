@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.24 2010-05-14 23:48:28 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.25 2010-05-15 04:16:42 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -9,81 +9,6 @@
  cursor-type (quote (bar . 1))
  cursor-in-non-selected-windows nil)
 
-(/*
- (setq default-fontspec
-       (default-font 
-	 (setq default-font-family "tahoma")
-	 (setq default-style "normal")
-	 (setq default-point-size 16)
-	 )
-       )
- ;; ; "-outline-tahoma-normal-r-normal-normal-16-120-96-96-p-70-*-"
-
- (setq initial-frame-alist
-       `((top . 79)
-	 (left . 100)
-	 (width . 100)
-	 (height . 32)
-	 (background-mode . light)
-	 (cursor-type . box)
-	 (border-color . "black")
-	 (cursor-color . "black")
-	 (mouse-color . "black")
-	 (background-color . "white")
-	 (foreground-color . "black")
-	 (vertical-scroll-bars)
-	 (internal-border-width . 0)
-	 (border-width . 2)
-	 (font . ,default-fontspec)
-	 (menu-bar-lines . 0))
-       )
-
- (setq default-frame-alist  initial-frame-alist)
-
-  ; re-added top and left.
-  ; see frames.el  
- (setq *clone-frame-parameters* '(
-  ; window-id
-				  top
-				  left
-  ; buffer-list
-  ; minibuffer
-				  width
-				  height
-  ; name
-				  display
-				  visibility
-  ; icon-name
-  ; unsplittable
-  ; modeline
-				  background-mode
-				  display-type
-				  scroll-bar-width
-				  cursor-type
-  ; auto-lower
-  ; auto-raise
-				  icon-type
-  ; title
-  ; buffer-predicate
-				  tool-bar-lines
-				  menu-bar-lines
-				  line-spacing
-				  screen-gamma
-				  border-color
-				  cursor-color
-				  mouse-color
-				  background-color
-				  foreground-color
-				  vertical-scroll-bars
-				  internal-border-width
-				  border-width
-				  font
-				  )
-       )
- )
-
-; -outline-Corbel-normal-normal-normal-sans-*-*-*-*-p-*-iso8859-2)
-; (set-default-font "-*-Corbel-normal-r-*-*-17-*-*-*-*-*-*-*")
 
 ; tweak load-path to use working versions if found. will this stuff ever stabilize?
 (loop for e in '(
@@ -121,21 +46,6 @@
  )
 
 (add-to-load-path  "/z/el" t)
-
-(/* 
-; bug in /z/pl/ip2l
-(require 'proxy-autoconfig)
-
-(defvar myIpAddress (myIpAddress))
-(if (isInNet myIpAddress "172.17.0.0/255.255.0.0")
-  ; get money, do stuff
-    (if (scan-file-p (format "~/config/hosts/%s/.bashrc" (hostname)))
-	(setenv "HTTP_PROXY" (getenv "OWS_HTTP_PROXY")))
-
-  ; else
-  (setenv "HTTP_PROXY" nil)
-  )
-)
 
 (setq *txdb-options* 
       (let (l)
