@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.26 2010-05-15 04:17:19 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.27 2010-05-16 20:30:49 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -11,12 +11,24 @@
 
 
 ; tweak load-path to use working versions if found. will this stuff ever stabilize?
-(loop for e in '(
-		 ("site-lisp/tw-3.01" "/x/tw/site-lisp")
-		 ("site-lisp/db-1.0" "/x/db/site-lisp")
-		 ("site-lisp/xz-3.1" "/x/xz/site-lisp")
-		 ("site-lisp/tx-1.0" "/x/elisp")
-		 )
+(setq tweaked-loads
+      '(
+	("site-lisp/tw-3.01" "/x/tw/site-lisp")
+	("site-lisp/db-1.0" "/x/db/site-lisp")
+	("site-lisp/xz-3.1" "/x/xz/site-lisp")
+	("site-lisp/tx-1.0" "/x/elisp")
+	("site-lisp/x-1.0" "/x/share/site-lisp")
+	))
+
+(defvar *sisdirs* nil) ;; just in case its not defined yet
+(loop
+ for e in tweaked-loads 
+ do
+ (add-to-list '*sisdirs* (list (unix-canonify (expand-file-name (car e) share) 0) (cadr e)))
+ )
+
+; todo rationalize this loop with previous
+(loop for e in tweaked-loads
       when (file-directory-p (cadr e))
       do 
       (setq load-path
