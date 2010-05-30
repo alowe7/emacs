@@ -1,5 +1,5 @@
 (put 'people 'rcsid
- "$Id: people.el,v 1.6 2009-11-18 05:06:34 alowe Exp $")
+ "$Id: people.el,v 1.7 2010-05-30 18:01:26 alowe Exp $")
 (require 'eval-utils)
 
 (chain-parent-file t)
@@ -7,11 +7,16 @@
 
 
 ; this just needs to be more context sensitive...
-(defvar *ows-contact-file* (expand-file-name "/work/n/overwatch-phone-list-081111.csv"))
+(defvar *ows-contact-file* (expand-file-name "/work/biz/people/overwatch-phone-list-081111.csv"))
 
 ; what's the best way to lazy eval on first use?
-; (defvar *dscm-database* 
-(setq *dscm-database* (split (read-file  *ows-contact-file* t) "\n"))
+(defvar *dscm-database* nil)
+(defun dscm-database () 
+  (or *dscm-database*
+      (setq *dscm-database* (split (read-file  *ows-contact-file* t) "\n"))
+      )
+  )
+; (dscm-database)
 
 (defun find-person (name &optional db)
   " search `*dscm-database*' for regexp NAME
@@ -21,7 +26,7 @@
 "
   (interactive "swho? ")
 
-  (let* ((l (loop for x in  *dscm-database*  when (string-match name x) collect x))
+  (let* ((l (loop for x in (dscm-database)  when (string-match name x) collect x))
 	 (n (length l))
 	 )
 
@@ -66,10 +71,10 @@
   (interactive "sname: \nsextension: ")
   (let* (
 	 (db (or db 
-		 *dscm-database*))
+		 (dscm-database)))
   ; see /content/personal/people.sql for the schema
 	 (sql (format "insert into people (name, extension) values ('%s', '%s')" name extension))
-	 (retval (perl-command-1 "txodbc" :args (list "-n" *dscm-database* sql)))
+	 (retval (perl-command-1 "txodbc" :args (list "-n" (dscm-database) sql)))
 	 (b (zap-buffer "*people*" 'people-mode)))
 
     (message retval)

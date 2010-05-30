@@ -1,7 +1,7 @@
 (put 'sisdir 'rcsid
- "$Id: sisdir.el,v 1.1 2008-01-06 23:08:56 keystone Exp $")
+ "$Id: sisdir.el,v 1.2 2010-05-30 18:01:26 alowe Exp $")
 
-(defvar *sisdirs* nil "list of related directories to cycle through using `sisdir'")
+(defvar *sisdirs* nil "alist of related directories to cycle through using `sisdir'")
 
 ; 
 (defun construct-sisdirs (base)
