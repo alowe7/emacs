@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.27 2010-05-16 20:30:49 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.28 2010-06-13 19:43:49 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -7,7 +7,9 @@
 (blink-cursor-mode -1)
 (setq
  cursor-type (quote (bar . 1))
- cursor-in-non-selected-windows nil)
+ cursor-in-non-selected-windows nil
+ resize-mini-windows nil
+)
 
 
 ; tweak load-path to use working versions if found. will this stuff ever stabilize?
