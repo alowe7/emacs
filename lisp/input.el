@@ -1,5 +1,5 @@
 (put 'input 'rcsid 
- "$Id: input.el,v 1.8 2009-11-22 22:44:11 alowe Exp $")
+ "$Id: input.el,v 1.9 2010-06-27 17:22:37 alowe Exp $")
 
 (cond ((featurep 'xemacs)
        (fset 'whack-key-sequence '(lambda (k)
@@ -82,5 +82,7 @@ with optional string CHARS, also matches specified characters.
       )
     )
   )
+
+; (y-or-n-q-p "foo (%s)?" "xyz" "bar")
 
 (provide 'input)
