@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.29 2010-05-14 23:48:28 alowe Exp $")
+ "$Id: os-init.el,v 1.30 2010-07-04 23:17:52 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -868,44 +868,17 @@ host must respond within optional TIMEOUT msec"
   )
 
 (defvar preferred-browser
-  (let ((pf (format ($ "$HOMEDRIVE/Program Files/"))))
-    (or (whence-p (concat pf "Mozilla Firefox/firefox.exe"))
-	(whence-p (concat pf "/Internet Explorer/iexplore.exe")))
+  (let ((cmdlist (split (eval-process "regtool get /HKLM/software/Classes/htmlfile/shell/open/command/") "\"") ))
+    (car cmdlist)
     )
   )
 
-(defun iexplore-url (f &optional new-window) 
-  " run ie on indicated url.
-note: ie runs in a subprocess.  see `list-processes'
-returns process handle
-"
-  (interactive (list (string* (read-string (format "args (%s): " (indicated-filename))) (indicated-filename))))
-
-  ; new-window isn't used here, just there for compatibility with `browse-url-browser-function'
- 
-  (start-process
-   (symbol-name (gensym "ie"))
-   nil
-   preferred-browser
-   f)
-  ;  (lower-frame)
-  )
-; (setq v (iexplore-url "http://www.nytimes.com"))
-
-(defun iexplore-current-directory  ()
-  "treat current directory (sans letter-drive-name) as a uri on http://localhost, and run iexplorer on it.
- guaranteed to work only where it makes sense.
-"
-  (interactive)
-  (let ((u (substring (canonify default-directory 0) 0 -1)))
-    (iexplore-url (format "http://%s%s" (hostname) u))
-    )
-  )
-; (iexplore-current-directory)
+; (browse-url "http://www.alowe.com")
+; (browse-url default-directory)
 
 (require 'ctl-slash)
-(define-key ctl-/-map "	" 'iexplore-url)
-(define-key ctl-/-map "" 'iexplore-current-directory)
+(define-key ctl-/-map "	" 'browse-url)
+
 
 ;; probably redundant with lnk-view
 
