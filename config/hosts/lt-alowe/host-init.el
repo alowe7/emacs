@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.30 2010-07-14 03:33:17 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.31 2010-07-14 03:38:20 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -30,7 +30,6 @@
   ; (isinnet myIP "192.168.1.0/255.255.255.0")
  )
 
-(add-to-load-path "/u/share/site-lisp")
 (add-to-load-path  "/z/el" t)
 
 (setq *txdb-options* 
