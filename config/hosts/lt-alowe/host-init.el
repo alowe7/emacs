@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.29 2010-07-04 23:23:25 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.30 2010-07-14 03:33:17 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -167,32 +167,9 @@
 (setenv "ANT_HOME"  "/usr/local/lib/apache-ant-1.6.5")
 (defvar *ant-command* (substitute-in-file-name "$ANT_HOME/bin/ant "))
 (defvar *make-command* "make -k ")
-(setq compile-command *ant-command*)
+(setq compile-command *make-command*)
 (make-variable-buffer-local 'compile-command)
-(set-default 'compile-command  *ant-command*)
-
-; advice won't work to tweak an interactive form
-(unless (and (boundp 'orig-compile) orig-compile)
-  (fset 'orig-compile (symbol-function 'compile)))
-(define-key ctl-x-map (vector 'C-S-return) 'orig-compile)
-
-(defun compile (command)
-  "hook compile to call make if default-directory contains a makefile, ant otherwise
-see `orig-compile'
-"
-  (interactive
-   (let ((compile-command
-	  (or 
-	   (cdr (assq (quote compile-command) (buffer-local-variables)))
-	   (and (file-exists-p "Makefile") *make-command*) compile-command)))
-     (if (or compilation-read-command current-prefix-arg)
-	 (list (read-from-minibuffer "Compile command: "
-				     (eval compile-command) nil nil
-				     '(compile-history . 1)))
-       (list (eval compile-command)))))
-
-  (orig-compile command)
-  )
+(set-default 'compile-command  *make-command*)
 
 ; this is bogus:
 ; (define-key isearch-mode-map "\M-y" (car kill-ring))
@@ -222,3 +199,15 @@ see `orig-compile'
 
 ; not sure if this isn't just masking a bug
 (define-key isearch-mode-map "\C-m" 'isearch-exit)
+
+(let ((f "/z/el/resources/peak7.jpg"))
+  (condition-case err
+      (when (file-exists-p f)
+	(set-buffer (get-buffer "*scratch*"))
+	(insert-image (create-image f))
+	)
+    (error
+     (debug)
+     )
+    )
+  )

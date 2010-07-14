@@ -1,5 +1,5 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.63 2010-04-17 20:32:47 slate Exp $")
+ "$Id: config.el,v 1.64 2010-07-14 03:33:17 alowe Exp $")
 
 (require 'advice)
 (require 'cl)
@@ -237,7 +237,7 @@ returns nil otherwise.
       (if subdirs
 	  (mapcar '(lambda (y) 
 		     (if (and (file-directory-p (concat x "/" y)) (not (string= y ".")) (not (string= y "..")))
-			 (add-to-load-path (concat x "/" y))))
+			 (add-to-load-path (concat x "/" y) append subdirs)))
 		  (directory-files x)))
 
     (load-autoloads x)
