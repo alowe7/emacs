@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.31 2010-07-14 03:38:20 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.32 2010-08-02 00:11:06 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -199,14 +199,12 @@
 ; not sure if this isn't just masking a bug
 (define-key isearch-mode-map "\C-m" 'isearch-exit)
 
-(let ((f "/z/el/resources/peak7.jpg"))
-  (condition-case err
-      (when (file-exists-p f)
-	(set-buffer (get-buffer "*scratch*"))
-	(insert-image (create-image f))
-	)
-    (error
-     (debug)
-     )
-    )
+
+; (see ~/emacs/config/23/view-images.el)
+
+(when (fboundp 'switch-to-image-in-frame)
+;  (debug)
+  (switch-to-image-in-frame "/z/el/resources/peak7.jpg")
   )
+
+

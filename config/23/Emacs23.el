@@ -1,5 +1,5 @@
 (put 'Emacs23 'rcsid
- "$Id: Emacs23.el,v 1.6 2010-04-17 18:53:08 alowe Exp $")
+ "$Id: Emacs23.el,v 1.7 2010-08-02 00:11:06 alowe Exp $")
 
 (define-key help-map "a" 'apropos)
 
@@ -184,4 +184,6 @@
 ; split-height-threshold
 ; prefer split-window-vertically
 (setq split-width-threshold nil)
+
+(require 'images)
 
