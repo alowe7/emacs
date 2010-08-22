@@ -1,9 +1,9 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.64 2010-07-14 03:33:17 alowe Exp $")
+ "$Id: config.el,v 1.65 2010-08-22 15:28:36 alowe Exp $")
 
 (require 'advice)
 (require 'cl)
-
+(require 'long-comment)
 
 (setq *debug-config-error* t)
 
@@ -15,9 +15,22 @@
     'member)
   "function to apply to determine filename equivalence")
 
-(if (file-exists-p "~/emacs/.autoloads")
-    (load-file  "~/emacs/.autoloads")
-  )
+(defvar share (expand-file-name (or (getenv "SHARE") "/usr/share/emacs")))
+(defvar emacsdir (expand-file-name
+		(or (getenv "EMACS_DIR")
+		    (getenv "EMACSDIR")
+		    (and (getenv "EMACSPATH")
+			 (concat (getenv "EMACSPATH") "/.."))
+			share
+		    )))
+
+
+(/*
+ ;; tbd why is this necessary?
+ (if (file-exists-p "~/emacs/.autoloads")
+     (load-file  "~/emacs/.autoloads")
+   )
+ )
 
 ;; this advice allows pre- and post- hooks on all loaded features
 ;; this way customization can be tailored to the feature instead of all lumped together

@@ -1,13 +1,17 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.30 2010-07-04 23:17:52 alowe Exp $")
+ "$Id: os-init.el,v 1.31 2010-08-22 15:28:35 alowe Exp $")
 
 (chain-parent-file t)
 
 (require 'cat-utils)
 (require 'file-association)
+(require 'long-comment)
+(require 'eval-utils)
 
 (load "frames" t t)
 
+(defvar semicolon (read "?;"))
+(defvar w32 'w32)
 
 ; definitions specific to the win32 window system
 
@@ -536,22 +540,23 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
   )
 
-(defun browse-path (arg) 
-  "pringle path in a browser buffer"
-  (interactive "P")
-  (let ((temp-buffer-show-function '(lambda (buf)
-				      (switch-to-buffer buf)
-				      (fb-mode)))
-	(l (if arg 
-	       (eval (read-variable "path var: "))
-	     (catpath "PATH" (if (eq window-system 'win32) semicolon)))))
+(/*
+ (defun browse-path (arg) 
+   "pringle path in a browser buffer"
+   (interactive "P")
+   (let ((temp-buffer-show-function '(lambda (buf)
+				       (switch-to-buffer buf)
+				       (fb-mode)))
+	 (l (if arg 
+		(eval (read-variable "path var: "))
+	      (catpath "PATH" (if (eq window-system 'win32) semicolon)))))
 
-    (with-output-to-temp-buffer "*Path*"
-      (mapcar '(lambda (x) (princ (expand-file-name x)) (princ "\n")) l)
-      )
-    )
-  )
-
+     (with-output-to-temp-buffer "*Path*"
+       (mapcar '(lambda (x) (princ (expand-file-name x)) (princ "\n")) l)
+       )
+     )
+   )
+ )
 
 (defun control-panel (c) 
   "run control panel applets"
@@ -625,9 +630,6 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
   (message (clean-string (perl-command "host" n)))
   )
-
-(defvar semicolon (read "?;"))
-(defvar w32 'w32)
 
 (defvar *mesagebox-default-flags* "MB_OK|MB_ICONINFORMATION|MB_SETFOREGROUND")
 
