@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid 
- "$Id: os-init.el,v 1.31 2010-08-22 15:28:35 alowe Exp $")
+ "$Id: os-init.el,v 1.32 2010-09-24 01:19:40 alowe Exp $")
 
 (chain-parent-file t)
 
@@ -868,18 +868,6 @@ host must respond within optional TIMEOUT msec"
 (defun whence-p (f)
   (and (file-exists-p f) (expand-file-name f))
   )
-
-(defvar preferred-browser
-  (let ((cmdlist (split (eval-process "regtool get /HKLM/software/Classes/htmlfile/shell/open/command/") "\"") ))
-    (car cmdlist)
-    )
-  )
-
-; (browse-url "http://www.alowe.com")
-; (browse-url default-directory)
-
-(require 'ctl-slash)
-(define-key ctl-/-map "	" 'browse-url)
 
 
 ;; probably redundant with lnk-view

@@ -1,5 +1,5 @@
 (put 'gnuserv 'rcsid 
- "$Id: gnuserv.el,v 1.2 2009-08-15 17:40:27 alowe Exp $")
+ "$Id: gnuserv.el,v 1.3 2010-09-24 01:19:40 alowe Exp $")
 ; Lisp Interface code between GNU Emacs and gnuserv.
 ;
 ; This file is part of GNU Emacs.
@@ -51,7 +51,7 @@
 
 
 
-(defconst gnuserv-rcs-header-id "$Header: /var/cvs/emacs/config/os/W32/gnuserv.el,v 1.2 2009-08-15 17:40:27 alowe Exp $")
+(defconst gnuserv-rcs-header-id "$Header: /var/cvs/emacs/config/os/W32/gnuserv.el,v 1.3 2010-09-24 01:19:40 alowe Exp $")
 
 
 ;; server.el and gnuserv.el can't coexist because of conflicting defvar's and
@@ -234,8 +234,9 @@ afterwards in order to not keep the client waiting."
 	      (accept-process-output)))))
 
 
-(defvar binary-file-types  '("pdf" "doc") "run dired on containing buffer when sent fie is of these types")
-      
+(defvar *gnuserv-dired-files*  nil "always dired files sent in via gnuserv")
+(defvar *binary-file-types*  '("pdf" "doc") "run dired on containing buffer when sent file is of these types")
+
 (defun server-find-file (file)
   "Edit file FILENAME.
 Switch to a buffer visiting file FILENAME,
@@ -260,8 +261,12 @@ creating one if none already exists."
 	   gnuserv-frame (fboundp 'frame-live-p) ;; v19 & Xemacs 19.12+
 	   (frame-live-p gnuserv-frame))
       (select-frame gnuserv-frame)
-      (cond ((member (file-name-extension file) binary-file-types)
-	     (dired (file-name-directory file)))
+      (cond ((or
+	      *gnuserv-dired-files*
+	      (member (file-name-extension file) *binary-file-types*)
+	      )
+	     (dired file)
+	     )
 	    (t
 	     (find-file file))
 	    )

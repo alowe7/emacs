@@ -1,9 +1,8 @@
 (put 'config 'rcsid 
- "$Id: config.el,v 1.65 2010-08-22 15:28:36 alowe Exp $")
+ "$Id: config.el,v 1.66 2010-09-24 01:19:40 alowe Exp $")
 
 (require 'advice)
 (require 'cl)
-(require 'long-comment)
 
 (setq *debug-config-error* t)
 
@@ -25,12 +24,11 @@
 		    )))
 
 
-(/*
  ;; tbd why is this necessary?
  (if (file-exists-p "~/emacs/.autoloads")
      (load-file  "~/emacs/.autoloads")
    )
- )
+
 
 ;; this advice allows pre- and post- hooks on all loaded features
 ;; this way customization can be tailored to the feature instead of all lumped together
@@ -229,6 +227,12 @@ no errors if files don't exist.
   (fset 'read-directory-name 'read-file-name)
   )
 
+(defun append-to-list (l m) 
+  "adds to the value of LIST-VAR the element ELEMENT
+like `add-to-list' except if element is added, it is added to the end of the list"
+  (add-to-list l m t)
+  )
+
 (defun add-to-load-path (x &optional append subdirs)
   "add ELEMENT to `load-path` if it exists, and isn't already there.
 by default add to the head of the list.  with optional arg APPEND add at the end of the list
@@ -361,6 +365,26 @@ members may be symbols or strings, see `post-load'
 "
   )
 
+; directory-files appears to have a bug matching arbitrary regexps.
+(defun get-directory-files (&optional directory full match)
+  "return directory contents as a list of strings, excluding . and ..
+see `directory-files'
+"
+  (interactive "sName: ")
+
+  (loop for x in 
+	(directory-files (or directory ".") full match)
+	when 
+	(let ((z (file-name-nondirectory x)))
+	  (not (or (string= z ".") (string= z ".."))))
+	collect x)
+  )
+
+(defun get-subdirs (dir)
+  "list subdirectories of DIR"
+  (loop for x in (get-directory-files dir t)
+	when (-d x) collect x)
+  )
 
 ;; this constructs a load path from lisp and site-lisp dirs under HOME, EMACSDIR and SHARE
 ;; platform and host specific stuff come from config/hosts/HOSTNAME and config/os/UNAME

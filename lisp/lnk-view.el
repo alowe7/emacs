@@ -1,5 +1,5 @@
 (put 'lnk-view 'rcsid 
- "$Id: lnk-view.el,v 1.12 2008-02-03 22:22:12 alowe Exp $")
+ "$Id: lnk-view.el,v 1.13 2010-09-24 01:19:40 alowe Exp $")
 (require 'cl)
 
 (defvar *shortcut-helper*  (whence "shortcut"))
@@ -20,19 +20,25 @@
 	)
 
 (make-variable-buffer-local 'lnk-file)
+
+(defvar *lnk-view-in-buffer* nil)
+
 (defun lnk-view (f)
   "view the contents of a windows shortcut"
   (interactive "ffile: ")
-  (let* ((bn (basename f))
-	 (f (w32-canonify (expand-file-name f)))
-	 (b (zap-buffer (format "%s *lnk*" bn))))
+  (if *lnk-view-in-buffer*
+      (let* ((bn (basename f))
+	     (f (w32-canonify (expand-file-name f)))
+	     (b (zap-buffer (format "%s *lnk*" bn))))
 
-    (read-shortcut b f)
-    (switch-to-buffer b)
-    (lnk-mode)
-    (setq lnk-file f)
-    (set-buffer-modified-p nil)
-    (beginning-of-buffer)
+	(read-shortcut b f)
+	(switch-to-buffer b)
+	(lnk-mode)
+	(setq lnk-file f)
+	(set-buffer-modified-p nil)
+	(beginning-of-buffer)
+	)
+    (message (kill-new (eval-process "readshortcut" f)))
     )
   )
 

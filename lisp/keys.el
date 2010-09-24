@@ -1,16 +1,12 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.69 2009-10-12 03:19:55 alowe Exp $")
-(require 'nums)
+ "$Id: keys.el,v 1.70 2010-09-24 01:19:40 alowe Exp $")
+(require 'ctl-meta)
 
 ;; all key bindings
 
 ; note:
 ; on win32 literal ^M characters don't survive some operations (such as cut and paste)
 ; so use \C-m construct instead
-
-(defun char-ctrl (char)
-	"set control on char"
-	(logior (lsh 1 26) char))
 
 (global-set-key "" 'shell2)
 (define-key ctl-x-5-map "-" 'delete-all-other-frames)
@@ -234,13 +230,6 @@
 (global-set-key "" 'describe-key-sequence)
 (define-key help-map "" 'find-function-or-variable)
 
-(defvar ctl (dec "0x4000000"))
-(defun ctl (c) (+ ctl c))
-
-; maybe the flag key
-(defvar meta (dec "0x800000"))
-(defun meta (c) (+ meta c))
-
 ; use generally for info commands
 (unless (fboundp 'ctl-\?-prefix)
     (define-prefix-command 'ctl-\?-prefix))
@@ -268,8 +257,9 @@
 
 ; create scratch buffers with various default modes
 (define-key ctl-/-map "4" 'switch-to-new-scratch-buffer)
+(define-key ctl-/-map (vector (ctl ?4)) 'pop-to-last-scratch-buffer)
 (define-key ctl-/-map "1" 'yank-to-new-scratch-buffer)
-(define-key ctl-RET-map "s" 'pop-to-last-scratch-buffer)
+(define-key ctl-/-map (vector (ctl ?1)) 'list-scratch-buffers)
 
 ; what's this about?
 (global-set-key "\M-" 'backward-word)

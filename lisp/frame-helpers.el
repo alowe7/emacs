@@ -65,3 +65,5 @@
 (require 'ctl-x-n)
 (define-key ctl-x-3-map "" 'maximize-frame)
 (define-key ctl-x-3-map "t" 'tile-frames)
+
+(provide 'frame-helpers)

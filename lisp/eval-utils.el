@@ -1,5 +1,5 @@
 (put 'eval-utils 'rcsid
- "$Id: eval-utils.el,v 1.5 2008-09-27 21:49:35 keystone Exp $")
+ "$Id: eval-utils.el,v 1.6 2010-09-24 01:19:40 alowe Exp $")
 (provide 'eval-utils)
 
 (require 'zap)
@@ -21,26 +21,7 @@ with optional second arg CHOMP, applies `chomp' to the result
        )
   )
 
-; directory-files appears to have a bug matching arbitrary regexps.
-(defun get-directory-files (&optional directory full match)
-  "return directory contents as a list of strings, excluding . and ..
-see `directory-files'
-"
-  (interactive "sName: ")
 
-  (loop for x in 
-	(directory-files (or directory ".") full match)
-	when 
-	(let ((z (file-name-nondirectory x)))
-	  (not (or (string= z ".") (string= z ".."))))
-	collect x)
-  )
-
-(defun get-subdirs (dir)
-  "list subdirectories of DIR"
-  (loop for x in (get-directory-files dir t)
-	when (-d x) collect x)
-  )
 
 (defvar backup-file-extension ".bak")
 (defun backup-file (fn)

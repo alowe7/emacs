@@ -1,5 +1,7 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.32 2010-08-02 00:11:06 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.33 2010-09-24 01:19:40 alowe Exp $")
+
+(require 'ctl-slash)
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -39,6 +41,7 @@
 	)
       )
 
+(setq *gnuserv-dired-files* t)
 (require 'gnuserv)
 
 ; this shortens the timeout for \\localdir\file being interpreted as \\host\file
@@ -128,8 +131,10 @@
 ; (set-time-zone-rule "EST5EDT")
 ; (format-time-string "%H"  (current-time))
 
-(add-to-load-path "/z/db" t)
-(load-library "zt")
+;; XXX this is one way to lazy load.
+(load-file "/z/db/.autoloads")
+; (add-to-load-path "/z/db" t)
+; (load-library "zt")
 ; (find-whence-lib "zt.el")
 
 (define-key ctl-RET-map "" 'yank-like)
@@ -161,7 +166,8 @@
 
 ; (setenv "PATH" (concat (getenv "PATH") ";c:\\usr\\local\\lib\\tw-3.01\\bin"))
 
-(setenv "JAVA_HOME" "c:/Program Files/Java/jre1.6.0_03")
+; (setenv "JAVA_HOME" "c:/Program Files/Java/jre1.6.0_03")
+(setenv "JAVA_HOME" "e:/Program Files/Java/jdk1.6.0_20")
 
 (setenv "ANT_HOME"  "/usr/local/lib/apache-ant-1.6.5")
 (defvar *ant-command* (substitute-in-file-name "$ANT_HOME/bin/ant "))

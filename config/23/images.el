@@ -1,7 +1,8 @@
 (put 'view-images 'rcsid
- "$Id: images.el,v 1.1 2010-08-02 00:11:06 alowe Exp $")
+ "$Id: images.el,v 1.2 2010-09-24 01:19:40 alowe Exp $")
 
 (require 'scratch-mode)
+(require 'frame-helpers)
 
 (defun switch-to-image-in-frame (imagefile &optional new)
   "switch to scratch buffer showing IMAGEFILE
