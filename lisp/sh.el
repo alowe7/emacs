@@ -1,5 +1,5 @@
 (put 'sh 'rcsid
- "$Id: sh.el,v 1.7 2009-11-15 02:12:23 alowe Exp $")
+ "$Id: sh.el,v 1.8 2010-09-24 01:54:40 alowe Exp $")
 
 (require 'typesafe)
 (require 'eval-utils)
@@ -22,6 +22,35 @@
 (defvar sh-debug nil "set to debug this stuff")
 (defvar fw nil)	; first word of last processed line.  usually command
 (defvar *shell* "bash")
+
+(defvar end-of-word nil)
+(defvar *wordchars* "[ 	]*[^ 	(,;/\=]+[ 	(,;/\=]?" "pattern to match words")
+
+(defun string-to-word (s &optional n)
+  " return NTH word in string
+ default is n=0 (first word)
+if n > # words in string, returns last word.
+if n < 0 counts from end of string
+"
+  (trim-white-space
+   (catch 'done
+     (let ((z nil) (m (or n 0)))
+       (while (string-match *wordchars* s)
+	 (let ((x (substring s (match-beginning 0) (setq end-of-word (match-end 0)))))
+	   (if (= m 0) (throw 'done x))
+	   (push x z)
+	   (setq m (1- m))
+	   (setq s  (substring s (match-end 0) (length s)))
+	   )
+	 )
+  ;       (read-string (format " (%d: %s)" (min (1- (length z)) n) (nth  z)))
+       (throw 'done 
+	      (if (< m 0) (nth m z) 
+		(nth (min (1- (length z)) m) (reverse z))))
+       )
+     )
+   )
+  )
 
 ;;; todo: make like note -- if one-liner, show in minibuffer.
 

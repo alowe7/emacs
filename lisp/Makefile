@@ -1,9 +1,10 @@
-# $Id: Makefile,v 1.7 2006-02-13 15:32:30 alowe Exp $
+# $Id: Makefile,v 1.8 2010-09-24 01:54:40 alowe Exp $
 .PHONY:FORCE
 
 SHELL=/bin/sh
 #EMACS=$(EMACS_DIR)/bin/emacs
 EMACS=$(shell which emacs)
+MAKE_AUTOLOADS=$(shell which make-autoloads)
 
 #SOURCES=$(shell -c ls -t *.el)
 SOURCES=*.el
@@ -14,7 +15,7 @@ TOP := $(shell pwd)
 all: .autoloads
 
 .autoloads: FORCE $(SOURCES) 
-	./make-autoloads --top $(TOP) $^ > .autoloads
+	$(MAKE_AUTOLOADS) --top $(TOP) $^ > .autoloads
 	@echo .autoloads rebuilt
 
 .xz.dat: $(SOURCES)

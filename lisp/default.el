@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.65 2010-04-17 19:27:49 slate Exp $")
+ "$Id: default.el,v 1.66 2010-09-24 01:54:40 alowe Exp $")
 
 (require 'assoc-helpers)
 
@@ -127,137 +127,15 @@ items get added at the head so in effect override any previous definition.
 
 (autoload '/* "long-comment")
 
-(defmacro condlet (expr &rest body)
-  "like:
- (let ((*v* (eval EXPR))) (cond BODY))
- evals EXPR only once, bound to local var *v*"
-  (let ((*v* (eval expr))) (eval (cons 'cond body)))
-  )
-
-(defmacro directory* (**f** &optional **sub**)
-  "canonicalizes f with optional subdir"
-  (let ((*f* (eval **f**))
-	(*sub* (eval **sub**)))
-    (concat *f* (if (not (string= (substring *f* -1) "/")) "/") *sub*))
-  )
-
 ; apply message to args iff non-nil
 (defun message* (&rest args)
   (and args (apply 'message args)))
 
-
-(defmacro complete*  (prompt &optional pat default)
-  "read a symbol with completion.
- prompting with PROMPT, complete in obarry for symbols matching regexp PAT,
- default to DEFAULT"  
-  (let ((sym (completing-read  
-	      (format prompt (eval default))
-	      obarray
-	      (if pat (lambda (x) (string-match pat (format "%s" x)))))))
-    (if (and (sequencep sym) (> (length sym) 0)) sym default))
+(defun bgets () 
+  (chomp (thing-at-point (quote line)))
   )
-
-(defun region ()
-  (buffer-substring (region-beginning) (region-end))
-  )
-
-; (let ((l '(("bar" 1) ("foo" 2) ("foo" 3))))  (remove-association "foo" 'l)  l)
-;  (remove-association "foo" '(("bar" 1) ("foo" 2) ("foo" 3)))
-
-(defun bgets ()
-  "do gets on current line from buffer. return as string"
-  (let ((x (point)) y z)
-    (beginning-of-line)
-    (setq y (point))
-    (end-of-line)
-    (setq z (point))
-    (goto-char x)
-    (buffer-substring y z)
-    )
-  )
-
-
-;; xxx there's an internal fn to do this..
-;; modify indicate fns to use this & take optional string as arg
-(defvar end-of-word nil)
-(defvar *wordchars* "[ 	]*[^ 	(,;/\=]+[ 	(,;/\=]?" "pattern to match words")
-
-(defun string-to-word (s &optional n)
-  " return NTH word in string
- default is n=0 (first word)
-if n > # words in string, returns last word.
-if n < 0 counts from end of string
-"
-  (trim-white-space
-   (catch 'done
-     (let ((z nil) (m (or n 0)))
-       (while (string-match *wordchars* s)
-	 (let ((x (substring s (match-beginning 0) (setq end-of-word (match-end 0)))))
-	   (if (= m 0) (throw 'done x))
-	   (push x z)
-	   (setq m (1- m))
-	   (setq s  (substring s (match-end 0) (length s)))
-	   )
-	 )
-  ;       (read-string (format " (%d: %s)" (min (1- (length z)) n) (nth  z)))
-       (throw 'done 
-	      (if (< m 0) (nth m z) 
-		(nth (min (1- (length z)) m) (reverse z))))
-       )
-     )
-   )
-  )
-
-(defun front (n l)
-  "return a list consisting of the first N elements of LIST see `last'"
-  (if (< n 0) 
-      (last l (1- (- n)))
-    (let* ((l l))
-      (rplacd (nthcdr (1- n) l) nil)
-      l)
-    )
-  )
-
-; (first 3 (split (chomp (x-query "select tm from journal order by tm")) "
-; "))
-
-; (last 3 (split (chomp (x-query "select tm from journal order by tm")) "
-; "))
-
-
-
 
 (run-hooks 'post-load-hook)
-
-;; (defadvice load (around 
-;; 		 hook-load
-;; 		 first 
-;; 		 activate)
-;; (read-string (format "load %s" (ad-get-arg 0)))
-;;     ad-do-it
-;; (read-string (format "after load %s" (ad-get-arg 0)))
-;; )
-;; (defadvice require (around 
-;; 		 hook-load
-;; 		 first 
-;; 		 activate)
-;; (read-string (format "require %s" (ad-get-arg 0)))
-;;     ad-do-it
-;; )
-
-;; (defadvice  command-line (around 
-;; 		 hook-command-line
-;; 		 first 
-;; 		 activate)
-;; (debug)
-;;     ad-do-it
-;; (debug)
-;; )
-;    (add-hook 'before-init-hook 'debug)
-; (add-hook 'after-init-hook 'debug)
-; (debug-on-entry 'w32-add-charset-info)
-; (add-hook 'term-setup-hook 'debug)
-; (add-hook 'window-setup-hook 'debug)
 
 ;; default implementation.  custom configs can override
 (fset 'host-ok 'identity)

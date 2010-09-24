@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.5 2010-05-15 04:16:42 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.6 2010-09-24 01:55:15 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -95,10 +95,10 @@
 
 ; gpg is here
 (add-to-load-path "/z/gpg" t)
-(setq *gpg-default-homedir*  (expand-file-name "i:/home/a/.gnupg"))
+(setq *gpg-default-homedir*  (expand-file-name "c:/home/a/.gnupg"))
 (condition-case x (load "/z/gpg/.autoloads") (error nil))
-(setq *gpg-command* "/home/a/bin/gpg.exe")
-(setq *gpg-default-file*  "f:/wink")
+(setq *gpg-command* "/usr/local/bin/gpg.exe")
+(setq *gpg-default-file*  "j:/wink")
 ; (setq *gpg-default-homedir*  "~/.gnupg")
 (setq *gpg-encode-target* "Andrew Lowe")
 (setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
@@ -163,29 +163,6 @@
 
 ; (add-to-list 'warning-suppress-types '(undo discard-info))
 
-; advice won't work to tweak an interactive form
-(unless (and (boundp 'orig-compile) orig-compile)
-  (fset 'orig-compile (symbol-function 'compile)))
-(define-key ctl-x-map (vector 'C-S-return) 'orig-compile)
-
-(defun compile (command)
-  "hook compile to call make if default-directory contains a makefile, ant otherwise
-see `orig-compile'
-"
-  (interactive
-   (let ((compile-command
-	  (or 
-	   (cdr (assq (quote compile-command) (buffer-local-variables)))
-	   (and (file-exists-p "Makefile") *make-command*) compile-command)))
-     (if (or compilation-read-command current-prefix-arg)
-	 (list (read-from-minibuffer "Compile command: "
-				     (eval compile-command) nil nil
-				     '(compile-history . 1)))
-       (list (eval compile-command)))))
-
-  (orig-compile command)
-  )
-
 ; this is bogus:
 ; (define-key isearch-mode-map "\M-y" (car kill-ring))
 
@@ -214,3 +191,6 @@ see `orig-compile'
 
 ; not sure if this isn't just masking a bug
 (define-key isearch-mode-map "\C-m" 'isearch-exit)
+
+; until I figure out what's the deal with perl-mode
+(setq global-font-lock-mode nil)
