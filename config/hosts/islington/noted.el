@@ -1,12 +1,12 @@
 (put 'noted 'rcsid
- "$Id: noted.el,v 1.2 2010-09-27 01:28:23 slate Exp $")
+ "$Id: noted.el,v 1.3 2010-09-27 01:56:16 slate Exp $")
 
-(require 'fb)
+
 (defvar *notedfile* (expand-file-name "~root/noted"))
 (defvar *didfile* (expand-file-name "~root/did"))
 
-(define-derived-mode noted-mode fb-mode "*noted*"
-)
+; (require 'fb)
+; (define-derived-mode noted-mode fb-mode "*noted*" )
 
 (defun noted (arg)
   "add file to `*notedfile*' unless its already there
@@ -25,7 +25,8 @@ with optional prefix arg, just visit `*notedfile*'
        ((and b (buffer-live-p b)) (switch-to-buffer b))
        (t
 	(find-file *notedfile*)
-	(noted-mode)))
+  ;	(noted-mode)
+	))
       )
     )
    (t
