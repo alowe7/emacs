@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.6 2010-09-24 01:55:15 alowe Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.7 2010-10-02 21:53:57 alowe Exp $")
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -62,7 +62,6 @@
     (and (boundp symbol) (makunbound symbol))
     )
   )
-(define-key ctl-/-map "u" 'makeunbound)
 
 ; make f1 available for binding
 (if (eq (key-binding (vector 'f1)) 'help-command)
@@ -137,9 +136,6 @@
 (load-library "zt")
 ; (find-whence-lib "zt.el")
 
-(define-key ctl-RET-map "" 'yank-like)
-
-
 (unless (get 'post-comint 'rcsid)
   (load-library "post-comint"))
 
@@ -148,7 +144,6 @@
   (isearch-update-ring (thing-at-point 'symbol))
   (isearch-forward)
   )
-(define-key ctl-RET-map "\C-s" 'isearch-thing-at-point)
 
 (setq sgml-default-doctype-name  "-//W3C//DTD XHTML 1.0 Transitional//EN")
 (setq sgml-catalog-files '("/a/lib/DTD/catalog"))
@@ -188,9 +183,6 @@
 (add-to-load-path "." t)
 
 (setq default-buffer-file-coding-system 'undecided-unix)
-
-; not sure if this isn't just masking a bug
-(define-key isearch-mode-map "\C-m" 'isearch-exit)
 
 ; until I figure out what's the deal with perl-mode
 (setq global-font-lock-mode nil)
