@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/islington/host-init.el,v 1.6 2010-04-17 20:32:50 slate Exp $")
+ "$Header: /var/cvs/emacs/config/hosts/islington/host-init.el,v 1.7 2010-10-04 01:56:10 slate Exp $")
 
 ; enoch..tombstone..slate..islington
 
@@ -87,3 +87,5 @@
  '(blink-cursor-mode nil)
  '(display-time-mode t))
 
+(if (scan-file-p "~/.private/.xdbrc")
+    (setq *txdb-options* (list "-b" ($ "$XDB") "-h" ($ "$XDBHOST"))))
