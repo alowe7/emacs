@@ -1,5 +1,5 @@
 (put 'xz-fancy-keys 'rcsid
- "$Id: xz-fancy-keys.el,v 1.1 2004-03-27 19:03:09 cvs Exp $")
+ "$Id$")
 
 ;; define some fancy key maps
 

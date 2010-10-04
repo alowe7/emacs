@@ -1,5 +1,5 @@
 (put 'tickle 'rcsid 
- "$Id: tickle.el,v 1.3 2001-07-18 22:18:18 cvs Exp $")
+ "$Id$")
 
 ;; todo tickle from region a/o buffer
 (defun tickle (subject message time)

@@ -1,5 +1,5 @@
 (put 'outliers 'rcsid 
- "$Id: outliers.el,v 1.8 2000-12-17 05:30:16 cvs Exp $")
+ "$Id$")
 
 ;; a few outliers
 (mapcar '(lambda (x) (autoload (car x) (car (cdr x)) "via outliers.el" t))

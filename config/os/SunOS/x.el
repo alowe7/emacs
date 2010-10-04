@@ -1,5 +1,5 @@
 (put 'x 'rcsid
- "$Id: x.el,v 1.1 2003-12-05 21:02:32 cvs Exp $")
+ "$Id$")
 
 ;
 ; this file is loaded when (string= window-system "x")

@@ -1,5 +1,5 @@
 (put 'post-info 'rcsid
- "$Id: post-info.el,v 1.6 2006-06-08 15:22:33 alowe Exp $")
+ "$Id$")
 
 (setq info-files-alist
       '(

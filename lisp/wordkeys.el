@@ -1,5 +1,5 @@
 (put 'wordkeys 'rcsid 
- "$Id: wordkeys.el,v 1.2 2004-08-11 14:55:53 cvs Exp $")
+ "$Id$")
 
 (defvar *wordkeys* "/a/n/howto/wordkeys.txt")
 

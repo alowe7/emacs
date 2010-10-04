@@ -1,5 +1,5 @@
 (put 'post-compare-w 'rcsid 
- "$Id: post-compare-w.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
+ "$Id$")
 
 (defun compare-windows-2 (&optional whitespace)
   (interactive)

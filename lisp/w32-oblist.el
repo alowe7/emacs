@@ -1,5 +1,5 @@
 (put 'w32-oblist 'rcsid 
- "$Id: w32-oblist.el,v 1.9 2007-03-19 15:25:03 alowe Exp $")
+ "$Id$")
 (provide 'w32-oblist)
 (require 'fapropos)
 

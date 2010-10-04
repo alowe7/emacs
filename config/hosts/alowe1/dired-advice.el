@@ -1,5 +1,5 @@
 (put 'dired-advice 'rcsid
- "$Id: dired-advice.el,v 1.1 2003-09-23 16:01:43 cvs Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

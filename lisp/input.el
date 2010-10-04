@@ -1,5 +1,5 @@
 (put 'input 'rcsid 
- "$Id: input.el,v 1.9 2010-06-27 17:22:37 alowe Exp $")
+ "$Id$")
 
 (cond ((featurep 'xemacs)
        (fset 'whack-key-sequence '(lambda (k)

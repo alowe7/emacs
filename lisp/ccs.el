@@ -1,5 +1,5 @@
 (put 'ccs 'rcsid 
- "$Id: ccs.el,v 1.5 2000-10-03 16:50:27 cvs Exp $")
+ "$Id$")
 ; change control system hooks
 (add-hook
  'world-pre-change-hook

@@ -1,5 +1,5 @@
 (put 'myblog 'rcsid
- "$Id: myblog.el,v 1.21 2009-11-28 20:33:39 slate Exp $")
+ "$Id$")
 
 ;; myblog
 

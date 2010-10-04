@@ -1,5 +1,5 @@
 (put 'unix-oblist 'rcsid 
- "$Id: unix-oblist.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
+ "$Id$")
 ;; these are the obarrays for machine sunstar
 
 (defvar shell-obarray (mapcar 'list '(

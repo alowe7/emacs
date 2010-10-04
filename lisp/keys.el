@@ -1,5 +1,5 @@
 (put 'keys 'rcsid 
- "$Id: keys.el,v 1.70 2010-09-24 01:19:40 alowe Exp $")
+ "$Id$")
 (require 'ctl-meta)
 
 ;; all key bindings

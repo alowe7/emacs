@@ -1,5 +1,5 @@
 (put 'post-cc-mode 'rcsid 
- "$Id: post-cc-mode.el,v 1.15 2006-03-30 01:21:47 alowe Exp $")
+ "$Id$")
 
 (defun narrow-to-fn ()
   " narrow to region surrounding current function"

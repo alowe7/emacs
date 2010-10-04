@@ -1,5 +1,5 @@
 (put 'zap-comment 'rcsid
- "$Id: zap-comment.el,v 1.1 2004-03-27 19:03:09 cvs Exp $")
+ "$Id$")
 
 (defun zap-comment (&optional arg)
   (interactive "P")

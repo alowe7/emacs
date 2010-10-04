@@ -1,5 +1,5 @@
 (put 'urprefix 'rcsid 
- "$Id: urprefix.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
+ "$Id$")
 (provide 'urprefix)
 
 (if (not (fboundp 'ctl-_-prefix)) 

@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid
- "$Id: os-init.el,v 1.1 2010-03-29 04:13:56 alowe Exp $")
+ "$Id$")
 
 ; (read-string "hey!  you!")
 

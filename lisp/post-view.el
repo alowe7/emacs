@@ -1,5 +1,5 @@
 (put 'post-view 'rcsid 
- "$Id: post-view.el,v 1.8 2008-01-26 20:13:48 slate Exp $")
+ "$Id$")
 
 ;;; use this to get qsave capability on help buffer
 ;;; should put on post-help, but use post-view instead to make sure keymap gets set correctly

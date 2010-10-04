@@ -1,5 +1,5 @@
 (put 'Emacs21 'rcsid
- "$Id: Emacs21.el,v 1.16 2007-09-29 20:57:12 b Exp $")
+ "$Id$")
 
 (define-key help-map "a" 'apropos)
 

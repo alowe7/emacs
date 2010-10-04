@@ -1,5 +1,5 @@
 (put 'completion 'rcsid 
- "$Id: completion.el,v 1.5 2000-10-03 16:50:27 cvs Exp $")
+ "$Id$")
 
 (provide 'completion)
 

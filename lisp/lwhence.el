@@ -1,5 +1,5 @@
 (put 'lwhence 'rcsid 
- "$Id: lwhence.el,v 1.7 2003-07-30 21:34:44 cvs Exp $")
+ "$Id$")
 (require 'indicate)
 (provide 'lwhence)
 

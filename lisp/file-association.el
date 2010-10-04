@@ -1,5 +1,5 @@
 (put 'file-association 'rcsid
- "$Id: file-association.el,v 1.1 2003-04-08 15:39:45 cvs Exp $")
+ "$Id$")
 
 (defvar file-assoc-list nil
   "assoc mapping of downcased file extensions to handlers")

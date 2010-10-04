@@ -1,5 +1,5 @@
 (put 'view-images 'rcsid
- "$Id: images.el,v 1.2 2010-09-24 01:19:40 alowe Exp $")
+ "$Id$")
 
 (require 'scratch-mode)
 (require 'frame-helpers)

@@ -1,5 +1,5 @@
 (put 'edit-var 'rcsid
- "$Id: edit-var.el,v 1.2 2003-08-29 16:50:28 cvs Exp $")
+ "$Id$")
 
 (defun edit-var (var)
   (interactive

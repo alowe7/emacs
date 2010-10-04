@@ -1,5 +1,5 @@
 (put 'post-simple 'rcsid
- "$Id: post-simple.el,v 1.3 2006-03-24 21:35:24 alowe Exp $")
+ "$Id$")
 
 (require 'advice)
 (require 'qsave)

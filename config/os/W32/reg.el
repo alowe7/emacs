@@ -1,5 +1,5 @@
 (put 'reg 'rcsid
- "$Id: reg.el,v 1.15 2007-10-31 03:57:48 keystone Exp $")
+ "$Id$")
 (require 'qsave)
 
 (defun reg-canonify (s) (if (and s (stringp s) (> (length s) 0)) (replace-regexp-in-string "\\\\"  "/" s) ""))

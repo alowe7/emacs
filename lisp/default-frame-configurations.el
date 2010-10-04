@@ -1,5 +1,5 @@
 (put 'default-frame-configurations 'rcsid
- "$Id: default-frame-configurations.el,v 1.1 2005-05-19 20:52:25 cvs Exp $")
+ "$Id$")
 
 ; see set-frame-configuration
 (defun default-frame-configuration (font)

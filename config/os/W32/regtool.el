@@ -1,5 +1,5 @@
 (put 'regtool 'rcsid
- "$Id: regtool.el,v 1.1 2006-05-22 15:01:12 alowe Exp $")
+ "$Id$")
 
 ; see reg.el
 

@@ -1,5 +1,5 @@
 (put 'myman 'rcsid 
- "$Id: myman.el,v 1.5 2007-03-19 15:25:03 alowe Exp $")
+ "$Id$")
 (autoload 'man-page-mode "man-page")
 (require 'dosman)
 

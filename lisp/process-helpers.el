@@ -1,5 +1,5 @@
 (put 'process-helpers 'rcsid 
- "$Id: process-helpers.el,v 1.4 2001-08-28 22:11:39 cvs Exp $")
+ "$Id$")
 
 
 (defun buffer-process (&optional ib)

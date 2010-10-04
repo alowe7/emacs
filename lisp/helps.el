@@ -1,5 +1,5 @@
 (put 'helps 'rcsid 
- "$Id: helps.el,v 1.29 2010-01-02 21:33:09 alowe Exp $")
+ "$Id$")
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)

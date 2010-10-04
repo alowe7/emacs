@@ -1,5 +1,5 @@
 (put 'post-diff 'rcsid 
- "$Id: post-diff.el,v 1.4 2002-12-10 17:22:11 cvs Exp $")
+ "$Id$")
 
 (defun diff-recovered-file ()
   (interactive)

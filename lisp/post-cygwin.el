@@ -1,5 +1,5 @@
 (put 'post-cygwin 'rcsid
- "$Id: post-cygwin.el,v 1.3 2009-11-08 22:38:08 alowe Exp $")
+ "$Id$")
 
 (require 'reg)
 (defvar *cygdrive-prefix* (reg-query "machine" "software/cygnus solutions/cygwin/mounts v2" "cygdrive prefix"))

@@ -1,5 +1,5 @@
 (put 'http 'rcsid 
- "$Id: http.el,v 1.6 2008-01-23 05:51:11 alowe Exp $")
+ "$Id$")
 (provide 'http)
 
 (defun http-get (url &optional credentials)

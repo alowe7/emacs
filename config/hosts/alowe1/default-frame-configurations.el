@@ -1,5 +1,5 @@
 (put 'default-frame-configurations 'rcsid
- "$Id: default-frame-configurations.el,v 1.2 2005-05-19 20:52:25 cvs Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

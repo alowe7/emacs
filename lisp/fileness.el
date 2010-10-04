@@ -1,5 +1,5 @@
 (put 'fileness 'rcsid 
- "$Id: fileness.el,v 1.6 2004-11-08 14:45:20 cvs Exp $")
+ "$Id$")
 
 (defvar *no-fileness-modes* '(java-mode))
 (defvar *file-name-chars* '(?/ ?: ?.))

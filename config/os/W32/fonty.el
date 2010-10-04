@@ -1,5 +1,5 @@
 (put 'fonty 'rcsid
- "$Id: fonty.el,v 1.6 2009-08-28 23:24:35 alowe Exp $")
+ "$Id$")
 
 ;; jean-luc fonty
 

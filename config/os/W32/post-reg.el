@@ -1,5 +1,5 @@
 (put 'post-reg 'rcsid
- "$Id: post-reg.el,v 1.4 2006-07-07 19:17:55 alowe Exp $")
+ "$Id$")
 
 (require 'reg)
 

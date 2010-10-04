@@ -1,5 +1,5 @@
 (put 'post-lisp 'rcsid
- "$Id: post-lisp.el,v 1.2 2007-04-03 19:17:35 alowe Exp $")
+ "$Id$")
 
 (defun unbind (thingname)
   (interactive (list (read-string* "make unbound (%s): " (thing-at-point (quote symbol)))))

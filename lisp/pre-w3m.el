@@ -1,5 +1,5 @@
 (put 'pre-w3m 'rcsid
- "$Id: pre-w3m.el,v 1.6 2006-03-09 15:00:34 alowe Exp $")
+ "$Id$")
 (setq w3m-use-cookies t)
 (setq w3m-home-page "about:")
 

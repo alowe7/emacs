@@ -1,5 +1,5 @@
 (put 'cvs 'rcsid 
- "$Id: cvs.el,v 1.13 2007-12-30 02:00:36 tombstone Exp $")
+ "$Id$")
 (require 'vc)
 (require 'indicate)
 

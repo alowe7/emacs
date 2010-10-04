@@ -1,5 +1,5 @@
 (put 'tasks 'rcsid 
- "$Id: tasks.el,v 1.9 2004-08-11 14:55:52 cvs Exp $")
+ "$Id$")
 
 ; a little throw-away stack of things to do, different from todo.el
 (require 'roll)

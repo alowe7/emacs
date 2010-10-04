@@ -1,4 +1,4 @@
-;; $Id: buff.el,v 1.7 2009-12-14 01:28:01 alowe Exp $
+;; $Id$
 
 (require 'typesafe)
 ; todo combine buff.el with buffers.el

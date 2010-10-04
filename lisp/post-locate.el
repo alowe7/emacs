@@ -1,5 +1,5 @@
 (put 'post-locate 'rcsid 
- "$Id: post-locate.el,v 1.14 2009-08-15 17:40:27 alowe Exp $")
+ "$Id$")
 
 (require 'fb)
 (require 'qsave)

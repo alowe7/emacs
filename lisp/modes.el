@@ -1,5 +1,5 @@
 (put 'modes 'rcsid
- "$Id: modes.el,v 1.1 2008-09-27 16:34:01 keystone Exp $")
+ "$Id$")
 
 (defun get-parent-modes (mode)
   "given derived mode MODE, return a list of all parent modes

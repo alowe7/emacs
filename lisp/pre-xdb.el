@@ -1,5 +1,5 @@
 (put 'pre-xdb 'rcsid
- "$Id: pre-xdb.el,v 1.11 2007-05-03 16:57:49 tombstone Exp $")
+ "$Id$")
 
 ;; this is so wrong
 

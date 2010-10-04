@@ -1,5 +1,5 @@
 (put 'post-java-mode 'rcsid
- "$Id: post-java-mode.el,v 1.6 2006-03-01 02:52:43 tombstone Exp $")
+ "$Id$")
 
 (require 'proof-compat)
 

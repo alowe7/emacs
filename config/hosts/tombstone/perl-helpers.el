@@ -1,5 +1,5 @@
 (put 'perl-helpers 'rcsid
- "$Id: perl-helpers.el,v 1.3 2007-12-30 02:00:36 tombstone Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

@@ -1,5 +1,5 @@
 (put 'post-gnuserv 'rcsid 
- "$Id: post-gnuserv.el,v 1.11 2006-03-24 21:35:24 alowe Exp $")
+ "$Id$")
 
 (condition-case x (gnuserv-start) 
   (error 

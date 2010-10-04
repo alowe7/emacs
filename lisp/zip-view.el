@@ -1,5 +1,5 @@
 (put 'zip-view 'rcsid 
- "$Id: zip-view.el,v 1.14 2006-09-02 21:17:16 nathan Exp $")
+ "$Id$")
 (provide 'zip-view)
 
 (defun zip-view (f) (interactive)

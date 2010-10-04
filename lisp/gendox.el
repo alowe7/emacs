@@ -1,5 +1,5 @@
 (put 'gendox 'rcsid
- "$Id: gendox.el,v 1.1 2006-08-08 14:20:13 alowe Exp $")
+ "$Id$")
 
 ; would rather do something like: 
 ;; (loop for x in  '(

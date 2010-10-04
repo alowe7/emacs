@@ -1,5 +1,5 @@
 (put 'jsp-mode 'rcsid
- "$Id: jsp-mode.el,v 1.4 2004-09-25 21:14:26 cvs Exp $")
+ "$Id$")
 
 ;;multi-mode
 (autoload 'multi-mode

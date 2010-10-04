@@ -1,5 +1,5 @@
 (put 'escp2 'rcsid
- "$Id: escp2.el,v 1.2 2006-06-09 19:19:04 alowe Exp $")
+ "$Id$")
 
 ; support for esc p2 compatible printers, e.g. from dos or dos emulation
 ; factored from os-init

@@ -1,5 +1,5 @@
 (put 'post-compile 'rcsid 
- "$Id: post-compile.el,v 1.11 2009-12-14 01:28:01 alowe Exp $")
+ "$Id$")
 
 ; (read-string "loading post-compile")
 

@@ -1,5 +1,5 @@
 (put 'uname 'rcsid 
- "$Id: uname.el,v 1.12 2010-04-17 18:51:06 alowe Exp $")
+ "$Id$")
 (require 'eval-process)
 (require 'typesafe)
 

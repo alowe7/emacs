@@ -1,5 +1,5 @@
 (put 'domainname 'rcsid
- "$Id: domainname.el,v 1.1 2006-04-13 15:39:05 nathan Exp $")
+ "$Id$")
 
 ; obsolete, and wrong anyway
 

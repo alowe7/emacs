@@ -1,5 +1,5 @@
 (put 'pad 'rcsid
- "$Id: pad.el,v 1.1 2008-11-15 03:05:19 alowe Exp $")
+ "$Id$")
 
 
 ; like the inverse of trim, I guess

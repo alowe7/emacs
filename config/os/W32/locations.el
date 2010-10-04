@@ -1,5 +1,5 @@
 (put 'locations 'rcsid
- "$Id: locations.el,v 1.11 2008-03-28 02:42:15 keystone Exp $")
+ "$Id$")
 
 (defun substitute-expand-file-name (f)
   (expand-file-name (substitute-in-file-name f))

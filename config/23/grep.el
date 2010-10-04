@@ -1,5 +1,5 @@
 (put 'grep 'rcsid
- "$Id: grep.el,v 1.2 2010-04-17 20:32:50 slate Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

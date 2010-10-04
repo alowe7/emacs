@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid
- "$Id: post-worlds.el,v 1.8 2005-08-05 20:44:45 cvs Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

@@ -1,5 +1,5 @@
 (put 'xz-compound 'rcsid
- "$Id: xz-compound.el,v 1.2 2004-09-08 21:07:54 cvs Exp $")
+ "$Id$")
 
 (defvar *default-proximity-limit* 5)
 (defvar *proximity-limit* *default-proximity-limit*) 

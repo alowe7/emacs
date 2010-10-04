@@ -1,5 +1,5 @@
 (put 'config-lib 'rcsid
- "$Id: config-lib.el,v 1.1 2010-04-17 18:51:05 alowe Exp $")
+ "$Id$")
 
 ; would rather avoid this during init...
 ; ... so moved these funcs to lazy autoload

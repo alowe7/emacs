@@ -1,6 +1,6 @@
 "ÿþ"
 (put 'unicode 'rcsid
- "$Id: unicode.el,v 1.9 2009-11-25 23:11:30 alowe Exp $")
+ "$Id$")
 
 (defvar *unicode-signatures* (list
 			      (vector 2303 2302 )

@@ -1,5 +1,5 @@
 (put 'pre-info 'rcsid
- "$Id: pre-info.el,v 1.1 2003-09-23 20:40:40 cvs Exp $")
+ "$Id$")
 
 (require 'advice)
 

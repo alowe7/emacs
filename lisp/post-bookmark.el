@@ -1,5 +1,5 @@
 (put 'post-bookmark 'rcsid
- "$Id: post-bookmark.el,v 1.5 2006-07-01 13:43:53 tombstone Exp $")
+ "$Id$")
  
 (require 'ctl-ret)
 (define-key ctl-RET-map "e" 'edit-bookmarks)

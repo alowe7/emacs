@@ -1,5 +1,5 @@
 (put 'fontview 'rcsid 
- "$Id: fontview.el,v 1.10 2007-01-03 00:04:28 noah Exp $")
+ "$Id$")
 (require 'view)
 
 (defvar fontview-mode-hook nil "hook run when viewing font list")

@@ -1,5 +1,5 @@
 (put 'post-buffers 'rcsid
- "$Id: post-buffers.el,v 1.3 2009-10-03 22:03:16 alowe Exp $")
+ "$Id$")
 
 ; (require 'buffer-util)
 (require  'ctl-backslash)

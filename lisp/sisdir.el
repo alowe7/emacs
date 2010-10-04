@@ -1,5 +1,5 @@
 (put 'sisdir 'rcsid
- "$Id: sisdir.el,v 1.2 2010-05-30 18:01:26 alowe Exp $")
+ "$Id$")
 
 (defvar *sisdirs* nil "alist of related directories to cycle through using `sisdir'")
 

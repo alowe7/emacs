@@ -1,5 +1,5 @@
 (put 'zap 'rcsid 
- "$Id: zap.el,v 1.17 2009-12-14 01:28:01 alowe Exp $")
+ "$Id$")
 (provide 'zap)
 ;;; todo -- use (get-buffer-create (generate-new-buffer-name bname))
 

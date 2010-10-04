@@ -1,5 +1,5 @@
 (put 'post-w3 'rcsid 
- "$Id: post-w3.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
+ "$Id$")
 
 (defun dired-w3-file () 
   (interactive)

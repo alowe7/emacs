@@ -1,5 +1,5 @@
 (put 'keys 'rcsid
- "$Id: keys.el,v 1.2 2005-06-13 20:41:03 cvs Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

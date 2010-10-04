@@ -1,5 +1,5 @@
 (put 'dosman 'rcsid 
- "$Id: dosman.el,v 1.5 2004-10-01 23:07:54 cvs Exp $")
+ "$Id$")
 (provide 'dosman)
 
 (setq doshelp '(

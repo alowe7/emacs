@@ -1,5 +1,5 @@
 (put 'ctl-x-n 'rcsid
- "$Id: ctl-x-n.el,v 1.2 2005-04-19 00:20:45 cvs Exp $")
+ "$Id$")
 
 ; yet another prefix map
 

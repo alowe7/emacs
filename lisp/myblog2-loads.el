@@ -1,5 +1,5 @@
 (put 'myblog2-extra 'rcsid
- "$Id: myblog2-loads.el,v 1.1 2008-09-27 16:34:01 keystone Exp $")
+ "$Id$")
 
 ; auto-autoloads
 

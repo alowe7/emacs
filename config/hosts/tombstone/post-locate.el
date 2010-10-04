@@ -1,5 +1,5 @@
 (put 'post-locate 'rcsid
- "$Id: post-locate.el,v 1.1 2006-07-10 23:55:20 tombstone Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

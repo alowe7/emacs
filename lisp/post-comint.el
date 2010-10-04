@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid 
- "$Id: post-comint.el,v 1.31 2006-02-01 22:57:33 alowe Exp $")
+ "$Id$")
 
 (setq explicit-bash-args '("-i"))
 

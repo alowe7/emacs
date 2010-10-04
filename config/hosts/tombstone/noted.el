@@ -1,5 +1,5 @@
 (put 'noted 'rcsid
- "$Id: noted.el,v 1.2 2007-01-22 21:31:05 tombstone Exp $")
+ "$Id$")
 
 (defun noted (comment)
   "mark current file as being notable

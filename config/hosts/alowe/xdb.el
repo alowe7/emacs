@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.6 2007-01-02 15:50:04 alowe Exp $")
+ "$Id$")
 
 ; what does this do?
 (put 'post-xdb 'host-init (this-load-file))

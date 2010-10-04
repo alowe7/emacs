@@ -1,5 +1,5 @@
 (put 'mount 'rcsid 
- "$Id: mount.el,v 1.5 2001-05-05 13:12:09 cvs Exp $")
+ "$Id$")
 (require 'untranslate)
 (require 'comint)
 (provide 'mount)

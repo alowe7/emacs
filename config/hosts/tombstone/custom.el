@@ -1,5 +1,5 @@
 (put 'custom 'rcsid
- "$Id: custom.el,v 1.3 2007-01-22 21:31:05 tombstone Exp $")
+ "$Id$")
 
 ; random convenience functions for tombstone
 (require 'perl-command)

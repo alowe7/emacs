@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid
- "$Id: os-init.el,v 1.1 2005-09-30 20:19:10 cvs Exp $")
+ "$Id$")
 
 ; this is the default generic os-init
 ; specific platforms can override or extend using `chain-parent-file'

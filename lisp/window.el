@@ -1,5 +1,5 @@
 (put 'window 'rcsid 
- "$Id: window.el,v 1.8 2006-02-08 15:45:22 alowe Exp $")
+ "$Id$")
 
 (defun top-of-window ()
   (interactive)

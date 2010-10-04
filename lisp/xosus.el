@@ -1,5 +1,5 @@
 (put 'xosus 'rcsid 
- "$Id: xosus.el,v 1.7 2007-03-19 15:25:03 alowe Exp $")
+ "$Id$")
 ;; not really required, but..
 (defvar xosust-file (expand-file-name (getenv "XOSUST")))
 

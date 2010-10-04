@@ -1,5 +1,5 @@
 (put 'post-fb 'rcsid
- "$Id: post-fb.el,v 1.4 2004-11-12 14:38:17 cvs Exp $")
+ "$Id$")
 
 ; some fb toys
 (require 'compile)

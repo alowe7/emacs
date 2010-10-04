@@ -1,5 +1,5 @@
 (put 'html-view 'rcsid 
- "$Id: html-view.el,v 1.15 2005-01-04 00:19:58 cvs Exp $")
+ "$Id$")
 (provide 'html-view)
 
 (defun dired-html-view () 

@@ -1,5 +1,5 @@
 (put 'path-utils 'rcsid
- "$Id: path-utils.el,v 1.2 2008-09-27 21:49:35 keystone Exp $")
+ "$Id$")
 
 (defun addpathp (element path)
   " add ELEMENT to environment variable named PATH if not already on it

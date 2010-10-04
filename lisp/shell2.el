@@ -1,5 +1,5 @@
 (put 'shell2 'rcsid 
- "$Id: shell2.el,v 1.13 2010-03-11 03:00:18 alowe Exp $")
+ "$Id$")
 (require 'comint)
 (require 'shell)
 (defvar shell-popper 'switch-to-buffer) ; could also use pop-to-buffer

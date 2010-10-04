@@ -1,5 +1,5 @@
 (put 'post-vm 'rcsid 
- "$Id: post-vm.el,v 1.7 2006-06-14 00:41:58 tombstone Exp $")
+ "$Id$")
 
 (defun dired-vm-file ()
   "run vm on specified file"

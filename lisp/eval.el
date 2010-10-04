@@ -1,5 +1,5 @@
 (put 'eval 'rcsid 
- "$Id: eval.el,v 1.3 2000-10-03 16:50:27 cvs Exp $")
+ "$Id$")
 
 (defun inv (v) 
   "insert evaluated lisp expression" 

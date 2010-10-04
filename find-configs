@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#  $Id: find-configs,v 1.13 2006-06-08 15:45:26 alowe Exp $
+#  $Id$
 
 use Sys::Hostname;
 use POSIX qw(uname);

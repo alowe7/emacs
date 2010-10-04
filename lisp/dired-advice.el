@@ -1,5 +1,5 @@
 (put 'dired-advice 'rcsid 
- "$Id: dired-advice.el,v 1.8 2009-10-12 03:19:26 alowe Exp $")
+ "$Id$")
 
 (require 'advice)
 

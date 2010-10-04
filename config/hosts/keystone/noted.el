@@ -1,5 +1,5 @@
 (put 'noted 'rcsid
- "$Id: noted.el,v 1.2 2007-01-03 00:04:28 noah Exp $")
+ "$Id$")
 
 ; a version of noted for windows...
 

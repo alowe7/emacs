@@ -1,4 +1,4 @@
-;; $Id: perl-helpers.el,v 1.21 2009-11-15 02:12:23 alowe Exp $
+;; $Id$
 
 (require 'perl-command)
 

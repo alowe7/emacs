@@ -1,5 +1,5 @@
 (put 'autoloads 'rcsid
- "$Id: autoloads.el,v 1.13 2006-03-22 22:53:33 alowe Exp $")
+ "$Id$")
 ; automatically generated for the most part.  see ../Makefile
 
 (load "../.autoloads" t t t )

@@ -1,5 +1,5 @@
 (put 'rcs 'rcsid 
- "$Id: rcs.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
+ "$Id$")
 (provide 'rcs)
 
 (defvar *checkin-verify* nil)

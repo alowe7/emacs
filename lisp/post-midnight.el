@@ -1,5 +1,5 @@
 (put 'post-midnight 'rcsid
- "$Id: post-midnight.el,v 1.3 2004-05-18 20:11:51 cvs Exp $")
+ "$Id$")
 
 (defun cleanup-some-buffers ()
   (interactive)

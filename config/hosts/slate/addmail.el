@@ -1,5 +1,5 @@
 (put 'addmail 'rcsid
- "$Id: addmail.el,v 1.1 2007-09-29 20:57:12 b Exp $")
+ "$Id$")
 
 (defun addmail (name target)
   "add name as a new virtual email

@@ -1,5 +1,5 @@
 (put 'xl 'rcsid
- "$Id: xl.el,v 1.9 2006-06-08 16:11:18 alowe Exp $")
+ "$Id$")
 
 (require 'xdb)
 

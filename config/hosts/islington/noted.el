@@ -1,5 +1,5 @@
 (put 'noted 'rcsid
- "$Id: noted.el,v 1.3 2010-09-27 01:56:16 slate Exp $")
+ "$Id$")
 
 
 (defvar *notedfile* (expand-file-name "~root/noted"))

@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.18 2005-09-30 20:19:09 cvs Exp $")
+ "$Id$")
 
 ; this module overrides some functions defined in fb.el
 

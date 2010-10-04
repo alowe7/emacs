@@ -1,5 +1,5 @@
 (put 'emacs-wiki-load 'rcsid
- "$Id: emacs-wiki-load.el,v 1.1 2007-09-29 20:57:12 b Exp $")
+ "$Id$")
 
 ;???
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/emacs-wiki")

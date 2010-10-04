@@ -1,5 +1,5 @@
 (put 'ctl-tick 'rcsid
- "$Id: ctl-tick.el,v 1.1 2008-01-26 20:13:48 slate Exp $")
+ "$Id$")
 
 (unless (fboundp 'ctl-tick-prefix) 
     (define-prefix-command 'ctl-tick-prefix))

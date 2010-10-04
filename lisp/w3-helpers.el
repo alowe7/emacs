@@ -1,5 +1,5 @@
 (put 'w3-helpers 'rcsid 
- "$Id: w3-helpers.el,v 1.6 2000-11-20 01:03:02 cvs Exp $")
+ "$Id$")
 (require  'html-format)
 
 ; we want this file to load after w3, because it contains overloads

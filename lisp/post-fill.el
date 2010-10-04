@@ -1,5 +1,5 @@
 (put 'post-fill 'rcsid
- "$Id: post-fill.el,v 1.5 2009-11-15 02:12:23 alowe Exp $")
+ "$Id$")
 
 ;; moved from w32
 

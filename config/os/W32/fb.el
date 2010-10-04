@@ -1,5 +1,5 @@
 (put 'fb 'rcsid
- "$Id: fb.el,v 1.9 2007-06-16 01:21:36 noah Exp $")
+ "$Id$")
 
 ; this module overrides some functions defined in fb.el
 ; by default on windows platforms, locate via grep 

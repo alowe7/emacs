@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.45 2008-06-22 17:27:50 alowe Exp $")
+ "$Id$")
 (require 'w3m)
 
 ;; from url-helpers

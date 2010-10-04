@@ -1,5 +1,5 @@
 (put 'buffers 'rcsid 
- "$Id: buffers.el,v 1.17 2004-06-21 15:53:21 cvs Exp $")
+ "$Id$")
 
 (require 'scratch-mode)
 

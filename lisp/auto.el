@@ -1,5 +1,5 @@
 (put 'auto 'rcsid
- "$Id: auto.el,v 1.3 2008-08-27 00:48:59 alowe Exp $")
+ "$Id$")
 
 (defvar *peek-xml-pat*  "^[ 	
 ]*<" )

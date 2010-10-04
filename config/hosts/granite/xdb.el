@@ -1,5 +1,5 @@
 (put 'xdb 'rcsid
- "$Id: xdb.el,v 1.1 2010-03-07 23:49:08 alowe Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid
- "$Id: host-init.el,v 1.8 2005-08-19 19:08:32 cvs Exp $")
+ "$Id$")
 
 (defvar process-environment-list (loop for x in  process-environment collect (split x "=")))
 

@@ -1,5 +1,5 @@
 (put 'nautilus 'rcsid
- "$Id: nautilus.el,v 1.2 2008-01-26 20:13:48 slate Exp $")
+ "$Id$")
 
 (require 'process-helpers)
 

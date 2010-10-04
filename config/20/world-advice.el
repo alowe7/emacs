@@ -1,5 +1,5 @@
 (put 'world-advice 'rcsid 
- "$Id: world-advice.el,v 1.1 2004-02-06 16:17:36 cvs Exp $")
+ "$Id$")
 (require 'advice)
 (provide 'world-advice)
 

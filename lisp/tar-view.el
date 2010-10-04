@@ -1,5 +1,5 @@
 (put 'tar-view 'rcsid 
- "$Id: tar-view.el,v 1.12 2005-07-03 01:47:10 cvs Exp $")
+ "$Id$")
 
 (require 'cl)
 

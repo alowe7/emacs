@@ -1,5 +1,5 @@
 (put 'post-emacs-wilki 'rcsid
- "$Id: post-emacs-wilki.el,v 1.1 2005-12-02 17:12:22 tombstone Exp $")
+ "$Id$")
 
 (defvar post-emacs-wiki-loaded nil)
 (unless post-emacs-wiki-loaded

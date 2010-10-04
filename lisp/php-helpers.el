@@ -1,5 +1,5 @@
 (put 'php-helpers 'rcsid
- "$Id: php-helpers.el,v 1.1 2006-07-07 19:17:36 alowe Exp $")
+ "$Id$")
 
 (require 'php-mode)
 

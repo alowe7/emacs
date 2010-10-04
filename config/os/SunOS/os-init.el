@@ -1,5 +1,5 @@
 (put 'SunOS 'rcsid 
- "$Id: os-init.el,v 1.5 2004-02-27 16:55:17 cvs Exp $")
+ "$Id$")
 
 (add-to-load-path "~/x/elisp")
 

@@ -1,5 +1,5 @@
 (put 'zz 'rcsid
- "$Id: zz.el,v 1.3 2008-09-27 16:34:01 keystone Exp $")
+ "$Id$")
 ; poor, deaf, blind man's xz
 
 (require 'locate)

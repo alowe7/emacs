@@ -1,5 +1,5 @@
 (put 'post-jit-lock 'rcsid
- "$Id: post-jit-lock.el,v 1.1 2006-04-12 20:07:36 alowe Exp $")
+ "$Id$")
 
 ; if this isn't fast enough for you, take a look at timer-set-time-with-usecs
 ; (setq jit-lock-stealth-time 1)

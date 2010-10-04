@@ -1,5 +1,5 @@
 (put 'fx 'rcsid
- "$Id: fx.el,v 1.6 2003-11-24 21:50:38 cvs Exp $")
+ "$Id$")
 
 (require 'cat-utils)
 (require 'xdb)

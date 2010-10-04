@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id: xdb.el,v 1.8 2005-01-24 21:50:14 cvs Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

@@ -1,5 +1,5 @@
 (put 'post-psgml 'rcsid
- "$Id: post-psgml.el,v 1.13 2007-11-30 03:38:49 slate Exp $")
+ "$Id$")
 
 ;; override sgml-list-implications to not popup the stupid error buffer
 

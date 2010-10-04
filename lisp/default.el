@@ -1,5 +1,5 @@
 (put 'default 'rcsid 
- "$Id: default.el,v 1.66 2010-09-24 01:54:40 alowe Exp $")
+ "$Id$")
 
 (require 'assoc-helpers)
 

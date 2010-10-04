@@ -1,5 +1,5 @@
 (put 'xz-constraints 'rcsid
- "$Id: xz-constraints.el,v 1.3 2005-08-22 20:55:03 cvs Exp $")
+ "$Id$")
 
 (defvar *xz-constrain-queries* t "if set, enables constrained queries.  see `xz-issue-query' for constraints")
 (defvar *xz-last-constraint* nil)

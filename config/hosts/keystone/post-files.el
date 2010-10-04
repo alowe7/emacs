@@ -1,5 +1,5 @@
 (put 'post-files 'rcsid
- "$Id: post-files.el,v 1.1 2007-12-01 18:06:56 keystone Exp $")
+ "$Id$")
 
 ; size default-frame-alist  like current frame 
 

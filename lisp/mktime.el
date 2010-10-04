@@ -1,5 +1,5 @@
 (put 'mktime 'rcsid
- "$Id: mktime.el,v 1.4 2006-10-14 15:49:49 nathan Exp $")
+ "$Id$")
 
 ; some date and timestamp utilities
 

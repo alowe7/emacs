@@ -1,5 +1,5 @@
 (put 'msvc 'rcsid
- "$Id: msvc.el,v 1.3 2004-03-27 19:05:17 cvs Exp $")
+ "$Id$")
 
 (defun msvc-clean () (interactive)
   (fix-dos-file)

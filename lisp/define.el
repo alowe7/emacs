@@ -1,5 +1,5 @@
 (put 'define 'rcsid 
- "$Id: define.el,v 1.17 2006-03-01 02:52:43 tombstone Exp $")
+ "$Id$")
 
 (require 'w3m)
 

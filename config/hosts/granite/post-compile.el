@@ -1,5 +1,5 @@
 (put 'post-compile 'rcsid
- "$Id: post-compile.el,v 1.1 2010-05-15 03:41:47 alowe Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

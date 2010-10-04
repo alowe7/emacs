@@ -1,5 +1,5 @@
 (put 'kill 'rcsid
- "$Id: kill.el,v 1.9 2010-01-22 05:41:34 alowe Exp $")
+ "$Id$")
 
 (defun yank-like (pat)
   "search for PAT among kill ring, rolling through hits, inserting selected.

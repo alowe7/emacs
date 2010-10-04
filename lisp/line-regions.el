@@ -1,5 +1,5 @@
 (put 'line-regions 'rcsid
- "$Id: line-regions.el,v 1.1 2008-09-27 16:34:01 keystone Exp $")
+ "$Id$")
 
 (defun point-at-line (n)
   "return point at beginning of line N  or `point-max' whichever is less.

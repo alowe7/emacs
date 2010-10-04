@@ -1,5 +1,5 @@
 (put 'post-other 'rcsid
- "$Id: post-other.el,v 1.1 2002-09-23 01:58:37 cvs Exp $")
+ "$Id$")
 
 (defadvice rfo (around 
 			   hook-rfo

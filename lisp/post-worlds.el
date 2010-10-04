@@ -1,5 +1,5 @@
 (put 'post-worlds 'rcsid 
- "$Id: post-worlds.el,v 1.21 2005-04-19 00:20:45 cvs Exp $")
+ "$Id$")
 
 (defun push-world-p (w)
   "push current context replacing with WORLD.

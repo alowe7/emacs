@@ -1,5 +1,5 @@
 (put 'qc 'rcsid
- "$Id: qc.el,v 1.1 2008-07-02 01:44:09 alowe Exp $")
+ "$Id$")
 
 ;; fancy
 (defun qc (expr)

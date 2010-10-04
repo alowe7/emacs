@@ -1,5 +1,5 @@
 (put 'process-helpers 'rcsid
- "$Id: process-helpers.el,v 1.1 2008-01-01 20:46:18 slate Exp $")
+ "$Id$")
 
 (defun collect-process-like (cmd &optional arg)
   "collect processes with process-command matching CMD.

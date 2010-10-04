@@ -1,5 +1,5 @@
 (put 'post-dired 'rcsid
- "$Id: post-dired.el,v 1.9 2009-11-15 02:12:23 alowe Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

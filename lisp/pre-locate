@@ -1,4 +1,4 @@
-# $Id: pre-locate,v 1.1 2007-04-07 17:31:51 noah Exp $ 
+# $Id$ 
 
 ; override
 (defvar locate-make-command-line 'my-locate-make-command-line)

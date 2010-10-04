@@ -1,5 +1,5 @@
 (put 'keys 'rcsid
- "$Id: keys.el,v 1.4 2009-11-25 23:11:30 alowe Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 (autoload 'logview-hours "logview-mode")

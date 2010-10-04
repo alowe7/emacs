@@ -1,5 +1,5 @@
 (put 'pre-debug 'rcsid 
- "$Id: pre-debug.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
+ "$Id$")
 (or (boundp 'debug-function-list)
     (load-library "debug"))
 

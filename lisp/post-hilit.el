@@ -1,5 +1,5 @@
 (put 'post-hilit 'rcsid 
- "$Id: post-hilit.el,v 1.4 2000-11-20 01:03:02 cvs Exp $")
+ "$Id$")
 
 (defun highlight-previous-line (arg)
   (interactive "p")

@@ -1,5 +1,5 @@
 (put 'encrypt 'rcsid 
- "$Id: encrypt.el,v 1.7 2008-09-10 04:43:53 alowe Exp $")
+ "$Id$")
 (provide 'encrypt)
 (require 'comint) ; for non-echoing read
 

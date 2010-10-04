@@ -1,5 +1,5 @@
 (put 'locations 'rcsid
- "$Id: locations.el,v 1.1 2006-06-14 00:41:57 tombstone Exp $")
+ "$Id$")
 
 
 ; alternative locations for compatibility

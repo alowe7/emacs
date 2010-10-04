@@ -1,5 +1,5 @@
 (put 'edit 'rcsid 
- "$Id: edit.el,v 1.17 2007-01-16 19:06:16 noah Exp $")
+ "$Id$")
 
 ;; edit and format functions
 

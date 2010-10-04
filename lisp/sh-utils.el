@@ -1,5 +1,5 @@
 (put 'sh-utils 'rcsid 
- "$Id: sh-utils.el,v 1.4 2001-03-19 10:41:53 cvs Exp $")
+ "$Id$")
 
 ;; sh and c workalikes
 

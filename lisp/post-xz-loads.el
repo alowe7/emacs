@@ -1,5 +1,5 @@
 (put 'post-xz-loads 'rcsid 
- "$Id: post-xz-loads.el,v 1.13 2005-08-22 20:55:03 cvs Exp $")
+ "$Id$")
 
 (require 'advice)
 (require 'long-comment)

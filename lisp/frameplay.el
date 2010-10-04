@@ -1,5 +1,5 @@
 (put 'frameplay 'rcsid
- "$Id: frameplay.el,v 1.1 2006-09-02 21:17:16 nathan Exp $")
+ "$Id$")
 
 (defun increment-screen-height (&optional arg) 
   (interactive "p")

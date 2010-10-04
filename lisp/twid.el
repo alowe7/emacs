@@ -1,5 +1,5 @@
 (put 'twid 'rcsid
- "$Id: twid.el,v 1.1 2004-03-27 19:03:09 cvs Exp $")
+ "$Id$")
 
 (defun find-source ()
   (interactive)

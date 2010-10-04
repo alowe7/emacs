@@ -1,5 +1,5 @@
 (put 'myblog2 'rcsid
- "$Id: myblog2.el,v 1.5 2008-10-29 01:01:44 alowe Exp $")
+ "$Id$")
 
 ; quick and dirty blogo/wiki
 

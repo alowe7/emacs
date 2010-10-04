@@ -1,5 +1,5 @@
 (put 'post-w3m 'rcsid
- "$Id: post-w3m.el,v 1.1 2005-01-20 22:25:56 cvs Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

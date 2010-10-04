@@ -1,5 +1,5 @@
 (put 'cat-seq 'rcsid
- "$Id: cat-seq.el,v 1.2 2008-09-27 21:49:35 keystone Exp $")
+ "$Id$")
 
 (require 'cat-utils)
 

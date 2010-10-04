@@ -1,5 +1,5 @@
 (put 'html-format 'rcsid 
- "$Id: html-format.el,v 1.11 2005-09-20 21:29:58 cvs Exp $")
+ "$Id$")
 (provide 'html-format)
 
 (defvar *margin* 4)

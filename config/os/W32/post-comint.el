@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid
- "$Id: post-comint.el,v 1.5 2005-09-30 20:19:10 cvs Exp $")
+ "$Id$")
 
 (require 'whencepath)
 

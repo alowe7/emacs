@@ -1,5 +1,5 @@
 (put 'w3-loads 'rcsid 
- "$Id: w3-loads.el,v 1.6 2004-04-08 01:27:25 cvs Exp $")
+ "$Id$")
 (provide 'w3-loads)
 (add-to-load-path (substitute-in-file-name "$EMACS_DIR/site-lisp/w3"))
 

@@ -1,5 +1,5 @@
 (put 'gnuserv 'rcsid 
- "$Id: gnuserv.el,v 1.3 2010-09-24 01:19:40 alowe Exp $")
+ "$Id$")
 ; Lisp Interface code between GNU Emacs and gnuserv.
 ;
 ; This file is part of GNU Emacs.

@@ -1,5 +1,5 @@
 (put 'xml-beautify 'rcsid
- "$Id: xml-beautify.el,v 1.2 2004-10-01 23:07:54 cvs Exp $")
+ "$Id$")
 
 (setq xml-beautify-tags '("<worknodes" "<rawData" "<IDictionaryRoot"))
 

@@ -1,5 +1,5 @@
 (put 'assoc-helpers 'rcsid
- "$Id: assoc-helpers.el,v 1.3 2010-09-24 01:54:40 alowe Exp $")
+ "$Id$")
 
 (defun modify-alist (x y z)
   (set x (loop for w in (eval x) collect 

@@ -1,5 +1,5 @@
 (put 'vs 'rcsid
- "$Id: vs.el,v 1.1 2004-03-27 19:03:09 cvs Exp $")
+ "$Id$")
 
 ;; visual studio helpers
 ; (key-description (read-key-sequence ""))

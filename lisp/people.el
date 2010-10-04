@@ -1,5 +1,5 @@
 (put 'people 'rcsid 
- "$Id: people.el,v 1.20 2008-01-23 05:51:11 alowe Exp $")
+ "$Id$")
 (provide 'people)
 ;; manage people databases
 (require 'compile)

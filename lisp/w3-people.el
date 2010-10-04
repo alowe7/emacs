@@ -1,5 +1,5 @@
 (put 'w3-people 'rcsid 
- "$Id: w3-people.el,v 1.5 2000-10-03 16:50:29 cvs Exp $")
+ "$Id$")
 (defvar namedb-query-format
 "http://notesweb.pswtech.com/Info/People.nsf/SearchResultsView2?SearchView&Query=%s"
 )

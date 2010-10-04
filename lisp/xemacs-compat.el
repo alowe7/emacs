@@ -1,5 +1,5 @@
 (put 'compat 'rcsid
- "$Id: xemacs-compat.el,v 1.1 2006-03-01 02:48:38 tombstone Exp $")
+ "$Id$")
 
 (defun* package-provide (package-name &key version &key author-version &key type)
   )

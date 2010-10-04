@@ -1,5 +1,5 @@
 (put 'todo 'rcsid 
- "$Id: todo.el,v 1.17 2008-01-23 05:51:11 alowe Exp $")
+ "$Id$")
 (require 'eval-process)
 (require 'edit)
 (require 'input)

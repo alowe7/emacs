@@ -1,5 +1,5 @@
 (put 'post-shell-mode 'rcsid 
- "$Id: post-shell-mode.el,v 1.5 2002-04-09 03:32:00 cvs Exp $")
+ "$Id$")
 ;;; allow for root prompt
 
 (setq shell-prompt-pattern "^[0-9]+% *")

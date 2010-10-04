@@ -1,5 +1,5 @@
 (put 'lnk-view 'rcsid 
- "$Id: lnk-view.el,v 1.13 2010-09-24 01:19:40 alowe Exp $")
+ "$Id$")
 (require 'cl)
 
 (defvar *shortcut-helper*  (whence "shortcut"))

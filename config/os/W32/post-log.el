@@ -1,5 +1,5 @@
 (put 'post-log 'rcsid
- "$Id: post-log.el,v 1.2 2007-07-25 16:13:11 alowe Exp $")
+ "$Id$")
 
 (require 'regtool)
 

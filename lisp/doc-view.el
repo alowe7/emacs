@@ -1,5 +1,5 @@
 (put 'doc-view 'rcsid 
- "$Id: doc-view.el,v 1.3 2004-08-11 14:55:52 cvs Exp $")
+ "$Id$")
 
 (add-to-list 'auto-mode-alist '("\\.doc\\'" . no-word))
 

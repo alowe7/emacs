@@ -1,5 +1,5 @@
 (put 'mru-shell 'rcsid
- "$Id: mru-shell.el,v 1.6 2008-10-29 01:01:44 alowe Exp $")
+ "$Id$")
 
 (defun mru-shell (arg)
   "grab the most recently used extant shell buffer, pop to it and pushd to the current directory

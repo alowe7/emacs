@@ -1,5 +1,5 @@
 (put 'xz-limit-query 'rcsid
- "$Id: xz-limit-query.el,v 1.1 2004-03-27 19:03:09 cvs Exp $")
+ "$Id$")
 
 (defun xz-limit-query (query limit)
   "frame an xz query on QUERY, format and pop to hit buffer

@@ -1,5 +1,5 @@
 (put 'autosense 'rcsid
- "$Id: autosense.el,v 1.1 2007-01-02 15:50:04 alowe Exp $")
+ "$Id$")
 
 ; provides syntax relevant autocompletion based on major mode
 

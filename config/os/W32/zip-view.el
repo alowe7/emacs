@@ -1,5 +1,5 @@
 (put 'zip-view 'rcsid 
- "$Id: zip-view.el,v 1.3 2009-08-15 17:40:27 alowe Exp $")
+ "$Id$")
 (require 'whencepath)
 
 (cond 

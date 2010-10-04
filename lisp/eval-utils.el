@@ -1,5 +1,5 @@
 (put 'eval-utils 'rcsid
- "$Id: eval-utils.el,v 1.6 2010-09-24 01:19:40 alowe Exp $")
+ "$Id$")
 (provide 'eval-utils)
 
 (require 'zap)

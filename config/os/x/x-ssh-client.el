@@ -1,5 +1,5 @@
 (put 'x-ssh-client 'rcsid
- "$Id: x-ssh-client.el,v 1.1 2008-10-19 20:41:50 slate Exp $")
+ "$Id$")
 
 (defun load-p (fn)
   (and (file-exists-p fn) (load-file fn) t)

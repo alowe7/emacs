@@ -1,5 +1,5 @@
 (put 'apache 'rcsid 
- "$Id: apache.el,v 1.7 2004-01-21 18:46:44 cvs Exp $")
+ "$Id$")
 (provide 'apache)
 ; (perl-command "wf")
 

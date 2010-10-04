@@ -1,5 +1,5 @@
 (put 'ant-bones 'rcsid
- "$Id: ant-bones.el,v 1.1 2006-08-08 14:20:13 alowe Exp $")
+ "$Id$")
 
 (require 'cat-utils)
 

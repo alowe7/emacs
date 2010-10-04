@@ -1,5 +1,5 @@
 (put 'post-sgml-mode 'rcsid 
- "$Id: post-sgml-mode.el,v 1.12 2002-06-07 11:11:53 cvs Exp $")
+ "$Id$")
 ;(setq html-mode-hook '(lambda () (setq paragraph-start "<P>"))
 
 ;; (setq sgml-mode-hook '(lambda () (run-hooks 'html-mode-hook)

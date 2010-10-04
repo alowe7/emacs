@@ -1,5 +1,5 @@
 (put 'mime 'rcsid 
- "$Id: mime.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
+ "$Id$")
 (defvar *mime-associations* 
 	(read
 	 (perl-command "/a/bin/list-mime-types" "-l"))

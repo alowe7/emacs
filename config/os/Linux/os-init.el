@@ -1,5 +1,5 @@
 (put 'os-init 'rcsid
- "$Id: os-init.el,v 1.11 2005-12-17 05:01:09 tombstone Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

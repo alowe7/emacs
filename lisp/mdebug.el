@@ -1,5 +1,5 @@
 (put 'mdebug 'rcsid 
- "$Id: mdebug.el,v 1.5 2000-10-03 16:50:28 cvs Exp $")
+ "$Id$")
 ;;; debug.el --- debuggers and related commands for Emacs
 
 ;; Copyright (C) 1985, 1986, 1994 Free Software Foundation, Inc.

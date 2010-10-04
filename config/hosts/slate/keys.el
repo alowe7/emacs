@@ -1,5 +1,5 @@
 (put 'keys 'rcsid
- "$Id: keys.el,v 1.6 2008-09-27 22:15:09 slate Exp $")
+ "$Id$")
 
 ; machine specific key bindings.  needs factoring
 

@@ -1,5 +1,5 @@
 (put 'jar-view 'rcsid 
- "$Id: jar-view.el,v 1.9 2004-08-11 14:55:52 cvs Exp $")
+ "$Id$")
 (provide 'jar-view)
 (require 'cl)
 

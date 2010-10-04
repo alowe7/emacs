@@ -1,5 +1,5 @@
 (put 'post-vc 'rcsid
- "$Id: post-vc.el,v 1.18 2009-08-15 17:40:27 alowe Exp $")
+ "$Id$")
 
 (require 'cat-utils) ;; just for chomp
 

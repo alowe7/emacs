@@ -1,5 +1,5 @@
 (put 'sh 'rcsid
- "$Id: sh.el,v 1.8 2010-09-24 01:54:40 alowe Exp $")
+ "$Id$")
 
 (require 'typesafe)
 (require 'eval-utils)

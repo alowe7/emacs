@@ -1,5 +1,5 @@
 (put 'doom 'rcsid
- "$Id: doom.el,v 1.2 2009-11-21 19:09:43 alowe Exp $")
+ "$Id$")
 
 (defvar *doomdir* "/doomed")
 

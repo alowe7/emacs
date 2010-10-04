@@ -1,5 +1,5 @@
 (put 'dot 'rcsid
- "$Id: dot.el,v 1.1 2010-04-17 18:51:05 alowe Exp $")
+ "$Id$")
 
 ;; obsolete?
 

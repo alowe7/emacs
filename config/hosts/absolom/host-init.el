@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid
- "$Id: host-init.el,v 1.1 2005-05-19 20:52:25 cvs Exp $")
+ "$Id$")
 
 (require 'default-frame-configurations)
 

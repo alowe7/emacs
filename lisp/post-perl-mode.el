@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid 
- "$Id: post-perl-mode.el,v 1.28 2008-01-23 05:51:11 alowe Exp $")
+ "$Id$")
 (require 'indicate)
 
 (add-hook 'perl-mode-hook

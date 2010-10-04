@@ -1,5 +1,5 @@
 (put 'sword 'rcsid
- "$Id: sword.el,v 1.8 2010-05-14 23:46:36 alowe Exp $")
+ "$Id$")
 (require 'long-comment)
 (require 'comint)
 

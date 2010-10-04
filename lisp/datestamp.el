@@ -1,5 +1,5 @@
 (put 'datestamp 'rcsid
- "$Id: datestamp.el,v 1.2 2008-09-27 16:34:01 keystone Exp $")
+ "$Id$")
 
 ;;; xxx police line do not cross
 ;; fancy

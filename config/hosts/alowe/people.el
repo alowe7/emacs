@@ -1,5 +1,5 @@
 (put 'people 'rcsid
- "$Id: people.el,v 1.7 2008-01-23 05:51:11 alowe Exp $")
+ "$Id$")
 
 (chain-parent-file t)
 

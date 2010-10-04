@@ -1,5 +1,5 @@
 (put 'awk 'rcsid 
- "$Id: awk.el,v 1.3 2000-10-03 16:50:27 cvs Exp $")
+ "$Id$")
 
 
 (defvar *last-awk-script* nil)

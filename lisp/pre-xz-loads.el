@@ -1,5 +1,5 @@
 (put 'pre-xz-loads 'rcsid 
- "$Id: pre-xz-loads.el,v 1.1 2001-07-18 22:18:18 cvs Exp $")
+ "$Id$")
 
 (add-hook 'xz-load-hook 
 	  '(lambda () 

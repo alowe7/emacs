@@ -1,5 +1,5 @@
 (put 'ftime 'rcsid
- "$Id: ftime.el,v 1.1 2005-03-01 20:13:12 cvs Exp $")
+ "$Id$")
 
 ;; where does this really belong?
 (defun ftime () (interactive)

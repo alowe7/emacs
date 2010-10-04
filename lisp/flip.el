@@ -1,5 +1,5 @@
 (put 'flip 'rcsid 
- "$Id: flip.el,v 1.8 2008-07-31 18:02:44 slate Exp $")
+ "$Id$")
 
 (defvar *flip-command* (string* (eval-process "which dos2unix")))
 (defvar *flop-command* (string* (eval-process "which unix2dos")))

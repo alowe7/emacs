@@ -1,5 +1,5 @@
 (put 'pre-vm 'rcsid
- "$Id: pre-vm.el,v 1.3 2006-05-24 16:55:20 tombstone Exp $")
+ "$Id$")
 
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/vm-7.19")
 (require 'vm)

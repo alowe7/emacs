@@ -1,5 +1,5 @@
 ;; 
-;; $Id: lnk-mode.el,v 1.1 2002-05-27 01:36:32 cvs Exp $
+;; $Id$
 
 ;; mode to 
 (add-to-list 'auto-mode-alist '("\\.lnk" . lnk-mode))
