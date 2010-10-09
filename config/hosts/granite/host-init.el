@@ -42,8 +42,6 @@
 
 ; (load-library "people")
 
-(add-to-load-path  "/z/el" t)
-
 (require 'gnuserv)
 
 ; this shortens the timeout for \\localdir\file being interpreted as \\host\file
@@ -92,8 +90,6 @@
 
 (setq *minibuffer-display-unique-hit* t)
 
-; gpg is here
-(add-to-load-path "/z/gpg" t)
 (setq *gpg-default-homedir*  (expand-file-name "c:/home/a/.gnupg"))
 (condition-case x (load "/z/gpg/.autoloads") (error nil))
 (setq *gpg-command* "/usr/local/bin/gpg.exe")
@@ -132,12 +128,7 @@
 ; (set-time-zone-rule "EST5EDT")
 ; (format-time-string "%H"  (current-time))
 
-(add-to-load-path "/z/db" t)
-(load-library "zt")
 ; (find-whence-lib "zt.el")
-
-(unless (get 'post-comint 'rcsid)
-  (load-library "post-comint"))
 
 (defun isearch-thing-at-point ()
   (interactive)
@@ -145,8 +136,9 @@
   (isearch-forward)
   )
 
+; tbd clean this up...
 (setq sgml-default-doctype-name  "-//W3C//DTD XHTML 1.0 Transitional//EN")
-(setq sgml-catalog-files '("/a/lib/DTD/catalog"))
+(setq sgml-catalog-files (list (canonify (expand-file-name "~/lib/DTD/catalog") 0))
 (add-auto-mode "\\.csproj$" 'xml-mode)
 
 (global-font-lock-mode 1)
