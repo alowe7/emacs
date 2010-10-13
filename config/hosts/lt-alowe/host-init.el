@@ -32,8 +32,6 @@
   ; (isinnet myIP "192.168.1.0/255.255.255.0")
  )
 
-(add-to-load-path  "/z/el" t)
-
 (setq *txdb-options* 
       (let (l)
 	(and (string* (getenv "XDBHOST")) (setq l (nconc l (list "-h" (getenv "XDBHOST")))))
@@ -92,14 +90,14 @@
 (setq *minibuffer-display-unique-hit* t)
 
 ; gpg is here
-(add-to-load-path "/z/gpg" t)
-(setq *gpg-default-homedir*  (expand-file-name "i:/home/a/.gnupg"))
-(condition-case x (load "/z/gpg/.autoloads") (error nil))
-(setq *gpg-command* "/home/a/bin/gpg.exe")
-(setq *gpg-default-file*  "f:/wink")
+; (add-to-load-path "/z/gpg" t)
+; (setq *gpg-default-homedir*  (expand-file-name "i:/home/a/.gnupg"))
+; (condition-case x (load "/z/gpg/.autoloads") (error nil))
+; (setq *gpg-command* "/home/a/bin/gpg.exe")
+; (setq *gpg-default-file*  "f:/wink")
 ; (setq *gpg-default-homedir*  "~/.gnupg")
-(setq *gpg-encode-target* "Andrew Lowe")
-(setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
+; (setq *gpg-encode-target* "Andrew Lowe")
+; (setq *gpg-extra-args* `("--homedir" ,*gpg-default-homedir*))
 
 (require 'logview-mode)
 
@@ -114,7 +112,7 @@
 
 ; honk?
 (setq wlog (expand-file-name "~/tw/wlog"))
-(setq wdirs (list "/z"))
+(setq wdirs (list "/work"))
 
 (setq Info-default-directory-list
       `(
@@ -132,7 +130,7 @@
 ; (format-time-string "%H"  (current-time))
 
 ;; XXX this is one way to lazy load.
-(load-file "/z/db/.autoloads")
+; (load-file "/z/db/.autoloads")
 ; (add-to-load-path "/z/db" t)
 ; (load-library "zt")
 ; (find-whence-lib "zt.el")
@@ -214,3 +212,7 @@
   )
 
 
+(setq 
+ bookmark-default-file
+ (expand-file-name ".emacs.bmk" (file-name-directory (locate-config-file "host-init")))
+ )
