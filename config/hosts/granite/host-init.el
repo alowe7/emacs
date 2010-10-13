@@ -1,13 +1,17 @@
 (put 'host-init 'rcsid 
  "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.7 2010-10-02 21:53:57 alowe Exp $")
 
+(require 'ctl-slash)
+
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (blink-cursor-mode -1)
 (setq
  cursor-type (quote (bar . 1))
- cursor-in-non-selected-windows nil)
+ cursor-in-non-selected-windows nil
+ resize-mini-windows nil
+)
 
 (setq default-font  "-*-Corbel-normal-r-*-*-17-*-*-*-*-*-*-*")
 (set-default-font default-font)
@@ -33,12 +37,6 @@
  (setq default-frame-alist  initial-frame-alist)
 
 (display-time)
-
-; (require 'trim)
-; (require 'sh)
-
-; (require 'worlds)
-; (require 'world-advice)
 
 ; (load-library "people")
 
@@ -138,7 +136,7 @@
 
 ; tbd clean this up...
 (setq sgml-default-doctype-name  "-//W3C//DTD XHTML 1.0 Transitional//EN")
-(setq sgml-catalog-files (list (canonify (expand-file-name "~/lib/DTD/catalog") 0))
+(setq sgml-catalog-files (list (canonify (expand-file-name "~/lib/DTD/catalog") 0)))
 (add-auto-mode "\\.csproj$" 'xml-mode)
 
 (global-font-lock-mode 1)
