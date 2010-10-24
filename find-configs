@@ -34,7 +34,8 @@ else {
 # this fails under cygwin
 # die "you lose ($emacs)" unless (-x $emacs);
 
-$cmd="$emacs --batch --eval \"(message (format \\\"%d.%d\\\" emacs-major-version emacs-minor-version))\"";
+# $cmd="$emacs --batch --eval \"(message (format \\\"%d %d.%d\\\" emacs-major-version emacs-major-version emacs-minor-version))\"";
+$cmd="$emacs --batch --eval \"(message (format \\\"%d\\\" emacs-major-version))\"";
 $emacscfg=`$cmd 2>&1`;
 chomp $emacscfg;
 $cmd="find $dir/config -type f -name \"*.el\" -a \\( -path \"*$sysname*\" -o -path \"*/$hostname/*\" -o -path \"*$emacscfg*\" \\)";
