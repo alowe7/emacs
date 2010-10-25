@@ -20,9 +20,3 @@
     )
   )
 
-(fset 'wget 'http-get)
-
-(if (boundp 'x-query-mode-map)
-    (define-key x-query-mode-map "g" 'wget)
-  )
-
