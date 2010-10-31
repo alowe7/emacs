@@ -1,0 +1,100 @@
+;;;; Emacs Bookmark Format Version 1 ;;;;
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("blab"
+ (filename . "z:/p/journal/audio/")
+ (front-context-string . "2010\n  -rw-rw-rw")
+ (rear-context-string . "  0 07-25 15:50 ")
+ (position . 114))
+("spool"
+ (filename . "z:/spool/")
+ (front-context-string . "\n  drwxrwxrwx  1")
+ (rear-context-string . "-24  fruityloops")
+ (position . 7883))
+("Apache2.2"
+ ((filename . "c:/Program Files/Apache Software Foundation/Apache2.2/")
+  (front-context-string . "conf.d\n  drwxrwx")
+  (rear-context-string . " 0 Mar 11 20:51 ")
+  (position . 138)))
+("Program Files"
+ ((filename . "c:/Program Files/")
+  (front-context-string . "Java\n  drwxrwxrw")
+  (rear-context-string . " 0 Jan 30 11:57 ")
+  (position . 168)))
+("Quick Launch"
+ ((filename . "c:/Documents and Settings/alowe/Application Data/Microsoft/Internet Explorer/Quick Launch/")
+  (front-context-string . "Sony Ericsson PC")
+  (rear-context-string . "46 Sep  8 15:21 ")
+  (position . 228)))
+("backup"
+ ((filename . "//tombstone/backup/")
+  (front-context-string)
+  (rear-context-string . " 0 Feb 18 12:06 ")
+  (position . 212)))
+("chrome"
+ ((filename . "c:/Documents and Settings/alowe/Application Data/Mozilla/Firefox/Profiles/9ye47hmv.default/chrome/")
+  (front-context-string . "userChrome-examp")
+  (rear-context-string . "32 Jan 30  2006 ")
+  (position . 437)))
+("content"
+ ((filename . "//tombstone/content/")
+  (front-context-string . "README\n  drwxrwx")
+  (rear-context-string . "68 Dec 12  2005 ")
+  (position . 213)))
+("dcgs-a"
+ ((filename . "c:/work/dcgs-a/")
+  (front-context-string . "global-preferenc")
+  (rear-context-string . " 0 Sep  8 07:11 ")
+  (position . 156)))
+("etc"
+ ((filename . "c:/WINDOWS/system32/drivers/etc")
+  (front-context-string . "hosts\n  drwxrwxr")
+  (rear-context-string . "50 Dec 27 14:14 ")
+  (position . 169)))
+("firefox profile"
+ ((filename . "c:/Documents and Settings/alowe/Application Data/Mozilla/Firefox/Profiles/wszhpwgk.default/")
+  (front-context-string . "blocklist.xml\n  ")
+  (rear-context-string . "35 Feb 28 09:47 ")
+  (position . 176)))
+("hosts"
+ (filename . "c:/Windows/System32/drivers/etc/hosts")
+ (front-context-string . "# Copyright (c) ")
+ (rear-context-string)
+ (position . 1))
+("innovation"
+ ((filename . "c:/work/innovation/")
+  (front-context-string . "Search Optimized")
+  (rear-context-string . "13 Sep 10 16:42 ")
+  (position . 103)))
+("jitidb"
+ ((filename . "c:/content/dcgs/070926095352")
+  (front-context-string . "\n\nHere's some no")
+  (rear-context-string . "ee, 070927111556")
+  (position . 747)))
+("logs"
+ ((filename . "c:/apache/logs/")
+  (front-context-string . "access.log\n  -rw")
+  (rear-context-string . "04 Feb 11 13:45 ")
+  (position . 98)))
+("lt-alowe"
+ ((filename . "c:/home/a/emacs/config/hosts/lt-alowe/")
+  (front-context-string . "host-init.el\n  -")
+  (rear-context-string . "28 Jan 21 20:36 ")
+  (position . 232)))
+("proxy.pac"
+ ((filename . "c:/home/a/.private/proxy.pac")
+  (front-context-string . "function FindPro")
+  (rear-context-string)
+  (position . 1)))
+("pub"
+ ((filename . "c:/content/pub/")
+  (front-context-string . "070918110214\n  -")
+  (rear-context-string . "15 Sep 18 11:02 ")
+  (position . 401)))
+("soap"
+ ((filename . "c:/projects/SearchOptimizedAnalyticalProcessing/Src/")
+  (front-context-string)
+  (rear-context-string . " 0 Sep 10 14:29 ")
+  (position . 382)))
+)
