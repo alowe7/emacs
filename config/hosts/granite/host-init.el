@@ -9,6 +9,13 @@
  resize-mini-windows nil
 )
 
+(defun file-exists* (f) (and (file-exists-p f) f))
+
+(setq bookmark-default-file
+      (or (file-exists* (expand-file-name ".emacs.bmk" (host-config)))
+	  (file-exists* (expand-file-name (substitute-in-file-name "$HOME/.emacs.bmk"))))
+      )
+
 (setq default-font (cdr (assoc 'font (frame-parameters))))
 
 (setq initial-frame-alist
@@ -34,3 +41,4 @@
 
 (add-to-load-path "." t)
 
+(setq bookmark-default-file
