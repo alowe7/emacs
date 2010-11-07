@@ -167,12 +167,21 @@
 ; (setenv "JAVA_HOME" "c:/Program Files/Java/jre1.6.0_03")
 (setenv "JAVA_HOME" "e:/Program Files/Java/jdk1.6.0_20")
 
+; TBD move this crap somewhere more logical
 (setenv "ANT_HOME"  "/usr/local/lib/apache-ant-1.6.5")
 (defvar *ant-command* (substitute-in-file-name "$ANT_HOME/bin/ant "))
 (defvar *make-command* "make -k ")
 (setq compile-command *make-command*)
 (make-variable-buffer-local 'compile-command)
 (set-default 'compile-command  *make-command*)
+
+(defun ant ()
+  (interactive)
+  (let ((compile-command *ant-command*))
+    (call-interactively 'compile)
+    )
+  )
+(global-set-key "" 'ant)
 
 ; this is bogus:
 ; (define-key isearch-mode-map "\M-y" (car kill-ring))
@@ -216,3 +225,6 @@
  bookmark-default-file
  (expand-file-name ".emacs.bmk" (file-name-directory (locate-config-file "host-init")))
  )
+
+(add-to-list 'load-path "/u/emacs-w3m/")
+(setq w3m-command "/u/w3m-0.5.2/w3m.exe")

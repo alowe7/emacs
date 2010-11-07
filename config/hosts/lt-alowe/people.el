@@ -7,12 +7,14 @@
 
 
 ; this just needs to be more context sensitive...
-(defvar *ows-contact-file* (expand-file-name "/work/biz/people/overwatch-phone-list-081111.csv"))
+(defvar *ows-contact-file* (expand-file-name "/work/overwatch/people/overwatch-phone-list-101007.csv"))
 
 ; what's the best way to lazy eval on first use?
 (defvar *dscm-database* nil)
 
 (defun initialize-dscm-database ()
+  (unless (file-exists-p *ows-contact-file*)
+    (error "error setting *dscm-database*, %s does not exist" *ows-contact-file*))
   (setq *dscm-database* (split (read-file  *ows-contact-file* t) "\n"))
   )
 

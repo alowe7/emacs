@@ -79,10 +79,18 @@
 (add-hook 'Man-cooked-hook 'man-cooked-fn)
 
 (defun pod (&optional file)
-  "if looking at a perl script containing pod, format it as text.
-with optional FILE, operate on that"
+  "format and display some pod
+with optional FILE, operate on that
+called interactively and if in a buffer showing a file containing pod, format it as text.
+else if `thing-at-point' looks like a filename, try that
+"
   (interactive (list 
-		(read-file-name* "pod on file (%s): " (string* (or (and (eq major-mode 'perl-mode) (buffer-file-name)) (thing-at-point 'filename)) ""))))
+		(read-file-name* "pod on file (%s): " 
+				 (string* (or 
+					   (and (not (null (string-match "^=pod" (buffer-string)))) (buffer-file-name))
+					   (thing-at-point 'filename)) "")
+
+				 )))
   (let ((fn (or file (buffer-file-name))))
     (pod2text fn
 	      (concat (file-name-sans-extension fn) " *pod*"))

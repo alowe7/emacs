@@ -187,6 +187,7 @@ if MIXED is 0, then ignore letter drive names.
   "sentinel called from when processes created by `aexec-start-process' change state
 if the new state is 'finished', deletes the associated buffer
 "
+
   (cond ((string= (chomp s) "finished")
 	 (let ((b (process-buffer p)))
 	   (if (buffer-live-p b)
@@ -211,11 +212,9 @@ process is given an output buffer matching its name and a sentinel `aexec-sentin
 
   (let* ((name (symbol-name (gensym (downcase (basename cmd)))))
 	 (buffer-name (generate-new-buffer-name name))
-	 (cmd-1 (w32-mangle-filename cmd))
-	 (f-1 (w32-mangle-filename f))
-	 (p (start-process name buffer-name
-			   "cmd" "/c" cmd-1 f-1)))
-    (put 'aexec-process-sentinel 'parameters (list name buffer-name cmd cmd-1 f f-1))
+	 p)
+    (setq p (start-process name buffer-name cmd (w32-canonify f)))
+    (put 'aexec-process-sentinel 'parameters (list name buffer-name cmd f))
     (set-process-sentinel p 'aexec-sentinel)		 
     )
   )
@@ -243,7 +242,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
       (let ((cmd (file-association f)))
 	(cond
 	 (cmd
-	  (aexec-start-process cmd (if (string-match " " f) (w32-mangle-filename f) f)))
+	  (aexec-start-process cmd f))
 	 (visit (find-file f))
 	 (t (progn
 	      (message
@@ -812,8 +811,9 @@ host must respond within optional TIMEOUT msec"
 		     (not (host-exists top 65))
   ; warn if local dir also exists
 		     (and (file-directory-p (concat "/" top))  
-			  (progn (debug)
-				 (y-or-n-p (format "did you mean local directory %s? " (concat "/" top)))))))
+			  (progn 
+  ; (debug)
+			    (y-or-n-p (format "did you mean local directory %s? " (concat "/" top)))))))
   ; trim off extra leading slash
 	   (substring f 1))
 	  (t f))
