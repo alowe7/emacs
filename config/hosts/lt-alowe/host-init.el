@@ -217,7 +217,7 @@
 
 (when (fboundp 'switch-to-image-in-frame)
 ;  (debug)
-  (switch-to-image-in-frame "/z/el/resources/peak7.jpg")
+  (switch-to-image-in-frame "/content/images/peak7.jpg")
   )
 
 
