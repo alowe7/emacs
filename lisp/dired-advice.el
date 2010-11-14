@@ -14,8 +14,8 @@
   ""
 
   (let ((dir (ad-get-arg 0)))
-  ; make sure host exists
-    (host-ok dir)
+  ; signal file-error unless host exists
+    (and (fboundp 'host-ok) (host-ok dir))
   ; otherwise, just do it.
     ad-do-it
     )
@@ -29,29 +29,14 @@
 			       first activate)
   ""
 
-  ; make sure host exists
-  (host-ok (ad-get-arg 0))
-  ; otherwise, just do it.
-  ad-do-it
-  )
-
-
-;; wrap dired-do-compress to check for .zip files
-(defadvice dired-do-compress (around 
-			      hook-dired-do-compress
-			      first activate)
-  ""
-
-  (if (string-equal "zip" (downcase (file-name-extension (dired-get-filename))))
-      (progn (save-window-excursion
-	       (zip-extract (dired-get-filename)))
-	     (revert-buffer))
+  ; signal file-error unless host exists
+  (let ((f (ad-get-arg 0)))
+    (and (fboundp 'host-ok) (host-ok f))
   ; otherwise, just do it.
     ad-do-it
     )
   )
+; (if (ad-is-advised 'find-file-noselect) (ad-unadvise 'find-file-noselect))
 
-; (ad-is-advised 'dired-do-compress)
-; (ad-unadvise 'dired-do-compress)
 
 (provide 'dired-advice)

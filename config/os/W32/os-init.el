@@ -6,7 +6,6 @@
 (require 'cat-utils)
 (require 'file-association)
 (require 'long-comment)
-(require 'eval-utils)
 
 (load "frames" t t)
 
@@ -770,6 +769,7 @@ host must respond within optional TIMEOUT msec"
   )
 
 ;; (host-ok "//simon/e")
+;; (host-ok "//fields/Volume_1/backup" 1)
 ;; (host-ok "//deadite/C" t)
 ;; (host-ok "c:/")
 

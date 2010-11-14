@@ -24,6 +24,7 @@ make-autoloads
                 --prefix <prefix>   optional prefix for alist (default=basename($top))
                 --version              print version
                 --force                 override previously autoloaded functions.
+                --compiled                 use compiled version
 
 =head1 BUGS
 
@@ -44,10 +45,11 @@ binmode STDOUT;
 
 GetOptions(
 	   'help|h' => \$opt_help,
+	   'top|d=s' => \$opt_top,
+	   'prefix=s' => \$opt_prefix,
 	   'version|v' => \$opt_version,
 	   'force|f' => \$opt_force,
-	   'top|d=s' => \$opt_top,
-	   'prefix=s' => \$opt_prefix
+	   'compiled|c' => \$opt_compiled
 	   );
 
 if ($opt_version) {
@@ -92,6 +94,7 @@ foreach $fn (@ARGV) {
 	}
 	else {
 	    $f=File::Spec::Unix->catfile($top,$fn);
+	    $f=~s/\.el$/.elc/ if ($opt_compiled);
 	}
 
 	if (open(F, $fn)) {

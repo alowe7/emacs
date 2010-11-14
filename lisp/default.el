@@ -1,10 +1,6 @@
 (put 'default 'rcsid 
  "$Id$")
 
-(require 'assoc-helpers)
-
-(defvar post-load-hook nil "hook to run after initialization is complete")
-
 (modify-syntax-entry ?- "w")
 
 (setq list-directory-verbose-switches "-alt")
@@ -124,20 +120,5 @@ items get added at the head so in effect override any previous definition.
 
 (add-hook 'sh-mode-hook '(lambda () (use-local-map nil)))
 (add-hook 'css-mode-hook '(lambda () (font-lock-mode)))
-
-(autoload '/* "long-comment")
-
-; apply message to args iff non-nil
-(defun message* (&rest args)
-  (and args (apply 'message args)))
-
-(defun bgets () 
-  (chomp (thing-at-point (quote line)))
-  )
-
-(run-hooks 'post-load-hook)
-
-;; default implementation.  custom configs can override
-(fset 'host-ok 'identity)
 
 (provide 'default)

@@ -2,7 +2,6 @@
  "$Id$")
 
 (require 'typesafe)
-(require 'eval-utils)
 (require 'trim)
 (require 'cat-seq)
 

@@ -3,7 +3,8 @@
 (provide 'html-format)
 
 (defvar *margin* 4)
-(defvar *w3m* (expand-file-name (whence "w3m")))
+(defvar *w3m* (let ((f (or (and (boundp 'w3m-command) w3m-command) (whence "w3m"))))
+		(and (file-executable-p f ) f)) "location of w3m command if available or nil")
 
 (defun html-format-region (start end buffer &optional delete)
   (interactive "r")
@@ -24,7 +25,7 @@
   ; w3m is preferred.  if not found, use HTML::FormatText
 
   (if *w3m*
-      (eval-process "w3m" f)
+      (eval-process *w3m* f)
     (perl-command "fast-html-format" f))
   )
 

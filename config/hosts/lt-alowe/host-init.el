@@ -2,6 +2,7 @@
  "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.33 2010-09-24 01:19:40 alowe Exp $")
 
 (require 'ctl-slash)
+(require 'trim)
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -13,11 +14,8 @@
  resize-mini-windows nil
 )
 
-
 (display-time)
 
-(require 'trim)
-(require 'sh)
 
 ; (require 'worlds)
 ; (require 'world-advice)
