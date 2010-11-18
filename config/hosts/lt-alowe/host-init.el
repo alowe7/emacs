@@ -66,8 +66,9 @@
 (interactive)
 (set-window-dedicated-p (selected-window) nil))
 
-; its a lie.  
+; its a lie.  permit special frame handling
 (autoload 'calendar "mycal")
+(autoload 'w3m "myw3m")
 
 ; force post-load hooks now... tbd find a better way
 (post-after-load "locate")

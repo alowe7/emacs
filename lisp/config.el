@@ -217,6 +217,7 @@ no errors if files don't exist.
 ; (make-hook-name 'dired-mode)
 
 (defvar add-to-load-path-hook nil)
+
 (defun load-autoloads (x)
   (if (file-exists-p (concat x "/.autoloads"))
   ; maybe automatically generated 
