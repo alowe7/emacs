@@ -10,6 +10,6 @@
 (setenv "ANT_HOME"  "/usr/local/lib/apache-ant-1.6.5")
 (defvar *ant-command* (substitute-in-file-name "$ANT_HOME/bin/ant "))
 (defvar *make-command* "make -k ")
-(setq compile-command *ant-command*)
+(setq compile-command  *make-command*)
 (make-variable-buffer-local 'compile-command)
-(set-default 'compile-command  *ant-command*)
+(set-default 'compile-command  *make-command*)

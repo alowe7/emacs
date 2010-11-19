@@ -41,4 +41,4 @@
 
 (add-to-load-path "." t)
 
-(setq bookmark-default-file
+; (setq bookmark-default-file
