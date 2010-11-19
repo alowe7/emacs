@@ -1,4 +1,4 @@
-(put 'view-images 'rcsid
+(put 'images 'rcsid
  "$Id$")
 
 (require 'scratch-mode)
