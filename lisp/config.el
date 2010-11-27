@@ -3,6 +3,7 @@
 
 (require 'advice)
 (require 'cl)
+(require 'directories)
 
 (setq *debug-config-error* t)
 
@@ -364,27 +365,6 @@ or override them by post-chaining.
   "list of preloaded modules.  if there's any load-hooks for these, they need to be run at init time
 members may be symbols or strings, see `post-load'
 "
-  )
-
-; directory-files appears to have a bug matching arbitrary regexps.
-(defun get-directory-files (&optional directory full match)
-  "return directory contents as a list of strings, excluding . and ..
-see `directory-files'
-"
-  (interactive "sName: ")
-
-  (loop for x in 
-	(directory-files (or directory ".") full match)
-	when 
-	(let ((z (file-name-nondirectory x)))
-	  (not (or (string= z ".") (string= z ".."))))
-	collect x)
-  )
-
-(defun get-subdirs (dir)
-  "list subdirectories of DIR"
-  (loop for x in (get-directory-files dir t)
-	when (-d x) collect x)
   )
 
 ;; this constructs a load path from lisp and site-lisp dirs under HOME, EMACSDIR and SHARE
