@@ -1,3 +1,6 @@
+(put 'cs-mode 'rcsid
+ "$Id$")
+
 (require 'cc-mode)
 
 ; style for visualstudio cs
