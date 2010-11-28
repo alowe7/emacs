@@ -25,12 +25,6 @@
 		    )))
 
 
- ;; tbd why is this necessary?
- (if (file-exists-p "~/emacs/.autoloads")
-     (load-file  "~/emacs/.autoloads")
-   )
-
-
 ;; this advice allows pre- and post- hooks on all loaded features
 ;; this way customization can be tailored to the feature instead of all lumped together
 ;; also see eval-after-load
@@ -52,12 +46,11 @@ specify string to trap an explicit load, specify an atom to trap a require")
 
 ; a couple of helpr functions
 (defun add-to-load-path-p (dir &optional append)
-  (let ((dir (expand-file-name dir))
-	(f (expand-file-name ".autoloads" dir)))
+  (let ((dir (expand-file-name dir)))
     (when (file-directory-p dir)
       (add-to-load-path dir append)
-      (when (file-exists-p f) 
-	(condition-case x (load f) (error  nil)))
+      (load-autoloads dir)
+	
       )
     )
   )
@@ -220,12 +213,10 @@ no errors if files don't exist.
 (defvar add-to-load-path-hook nil)
 
 (defun load-autoloads (x)
-  (if (file-exists-p (concat x "/.autoloads"))
-  ; maybe automatically generated 
-      (load (concat x "/.autoloads") nil t)
-    (let ((autoloads (directory-files x t "-autoloads.el")))
-      (debug)
-      (loop for f in autoloads do (load f nil t))
+  ; backward compatibility only .. autoloads should come from share/site-lisp/site-start.d
+  (let ((f (concat x "/.autoloads")))
+    (if (file-exists-p f)
+	(condition-case x (load f nil t) (error  nil))
       )
     )
   )
@@ -295,18 +286,6 @@ the post-module is constructed as \"post-module\", and loaded if found along `lo
   (mapconcat 'identity (loop for x in load-history when (string-match pat (car x)) collect (car x)) " ")
   )
 ; (load-list "post-cc")
-
-(defun which (func)
-  "display and return initial load-file for FUNC.
-"
-  (interactive "afunction: ")
-  (and (boundp 'emacs-autoload-alist) 
-       (apply 
-	'(lambda (func loadfile) (message (format "%s loads from file %s" func loadfile))  loadfile)
-	(assoc func emacs-autoload-alist))
-       )
-  )
-; (setq x (which 'rfo))
 
 ; this helper function gives init files a weak inheritance capability
 
