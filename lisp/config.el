@@ -222,7 +222,12 @@ no errors if files don't exist.
 (defun load-autoloads (x)
   (if (file-exists-p (concat x "/.autoloads"))
   ; maybe automatically generated 
-      (load (concat x "/.autoloads") nil t))
+      (load (concat x "/.autoloads") nil t)
+    (let ((autoloads (directory-files x t "-autoloads.el")))
+      (debug)
+      (loop for f in autoloads do (load f nil t))
+      )
+    )
   )
 
 (unless (fboundp 'read-directory-name)
