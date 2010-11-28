@@ -83,9 +83,6 @@
 	    ))
   )
 
-; (add-to-path "c:\\Program Files\\Java\\j2re1.4.2_03\\bin")
-; (add-to-path "c:\\Program Files\\Java\\j2re1.4.2_03\\bin" t)
-
 (setq *minibuffer-display-unique-hit* t)
 
 ; gpg is here
@@ -122,20 +119,9 @@
 
 
 ; struggling with daylight savings time again
-; (getenv "TZ")
-; (current-time-zone)
 (set-time-zone-rule "CST6CDT")
-; (set-time-zone-rule "EST5EDT")
-; (format-time-string "%H"  (current-time))
-
-;; XXX this is one way to lazy load.
-; (load-file "/z/db/.autoloads")
-; (add-to-load-path "/z/db" t)
-; (load-library "zt")
-; (find-whence-lib "zt.el")
 
 (define-key ctl-RET-map "" 'yank-like)
-
 
 (unless (get 'post-comint 'rcsid)
   (load-library "post-comint"))
@@ -157,15 +143,6 @@
 (require 'cs-mode)
 (add-auto-mode "\\.cs$" 'cs-mode)
 
-
-
-; (add-to-list 'warning-suppress-types '(undo discard-info))
-
-; (setenv "PATH" (concat (getenv "PATH") ";c:\\usr\\local\\lib\\tw-3.01\\bin"))
-
-; (setenv "JAVA_HOME" "c:/Program Files/Java/jre1.6.0_03")
-(setenv "JAVA_HOME" "e:/Program Files/Java/jdk1.6.0_20")
-
 ; TBD move this crap somewhere more logical
 (setenv "ANT_HOME"  "/usr/local/lib/apache-ant-1.6.5")
 (defvar *ant-command* (substitute-in-file-name "$ANT_HOME/bin/ant "))
@@ -182,12 +159,6 @@
   )
 (global-set-key "" 'ant)
 
-; this is bogus:
-; (define-key isearch-mode-map "\M-y" (car kill-ring))
-
-; (debug)
-;; what a coincidence.  two machines same name
-; (require 'xz-loads)
 (add-hook 'xz-load-hook 
 	  '(lambda ()
 	     (mapcar
@@ -195,7 +166,6 @@
 		     '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
 
 ; why load when you can require?
-; (load-library "xz-loads")
 (require 'xz-loads)
 
 (defvar  locate-options '("--ignore-case"))

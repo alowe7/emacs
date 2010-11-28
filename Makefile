@@ -4,16 +4,21 @@ SHELL=/bin/sh
 
 INSTALL = install
 LOCALBIN = /usr/local/bin
-SHARE=/usr/share/emacs/site-lisp
+SHARE=/usr/share/emacs
+SITESTART = $(SHARE)/site-lisp/site-start.d
 
 EMACS := $(shell which emacs  2> /dev/null)
 ifeq ($(strip $(EMACS)),)
 EMACS := $(EMACSPATH)/emacs
 endif
 
-TOP := $(shell pwd)
+TOP=$(shell pwd)
 
 .PHONY: FORCE
+
+MAKE_AUTOLOADS  := $(shell which make-autoloads  2> /dev/null)
+PKG=a
+AUTOLOADS=$(PKG)-autoloads
 
 XZ=xz
 XZFLAGS = -t1
@@ -25,17 +30,18 @@ CONFIGS := $(shell ./find-configs)
 # search all configs
 # CONFIGS := $(shell find ./config -type f -name "*.el")
 
-SITE_LISP := $(shell find $(SHARE) -type f -name "*.el")
-
 ETAGS=etags
 
-all: .autoloads
+all: 
 
-.autoloads: FORCE 
-	echo $(CONFIGS) $(SOURCES)  $(SITE_LISP) | xargs ./make-autoloads --top $(TOP) > .autoloads
-	@echo .autoloads rebuilt
+ship: autoloads
+	mkdir -p $(SITESTART)
+	install -m 444 $(AUTOLOADS) $(SITESTART)
 
-#  $(SITE_LISP)
+autoloads: FORCE 
+	$(MAKE_AUTOLOADS) --top $(TOP)  $(CONFIGS) $(SOURCES)  > $(AUTOLOADS)
+	@echo $(AUTOLOADS) rebuilt
+
 .xz.dat: $(SOURCES) $(CONFIGS) ~/.emacs
 	$(XZ) $(XZFLAGS) -n $^
 	@echo .xz.dat rebuilt
@@ -48,10 +54,7 @@ TAGS: $(SOURCES) $(CONFIGS)
 	$(ETAGS) $^
 
 clean:
-	rm -f .xz.dat TAGS .autoloads
-
-ship: FORCE
-	$(INSTALL) -m 555 make-autoloads $(LOCALBIN)
+	rm -f .xz.dat TAGS $(AUTOLOADS) *.elc
 
 compile:
 	$(shell cd lisp; $(EMACS) --batch --load ~/emacs/lisp/byte-compile-directory.el)
