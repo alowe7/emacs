@@ -3,6 +3,7 @@
 
 (require 'cat-utils)
 (require 'cl)
+(require 'sh)
 
 ;; examples
 ;; (whencepath "ls")
@@ -40,25 +41,6 @@
 	 (if (interactive-p) (message abscmd) abscmd))
     )
   )
-
-;; examples
-;; (whence  "src_my_pre_change")
-;; (whence "binlog")
-
-(defun whence (cmd)
-  " find COMMAND along path"
-  (interactive "scommand: ")
-  (let ((abscmd (whencepath cmd "PATH"))
-	(fc  (string-to-char cmd)))
-    ;; check for shell function invocation (doesn't work for aliases)
-    (if (or (not (string= abscmd cmd)) (char-equal fc ?/) (char-equal fc ?.))
-	abscmd
-      ;; I think this is a ksh function or alias. check along $FPATH
-      (whencepath cmd "FPATH")
-      )
-    )
-  )
-
 ; (whencepath "la")
 
 (defun find-whence (cmd)
