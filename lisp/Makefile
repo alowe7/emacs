@@ -2,21 +2,23 @@
 .PHONY:FORCE
 
 SHELL=/bin/sh
+SHARE = /usr/share/emacs
+SITELISP = $(SHARE)/site-lisp
 
 EMACS=$(EMACSPATH)/emacs
 
-#SOURCES=$(shell -c ls -t *.el)
-SOURCES=*.el
+BOOTSTRAP_SOURCES=config.el
 XZ=xz
 ETAGS=etags
 TOP := $(shell pwd)
 
 all:
 
-TAGS: $(SOURCES)
-	$(ETAGS) $(SOURCES)
-
 compile:
 	$(EMACS) --batch -l byte-compile-directory.el
 
 .PHONY: compile
+
+
+ship: FORCE
+	install -m 444 $(BOOTSTRAP_SOURCES) $(SITELISP)

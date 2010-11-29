@@ -3,7 +3,6 @@
 
 (require 'advice)
 (require 'cl)
-(require 'directories)
 
 (setq *debug-config-error* t)
 
@@ -344,6 +343,21 @@ or override them by post-chaining.
 	(find-file f)
       (message "no parent found"))))
 
+; directory-files appears to have a bug matching arbitrary regexps.
+
+(defun get-directory-files (&optional directory full match)
+  "return directory contents as a list of strings, excluding . and ..
+see `directory-files'
+"
+  (interactive "sName: ")
+
+  (loop for x in 
+	(directory-files (or directory ".") full match)
+	when 
+	(let ((z (file-name-nondirectory x)))
+	  (not (or (string= z ".") (string= z ".."))))
+	collect x)
+  )
 
 (defvar hooked-preloaded-modules nil
   "list of preloaded modules.  if there's any load-hooks for these, they need to be run at init time
@@ -368,6 +382,7 @@ members may be symbols or strings, see `post-load'
   )
 
 ; load any init files out there
+(require 'find-func)
 (and share
      (let ((site-start.d (concat share "/site-lisp/site-start.d")))
        (mapcar 'load (and (file-directory-p site-start.d) (get-directory-files site-start.d)))
