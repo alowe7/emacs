@@ -1,4 +1,5 @@
 ; directory-files appears to have a bug matching arbitrary regexps.
+
 (defun get-directory-files (&optional directory full match)
   "return directory contents as a list of strings, excluding . and ..
 see `directory-files'
