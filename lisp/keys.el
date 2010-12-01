@@ -8,7 +8,6 @@
 ; on win32 literal ^M characters don't survive some operations (such as cut and paste)
 ; so use \C-m construct instead
 
-(global-set-key "" 'shell2)
 (define-key ctl-x-5-map "-" 'delete-all-other-frames)
 (define-key ctl-x-5-map "=" 'delete-duplicate-frames)
 (define-key ctl-x-5-map "\C-m" '(lambda () (interactive) (switch-to-buffer-other-frame (current-buffer)))) 
@@ -98,7 +97,8 @@
 (global-set-key "" 'eval-current-buffer)
 ; (global-set-key "" '(lambda nil (interactive) (shell 1)))
 ; (global-set-key "<CONTROL-J>" '(lambda nil (interactive) (shell 2)))
-(global-set-key "" 'shell)
+(global-set-key "" 'shell2)
+(global-set-key (vector ? 'C-return) 'eshell)
 (global-set-key "&" 'replace-string)
 (global-set-key "*" 'replace-regexp)
 (global-set-key "c" 'capitalize-word)

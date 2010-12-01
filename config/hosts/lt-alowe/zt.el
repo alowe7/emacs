@@ -5,7 +5,7 @@
 
 (defun scan-txel-options-file ()
   ; scanning this file should have the side effect of setting these environment variables
-  (and (scan-file *txel-options-file*)
+  (and (scan-file-p *txel-options-file*)
        (nconc (and (getenv "ZDB") (list "-b" (getenv "ZDB")))
 	      (and (getenv "ZDBHOST") (list "-h" (getenv "ZDBHOST"))))
        )
