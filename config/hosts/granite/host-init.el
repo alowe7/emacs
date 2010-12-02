@@ -1,5 +1,5 @@
-(put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/granite/host-init.el,v 1.7 2010-10-02 21:53:57 alowe Exp $")
+(put 'host-init 'rcsid
+     "$Id$")
 
 (require 'ctl-slash)
 
