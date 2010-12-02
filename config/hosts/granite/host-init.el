@@ -41,4 +41,11 @@
 
 (add-to-load-path "." t)
 
-; (setq bookmark-default-file
+(setq 
+ bookmark-default-file
+ (expand-file-name ".emacs.bmk" (file-name-directory (locate-config-file "host-init")))
+ )
+
+(add-to-list 'load-path "/u/emacs-w3m/")
+(setq w3m-command "/u/w3m-0.5.2/w3m.exe")
+
