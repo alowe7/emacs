@@ -105,10 +105,6 @@ items get added at the head so in effect override any previous definition.
       message-log-max 10000
       list-command-history-max 10000)
 
-(add-hook 'find-file-hooks 'auto-auto-mode)
-
-(add-hook 'write-file-hooks 'time-stamp)
-
 (add-hook 'emacs-lisp-mode-hook '(lambda ()
 				   (modify-syntax-entry ?- "w")
 				   (modify-syntax-entry ?* "w")
