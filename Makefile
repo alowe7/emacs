@@ -39,7 +39,7 @@ ship: autoloads
 	install -m 444 $(AUTOLOADS) $(SITESTART)
 
 autoloads: FORCE 
-	$(MAKE_AUTOLOADS) --top $(TOP)  $(CONFIGS) $(SOURCES)  > $(AUTOLOADS)
+	$(MAKE_AUTOLOADS) --top=$(TOP) --prefix=$(PKG)  $(CONFIGS) $(SOURCES)  > $(AUTOLOADS)
 	@echo $(AUTOLOADS) rebuilt
 
 .xz.dat: $(SOURCES) $(CONFIGS) ~/.emacs
