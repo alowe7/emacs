@@ -22,20 +22,6 @@
 
 (load-library "people")
 
-(/*
-  ; todo: be smarter about using http_proxy with w3m
- (scan-file-p "~/.private/.xdbrc")
-  ; (string-match (i2n myIP) myIP)
-  ; (isinnet myIP "10.0.0.0/255")
-  ; (isinnet myIP "192.168.1.0/255.255.255.0")
- )
-
-(setq *txdb-options* 
-      (let (l)
-	(and (string* (getenv "XDBHOST")) (setq l (nconc l (list "-h" (getenv "XDBHOST")))))
-	(and (string* (getenv "XDB")) (setq l (nconc l (list "-b" (getenv "XDB") ))))
-	)
-      )
 
 (setq *gnuserv-dired-files* t)
 (require 'gnuserv)
@@ -143,22 +129,6 @@
 (require 'cs-mode)
 (add-auto-mode "\\.cs$" 'cs-mode)
 
-; TBD move this crap somewhere more logical
-(setenv "ANT_HOME"  "/usr/local/lib/apache-ant-1.6.5")
-(defvar *ant-command* (substitute-in-file-name "$ANT_HOME/bin/ant "))
-(defvar *make-command* "make -k ")
-(setq compile-command *make-command*)
-(make-variable-buffer-local 'compile-command)
-(set-default 'compile-command  *make-command*)
-
-(defun ant ()
-  (interactive)
-  (let ((compile-command *ant-command*))
-    (call-interactively 'compile)
-    )
-  )
-(global-set-key "" 'ant)
-
 (add-hook 'xz-load-hook 
 	  '(lambda ()
 	     (mapcar
@@ -176,7 +146,7 @@
 
 (add-to-load-path "." t)
 
-(setq default-buffer-file-coding-system 'undecided-unix)
+(setq buffer-file-coding-system 'undecided-unix)
 
 ; not sure if this isn't just masking a bug
 (define-key isearch-mode-map "\C-m" 'isearch-exit)
