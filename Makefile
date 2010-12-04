@@ -32,7 +32,7 @@ CONFIGS := $(shell ./find-configs)
 
 ETAGS=etags
 
-all: 
+all: autoloads
 
 ship: autoloads
 	mkdir -p $(SITESTART)
@@ -57,5 +57,6 @@ clean:
 	rm -f .xz.dat TAGS $(AUTOLOADS) *.elc
 
 compile:
-	$(shell cd lisp; $(EMACS) --batch --load ~/emacs/lisp/byte-compile-directory.el)
+	$(MAKE) --directory lisp compile
+
 

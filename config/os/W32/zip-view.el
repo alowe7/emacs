@@ -1,6 +1,7 @@
 (put 'zip-view 'rcsid 
  "$Id$")
-(require 'whencepath)
+
+(require 'whence)
 
 (cond 
  ((whence "pkzip")
