@@ -46,10 +46,6 @@ autoloads: FORCE
 	$(XZ) $(XZFLAGS) -n $^
 	@echo .xz.dat rebuilt
 
-.emacs.dat: 
-	@$(XZ) $(XZFLAGS) -a -ywqn -f$@  < $(shell find $(EMACS_DIR)/lisp  -type f -name "*.el")
-	@echo .emacs.dat rebuilt
-
 TAGS: $(SOURCES) $(CONFIGS)
 	$(ETAGS) $^
 

@@ -14,4 +14,4 @@
     (call-interactively 'compile)
     )
   )
-(global-set-key "" 'ant)
+

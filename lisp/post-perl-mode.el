@@ -85,12 +85,15 @@ called interactively and if in a buffer showing a file containing pod, format it
 else if `thing-at-point' looks like a filename, try that
 "
   (interactive (list 
-		(read-file-name* "pod on file (%s): " 
-				 (string* (or 
-					   (and (not (null (string-match "^=pod" (buffer-string)))) (buffer-file-name))
-					   (thing-at-point 'filename)) "")
+		(let (insert-default-directory)
+		  (read-file-name* "pod on file (%s): " 
+				   (string* (or 
+					     (and (not (null (string-match "^=pod" (buffer-string)))) (buffer-file-name))
+					     (thing-at-point 'filename)) "")
 
-				 )))
+				   )
+		  )
+		))
   (let ((fn (or file (buffer-file-name))))
     (pod2text fn
 	      (concat (file-name-sans-extension fn) " *pod*"))

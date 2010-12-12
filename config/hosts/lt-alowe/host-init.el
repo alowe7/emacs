@@ -167,3 +167,9 @@
 
 (add-to-list 'load-path "/u/emacs-w3m/")
 (setq w3m-command "/u/w3m-0.5.2/w3m.exe")
+
+(let  ((*extra-autoloads* '("/z/el/z-autoloads")))
+  (loop for autoload in *extra-autoloads* when (file-exists-p autoload) do (load-file autoload))
+  )
+
+(setq temporary-file-directory "/tmp")

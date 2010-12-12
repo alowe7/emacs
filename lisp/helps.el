@@ -478,6 +478,10 @@ with optional prefix arg, wrap by line "
 
 ; (prettify-keymap 'xz-mode-map)
 
+(defsubst macrop (sym)
+  "true if sym is a macro"
+  (eq 'macro (car (symbol-function sym)))
+  )
 
 (defun find-function-or-variable (w)
   (interactive (list
@@ -485,10 +489,13 @@ with optional prefix arg, wrap by line "
 			 (indicated-word "-"))))
   (let ((w (intern w )))
 
-    (cond ((functionp w)
-	   (find-function w))
+    (cond
 	  ((boundp w)
 	   (find-variable w))
+	  ((functionp w)
+	   (find-function w))
+	  ((macrop w)
+	   (find-function w))
 	  (t 
 	   (find-function-or-variable 
 	    (read-string

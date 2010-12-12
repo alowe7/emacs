@@ -99,20 +99,22 @@
   (interactive)
   (let ((b (get-buffer locate-buffer-name)))
     (when (buffer-live-p b)
-      (set-buffer b)
-      (let ((s (buffer-string-no-properties)))
-	(when (string-match "^Matches for .*
+      (with-current-buffer b
+	(let ((s (buffer-string-no-properties)))
+	  (when (string-match "Matches for .*
 
 " s)
-	  (let* ((filelist (substring s (match-end 0)))
-		 (files (mapcar 'trim-white-space (split filelist "\n"))))
-	    (push files locate-result-stack)
+	    (let* ((filelist (substring s (match-end 0)))
+		   (files (mapcar 'trim-white-space (split filelist "\n"))))
+	      (push files locate-result-stack)
+	      )
 	    )
 	  )
 	)
       )
     )
   )
+;   (post-locate-push-filelist)
 
 (when (ad-find-advice 'locate 'after 'locate-push-result-set) (ad-remove-advice  'locate 'after 'locate-push-result-set))
 
@@ -132,7 +134,7 @@
   (interactive (list (read-string* "grep in last locate result set for (%s): " (thing-at-point 'word))))
   (when locate-result-stack
     (let ((filelist (car locate-result-stack)))
-      (grep (concat "grep -n -i -e " pat " " (join filelist " ")))
+      (grep (concat "grep -n -i -e " pat " " (join (mapcar '(lambda (x) (concat "\"" x "\"")) filelist) " ")))
       )
     )
   )
