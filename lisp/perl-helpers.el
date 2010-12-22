@@ -20,7 +20,7 @@
 ; (clean-string (reg-query "machine" "software/perl" "")) ; windows only
 (defvar perldocdir (expand-file-name "doc" perldir))
 (defvar perldoc-cmd (whence "perldoc"))
-(defvar perlfunc-pod (concat (expand-file-name "pod" perldir)  "/perlfunc.pod"))
+(defvar perlfunc-pod (concat (expand-file-name "lib/pods" perldir)  "/perlfunc.pod"))
 (defvar perlfunc-file (expand-file-name "perlfunc" perldocdir))
 (defvar perlop-file (expand-file-name "perlop" perldocdir))
               

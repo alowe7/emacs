@@ -8,9 +8,9 @@
 (make-variable-buffer-local 'compile-command)
 (set-default 'compile-command  *make-command*)
 
-(defun ant ()
-  (interactive)
-  (let ((compile-command *ant-command*))
+(defun ant (&optional targets)
+  (interactive "stargets: ")
+  (let ((compile-command (concat *ant-command* targets)))
     (call-interactively 'compile)
     )
   )

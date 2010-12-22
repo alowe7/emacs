@@ -1,6 +1,8 @@
 (put 'post-locate 'rcsid
  "$Id$")
 
+(chain-parent-file t)
+
 (defun locate-explore-directory ()
   (interactive)
   (explore (file-name-directory (locate-get-dirname)))

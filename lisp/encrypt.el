@@ -26,7 +26,7 @@ backup versions are not kept."
 			   nil "-k" key "-o" fn "-")
 
       (unless
-	  (message* 
+	  (message
 	   (save-excursion 
 	     (set-buffer b)
 	     (string* (buffer-string))
@@ -81,7 +81,7 @@ backup versions are not kept."
 				 (setq b (get-buffer-create " *sub*"))
 				 nil "-k" key "-o" fn "-")
 	    (unless
-		(message* 
+		(message
 		 (save-excursion 
 		   (set-buffer b)
 		   (string* (buffer-string))

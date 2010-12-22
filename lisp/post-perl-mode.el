@@ -72,9 +72,9 @@
 (defun man-cooked-fn () 
   (if (= 0 (length (buffer-string)))
       (let* ((orig-man (cadr (split (cadr (split (buffer-name Man-buffer) "*")))))
-	     (f (find-script orig-man)))
-	(if f (save-window-excursion (pod2text f (current-buffer)))))))
-
+	     (f (and orig-man (find-script orig-man))))
+	(if f (save-window-excursion (pod2text f (current-buffer))))))
+  )
 
 (add-hook 'Man-cooked-hook 'man-cooked-fn)
 

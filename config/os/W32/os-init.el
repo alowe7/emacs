@@ -182,12 +182,14 @@ if MIXED is 0, then ignore letter drive names.
        )
   )
 
+(defvar *aexec-process-abnormal-exit-debug* nil "when set, invoke debugger if aexec process exits abnormally")
+
 (defun aexec-sentinel (p s)
   "sentinel called from when processes created by `aexec-start-process' change state
 if the new state is 'finished', deletes the associated buffer
 "
 
-  (cond ((string= (chomp s) "finished")
+  (cond ((or (string= (chomp s) "finished") (not  *aexec-process-abnormal-exit-debug*))
 	 (let ((b (process-buffer p)))
 	   (if (buffer-live-p b)
 	       (kill-buffer b))
@@ -497,6 +499,9 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
   "make a temporary filename based on tmpdir"
   (expand-file-name (format "%s/%s" (getenv "TMP") pat))
   )
+
+; really only want this for shell programs.
+(setq null-device "/dev/null")
 
 (defvar grep-null-device "nul")
 
