@@ -209,7 +209,9 @@ no errors if files don't exist.
   )
 ; (make-hook-name 'dired-mode)
 
-(defvar add-to-load-path-hook nil)
+(defvar add-to-load-path-hook nil
+  "hook function called whenever a directory is added to load path via `add-to-load-path'. 
+note that since add-to-load-path is recursive, this hook will get called at every level where `load-path' is modified." )
 
 (defun load-autoloads (x)
   ; backward compatibility only .. autoloads should come from share/site-lisp/site-start.d
@@ -230,35 +232,43 @@ like `add-to-list' except if element is added, it is added to the end of the lis
   (add-to-list l m t)
   )
 
+(defvar *load-path-exclude-pattern* "\(/CVS\)\|\(\.svn\)$"
+  "regexp for directories to prune from recursive `add-to-load-path' calls"
+  )
+
 (defun add-to-load-path (x &optional append subdirs)
   "add ELEMENT to `load-path` if it exists, and isn't already there.
 by default add to the head of the list.  with optional arg APPEND add at the end of the list
 with optional second arg SUBDIRS, add all subdirectories as well.
 
 if successful, runs the value of `add-to-load-path-hook` and returns the new value of load-path.
+
 returns nil otherwise.
 "
   (interactive (list (read-directory-name "Add to load-path: ")))
   (if (and
        (file-directory-p x)
-       (not (funcall *config-file-name-member* x load-path))
-       (not (string-match "/CVS$" x))
-       (funcall 
-	(if append
-	    'append-to-list 'add-to-list)
-	'load-path (expand-file-name x)))
+       (and (boundp '*config-file-name-member*) (functionp *config-file-name-member*)
+	    (not (funcall *config-file-name-member* x load-path)))
+       (and (boundp *load-path-exclude-pattern*) (stringp *load-path-exclude-pattern*)
+	    (not (string-match *load-path-exclude-pattern* x))))
 
-      (if subdirs
-	  (mapcar '(lambda (y) 
-		     (if (and (file-directory-p (concat x "/" y)) (not (string= y ".")) (not (string= y "..")))
-			 (add-to-load-path (concat x "/" y) append subdirs)))
-		  (directory-files x)))
+      (progn
 
-    (load-autoloads x)
+	(add-to-list 'load-path (expand-file-name x) append)
 
-    (run-hooks 'add-to-load-path-hook)
+	(if subdirs
+	    (mapcar '(lambda (y) 
+		       (if (and (file-directory-p (concat x "/" y)) (not (string= y ".")) (not (string= y "..")))
+			   (add-to-load-path (concat x "/" y) append subdirs)))
+		    (directory-files x)))
+
+	(load-autoloads x)
+
+	(run-hooks 'add-to-load-path-hook)
 	
-    load-path
+	load-path
+	)
     )
   )
 

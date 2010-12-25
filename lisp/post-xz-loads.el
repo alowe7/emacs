@@ -5,6 +5,7 @@
 (require 'long-comment)
 (require 'xz-stacks)
 (require 'qsave)
+(require 'cat-seq)
 
 (defvar *xz-dirs* (mapcar 'list (catpath "XZDIRS"))
   "list of directories containing xz databases.

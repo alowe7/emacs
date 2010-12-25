@@ -6,6 +6,11 @@
 (require 'ctl-slash)
 (require 'ctl-ret)
 
+(and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(and (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(and (fboundp 'blink-cursor-mode) (scroll-bar-mode -1))
+
 (require 'long-comment)
 (require 'whack-font)
 
@@ -13,11 +18,6 @@
 ; (require 'gnuserv)
 (setq display-time-day-and-date t)
 (display-time)
-
-(scroll-bar-mode -1)
-
-(and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
 (load-library "bookmark")
 (load-library "post-bookmark")
@@ -55,7 +55,7 @@
 (autoload 'uncompress-while-visiting "uncompress")
 
 ; append to load path to find sources 
-(add-to-list 'load-path "/u/emacs-23.1/lisp")
+(add-to-list 'find-function-source-path "/u/emacs-23.1/lisp")
 
 (require 'xz-loads)
 (require 'post-view)
@@ -68,10 +68,6 @@
 ; string quoting logic in font-lock is f***-ed up
 (setq font-lock-string-face 'default)
 
-; should be found in /usr/share/emacs/site-lisp/zt-1.0
-;(add-to-load-path-p "/z/db" t)
-(require 'zt-loads)
-
 (defvar warning-suppress-types nil)
 (add-to-list 'warning-suppress-types '(undo discard-info))
 
@@ -79,13 +75,11 @@
 
 ; mail-default-directory
 
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(blink-cursor-mode nil)
- '(display-time-mode t))
+(setq
+ cursor-type (quote (bar . 1))
+ cursor-in-non-selected-windows nil
+ resize-mini-windows nil
+)
 
-(if (scan-file-p "~/.private/.xdbrc")
-    (setq *txdb-options* (list "-b" ($ "$XDB") "-h" ($ "$XDBHOST"))))
+
+(add-to-load-path "/usr/share/emacs/23.1/lisp/cedet" t t)
