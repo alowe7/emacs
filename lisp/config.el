@@ -250,7 +250,7 @@ returns nil otherwise.
        (file-directory-p x)
        (and (boundp '*config-file-name-member*) (functionp *config-file-name-member*)
 	    (not (funcall *config-file-name-member* x load-path)))
-       (and (boundp *load-path-exclude-pattern*) (stringp *load-path-exclude-pattern*)
+       (and (boundp '*load-path-exclude-pattern*) (stringp *load-path-exclude-pattern*)
 	    (not (string-match *load-path-exclude-pattern* x))))
 
       (progn

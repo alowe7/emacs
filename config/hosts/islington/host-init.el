@@ -26,9 +26,6 @@
 
 (setq grep-command "grep -n -i -e ")
 
-; (defvar default-font "-*-lucida-medium-r-normal-*-14-140-*-*-*-*-iso8859-1")
-(defvar default-font "-adobe-new century schoolbook-medium-r-normal--16-154-75-75-p-0-iso8859-2")
-
 (defun lframe ()
   (interactive)
   (let* ((default-frame-alist default-frame-alist))
