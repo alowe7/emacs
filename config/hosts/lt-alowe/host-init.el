@@ -29,8 +29,6 @@
 ; this shortens the timeout for \\localdir\file being interpreted as \\host\file
 ; (mount-hook-file-commands)
 
-(setq grep-command "grep -nH -i -e ")
-
 (setq *advise-help-mode-finish* t)
 
 (add-hook 'perl-mode-hook
@@ -111,6 +109,8 @@
 
 (unless (get 'post-comint 'rcsid)
   (load-library "post-comint"))
+
+(setq comint-use-prompt-regexp nil)
 
 (defun isearch-thing-at-point ()
   (interactive)
