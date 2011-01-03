@@ -24,6 +24,7 @@
 ; see reg.el
 
 (defvar pod2text (find-script "pod2text"))
+(when (null pod2text) (warn "script not found: pod2text"))
 
 (defun pod2text (f &optional buffer)
   "find pod for FILE in optional BUFFER"
