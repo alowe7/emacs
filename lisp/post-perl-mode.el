@@ -89,7 +89,7 @@ else if `thing-at-point' looks like a filename, try that
 		(let (insert-default-directory)
 		  (read-file-name* "pod on file (%s): " 
 				   (string* (or 
-					     (and (not (null (string-match "^=pod" (buffer-string)))) (buffer-file-name))
+					     (and (not (null (string-match "^=\\(head\\|pod\\\)" (buffer-string)))) (buffer-file-name))
 					     (thing-at-point 'filename)) "")
 
 				   )
