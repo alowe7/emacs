@@ -1,0 +1,29 @@
+;;;; Emacs Bookmark Format Version 1 ;;;;
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("ifcfg-eth0"
+  (filename . "/etc/sysconfig/network-scripts/ifcfg-eth0")
+  (front-context-string . "# Networking Int")
+  (rear-context-string)
+  (position . 1))
+ ("conf.d"
+  (filename . "/etc/httpd/conf.d/")
+  (front-context-string . "content.conf\n  -")
+  (rear-context-string . "010-08-29 21:21 ")
+  (position . 220))
+ ("httpd"
+  (filename . "/etc/httpd/")
+  (front-context-string . "conf\n  drwxr-xr-")
+  (rear-context-string . "010-05-31 19:10 ")
+  (position . 222))
+ ("hosts"
+  (filename . "/etc/hosts")
+  (front-context-string . "# Do not remove ")
+  (rear-context-string)
+  (position . 1))
+ ("virtusertable"
+  (filename . "/etc/mail/virtusertable")
+  (front-context-string . "# A domain-speci")
+  (rear-context-string)
+  (position . 1)))
