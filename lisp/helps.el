@@ -60,7 +60,7 @@ MAP may be also be a string or symbol name of a map
   ;					(help-for-sparse-map m)
 	    (pp (prettify-keymap m))
 	  ))
-      (beginning-of-buffer)
+      (goto-char (point-min))
       )
     )
   )
@@ -98,7 +98,7 @@ MAP may be also be a string or symbol name of a map
     (set-buffer b)
 
     (pop-to-buffer b)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     )
   )
 
@@ -258,7 +258,7 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 	(switch-to-buffer b)
 	(message "uncompressing %s" fn)
 	(insert-eval-process "gzcat" a)
-	(beginning-of-buffer)
+	(goto-char (point-min))
 	(set-buffer-modified-p nil) 
 	)
       )
@@ -416,7 +416,7 @@ if *howto-path* is not set, searches in current directory
 	)
 
       (if (and (bufferp output-buffer)
-	       (> (save-excursion (set-buffer output-buffer) (buffer-size)) 0))
+	       (> (with-current-buffer output-buffer (buffer-size)) 0))
 	  (progn 
 	    (pop-to-buffer output-buffer)
 	    (set-buffer-modified-p nil)
@@ -439,11 +439,14 @@ with optional prefix arg, wrap by line "
     (goto-char (point-min))
     (if arg
 	(progn
-	  (replace-regexp "$" "\"")
+	  (while (re-search-forward  "$"  nil t)
+	    (replace-match "\"" nil nil))
 	  (goto-char (point-min))
-	  (replace-regexp "^" "\"")
+	  (while (re-search-forward "^" nil t)
+	    (replace-match "\"" nil nil))
 	  )
-      (replace-regexp "[a-zA-Z0-9_-]+" " \"\\\&\" " t)
+	  (while (re-search-forward  "[a-zA-Z0-9_-]+" nil t)
+	    (replace-match  " \"\\\&\" " nil nil))
       )
     )
   )

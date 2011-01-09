@@ -6,6 +6,10 @@
 ; this is for emacs-lisp mode.
 ; tbd handle other modes -- see java-bones and ant-bones
 
+(require 'cl)
+(require 'fapropos)
+(require 'cat-utils)
+(require 'typesafe)
 
 (defun autosense ()
   (interactive)

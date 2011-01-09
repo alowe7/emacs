@@ -18,7 +18,7 @@
 	 )
     (pop-to-buffer b)
     (insert s)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (set-buffer-modified-p nil)
     (view-mode)
     )

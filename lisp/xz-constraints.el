@@ -47,7 +47,7 @@ see `xz-issue-query' for descriptions of string and constraint
 		     (message b))
 		    ((bufferp b)
 		     (pop-to-buffer b)
-		     (beginning-of-buffer)
+		     (goto-char (point-min))
 		     (setq mode-line-buffer-identification string)
 		     (setq truncate-lines t)
 		     (set-buffer-modified-p nil))

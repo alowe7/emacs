@@ -34,10 +34,9 @@
    (regexp compilation-error-regexp))
     (if (eq outbuf (current-buffer))
   (goto-char (point-max)))
-    (save-excursion
-      (set-buffer outbuf)
+    (with-current-buffer outbuf
       (buffer-flush-undo outbuf)
-      (let ((start (save-excursion (set-buffer outbuf) (point-min))))
+      (let ((start (with-current-buffer outbuf (point-min))))
   (set-window-start outwin start)
   (or (eq outwin (selected-window))
       (set-window-point outwin start)))

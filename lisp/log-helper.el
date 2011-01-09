@@ -27,8 +27,8 @@ current time "
 		 (forward-word 1)
 		 (other-window 1)
 		 (forward-word 1)
-		 (other-window 1))))
-)
+		 (other-window 1)))
+
 
 
 

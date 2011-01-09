@@ -172,7 +172,7 @@ warns if more than one file is to be moved and target is not a directory"
 		(file-name-nondirectory (dired-get-filename))
 		(zap-buffer "*Dired Process Output*"))
   (pop-to-buffer "*Dired Process Output*")
-  (beginning-of-buffer)
+  (goto-char (point-min))
   )
 
 (defun dired-gs-file ()
@@ -192,7 +192,7 @@ warns if more than one file is to be moved and target is not a directory"
     (if arg (switch-to-buffer-other-window b)
       (switch-to-buffer b))
     (browse-mode)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (set-buffer-modified-p nil)
     )
   )
@@ -310,7 +310,7 @@ see `file-assoc-list'"
 	  (setq b (zap-buffer "*scripts*"))
 	  (loop for x in l do (insert x "
 ")) 
-	  (beginning-of-buffer)
+	  (goto-char (point-min))
 	  (fb-mode)
 	  (switch-to-buffer b)
 	  b)

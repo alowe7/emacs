@@ -1,5 +1,6 @@
 (put 'keys 'rcsid 
  "$Id$")
+
 (require 'ctl-meta)
 
 ;; all key bindings
@@ -154,6 +155,7 @@
 (define-key help-map "" 'refine-apropos)
 (define-key help-map "" 'help-for-map)
 (define-key help-map "d" 'perldoc)
+(define-key help-map "." 'lwhence)
 
 ;; (global-set-key "Å∫" 'tags-apropos)
 ;; (global-set-key "Å¢" 'tags-search)
@@ -269,6 +271,9 @@
 (define-key ctl-RET-map "m" 'bookmark-set)
 
 (define-key ctl-RET-map "\C-w" 'command-history)
+
+(define-key ctl-RET-map (vector (ctl ?7)) 'lru-shell)
+(define-key ctl-RET-map (vector (ctl ?8)) 'mru-shell)
 
 (define-key ctl-/-map (vector (ctl ? )) 'myblog)
 (define-key ctl-/-map "g" 'grepblog)

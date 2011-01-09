@@ -11,8 +11,8 @@
 
   (let ((s (apply 'perl-command (nconc (list "get" url) (and credentials (list "-C" credentials)))))
 	(b (zap-buffer (format "*get %s*" url))))
-    (insert-string s)
-    (beginning-of-buffer)
+    (insert s)
+    (goto-char (point-min))
     (set-buffer-modified-p nil)
     (toggle-read-only t)
     (view-mode)

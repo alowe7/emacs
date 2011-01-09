@@ -7,7 +7,7 @@
 (defvar autoload-message t)
 ; (setq autoload-message nil)
 
-(mapcar
+(mapc
  '(lambda (x)
     (let ((f (concat x "/.autoloads")))
       (if (file-exists-p f) (load f t autoload-message t ))))

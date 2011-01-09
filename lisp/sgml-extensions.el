@@ -29,17 +29,17 @@
     (dolist (x html-mode-keys)
       (insert (format "%s	%s\n" (car x) (cadr x))))
     (pop-to-buffer b)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     )
   )
 
 
 (setq html-mode-hook '(lambda () 
-; binds funky local keys
+  ; binds funky local keys
 			(mapcar '(lambda (x) (local-set-key (car x) (cadr x)))
 				html-mode-keys 
 				)
-(setq paragraph-start "[ 	
+			(setq paragraph-start "[ 	
 ]\\|\\(</?\\([A-Za-z]\\([-.A-Za-z0-9= 	
 ]\\|\"[^\"]*\"\\|'[^']*'\\)*\\)?>\\)")
 			))
@@ -142,7 +142,6 @@
 (insert "<dt>"))
 
 
-(require 'oblists)
 (require 'indicate)
 (require 'fapropos)
 

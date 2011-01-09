@@ -18,13 +18,11 @@
 runs value of fontview-mode-hook on entry.
 see fontview-mode-map keymap & fontview-mode-syntax-table
 "
-  (interactive)
   (use-local-map
    (or fontview-mode-map (prog1
-			     (setq fontview-mode-map (copy-keymap view-mode-map)
-				   (define-key fontview-mode-map "" 
-				     '(lambda () (interactive) (set-indicated-font) (next-line 1)))
-				   )
+			     (setq fontview-mode-map (copy-keymap view-mode-map))
+			   (define-key fontview-mode-map "" 
+			     '(lambda () (interactive) (set-indicated-font) (next-line 1)))
 			   )
        ))
 
@@ -60,7 +58,7 @@ see fontview-mode-map keymap & fontview-mode-syntax-table
     (pop-to-buffer bname)
     (set-buffer-modified-p nil)
     (setq buffer-read-only t)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (fontview-mode)
     ))
 

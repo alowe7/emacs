@@ -58,7 +58,7 @@
 
 (defun y-or-n-list (l)
   (catch 'done
-    (mapcar '(lambda (x) 
+    (mapc '(lambda (x) 
 	       (let ((v (y-or-n-q-p "%s " " \C-m" x)))
 		 (cond 
 		  ((eq v ?q) (throw 'done nil))
@@ -81,7 +81,7 @@
   ;      (write-file fn))
 	    )
 	  (toggle-read-only)
-	  (beginning-of-buffer)
+	  (goto-char (point-min))
 	  (man-page-mode t)
 	  b)))
   )
@@ -103,7 +103,8 @@
     (cond ((get-buffer cmdbuf)
 	   (progn
 	     (pop-to-buffer cmdbuf)
-	     (beginning-of-buffer)))
+	     (goto-char (point-min))
+	     ))
 	  ((let* ((fns (manlike cmd section)))
 	     (cond ((> (length fns) 1) 
 		    (myman1 (if pick-manpage-from-list
@@ -127,7 +128,8 @@
 		   (setq b (zap-buffer (concat "*" cmd " help*")))
 		   (pop-to-buffer b)
 		   (insert s)
-		   (beginning-of-buffer))
+		   (goto-char (point-min))
+		   )
 	       (message "%s not found." cmd)))))
 
     ))
@@ -135,7 +137,7 @@
 (defun kill-all-mans () (interactive)
   (mapcar 'kill-buffer
 	  (loop for x being the buffers 
-		if (eq 'man-page-mode (save-excursion (set-buffer x) major-mode))
+		if (eq 'man-page-mode (with-current-buffer x major-mode))
 		collect x))
   )
 

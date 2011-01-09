@@ -171,7 +171,7 @@
     (loop for x in vskeys when (string-match pat (cadr x)) 
 	  do (insert (car x) "\t" (cadr x) "\n"))
     (pop-to-buffer b)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (help-mode)
   )
 )

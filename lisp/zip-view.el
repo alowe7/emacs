@@ -15,7 +15,7 @@
 		  )
     (pop-to-buffer b)
     (set-buffer-modified-p nil)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     )
   )
 
@@ -32,10 +32,9 @@
 				      )
 				     )
 		  )
-    (save-excursion
-      (set-buffer b)
+    (with-current-buffer b
       (set-buffer-modified-p nil)
-      (beginning-of-buffer)
+      (goto-char (point-min))
       )
     )
   )
@@ -45,17 +44,18 @@
   (let* ((b (zap-buffer (format "%s *zip*" zipfile))))
 
     (debug)
-    (apply 'call-process (nconc (list "pkzip" nil b nil "-add" 
-				      (replace-in-string " " "\\ " 
-							 (w32-canonify 
-							  (file-name-sans-extension zipfile)
-							  )
-							 )) files)
+    (apply 'call-process 
+	   (nconc (list "pkzip" nil b nil "-add" 
+			(replace-in-string " " "\\ " 
+					   (w32-canonify 
+					    (file-name-sans-extension zipfile)
+					    )
+					   )) 
+		  files)
 	   )
-    (save-excursion
-      (set-buffer b)
+    (with-current-buffer b
       (set-buffer-modified-p nil)
-      (beginning-of-buffer)
+      (goto-char (point-min))
       )
     )
   )

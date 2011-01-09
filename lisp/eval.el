@@ -10,9 +10,9 @@
 
 (defun eval-file (fn)
   (let ((b (get-file-buffer fn)))
-    (if b (save-excursion
-	    (set-buffer b )
-	    (eval-current-buffer))
+    (if b
+	(with-current-buffer b
+	  (eval-buffer))
       (if (file-exists-p fn) (load fn t t t)))
     )
   )

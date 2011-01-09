@@ -5,7 +5,7 @@
 ;; Mode for editing Cascading Style Sheets
 
 ;; Created:    <Sat Feb 12 13:51:49 EST 2000>
-;; Time-stamp: <2005-01-26 20:40:03 a>
+;; Time-stamp: <2011-01-08 13:41:59 a>
 ;; Author:     Alex Shinn <foof@synthcode.com>
 ;; Version:    0.3
 ;; Keywords:   html, style sheets, languages
@@ -97,7 +97,7 @@
   "Table for CSS at rules" )
 (if css-at-rule-table nil
   (setq css-at-rule-table (make-vector 5 0))
-  (mapcar (lambda (x) (intern x css-at-rule-table))
+  (mapc (lambda (x) (intern x css-at-rule-table))
           css-at-rule-keywords ))
 
 (defvar css-element-keywords nil
@@ -114,7 +114,7 @@
   "Table for CSS elements" )
 (if css-element-table nil
   (setq css-element-table (make-vector 5 0))
-  (mapcar (lambda (x) (intern x css-element-table))
+  (mapc (lambda (x) (intern x css-element-table))
           css-element-keywords ))
 
 
@@ -153,19 +153,19 @@
   "Table for CSS properties" )
 (if css-property-table nil
   (setq css-property-table (make-vector 5 0))
-  (mapcar (lambda (x) (intern x css-property-table))
+  (mapc (lambda (x) (intern x css-property-table))
           css-property-keywords ))
 
 
 ;; Three levels of highlighting
 
-(defconst css-font-lock-keywords-1 nil
+(defvar css-font-lock-keywords-1 nil
   "Subdued level highlighting for C modes.")
 
-(defconst css-font-lock-keywords-2 nil
+(defvar css-font-lock-keywords-2 nil
   "Medium level highlighting for C modes.")
 
-(defconst css-font-lock-keywords-3 nil
+(defvar css-font-lock-keywords-3 nil
   "Gaudy level highlighting for C modes.")
 
 (defvar css-font-keywords nil

@@ -38,7 +38,7 @@
 	      (loop for x in f do (insert x "\n"))
 	      (fill-region (point-min) (point-max))
 	      (pop-to-buffer b)
-	      (beginning-of-buffer)
+	      (goto-char (point-min))
 	      (if (y-or-n-p "update? ") 
 		  (xz-update t f)
 		))))))

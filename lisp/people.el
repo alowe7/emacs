@@ -100,9 +100,8 @@ to find the text that grep hits refer to."
 )
 
 (defun make-person-vector (name b)
-  (save-excursion
-    (set-buffer b)
-    (beginning-of-buffer)
+  (with-current-buffer b
+    (goto-char (point-min))
 
     (setq *find-person-query* name)
 
@@ -163,9 +162,10 @@ to find the text that grep hits refer to."
 
     (unless (not v)
       (if other-window
-	(find-file-other-window (expand-file-name (car v)))
-	 (find-file (expand-file-name (car v))))
-      (goto-line (cadr v))
+	  (find-file-other-window (expand-file-name (car v)))
+	(find-file (expand-file-name (car v))))
+      (goto-char (point-min)) 
+      (forward-line (1- (cadr v))) 
       )
     )
   )
@@ -237,7 +237,7 @@ to find the text that grep hits refer to."
 		       (kill-buffer b)
 		       t)))
 	     (display-buffer b)
-	     (beginning-of-buffer)
+	     (goto-char (point-min))
 	     (set-buffer-modified-p nil)
 	     (setq buffer-read-only t)
 	     )
@@ -283,7 +283,7 @@ to find the text that grep hits refer to."
 		       (kill-buffer b)
 		       t)))
 	     (display-buffer b)
-	     (beginning-of-buffer)
+	     (goto-char (point-min))
 	     (set-buffer-modified-p nil)
 	     (setq buffer-read-only t)
 	     )
@@ -293,8 +293,9 @@ to find the text that grep hits refer to."
   )
 
 
-(defun first-person () (interactive)
-  (beginning-of-buffer)
+(defun first-person () 
+  (interactive)
+  (goto-char (point-min))
   (next-person)
   )
 
@@ -339,7 +340,7 @@ default is *people-database*"
     (set-buffer b)
     (or (verify-visited-file-modtime b) 
 	(revert-buffer t t)) ; make sure it matches the version on disk
-    (end-of-buffer)
+    (goto-char (point-max))
     ))
 
 (defun people (&optional arg) 

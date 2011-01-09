@@ -47,8 +47,7 @@ The expansion is entirely correct because it uses the C preprocessor."
 	(tempfile "%%macroexpand%%")
 	process
 	last-needed)
-    (save-excursion
-      (set-buffer outbuf)
+    (with-current-buffer outbuf
       (erase-buffer))
     (setq process (start-process "macros" outbuf "/lib/cpp" default-cpp-options))
     (set-process-sentinel process '(lambda (&rest x)))
@@ -75,8 +74,7 @@ The expansion is entirely correct because it uses the C preprocessor."
     (while (eq (process-status process) 'run)
       (accept-process-output))
     (delete-file tempfile)
-    (save-excursion
-      (set-buffer outbuf)
+    (with-current-buffer outbuf
       (goto-char (point-max))
       (if (re-search-backward "\n# [12] \"\"" nil t)
 	  (progn
@@ -111,3 +109,5 @@ The expansion is entirely correct because it uses the C preprocessor."
     (require 'post-java-mode)
   (error nil)
   )
+
+

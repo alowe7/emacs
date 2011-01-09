@@ -3,7 +3,6 @@
 
 ;; myblog
 
-(require 'locations)
 (require 'mktime)
 (require 'psgml)
 (require 'utf8)
@@ -150,7 +149,7 @@ N may be negative.  returns nil if out of bounds
     (set-buffer b)
     (insert text)
 
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (set-buffer-modified-p nil)
     (setq buffer-read-only t)
     (view-mode)
@@ -280,7 +279,7 @@ with optional ARG, prompts for area.
 
 (defun allblogs ()
   (let* ((default-directory (blog-context))
-	 (files (get-directory-files  "." nil *blog-pattern*)))
+	 (files (sort (get-directory-files  "." nil *blog-pattern*) 'string-lessp)))
     files)
   )
 ; (allblogs)
@@ -309,7 +308,7 @@ with optional ARG, prompts for area.
 (define-key blog-mode-map "\M-p" 'viewpriorblog)
 
 (defun whatblog () (file-name-nondirectory (buffer-file-name)))
-(defun allblogs () (sort (get-directory-files nil nil "^[0-9]*$") 'string-lessp))
+
 (defun viewnextblog () (interactive)
   (let* ((thisblog (whatblog))
 	 (nextblog (loop with next = nil

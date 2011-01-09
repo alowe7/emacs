@@ -22,7 +22,7 @@
 		(setq jar-file f)
 		(jar-view-mode)
 		(set-buffer-modified-p nil)
-		(beginning-of-buffer)
+		(goto-char (point-min))
 		)
 	)
 

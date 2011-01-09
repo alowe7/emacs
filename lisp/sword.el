@@ -112,8 +112,7 @@ if `*cache-sword-key*' is set and a key is cached, return it, otherwise use read
 	 (result (call-process
 		  *key-program* nil b t "-d" "-k" key 
 		  (expand-file-name swordfile)))
-	 (swords (save-excursion 
-		   (set-buffer b)
+	 (swords (with-current-buffer b
 		   (loop for x in 
 			 (split (buffer-string) "
 ")

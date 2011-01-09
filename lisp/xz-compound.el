@@ -86,10 +86,10 @@ see `xz-query-format`
 ; (xz-stats "Announcement")
 
 
-(defun xzq (query)
-"quick and dirty xz query. no formatting"
-  (save-excursion
-    (set-buffer (xz-buffer))
+(defun xzq 
+  (query)
+  "quick and dirty xz query. no formatting"
+  (with-current-buffer (xz-buffer)
     (erase-buffer)
     (send-string (xz-process) (concat query "\n"))
     (xz-wait)

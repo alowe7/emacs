@@ -94,7 +94,7 @@ not sure why different versions require various `*unicode-signatures*'
 
 (defun dired-find-unicode-file ()
   (interactive)
-  (let ((find-file-hooks (remove* 'utf8-hook find-file-hooks)))
+  (let ((find-file-hook (remove* 'utf8-hook find-file-hook)))
     (find-file (dired-get-filename))
     )
   )

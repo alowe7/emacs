@@ -27,10 +27,10 @@ backup versions are not kept."
 
       (unless
 	  (message
-	   (save-excursion 
-	     (set-buffer b)
+	   (with-current-buffer b
 	     (string* (buffer-string))
-	     ))
+	     )
+	   )
 	(set-buffer-modified-p nil)
 	)
 
@@ -82,8 +82,7 @@ backup versions are not kept."
 				 nil "-k" key "-o" fn "-")
 	    (unless
 		(message
-		 (save-excursion 
-		   (set-buffer b)
+		 (with-current-buffer  b
 		   (string* (buffer-string))
 		   ))
 	      (set-buffer-modified-p nil)
@@ -114,7 +113,7 @@ backup versions are not kept."
   (let ((b (create-file-buffer fn)))
     (call-process *key-program* nil b nil "-d" "-k" key (expand-file-name fn))
     (switch-to-buffer b)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (setq buffer-file-name fn)
     (cd (file-name-directory (expand-file-name fn)))
     (auto-save-mode -1)

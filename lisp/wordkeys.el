@@ -16,5 +16,5 @@
 	(pop-to-buffer b)
 	(set-buffer-modified-p nil)
 	(setq buffer-read-only t)
-	(beginning-of-buffer) 
+	(goto-char (point-min))
 	(view-mode)))))

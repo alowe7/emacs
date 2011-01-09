@@ -20,7 +20,7 @@
 		     (message b))
 		    ((bufferp b)
 		     (pop-to-buffer b)
-		     (beginning-of-buffer)
+		     (goto-char (point-min))
 		     (setq mode-line-buffer-identification query)
 		     (setq truncate-lines t)
 		     (set-buffer-modified-p nil))

@@ -1,6 +1,8 @@
 (put 'post-xz-loads 'rcsid 
  "$Id$")
 
+(eval-when-compile (require 'xz))
+
 (require 'advice)
 (require 'long-comment)
 (require 'xz-stacks)
@@ -157,8 +159,7 @@ if found, pop that to top of stack"
 
 (defun xz-get-results ()
   "get results of last xz query"
-  (save-excursion
-    (set-buffer (xz-buffer))
+  (with-current-buffer (xz-buffer)
     (car (read-from-string (buffer-string)))))
 
 

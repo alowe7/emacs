@@ -21,7 +21,7 @@ items get added at the head so in effect override any previous definition.
 	)
   )
 
-(mapcar '(lambda (x) (add-auto-mode (car x) (cdr x)))
+(mapc '(lambda (x) (add-auto-mode (car x) (cdr x)))
 	'(
 	  ("\\.HTM$" . html-mode)
 	  ("\\.htm$" . html-mode)

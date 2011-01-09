@@ -16,7 +16,7 @@ interactively with prefix ARG, pushd even if that buffer thinks it isn't necessa
 	(let ((w (get-buffer-window b)))
 	  (if w (select-window w)
 	    (pop-to-buffer b))
-	  (end-of-buffer)
+	  (goto-char (point-max))
 	  (when (or arg (not (string= d default-directory) ))
 	    (cd d)
 	    (comint-send-string (buffer-process) (format "pushd \"%s\"\n" d))
@@ -28,5 +28,4 @@ interactively with prefix ARG, pushd even if that buffer thinks it isn't necessa
     )
   )
 
-(global-set-key (vector 'C-return (ctl ?8)) 'mru-shell)
 (provide 'mru-shell)

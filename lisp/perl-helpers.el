@@ -1,4 +1,5 @@
-;; $Id$
+(put 'perl-helpers 'rcsid
+     "$Id$")
 
 (require 'perl-command)
 
@@ -52,18 +53,18 @@
 	       (find-file-noselect perlfunc-file)
 	       ))
 	   (funcpat (format "^    %s[^a-z]" func))
-	   (p (save-excursion
-		(set-buffer b)
-		(if (looking-at func)
-		    (and 
-		     (re-search-forward funcpat nil t)
-		     (backward-word 1)
-		     (point))
-		  (progn
-		    (goto-char (point-min))
-		    (and (re-search-forward funcpat nil t)
-			 (backward-word 1)
-			 (point))))))
+	   (p 
+	    (with-current-buffer b
+	      (if (looking-at func)
+		  (and 
+		   (re-search-forward funcpat nil t)
+		   (backward-word 1)
+		   (point))
+		(progn
+		  (goto-char (point-min))
+		  (and (re-search-forward funcpat nil t)
+		       (backward-word 1)
+		       (point))))))
 	   (w (and p (get-buffer-window b)))
 	   )
       (if p 
@@ -84,11 +85,14 @@
 
 ; XXX todo completing read on oblist of operators
 
-(defun perlop (op)
-  (interactive "sop: ")
-  (let ((perlfunc-file perlop-file))
-    (perlfunc op)
-    )
+(defun perlop (op) 
+  "find perl op"
+  (interactive "sfind perl op: ")
+
+  (unless (file-exists-p perlop-file)
+    (error (format "file %s does not exist" perlop-file)))
+
+  (grep (format "grep -w -n -i -e %s %s" op f))
   )
 
 (defun perldoc (thing)
@@ -101,7 +105,7 @@
       (set-buffer b)
       (insert s)
       (pop-to-buffer b)
-      (beginning-of-buffer)
+      (goto-char (point-min))
   ; fix man page
       (let ((buffer-read-only nil))
 	(save-excursion
@@ -129,14 +133,7 @@
 		"perlfaq*"))
   )
 
-(defun perlop (op) 
-  "find perl op"
-  (interactive "sfind perl op: ")
 
-  (grep (format "grep -w -n -i -e %s %s%s" op
-		(file-name-directory perlfunc-file)
-		"perlop"))
-  )
 (defun perlvar (var) 
   "find perl op"
   (interactive "sfind perl var: ")
@@ -170,7 +167,8 @@ see `*perl-libs*'"
 	)
   (loop for x being the windows do 
 	(set-buffer (window-buffer x))
-	(beginning-of-buffer))
+	(goto-char (point-min))
+	)
   )
 
 (defun find-perl-module (m)
@@ -200,7 +198,7 @@ see `*perl-libs*'"
 	  (set-buffer b)
 	  (loop for x in mmm do
 		(insert x "\n"))
-	  (beginning-of-buffer)
+	  (goto-char (point-min))
 	  (fb-mode)
 	  (pop-to-buffer b)
 	  )
@@ -215,7 +213,7 @@ see `*perl-libs*'"
   (interactive (list
 		(let ((w (indicated-word ":"))) (string* (read-string (format "perl module (%s): " w)) w))
 		))
-  (interactive "smod: ")
+
   (let ((mm  (replace-regexp-in-string "::" "/" m)))
     (or
      (loop for x in *perl-libs*  

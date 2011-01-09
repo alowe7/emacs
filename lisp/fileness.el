@@ -40,17 +40,17 @@ with optional ARG, toggles current behavior.  see `wordness'
     )
   )
 
-(defun minibuffer-fileness () (interactive)
-  (save-excursion (set-buffer
-		   (window-buffer (minibuffer-window)))
-		  (fileness))
+(defun minibuffer-fileness () 
+  (interactive)
+  (with-current-buffer
+      (window-buffer (minibuffer-window))
+    (fileness))
   )
 
-(defun minibuffer-wordness () (interactive)
-  (save-excursion (set-buffer
-		   (window-buffer (minibuffer-window)))
-		  (wordness))
+(defun minibuffer-wordness () 
+  (interactive)
+  (with-current-buffer
+      (window-buffer (minibuffer-window))
+    (wordness))
   )
 
-(require 'alt-z)
-(define-key alt-z-map (vector ?\M-w) '(lambda () (interactive) (minibuffer-wordness t)))

@@ -1,11 +1,13 @@
 (put 'lwhence 'rcsid 
  "$Id$")
+
 (require 'indicate)
 (provide 'lwhence)
 
 (defun fwhence (fn) 
   "find function F along load-path"
-  (interactive "aFunction: ")
+  (interactive "afind function along load-path: ")
+
   (or (and (boundp 'autoload-alist)
 	   (cadr (assoc fn autoload-alist)))
       (let* ((s (documentation fn))
@@ -23,11 +25,10 @@
 
 (defun whence-lib (library) 
   "finds LIBRARY along load-path"
-  (interactive "sLibrary: ")
-  (let* ((l (if
-	       (file-name-extension library)
-	       '(lambda (f) (-f (concat x "/" library)))
-	     '(lambda (f) (-f (concat x "/" library ".el")))))
+  (interactive "swhence library: ")
+  (let* ((l (if (file-name-extension library)
+		'(lambda (f) (-f (concat x "/" library)))
+	      '(lambda (f) (-f (concat x "/" library ".el")))))
 	 (v (loop for x in load-path thereis (funcall l x))))
     (if (interactive-p) (message "%s" v) v)
     )
@@ -35,8 +36,8 @@
 ;; (whence-lib "os-init")
 
 (defun find-whence-lib (l)
- (interactive "sLibrary: ")
- (find-file (whence-lib l)))
+  (interactive "svisit library file: ")
+  (find-file (whence-lib l)))
 
 (fset 'find-module 'find-whence-lib)
 (fset 'fm 'find-whence-lib)
@@ -44,9 +45,7 @@
 
 (defun lwhence (thing) 
   "returns library containing thing"
-  (interactive 
-   (list (complete-indicated-word "Function (%s): " obarray)))
-
+  (interactive "sreturn library containing: " )
 
   (catch 'done
     (let* ((fn (cond ((stringp thing) (intern thing))
@@ -71,13 +70,9 @@
     )
   )
 
-(define-key help-map "." 'lwhence)
-
 (defun lcollect (fn) 
   "returns library containing fn"
-
-  (interactive "aFunction: ")
-
+  (interactive "areturn library containing function: ")
   (let* ((b (loop for x in load-history
 		  when (member fn x)
 		  return (car x)))

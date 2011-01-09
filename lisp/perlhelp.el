@@ -10,8 +10,7 @@
 (defun get-perl-docfile ()
   (or (get-file-buffer perl-docfile)
       (let ((b (find-file-noselect perl-docfile)))
-	(save-excursion
-	  (set-buffer b)
+	(with-current-buffer b
   ;					(use-local-map perl-doc-mode-map)
   ;					(setq buffer-read-only t)
 	  (view-mode)

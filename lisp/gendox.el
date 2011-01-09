@@ -83,7 +83,7 @@
       )
     (insert footer)
 
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (set-buffer-modified-p nil)
     (display-buffer b)
     )

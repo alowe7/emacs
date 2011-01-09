@@ -52,7 +52,7 @@ with optional prefix ARG set to ARG"
 (defun kill-pattern (pat &optional n)
   "delete all ocurrences of PAT in current buffer.
 if optional arg N is specified deletes additional N subsequent chars also"
-  (beginning-of-buffer)
+  (goto-char (point-min))
   (while 
       (re-search-forward pat nil t) 
     (delete-region (match-beginning 0) (+ (match-end 0) (or n 0)))
@@ -74,13 +74,13 @@ if optional arg N is specified deletes additional N subsequent chars also"
 (defun scroll-down-1 ()
   (interactive)
   (scroll-down 1)
-  (if (not (bobp)) (previous-line 1))
+  (if (not (bobp)) (forward-line -1))
   )
 
 (defun scroll-up-1 ()
   (interactive)
   (scroll-up 1)
-  (if (not (eobp)) (next-line 1))
+  (if (not (eobp)) (forward-line 1))
   )
 
 
@@ -118,13 +118,13 @@ interactive with ARG says reverse whole buffer"
     (reverse-region beg end)
 ;    (goto-line (1+ (- num-lines this-line)))
     (goto-char end)
-    (previous-line this-line)
+    (forward-line (- this-line))
     )
   )
 
 (defun reverse-lines-1 ()
   (interactive)
-  (beginning-of-buffer)
+  (goto-char (point-min))
   (let (x)
     (while (not (eobp))
       (push (bgets) x)

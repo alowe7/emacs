@@ -11,7 +11,7 @@
 	  )
     (set-variable 'truncate-lines t)
     (pop-to-buffer b)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (view-mode))
   )
 

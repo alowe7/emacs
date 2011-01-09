@@ -17,7 +17,8 @@
 
 ; do a perl debug
 
-(defun perl-debug () (interactive)
+(defun perl-debug ()
+  (interactive)
   (setq shell-prompt-pattern "^\\([ ]*[a-zA-Z]*<[0-9]*>\\) *")
   )
 
@@ -47,7 +48,7 @@
     (help-mode)
     (set-buffer-modified-p nil)
     (setq buffer-read-only t)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     b)
   )
 
@@ -111,12 +112,6 @@ else if `thing-at-point' looks like a filename, try that
 	     )
 	  )
 
-
-; do a perl debug
-
-(defun perl-debug () (interactive)
-  (setq shell-prompt-pattern "^\\([ ]*[a-zA-Z]*<[0-9]*>\\) *")
-  )
 
 ; see reg.el
 ;(perl-command "queryval -v user \"software/Technology X/check/glom\"")

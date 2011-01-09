@@ -42,12 +42,13 @@ Otherwise, one argument `-i' is passed to the shell.
 	       (startfile (concat "~/.emacs_" name))
 	       (xargs-name (intern-soft (concat "explicit-" name "-args")))
 	       shell-buffer)
-	  (save-excursion
-	    (set-buffer (apply 'make-comint shell-name prog
-			       (if (file-exists-p startfile) startfile)
-			       (if (and xargs-name (boundp xargs-name))
-				   (symbol-value xargs-name)
-				 '("-i"))))
+
+  ; makes use of the (undocumented) fact that make-comint returns the buffer
+	  (with-current-buffer (apply 'make-comint shell-name prog
+				      (if (file-exists-p startfile) startfile)
+				      (if (and xargs-name (boundp xargs-name))
+					  (symbol-value xargs-name)
+					'("-i")))
 	    (setq shell-buffer (current-buffer))
 
 	    (if mode (funcall mode)
@@ -55,7 +56,9 @@ Otherwise, one argument `-i' is passed to the shell.
 
 	    ;; this is now buffer-local
 	    (setq explicit-shell-file-name prog)
-	    )))
+	    )
+	  )
+	)
     (if other-frame 
 	(switch-to-buffer-other-frame shell-buffer-name)
       (funcall shell-popper shell-buffer-name))

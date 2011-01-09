@@ -33,7 +33,7 @@
     (auto-save-mode -1)
     (or arg (progn
 	      (shell-command-on-region (point-min) (point-max) "nroff -man"  t)
-	      (beginning-of-buffer)
+	      (goto-char (point-min))
 	      (fix-man-page)))
 ;;; pretend this never happened
     (set-buffer-modified-p nil)

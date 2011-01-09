@@ -3,7 +3,7 @@
 
 (defun cleanup-some-buffers ()
   (interactive)
-  (mapcar 'kill-buffer (collect-buffers-mode 'dired-mode))
-  (mapcar 'kill-buffer (collect-buffers-not-modified))
+  (mapc 'kill-buffer (collect-buffers-mode 'dired-mode))
+  (mapc 'kill-buffer (collect-buffers-not-modified))
   )
 

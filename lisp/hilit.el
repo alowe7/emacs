@@ -436,7 +436,7 @@ The optional 5th arg, PROP is a property to set instead of 'hilit."
   (interactive "r")
   (or quietly hilit-quietly (message "Unhighlighting"))
   (while (< start end)
-    (mapcar '(lambda (ovr)
+    (mapc '(lambda (ovr)
 	       (and (overlay-get ovr 'hilit) (delete-overlay ovr)))
 	    (overlays-at start))
     (setq start (next-overlay-change start)))

@@ -4,7 +4,7 @@
 (defun format-buffer ()
   (interactive)
   (save-excursion
-    (end-of-buffer)
+    (goto-char (point-max))
     (while (beginning-of-defun)
       (c-indent-exp t)
       ))

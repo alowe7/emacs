@@ -4,7 +4,7 @@
 (defun find-source ()
   (interactive)
   (let* ((feature (save-excursion
-		    (beginning-of-buffer)
+		    (goto-char (point-min))
 		    (search-forward "(provide ")
 		    (intern (indicated-word))))
 	 (w (and feature (fw (get feature 'tw))))

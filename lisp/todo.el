@@ -13,7 +13,7 @@
   " suck todone file into an edit buffer"
   (interactive)
   (find-file master-todone-file)
-  (end-of-buffer)
+  (goto-char (point-max))
   )
 
 (define-derived-mode todo-mode fundamental-mode ".todo.")
@@ -24,7 +24,7 @@
   " suck todo file into an edit buffer"
   (interactive)
   (find-file master-todo-file)
-  (end-of-buffer)
+  (goto-char (point-max))
   (todo-mode)
   )
 
@@ -46,7 +46,7 @@
   (interactive "scomment: ")
   (save-excursion
 		(find-file (or b master-todo-file))
-		(end-of-buffer)
+		(goto-char (point-max))
     (insert (concat (if add-todo-date (shortdate) "") " " com "
 "))
     (save-buffer)

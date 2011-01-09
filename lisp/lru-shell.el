@@ -1,7 +1,10 @@
 (put 'lru-shell 'rcsid
  "$Id$")
 
-(defun lru-shell () (interactive)
+(require 'buffers)
+
+(defun lru-shell () 
+  (interactive)
   "grab the least recently used extant shell buffer, pop to it and cd to the current directory"
   (let* ((d default-directory)
 	 (l (reverse (collect-buffers-mode 'shell-mode)))
@@ -9,7 +12,7 @@
 	 )
     (if b (progn
 	    (pop-to-buffer b)
-	    (end-of-buffer)
+	    (goto-char (point-max))
 	    (unless (string= d default-directory) 
 	      (cd d)
 	      (comint-send-string (buffer-process) (format "pushd \"%s\"\n" d))
@@ -19,6 +22,6 @@
     )
   )
 
-(global-set-key (vector 'C-return (ctl ?7)) 'lru-shell)
+
 (provide 'lru-shell)
 

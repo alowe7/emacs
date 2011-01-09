@@ -13,8 +13,7 @@ immediately before starting the transfer, so that no buffer-local
 variables interfere with the retrieval.  HTTP/1.0 redirection will
 be honored before this function exits."
   (if (get-buffer url-working-buffer)
-      (save-excursion
-	(set-buffer url-working-buffer)
+      (with-current-buffer url-working-buffer
 	(erase-buffer)
 	(setq url-current-can-be-cached (not no-cache))
 	(set-buffer-modified-p nil)))
@@ -138,8 +137,7 @@ be honored before this function exits."
 	(if conn
  	    (progn
  	      (if (boundp 'MULE)
-		  (save-excursion
-		    (set-buffer (get-buffer-create buffer))
+		  (with-current-buffer (get-buffer-create buffer)
 		    (setq mc-flag nil)
 		    (set-process-coding-system conn *noconv* *noconv*)))
  	      conn)
@@ -161,10 +159,10 @@ be honored before this function exits."
 	    (url-gateway-initialize-host-process url-gateway-host
 						 url-gateway-host-username
 						 url-gateway-host-password)))
-      (save-excursion
+      (with-current-buffer
+	  (get-buffer-create url-working-buffer)
 	(set-process-buffer url-gateway-host-process
-			    (get-buffer-create url-working-buffer))
-	(set-buffer (get-buffer-create url-working-buffer))
+			    (current-buffer))
 	(erase-buffer)
 	(process-send-string url-gateway-host-process
 			     (concat
@@ -185,8 +183,7 @@ be honored before this function exits."
       (let ((proc (start-process name buffer url-gateway-telnet-program host
 				 (int-to-string service)))
 	    (tmp nil))
-	(save-excursion
-	  (set-buffer buffer)
+	(with-current-buffer buffer
 	  (setq tmp (point))
 	  (while (not (progn
 			(goto-char (point-min))
@@ -262,8 +259,7 @@ be honored before this function exits."
 
 (defun w3-build-continuation ()
   "Build a series of functions to be run on this file"
-  (save-excursion
-    (set-buffer url-working-buffer)
+  (with-current-buffer url-working-buffer
     (let ((cont w3-default-continuation)
 	  (extn (url-file-extension url-current-file)))
       (if (assoc extn url-uncompressor-alist)
@@ -276,6 +272,6 @@ be honored before this function exits."
 		(mm-mime-info (or url-current-mime-type
 				  (mm-extension-to-mime extn)) nil 5)))
       (if url-current-mime-viewer
-					(if url-use-viewers (setq cont (append cont '(w3-pass-to-viewer))))
+	  (if url-use-viewers (setq cont (append cont '(w3-pass-to-viewer))))
 	(setq cont (append cont (list w3-default-action))))
       cont)))

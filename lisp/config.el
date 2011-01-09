@@ -172,21 +172,23 @@ no errors if files don't exist.
  "
   (if (featurep (ad-get-arg 0)) nil
 
-  (if (ad-is-advised 'require)
-      (ad-disable-advice 
-       'require
-       'around
-       'hook-require))
+    (if (ad-is-advised 'require)
+	(ad-disable-advice 
+	 'require
+	 'around
+	 'hook-require))
 
     (ad-activate 'require)
 
-; 		(and *debug-require-hook* (debug))
-    (loadp "pre-" (ad-get-arg 0))
+    (let ((arg (ad-get-arg 0)))
+  ; 		(and *debug-require-hook* (debug))
+      (loadp "pre-" arg)
 
-    ad-do-it
+      ad-do-it
+  ; 		(and *debug-require-hook* (debug))
 
-; 		(and *debug-require-hook* (debug))
-    (loadp "post-" (ad-get-arg 0))
+      (loadp "post-" arg)
+      )
 
     (ad-enable-advice 
      'require
@@ -196,8 +198,7 @@ no errors if files don't exist.
     )
   )
 
-; (ad-unadvise 'require)
-; (ad-is-advised 'require)
+; (if (ad-is-advised 'require) (ad-unadvise 'require))
 
 ; warning: this fails for any built in functions, so ...
 ; we need to get fancy
@@ -258,7 +259,7 @@ returns nil otherwise.
 	(add-to-list 'load-path (expand-file-name x) append)
 
 	(if subdirs
-	    (mapcar '(lambda (y) 
+	    (mapc '(lambda (y) 
 		       (if (and (file-directory-p (concat x "/" y)) (not (string= y ".")) (not (string= y "..")))
 			   (add-to-load-path (concat x "/" y) append subdirs)))
 		    (directory-files x)))
@@ -380,7 +381,7 @@ members may be symbols or strings, see `post-load'
 
 ; these go at the head of the list
 (condition-case err
-    (mapcar 'add-to-load-path
+    (mapc 'add-to-load-path
      (nconc 
       (and emacsdir (directory-files (concat emacsdir "/site-lisp") t "^[a-zA-Z]"))
       (and share
@@ -395,20 +396,21 @@ members may be symbols or strings, see `post-load'
 (require 'find-func)
 (and share
      (let ((site-start.d (concat share "/site-lisp/site-start.d")))
-       (mapcar 'load (and (file-directory-p site-start.d) (get-directory-files site-start.d)))
+       (mapc 'load (and (file-directory-p site-start.d) (get-directory-files site-start.d)))
        )
      )
 
 ; these go at the head of the list
-(mapcar 
+(mapc
  'add-to-load-path
  (list 
-  (expand-file-name *configdir* "os")
-  (expand-file-name (concat *configdir* "os/" system-configuration))
-  (expand-file-name (concat *configdir* "os/" (symbol-name window-system)))
-  (expand-file-name (concat *configdir* "hosts/"  (system-name)))
-  (expand-file-name (concat *configdir* (format "%d.%d" emacs-major-version emacs-minor-version)))
-  (expand-file-name (concat *configdir* (format "%d" emacs-major-version)))
+  (expand-file-name  "common" *configdir*)
+  (expand-file-name (concat "os/" system-configuration)  *configdir*)
+  (expand-file-name (concat "os/" (symbol-name window-system)) *configdir*)
+  (expand-file-name (concat "hosts/"  (system-name)) *configdir*)
+  (expand-file-name (concat (format "%d.%d" emacs-major-version emacs-minor-version)) *configdir*)
+
+  (expand-file-name (concat (format "%d" emacs-major-version)) *configdir*)
   )
  )
 

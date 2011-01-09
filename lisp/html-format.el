@@ -13,7 +13,7 @@
 			 (format "-m%d" *margin*) 
 			 (format "-w%d" (- (window-width) 4)))
     (pop-to-buffer b)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (view-mode)
     (set-buffer-modified-p nil)
     )

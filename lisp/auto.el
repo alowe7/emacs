@@ -1,31 +1,22 @@
 (put 'auto 'rcsid
  "$Id$")
 
-(defvar *peek-xml-pat*  "^[ 	
-]*<" )
-(defvar *peek-php-pat* "^[ 	
-]*<\\?php")
-(defvar *peek-perl-pat* "^#!(perl|/usr/local/bin/perl)")
-
 (defun looking-at* (regexp)
   (save-excursion (goto-char (point-min)) (looking-at regexp))
   )
+
+(defvar *auto-mode-alist* nil "alist of (regexp . mode) where if file begins with with regexp, automatically enter mode
+used by post-load hooks to add mode specific peekpatterns")
 
 (defun auto-auto-mode ()
   "when a member of  `find-file-hooks' this function provides an alternative way to derive an auto mode.
 for example, by directory, or maybe peeking."
 
-  ; but only if major-mode hasn't already been selected
+  ; but if only a customized major-mode hasn't already been selected
   (if (eq major-mode 'fundamental-mode)
-      (cond
-       ((looking-at*  *peek-php-pat*)
-	(php-mode))
-       ((looking-at* *peek-xml-pat*)
-  ; if the first non-whitespace char is langle, guess sgml.  this includes jsp
-	(sgml-mode))
-       ((looking-at*  *peek-perl-pat*)
-	(perl-mode))
-       )
+      (loop for x in  *auto-mode-alist* when (and (listp x) (looking-at*  (car x))) return (funcall (cdr x)))
+
     )
   )
+
 (provide 'auto)

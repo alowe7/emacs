@@ -8,7 +8,7 @@
 	(progn
 	  (modify-frame-parameters nil (cdr c))
 	  (setq default-fontspec (frame-parameter nil 'font))
-	  (set-default-font  default-fontspec) ; maybe redundant?
+	  (set-frame-font   default-fontspec)
 	  )
       (message "no entry for %s found in default-frame-configurations" font )
       )

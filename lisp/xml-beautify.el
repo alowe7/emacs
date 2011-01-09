@@ -5,8 +5,9 @@
 
 (defun xml-beautify () (interactive)
   (save-excursion
-    (replace-string "><" ">
-<" )
+    (while (search-forward "><" nil t)
+      (replace-match ">
+<" nil t))
     )
   )
 

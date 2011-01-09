@@ -1,8 +1,11 @@
 (put 'clean 'rcsid
  "$Id$")
 
+(require 'buff)
+
 (defun cleanup-some-buffers ()
   (interactive)
-  (mapcar 'kill-buffer (list-buffers-mode 'dired-mode))
-  (mapcar 'kill-buffer (list-buffers-not-modified))
+  (mapc 'kill-buffer (list-buffers-mode 'dired-mode))
+  (mapc 'kill-buffer (list-buffers-not-modified))
   )
+

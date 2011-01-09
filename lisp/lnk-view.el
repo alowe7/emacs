@@ -36,7 +36,7 @@
 	(lnk-mode)
 	(setq lnk-file f)
 	(set-buffer-modified-p nil)
-	(beginning-of-buffer)
+	(goto-char (point-min))
 	)
     (message (kill-new (eval-process "readshortcut" f)))
     )

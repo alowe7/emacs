@@ -50,8 +50,10 @@
 
   (save-excursion
     (soft-fill-region from to)
-    (replace-string "." ".
-" nil from to)
+    (goto-char from)
+    (while (search-forward "." to t)
+      (replace-match ".
+" nil t))
     )
   )
 

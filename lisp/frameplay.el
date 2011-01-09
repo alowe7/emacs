@@ -4,7 +4,7 @@
 (defun increment-screen-height (&optional arg) 
   (interactive "p")
   (let ((f (current-frame))
-	(h (screen-height))
+	(h (frame-height))
 	(n (or arg 1)))
     (set-frame-height f (+ h n))
     )
@@ -42,7 +42,7 @@
 (defun increment-screen-width (&optional arg)
   (interactive "p")
   (let ((f (current-frame))
-	(h (screen-width))
+	(h (frame-width))
 	(n (or arg 1)))
 
     (set-frame-width f (+ h n))

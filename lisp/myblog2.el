@@ -75,8 +75,7 @@ non-interactively with arg, likewise, with url instead of filename
 (defun my-compilation-sentinel (proc msg)
   " my-compilation-sentinel"
   (apply orig-compilation-sentinel (list proc msg))
-  (save-excursion
-    (set-buffer (process-buffer proc))
+  (with-current-buffer (process-buffer proc)
     (apply 'reverse-lines (mark-lines 2 -2))
     )
   )

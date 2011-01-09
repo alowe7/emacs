@@ -14,7 +14,7 @@ most recently doomed files or directories are pushed onto the kill ring (see `ki
   (interactive "P")
   (let* ((fnlst (cond ((eq major-mode 'dired-mode)
 		       (dired-get-marked-files))
-		      (t (list (read-file-name* "filename (%s): " nil (buffer-file-name)))
+		      (t (list (read-file-name* "filename (%s): " (buffer-file-name)))
 			 )))
 	 (datestamp (eval-process "date +%y%m%d%H%M%S"))
 	 (dir (if arg
@@ -82,8 +82,7 @@ defaults for file are `dired-get-filename' if in `dired-mode' otherwise `buffer-
 
 (defun snap (fn)
   (interactive (list
-		(read-file-name* "filename (%s): " nil 
-
+		(read-file-name* "filename (%s): " 
 				 (cond ((eq major-mode 'dired-mode)
 					(dired-get-filename))
 				       (t (buffer-file-name))

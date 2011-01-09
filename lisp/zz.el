@@ -32,7 +32,7 @@
 
 					; wrap compilation-sentinel 
     (fset 'compilation-sentinel
-	  '(lambda (proc msg)  (set-buffer (process-buffer proc)) (setq truncate-lines t) (funcall orig-compilation-sentinel proc msg)))
+	  (function (lambda (proc msg)  (set-buffer (process-buffer proc)) (setq truncate-lines t) (funcall orig-compilation-sentinel proc msg))))
 
     (grep (format "grep -n -i -e %s %s"
 		  thing
@@ -143,7 +143,8 @@
 	 )
 
     (set-buffer b)
-    (goto-line ln)
+    (goto-char (point-min))
+    (forward-line (1- ln))
    ; (message "%s" (point))
     b
     )
@@ -161,7 +162,8 @@
 	 (b (funcall (if arg 'find-file-other-window 'find-file) fn))
 	 )
 
-    (goto-line ln)
+    (goto-char (point-min))
+    (forward-line (1- ln))
     b
     )
 )
@@ -178,8 +180,9 @@
     )
   )
 
-(defun zz-find-previous-file () (interactive)
-  (previous-line 1)
+(defun zz-find-previous-file () 
+  (interactive)
+  (forward-line -1)
   (display-buffer (zz-find-file-noselect))
   )
 
@@ -402,7 +405,7 @@ with prefix, prompts for optional DIR, using `zz-last-dir' as default
 (define-key ctl-\\-map "\C-j" 'zz-switch-to-buffer)
 (define-key ctl-/-map "\C-j" 'last-locate-buffer)
 
-(defun buffer-display-time (&optional b) (let ((b (or b (current-buffer)))) (save-excursion (set-buffer b) buffer-display-time)))
+(defun buffer-display-time (&optional b) (let ((b (or b (current-buffer)))) (with-current-buffer b buffer-display-time)))
 (defun last-locate-buffer () 
   "return most recently viewed buffer among LIST
 "

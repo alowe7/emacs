@@ -42,7 +42,7 @@
 
 (defun vm-mime-display-external-generic (layout)
 
-	(let ((tempfile (mktemp "foob")))
+	(let ((tempfile (make-temp-file "_mimetmp")))
 		(set-buffer (marker-buffer (vm-mm-layout-body-start layout)))
 (debug)
 	(save-excursion

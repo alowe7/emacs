@@ -11,7 +11,7 @@
 around a bug in the win32 implementation of awk that doesn't like to
 see \' or \" in the script, but it is generally useful, anyway."
 
-  (let ((fn (mktemp "__awktmp")))
+  (let ((fn (make-temp-file "__awktmp")))
 
     (if (<= (length script) 0)
 	(setq script (or *last-awk-script* (read-string "script: "))))

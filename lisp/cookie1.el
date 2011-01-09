@@ -113,7 +113,7 @@ and subsequent calls on the same file won't go to disk."
 	  (set-buffer buf)
 	  (fset sym (nth 5 (file-attributes phrase-file)))
 	  (insert-file-contents (expand-file-name phrase-file))
-	  (beginning-of-buffer)
+	  (goto-char (point-min))
 	  (re-search-forward cookie-delimiter)
 
       (catch 'done

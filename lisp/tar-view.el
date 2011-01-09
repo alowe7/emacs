@@ -15,7 +15,7 @@
     (setq tar-file f)
     (tar-view-mode)
     (set-buffer-modified-p nil)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     )
   )
 
@@ -57,10 +57,9 @@
     (tar-view-mode)
     (set-buffer-modified-p nil)
     (cd-absolute (expand-file-name (file-name-directory f)))
-    (beginning-of-buffer)
+    (goto-char (point-min))
     )
   )
-
 
 (add-file-association "tgz" 'tgz-view)
 
@@ -77,7 +76,7 @@
 	  (pop-to-buffer b)
 	  (fundamental-mode)
 	  (set-buffer-modified-p nil)
-	  (beginning-of-buffer)
+	  (goto-char (point-min))
 	  )
 	)
       )
