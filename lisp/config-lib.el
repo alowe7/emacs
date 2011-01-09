@@ -71,15 +71,22 @@ see `locate-config-file'"
   )
 
 (defun host-init ()
-  "shortcut for `find-config-file' \"host-init\""
+  "shortcut for `find-config-file' \"host-init\"
+with optional prefix arg, dired containing directory
+"
   (interactive)
 
-  (let ((fn (locate-config-file "host-init")))
-    (if current-prefix-arg (dired (file-name-directory fn))
-      (find-config-file "host-init")
+  (let* ((config  "host-init")
+	 (fn (locate-config-file config)))
+    (if (null fn)
+	(message (format "config %s not found along load-path." fn))
+      (if current-prefix-arg (dired (file-name-directory fn))
+	(find-file fn) 
+	)
       )
     )
   )
+; (host-init)
 
 (defun emacs-version-init ()
   "shortcut for `find-config-file' \"EmacsXX\" where XX=`emacs-major-version'"
@@ -90,10 +97,22 @@ see `locate-config-file'"
   )
 
 (defun os-init ()
-  "shortcut for `find-config-file' \"os-init\""
+  "shortcut for `find-config-file' \"os-init\"
+with optional prefix arg, dired containing directory
+"
   (interactive)
-  (find-config-file "os-init")
+
+  (let* ((config   "os-init")
+	 (fn (locate-config-file config)))
+    (if (null fn)
+	(message (format "config %s not found along load-path." fn))
+      (if current-prefix-arg (dired (file-name-directory fn))
+	(find-file fn) 
+	)
+      )
+    )
   )
+; (os-init)
 
 (defun window-system-init ()
   "shortcut for `find-config-file' \"window-system-init\""

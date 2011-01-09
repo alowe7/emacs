@@ -1,5 +1,6 @@
 (put 'helps 'rcsid 
  "$Id$")
+
 (require 'cl)
 ;(require 'oblists)
 (require 'indicate)
@@ -458,27 +459,30 @@ with optional prefix arg, wrap by line "
 ;(format "%d" ?a)
 
 (defun integerify (x)
-  (cond ((null x) x)
-	((integerp x) (format "%c" x))
-	((listp x) 
-	 (cond ((eq (car x) 'lambda) x)
-	       (t (cons (integerify (car x)) (integerify (cdr x))))))
-	(t x))
+  (cond
+   ((null x) x)
+   ((listp x) 
+    (cond ((eq (car x) 'lambda) x)
+	  (t (cons (integerify (car x)) (integerify (cdr x))))))
+   ((or (integerp x) (characterp x))
+    (key-description (vector x)))
+   (t x)
+   )
   )
-
 
 (defun prettify-keymap (m)
   (interactive (list (intern (completing-read "map: "  (mapcar 'list (symbols-like "-map" t))))))
 
   (let* ((m 
-		  (cond ((and (symbolp m) (boundp m)) (eval m))
-				(t m)))
-		 )
+	  (cond ((and (symbolp m) (boundp m)) (eval m))
+		(t m)))
+	 )
 
-	(mapcar 'integerify m)
-	)
+    (mapcar 'integerify m)
+    )
   )
 
+; (prettify-keymap 'isearch-mode-map)
 ; (prettify-keymap 'xz-mode-map)
 
 (defsubst macrop (sym)
@@ -516,3 +520,13 @@ with optional prefix arg, wrap by line "
     (find-file fn)
     )
   )
+
+(defun switch-to-help-buffer ()
+  (interactive)
+  (let ((b (get-buffer "*Help*")))
+    (if (and b (buffer-live-p b))
+	(switch-to-buffer b)
+      (message "buffer *Help* not found"))
+    )
+  )
+

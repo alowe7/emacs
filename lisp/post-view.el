@@ -43,4 +43,6 @@
 
 ; (if (ad-is-advised 'help-setup-xref) (ad-unadvise 'help-setup-xref))
 
+(define-key help-map "\C-w" 'switch-to-help-buffer)
+
 (provide 'post-view)
