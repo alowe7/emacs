@@ -16,7 +16,7 @@ TOP=$(shell pwd)
 
 .PHONY: FORCE
 
-MAKE_AUTOLOADS  := $(shell which make-autoloads  2> /dev/null)
+MAKE_AUTOLOADS  := $(shell which make-autoloads --compiled  2> /dev/null)
 PKG=a
 AUTOLOADS=$(PKG)-autoloads
 
@@ -32,9 +32,9 @@ CONFIGS := $(shell ./find-configs)
 
 ETAGS=etags
 
-all: autoloads
+all: compile autoloads
 
-ship: autoloads
+ship: compile autoloads
 	mkdir -p $(SITESTART)
 	install -m 444 $(AUTOLOADS) $(SITESTART)
 

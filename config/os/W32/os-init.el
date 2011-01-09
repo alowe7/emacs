@@ -495,11 +495,6 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 	     (define-key dired-mode-map "C" 'dired-copy-marked-files))
 	  )
 
-(defun mktemp (pat)
-  "make a temporary filename based on tmpdir"
-  (expand-file-name (format "%s/%s" (getenv "TMP") pat))
-  )
-
 ; really only want this for shell programs.
 (setq null-device "/dev/null")
 
