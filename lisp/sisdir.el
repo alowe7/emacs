@@ -11,7 +11,8 @@
   )
 
 ; (setq *sisdirs* (construct-sisdirs "~/emacs/config/hosts"))
-; (setq *sisdirs* '(("emacs/config/hosts/keystone" "emacs/config/hosts/tombstone")))
+; (setq *sisdirs* '(("emacs.bak" "emacs")))
+; (setq *sisdirs* '(("a" "a.bak")))
 
 (defun sisdir ()
   (interactive)

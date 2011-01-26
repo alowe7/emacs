@@ -79,7 +79,7 @@ otherwise calls `xz-query-format'"
 			'xz-query-format-1))
   )
 
-(define-key xz-map (vector 67108896) 'xz-constrained-query-format-1)
+; (define-key xz-map (vector 67108896) 'xz-constrained-query-format-1)
 ; (define-key xz-map (vector 67108896) 'xz-query-format)
 
 (provide 'xz-constraints)
