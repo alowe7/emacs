@@ -92,8 +92,9 @@
   (unless (file-exists-p perlop-file)
     (error (format "file %s does not exist" perlop-file)))
 
-  (grep (format "grep -w -n -i -e %s %s" op f))
+  (grep (format "grep -w -nH -i -e %s %s" op perlop-file))
   )
+; (perlop "=~")
 
 (defun perldoc (thing)
   "find perldoc for THING"
