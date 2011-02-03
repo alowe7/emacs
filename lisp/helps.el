@@ -494,21 +494,59 @@ with optional prefix arg, wrap by line "
   (interactive (list
 		(string* (read-string (format "find function or variable (%s): " (indicated-word "-")))
 			 (indicated-word "-"))))
-  (let ((w (intern w )))
 
-    (cond
-	  ((boundp w)
-	   (find-variable w))
-	  ((functionp w)
-	   (find-function w))
-	  ((macrop w)
-	   (find-function w))
-	  (t 
-	   (find-function-or-variable 
-	    (read-string
-	     (format "%s not a function or variable.  enter a function or variable: " w))))))
+  (let ((symbol (if (symbolp w) w (intern w))))
+
+    (condition-case err  
+
+	(cond
+	 ((boundp symbol)
+	  (find-variable symbol))
+	 ((functionp symbol)
+	  (find-function symbol))
+	 ((macrop symbol)
+	  (find-function symbol))
+	 (t 
+	  (message
+	   (format "%s not defined as a variable, function, or macro." symbol)))
+	 )
+
+      (error
+  ; all this goop is because find-func* assumes sources are shipped with compiled modules
+  ; and does not properly respect `find-function-source-path'
+  ; maybe it would just be easier to ship the sources
+       (let* (
+	      (load-file (symbol-file symbol))
+	      (source-file (cond
+			    ((string-match "\.elc$" load-file)
+			     (loop with basename = (concat (file-name-sans-extension (file-name-nondirectory load-file)) ".el")
+				   for x in find-function-source-path thereis (let ((f (expand-file-name basename x))) (and (file-exists-p f) f)))
+			     )
+			    ))
+	      )
+	 (when source-file
+	   (let* ((b (or (find-buffer-visiting source-file) (find-file-noselect source-file)))
+		  (w (get-buffer-window b)))
+	     (with-current-buffer b
+	       (goto-char (point-min))
+	       (let* ((regexp-symbol (cdr (assq (cond ((boundp symbol) 'defvar)) find-function-regexp-alist)))
+		      (regexp (format (symbol-value regexp-symbol)
+				      (concat "\\\\?"
+					      (regexp-quote (symbol-name symbol)))))
+		      (case-fold-search))
+		 (re-search-forward regexp nil t)
+		 )
+	       )
+	     (if w (select-window w) (switch-to-buffer b))
+	     )
+	   )
+	 )
+       )
+      )
+    )
   )
 
+; (find-function-or-variable 'find-parent-file)
 ; (fmakunbound 'find-function-or-variable)
 
 (load-library "post-view")
