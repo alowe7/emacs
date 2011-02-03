@@ -23,3 +23,5 @@
 (global-set-key (kbd "C-x C-.") 'point-to-register)
 (global-set-key (kbd "C-x C-,") 'jump-to-register)
 
+(require 'ctl-dot)
+(define-key ctl-.-map "\C-f" 'find-parent-file)
