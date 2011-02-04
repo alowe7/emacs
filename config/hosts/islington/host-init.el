@@ -79,4 +79,7 @@
 )
 
 
-(add-to-load-path "/usr/share/emacs/23.1/lisp/cedet" t t)
+(setq 
+ bookmark-default-file
+ (expand-file-name ".emacs.bmk" (file-name-directory (locate-config-file "host-init")))
+ )

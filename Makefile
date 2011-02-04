@@ -7,11 +7,6 @@ LOCALBIN = /usr/local/bin
 SHARE=/usr/share/emacs
 SITESTART = $(SHARE)/site-lisp/site-start.d
 
-EMACS := $(shell which emacs  2> /dev/null)
-ifeq ($(strip $(EMACS)),)
-EMACS := $(EMACSPATH)/emacs
-endif
-
 TOP=$(shell pwd)
 
 .PHONY: FORCE
