@@ -34,17 +34,21 @@ see `locate-config-file'"
     )
   )
 
-; xxx obsolete?
+
 (defun host-config () 
-  "find host specific config directory"
+  "find host specific shell config directory
+also see `host-init' to find host specific emacs config directory
+"
   (interactive)
-  (let ((d 
-	 (loop for x in load-path thereis (and (string-match "/hosts/" x) x))))
+  (let ((d (expand-file-name (hostname) "~/config/hosts/" )))
     (if (interactive-p)
-	(if (file-name-directory d) (dired d) (message (format "directory %s doesn't exist" d)))
+	(cond ((file-name-directory d) (dired d))
+	      ((file-exists-p d) (find-file d)) ; that would be unusual
+	      (t (message (format "directory %s doesn't exist" d))))
       d)
     )
   )
+; (host-config)
 
 (defun ws-config () 
   "find os specific config directory"
