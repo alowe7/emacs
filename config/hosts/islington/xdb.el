@@ -7,3 +7,7 @@
 
 (if (scan-file-p "~/.private/.xdbrc")
     (setq *txdb-options* (list "-b" ($ "$XDB") "-h" ($ "$XDBHOST"))))
+
+(if (scan-file-p "~/.private/.zdbrc")
+    (setq *txel-options* (list "-b" ($ "$ZDB") "-h" ($ "$ZDBHOST"))))
+
