@@ -25,6 +25,8 @@ else resize the current frame
     (set-buffer b)
     (put (intern (buffer-name (current-buffer))) 'image img)
     (insert-image img)
+    (insert "\n")
+    (goto-char (point-min))
     (select-frame (if new 
 		      (make-frame `((width . ,width) (height . ,height)))
 		    (progn

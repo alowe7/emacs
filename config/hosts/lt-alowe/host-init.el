@@ -4,10 +4,16 @@
 (require 'ctl-slash)
 (require 'trim)
 
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(blink-cursor-mode -1)
+; prefer X resources, Windows registry, or command line options, in that order.
+; see:
+;  (info "(emacs) Table of Resources")
+;  (info "(emacs) MS-Windows Registry")
+
+; (tool-bar-mode -1)
+; (menu-bar-mode -1)
+; (scroll-bar-mode -1)
+
+; does not appear to be resources for the following
 (setq
  cursor-type (quote (bar . 1))
  cursor-in-non-selected-windows nil

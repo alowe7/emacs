@@ -2,7 +2,7 @@
 ; turns out this should be named something other than frame.el
 ; todo: rename in cvs
 
-; (set-frame-width nil 80)
+; (set-frame-width nil 120)
 ; (frame-pixel-width nil)
 ; (screen-width)
 
