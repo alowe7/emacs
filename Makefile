@@ -49,5 +49,6 @@ clean:
 
 compile:
 	$(MAKE) --directory lisp compile
+	$(MAKE) --directory config compile
 
 
