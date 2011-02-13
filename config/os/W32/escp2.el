@@ -85,7 +85,6 @@
   (let* ((ob (find-buffer-visiting file))
 	 (b (or ob (find-file-noselect file))))
     (if b
-	(save-excursion
-	  (set-buffer b)
+	(with-current-buffer b
 	  (dos-print-buffer)))
     (or ob (kill-buffer b))))

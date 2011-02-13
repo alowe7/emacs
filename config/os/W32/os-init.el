@@ -316,6 +316,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   (explore (md-get-arg arg))
   )
 
+(make-variable-buffer-local 'comint-prompt-regexp)
 
 (defun set-cmd-prompt-regexp () (interactive)
   (setq comint-prompt-regexp "^[a-zA-Z]:.*>")
@@ -323,7 +324,6 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 
 (define-derived-mode cmd-mode shell-mode "Cmd"
   "trivial derivation of shell-mode"
-  (make-variable-buffer-local 'comint-prompt-regexp)
   (setq comint-prompt-regexp "^[a-zA-Z]:[^>]*>")
   )
 
@@ -340,7 +340,7 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   "return a list of the number associated with existing shell buffers"
   (loop for x in 
 	(nconc (collect-buffers-mode  'cmd-mode) (collect-buffers-mode  'shell-mode))
-	collect (save-excursion (set-buffer x)
+	collect (with-current-buffer x
 				(or (let ((thing (caddr (split (buffer-name) "[-\*]"))))
 				      (and (string* thing) (car (read-from-string thing)))) 0)))
   )
@@ -444,7 +444,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
   )
 (global-set-key "y" 'yank-unix-filename) ; mnemonic: Unix
 
-(defun yank-unix-filename (begin &optional end)
+(defun kill-unix-filename (begin &optional end)
   "this function translates the region between BEGIN and END using `unix-canonify' and copies the result into the kill-ring.
 if `interprogram-cut-function' is defined, it is invoked with the canonified result.
 when called from a program, if BEGIN is a string, then use it as the kill text instead of the region"
@@ -618,7 +618,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
      )
     (pop-to-buffer b)
     (view-mode)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     )
   )
 
@@ -650,14 +650,16 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
   (interactive)
   (let ((p (point)))
     (goto-char (point-min))
-    (replace-string "," "
-")
+  (while (search-forward "," nil t)
+    (replace-match "
+" nil t))
     (goto-char (point-min))
     (local-set-key "" '(lambda () (interactive) (throw 'exit nil)))
     (recursive-edit)
     (goto-char (point-min))
-    (replace-string "
-" ",")
+  (while (search-forward "
+" nil t)
+    (replace-match "," nil t))
     (goto-char p)
     )
   )

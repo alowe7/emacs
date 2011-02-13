@@ -22,7 +22,7 @@
           ((file-exists-p logfile) 
 	   (find-file logfile)
 	   (logview-mode)
-	   (end-of-buffer))
+	   (goto-char (point-max)))
 	  (t (message "%s not found" logfile)))
     )
   )

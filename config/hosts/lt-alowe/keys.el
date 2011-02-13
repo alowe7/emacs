@@ -2,6 +2,7 @@
  "$Id$")
 
 (chain-parent-file t)
+
 (autoload 'logview-hours "logview-mode")
 (global-set-key [f10] 'logview-hours)
 

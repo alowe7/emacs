@@ -54,7 +54,7 @@ with optional FAMILY, changes it"
   )
 
 (defun default-pointsize ()
-  (or (string-to-int (cdr (parse-font (frame-parameter nil 'font) 'pointsize)))
+  (or (string-to-number (cdr (parse-font (frame-parameter nil 'font) 'pointsize)))
       17)
   )
 
@@ -85,7 +85,7 @@ with optional FAMILY, changes it"
 		 )
 	 ))
   ; (debug)
-    (set-default-font (setq default-fontspec fontspec))
+    (set-frame-font (setq default-fontspec fontspec))
     default-fontspec
     )
   )

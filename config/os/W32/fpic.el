@@ -18,7 +18,7 @@
      )
 
     (pop-to-buffer b)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (cd "/")
     (fb-mode)
     )

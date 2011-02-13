@@ -46,7 +46,7 @@
 	;; then message it.  otherwise, just display in buffer
 	(let ((n (count-lines (point-min) (point-max))))
 
-	  (beginning-of-buffer)
+	  (goto-char (point-min))
 	  (set-buffer-modified-p nil)
 	  (setq buffer-read-only t)
 	  (let ((w (get-buffer-window b)))

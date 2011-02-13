@@ -13,5 +13,8 @@
     (when buf
       (when *sgml-display-log*
 	(display-buffer buf))
-      (setq sgml-log-last-size (save-excursion (set-buffer buf)
-					       (point-max))))))
+      (setq sgml-log-last-size 
+	    (with-current-buffer buf
+	      (point-max))))
+    )
+  )

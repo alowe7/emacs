@@ -6,7 +6,7 @@
 (defun process-tree ()
   ; returns a list of pids like ((parent child)...)
   (let* ((pl (loop for x in (cdr (split (eval-process "ps -aef") "\n")) collect (remove*  "" (split x " ") :test 'string=))))
-    (loop for x in pl collect (list (string-to-int (nth 2 x)) (string-to-int (nth 1 x))))
+    (loop for x in pl collect (list (string-to-number (nth 2 x)) (string-to-number (nth 1 x))))
     )
   )
 ; (process-tree)

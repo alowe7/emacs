@@ -30,7 +30,7 @@ if optional USER is given, logon as that user
   (interactive "sDrive: \nsFilesystem: ")
   (let* ((u (or u (getenv "USERNAME")))
 	 (n (read-string (format "login for %s (%s): " f u) u))
-	 (p (comint-read-noecho (format "password: " f n) t))
+	 (p (comint-read-noecho (format "password: ") t))
 	 (d (if (string* f)
 		(unless (call-process 
 			 "net"
@@ -45,7 +45,7 @@ if optional USER is given, logon as that user
 			 )
 		  (message "net use failed")
 		  (set-buffer "zap")
-		  (beginning-of-buffer)
+		  (goto-char (point-min))
 		  (forward-word 2)
 		  (indicated-word ":")))))
     (add-untranslated-filesystem d)

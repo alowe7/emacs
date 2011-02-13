@@ -42,7 +42,7 @@
 		  )
     (pop-to-buffer b)
     (set-buffer-modified-p nil)
-    (beginning-of-buffer)
+    (goto-char (point-min))
     )
   )
 
@@ -63,10 +63,9 @@
 				      )
 				     )
 		  )
-    (save-excursion
-      (set-buffer b)
+    (with-current-buffer b
       (set-buffer-modified-p nil)
-      (beginning-of-buffer)
+      (goto-char (point-min))
       )
     )
   )
@@ -86,10 +85,9 @@
 							  )
 							 )) files)
 	   )
-    (save-excursion
-      (set-buffer b)
+    (with-current-buffer b
       (set-buffer-modified-p nil)
-      (beginning-of-buffer)
+      (goto-char (point-min))
       )
     )
   )

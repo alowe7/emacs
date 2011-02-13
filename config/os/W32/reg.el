@@ -85,7 +85,7 @@
      *reg-query* (list hive key value))
     (unless (eq (current-buffer) (get-buffer "*reg*"))
       (pop-to-buffer b))
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (reg-view-mode)
     b)
   )

@@ -1,6 +1,8 @@
 (put 'Emacs23 'rcsid
  "$Id$")
 
+(require 'cl)
+
 (define-key help-map "a" 'apropos)
 
 ; got used to using space for completion...

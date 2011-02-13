@@ -100,8 +100,7 @@ When a buffer is killed, it is removed from this list.")
 (defun server-log (string)
   "If a *server* buffer exists, write STRING to it for logging purposes."
   (if (get-buffer "*server*")
-      (save-excursion
-	(set-buffer "*server*")
+      (with-current-buffer "*server*"
 	(goto-char (point-max))
 	(insert string)
 	(or (bolp) (newline)))))
@@ -186,7 +185,9 @@ Prefix arg means just kill any existing server communications subprocess."
 	    (start-process "server" nil server-program)))
     (set-process-sentinel server-process 'server-sentinel)
     (set-process-filter server-process 'server-process-filter)
-    (process-kill-without-query server-process)))
+    (set-process-query-on-exit-flag server-process nil)
+    )
+  )
 
 ;; make gnuserv-start an alias to server-start, for backward compatibility
 (fset 'server-start (function gnuserv-start))
@@ -316,7 +317,8 @@ edits to this buffer."
 	  (path (cdr (car list))))
       (server-find-file path)
       (server-make-window-visible)
-      (goto-line line))
+      (goto-char (point-min))
+      (forward-line (1- line)))
     (setq list (cdr list))))
 
 
@@ -331,7 +333,8 @@ the edit is finished."
       (server-make-window-visible)
       (let ((old-clients (assq current-client server-clients))
 	    (buffer (current-buffer)))
-	(goto-line line)
+	(goto-char (point-min))
+	(forward-line (1- line))
 	(setq server-buffer-clients
 	      (cons current-client server-buffer-clients))
 	(if old-clients			;client already waiting for buffers?
@@ -371,8 +374,7 @@ that the buffer has been killed."
   (interactive "bKill buffer ")
   (setq buffer (server-get-buffer buffer))
   (if (buffer-name buffer)
-      (save-excursion
-	(set-buffer buffer)
+      (with-current-buffer buffer
 	(let ((old-clients server-clients))
 	  (server-real-kill-buffer buffer) ;try to kill it
 	  (if (buffer-name buffer)	;succeeded in killing?
@@ -429,8 +431,7 @@ new current buffer."
 	  (setq server-clients (delq client server-clients))))
       (setq old-clients (cdr old-clients)))
     (if (buffer-name buffer)
-	(save-excursion
-	  (set-buffer buffer)
+	(with-current-buffer buffer
 	  (setq server-buffer-clients nil)))
    (funcall server-done-function buffer)
     next-buffer))

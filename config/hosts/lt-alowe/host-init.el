@@ -62,7 +62,6 @@
 
 ; force post-load hooks now... tbd find a better way
 (post-after-load "locate")
-(post-after-load "dired")
 
 (defvar *path-sep* ";")
 
@@ -127,13 +126,8 @@
 
 (setq sgml-default-doctype-name  "-//W3C//DTD XHTML 1.0 Transitional//EN")
 (setq sgml-catalog-files '("/a/lib/DTD/catalog"))
-(add-auto-mode "\\.csproj$" 'xml-mode)
 
 (global-font-lock-mode 1)
-
-; for now...
-(require 'cs-mode)
-(add-auto-mode "\\.cs$" 'cs-mode)
 
 (add-hook 'xz-load-hook 
 	  '(lambda ()

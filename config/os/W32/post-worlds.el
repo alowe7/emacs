@@ -38,7 +38,7 @@
 	    (if *tw-create-quicklaunch*
   ; create a quicklaunch to the dir
 		(shell-command 
-		 (format "shortcut -f -t \"%s\" -n \"%s/%s\"" 
+		 (format "mkshortcut -f -t \"%s\" -n \"%s/%s\" %s" 
 			 (w32-canonify (fw) t)
 			 quicklaunch
 			 (current-world)

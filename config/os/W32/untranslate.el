@@ -20,7 +20,7 @@
           (cond ((memq code '(nil t)) code)
                 ((and (symbolp code) (fboundp code))
                  (funcall code filename)))
-        default-buffer-file-type))))
+        buffer-file-type))))
 
 (defun find-file-binary (filename) 
   "Visit file FILENAME and treat it as binary."
@@ -35,8 +35,7 @@
     (find-file filename)))
 
 (defun find-file-not-found-set-buffer-file-type ()
-  (save-excursion
-    (set-buffer (current-buffer))
+  (with-current-buffer (current-buffer)
     (setq buffer-file-type (find-buffer-file-type (buffer-file-name))))
   nil)
 
