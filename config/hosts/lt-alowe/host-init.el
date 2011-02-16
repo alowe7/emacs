@@ -25,9 +25,7 @@
 
 ; (require 'worlds)
 ; (require 'world-advice)
-
-(load-library "people")
-
+; (load-library "people")
 
 (setq *gnuserv-dired-files* t)
 (require 'gnuserv)
@@ -112,11 +110,6 @@
 
 (define-key ctl-RET-map "" 'yank-like)
 
-(unless (get 'post-comint 'rcsid)
-  (load-library "post-comint"))
-
-(setq comint-use-prompt-regexp nil)
-
 (defun isearch-thing-at-point ()
   (interactive)
   (isearch-update-ring (thing-at-point 'symbol))
@@ -154,10 +147,9 @@
 
 ; (see ~/emacs/config/23/view-images.el)
 
-(when (fboundp 'switch-to-image-in-frame)
-;  (debug)
-  (switch-to-image-in-frame "/content/images/peak7.jpg")
-  )
+; (when (fboundp 'switch-to-image-in-frame)
+;   (switch-to-image-in-frame "/content/images/peak7.jpg")
+;  )
 
 
 (setq 
@@ -167,9 +159,5 @@
 
 (add-to-list 'load-path "/u/emacs-w3m/")
 (setq w3m-command "/u/w3m-0.5.2/w3m.exe")
-
-(let  ((*extra-autoloads* '("/z/el/z-autoloads")))
-  (loop for autoload in *extra-autoloads* when (file-exists-p autoload) do (load-file autoload))
-  )
 
 (setq temporary-file-directory "/tmp")

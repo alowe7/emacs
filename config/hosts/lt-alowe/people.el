@@ -1,7 +1,8 @@
 (put 'people 'rcsid
  "$Id$")
 
-(chain-parent-file t)
+; this implementation overrides the default
+; (chain-parent-file t)
 
 ; this just needs to be more context sensitive...
 (defvar *ows-contact-file* (expand-file-name "/work/overwatch/people/overwatch-phone-list-101007.csv"))

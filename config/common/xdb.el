@@ -1,5 +1,5 @@
 (put 'post-xdb 'rcsid
- "$Id$")
+ "$Id: xdb.el 954 2011-02-11 01:55:37Z a $")
 
 ; (read-string "post-xdb is getting called")
 

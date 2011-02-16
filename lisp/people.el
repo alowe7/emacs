@@ -2,7 +2,7 @@
  "$Id$")
 (provide 'people)
 ;; manage people databases
-(require 'compile)
+(require 'grep)
 (require 'qsave)
 
 (defvar *people-database* "" "list of contact files")
@@ -14,26 +14,6 @@ with optional arg, add line to database.  see `find-person-1'"
   (if arg (call-interactively 'find-person-1)
     (call-interactively 'find-person))
   )
-
-(defvar compilation-process nil)
-
-(defun egrep (args)
-  "Run egrep, with user-specified args, and collect output in a buffer.
-While grep runs asynchronously, you can use the \\[next-error] command
-to find the text that grep hits refer to."
-  (interactive "sRun grep (with args): ")
-  (compile1 (concat "egrep -n " args " " grep-null-device)
-	    "No more grep hits" "grep"))
-
-(global-set-key "g" 'egrep)
-
-(defvar *find-person-egrep-switches*  '("-w" "-h"  "-i"))
-
-(defun find-person-2 (name &optional db)
-  (interactive "swho? ")
-  (let ((*find-person-egrep-switches*  '("-h"  "-i")))
-    (find-person name db)
-    ))
 
 (defvar *contact-cache* nil "cache of contact files. computed on first use")
 (defvar *filecache* "/var/spool/f" "nih file directory")
