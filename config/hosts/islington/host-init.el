@@ -19,9 +19,6 @@
 (setq display-time-day-and-date t)
 (display-time)
 
-(load-library "bookmark")
-(load-library "post-bookmark")
-
 (setq x-select-enable-clipboard t)
 
 (setq grep-command "grep -n -i -e ")
@@ -43,10 +40,6 @@
     )
   )
 
-
-; necessary for preloaded libs 
-; (post-wrap "dired")
-; (post-wrap "compile")
 
 ; uncompress isn't as obsolete as someone thinks.
 (autoload 'uncompress-while-visiting "uncompress")
