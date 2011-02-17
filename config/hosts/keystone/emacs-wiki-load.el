@@ -8,8 +8,9 @@
 
 ; (emacs-wiki-index)
 
-(require 'ctl-backslash)
-(define-key ctl-\\-map "w" 'emacs-wiki-index)
+(require 'ctl-slash)
+(define-key ctl-/-map "w" 'emacs-wiki-index)
+
 (defun maybe-emacs-wiki-follow-name-at-point ()
   (interactive)
 ; whats all this about?
