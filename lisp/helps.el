@@ -517,14 +517,15 @@ with optional prefix arg, wrap by line "
   ; maybe it would just be easier to ship the sources
        (let* (
 	      (load-file (symbol-file symbol))
+	      (basename (concat (file-name-sans-extension (file-name-nondirectory load-file)) ".el"))
 	      (source-file (cond
 			    ((string-match "\.elc$" load-file)
-			     (loop with basename = (concat (file-name-sans-extension (file-name-nondirectory load-file)) ".el")
-				   for x in find-function-source-path thereis (let ((f (expand-file-name basename x))) (and (file-exists-p f) f)))
+			     (loop for x in find-function-source-path thereis (let ((f (expand-file-name basename x))) (and (file-exists-p f) f)))
 			     )
 			    ))
 	      )
-	 (when source-file
+	 (cond
+	  (source-file
 	   (let* ((b (or (find-buffer-visiting source-file) (find-file-noselect source-file)))
 		  (w (get-buffer-window b)))
 	     (with-current-buffer b
@@ -538,8 +539,10 @@ with optional prefix arg, wrap by line "
 		 )
 	       )
 	     (if w (select-window w) (switch-to-buffer b))
-	     )
-	   )
+	     ))
+	  (t
+	   (message "unable to find %s in %s or along find-function-source-path" basename (file-name-directory load-file)))
+	  )
 	 )
        )
       )
