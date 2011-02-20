@@ -12,7 +12,7 @@ TARGETS := $(SOURCES:.el=.elc)
 all: compile
 
 compile: $(SOURCES)
-	$(EMACS) --batch -e batch-byte-compile $(SOURCES)
+	$(EMACS) --batch  --load=byte-compile-directory.el -e batch-byte-compile $^
 
 clean:
 	@rm -f *.elc

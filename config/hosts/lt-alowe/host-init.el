@@ -161,3 +161,9 @@
 (setq w3m-command "/u/w3m-0.5.2/w3m.exe")
 
 (setq temporary-file-directory "/tmp")
+
+; hook preloaded modules
+(mapc
+ (lambda (x) (and (featurep x)  (post-load x)))
+ '(comint)
+ )
