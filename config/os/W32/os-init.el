@@ -694,9 +694,6 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (setq doc-directory data-directory)
 
-;; config file for gnuwin-1.0
-(autoload 'shell2 "shell2" t)
-
 (make-variable-buffer-local 'explicit-shell-file-name)
 (make-variable-buffer-local 'shell-command-switch)
 (make-variable-buffer-local 'binary-process-input)
