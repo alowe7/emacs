@@ -167,3 +167,5 @@
  (lambda (x) (and (featurep x)  (post-load x)))
  '(comint)
  )
+
+(prefer-coding-system (quote utf-8-auto))
