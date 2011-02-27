@@ -191,13 +191,7 @@
 ;(global-set-key "\M-n" '(lambda () (interactive) (let* ((l (real-buffer-list)) (b (pop l))) (switch-to-buffer b))))
 ;(global-set-key "\M-p" '(lambda () (interactive) (let* ((l (real-buffer-list t)) (b (pop l))) (switch-to-buffer b))))
 
-(unless (fboundp 'alt-SPC-prefix) 
-    (define-prefix-command 'alt-SPC-prefix))
-
-(unless (and (boundp 'alt-SPC-map) alt-SPC-map)
-  (setq alt-SPC-map (symbol-function 'alt-SPC-prefix)))
-
-(global-set-key  " " 'alt-SPC-prefix)
+(require 'alt-spc)
 
 ;; this particular set of key bindings are so obscure, they're a barrier to use.
 

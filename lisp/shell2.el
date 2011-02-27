@@ -2,9 +2,11 @@
  "$Id$")
 (require 'comint)
 (require 'shell)
+(require 'buffers)
+
 (defvar shell-popper 'switch-to-buffer) ; could also use pop-to-buffer
 
-(defun make-shell2-buffer-name (&optional shell-file-name num)
+ (defun make-shell2-buffer-name (&optional shell-file-name num)
   (format "%s-%s" (file-name-sans-extension (file-name-nondirectory (or shell-file-name "shell"))) (or num 1))
   )
 
@@ -65,6 +67,16 @@ Otherwise, one argument `-i' is passed to the shell.
 
     ;; return the buffer
     (get-buffer shell-buffer-name)
+    )
+  )
+
+(defun next-shell ()
+  (interactive)
+  (let ((l (collect-buffers-mode 'shell-mode)))
+    (cond
+     ((< (length l) 1) (message "no more shells"))
+     (t (funcall shell-popper (cadr l) ))
+     )
     )
   )
 

@@ -1,7 +1,6 @@
 (put 'host-init 'rcsid 
  "$Header: /var/cvs/emacs/config/hosts/lt-alowe/host-init.el,v 1.33 2010-09-24 01:19:40 alowe Exp $")
 
-(require 'ctl-slash)
 (require 'trim)
 
 ; prefer X resources, Windows registry, or command line options, in that order.
@@ -38,13 +37,6 @@
 (add-hook 'perl-mode-hook
 	  '(lambda () (font-lock-mode t)))
 
-(defun makeunbound (symbol-name)
-  (interactive (list (read-string* "make unbound (%s): " (thing-at-point 'symbol))))
-  (let ((symbol (intern symbol-name)))
-    (and (boundp symbol) (makunbound symbol))
-    )
-  )
-(define-key ctl-/-map "u" 'makeunbound)
 
 ; make f1 available for binding
 (if (eq (key-binding (vector 'f1)) 'help-command)
@@ -108,15 +100,6 @@
 ; struggling with daylight savings time again
 (set-time-zone-rule "CST6CDT")
 
-(define-key ctl-RET-map "" 'yank-like)
-
-(defun isearch-thing-at-point ()
-  (interactive)
-  (isearch-update-ring (thing-at-point 'symbol))
-  (isearch-forward)
-  )
-(define-key ctl-RET-map "\C-s" 'isearch-thing-at-point)
-
 (setq sgml-default-doctype-name  "-//W3C//DTD XHTML 1.0 Transitional//EN")
 (setq sgml-catalog-files '("/a/lib/DTD/catalog"))
 
@@ -141,16 +124,11 @@
 
 (setq buffer-file-coding-system 'undecided-unix)
 
-; not sure if this isn't just masking a bug
-(define-key isearch-mode-map "\C-m" 'isearch-exit)
-
-
 ; (see ~/emacs/config/23/view-images.el)
 
 ; (when (fboundp 'switch-to-image-in-frame)
 ;   (switch-to-image-in-frame "/content/images/peak7.jpg")
 ;  )
-
 
 (setq 
  bookmark-default-file
@@ -168,4 +146,3 @@
  '(comint)
  )
 
-(prefer-coding-system (quote utf-8-auto))
