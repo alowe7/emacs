@@ -26,3 +26,7 @@
 
 (require 'ctl-dot)
 (define-key ctl-.-map "\C-f" 'find-parent-file)
+
+; make f1 available for binding
+(if (eq (key-binding (vector 'f1)) 'help-command)
+    (global-set-key (vector 'f1) nil))

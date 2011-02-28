@@ -85,3 +85,4 @@
     )
   )
 
+(setq *minibuffer-display-unique-hit* t)
