@@ -1,10 +1,16 @@
+(put 'byte-compile-configs 'rcsid
+ "$Id$")
+
+; warning: this is duplicative with ../find-configs
+
 (defvar share (expand-file-name (or (getenv "SHARE") "/usr/share/emacs")))
 (defvar *configdirlist* (list (expand-file-name (format "%d" emacs-major-version)  ".") 
 			      (expand-file-name (system-name) "./hosts")
   ; will not be defined in batch mode
   ; (symbol-name window-system)
 			      (expand-file-name "W32" "./os")
-			      (expand-file-name "x" "./os")))
+			      (expand-file-name "x" "./os")
+			      (expand-file-name "./common")))
 
 (mapc '(lambda (x) (add-to-list 'load-path x))
       (nconc
