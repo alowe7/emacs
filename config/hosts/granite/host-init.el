@@ -78,13 +78,8 @@
 
 (require 'trim) ; why is this nessary?
 
-; (require 'worlds)
-(require 'logview-mode)
-
 (setq *gnuserv-dired-files* t)
 (require 'gnuserv)
-
-(require 'myblog)
 
 ; why load when you can require?
 (require 'xz-loads)
