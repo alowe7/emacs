@@ -43,7 +43,7 @@ Otherwise, one argument `-i' is passed to the shell.
 	       (name (file-name-nondirectory prog))
 	       (startfile (concat "~/.emacs_" name))
 	       (xargs-name (intern-soft (concat "explicit-" name "-args")))
-	       shell-buffer)
+	       )
 
   ; makes use of the (undocumented) fact that make-comint returns the buffer
 	  (with-current-buffer (apply 'make-comint shell-name prog
@@ -51,7 +51,6 @@ Otherwise, one argument `-i' is passed to the shell.
 				      (if (and xargs-name (boundp xargs-name))
 					  (symbol-value xargs-name)
 					'("-i")))
-	    (setq shell-buffer (current-buffer))
 
 	    (if mode (funcall mode)
 	      (shell-mode))
