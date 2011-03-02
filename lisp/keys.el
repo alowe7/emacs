@@ -244,6 +244,7 @@
 
 (require 'ctl-slash)
 
+(define-key ctl-/-map "u" 'makeunbound)
 (define-key ctl-/-map "f" 'locate)
 (define-key ctl-/-map "" 'locate-with-filter)
 (define-key ctl-/-map "/" 'vars-like-with)
@@ -263,6 +264,7 @@
 
 (define-key ctl-RET-map "e" 'edit-bookmarks)
 (define-key ctl-RET-map "m" 'bookmark-set)
+(define-key ctl-RET-map "" 'yank-like)
 
 (define-key ctl-RET-map "\C-w" 'command-history)
 
