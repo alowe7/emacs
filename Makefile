@@ -16,7 +16,7 @@ PKG=a
 AUTOLOADS=$(PKG)-autoloads
 
 XZ=xz
-XZFLAGS = -t1
+XZFLAGS = -t1 -r
 
 SOURCES := $(shell find ./lisp -type f -name "*.el")
 
@@ -37,8 +37,8 @@ autoloads: FORCE
 	$(MAKE_AUTOLOADS) --top=$(TOP) --prefix=$(PKG)  $(CONFIGS) $(SOURCES)  > $(AUTOLOADS)
 	@echo $(AUTOLOADS) rebuilt
 
-.xz.dat: $(SOURCES) $(CONFIGS) ~/.emacs
-	$(XZ) $(XZFLAGS) -n $^
+.xz.dat: FORCE
+	$(XZ) $(XZFLAGS) -n $(SOURCES) $(CONFIGS) ~/.emacs
 	@echo .xz.dat rebuilt
 
 TAGS: $(SOURCES) $(CONFIGS)
