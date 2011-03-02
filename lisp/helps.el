@@ -511,6 +511,11 @@ with optional prefix arg, wrap by line "
 	   (format "%s not defined as a variable, function, or macro." symbol)))
 	 )
 
+      (void-function
+       (message
+	(format "%s not defined as a variable, function, or macro." (cadr err)))
+       )       
+
       (error
   ; all this goop is because find-func* assumes sources are shipped with compiled modules
   ; and does not properly respect `find-function-source-path'

@@ -1,8 +1,11 @@
 (put 'edit 'rcsid 
  "$Id$")
 
+(require 'trim)
+
 ;; edit and format functions
 
+(make-obsolete 'line-as-region "use (bounds-of-thing-at-point 'line) instead" nil)
 (defun line-as-region ()
   "return indicated line as a region
 "
@@ -14,6 +17,7 @@
     (goto-char x)
     (list y z)))
 
+(make-obsolete 'paragraph-as-region "use (bounds-of-thing-at-point 'paragraph) instead" nil)
 (defun paragraph-as-region ()
   "return paragraph as a region
 "
@@ -144,27 +148,21 @@ interactive with ARG says reverse whole buffer"
     )
   )
 
-(defun squish (begin end)
+(defun squish (beg end)
   "compress all whitespace regexps in region to a single space.
 "
   (interactive "r")
-  (call-process-region begin end "tr" t t nil "-s" "\" 	\"")
+  (call-process-region beg end "tr" t t nil "-s" "\" 	\"")
   )
 
-(defun squeeze (begin end)
+(defun squeeze (beg end)
   "compress all unnecessary white space from region.
 see `trim-blank-lines' `trim-white-space' `squish'"
   (interactive "r")
 
-  
-  (let ((s
-	 (trim-blank-lines
-	  (trim-white-space
-	     (squish begin end)))))
-
-    (kill-region begin end)
-    (insert s)
-    )
+  (trim-blank-lines-region beg (min (point-max) end))
+  (trim-white-space-region beg (min (point-max) end))
+  (squish beg (min (point-max) end))
 )
 
 
@@ -184,10 +182,5 @@ see `trim-blank-lines' `trim-white-space' `squish'"
       )
     )
   )
-
-(defun insert-eval-environment-variable (v)
-  "insert value of specified environment VARIABLE"
-  (interactive "sName of variable:")
-  (insert (getenv v)))
 
 (provide 'edit)
