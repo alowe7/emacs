@@ -40,7 +40,7 @@
 ; string quoting logic in font-lock if f***-ed up
 ; (setq font-lock-string-face 'default)
 
-;(setq *advise-help-mode-finish* t)
+; (setq *advise-help-mode-finish* t)
 
 ; honk?
 (setq wlog (expand-file-name "~/tw/wlog"))

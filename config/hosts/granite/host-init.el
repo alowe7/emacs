@@ -50,9 +50,6 @@
 
 ;; hooks
 
-; force post-load hooks now... tbd find a better way
-(post-after-load "locate")
-
 ; this shortens the timeout for \\localdir\file being interpreted as \\host\file
 ; (mount-hook-file-commands)
 
@@ -75,6 +72,11 @@
 ;;
 ;; actions
 ;;
+
+; force post-load hooks now... 
+; tbd figure out why this is necessary
+(post-after-load "locate")
+(post-after-load "comint")
 
 (display-time)
 

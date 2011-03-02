@@ -14,106 +14,6 @@ used for autocompletion on interactive call to start-xz.
 may be initialized from environment variable XZDIRS
 "	)
 
-(defvar *xz-complete-dirs* nil)
-
-(unless (not *xz-complete-dirs*)
-
-  (defun xz-try-completion (s l)
-    (let ((c (try-completion s l)))
-      (cond ((or (null c) (eq c t)) s)
-	    (t c))
-      )
-    )
-
-		
-  (defadvice minibuffer-complete-word (around interactive-xz-completion first disable)
-    ""
-    (let ((s (buffer-string)))
-      (erase-buffer)
-      (insert (xz-try-completion s *xz-dirs*)))
-    ad-do-it)
-
-  ;  (ad-unadvise 'minibuffer-complete-word)
-
-		
-  (defadvice completing-read (around interactive-xz-completion disable)
-
-    (ad-enable-advice 
-     'minibuffer-complete-word
-     'around
-     'interactive-xz-completion)
-
-    (ad-activate 'minibuffer-complete-word)
-
-    ad-do-it
-
-    (ad-disable-advice
-     'minibuffer-complete-word
-     'around
-     'interactive-xz-completion)
-
-    (ad-activate 'minibuffer-complete-word)
-
-    )
-
-  ;  (ad-unadvise 'completing-read)
-
-		
-  (defun xz-completing-read (prompt default)
-    "helper to implement completing read from *xz-dirs*
- used as advice on start-xz
-"
-    (let (v)
-      (ad-enable-advice 
-       'minibuffer-complete-word
-       'around
-       'interactive-xz-completion)
-
-      (ad-activate 'minibuffer-complete-word)
-
-      (setq v 
-	    (loop 
-	     with s = (completing-read
-		       (format "run %s on (%s): " *xz-command* default)
-		       *xz-dirs*)
-	     while (and (> (length (all-completions s *xz-dirs*)) 1)
-			(not (string= s (xz-try-completion s *xz-dirs*))))
-	     do 
-	     (with-output-to-temp-buffer "*completions*"
-	       (display-completion-list (all-completions s *xz-dirs*)))
-	     (display-buffer "*completions*")
-  ; (sit-for 1)
-	     (setq s (completing-read
-		      (format "run %s on (%s): " *xz-command* s)
-		      *xz-dirs* nil nil s))
-	     finally return (or (xz-try-completion s *xz-dirs*) s)
-	     ))
-
-      (ad-disable-advice
-       'minibuffer-complete-word
-       'around
-       'interactive-xz-completion)
-
-      (ad-activate 'minibuffer-complete-word)
-
-      (string* ($ (maybe-complete-world v)) default)
-      )
-    )
-
-  (/* XXX this doesn't work as planned...
-
-      (defadvice start-xz (around interactive-world-completion activate)
-	(interactive  (list (expand-file-name 
-			     (xz-completing-read
-			      (format "run %s on (%s): " *xz-command* (default-xz-file))
-			      (default-xz-file)))))
-	ad-do-it)
-      )
-
-  ;(ad-unadvise 'start-xz)
-
-  )
-
 ; alternative find line that doesn't visit the file
 ; should build getl functionality into xz.
 (defun find-line (module line)
@@ -217,15 +117,12 @@ if found, pop that to top of stack"
 (define-key xz-map "" 'xz-previous-hit)
 
 (add-hook 'xz-load-hook '(lambda ()
-			   (require 'xz-stacks)
-
 			   (define-key xz-mode-map "d" 'prune-xz-search)
 			   (define-key xz-mode-map "f" 'xz-goto-hits)
 			   (define-key xz-mode-map "n" 'next-xz-search)
 			   (define-key xz-mode-map "n" 'next-xz-search)
 			   (define-key xz-mode-map "p" 'previous-xz-search)
 			   (xz-squish 2)
-			   (setq *xz-lastdb* "~/emacs/.xz.dat")
 			   (setq *xz-show-status* nil)
 			   )
 	  )
@@ -233,6 +130,7 @@ if found, pop that to top of stack"
 ; (global-set-key "\M-n" 'xz-next-hit)
 ; (global-set-key "\M-p" 'xz-previous-hit)
 
+(setq *xz-lastdb* "~/emacs/.xz.dat")
 
 (add-hook 'stop-xz-process-hook '(lambda ()
 				   (put (intern (buffer-name (xz-hit-buffer))) 'qsave nil)))

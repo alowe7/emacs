@@ -11,7 +11,7 @@ TOP=$(shell pwd)
 
 .PHONY: FORCE
 
-MAKE_AUTOLOADS  := $(shell which make-autoloads --compiled  2> /dev/null)
+MAKE_AUTOLOADS  := $(shell which make-autoloads  2> /dev/null)
 PKG=a
 AUTOLOADS=$(PKG)-autoloads
 
@@ -34,7 +34,7 @@ ship: compile autoloads
 	install -m 444 $(AUTOLOADS) $(SITESTART)
 
 autoloads: FORCE 
-	$(MAKE_AUTOLOADS) --top=$(TOP) --prefix=$(PKG)  $(CONFIGS) $(SOURCES)  > $(AUTOLOADS)
+	$(MAKE_AUTOLOADS) --compiled --top=$(TOP) --prefix=$(PKG)  $(CONFIGS) $(SOURCES)  > $(AUTOLOADS)
 	@echo $(AUTOLOADS) rebuilt
 
 .xz.dat: FORCE
