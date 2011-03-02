@@ -43,10 +43,10 @@
   )
 
 (defun* dos-print-region (from to &key font fixed)
-
   "print REGION as text.
  with prefix ARG, use that as left margin.
- see dos-print-header for default parameters."
+ see dos-print-header for default parameters.
+"
 
   (interactive "r")
 
