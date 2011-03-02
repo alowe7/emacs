@@ -93,4 +93,6 @@
 
 (display-time)
 
+(remove-hook 'kill-buffer-query-functions 'process-kill-buffer-query-function)
+
 ; (global-font-lock-mode 1)
