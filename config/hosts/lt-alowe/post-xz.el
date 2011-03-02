@@ -1,5 +1,5 @@
-
-(debug)
+(put 'post-xz 'rcsid
+ "$Id$")
 
 (add-hook 'xz-load-hook 
 	  '(lambda ()
