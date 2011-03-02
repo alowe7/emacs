@@ -5,7 +5,6 @@
 
 (require 'advice)
 (require 'long-comment)
-(require 'xz-stacks)
 (require 'qsave)
 (require 'cat-seq)
 
@@ -162,49 +161,6 @@ if found, pop that to top of stack"
   (with-current-buffer (xz-buffer)
     (car (read-from-string (buffer-string)))))
 
-
-(defun xz-shell-get-results (beg end)
-  "get results from an xz query in the interactive shell "
-  (let* ((s (buffer-substring beg end)
-	    ))
-    (loop for l in (split s "
-") 
-	  collect (split l ","))    
-    )
-  )
-
-(defun xz-mean (a b)
-  (if (= b 0) 0 (/ a b))
-  )
-
-(defvar *xz-shell-prompt-regexp* "#")
-
-(defun xz-sum-fields ()
-  "sum the numeric fields of an appropriate length or statement xz query.
-if in shell mode, assume an interactive xz process
-"
-
-  (interactive)
-  (let* ((p (and
-	     (eq major-mode 'shell-mode)
-	     (save-excursion
-	       (goto-char (1- (marker-position (process-mark (buffer-process)))))
-	       (looking-at *xz-shell-prompt-regexp*)
-	       (point))))
-	 (l (if p (xz-shell-get-results
-		 (marker-position comint-last-input-end)
-		 p
-		 )
-	      (xz-get-results)))
-	 (v (loop for h in l
-		  sum  (number* (caddr h)) into s
-		  count 1 into n
-		  finally return (cons s n))))
-    (message "sum is %d (n=%d, m=%s)" (car v) (cdr v) (xz-mean (car v) (cdr v)))
-    (setq $_ v))
-  )
-
-
 ;; where should this go?
 
 (defun xz-qsave-search () 
@@ -261,11 +217,16 @@ if in shell mode, assume an interactive xz process
 (define-key xz-map "" 'xz-previous-hit)
 
 (add-hook 'xz-load-hook '(lambda ()
+			   (require 'xz-stacks)
+
 			   (define-key xz-mode-map "d" 'prune-xz-search)
 			   (define-key xz-mode-map "f" 'xz-goto-hits)
 			   (define-key xz-mode-map "n" 'next-xz-search)
 			   (define-key xz-mode-map "n" 'next-xz-search)
 			   (define-key xz-mode-map "p" 'previous-xz-search)
+			   (xz-squish 2)
+			   (setq *xz-lastdb* "~/emacs/.xz.dat")
+			   (setq *xz-show-status* nil)
 			   )
 	  )
 
