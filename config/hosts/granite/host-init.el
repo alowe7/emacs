@@ -50,12 +50,6 @@
 
 ;; hooks
 
-; hook preloaded modules
-(mapc
- (lambda (x) (and (featurep x)  (post-load x)))
- '(comint)
- )
-
 ; force post-load hooks now... tbd find a better way
 (post-after-load "locate")
 
