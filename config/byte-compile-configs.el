@@ -27,8 +27,8 @@
 
 ; (message (pp load-path))
 
-(mapc
- '(lambda (d) (mapc 'byte-compile-file (directory-files d t ".el$")))
- *configdirlist*
- )
+; (mapc
+;  '(lambda (d) (mapc 'byte-compile-file (directory-files d t ".el$")))
+;  *configdirlist*
+; )
 
