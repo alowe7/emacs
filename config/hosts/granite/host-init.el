@@ -50,18 +50,15 @@
 
 ;; hooks
 
+(remove-hook 'kill-buffer-query-functions 'process-kill-buffer-query-function)
+
 ; this shortens the timeout for \\localdir\file being interpreted as \\host\file
 ; (mount-hook-file-commands)
-
-; (add-hook 'perl-mode-hook
-; 	  '(lambda () (font-lock-mode t)))
 
 ; xxx mongrify
 (add-hook 'locate-mode-hook 'fb-mode)
 
 ;; other requires
-
-(require 'trim) ; why is this nessary?
 
 (setq *gnuserv-dired-files* t)
 (require 'gnuserv)

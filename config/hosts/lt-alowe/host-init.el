@@ -42,10 +42,6 @@
 
 ; (setq *advise-help-mode-finish* t)
 
-; honk?
-(setq wlog (expand-file-name "~/tw/wlog"))
-(setq wdirs (list "/work"))
-
 ; struggling with daylight savings time again
 (set-time-zone-rule "CST6CDT")
 
@@ -54,45 +50,32 @@
 
 ;; hooks
 
-; hook preloaded modules
-(mapc
- (lambda (x) (and (featurep x)  (post-load x)))
- '(comint)
- )
-
-; force post-load hooks now... tbd find a better way
-(post-after-load "locate")
+(remove-hook 'kill-buffer-query-functions 'process-kill-buffer-query-function)
 
 ; this shortens the timeout for \\localdir\file being interpreted as \\host\file
 ; (mount-hook-file-commands)
-
-; (add-hook 'perl-mode-hook
-; 	  '(lambda () (font-lock-mode t)))
 
 ; xxx mongrify
 (add-hook 'locate-mode-hook 'fb-mode)
 
 ;; other requires
 
-(require 'trim) ; why is this nessary?
-
-; (require 'worlds)
-(require 'logview-mode)
-
 (setq *gnuserv-dired-files* t)
 (require 'gnuserv)
 
-(require 'myblog)
-
 ; why load when you can require?
 (require 'xz-loads)
+
+(require 'myblog)
 
 ;;
 ;; actions
 ;;
 
+; force post-load hooks now... 
+; tbd figure out why this is necessary
+(post-after-load "locate")
+(post-after-load "comint")
+
 (display-time)
 
-(remove-hook 'kill-buffer-query-functions 'process-kill-buffer-query-function)
-
-; (global-font-lock-mode 1)
