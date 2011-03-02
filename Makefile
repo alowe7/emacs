@@ -21,7 +21,8 @@ XZFLAGS = -t1 -r
 SOURCES := $(shell find ./lisp -type f -name "*.el")
 
 # only search for relevant configs -- use perl hostname to ensure portability
-CONFIGS := $(shell ./find-configs)
+CONFIGS := $(shell ./find-configs ./config)
+
 # search all configs
 # CONFIGS := $(shell find ./config -type f -name "*.el")
 
@@ -45,7 +46,9 @@ TAGS: $(SOURCES) $(CONFIGS)
 	$(ETAGS) $^
 
 clean:
-	rm -f .xz.dat TAGS $(AUTOLOADS) *.elc
+	rm -f .xz.dat TAGS $(AUTOLOADS)
+	$(MAKE) --directory lisp clean
+	$(MAKE) --directory config clean
 
 compile:
 	$(MAKE) --directory lisp compile

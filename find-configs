@@ -38,7 +38,7 @@ else {
 $cmd="$emacs --batch --eval \"(message (format \\\"%d\\\" emacs-major-version))\"";
 $emacscfg=`$cmd 2>&1`;
 chomp $emacscfg;
-$cmd="find $dir/config -type f -name \"*.el\" -a \\( -path \"*common*\" -o -path \"*$sysname*\" -o -path \"*/$hostname/*\" -o -path \"*$emacscfg*\" \\)";
+$cmd="find $dir -type f -name \"*.el\" -a \\( -path \"*common*\" -o -path \"*$sysname*\" -o -path \"*/$hostname/*\" -o -path \"*$emacscfg*\" \\)";
 map {print} (`$cmd`);
 
 

@@ -9,17 +9,24 @@ else
 EMACS := $(shell which emacs  2> /dev/null)
 endif
 
-TARGETS:=*.el
+SOURCES:=$(wildcard *.el)
+TARGETS := $(SOURCES:.el=.elc)
 
-all:
+all: $(TARGETS)
 
 clean: FORCE
 	rm -f $(AUTOLOADS) *.elc .xz.dat
 
-compile: clean
+compile: 
 ifeq ($(strip $(EMACS)),)
 	@echo "EMACS not found"
 else
-	$(EMACS) --batch -l byte-compile-directory.el -e batch-byte-compile $(TARGETS)
+	$(EMACS) --batch -l byte-compile-directory.el -e batch-byte-compile-if-not-done $(SOURCES)
 endif
 
+%.elc : %.el
+ifeq ($(strip $(EMACS)),)
+	@echo "EMACS not found"
+else
+	$(EMACS) --batch -l  byte-compile-directory.el -e batch-byte-compile-if-not-done $<
+endif
