@@ -169,6 +169,10 @@ if MIXED is 0, then ignore letter drive names.
     )
   )
 
+(defun md ()
+  (interactive)
+  (explore default-directory)
+  )
 
 (defun arun (f) (interactive "sCommand: "))
 (fset 'run 'arun)
