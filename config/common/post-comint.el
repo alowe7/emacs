@@ -1,6 +1,8 @@
 (put 'post-comint 'rcsid 
  "$Id$")
 
+(eval-when-compile (require 'cl))
+
 (setq explicit-bash-args '("-i"))
 
 (defun comint-last-arg () 
