@@ -1,4 +1,5 @@
-(put 'auto 'rcsid "$Id$")
+(put 'auto 'rcsid
+ "$Id$")
 
 (chain-parent-file t)
 
