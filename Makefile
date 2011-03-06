@@ -30,6 +30,7 @@ ETAGS=etags
 
 all: compile autoloads
 
+# you want to make ship to get a-autoloads into sitestart
 ship: compile autoloads
 	mkdir -p $(SITESTART)
 	install -m 444 $(AUTOLOADS) $(SITESTART)
