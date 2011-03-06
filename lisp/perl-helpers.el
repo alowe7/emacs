@@ -37,44 +37,75 @@
 
 (define-derived-mode perldoc-mode view-mode "perldoc" "")
 
+(defun make-perldoc-file (thing)
+  (let* ((perlpods
+	  (loop
+	   with ret=nil
+	   for x in *perl-libs*
+	   when (file-directory-p (setq ret (expand-file-name "pods" x)))
+	   return ret))
+	 (thingpod (and perlpods
+			(expand-file-name (concat thing ".pod") perlpods)))
+	 (targetfile (expand-file-name thing perldocdir))
+	 )
+    (when (file-exists-p thingpod) 
+      (with-current-buffer
+	  (pod thingpod)
+	(if (or (not (file-exists-p targetfile)) (y-or-n-p (format "%s exists. overwrite?"  targetfile)))
+	    (progn (write-file targetfile) t)
+	  )
+	)
+      )
+    )
+  )
+; (make-perldoc-file "perlop")
+
 (defun perlfunc (func)
   (interactive (list
 		(let ((w (indicated-word))) (string* (read-string (format "perl function (%s): " w)) w))
 		))
 
-  (if (string-match "::" func)
+  (if
+      (string-match "::" func)
       (let ((module (substring func 0 (match-beginning 0)))
 	    (func (substring func (match-end 0))))
 	(perlmod module)
 	(search-forward func)
 	)
-    (let* ((b (or
-	       (find-buffer-visiting perlfunc-file)
-	       (find-file-noselect perlfunc-file)
-	       ))
-	   (funcpat (format "^    %s[^a-z]" func))
-	   (p 
-	    (with-current-buffer b
-	      (if (looking-at func)
-		  (and 
-		   (re-search-forward funcpat nil t)
-		   (backward-word 1)
-		   (point))
-		(progn
-		  (goto-char (point-min))
-		  (and (re-search-forward funcpat nil t)
-		       (backward-word 1)
-		       (point))))))
-	   (w (and p (get-buffer-window b)))
-	   )
-      (if p 
-	  (progn
-	    (if w
-		(select-window w)
-	      (switch-to-buffer-other-window b))
-	    (unless (eq major-mode 'perldoc-mode) (perldoc-mode))
-	    (goto-char p))
-	(message (format "%s not found" func))
+
+    (progn
+
+      (unless (or (file-exists-p perlfunc-file) (make-perldoc-file "perlfunc")) ; try harder
+	(error (format "file %s does not exist" perlop-file)))
+
+      (let* ((b (or
+		 (find-buffer-visiting perlfunc-file)
+		 (find-file-noselect perlfunc-file)
+		 ))
+	     (funcpat (format "^    %s[^a-z]" func))
+	     (p 
+	      (with-current-buffer b
+		(if (looking-at func)
+		    (and 
+		     (re-search-forward funcpat nil t)
+		     (backward-word 1)
+		     (point))
+		  (progn
+		    (goto-char (point-min))
+		    (and (re-search-forward funcpat nil t)
+			 (backward-word 1)
+			 (point))))))
+	     (w (and p (get-buffer-window b)))
+	     )
+	(if p 
+	    (progn
+	      (if w
+		  (select-window w)
+		(switch-to-buffer-other-window b))
+	      (unless (eq major-mode 'perldoc-mode) (perldoc-mode))
+	      (goto-char p))
+	  (message (format "%s not found" func))
+	  )
 	)
       )
     )
@@ -89,7 +120,7 @@
   "find perl op"
   (interactive "sfind perl op: ")
 
-  (unless (file-exists-p perlop-file)
+  (unless (or (file-exists-p perlop-file) (make-perldoc-file "perlop")) ; try harder
     (error (format "file %s does not exist" perlop-file)))
 
   (grep (format "grep -w -nH -i -e %s %s" op perlop-file))
