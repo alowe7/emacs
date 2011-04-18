@@ -23,23 +23,23 @@
   )
 
 (defun soft-fill-region (from to)
-  (interactive (list (region-beginning) (region-end)))
-  (call-interactively 'trim-white-space)
-  (let ((a (min from to)) (b (max from to)))
-    (dolist (x '(
-		 ("
+  (interactive "r")
+
+  (trim-white-space-region from to)
+  (dolist (x '(
+	       ("
 
 " "|")
-		 ("
+	       ("
 " " ")
-		 ("|" "
+	       ("|" "
 
 ")))
-      (goto-char a)
-      (while (search-forward (car x) b t)
-	(replace-match (cadr x) t))
-      )
-    ))
+    (goto-char from)
+    (while (search-forward (car x) to t)
+      (replace-match (cadr x) t))
+    )
+  )
 
 (global-set-key "\C-c\C-x\C-q" 'soft-fill-region)
 

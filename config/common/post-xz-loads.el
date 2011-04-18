@@ -1,7 +1,7 @@
 (put 'post-xz-loads 'rcsid 
  "$Id$")
 
-(eval-when-compile (require 'xz))
+; (eval-when-compile (require 'xz))
 
 (require 'advice)
 (require 'long-comment)
