@@ -1,8 +1,11 @@
 (put 'todo 'rcsid 
  "$Id$")
+
+(require 'thingatpt)
 (require 'eval-process)
 (require 'edit)
 (require 'input)
+
 
 (defvar master-todo-file (expand-file-name "~/.todo" ) 
   "location of master todo list")
@@ -69,8 +72,8 @@
 	 (thing1 (chomp 
 		  (apply 'buffer-substring
 			 (cond (arg (sort (list (point) (mark)) (quote <)))
-			       ((eq major-mode 'todo-mode) (paragraph-as-region))
-			       (t (line-as-region))))))
+			       ((eq major-mode 'todo-mode) (bounds-of-thing-at-point 'paragraph))
+			       (t (bounds-of-thing-at-point 'line))))))
 	 (result (y-or-n-*-p
 		  (fudge-format
 			  "done with \"%s ... %s\" (y/n/e)? "
@@ -137,7 +140,7 @@
   
   (let* ((trimlen1 (/ (frame-width) 5))
 	 (trimlen2 (- (1+ (/ trimlen1 2))))
-	 (thing1 (chomp (if (not arg) (apply 'buffer-substring (line-as-region))
+	 (thing1 (chomp (if (not arg) (apply 'buffer-substring (bounds-of-thing-at-point 'line))
 			  (if (not (mark)) (error "mark is not set")
 			    (buffer-substring (point) (mark))))))
 	 (result (y-or-n-*-p
