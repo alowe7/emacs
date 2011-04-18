@@ -5,16 +5,19 @@
 ; (chain-parent-file t)
 
 ; this just needs to be more context sensitive...
-(defvar *ows-contact-file* (expand-file-name "/work/overwatch/people/overwatch-phone-list-101007.csv"))
-
+(defvar *ows-contact-file* (expand-file-name
+  ; "/work/overwatch/people/overwatch-phone-list-101007.csv"
+			    "c:/work/overwatch/people/overwatch-phone-list-110405.csv"
+			    ))
 ; what's the best way to lazy eval on first use?
 (defvar *dscm-database* nil)
 
 (defun initialize-dscm-database ()
   (unless (file-exists-p *ows-contact-file*)
     (error "error setting *dscm-database*, %s does not exist" *ows-contact-file*))
-  (setq *dscm-database* (split (read-file  *ows-contact-file* t) "\n"))
+  (setq *dscm-database* (split (read-file  *ows-contact-file* t) ""))
   )
+; (initialize-dscm-database)
 
 (defun dscm-database () 
   (or *dscm-database* (initialize-dscm-database))

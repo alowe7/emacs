@@ -75,7 +75,7 @@
 ; force post-load hooks now... 
 ; tbd figure out why this is necessary
 (post-after-load "locate")
-(post-after-load "comint")
+; (post-after-load "comint")
 
 (display-time)
 
