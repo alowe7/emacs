@@ -12,10 +12,10 @@
 ; what's the best way to lazy eval on first use?
 (defvar *dscm-database* nil)
 
-(defun initialize-dscm-database ()
+(defun initialize-dscm-database (&optional force)
   (unless (file-exists-p *ows-contact-file*)
     (error "error setting *dscm-database*, %s does not exist" *ows-contact-file*))
-  (setq *dscm-database* (split (read-file  *ows-contact-file* t) ""))
+  (setq *dscm-database* (splitf (read-file  *ows-contact-file* t)))
   )
 ; (initialize-dscm-database)
 

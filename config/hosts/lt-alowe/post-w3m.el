@@ -43,18 +43,36 @@
 
 ; (setq w3m-process-authinfo-alist nil)
 
-(when (file-exists-p *realmrc*)
-  (let ((l (split (read-file *realmrc*) "\n")))
-    (loop for x in l do
-	  (let ((v (split x ",")))
-	    (push
-  ;      `(("www.alowe.com" ("Restricted Directory" ("alowe" . "lsow02"))))
-	     `(, (car v) (, (cadr v) (,@(cons (caddr v) (cadddr v)))))
-	     w3m-process-authinfo-alist
-	     )
+(defun init-w3m-process-authinfo-alist (realmrc &optional overwrite)
+
+  (when overwrite 
+    (setq w3m-process-authinfo-alist nil)
+    )
+
+  (when (file-exists-p realmrc)
+    (let ((l (splitf (read-file realmrc))))
+      (loop for x in l do
+	    (let* ((v (split x ","))
+		   (hostname (car v))
+		   (realm (cadr v))
+		   (username (caddr v))
+		   (password (cadddr v)))
+
+
+	      (setq w3m-process-authinfo-alist
+		    (remove* (cons hostname realm) w3m-process-authinfo-alist :test '(lambda (x y) (equal x (cons (car y) (caadr y))))))
+
+	      (pushnew
+  ;      (("hostname" ("realm" ("username" . "password"))))
+	       `(, hostname (, realm (,@(cons username password))))
+	       w3m-process-authinfo-alist
+	       )
+	      )
 	    )
-	  )
+      )
     )
   )
 
-; (pop w3m-process-authinfo-alist)
+; (init-w3m-process-authinfo-alist *realmrc* t)
+
+(init-w3m-process-authinfo-alist *realmrc*)
