@@ -49,6 +49,9 @@
     (setq w3m-process-authinfo-alist nil)
     )
 
+  (unless (file-exists-p realmrc)
+    (error "error reading realmrc, %s does not exist"  realmrc))
+
   (when (file-exists-p realmrc)
     (let ((l (splitf (read-file realmrc))))
       (loop for x in l do
