@@ -61,7 +61,7 @@ see `chain-parent-file'
 	 (id
 	  (message (chomp (pp (nconc (list id) chain)))))
 	 ((setq id (identity-expression))
-	  (message (format "rcsid: %s" id)))
+	  (message (format "rcsid for current buffer (not set): %s" id)))
 	 ((y-or-n-p (format "rcsid for library %s not defined.  identify?" f))
 	  (identify))
 	 )
