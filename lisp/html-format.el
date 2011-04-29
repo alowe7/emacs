@@ -4,7 +4,7 @@
 
 (defvar *margin* 4)
 (defvar *w3m* (let ((f (or (and (boundp 'w3m-command) w3m-command) (whence "w3m"))))
-		(and (file-executable-p f ) f)) "location of w3m command if available or nil")
+		(and f (file-executable-p f ) f)) "location of w3m command if available or nil")
 
 (defun html-format-region (start end buffer &optional delete)
   (interactive "r")
