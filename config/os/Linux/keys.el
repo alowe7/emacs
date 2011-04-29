@@ -3,6 +3,8 @@
 
 (chain-parent-file t)
 
+(eval-when-compile (add-to-list 'load-path "."))
+
 (global-set-key "\M-_"  'undo)
 
 (require 'ctl-slash)
