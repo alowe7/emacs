@@ -72,15 +72,6 @@
 
 (require 'noted)
 (require 'locations)
-(require 'emacs-wiki-load)
-
-(load-library "locate")
-
-(add-to-load-path-p "/z/db" t)
-
-(require 'zt-loads)
-(require 'xz-loads)
 
 (setq dired-dnd-protocol-alist nil)
 
-(setq comint-use-prompt-regexp t)
