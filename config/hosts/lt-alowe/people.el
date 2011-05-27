@@ -16,11 +16,21 @@
   (unless (file-exists-p *ows-contact-file*)
     (error "error setting *dscm-database*, %s does not exist" *ows-contact-file*))
   (setq *dscm-database* (splitf (read-file  *ows-contact-file* t)))
+  (put '*dscm-database* 'last-modified-time (filemodtime *ows-contact-file*))
+  *dscm-database*
   )
 ; (initialize-dscm-database)
 
 (defun dscm-database () 
-  (or *dscm-database* (initialize-dscm-database))
+  ; (format-time-string "%c" (filemodtime *ows-contact-file*))
+  (let ((last-modified-time (and *dscm-database* (get '*dscm-database* 'last-modified-time))))
+    (when
+	(or (null last-modified-time) ; not initialized 
+	    (< (compare-filetime last-modified-time (filemodtime *ows-contact-file*)) 0) ; file newer than last refresh
+	    )
+      (initialize-dscm-database))
+    *dscm-database*
+    )
   )
 ; (dscm-database)
 

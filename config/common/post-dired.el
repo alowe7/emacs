@@ -1,7 +1,6 @@
 (put 'post-dired 'rcsid 
  "$Id$")
 
-(require 'dired-advice)
 (require 'ctl-backslash)
 ;; dired stuff
 

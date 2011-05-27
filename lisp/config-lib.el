@@ -34,62 +34,28 @@ see `locate-config-file'"
     )
   )
 
-
-(defun host-config () 
-  "find host specific shell config directory
-also see `host-init' to find host specific emacs config directory
-"
-  (interactive)
-  (let ((d (expand-file-name (hostname) "~/config/hosts/" )))
-    (if (interactive-p)
-	(cond ((file-name-directory d) (dired d))
-	      ((file-exists-p d) (find-file d)) ; that would be unusual
-	      (t (message (format "directory %s doesn't exist" d))))
-      d)
-    )
-  )
-; (host-config)
-
-(defun ws-config () 
-  "find os specific config directory"
-  (interactive)
-  (let* ((window-system-name (symbol-name window-system))
-	(d 
-	 (loop for x in load-path thereis (and (string-match (concat "/os/" window-system-name) x) x))))
-    (if (interactive-p)
-	(if (file-name-directory d) (dired d) (message (format "directory %s doesn't exist" d)))
-      d)
-    )
-  )
-
-(defun os-config () 
-  "find os specific config directory"
-  (interactive)
-  (let* ((uname (uname))
-	 (d 
-	 (loop for x in load-path thereis (and (string-match (concat "/os/" uname) x) x))))
-    (if (interactive-p)
-	(if (file-name-directory d) (dired d) (message (format "directory %s doesn't exist" d)))
-      d)
-    )
-  )
-
-(defun host-init ()
-  "shortcut for `find-config-file' \"host-init\"
+(loop for x in '("os-init" "host-init") ; more tbd?
+      do
+      (eval
+       `(defun ,(intern x) ()
+	  ,(format "shortcut for `find-config-file' \"%s\"
 with optional prefix arg, dired containing directory
-"
-  (interactive)
+" x)
+	  (interactive)
 
-  (let* ((config  "host-init")
-	 (fn (locate-config-file config)))
-    (if (null fn)
-	(message (format "config %s not found along load-path." fn))
-      (if current-prefix-arg (dired (file-name-directory fn))
-	(find-file fn) 
-	)
+	  (let* ((config  ,x)
+		 (fn (locate-config-file config)))
+	    (if (null fn)
+		(message (format "config %s not found along load-path." fn))
+	      (if current-prefix-arg (dired (file-name-directory fn))
+		(find-file fn) 
+		)
+	      )
+	    )
+	  )
+       )
       )
-    )
-  )
+; (os-init)
 ; (host-init)
 
 (defun emacs-version-init ()
@@ -100,26 +66,3 @@ with optional prefix arg, dired containing directory
     )
   )
 
-(defun os-init ()
-  "shortcut for `find-config-file' \"os-init\"
-with optional prefix arg, dired containing directory
-"
-  (interactive)
-
-  (let* ((config   "os-init")
-	 (fn (locate-config-file config)))
-    (if (null fn)
-	(message (format "config %s not found along load-path." fn))
-      (if current-prefix-arg (dired (file-name-directory fn))
-	(find-file fn) 
-	)
-      )
-    )
-  )
-; (os-init)
-
-(defun window-system-init ()
-  "shortcut for `find-config-file' \"window-system-init\""
-  (interactive)
-  (find-config-file "window-system-init")
-  )

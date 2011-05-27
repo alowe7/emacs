@@ -28,7 +28,7 @@ CONFIGS := $(shell ./find-configs ./config)
 
 ETAGS=etags
 
-all: compile autoloads
+all: ship
 
 # you want to make ship to get a-autoloads into sitestart
 ship: compile autoloads

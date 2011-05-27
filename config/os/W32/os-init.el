@@ -646,9 +646,13 @@ TIMEOUT may be an integer or a string representation of an integer.
   )
 
 ; e.g.
-; (host-exists "simon") ; t if deadite is up
-; (host-exists "10.132.10.1") ; nil
-; (host-exists "deadite" 2)
+; t if host notthere responds to a ping in less than 200ms
+; (assert (null (host-exists "notthere" 200)))
+; (assert (null (host-exists "10.132.10.1"))) ; nil
+; (assert (null (host-exists "deadite" 2)))
+; (assert (host-exists "localhost"))
+; (assert (host-exists (hostname)))
+
 
 (defvar host-ok-hook nil "list of functions to run before checking `host-ok'  
  file is bound to variable `filename'
@@ -676,8 +680,9 @@ host must respond within optional TIMEOUT msec"
   )
 
 ;; (host-ok "//simon/e")
+;; (host-exists "simon")
 ;; (host-ok "//fields/Volume_1/backup" 1)
-;; (host-ok "//deadite/C" t)
+;; (host-ok "//deadite/C" t 100)
 ;; (host-ok "c:/")
 
 ;; build a list of ((<regexp> <mountpoint>) ...)
@@ -702,8 +707,8 @@ host must respond within optional TIMEOUT msec"
 
 ; if expand-file-name is advised, be sure to use original definition
 (fset 'mount-orig-expand-file-name
-      (if (ad-is-advised 'expand-file-name) (symbol-function 'ad-Orig-expand-file-name)
-	(symbol-function 'expand-file-name)))
+      (eval `(if (ad-is-advised 'expand-file-name) (symbol-function 'ad-Orig-expand-file-name)
+	       (symbol-function 'expand-file-name))))
 
 (defun check-unc-path (f)
   " dwim with short timeout if caller set a unc path unintentionally "
