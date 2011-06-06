@@ -6,6 +6,7 @@
 (require 'mktime)
 (require 'psgml)
 (require 'utf8)
+(require 'cat-utils)
 
 ;; this stuff should be in db, presentation layer should do all formatting.
 ;; tbd function to adjust modtimes on files, when organized by datestamp.  see modtime.el
@@ -23,8 +24,8 @@
 (defvar *blog-home* (expand-file-name "/content"))
 (defvar *blog-pattern* "^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$")
 (defvar *areas*
-  (loop for x in  (split (eval-process  (format "find %s -mindepth 1 -maxdepth 1 -type d" *blog-home*)) "\n") collect (list  (file-name-nondirectory x)))
-)
+ (loop for x in (get-directory-files *blog-home* t) when (file-directory-p x) collect (list (file-name-nondirectory x))))
+
 ; (defvar *areas* '((".net") ("biz") ("crypto") ("dcgs") ("j2ee") ("personal") ("tech") ("pub") ("priv")))
 
 (defvar *default-area* "personal")
@@ -36,7 +37,7 @@
   )
 
 (defun restore-myblog-state ()
-  (let ((s (read-file *myblog-db*)))
+  (let ((s (chomp (with-temp-buffer (insert-file-contents *myblog-db*) (buffer-string)))))
     (and (string* s) (setq *default-area* s))
     )
   )
