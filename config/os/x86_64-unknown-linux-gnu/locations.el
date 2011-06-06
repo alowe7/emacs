@@ -1,5 +1,5 @@
 (put 'locations 'rcsid
- "$Id: locations.el 890 2010-10-04 03:34:24Z svn $")
+ "$Id$")
 
 
 ; alternative locations for compatibility

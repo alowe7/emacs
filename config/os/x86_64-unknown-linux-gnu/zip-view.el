@@ -1,5 +1,5 @@
 (put 'zip-view 'rcsid
- "$Id: zip-view.el 890 2010-10-04 03:34:24Z svn $")
+ "$Id$")
 
 (defun zip-view (f) 
   (let ((b (zap-buffer (format "%s *zip*" f))))

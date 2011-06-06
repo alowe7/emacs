@@ -63,11 +63,6 @@
 (setq *gnuserv-dired-files* t)
 (require 'gnuserv)
 
-; why load when you can require?
-(require 'xz-loads)
-
-(require 'myblog)
-
 ;;
 ;; actions
 ;;
@@ -75,7 +70,19 @@
 ; force post-load hooks now... 
 ; tbd figure out why this is necessary
 (post-after-load "locate")
+
+; lazy load comint helpers, but define the key bindings that invoke them
 ; (post-after-load "comint")
+(require 'comint-keys)
+(require 'dired-keys)
+
+; tbd: figure out why this is not loading properly out of /usr/share/emacs/site-lisp/site-start.d/
+(load "xz-loads" t t)
+
+; really only want this 
+(add-hook 'dired-load-hook '(lambda () 
+			      (define-key dired-mode-map "e" 'dired-decrypt-find-file)
+			      ))
 
 (display-time)
 

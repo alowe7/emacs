@@ -1,5 +1,5 @@
 (put 'whencepath 'rcsid 
- "$Id: whencepath.el 8 2010-10-05 01:38:57Z svn $")
+ "$Id$")
 
 (require 'cat-utils)
 (require 'cl)

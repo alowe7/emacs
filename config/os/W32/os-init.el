@@ -272,11 +272,6 @@ if optional VISIT is non-nil and no file association can be found just visit fil
     )
   )
 
-(defvar  locate-options '("--ignore-case"))
-(defun my-locate-default-make-command-line (search-string)
-  `(,locate-command ,@locate-options ,search-string))
-(setq locate-make-command-line 'my-locate-default-make-command-line)
-; (funcall locate-make-command-line "foo")
 
 (make-variable-buffer-local 'comint-prompt-regexp)
 
@@ -454,7 +449,10 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 (add-hook 'dired-load-hook
 	  '(lambda () 
 	     (define-key dired-mode-map "R" 'dired-move-marked-files)
-	     (define-key dired-mode-map "C" 'dired-copy-marked-files))
+	     (define-key dired-mode-map "C" 'dired-copy-marked-files)
+  ; override default dired drag drop behavior to open dropped files, not copy them
+	     (setq dired-dnd-protocol-alist dnd-protocol-alist)
+	     )
 	  )
 
 ; really only want this for shell programs.

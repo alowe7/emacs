@@ -1,9 +1,7 @@
 (put 'post-dired 'rcsid 
  "$Id$")
 
-(require 'ctl-backslash)
-;; dired stuff
-
+(eval-when-compile (require 'cl))
 
 (setq dired-listing-switches "-alt")
 
@@ -95,11 +93,9 @@ warns if more than one file is to be moved and target is not a directory"
     (if (or (<= (length fns) 1)
 	    (file-directory-p to)
 	    (y-or-n-p "move multiple files to single target?"))
-
 	(loop 
 	 for fn in fns
 	 do
-
 	 (setq newfn
 	       (if (file-directory-p to)
 		   (concat (expand-file-name to)
@@ -112,7 +108,6 @@ warns if more than one file is to be moved and target is not a directory"
 	      (y-or-n-p
 	       (format "File already exists: %s.  Replace? " newfn)))
 	     (rename-file fn newfn t))
-
 	 )
       )
 
@@ -128,7 +123,7 @@ warns if more than one file is to be moved and target is not a directory"
   "rename selected file to replace spaces with CHAR (default '-')."
 
   (let* ((fn (dired-get-filename))
-	 (newfn (replace-in-string fromstr tostr (file-name-nondirectory fn))))
+	 (newfn (replace-regexp-in-string fromstr tostr (file-name-nondirectory fn))))
 
     (if (or 
 	 (not (file-exists-p newfn))
@@ -190,7 +185,6 @@ warns if more than one file is to be moved and target is not a directory"
     (call-process "gzcat" f  b t)
     (if arg (switch-to-buffer-other-window b)
       (switch-to-buffer b))
-    (browse-mode)
     (goto-char (point-min))
     (set-buffer-modified-p nil)
     )
@@ -209,8 +203,15 @@ warns if more than one file is to be moved and target is not a directory"
 	(t
 	 (let ((buffer-read-only nil)
 	       (fn (dired-get-filename)))
-	   (and (y-or-n-p (format "touch %s? " fn)) (touch-file fn)
-		(dired-redisplay fn) (message ""))
+	   (if
+	       (y-or-n-p (format "touch %s? " fn)) 
+	       (progn
+		 (touch-file fn)
+		 (message "")
+		 (sit-for .100)
+		 (revert-buffer)
+		 )
+	     )
 	   )
 	 )
 	)
@@ -254,10 +255,6 @@ see `file-assoc-list'"
   )
 ; (file-association "foo.doc" t)
 ; (file-association "foo.el" t)
-
-(defun dired-explore-file () (interactive)
-  (explore-file (dired-get-filename))
-  )
 
 (defun dired-aexec () (interactive)
   (cond
@@ -328,44 +325,6 @@ see `file-assoc-list'"
   (kill-new (w32-canonify (dired-get-filename)))
   )
 
-(add-hook 'dired-mode-hook '(lambda () 
-			      (define-key dired-mode-map "\C-m" 'dired-aexec)
-  ;			      (define-key dired-mode-map "\C-m" 'dired-exec-file)
-			      (define-key  dired-mode-map "P" '(lambda () (interactive) (dos-print (dired-get-filename))))
-			      (define-key  dired-mode-map (vector ? ?\C-0) 'kill-dired-filename)
-			      (define-key dired-mode-map "|" 'dired-pipe-file)
-			      (define-key  dired-mode-map "\C-cw" 'dired-what-file)
-
-			      (define-key  dired-mode-map "\M-~" 'dired-make-backup)
-
-			      (define-key  dired-mode-map "\C-cu" 'dired-zip-extract)
-
-			      (define-key dired-mode-map "\C-xv" 'ctl-x-v-prefix)
-			      (define-key dired-mode-map "V" 'dired-html-view)
-
-			      (define-key dired-mode-map (vector 'f4) 'cfo)
-			      (define-key dired-mode-map (vector 'f5) 'rfo)
-
-
-			      (let ((was (lookup-key  dired-mode-map "t")))
-				(unless (eq was 'dired-touch-file)
-				  (define-key dired-mode-map "T" was)
-				  )
-				)
-			      (define-key dired-mode-map "t" 'dired-touch-file)
-
-  ; see datestamp.el
-  ; (define-key dired-mode-map (vector 'C-return ?d) 'mkdatestampdir)
-
-			      (define-key dired-mode-map (vector '\C-return ?\C--) 'dired-canonify-filename)
-
-			      ))
-
-
-(define-key ctl-x-v-map "l" 'dired-cvs-log)
-(define-key ctl-x-v-map "u" 'dired-cvs-update)
-
-(define-key ctl-\\-map  "d"  'diff-marked-files)
 
 ; turns out this interacts negatively with clearcase-hook-dired-mode-hook.
 (unless (boundp 'clearcase-hook-dired-mode-hook)
@@ -379,7 +338,6 @@ see `file-assoc-list'"
        (dired-get-filename)
      (error default-directory)))
   )
-(define-key dired-mode-map (vector '\C-return ?\C-y) 'dired-yank-filename)
 
 (defun my-dired-rename-file (pat)
   (interactive "spat: ")
@@ -388,7 +346,6 @@ see `file-assoc-list'"
     )
   (revert-buffer)
   )
-(define-key dired-mode-map (vector '\C-return ?\C-r) 'dired-rename-file)
 
 (defun dired-what-file (&optional arg) 
   "apply `kill-new' to `dired-get-filename' with optional ARG, canonify first"
@@ -440,6 +397,39 @@ see `file-assoc-list'"
 	     (define-key dired-mode-map (vector 'C-return ? ) 'dired-unmark-all-files)
 
 	     (define-key dired-mode-map "i" 'dired-what-filetime)
+
+	     (define-key dired-mode-map (vector '\C-return ?\C-r) 'dired-rename-file)
+	     (define-key dired-mode-map (vector '\C-return ?\C-y) 'dired-yank-filename)
+
+			      (define-key dired-mode-map "\C-m" 'dired-aexec)
+  ;			      (define-key dired-mode-map "\C-m" 'dired-exec-file)
+			      (define-key  dired-mode-map "P" '(lambda () (interactive) (dos-print (dired-get-filename))))
+			      (define-key  dired-mode-map (vector ? ?\C-0) 'kill-dired-filename)
+			      (define-key dired-mode-map "|" 'dired-pipe-file)
+			      (define-key  dired-mode-map "\C-cw" 'dired-what-file)
+
+			      (define-key  dired-mode-map "\M-~" 'dired-make-backup)
+
+			      (define-key  dired-mode-map "\C-cu" 'dired-zip-extract)
+
+			      (define-key dired-mode-map "\C-xv" 'ctl-x-v-prefix)
+			      (define-key dired-mode-map "V" 'dired-html-view)
+
+			      (define-key dired-mode-map (vector 'f4) 'cfo)
+			      (define-key dired-mode-map (vector 'f5) 'rfo)
+
+
+			      (let ((was (lookup-key  dired-mode-map "t")))
+				(unless (eq was 'dired-touch-file)
+				  (define-key dired-mode-map "T" was)
+				  )
+				)
+			      (define-key dired-mode-map "t" 'dired-touch-file)
+
+  ; see datestamp.el
+  ; (define-key dired-mode-map (vector 'C-return ?d) 'mkdatestampdir)
+
+			      (define-key dired-mode-map (vector '\C-return ?\C--) 'dired-canonify-filename)
 
 	     (set-syntax-table dired-mode-syntax-table)  
 	     )

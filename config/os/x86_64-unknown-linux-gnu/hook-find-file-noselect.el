@@ -1,5 +1,5 @@
 (put 'hook-find-file-noselect 'rcsid
- "$Id: hook-find-file-noselect.el 890 2010-10-04 03:34:24Z svn $")
+ "$Id$")
 
 ;; hook find-file to smash dos style letter drive names into well known mount points
 

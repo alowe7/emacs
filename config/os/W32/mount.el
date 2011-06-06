@@ -1,5 +1,5 @@
 (put 'mount 'rcsid 
- "$Id: mount.el 890 2010-10-04 03:34:24Z svn $")
+ "$Id$")
 
 (require 'untranslate)
 (require 'comint)

@@ -1,9 +1,8 @@
 (put 'post-comint 'rcsid 
  "$Id$")
 
-(eval-when-compile (require 'cl))
-
-(setq explicit-bash-args '("-i"))
+;; no longer necessary?
+;; (setq explicit-bash-args '("-i"))
 
 (defun comint-last-arg () 
   "insert last arg from `comint-previous-input-string`"
@@ -11,32 +10,7 @@
   (insert (car (last (split (comint-previous-input-string 0)))))
   )
 
-(require 'ctl-ret)
 
-(defvar *max-ret-shells* 9)
-(loop for x from 0 to *max-ret-shells* do 
-      (eval
-       `(define-key ctl-RET-map ,(format "%d" x)
-	  '(lambda () (interactive) (shell2 ,x ))))
-      )
-
-(define-key comint-mode-map "." 'comint-last-arg)
-(define-key comint-mode-map "	" 'comint-dynamic-complete-filename)
-(define-key comint-mode-map "	" 'comint-dynamic-complete)
-
-(and (boundp 'comint-mode-syntax-table) ; not bound in xemacs?
-     (modify-syntax-entry ?% "." comint-mode-syntax-table))
-
-(require 'lru-shell)
-
-(define-key ctl-RET-map (vector ?\C-7) 'lru-shell)
-(define-key ctl-RET-map (vector ?\C-8) 'mru-shell)
-(define-key ctl-RET-map "\C-f" 'find-indicated-file)
-
-(require 'ctl-slash)
-
-; grab dir from context of other window and insert it here.  if only one window showing, then current dir
-(define-key ctl-/-map "0" '(lambda () (interactive) (insert (save-window-excursion (other-window-1) (canonify (or (buffer-file-name) default-directory) 0)))))
 
 ;; under what circumstances is this useful?
 ;; (defun my-comint-mode-hook ()
@@ -64,3 +38,9 @@
 ; (buffer-process-query-on-exit)
 
 
+(define-key comint-mode-map "." 'comint-last-arg)
+(define-key comint-mode-map "	" 'comint-dynamic-complete-filename)
+(define-key comint-mode-map "	" 'comint-dynamic-complete)
+
+(and (boundp 'comint-mode-syntax-table) ; not bound in xemacs?
+     (modify-syntax-entry ?% "." comint-mode-syntax-table))

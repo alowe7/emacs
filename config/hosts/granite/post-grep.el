@@ -1,5 +1,5 @@
 (put 'post-grep 'rcsid
- "$Id: post-grep.el 930 2011-01-02 21:01:45Z alowe $")
+ "$Id$")
 ; needed to apply grep-find-command after grep loads
 
 (setq grep-command "grep -nH -i -e ")
