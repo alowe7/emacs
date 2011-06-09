@@ -1,4 +1,4 @@
-(put 'post-xz-loads 'rcsid 
+(put 'post-xz 'rcsid 
  "$Id$")
 
 ; (eval-when-compile (require 'xz))
@@ -134,3 +134,5 @@ if found, pop that to top of stack"
 
 (add-hook 'stop-xz-process-hook '(lambda ()
 				   (put (intern (buffer-name (xz-hit-buffer))) 'qsave nil)))
+
+
