@@ -74,10 +74,9 @@
 ; lazy load comint helpers, but define the key bindings that invoke them
 ; (post-after-load "comint")
 (require 'comint-keys)
-(require 'dired-keys)
 
-; tbd: figure out why this is not loading properly out of /usr/share/emacs/site-lisp/site-start.d/
-(load "xz-loads" t t)
+; tbd figure out why post-xz is not getting invoked
+(add-hook 'xz-load-hook '(lambda () (post-after-load "xz")))
 
 ; really only want this 
 (add-hook 'dired-load-hook '(lambda () 
