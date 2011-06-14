@@ -1,12 +1,13 @@
 (put 'locations 'rcsid
  "$Id$")
 
+(require 'canonify)
+(require 'regtool)
+(require 'typesafe)
+
 (defun substitute-expand-file-name (f)
   (expand-file-name (substitute-in-file-name f))
   )
-
-(require 'regtool)
-(require 'typesafe)
 
 (defun w32-environment-variable (s)
   (unix-canonify
@@ -45,15 +46,5 @@
       (eval `(defun ,(car x)  () (interactive) (dired (substitute-expand-file-name ,(cadr x)))))
       (eval `(defvar ,(car x)  ,(canonify (cadr x))))
       )
-
-(defvar etc (canonify (concat *systemroot* "/system32/drivers/etc")))
-
-(defun hosts () (interactive)
-  (find-file (concat etc "/hosts"))
-  )
-
-(defun programfiles () (interactive)
-  (dired ($ "$PROGRAMFILES"))
-  )
 
 (provide 'locations)

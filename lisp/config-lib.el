@@ -66,3 +66,12 @@ with optional prefix arg, dired containing directory
     )
   )
 
+
+(defun host-config ()
+  (interactive)
+  "find shell config dir"
+  (let ((dir (expand-file-name "bin" (expand-file-name (hostname) "~/config/hosts"))))
+    (if (file-directory-p dir) (dired dir) (message "%s does not exist" dir))
+    )
+  )
+; (call-interactively 'host-config)

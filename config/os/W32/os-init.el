@@ -6,6 +6,8 @@
 (require 'cat-utils)
 (require 'file-association)
 (require 'long-comment)
+(require 'canonify)
+(require 'locations)
 
 (load "frames" t t)
 
@@ -33,121 +35,6 @@
 ;; this makes autocompletion work better with bash
 (setq comint-completion-addsuffix t)
 
-
-;; (global-set-key "\C-:" (quote indent-for-comment))
-(global-set-key (vector 'C-backspace) 'iconify-frame)
-
-(defun w32-canonify (f &optional sysdrive)
-  " expands FILENAME, using backslashes
-optional DRIVE says which drive to use. "
-
-  (cond
-   ((string= f "/") "\\")
-   ((string-match "\\(file:\\)?///\\(.\\)\|\\(.*\\)$" f)
-    (concat (match-string 2 f) ":" (match-string 3 f)))
-   (t
-    (replace-regexp-in-string  "/" "\\\\" 
-			       (replace-regexp-in-string  "//" "\\\\\\\\" 
-							  (if sysdrive (expand-file-name 
-									(substitute-in-file-name
-									 (chomp f ?/))
-									(and (string* sysdrive) (concat sysdrive "/")))
-							    (substitute-in-file-name
-							     (chomp f ?/))
-							    )
-							  )
-			       )
-    )
-   )
-  )
-; (w32-canonify "file:///C|/home/a/.private/proxy.pac")
-;(w32-canonify "/a/b/c")
-;(w32-canonify "/")
-(fset 'unc-canonify 'w32-canonify)
-
-(defun unix-canonify (f &optional mixed)
-  " expands FILENAME, using forward slashes.
-if FILENAME is a list, return the list of canonified members
-optional second arg MIXED says do not translate 
-letter drive names.
-if MIXED is 0, then ignore letter drive names.
-"
-  (if (listp f)
-      (loop for x in f collect (unix-canonify x mixed))
-    (let* 
-	((default-directory "/")
-	 (f (expand-file-name (substitute-in-file-name f))))
-      (if (null mixed)
-	  f
-	(let
-	    ((m (string-match "^[a-zA-Z]:" f)))
-	  (if (eq mixed 0)
-	      (substring f (match-end 0))
-	    (concat "//" (upcase (substring f 0 1)) (substring f (match-end 0)))
-	    )
-	  )))
-    )
-  )
-
-(defun unix-canonify-0 (f) (unix-canonify f 0))
-
-(defalias 'canonify 'unix-canonify)
-
-(defun unix-canonify-region (beg end)
-  (interactive "r")
-  (kill-region beg end)
-  (insert (unix-canonify (expand-file-name (car kill-ring))))
-  )
-
-(defun split-path (&optional path)
-  (let ((path (or path (getenv "PATH"))))
-    (split (unix-canonify-path path) ":")
-    )
-  )
-
-(defun unix-canonify-env (name)
-  "`unix-canonify-path' on value of environment variable NAME and push result onto `process-environment'"
-  (push 
-   (concat name "="
-	   (unix-canonify-path
-	    (cadr (split (loop for x in process-environment when (string-match (concat "^" name "=") x) return x) "="))
-	    )
-	   )
-   process-environment 
-   )
-  )
-
-(defun unix-canonify-path (path)
-  " `unix-canonify' elements of w32 style PATH"
-  (join (mapcar '(lambda (x) (unix-canonify x 0)) (split  path ";")) ":")
-  )
-
-
-(defun w32-canonify-region (beg end)
-  (interactive "r")
-  (kill-region beg end)
-  (insert (w32-canonify (expand-file-name (car kill-ring))))
-  )
-
-(defun w32-canonify-env (name)
-  "`w32-canonify-path' on value of environment variable NAME and push result onto `process-environment'"
-  (push (concat name "="
-		(w32-canonify-path
-		 (cadr (split (loop for x in process-environment when (string-match (concat "^" name "=") x) return x) "="))
-		 )
-		)
-	process-environment
-	)
-  )
-
-(defun w32-canonify-path (path)
-  " `w32-canonify' elements of w32 style PATH"
-  (join (mapcar '(lambda (x) (w32-canonify x)) (split  path ":")) ";")
-  )
-
-(global-set-key "" 'unix-canonify-region)
-(global-set-key "" 'w32-canonify-region)
-
 (defun gsn (f) 
   "get short name for f"
   (clean-string (eval-process "gsn" f))
@@ -173,105 +60,6 @@ if MIXED is 0, then ignore letter drive names.
   (interactive)
   (explore default-directory)
   )
-
-(defun arun (f) (interactive "sCommand: "))
-(fset 'run 'arun)
-
-; (aexec-handler "jar")
-
-(defun aexec-handler (ext)
-  "helper function to find a handler for ext, if any"
-  (and ext 
-       (assoc (downcase ext) file-assoc-list)
-       )
-  )
-
-(defvar *aexec-process-abnormal-exit-debug* nil "when set, invoke debugger if aexec process exits abnormally")
-
-(defun aexec-sentinel (p s)
-  "sentinel called from when processes created by `aexec-start-process' change state
-if the new state is 'finished', deletes the associated buffer
-"
-
-  (cond ((or (string= (chomp s) "finished") (not  *aexec-process-abnormal-exit-debug*))
-	 (let ((b (process-buffer p)))
-	   (if (buffer-live-p b)
-	       (kill-buffer b))
-	   ))
-	((string-match "^exited abnormally" (chomp s))
-	 (let ((aexec-process-parameters (get 'aexec-process-sentinel 'parameters)))
-	 (debug)))
-	(t  (debug))
-	)
-  )
-
-(defun aexec-start-process (cmd f)
-  "create process running COMMAND on input FILE
-name is generated from basename of command
-process is given an output buffer matching its name and a sentinel `aexec-sentinel'
-"
-
-  (unless (and (string* (trim cmd)) (string* (trim f)))
-    (debug)
-    )
-
-  (let* ((name (symbol-name (gensym (downcase (basename cmd)))))
-	 (buffer-name (generate-new-buffer-name name))
-	 p)
-    (setq p (start-process name buffer-name cmd (w32-canonify f)))
-    (put 'aexec-process-sentinel 'parameters (list name buffer-name cmd f))
-    (set-process-sentinel p 'aexec-sentinel)		 
-    )
-  )
-
-(defun aexec (f &optional visit)
-  "apply command associated with filetype to specified FILE
-filename may have spaces in it, so double-quote it.
-handlers may be found from the variable `file-assoc-list' or 
-failing that, via `file-association' 
-if optional VISIT is non-nil and no file association can be found just visit file, otherwise
- display a message  "
-  (interactive "sFile: ")
-  (let* ((ext (file-name-extension f))
-	 (default-directory (or (file-name-directory f) default-directory))
-	 (handler 
-	  (or     
-	   (aexec-handler ext)
-	   (progn
-	     (condition-case x
-		 (require (intern (format "%s-view" ext)))
-	       (file-error nil))
-	     (aexec-handler ext)
-	     ))))
-    (if handler (funcall (cdr handler) f)
-      (let ((cmd (file-association f)))
-	(cond
-	 (cmd
-	  (aexec-start-process cmd f))
-	 (visit (find-file f))
-	 (t (progn
-	      (message
-	       "no handler for type %s ... " 
-	       (file-name-extension f))
-	      (sit-for 0 500)
-
-	      (let ((doit (y-or-n-q-p "explore %s [ynqv ]? " " v" f)))
-		(cond
-		 ((or (eq doit ?y) (eq doit ? ))
-		  (explore f))
-		 ((eq doit ?v)
-		  (message "visiting file %s ..." f)
-		  (sit-for 0 800)
-		  (find-file f)))
-		)
-	      (message ""))
-	    )
-	 )
-	)
-      )
-    )
-  )
-
 
 (make-variable-buffer-local 'comint-prompt-regexp)
 
@@ -570,7 +358,6 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
     )
   )
 
-(require 'long-comment)
 (/*
 (mapcar 'makunbound '(
 		      *systemroot*

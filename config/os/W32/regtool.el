@@ -1,6 +1,8 @@
 (put 'regtool 'rcsid
  "$Id$")
 
+(require 'eval-process)
+
 ; see reg.el
 
 (defun regtool (action key &optional options) 

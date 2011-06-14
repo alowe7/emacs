@@ -208,7 +208,6 @@
 (define-key alt-SPC-map "\M-?" '(lambda () (interactive) (help-for-map alt-SPC-map)))
 (define-key alt-SPC-map "\M-i" 'list-buffers-in)
 (define-key alt-SPC-map "\M-k" 'kill-buffers-mode)
-(define-key alt-SPC-map "\M-l" 'roll-buffer-like)
 (define-key alt-SPC-map "\M-m" 'list-buffers-mode)
 (define-key alt-SPC-map "\M-~" 'kill-buffers-not-modified)
 (define-key alt-SPC-map "b" '(lambda () (interactive) (list-buffers-mode 'scratch-mode)))
