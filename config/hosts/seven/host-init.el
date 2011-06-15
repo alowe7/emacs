@@ -31,5 +31,16 @@
 
 (setq sgml-default-doctype-name  "-//W3C//DTD XHTML 1.0 Transitional//EN")
 (setq sgml-catalog-files '("/a/lib/DTD/catalog"))
+; force post-load hooks now... 
+; tbd figure out why this is necessary
+(post-after-load "locate")
+
+; lazy load comint helpers, but define the key bindings that invoke them
+; (post-after-load "comint")
+(require 'comint-keys)
+
+(require 'xz-loads)
+; tbd figure out why post-xz is not getting invoked
+(add-hook 'xz-load-hook '(lambda () (post-after-load "xz")))
 
 (display-time)
