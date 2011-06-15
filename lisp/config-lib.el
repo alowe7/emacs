@@ -34,6 +34,8 @@ see `locate-config-file'"
     )
   )
 
+;;; autoload os-init
+; autoload host-init
 (loop for x in '("os-init" "host-init") ; more tbd?
       do
       (eval
