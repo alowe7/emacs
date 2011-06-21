@@ -11,7 +11,7 @@
 (setq
  cursor-type (quote (bar . 1))
  cursor-in-non-selected-windows nil
- resize-mini-windows nil
+; resize-mini-windows nil
 )
 
 (setq 
@@ -62,6 +62,8 @@
 
 (setq *gnuserv-dired-files* t)
 (require 'gnuserv)
+
+(require 'xz-loads)
 
 ;;
 ;; actions

@@ -91,7 +91,7 @@
 
 
 ; esc-map
-(global-set-key "+" 'debug-on-error)
+(global-set-key "+" 'toggle-debug-on-error)
 (global-set-key "_" 'debug-indicated-word)
 
 

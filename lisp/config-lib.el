@@ -36,7 +36,7 @@ see `locate-config-file'"
 
 ;;; autoload os-init
 ; autoload host-init
-(loop for x in '("os-init" "host-init") ; more tbd?
+(loop for x in '("os-init" "host-init" "common-init") ; more tbd?
       do
       (eval
        `(defun ,(intern x) ()
@@ -59,6 +59,7 @@ with optional prefix arg, dired containing directory
       )
 ; (os-init)
 ; (host-init)
+; (common-init)
 
 (defun emacs-version-init ()
   "shortcut for `find-config-file' \"EmacsXX\" where XX=`emacs-major-version'"

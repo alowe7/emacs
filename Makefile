@@ -6,6 +6,7 @@ INSTALL = install
 LOCALBIN = /usr/local/bin
 SHARE=/usr/share/emacs
 SITESTART = $(SHARE)/site-lisp/site-start.d
+COMPILE_AUTOLOADS = --compiled
 
 TOP=$(shell pwd)
 
@@ -36,7 +37,7 @@ ship: compile autoloads
 	install -m 444 $(AUTOLOADS) $(SITESTART)
 
 autoloads: FORCE 
-	$(MAKE_AUTOLOADS) --compiled --top=$(TOP) --prefix=$(PKG)  $(CONFIGS) $(SOURCES)  > $(AUTOLOADS)
+	$(MAKE_AUTOLOADS) $(COMPILE_AUTOLOADS)  --top=$(TOP) --prefix=$(PKG)  $(CONFIGS) $(SOURCES)  > $(AUTOLOADS)
 	@echo $(AUTOLOADS) rebuilt
 
 .xz.dat: FORCE
