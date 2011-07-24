@@ -78,4 +78,4 @@
  )
 
 (post-after-load "locate")
-(post-after-load "comint")
+; (post-after-load "comint")
