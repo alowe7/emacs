@@ -1,6 +1,6 @@
 (put 'people 'rcsid 
  "$Id$")
-(provide 'people)
+
 ;; manage people databases
 (require 'grep)
 (require 'qsave)
@@ -332,3 +332,5 @@ with prefix arg, prompt for a line to add"
   )
 
 (run-hooks 'people-load-hook)
+
+(provide 'people)

@@ -199,7 +199,7 @@
 (define-key alt-SPC-map "\M-," 'roll-scratch-buffers)
 (define-key alt-SPC-map "." 'roll-server-clients)
 (define-key alt-SPC-map " " 'roll-buffer-list)
-(define-key alt-SPC-map "\M- " 'roll-buffer-with)
+
 
 (define-key alt-SPC-map "?" '(lambda () (interactive) (message "")))
 (define-key alt-SPC-map "\M-/" 'list-buffers-with)

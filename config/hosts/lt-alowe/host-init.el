@@ -65,6 +65,9 @@
 
 (require 'xz-loads)
 
+;; tbd for some reason, post-people is not getting invoked when note is autoloaded 
+(require 'people)
+
 ;;
 ;; actions
 ;;
@@ -87,3 +90,8 @@
 
 (display-time)
 
+; some extras
+(loop for d in '("/z/nw" "/z/gpg")
+      do
+      (add-to-load-path d t)
+      )

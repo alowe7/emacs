@@ -1,8 +1,5 @@
-(put 'people 'rcsid
+(put 'post-people 'rcsid
  "$Id$")
-
-; this implementation overrides the default
-; (chain-parent-file t)
 
 ; this just needs to be more context sensitive...
 (defvar *ows-contact-file* (expand-file-name

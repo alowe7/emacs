@@ -3,8 +3,7 @@
 SHELL=/bin/sh
 EMACS=$(EMACSPATH)/emacs
 
-# only ship and autoload approved sources
-SOURCES=host-init.el people.el
+SOURCES=*.el
 TARGETS := $(SOURCES:.el=.elc)
 
 .PHONY: FORCE
