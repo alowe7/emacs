@@ -66,6 +66,7 @@
 (require 'xz-loads)
 
 ;; tbd for some reason, post-people is not getting invoked when note is autoloaded 
+(require 'config)
 (require 'people)
 
 ;;
