@@ -63,17 +63,15 @@
 (setq *gnuserv-dired-files* t)
 (require 'gnuserv)
 
-; why load when you can require?
 (require 'xz-loads)
 
-;;
-;; actions
-;;
+(require 'comint-keys)
 
-; force post-load hooks now... 
-; tbd figure out why this is necessary
-(post-after-load "locate")
-; (post-after-load "comint")
+; really only want this 
+(add-hook 'dired-load-hook '(lambda () 
+			      (define-key dired-mode-map "e" 'dired-decrypt-find-file)
+			      ))
+
 
 (display-time)
 
