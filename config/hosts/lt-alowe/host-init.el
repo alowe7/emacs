@@ -65,24 +65,7 @@
 
 (require 'xz-loads)
 
-;; tbd for some reason, post-people is not getting invoked when note is autoloaded 
-(require 'config)
-(require 'people)
-
-;;
-;; actions
-;;
-
-; force post-load hooks now... 
-; tbd figure out why this is necessary
-(post-after-load "locate")
-
-; lazy load comint helpers, but define the key bindings that invoke them
-; (post-after-load "comint")
 (require 'comint-keys)
-
-; tbd figure out why post-xz is not getting invoked
-(add-hook 'xz-load-hook '(lambda () (post-after-load "xz")))
 
 ; really only want this 
 (add-hook 'dired-load-hook '(lambda () 
@@ -92,7 +75,7 @@
 (display-time)
 
 ; some extras
-(loop for d in '("/z/nw" "/z/gpg")
-      do
-      (add-to-load-path d t)
-      )
+; (loop for d in '("/z/nw" "/z/gpg")
+;      do
+;      (add-to-load-path d t)
+;      )
