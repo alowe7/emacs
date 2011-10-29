@@ -69,7 +69,8 @@ otherwise if `*cache-sword-key*' is set and a key is cached, use that.
 	)
   )
 
-(require 'xdb)
+;; why was this here?
+;; (require 'xdb)
 
 (define-derived-mode sword-mode fundamental-mode "Sword"
   "mode for viewing swords"

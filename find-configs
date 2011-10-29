@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/perl/bin/perl
 #  $Id$
 
 use Sys::Hostname;
