@@ -20,6 +20,9 @@
 
 (add-hook 'post-shell-command-hook 'shell-command-save-search)
 
+
+;; tbd -- ad-do-it may err out in the presence of tramp or ange-ftp
+;; workaround: (unload-feature 'tramp)
 (defadvice shell-command (around 
 			  hook-shell-command
 			  first activate)
@@ -62,6 +65,8 @@
   ;  '(lambda (x) (format "%d" (marker-position x))))))
     (goto-char (car marker)))
   )
+
+(require 'alt-spc)
 (define-key alt-SPC-map "\M-." 'roll-mark)
 
 

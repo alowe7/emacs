@@ -2,9 +2,34 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("svn servers proxy"
+(("Documents"
+ (filename . "c:/Users/alowe/Documents/")
+ (front-context-string . "contacts-111202.")
+ (rear-context-string . "519 12-02 15:00 ")
+ (position . 145))
+("AF DCGS"
+ (filename . "//ows.com/storage/Development/IS/Documents/AF DCGS/")
+ (front-context-string . "Thumbs.db\n  drwx")
+ (rear-context-string . "840 12-02 10:46 ")
+ (position . 160))
+("svn servers proxy"
  (filename . "c:/home/alowe/.subversion/servers")
  (front-context-string . "http-proxy-host ")
  (rear-context-string . "ternal-site.org\n")
  (position . 7111))
+("etc"
+ ((filename . "c:/WINDOWS/system32/drivers/etc")
+  (front-context-string . "hosts\n  drwxrwxr")
+  (rear-context-string . "50 Dec 27 14:14 ")
+  (position . 169)))
+("hosts"
+ (filename . "c:/Windows/System32/drivers/etc/hosts")
+ (front-context-string . "# Copyright (c) ")
+ (rear-context-string)
+ (position . 1))
+("proxy.pac"
+ ((filename . "c:/src/.private/proxy.pac")
+  (front-context-string . "function FindPro")
+  (rear-context-string)
+  (position . 1)))
 )

@@ -14,7 +14,7 @@
 (defun child-processes (p)
   ; returns a list of pids like (child ...)
   (let ((pid (process-id p)))   
-    (loop for x in (process-tree) when (= pid (car x)) collect (cadr x) )
+    (and pid (loop for x in (process-tree) when (= pid (car x)) collect (cadr x) ))
     )
   )
 
@@ -29,9 +29,9 @@
 ; (process-from-pid 5764)
 
 
-(defun really-kill-process () 
+(defun really-kill-process (&optional process) 
   (interactive)
-  (let* ((p (get-buffer-process (current-buffer)))
+  (let* ((p (or process (get-buffer-process (current-buffer))))
 	 (children (child-processes p))
 	 )
 

@@ -30,13 +30,14 @@
 		 (all-users-profile "$ALLUSERSPROFILE")
 		 (user-profile "$USERPROFILE")
 		 (desktop "$USERPROFILE/Desktop")
+		 (downloads "$USERPROFILE/Downloads")
+		 (documents "$USERPROFILE/Documents")
 		 (my-documents
 		  ,(or
 		    (string*
 		     (personal-folders))
 		    "$USERPROFILE/My Documents")
 		  )
-		 (my-local-documents "$HOMEDRIVE/My Documents")
 		 (my-favorites "$USERPROFILE/Favorites")
 		 (my-links "$USERPROFILE/Favorites/Links")
 		 (start-menu "$USERPROFILE/Start Menu")

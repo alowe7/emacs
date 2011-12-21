@@ -35,7 +35,7 @@
 ;; bad ideas?
 ;; 
 
-(setq temporary-file-directory "/tmp")
+(setq temporary-file-directory (expand-file-name "/tmp"))
 
 ; string quoting logic in font-lock if f***-ed up
 ; (setq font-lock-string-face 'default)
@@ -79,3 +79,28 @@
 ;      do
 ;      (add-to-load-path d t)
 ;      )
+
+(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+(autoload 'python-mode "python-mode" "Python editing mode." t)
+(autoload 'py-shell "python-mode" "Python editing mode." t)
+(setq py-shell-name "/Python27/pythonw")
+(require 'ctl-backslash)
+(define-key ctl-\\-map "" 'py-shell)
+
+(defvar *whack* nil)
+(setq *whack* t)
+(when *whack*
+  ; workaround post-load hook bug when module is autoloaded
+  (require 'whack-post-init)
+  )
+
+; useless garbage
+(when (featurep 'tramp)
+  (tramp-unload-tramp)
+  )
+
+(loop for handler in '(ange-ftp-hook-function  ange-ftp-completion-hook-function)
+      do
+      (setq file-name-handler-alist (delete* handler file-name-handler-alist :test '(lambda (x y) (eq x (cdr y)))))
+      )
