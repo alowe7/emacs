@@ -13,10 +13,10 @@
  (rear-context-string . "840 12-02 10:46 ")
  (position . 160))
 ("svn servers proxy"
- (filename . "c:/home/alowe/.subversion/servers")
+ (filename . "~/.subversion/servers")
  (front-context-string . "http-proxy-host ")
- (rear-context-string . "ternal-site.org\n")
- (position . 7111))
+ (rear-context-string . "o SSL.\n[global]\n")
+ (position . 7046))
 ("etc"
  ((filename . "c:/WINDOWS/system32/drivers/etc")
   (front-context-string . "hosts\n  drwxrwxr")

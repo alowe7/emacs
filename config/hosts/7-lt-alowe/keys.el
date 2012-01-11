@@ -30,3 +30,10 @@
 ; make f1 available for binding
 (if (eq (key-binding (vector 'f1)) 'help-command)
     (global-set-key (vector 'f1) nil))
+
+(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+(setq interpreter-mode-alist (cons '("python" . python-mode)
+                                   interpreter-mode-alist))
+(autoload 'python-mode "python-mode" "Python editing mode." t)
+(autoload 'py-shell "python-mode" "Start an interactive Python interpreter in another window." t)
+(define-key ctl-RET-map  "" 'py-shell)

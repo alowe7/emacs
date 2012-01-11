@@ -235,6 +235,7 @@
 (global-set-key (vector (ctl ??)) 'ctl-\?-prefix)
 
 (define-key ctl-\?-map "	" '(lambda () (interactive)   (message "tab-width: %d" tab-width)))
+
 ; mail-quote
 (global-set-key ">" '(lambda () (interactive) (save-excursion (goto-char (point-min)) (replace-regexp "^" "> " nil))))
 
@@ -263,7 +264,6 @@
 
 (define-key ctl-RET-map "e" 'edit-bookmarks)
 (define-key ctl-RET-map "m" 'bookmark-set)
-(define-key ctl-RET-map "" 'yank-like)
 
 (define-key ctl-RET-map "\C-w" 'command-history)
 
@@ -276,6 +276,9 @@
 
 ; that's a hole nutha thang
 (require 'ctl-dot)
+
+(require 'ctl-backslash)
+(define-key ctl-\\-map  "" 'yank-like)
 
 (provide 'keys)
 
