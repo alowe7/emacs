@@ -19,6 +19,7 @@
  (expand-file-name ".emacs.bmk" (file-name-directory (locate-config-file "host-init")))
  sisdirs-default-file
  (expand-file-name ".sisdirs" (file-name-directory (locate-config-file "host-init")))
+ *default-swordfile* "g:/swords"
  )
 
 (setq Info-default-directory-list
