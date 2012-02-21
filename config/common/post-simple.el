@@ -28,9 +28,11 @@
 			  first activate)
   ""
 
-  (let 
-      ((output-buffer  (zap-buffer (or (ad-get-arg 1) shell-command-default-output-buffer)))
-       (error-buffer (zap-buffer (or (ad-get-arg 2) shell-command-default-error-buffer)))
+  (let* 
+      ((arg1 (ad-get-arg 1))
+       (arg2 (ad-get-arg 2))
+       (output-buffer  (zap-buffer (if (buffer-live-p arg1) arg1 shell-command-default-output-buffer)))
+       (error-buffer (zap-buffer (if (buffer-live-p arg2) arg2 shell-command-default-error-buffer)))
        output-len)
 
     ad-do-it
