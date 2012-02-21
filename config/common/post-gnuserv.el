@@ -4,7 +4,7 @@
 (condition-case x (gnuserv-start) 
   (error 
   ; if there's a problem try to force restart.
-   (message (format "error starting gnuserv: %s.  trying again..."))
+   (message (format "error starting gnuserv: %s.  trying again..." x))
    (condition-case y
        (gnuserv-start t) 
   ; if that doesn't work, forget it.
