@@ -17,6 +17,7 @@
 
 ;(global-set-key "y" 'clipboard-yank)	;; emacs works as a clipboard viewer
 (global-set-key "" 'goto-char)
+(global-set-key "	" 'move-to-column)
 
 (global-set-key "" 'auto-fill-mode) ; gets clobbered when cscope comes in
 (global-set-key "c" 'calendar) ;
@@ -57,7 +58,7 @@
 ; (global-set-key "." 'find-tag-on-key)
 (global-set-key "." 'modify-syntax-entry)
 
-(global-set-key "" '(lambda () (interactive) (roll-buffer-list t)))	
+(global-set-key "" '(lambda () (interactive) (roll-buffer-list t)))
 
 (global-set-key "" 'fill-region)
 (global-set-key "" 'current-word-search-backward)
@@ -173,7 +174,7 @@
 
 ; "\C-c\C-/"
 ; (dec "0x400002f")
-(global-set-key (vector 3 67108911)	'fb/)
+(global-set-key (vector 3 67108911) 'fb/)
 
 (global-set-key  "" 'decrypt-find-file)
 (global-set-key  "" 'encrypt-save-buffer)

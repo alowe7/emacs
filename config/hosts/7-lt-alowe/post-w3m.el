@@ -1,4 +1,3 @@
-(chain-parent-file t)
 
 (require 'long-comment)
 
@@ -7,9 +6,6 @@
 
 (defvar *ows-net-mask* '("172.17.0.0" "255.255.0.0") "list of the form (NET MASK) describing the ows network")
 
-(defvar *use-proxy* (use-proxy))
-(defvar *ows-proxy* "http://10.232.50.8:8080")
-
 ; need hook when ipaddress changes
 
 (defun use-proxy () 
@@ -17,6 +13,9 @@
   (setq w3m-command-arguments
 	(if *use-proxy* '("-o" "http_proxy=http://10.232.50.8:8080")))
   )
+
+(defvar *use-proxy* (use-proxy))
+(defvar *ows-proxy* "http://10.232.50.8:8080")
 
 ; (setenv "HTTP_PROXY" (if *use-proxy* *ows-proxy* ""))
 ; (getenv "HTTP_PROXY")

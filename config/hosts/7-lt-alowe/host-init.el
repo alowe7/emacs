@@ -104,3 +104,5 @@
       do
       (setq file-name-handler-alist (delete* handler file-name-handler-alist :test '(lambda (x y) (eq x (cdr y)))))
       )
+
+(setenv "EMACS" "/usr/local/lib/emacs-23.2/bin/emacs")

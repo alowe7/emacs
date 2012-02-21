@@ -1,3 +1,4 @@
+(require 'w3m-load)
 (require 'w3m)
 
 (defvar *w3m-fixed-font* (fixed-font))
