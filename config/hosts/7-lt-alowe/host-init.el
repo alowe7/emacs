@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Id: host-init.el 1030 2011-09-02 16:21:02Z alowe $")
+ "$Id$")
 
 ; for visual preferences, prefer X resources, Windows registry, or command line options, in that order.
 ; see:

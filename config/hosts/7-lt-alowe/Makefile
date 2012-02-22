@@ -1,4 +1,4 @@
-# $Id: Makefile 517 2010-11-14 19:22:01Z alowe $
+# $Id$
 
 SHELL=/bin/sh
 EMACS=$(EMACSPATH)/emacs
