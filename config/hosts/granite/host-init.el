@@ -76,3 +76,5 @@
 
 (display-time)
 
+(scan-file "~/.private/.xdbrc")
+
