@@ -279,7 +279,6 @@
 (require 'ctl-dot)
 
 (require 'ctl-backslash)
-(define-key ctl-\\-map  "" 'yank-like)
 
 (provide 'keys)
 
