@@ -1,3 +1,5 @@
+(require 'long-comment)
+
 (defun replace-pattern (pat rep &optional n)
   "replace all ocurrences of PAT in current buffer with REP.
 "
@@ -41,3 +43,22 @@
     )
   )
 
+(/*
+
+ (let (l (s " GGooaall AArreeaaPPrriimmaarryy OObbjjeeccttiivveeP Pr  riimma ar  ryy  IIn ni it  tiiaatti iv ve  e"))
+   (mapconcat 'char-to-string (loop with p = ?  for x across s unless (= p x) nconc (list (setq p x)) into l finally return l) "")
+   )
+
+(defun dribble ()
+  (interactive)
+  (let ((s (buffer-string)) (b (zap-buffer "*dribble*")))
+    (with-current-buffer b
+      (insert
+       (mapconcat 'char-to-string (loop with p = ?  for x across s unless (= p x) nconc (list (setq p x)) into l finally return l) ""))
+      (goto-char (point-min))
+      )
+    (switch-to-buffer b)
+    )
+  )
+
+ */)

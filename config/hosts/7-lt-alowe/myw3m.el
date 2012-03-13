@@ -1,5 +1,6 @@
 (require 'w3m-load)
 (require 'w3m)
+(require 'assoc-helpers)
 
 (defvar *w3m-fixed-font* (fixed-font))
 (setq *w3m-frame-height* 38)
