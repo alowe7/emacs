@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Header: /var/cvs/emacs/config/hosts/islington/host-init.el,v 1.7 2010-10-04 01:56:10 slate Exp $")
+ "$Id$")
 
 ; enoch..tombstone..slate..islington..shrewsbury
 
