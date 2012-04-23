@@ -2,10 +2,17 @@
  "$Id$")
 
 ; this just needs to be more context sensitive...
+(defvar *ows-contact-directory* "/work/overwatch/people")
+(defvar *ows-contact-file-regexp*  "overwatch-phone-list-[0-9]*\.csv$")
+
+; this takes the most current file matching the 
 (defvar *ows-contact-file* (expand-file-name
-  ; "/work/overwatch/people/overwatch-phone-list-101007.csv"
-			    "c:/work/overwatch/people/overwatch-phone-list-110405.csv"
-			    ))
+			    (car (sort
+				  (get-directory-files *ows-contact-directory* t *ows-contact-file-regexp*)
+				  '(lambda (x y) (compare-filetime x y))
+				  )))
+  )
+
 ; what's the best way to lazy eval on first use?
 (defvar *dscm-database* nil)
 
