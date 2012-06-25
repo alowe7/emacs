@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("IMPACT"
+(("Messaging Performance"
+ (filename . "c:/work/messaging-performance/")
+ (front-context-string)
+ (rear-context-string . " 05-08 10:45 ..\n")
+ (position . 184))
+("IMPACT"
  (filename . "c:/ProgramData/IMPACT/")
  (front-context-string . "Log\n  drwxrwxrwx")
  (rear-context-string . "  0 04-05 13:58 ")

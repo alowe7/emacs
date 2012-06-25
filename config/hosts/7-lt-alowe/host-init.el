@@ -74,12 +74,6 @@
 
 (display-time)
 
-; some extras
-; (loop for d in '("/z/nw" "/z/gpg")
-;      do
-;      (add-to-load-path d t)
-;      )
-
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 (autoload 'python-mode "python-mode" "Python editing mode." t)
@@ -105,4 +99,18 @@
       (setq file-name-handler-alist (delete* handler file-name-handler-alist :test '(lambda (x y) (eq x (cdr y)))))
       )
 
-(setenv "EMACS" "/usr/local/lib/emacs-23.2/bin/emacs")
+; this should  have the side effect of defining some environment vars
+(scan-file-p "~/.bashrc")
+(scan-file-p (expand-file-name ".bashrc" (host-config)))
+
+; some extras
+(defvar *opt-site-lisp* '("/z/lucene/site-lisp" "/z/w3m")
+  "list of optional/experimental projects that might be added to `load-path'")
+;   '("/z/nw" "/z/gpg")
+
+(when (boundp '*opt-site-lisp*)
+  (loop for d in *opt-site-lisp* do (add-to-load-path d t)  )
+  )
+
+(load-library "pre-w3m")
+(load-library "lucene")

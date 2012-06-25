@@ -359,6 +359,18 @@ see `file-assoc-list'"
     )
   )
 
+(defun dired-what-dir (&optional arg) 
+  "apply `kill-new' to (`file-name-directory` `dired-get-filename') with optional ARG, canonify first"
+  (interactive "P")
+
+  (let* ((f (or (file-name-directory (dired-get-filename nil t)) default-directory))
+	 (s (if arg (w32-canonify f) f)))
+    (kill-new s)
+    (and (interactive-p) (message s))
+    s
+    )
+  )
+
 (require 'filetime)
 (defun dired-what-filetime ()
   "displays full filetime for indicated file"
@@ -407,6 +419,7 @@ see `file-assoc-list'"
 			      (define-key  dired-mode-map (vector ? ?\C-0) 'kill-dired-filename)
 			      (define-key dired-mode-map "|" 'dired-pipe-file)
 			      (define-key  dired-mode-map "\C-cw" 'dired-what-file)
+			      (define-key  dired-mode-map "\C-cq" 'dired-what-dir)
 
 			      (define-key  dired-mode-map "\M-~" 'dired-make-backup)
 
