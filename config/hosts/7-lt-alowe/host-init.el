@@ -103,14 +103,20 @@
 (scan-file-p "~/.bashrc")
 (scan-file-p (expand-file-name ".bashrc" (host-config)))
 
-; some extras
-(defvar *opt-site-lisp* '("/z/lucene/site-lisp" "/z/w3m")
-  "list of optional/experimental projects that might be added to `load-path'")
-;   '("/z/nw" "/z/gpg")
+(unless (> emacs-major-version 23)
 
-(when (boundp '*opt-site-lisp*)
-  (loop for d in *opt-site-lisp* do (add-to-load-path d t)  )
+  (progn
+					; some extras
+    (defvar *opt-site-lisp* '("/z/lucene/site-lisp" "/z/db")
+      "list of optional/experimental projects that might be added to `load-path'")
+					;   '("/z/w3m" "/z/nw" "/z/gpg")
+
+    (when (boundp '*opt-site-lisp*)
+      (loop for d in *opt-site-lisp* do (add-to-load-path d t)  )
+      )
+
+    (load-library "pre-w3m")
+    (load-library "lucene")
+    )
   )
 
-(load-library "pre-w3m")
-(load-library "lucene")
