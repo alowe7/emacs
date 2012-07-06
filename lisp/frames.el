@@ -13,7 +13,7 @@
 
 ;; this might not be so smart
 (defvar *clone-frames* t)
-(defvar *clone-frames-offsets* '((top . 10) (left . 10)))
+(defvar *clone-frames-offsets* '((top . 10) (left . 10) (width . -5) (height . -2)))
 
 (defvar *clone-frame-parameters* '(
 				  ; window-id
