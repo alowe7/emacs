@@ -101,9 +101,16 @@
       (setq file-name-handler-alist (delete* handler file-name-handler-alist :test '(lambda (x y) (eq x (cdr y)))))
       )
 
-; this should  have the side effect of defining some environment vars
-(scan-file-p "~/.bashrc")
-(scan-file-p (expand-file-name ".bashrc" (host-config)))
+(/*
+  ; --- this whole thing is a waste of time ---
+
+  ; this should  have the side effect of defining some environment vars
+ (scan-file-p "~/.bashrc")
+ (scan-file-p (expand-file-name ".bashrc" (host-config)))
+
+  ; however, setting PATH to unix-style breaks call-process, etc.
+ (setenv "PATH" (w32-canonify-path (getenv "PATH") "c:"))
+ )
 
 (unless (> emacs-major-version 23)
 
@@ -121,4 +128,6 @@
     (load-library "lucene")
     )
   )
+
+(require 'zt-loads)
 

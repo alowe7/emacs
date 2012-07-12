@@ -27,6 +27,7 @@ optional DRIVE says which drive to use. "
 ; (w32-canonify "file:///C|/home/a/.private/proxy.pac")
 ;(w32-canonify "/a/b/c")
 ;(w32-canonify "/")
+;(w32-canonify "/tmp" "c:")
 (fset 'unc-canonify 'w32-canonify)
 
 (defun unix-canonify (f &optional mixed)
@@ -108,10 +109,11 @@ if MIXED is 0, then ignore letter drive names.
 	)
   )
 
-(defun w32-canonify-path (path)
+(defun w32-canonify-path (path &optional drive)
   " `w32-canonify' elements of w32 style PATH"
-  (join (mapcar '(lambda (x) (w32-canonify x)) (split  path ":")) ";")
+  (join (mapcar '(lambda (x) (w32-canonify x drive)) (split  path ":")) ";")
   )
+; (w32-canonify-path (getenv "PATH"))
 
 
 (provide 'canonify)
