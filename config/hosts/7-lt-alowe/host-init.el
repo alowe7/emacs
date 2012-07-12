@@ -78,7 +78,9 @@
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 (autoload 'python-mode "python-mode" "Python editing mode." t)
 (autoload 'py-shell "python-mode" "Python editing mode." t)
-(setq py-shell-name "/Python27/pythonw")
+; (setq py-shell-name "/Python27/pythonw")
+(setq py-shell-name "/Python27/python")
+
 (require 'ctl-backslash)
 (define-key ctl-\\-map "" 'py-shell)
 
