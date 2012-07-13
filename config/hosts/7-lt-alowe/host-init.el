@@ -84,13 +84,6 @@
 (require 'ctl-backslash)
 (define-key ctl-\\-map "" 'py-shell)
 
-(defvar *whack* nil)
-(setq *whack* t)
-(when *whack*
-  ; workaround post-load hook bug when module is autoloaded
-  (require 'whack-post-init)
-  )
-
 ; useless garbage
 (when (featurep 'tramp)
   (tramp-unload-tramp)
