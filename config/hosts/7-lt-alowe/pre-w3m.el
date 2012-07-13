@@ -1,3 +1,6 @@
+(put 'pre-w3m 'rcsid
+ "$Id$")
+
 (setq w3m-use-cookies t)
 (setq w3m-home-page "about:")
 

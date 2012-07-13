@@ -110,24 +110,8 @@
 
   ; however, setting PATH to unix-style breaks call-process, etc.
  (setenv "PATH" (w32-canonify-path (getenv "PATH") "c:"))
- )
+ */)
 
-(unless (> emacs-major-version 23)
-
-  (progn
-					; some extras
-    (defvar *opt-site-lisp* '("/z/lucene/site-lisp" "/z/db")
-      "list of optional/experimental projects that might be added to `load-path'")
-					;   '("/z/w3m" "/z/nw" "/z/gpg")
-
-    (when (boundp '*opt-site-lisp*)
-      (loop for d in *opt-site-lisp* do (add-to-load-path d t)  )
-      )
-
-    (load-library "pre-w3m")
-    (load-library "lucene")
-    )
-  )
 
 (require 'zt-loads)
 
