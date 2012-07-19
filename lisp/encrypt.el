@@ -14,7 +14,7 @@ backup versions are not kept."
   (interactive (list (read-file-name "encrypt write file: ")
 		     (comint-read-noecho "key: " t)))
 
-  (let ((fn (expand-file-name fn)))
+  (let ((fn (expand-file-name fn)) b)
     (unless 
 	(and 
 	 (file-exists-p fn)

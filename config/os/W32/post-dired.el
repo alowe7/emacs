@@ -11,7 +11,7 @@
   (let* ((of (or (dired-get-filename nil t) default-directory))
 	 (f (funcall (if arg 'w32-canonify 'identity) of)))
     (kill-new f)
-    (if (interactive-p) (message f))
+    (if (called-interactively-p 'any) (message f))
     )
   )
 (define-key dired-mode-map "\C-cw" 'dired-copy-filename-as-kill)
@@ -21,7 +21,7 @@
   (interactive "P")
   (let* ((f (funcall (if arg 'w32-canonify 'identity) (dired-current-directory))))
     (kill-new f)
-    (if (interactive-p) (message f))
+    (if (called-interactively-p 'any) (message f))
     )
   )
 
@@ -41,4 +41,19 @@
 
 
 
+(when (fboundp 'explore)
 
+  (defun dired-aexec () (interactive)
+    (cond
+     ((file-directory-p (dired-get-filename))
+      (explore (dired-get-filename)))
+     (t
+      (aexec
+       (file-name-nondirectory (dired-get-filename))
+       )
+      )
+     )
+    )
+  (define-key dired-mode-map "\C-m" 'dired-aexec)
+  ;			      (define-key dired-mode-map "\C-m" 'dired-exec-file)
+  )

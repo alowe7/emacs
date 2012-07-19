@@ -8,11 +8,9 @@
 ; also see ~/emacs/config/os/W32/emacs.reg
 
 ; there do not appear to be resources for the following
-(setq
- cursor-type (quote (bar . 1))
- cursor-in-non-selected-windows nil
-; resize-mini-windows nil
-)
+(set-default 'cursor-type '(bar . 2))
+(set-default 'cursor-in-non-selected-windows nil)
+(setq resize-mini-windows nil)
 
 (setq 
  bookmark-default-file
@@ -106,6 +104,22 @@
  */)
 
 ; (find-file-in-path "pre-w3m.el")
+(load-library "pre-w3m")
+; (find-file-in-path "post-w3m.el")
 
 (require 'zt-loads)
 
+(defun exec-vbs (fn)
+  (interactive)
+  (let ((resize-mini-windows nil))
+    (shell-command (format "cscript /nologo %s" fn) nil nil)
+    (let ((b (get-buffer "*Shell Command Output*"))
+	  (w (get-buffer-window)))
+      (when (buffer-live-p b)
+	(switch-to-buffer-other-window b)
+	(select-window w)
+	)
+      )
+    )
+  )
+(add-file-association "vbs" 'exec-vbs)

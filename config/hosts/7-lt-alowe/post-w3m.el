@@ -1,3 +1,4 @@
+(eval-when-compile (require 'cl))
 
 (require 'long-comment)
 
@@ -5,17 +6,17 @@
 (setq w3m-default-display-inline-images t)
 
 (defvar *ows-net-mask* '("172.17.0.0" "255.255.0.0") "list of the form (NET MASK) describing the ows network")
+(defvar *ows-proxy* "http://10.232.50.8:8080")
 
 ; need hook when ipaddress changes
 
 (defun use-proxy () 
   (setq *use-proxy* (loop for x in (ipaddress) thereis (apply 'isInNet (nconc (list x) *ows-net-mask*))))
-  (setq w3m-command-arguments
-	(if *use-proxy* '("-o" "http_proxy=http://10.232.50.8:8080")))
+  (setq w3m-command-arguments 
+	(if *use-proxy* `("-o" ,(format "http_proxy=%s" *ows-proxy*))))
   )
 
 (defvar *use-proxy* (use-proxy))
-(defvar *ows-proxy* "http://10.232.50.8:8080")
 
 ; (setenv "HTTP_PROXY" (if *use-proxy* *ows-proxy* ""))
 ; (getenv "HTTP_PROXY")
@@ -230,20 +231,6 @@
   (w3m-goto-url-new-session "http://localhost/usr/local/lib/mod_perl-1.99_08/docs/")
   )
 
-; don't think this is really useful
-(defun w3m-goto-url-with-cache (url) 
-  (interactive "surl: ")
-  (let ((l (assoc  url *w3m-tabs*)))
-    (if (and l (buffer-live-p (cadr l)))
-	(switch-to-buffer-other-window (cadr l))
-      (progn
-	(w3m-goto-url-new-session url)
-	(add-to-list '*w3m-tabs* (list url (current-buffer) ))
-	)
-      )
-    )
-  )
-
 (defun phpmanual () (interactive)
   (w3m-goto-url-new-session  "http://localhost/php-manual/")
   )
@@ -319,7 +306,7 @@
 	    (progn (message "") (throw 'done t)))
 
 	  (w3m-goto-url-new-session url)
-	  (if (> (count-windows) 1) (progn (switch-to-buffer-other-window b) (other-window-1)))
+
 	  )
       (message "can't figure out filename")
       )
@@ -439,9 +426,6 @@
 	 (w3m-use-tab nil)
 	 (w3m-popup-frame-parameters default-frame-alist)
 	 )
-
-    (loop for x in *fixed-frame-parameters* do
-	  (add-association x 'w3m-popup-frame-parameters t))
 
     (w3m fn t)
     )
