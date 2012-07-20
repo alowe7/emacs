@@ -422,11 +422,11 @@ see `file-assoc-list'"
 
 ; customizations to insert directory see (info "(emacs)ls in Lisp")
 (setq dired-use-ls-dired t)
-(setq ls-lisp-use-insert-directory-program  nil)
+(setq ls-lisp-use-insert-directory-program nil)
 ; (setq ls-lisp-use-insert-directory-program t)
 (setq ls-lisp-verbosity '(links))
 (setq ls-lisp-dirs-first t)
-(setq dired-listing-switches "-alt")
+(setq dired-listing-switches "-At")
 ; (setq dired-listing-switches "-A -l -t --time-style='+%Y-%m-%d %H:%M:%S'" )
 
 ; override to cause time formats to be uniform
