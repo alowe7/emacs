@@ -1,0 +1,16 @@
+
+(defun exec-vbs (fn)
+  (interactive)
+  (let ((resize-mini-windows nil))
+    (shell-command (format "cscript /nologo %s" fn) nil nil)
+    (let ((b (get-buffer "*Shell Command Output*"))
+	  (w (get-buffer-window)))
+      (when (buffer-live-p b)
+	(switch-to-buffer-other-window b)
+	(select-window w)
+	)
+      )
+    )
+  )
+(add-file-association "vbs" 'exec-vbs)
+
