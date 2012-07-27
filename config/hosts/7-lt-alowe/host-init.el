@@ -103,9 +103,7 @@
  (setenv "PATH" (w32-canonify-path (getenv "PATH") "c:"))
  */)
 
-; (find-file-in-path "pre-w3m.el")
-(load-library "pre-w3m")
-; (find-file-in-path "post-w3m.el")
+(require 'w3m-loads)
 
 (require 'zt-loads)
 (require 'tw)

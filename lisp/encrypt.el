@@ -53,11 +53,11 @@ backup versions are not kept."
   (let*
       ((bfn (buffer-file-name))
        (fn (and bfn (expand-file-name (buffer-file-name))))
-       (key (string* key (and  *enable-fast-save-key* *fast-save-key*)))
+       (key (string* key (and *enable-fast-save-key* *fast-save-key*)))
        b)
 
-    ;;    (unless (string* key)
-    ;;      (message "please specify a key")
+    (unless (string* key)
+          (error "please specify a key"))
 
     (let ((oldkey (get (intern (buffer-name)) 'key)))
       (if (or (not (string* oldkey))
@@ -93,10 +93,9 @@ backup versions are not kept."
 	)
       )
 
-    ;;      (and *enable-fast-save-key*
-    ;;	   (setq *fast-save-key* key))
+    (and *enable-fast-save-key*
+	 (setq *fast-save-key* key))
     )
-  ;;    )
   )
 
 (defun dired-decrypt-find-file (key)
