@@ -8,11 +8,9 @@
 ; also see ~/emacs/config/os/W32/emacs.reg
 
 ; there do not appear to be resources for the following
-(setq
- cursor-type (quote (bar . 1))
- cursor-in-non-selected-windows nil
- resize-mini-windows nil
-)
+(set-default 'cursor-type '(bar . 2))
+(set-default 'cursor-in-non-selected-windows nil)
+(setq resize-mini-windows nil)
 
 (setq 
  bookmark-default-file
@@ -36,7 +34,7 @@
 ;; bad ideas?
 ;; 
 
-(setq temporary-file-directory "/tmp")
+(setq temporary-file-directory (expand-file-name "/tmp"))
 
 ; string quoting logic in font-lock if f***-ed up
 ; (setq font-lock-string-face 'default)
@@ -75,6 +73,19 @@
 
 
 (display-time)
+
+
+(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+(autoload 'python-mode "python-mode" "Python editing mode." t)
+(autoload 'py-shell "python-mode" "Python editing mode." t)
+; (setq py-shell-name "/Python27/pythonw")
+(setq py-shell-name "/Python27/python")
+
+(require 'ctl-backslash)
+(define-key ctl-\\-map "" 'py-shell)
+
+(require 'zt-loads)
 
 (scan-file "~/.private/.xdbrc")
 
