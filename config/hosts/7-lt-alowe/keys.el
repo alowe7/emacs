@@ -44,3 +44,7 @@
 (autoload 'python-mode "python-mode" "Python editing mode." t)
 (autoload 'py-shell "python-mode" "Start an interactive Python interpreter in another window." t)
 (define-key ctl-RET-map  "" 'py-shell)
+
+(define-key ctl-RET-map  "" 'rcsid)
+(define-key ctl-RET-map  "" 'byte-compile-file)
+
