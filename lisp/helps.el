@@ -9,7 +9,7 @@
 
 ;; various help related functions
 
-(defvar indent 0)
+(defvar *indent* 0)
 
 (defun name-key ()
   "print out the description of a key read from the keyboard"
@@ -31,11 +31,11 @@
   (cond 
    ((listp map)
     (progn
-      (loop for i from 0 to indent do (insert " "))
-      (setq indent (1+ indent))
+      (loop for i from 0 to *indent* do (insert " "))
+      (setq *indent* (1+ *indent*))
       (help-for-sparse-map (car map))
       (help-for-sparse-map (cdr map))
-      (setq indent (1- indent))
+      (setq *indent* (1- *indent*))
       (insert "\n")
       ))
    ((symbolp map)
@@ -276,7 +276,7 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
   (save-excursion
     (zap-buffer  " tmp")
     (set-buffer " tmp")
-    (mapcar '(lambda (x) (format "%s\n" x))  (file-name-all-completions file dir) )
+    (mapcar #'(lambda (x) (format "%s\n" x))  (file-name-all-completions file dir) )
   ;    (mapcar '(lambda (x) (insert (format "%s\n" x)))  (file-name-all-completions file dir) )
   ;    (sort-lines nil (point-min) (point-max))
   ;    (catlist (buffer-substring (point-min) (point-max)) ?

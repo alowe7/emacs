@@ -39,7 +39,7 @@
 		)
 	  ))
     (and abscmd
-	 (if (interactive-p) (message abscmd) abscmd))
+	 (if (called-interactively-p 'any) (message abscmd) abscmd))
     )
   )
 ; (whencepath "la")

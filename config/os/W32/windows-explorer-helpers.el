@@ -86,7 +86,7 @@
     (completing-read
      "?" 
      (mapcar
-      '(lambda (x)
+      #'(lambda (x)
 	 (list
 	  (file-name-sans-extension x)))
       (directory-files (expand-file-name (concat *systemroot* "/system32")) nil "cpl$")
