@@ -4,6 +4,7 @@
 (require 'cat-utils)
 (require 'cl)
 (require 'sh)
+(require 'directories)
 
 ;; examples
 ;; (whencepath "ls")

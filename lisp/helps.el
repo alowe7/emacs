@@ -5,6 +5,7 @@
 ;(require 'oblists)
 (require 'indicate)
 (require 'cat-utils)
+(require 'directories)
 
 ;; various help related functions
 

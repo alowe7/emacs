@@ -1,6 +1,8 @@
 (put 'post-people 'rcsid
  "$Id$")
 
+(require 'directories)
+
 ; this just needs to be more context sensitive...
 (defvar *ows-contact-directory* "/work/overwatch/people")
 (defvar *ows-contact-file-regexp*  "overwatch-phone-list-[0-9]*\.csv$")

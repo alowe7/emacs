@@ -1,6 +1,8 @@
 (put 'sisdir 'rcsid
  "$Id$")
 
+(require 'directories)
+
 (defvar *sisdirs* nil "alist of related directories to cycle through using `sisdir'")
 
 ; 

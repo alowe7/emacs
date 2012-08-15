@@ -1,6 +1,8 @@
 (put 'doom 'rcsid
  "$Id$")
 
+(require 'directories)
+
 (defvar *doomdir* "/doomed")
 
 (defun doom (&optional arg)

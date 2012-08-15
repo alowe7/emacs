@@ -1,3 +1,7 @@
+(put 'windows-explorer-helpers 'rcsid
+ "$Id$")
+
+(require 'directories)
 
 (defvar last-dosexec "")
 (defun dosexec (cmd) 
