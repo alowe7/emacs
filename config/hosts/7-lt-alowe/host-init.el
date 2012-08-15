@@ -26,6 +26,9 @@
 	"/usr/local/share/info/")
       )
 
+
+(require 'whack-post-init)
+
 ; its a lie.  permit special frame handling
 (autoload 'calendar "mycal")
 

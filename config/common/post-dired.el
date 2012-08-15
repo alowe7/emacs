@@ -234,12 +234,25 @@ see `file-assoc-list'"
   (cdr (assoc (file-name-extension f) file-assoc-list))
   )
 
+; tbd this needs to move to ../os/w32
+(defun elassoc (ext)
+  "find file-association for extension"
+  (let* ((ext (if (string-match "^\\." ext) ext (concat "." ext)))
+	 (class (eval-process "regtool" "get" (format "/HKLM/SOFTWARE/Classes/%s/" ext)))
+	 (program (eval-process "regtool" "get" (format "/HKLM/SOFTWARE/Classes/%s/shell/open/command/" class))))
+    program
+    )
+  )
+; (assert (string= (elassoc "docx") (elassoc ".docx")))
+; (elassoc ".doc")
+
 (defun file-association (f &optional notrim)
   "find command associated with filetype of specified file"
   (interactive "sFile: ")
-  (let ((cmd (eval-shell-command (format "plassoc \".%s\"" (file-name-extension f)) )))
+  (let ((cmd (elassoc (file-name-extension f)) ))
     ;; sometimes command line args are appended to cmd.
     ;; we usually want just the executable
+
     (if cmd 
 	(if notrim cmd
 	  (car (catlist cmd ?\"))
