@@ -80,9 +80,13 @@
   (tramp-unload-tramp)
   )
 
-(loop for handler in '(ange-ftp-hook-function  ange-ftp-completion-hook-function)
-      do
-      (setq file-name-handler-alist (delete* handler file-name-handler-alist :test '(lambda (x y) (eq x (cdr y)))))
+(defvar *deprecated-file-name-handlers* '(ange-ftp-hook-function  ange-ftp-completion-hook-function))
+
+(setq file-name-handler-alist
+      (loop for handler in
+	    file-name-handler-alist
+	    unless (member (cdr handler) *deprecated-file-name-handlers*)
+	    collect handler)
       )
 
 (/*
@@ -115,7 +119,6 @@
 
 ; (add-to-list 'load-path "~/.emacs.d/vendor/pymacs-0.24-beta2")
 ; (add-to-list 'load-path "~/.emacs.d/vendor/auto-complete-1.2")
-(add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete-1.2/dict")
 
 (setenv "PYMACS_PYTHON"  py-shell-name)
 (require 'pymacs)
@@ -124,6 +127,7 @@
 
 (require 'auto-complete-config)
 (ac-config-default)
+(add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete-1.2/dict")
 
 (define-key ctl-RET-map "g" (lambda () (interactive) (let ((url (thing-at-point 'url))) (if url (w3m-goto-url url) (message "thing-at-point doesn't appear to be a url")))))
 

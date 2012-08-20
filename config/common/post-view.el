@@ -8,28 +8,31 @@
 (require 'view) ; this is probably not necessary.
 
 (defun prune-help (n) (interactive "nprune to: ")
-  (toggle-read-only -1)
-  (prune-search n  (get-buffer "*Help*"))
-  (toggle-read-only 1))
+  (let (buffer-read-only)
+    (prune-search n  (get-buffer "*Help*"))
+    )
+  )
+
+(defvar *this-help-item* nil)
+(defadvice help-setup-xref (before hook-help-1 first activate)
+""
+(setq *this-help-item* item)
+)
+; (if (ad-is-advised 'help-setup-xref) (ad-unadvise 'help-setup-xref))
 
 (defvar post-view-hook nil "hook to run after view mode.  mostly for help history")
 (defun save-help-history ()
   (interactive)
   (let ((b (get-buffer "*Help*")))
     (and (buffer-live-p b)
-	 (qsave-search b (cadr item))
+	 (qsave-search b *this-help-item*)
 	 )
     )
   )
 
-(define-key view-mode-map "p" 'roll-qsave)
-(define-key view-mode-map "n" 'roll-qsave-1)
-
-(define-key view-mode-map "x" 'prune-help)
-
 (add-hook 'post-view-hook 'save-help-history)
 
-(defadvice help-setup-xref (around 
+(defadvice help-mode-finish (around 
 			    hook-help
 			    first activate)
   ""
@@ -41,8 +44,12 @@
 
   )
 
-; (if (ad-is-advised 'help-setup-xref) (ad-unadvise 'help-setup-xref))
+; (if (ad-is-advised 'help-mode-finish) (ad-unadvise 'help-mode-finish))
 
 (define-key help-map "\C-w" 'switch-to-help-buffer)
+(define-key help-mode-map "p" 'roll-qsave)
+(define-key help-mode-map "n" 'roll-qsave-1)
+
+(define-key help-mode-map "x" 'prune-help)
 
 (provide 'post-view)
