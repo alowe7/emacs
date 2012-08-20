@@ -2,7 +2,14 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("Cookies"
+(("Python Index"
+ (front-context-string . "File: python.inf")
+ (rear-context-string)
+ (position . 6689291)
+ (filename . "c:/usr/share/info/python.info")
+ (info-node . "Index")
+ (handler . Info-bookmark-jump))
+("Cookies"
  (filename . "c:/Users/alowe/AppData/Roaming/Microsoft/Windows/Cookies/")
  (front-context-string . "Low\n  -rw-rw-rw-")
  (rear-context-string . "  0 07-16 12:44 ")
