@@ -27,7 +27,21 @@
       )
 
 
-(load "whack-post-init" t t)
+;(load "whack-post-init" t t)
+(let* ((default-directory "/src/emacs/config/common")
+	 (l (directory-files "." nil "post-.*\\.el$")))
+    (dolist (x l)
+	    (unless (file-directory-p x)
+	      (apply 'eval-after-load
+		     (let ((basename (file-name-sans-extension x)))
+		       (list
+			(intern (substring basename (progn (string-match "post-" x) (match-end 0))))
+			`(load ,basename nil t))
+		       )
+		     )
+	      )
+	    )
+    )
 
 ; its a lie.  permit special frame handling
 (autoload 'calendar "mycal")
@@ -129,6 +143,7 @@
 (ac-config-default)
 (add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete-1.2/dict")
 
+(autoload 'w3m-goto-url "w3m")
 (define-key ctl-RET-map "g" (lambda () (interactive) (let ((url (thing-at-point 'url))) (if url (w3m-goto-url url) (message "thing-at-point doesn't appear to be a url")))))
 
 (add-to-list 'find-function-source-path "/u/python-mode.el-6.0.3")

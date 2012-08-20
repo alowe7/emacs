@@ -1,17 +1,24 @@
 (put 'post-gnuserv 'rcsid 
  "$Id$")
 
-(condition-case x (gnuserv-start) 
-  (error 
+(unless
+    (and (boundp 'server-process)
+	 (processp server-process)
+	 (eq (process-status server-process) 'run)
+	 )
+
+  (condition-case x (gnuserv-start) 
+    (error 
   ; if there's a problem try to force restart.
-   (message (format "error starting gnuserv: %s.  trying again..." x))
-   (condition-case y
-       (gnuserv-start t) 
+     (message (format "error starting gnuserv: %s.  trying again..." x))
+     (condition-case y
+	 (gnuserv-start t) 
   ; if that doesn't work, forget it.
-     (progn 
-       (message "can't start server process")
-       (debug)
-       nil))))
+       (progn 
+	 (message "can't start server process")
+	 (debug)
+	 nil))))
+  )
 
 (require 'advice)
 
@@ -126,14 +133,14 @@
 	   (eq (process-status server-process) 'run))
       (let* ((result (format "%s" form))
 	     (s      (format "%s/%d:%s\n" client (length result) result)))
-  ; logic to bunch up server output is broken.
+  ; logic to batch up server output is broken.
   ;	(debug)
 	(while (> (length s)  *gnuserv-buffer-lim*)
-	  (setq s1 (substring s 0  *gnuserv-buffer-lim*)
-		s (substring s  *gnuserv-buffer-lim*))
-	  (process-send-string server-process s1))
-	(process-send-string server-process s)
-
+	  (let ((s1 (substring s 0  *gnuserv-buffer-lim*))
+		(s (substring s  *gnuserv-buffer-lim*)))
+	    (process-send-string server-process s1))
+	  (process-send-string server-process s)
+	  )
 	(server-log s))))
 
 ; (length (format "%s" load-path))
