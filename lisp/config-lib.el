@@ -69,6 +69,38 @@ with optional prefix arg, dired containing directory
     )
   )
 
+(defun hostrc ()
+  (interactive)
+  "find host specific shell rc"
+
+  (let ((hostname (hostname)))
+    (cond
+     ((null hostname)
+      (when (called-interactively-p 'any) (message "hostname not defined")))
+     (t
+      (let ((dir (expand-file-name hostname "~/config/hosts")))
+	(cond 
+	 ((not (file-directory-p dir))
+	  (when (called-interactively-p 'any) (message "%s not found" dir)))
+	 (t
+	  (let ((rcfile (expand-file-name ".bashrc" dir)))
+	    (cond
+	     ((not (file-exists-p rcfile))
+	      (when
+		  (called-interactively-p 'any) (message "%s not found" rcfile)))
+	     (t
+	      (find-file rcfile))
+	     )
+	    )
+	  )
+	 )
+	)
+      )
+     )
+    )
+  )
+; (call-interactively 'hostrc)
+
 
 (defun host-config ()
   (interactive)

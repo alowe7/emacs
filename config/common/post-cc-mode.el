@@ -101,7 +101,7 @@ The expansion is entirely correct because it uses the C preprocessor."
 	     (setq tab-width 4)
 	     (local-set-key "\C-c\C-s" 'current-word-search-forward)
 	     (local-set-key "\M-gc" 'goto-char)
-	     (turn-on-lazy-lock)
+;	     (turn-on-lazy-lock)
 	     )
 	  )
 
