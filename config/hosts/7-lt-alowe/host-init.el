@@ -120,30 +120,9 @@
 (require 'tw)
 
 ; hairy python setups
-
-(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
-(autoload 'python-mode "python-mode" "Python editing mode." t)
-(autoload 'py-shell "python-mode" "Python editing mode." t)
-; (setq py-shell-name "/Python27/pythonw")
-(setq py-shell-name "/Python27/python")
-
-(require 'ctl-backslash)
-(define-key ctl-\\-map "" 'py-shell)
-
-; (add-to-list 'load-path "~/.emacs.d/vendor/pymacs-0.24-beta2")
-; (add-to-list 'load-path "~/.emacs.d/vendor/auto-complete-1.2")
-
-(setenv "PYMACS_PYTHON"  py-shell-name)
-(require 'pymacs)
-(pymacs-load "ropemacs" "rope-")
-(setq ropemacs-enable-autoimport t)
-
-(require 'auto-complete-config)
-(ac-config-default)
-(add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete-1.2/dict")
+(require 'py-loads)
 
 (autoload 'w3m-goto-url "w3m")
 (define-key ctl-RET-map "g" (lambda () (interactive) (let ((url (thing-at-point 'url))) (if url (w3m-goto-url url) (message "thing-at-point doesn't appear to be a url")))))
 
-(add-to-list 'find-function-source-path "/u/python-mode.el-6.0.3")
+
