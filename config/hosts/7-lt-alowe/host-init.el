@@ -126,3 +126,4 @@
 (define-key ctl-RET-map "g" (lambda () (interactive) (let ((url (thing-at-point 'url))) (if url (w3m-goto-url url) (message "thing-at-point doesn't appear to be a url")))))
 
 
+(require 'auto-modes)
