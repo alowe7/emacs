@@ -131,16 +131,20 @@
 ; (ad-find-advice 'locate 'after 'notthere)
 
 (defun grep-in-locate-result (pat)
+  "grep for PATTERN among files in last locate result set
+"
   (interactive (list (read-string* "grep in last locate result set for (%s): " (thing-at-point 'word))))
   (when locate-result-stack
     (let ((filelist (car locate-result-stack)))
-      (grep (concat "grep -n -i -e " pat " " (join (mapcar '(lambda (x) (concat "\"" x "\"")) filelist) " ")))
+      (grep (concat "grep -n -i -e " pat " " (join (mapcar #'(lambda (x) (concat "\"" x "\"")) filelist) " ")))
       )
     )
   )
 (define-key ctl-/-map "\C-s" ' grep-in-locate-result)
 
 (defun grep-in-locate-files-like-under (search-pattern filename-pattern &optional filter)
+"grep for SEARCH-PATTERN in files located using FILENAME-PATTERN and optional FILTER
+"
   (interactive (list 
 		(read-string* "grep for (%s): " (thing-at-point 'word))
 		(read-string* "in locate files like (%s): " (thing-at-point 'word))

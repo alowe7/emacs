@@ -27,11 +27,12 @@
        (let ((tmpfilename (format "%s/__rcstmp" (getenv "TMP")))
 	     (outbuf (zap-buffer " *RCSOUT*")))
 
-	 (save-excursion
-	   (let ((b (zap-buffer " *RCS*")))
+	 (let ((b (generate-new-buffer " *RCS*")))
+	   (with-current-buffer b
 	     (insert comment)
 	     (write-file tmpfilename)
-	     (kill-buffer b)))
+	     )
+	   (kill-buffer b))
 
 	 (if (or (not *checkin-verify*)
 		 (y-or-n-p (format "check in file %s? " f)))

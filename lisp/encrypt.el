@@ -2,7 +2,7 @@
  "$Id$")
 (provide 'encrypt)
 (require 'comint) ; for non-echoing read
-
+(require 'typesafe)
 
 (defvar decrypt-mode-map nil "")
 (defvar *key-program* "key")

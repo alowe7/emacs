@@ -119,11 +119,16 @@
 (require 'zt-loads)
 (require 'tw)
 
-; hairy python setups
-(require 'py-loads)
+; TBD lazy load hairy python setups... 
+(require 'ctl-ret)
+; its a lie, but the second time, will be true...
+(define-key ctl-RET-map "" (lambda () (interactive) (require 'py-loads)))
 
 (autoload 'w3m-goto-url "w3m")
 (define-key ctl-RET-map "g" (lambda () (interactive) (let ((url (thing-at-point 'url))) (if url (w3m-goto-url url) (message "thing-at-point doesn't appear to be a url")))))
 
 
 (require 'auto-modes)
+
+
+

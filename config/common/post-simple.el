@@ -37,14 +37,12 @@
 
     ad-do-it
 
-    (let ((err (save-excursion
-		 (set-buffer error-buffer)
+    (let ((err (with-current-buffer error-buffer
 		 (and (> (point-max) 0) (buffer-string)))))
       (and err (message err))
       )
 
-    (save-excursion
-      (set-buffer output-buffer)
+    (with-current-buffer output-buffer
       (setq output-len (length (chomp (buffer-string))))
       (shell-command-mode)
       (set-buffer-modified-p nil)

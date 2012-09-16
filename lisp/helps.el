@@ -273,9 +273,7 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
   )
 
 (defun sorted-completions (file dir)
-  (save-excursion
-    (zap-buffer  " tmp")
-    (set-buffer " tmp")
+  (with-current-buffer (generate-new-buffer " tmp")
     (mapcar #'(lambda (x) (format "%s\n" x))  (file-name-all-completions file dir) )
   ;    (mapcar '(lambda (x) (insert (format "%s\n" x)))  (file-name-all-completions file dir) )
   ;    (sort-lines nil (point-min) (point-max))

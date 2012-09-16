@@ -19,8 +19,7 @@
                      (pod2text perlfunc-file (get-buffer-create perlfunc-buffer-name)))
                 perlfunc-buffer-name))) 
            p)
-    (save-excursion
-      (set-buffer b)
+    (with-current-buffer b
       (goto-char (point-min))
       (setq p (and (re-search-forward (format "^    %s[^a-z]" func) nil t)
                    (backward-word 1)

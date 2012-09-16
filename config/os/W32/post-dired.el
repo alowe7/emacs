@@ -43,7 +43,10 @@
 
 (when (fboundp 'explore)
 
-  (defun dired-aexec () (interactive)
+  (defun dired-aexec () 
+    "invoke `aexec' on `dired-get-filename' unless it is a `file-directory-p', in which case, invoke `explore'
+"
+    (interactive)
     (cond
      ((file-directory-p (dired-get-filename))
       (explore (dired-get-filename)))
