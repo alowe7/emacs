@@ -109,8 +109,10 @@ backup versions are not kept."
   " read encrypted file into buffer using specified key"
   (interactive (list (read-file-name "decrypt find file: ")
 		     (comint-read-noecho "key: " t)))
-  (let* ((b (create-file-buffer fn))
-	 (exit-status (call-process *key-program* nil b nil "-d" "-k" key (expand-file-name fn))))
+  (let* ((b (zap-buffer (file-name-nondirectory fn)))
+  ;	 (exit-status (call-process *key-program* nil b nil "-d" "-k" key (expand-file-name fn)))
+	 (exit-status (progn (shell-command (format "%s -d -k %s %s" *key-program* key (expand-file-name fn)) b nil) 0))
+	 )
     (when (not (= 0 exit-status))
       (error "error executing %s on %s.  exit status: %d " *key-program*  fn exit-status)
       )

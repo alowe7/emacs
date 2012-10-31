@@ -1,0 +1,57 @@
+;;;; Emacs Bookmark Format Version 1 ;;;;
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("Python Index"
+ (front-context-string . "File: python.inf")
+ (rear-context-string)
+ (position . 6689291)
+ (filename . "c:/usr/share/info/python.info")
+ (info-node . "Index")
+ (handler . Info-bookmark-jump))
+("Cookies"
+ (filename . "c:/Users/alowe/AppData/Roaming/Microsoft/Windows/Cookies/")
+ (front-context-string . "Low\n  -rw-rw-rw-")
+ (rear-context-string . "  0 07-16 12:44 ")
+ (position . 273))
+("Messaging Performance"
+ (filename . "c:/work/messaging-performance/")
+ (front-context-string)
+ (rear-context-string . " 05-08 10:45 ..\n")
+ (position . 184))
+("IMPACT"
+ (filename . "c:/ProgramData/IMPACT/")
+ (front-context-string . "Log\n  drwxrwxrwx")
+ (rear-context-string . "  0 04-05 13:58 ")
+ (position . 142))
+("Documents"
+ (filename . "c:/Users/alowe/Documents/")
+ (front-context-string . "contacts-111202.")
+ (rear-context-string . "519 12-02 15:00 ")
+ (position . 145))
+("AF DCGS"
+ (filename . "//ows.com/storage/Development/IS/Documents/AF DCGS/")
+ (front-context-string . "Thumbs.db\n  drwx")
+ (rear-context-string . "840 12-02 10:46 ")
+ (position . 160))
+("svn servers proxy"
+ (filename . "~/.subversion/servers")
+ (front-context-string . "http-proxy-host ")
+ (rear-context-string . "o SSL.\n[global]\n")
+ (position . 7046))
+("etc"
+ ((filename . "c:/WINDOWS/system32/drivers/etc")
+  (front-context-string . "hosts\n  drwxrwxr")
+  (rear-context-string . "50 Dec 27 14:14 ")
+  (position . 169)))
+("hosts"
+ (filename . "c:/Windows/System32/drivers/etc/hosts")
+ (front-context-string . "# Copyright (c) ")
+ (rear-context-string)
+ (position . 1))
+("proxy.pac"
+ ((filename . "c:/src/.private/proxy.pac")
+  (front-context-string . "function FindPro")
+  (rear-context-string)
+  (position . 1)))
+)

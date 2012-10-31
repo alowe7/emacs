@@ -21,43 +21,6 @@
 (add-hook 'post-shell-command-hook 'shell-command-save-search)
 
 
-;; tbd -- ad-do-it may err out in the presence of tramp or ange-ftp
-;; workaround: (unload-feature 'tramp)
-(defadvice shell-command (around 
-			  hook-shell-command
-			  first activate)
-  ""
-
-  (let* 
-      ((arg1 (ad-get-arg 1))
-       (arg2 (ad-get-arg 2))
-       (output-buffer  (zap-buffer (if (buffer-live-p arg1) arg1 shell-command-default-output-buffer)))
-       (error-buffer (zap-buffer (if (buffer-live-p arg2) arg2 shell-command-default-error-buffer)))
-       output-len)
-
-    ad-do-it
-
-    (let ((err (with-current-buffer error-buffer
-		 (and (> (point-max) 0) (buffer-string)))))
-      (and err (message err))
-      )
-
-    (with-current-buffer output-buffer
-      (setq output-len (length (chomp (buffer-string))))
-      (shell-command-mode)
-      (set-buffer-modified-p nil)
-      (run-hooks 'post-shell-command-hook)
-      )
-
-    (if (> output-len 0)
-	(display-buffer output-buffer))
-    )
-  )
-
-; (if (ad-is-advised 'shell-command) (ad-unadvise 'shell-command) )
-
-; (if (ad-is-advised 'shell-command-on-region) (ad-unadvise 'shell-command-on-region) )
-
 (defun roll-mark ()
   (interactive)
   (setq mark-ring (remove-duplicates mark-ring :test '(lambda (a b) (= (marker-position a) (marker-position b)))))

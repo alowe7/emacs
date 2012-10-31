@@ -48,3 +48,5 @@
 (define-key ctl-RET-map  "" 'rcsid)
 (define-key ctl-RET-map  "" 'byte-compile-file)
 
+(define-key ctl-RET-map  "b" 'list-bookmarks)
+

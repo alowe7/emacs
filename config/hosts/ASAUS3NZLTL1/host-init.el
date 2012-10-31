@@ -133,4 +133,4 @@
 (require 'auto-modes)
 
 
-
+(setq *key-program*  "/home/alowe/bin/key.exe")
