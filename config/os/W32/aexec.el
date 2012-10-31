@@ -58,15 +58,8 @@ if optional VISIT is non-nil and no file association can be found just visit fil
   (interactive "sFile: ")
   (let* ((ext (file-name-extension f))
 	 (default-directory (or (file-name-directory f) default-directory))
-	 (handler 
-	  (or     
-	   (aexec-handler ext)
-	   (progn
-	     (condition-case x
-		 (require (intern (format "%s-view" ext)))
-	       (file-error nil))
-	     (aexec-handler ext)
-	     ))))
+	 (handler (aexec-handler ext))
+	 )
     (if handler (funcall (cdr handler) f)
       (let ((cmd (file-association f)))
 	(cond
