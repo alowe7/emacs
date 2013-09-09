@@ -7,6 +7,6 @@
 (define-key ctl-.-map "o" 'facemenu-set-face)
 
 
-(define-key ctl-.-map "f" '(lambda (beg end) (interactive "r") (facemenu-set-face 'fixed-pitch beg end)))
+(define-key ctl-.-map "f" (lambda (beg end) (interactive "r") (facemenu-set-face 'fixed-pitch beg end)))
 
 

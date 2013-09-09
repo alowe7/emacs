@@ -32,7 +32,7 @@
 
 					; wrap compilation-sentinel 
     (fset 'compilation-sentinel
-	  (function (lambda (proc msg)  (set-buffer (process-buffer proc)) (setq truncate-lines t) (funcall orig-compilation-sentinel proc msg))))
+	  (function(function (lambda (proc msg)  (set-buffer (process-buffer proc)) (setq truncate-lines t) (funcall orig-compilation-sentinel proc msg)))))
 
     (grep (format "grep -n -i -e %s %s"
 		  thing
@@ -190,7 +190,7 @@
 (defvar *zz-dir-stack* *top*)
 (defun zz-dir-stack-completion-list ()
 ; always include current directory.  dot is a shortcut for that 
-  (nconc (list  (list "." default-directory) (list default-directory default-directory)) (mapcar  '(lambda (x) (list x x)) *zz-dir-stack*))
+  (nconc (list  (list "." default-directory) (list default-directory default-directory)) (mapcar  (function (lambda (x) (list x x))) *zz-dir-stack*))
   )
 ; (zz-dir-stack-completion-list)
 
@@ -337,7 +337,7 @@ with prefix, prompts for optional DIR, using `zz-last-dir' as default
 (defvar thing-at-point-method-or-class-chars "~/A-Za-z0-9---_.${}#%,:()"
   "Characters allowable in method or class names.")
 (put 'method-or-class 'end-op    
-     (lambda () (skip-chars-forward thing-at-point-method-or-class-chars)))
+    (function (lambda () (skip-chars-forward thing-at-point-method-or-class-chars))))
 (put 'method-or-class 'beginning-op
      (lambda () (skip-chars-backward thing-at-point-method-or-class-chars)))
 

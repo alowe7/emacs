@@ -58,7 +58,7 @@
 
 (defun fudge-format (format stuff)
   "just apply FORMAT to list STUFF, but quote any % characters in elements of stuff"
-  (apply 'format (nconc (list format) (mapcar '(lambda (x) (replace-regexp-in-string "%" "%%" x)) stuff)))
+  (apply 'format (nconc (list format) (mapcar (function (lambda (x) (replace-regexp-in-string "%" "%%" x))) stuff)))
   )
 
 (defun done (&optional arg)

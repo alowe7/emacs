@@ -12,7 +12,7 @@
   (define-key man-page-mode-map "\eS" 'center-paragraph)
   (define-key man-page-mode-map "" 'scroll-down)
   (define-key man-page-mode-map " " 'scroll-up)
-  (define-key man-page-mode-map "q" '(lambda () (interactive) (kill-buffer nil)))
+  (define-key man-page-mode-map "q" (function (lambda () (interactive) (kill-buffer nil))))
   )
 
 (defun man-page-mode (&optional arg)

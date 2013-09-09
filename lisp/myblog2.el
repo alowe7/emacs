@@ -39,7 +39,7 @@ non-interactively with arg, likewise, with url instead of filename
 	   (loop for x in (directory-files ".")
 		 unless (or (file-directory-p x) (string-match "^[^0-9]\\|~$" x))
 		 collect x)
-	   '(lambda (x y) (string-lessp y x)))))
+	   (function (lambda (x y) (string-lessp y x))))))
 
     (cond ((and (not (interactive-p)) arg)
 	   (expand-as-local-url (car files)))

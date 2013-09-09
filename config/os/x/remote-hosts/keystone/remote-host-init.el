@@ -10,4 +10,4 @@
 ;;(global-set-key [scroll-lock] 'noop)
 ;;(global-set-key [scroll-lock] nil)
 ;;(global-set-key [scroll-lock] '(quote nil))
-(global-set-key (kbd "<Scroll_Lock>") '(lambda () (interactive) nil))
+(global-set-key (kbd "<Scroll_Lock>") (lambda () (interactive) nil))

@@ -266,7 +266,7 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
       )
 
     ;; either way
-    (local-set-key "" '(lambda () (interactive) (save-buffer 0)))
+    (local-set-key "" (lambda () (interactive) (save-buffer 0)))
     (setq buffer-read-only t) ; avoid blunders
     (auto-save-mode 0)
     )
@@ -274,8 +274,8 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 
 (defun sorted-completions (file dir)
   (with-current-buffer (generate-new-buffer " tmp")
-    (mapcar #'(lambda (x) (format "%s\n" x))  (file-name-all-completions file dir) )
-  ;    (mapcar '(lambda (x) (insert (format "%s\n" x)))  (file-name-all-completions file dir) )
+    (mapcar (lambda (x) (format "%s\n" x))  (file-name-all-completions file dir) )
+  ;    (mapcar (lambda (x) (insert (format "%s\n" x)))  (file-name-all-completions file dir) )
   ;    (sort-lines nil (point-min) (point-max))
   ;    (catlist (buffer-substring (point-min) (point-max)) ?
   ;      )
@@ -296,7 +296,7 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 ;;        (let* ((x 0) (y
 ;; 		(catch 'done
 ;; 		  (progn
-;; 		    (mapcar '(lambda (z) (if (string-equal munge z) (throw 'done x) (setq x (1+ x))))
+;; 		    (mapcar (lambda (z) (if (string-equal munge z) (throw 'done x) (setq x (1+ x))))
 ;; 			    l)
 ;; 		    (throw 'done nil)
 ;; 		    )
@@ -348,7 +348,7 @@ where SECTION is the desired section of the manual, as in `tty(4)'."
 		 ((= 1 (length matches)) (car matches))
 		 ((= 0 (length matches)) (message "no matches") (throw 'done t))
 		 (t 
-		  (assoc* (completing-read "what? " matches) *howto-alist*  :test '(lambda (x y) (string-match x y))))))
+		  (assoc* (completing-read "what? " matches) *howto-alist*  :test (lambda (x y) (string-match x y))))))
 	   (where (concat  (cadr hit) "/" (car hit))))
 
       (and (file-exists-p where) (view-file where)))

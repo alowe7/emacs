@@ -56,7 +56,7 @@
 	(cons
 	 (with-output-to-string
 	   (locate-with-filter search-string filter))
-	 (mapcar 'trim (nthcdr 2 (split (buffer-string-no-properties) "\n"))))
+	 (mapcar 'trim-white-space-string (nthcdr 2 (split (buffer-string-no-properties) "\n"))))
 	)
     (error nil)
     )
@@ -83,10 +83,18 @@
   )
 ; (if (ad-is-advised 'locate) (ad-unadvise 'locate))
 
+(defvar *last-locate* "")
+(defvar *last-locate-in* "")
 
 (defun locate-in (search-string &optional filter)
-  (interactive "slocate files like: \nsunder directory like:")
-  (locate search-string (concat "^" filter))
+  (interactive (list (read-string* "locate files like (%s): " *last-locate*) (read-string* "matching (%s): " (string* *last-locate-in* (canonify default-directory 0)))))
+
+  (locate search-string filter)
+
+  (setq
+   *last-locate* search-string
+   *last-locate-in* filter
+   )
   )
 ; (locate-in "Makefile" "/x")
 
@@ -136,7 +144,7 @@
   (interactive (list (read-string* "grep in last locate result set for (%s): " (thing-at-point 'word))))
   (when locate-result-stack
     (let ((filelist (car locate-result-stack)))
-      (grep (concat "grep -n -i -e " pat " " (join (mapcar #'(lambda (x) (concat "\"" x "\"")) filelist) " ")))
+      (grep (concat "grep -n -i -e " pat " " (join (mapcar (lambda (x) (concat "\"" x "\"")) filelist) " ")))
       )
     )
   )
@@ -201,3 +209,13 @@
     )
   )
 (define-key ctl-/-map "" 'switch-to-locate-buffer-p)
+
+
+(defun locate-under (search-string)
+  (interactive (list (read-string*
+		      (format "find files under .../%s matching (%s): " (file-name-nondirectory (substring default-directory 0 -1)) (nth (or search-ring-yank-pointer 0) search-ring))
+		      (nth (or search-ring-yank-pointer 0) search-ring)
+		      )))
+  (locate-with-filter search-string (canonify default-directory 0))
+  )
+(define-key ctl-/-map "d" 'locate-under)

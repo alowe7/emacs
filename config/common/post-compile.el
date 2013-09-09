@@ -54,7 +54,7 @@
 
 
 (add-hook 'compilation-completion-hook
-	  '(lambda () 
+	  (lambda () 
 	     (set-buffer (compilation-find-buffer))
 	     (qsave-search (current-buffer) compile-command default-directory)
 	     (use-local-map compilation-mode-map)

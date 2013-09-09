@@ -50,7 +50,7 @@
 
 
 	      (setq w3m-process-authinfo-alist
-		    (remove* (cons hostname realm) w3m-process-authinfo-alist :test '(lambda (x y) (equal x (cons (car y) (caadr y))))))
+		    (remove* (cons hostname realm) w3m-process-authinfo-alist :test (lambda (x y) (equal x (cons (car y) (caadr y))))))
 
 	      (pushnew
   ;      (("hostname" ("realm" ("username" . "password"))))
@@ -177,7 +177,7 @@
     (if x (cadr x)
       (let* ((l (ff (format "*doc*%s.html" thing)))
 	     (it (if l 
-		     (completing-read (format "%d matches for %s: " (length l) thing) (mapcar #'(lambda (x) (list x x)) l))
+		     (completing-read (format "%d matches for %s: " (length l) thing) (mapcar (lambda (x) (list x x)) l))
 		   thing
 		   )))
 	it)
@@ -358,10 +358,10 @@
     )
   )
 
-(mapc #'(lambda (x) (add-file-association x 'w3m-view-file-url)) '("html" "htm"))
+(mapc (lambda (x) (add-file-association x 'w3m-view-file-url)) '("html" "htm"))
 
 (add-hook 'dired-mode-hook
-	  '(lambda ()
+	  (lambda ()
 	     (define-key dired-mode-map "W" (lambda () (interactive) (w3m-goto-url (format "http://localhost/%s" (unix-canonify (dired-get-filename) 0)))))
 	     ))
 

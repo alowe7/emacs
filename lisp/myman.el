@@ -3,11 +3,11 @@
 (autoload 'man-page-mode "man-page")
 (require 'dosman)
 
-(defvar mandirs '("/usr/share/man"))
+(defvar *mandirs* '("/usr/share/man"))
 
 ; auto compute list of man pages
 
-(defvar manvec nil)
+(defvar *manvec* nil)
 
 (defun make-manvec1 (i rmandirs)
   (let (foo)
@@ -25,9 +25,9 @@
 (defun make-manvec ()
   "generate vector of directories containing man pages"
   (interactive)
-  (setq manvec 
+  (setq *manvec* 
 	(let ((v (make-vector 9 nil))
-	      (rmandirs (reverse mandirs)) bar)
+	      (rmandirs (reverse *mandirs*)) bar)
 	  (loop for i from 1 to 8
 		do
 		(aset v i (make-manvec1 i rmandirs))
@@ -43,7 +43,7 @@
 	 (sectionp (read (if exact section "0")))
 	 foo)
 
-    (loop for dir in (aref manvec sectionp)
+    (loop for dir in (aref *manvec* sectionp)
 	  do
 	  (loop 
 	   for fn in (directory-files dir (not short) (concat "^" cmd))
@@ -58,12 +58,12 @@
 
 (defun y-or-n-list (l)
   (catch 'done
-    (mapc '(lambda (x) 
+    (mapc (function (lambda (x) 
 	       (let ((v (y-or-n-q-p "%s " " \C-m" x)))
 		 (cond 
 		  ((eq v ?q) (throw 'done nil))
 		  ((eq v ?\C-m) (throw 'done x)
-		   )))) l)
+		   ))))) l)
     nil)
   )
 
@@ -141,4 +141,4 @@
 		collect x))
   )
 
-(or manvec (make-manvec))
+(or *manvec* (make-manvec))

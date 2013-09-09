@@ -11,7 +11,7 @@ GetOptions(
 $dir="." unless $dir;
 
 # canonical host names are not case sensitive, but filenames might be
-my($hostname)= lc(hostname());
+my($hostname)= hostname();
 my($sysname, $nodename, $release, $version, $machine) = uname();
 
 # XXX

@@ -84,7 +84,7 @@
 (require 'comint-keys)
 
 ; really only want this 
-(add-hook 'dired-load-hook '(lambda () 
+(add-hook 'dired-load-hook (lambda () 
 			      (define-key dired-mode-map "e" 'dired-decrypt-find-file)
 			      ))
 
@@ -115,6 +115,8 @@
  (setenv "PATH" (w32-canonify-path (getenv "PATH") "c:"))
  */)
 
+(setq path-separator ":")
+
 (requirep 'w3m-loads)
 
 (requirep 'zt-loads)
@@ -134,3 +136,16 @@
 
 
 (setq *key-program*  "/home/alowe/bin/key.exe")
+(setq *sword-file* "/src/.private/swords"
+      *default-swordfile* *sword-file* )
+
+(scan-file-p "/src/.private/.xdbrc")
+(setq *dired-path* '("/work/inscom" "/work" "/src"))
+
+;; for now...
+;; (setenv "PATH" "c:\\Program Files\\Common Files\\Microsoft Shared\\Windows Live;c:\\Program Files (x86)\\Common Files\\Microsoft Shared\\Windows Live;c:\\home\\alowe\\config\\os\\W32\\bin;c:\\home\\alowe\\bin;c:\\Perl\\site\\bin;c:\\Perl\\bin;c:\\usr\\local\\bin;c:\\usr\\bin;c:\\usr\\bin;c:\\usr\\local\\lib\\emacs-24.1\\bin;c:\\Windows\\system32;c:\\Windows;c:\\Windows\\System32\\Wbem;c:\\Windows\\System32\\WindowsPowerShell\\v1.0;c:\\Program Files\\CREDANT\\Shield v6.7;c:\\Program Files (x86)\\Windows Live\\Shared;c:\\Program Files\\TortoiseSVN\\bin")
+
+(require 'xdb)
+
+(require 'cygwin)
+(add-hook 'find-file-not-found-functions 'cygwin-file-not-found)

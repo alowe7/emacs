@@ -8,7 +8,7 @@
 
 ; ask perl where it lives
 ; xxx tbd use config tree
-(defvar perldir
+(defvar *perldir*
  (expand-file-name (eval-process "perl" "-MConfig" "-e" 
 				 (format "print  $Config{%s}"
 					 (if (string= "Linux" (uname)) "installprivlib" "prefix")
@@ -19,11 +19,11 @@
 ;; alternative methods:
 ; (expand-file-name (eval-process "perl" "/usr/local/bin/perl-config" "prefix")))
 ; (clean-string (reg-query "machine" "software/perl" "")) ; windows only
-(defvar perldocdir (expand-file-name "doc" perldir))
+(defvar *perldocdir* (expand-file-name "doc" *perldir*))
 (defvar perldoc-cmd (whence "perldoc"))
-(defvar perlfunc-pod (concat (expand-file-name "lib/pods" perldir)  "/perlfunc.pod"))
-(defvar perlfunc-file (expand-file-name "perlfunc" perldocdir))
-(defvar perlop-file (expand-file-name "perlop" perldocdir))
+(defvar perlfunc-pod (concat (expand-file-name "lib/pods" *perldir*)  "/perlfunc.pod"))
+(defvar perlfunc-file (expand-file-name "perlfunc" *perldocdir*))
+(defvar perlop-file (expand-file-name "perlop" *perldocdir*))
               
 ; (assert (file-exists-p perlfunc-file))
 ; run pod on perlfunc.pod
@@ -46,7 +46,7 @@
 	   return ret))
 	 (thingpod (and perlpods
 			(expand-file-name (concat thing ".pod") perlpods)))
-	 (targetfile (expand-file-name thing perldocdir))
+	 (targetfile (expand-file-name thing *perldocdir*))
 	 )
     (when (file-exists-p thingpod) 
       (with-current-buffer
@@ -182,7 +182,7 @@
 	 nconc 
 	 (split (perl-command-2 "map {print \"$_ \"} @INC"))
 	 into l
-	 finally return (mapcar '(lambda (x) (downcase (expand-file-name x))) l))
+	 finally return (mapcar (function (lambda (x) (downcase (expand-file-name x)))) l))
    :test 'string=)
   "list of known perl libraries"
   )

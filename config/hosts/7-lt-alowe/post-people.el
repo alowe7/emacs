@@ -11,7 +11,7 @@
 (defvar *ows-contact-file* (expand-file-name
 			    (car (sort
 				  (get-directory-files *ows-contact-directory* t *ows-contact-file-regexp*)
-				  #'(lambda (x y) (compare-filetime x y))
+				  (lambda (x y) (compare-filetime x y))
 				  )))
   )
 

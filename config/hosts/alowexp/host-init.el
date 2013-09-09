@@ -40,7 +40,7 @@
       do 
       (setq load-path
   ; first remove published versions, if any
-	    (nconc (remove-if '(lambda (x) (string-match (car e) x)) load-path)
+	    (nconc (remove-if (lambda (x) (string-match (car e) x)) load-path)
   ; then add working versions
 		   (cdr e))
 	    )
@@ -48,9 +48,9 @@
 
 
 (add-hook 'xz-load-hook 
-	  '(lambda ()
+	  (lambda ()
 	     (mapcar
-	      '(lambda (x) (load x t t)) 
+	      (lambda (x) (load x t t)) 
 		     '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
 
 (defvar *people-database* '("~/n/people") "list of contact files")
@@ -82,7 +82,7 @@
 (defvar grep-command "grep -n -i -e ")
 
 (add-hook 'xdb-init-hook
-	  '(lambda ()
+	  (lambda ()
 	     (require 'ctl-slash)
 	     (define-key ctl-/-map "x" 'xdb)
 

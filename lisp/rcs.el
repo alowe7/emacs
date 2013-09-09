@@ -128,14 +128,14 @@
 (global-set-key "	" 'ctl-C-ctl-I-prefix)
 
 (let ((map (symbol-function 'ctl-C-ctl-I-prefix)))
-  (define-key map "	" '(lambda () (interactive)
+  (define-key map "	" (function (lambda () (interactive)
 			     (call-interactively
 			      (cond ((eq major-mode 'dired-mode)
 				     'dired-checkin)
 				    ((and (buffer-file-name)
 					  (y-or-n-p "Checkin current file? "))
 				     'checkin-current-file)
-				    (t 'checkin)))))
+				    (t 'checkin))))))
   (define-key map "" 'lsrcs)
   )
 

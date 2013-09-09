@@ -23,7 +23,7 @@ does not affect currently running environment"
   (let ((vl (if (stringp v) (list v) v)))
     (loop for v in vl
 	  with ret = process-environment
-	  do (setq ret (remove* v ret :test '(lambda (x y) (string= x (car (split y "="))))))
+	  do (setq ret (remove* v ret :test (lambda (x y) (string= x (car (split y "="))))))
 	  finally return ret)
     )
   )

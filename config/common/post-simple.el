@@ -23,9 +23,9 @@
 
 (defun roll-mark ()
   (interactive)
-  (setq mark-ring (remove-duplicates mark-ring :test '(lambda (a b) (= (marker-position a) (marker-position b)))))
+  (setq mark-ring (remove-duplicates mark-ring :test (lambda (a b) (= (marker-position a) (marker-position b)))))
   (let ((marker (roll mark-ring)))
-  ;  '(lambda (x) (format "%d" (marker-position x))))))
+  ;  (lambda (x) (format "%d" (marker-position x))))))
     (goto-char (car marker)))
   )
 

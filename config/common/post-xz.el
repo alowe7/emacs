@@ -116,16 +116,16 @@ if found, pop that to top of stack"
 (define-key xz-map "" 'xz-next-hit)
 (define-key xz-map "" 'xz-previous-hit)
 
-(add-hook 'xz-load-hook '(lambda ()
+(add-hook 'xz-load-hook (lambda ()
 			   (define-key xz-mode-map "d" 'prune-xz-search)
 			   (define-key xz-mode-map "f" 'xz-goto-hits)
 			   (define-key xz-mode-map "n" 'next-xz-search)
 			   (define-key xz-mode-map "n" 'next-xz-search)
 			   (define-key xz-mode-map "p" 'previous-xz-search)
 			   (define-key xz-mode-map "i" 'xz-which-hit)
-			   (define-key xz-mode-map "[" '(lambda () (interactive) (xz-squish (max 0 (1- *xz-squish*)) t)))
-			   (define-key xz-mode-map "]" '(lambda () (interactive) (xz-squish (1+ *xz-squish*) t)))
-			   (define-key xz-mode-map "." '(lambda () (interactive) (message "squish level is: %d" *xz-squish*)))
+			   (define-key xz-mode-map "[" (lambda () (interactive) (xz-squish (max 0 (1- *xz-squish*)) t)))
+			   (define-key xz-mode-map "]" (lambda () (interactive) (xz-squish (1+ *xz-squish*) t)))
+			   (define-key xz-mode-map "." (lambda () (interactive) (message "squish level is: %d" *xz-squish*)))
 			   (xz-squish 4)
 			   (setq *xz-show-status* nil)
 			   )
@@ -136,7 +136,7 @@ if found, pop that to top of stack"
 
 (setq *xz-lastdb* "~/emacs/.xz.dat")
 
-(add-hook 'stop-xz-process-hook '(lambda ()
+(add-hook 'stop-xz-process-hook (lambda ()
 				   (put (intern (buffer-name (xz-hit-buffer))) 'qsave nil)))
 
 

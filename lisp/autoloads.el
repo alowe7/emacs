@@ -8,9 +8,9 @@
 ; (setq autoload-message nil)
 
 (mapc
- '(lambda (x)
+ (function (lambda (x)
     (let ((f (concat x "/.autoloads")))
-      (if (file-exists-p f) (load f t autoload-message t ))))
+      (if (file-exists-p f) (load f t autoload-message t )))))
  load-path)
 
 (load "outliers" t t)

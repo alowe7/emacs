@@ -15,8 +15,8 @@
 (define-key ctl-esc-map "" 'xz-constrained-compound-query)
 
 (define-key ctl-esc-map (vector (ctl ?8))
-  '(lambda (arg) (interactive "P") 
-     (message (if (string= "1" (substring (xq ".*?") 0 1)) "enabled" "disabled"))))
+  (function (lambda (arg) (interactive "P") 
+     (message (if (string= "1" (substring (xq ".*?") 0 1)) "enabled" "disabled")))))
 
 (define-key ctl-esc-map (vector (ctl ? )) 'xz-constrained-query-format)
 

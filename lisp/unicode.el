@@ -82,7 +82,7 @@ not sure why different versions require various `*unicode-signatures*'
 	  (set-buffer-modified-p nil)
 	  (setq buffer-read-only t)
 	  (auto-save-mode -1)
-	  (add-hook 'local-write-file-hooks '(lambda () (message "cannot edit unicode file") t))
+	  (add-hook 'local-write-file-hooks (function (lambda () (message "cannot edit unicode file") t)))
 	  )
       )
 
@@ -100,9 +100,9 @@ not sure why different versions require various `*unicode-signatures*'
   )
 
 (add-hook 'dired-mode-hook 
-	  '(lambda nil 
+	  (function (lambda nil 
 	     (define-key  dired-mode-map "F" 'dired-find-unicode-file)
-	     ))
+	     )))
 
 
 (provide 'unicode)

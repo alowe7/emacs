@@ -12,5 +12,5 @@
 
 (provide 'ctl-x-n)
 
-(define-key ctl-x-3-map "l" '(lambda () (interactive) (apply 'copy-region-as-kill (line-as-region) )))
+(define-key ctl-x-3-map "l" (lambda () (interactive) (apply 'copy-region-as-kill (line-as-region) )))
 

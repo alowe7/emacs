@@ -23,11 +23,11 @@ current time "
 
 (define-key logview-mode-map "" 'next-log-entry)
 (define-key logview-mode-map "" 
-	'(lambda nil (interactive)
+	(function (lambda nil (interactive)
 		 (forward-word 1)
 		 (other-window 1)
 		 (forward-word 1)
-		 (other-window 1)))
+		 (other-window 1))))
 
 
 

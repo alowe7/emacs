@@ -61,24 +61,6 @@
 
   )
 
-(/*
- (defun browse-path (arg) 
-   "pringle path in a browser buffer"
-   (interactive "P")
-   (let ((temp-buffer-show-function '(lambda (buf)
-				       (switch-to-buffer buf)
-				       (fb-mode)))
-	 (l (if arg 
-		(eval (read-variable "path var: "))
-	      (catpath "PATH" (if (eq window-system 'win32) semicolon)))))
-
-     (with-output-to-temp-buffer "*Path*"
-       (mapcar '(lambda (x) (princ (expand-file-name x)) (princ "\n")) l)
-       )
-     )
-   )
- )
-
 (defun control-panel (c) 
   "run control panel applets"
   (interactive
@@ -86,7 +68,7 @@
     (completing-read
      "?" 
      (mapcar
-      #'(lambda (x)
+      (lambda (x)
 	 (list
 	  (file-name-sans-extension x)))
       (directory-files (expand-file-name (concat *systemroot* "/system32")) nil "cpl$")

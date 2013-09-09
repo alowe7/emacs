@@ -31,7 +31,7 @@
 (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
-(global-set-key (vector 'f2) '(lambda () (interactive) (shell2 2)))
+(global-set-key (vector 'f2) (lambda () (interactive) (shell2 2)))
 
 ; (setq comint-use-prompt-regexp-instead-of-fields nil)
 

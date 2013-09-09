@@ -16,16 +16,6 @@
   )
 
 
-(defun cd-other-window ()
-  " change the current window's current directory to that of other window"
-  (interactive)
-  (save-excursion
-    (other-window 1)
-    (let ((z (pwd)))
-      (other-window -1)
-      (cd z))))
-
-
 (defun touch-file (f)
   "touch named file"
   (interactive "sFilename: ")

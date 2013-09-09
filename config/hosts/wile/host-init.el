@@ -10,7 +10,7 @@
   (interactive "svar: \nsval: ")
   (setenv var val)
   (setq process-environment-list
-	(remove-if '(lambda (x) (string= (car x) var )) process-environment-list))
+	(remove-if (lambda (x) (string= (car x) var )) process-environment-list))
   (nconc process-environment-list
 	 (list (list var val)))
   (setq process-environment

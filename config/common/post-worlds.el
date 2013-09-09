@@ -26,7 +26,7 @@ a null argument means pop-world from world-stack"
 
 ;; hmmm...
 
-(add-hook 'world-init-hook '(lambda () (global-set-key "p" 'push-world-p)))
+(add-hook 'world-init-hook (lambda () (global-set-key "p" 'push-world-p)))
 
 (add-hook 'world-init-hook 
 	  (function
@@ -90,7 +90,7 @@ a null argument means pop-world from world-stack"
 (require 'ctl-x-n)
 
 (define-key ctl-x-3-map "f" 'wn)
-(define-key ctl-x-3-map "d" '(lambda () (interactive) (dired (fw))))
+(define-key ctl-x-3-map "d" (lambda () (interactive) (dired (fw))))
 
 (setq *world-goto-lastdir* t)
 (setq *shell-track-worlds* t)

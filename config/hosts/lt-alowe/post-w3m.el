@@ -63,7 +63,7 @@
 
 
 	      (setq w3m-process-authinfo-alist
-		    (remove* (cons hostname realm) w3m-process-authinfo-alist :test '(lambda (x y) (equal x (cons (car y) (caadr y))))))
+		    (remove* (cons hostname realm) w3m-process-authinfo-alist :test (lambda (x y) (equal x (cons (car y) (caadr y))))))
 
 	      (pushnew
   ;      (("hostname" ("realm" ("username" . "password"))))

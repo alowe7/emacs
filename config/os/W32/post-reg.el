@@ -21,10 +21,10 @@ with ARG, show the contents of this key from the user hive"
 
   )
 
-(define-key reg-view-mode-map "n" '(lambda () (interactive) (next-line 1)))
-(define-key reg-view-mode-map "u" '(lambda () (interactive) (previous-line 1)))
-(define-key reg-view-mode-map "b" '(lambda () (interactive) (reg-previous-query)))
-(define-key reg-view-mode-map " " '(lambda () (interactive) (reg-descend)))
+(define-key reg-view-mode-map "n" (lambda () (interactive) (next-line 1)))
+(define-key reg-view-mode-map "u" (lambda () (interactive) (previous-line 1)))
+(define-key reg-view-mode-map "b" (lambda () (interactive) (reg-previous-query)))
+(define-key reg-view-mode-map " " (lambda () (interactive) (reg-descend)))
 
 (defun get-editor (ext)
   (let ((ext (or (string-match "\\." ext) (concat "." ext)))

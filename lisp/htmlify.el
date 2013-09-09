@@ -12,4 +12,4 @@
   (htmlify (buffer-file-name)))
 
 (setq html-mode-hook
-'(lambda nil (define-key html-mode-map "" 'visit-html-file)))
+(lambda nil (define-key html-mode-map "" 'visit-html-file)))

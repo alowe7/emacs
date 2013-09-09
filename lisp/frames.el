@@ -109,7 +109,7 @@ appearance to the current frame "
 (defun delete-all-other-frames ()
   (interactive)
   "delete all frames except the currently focused one."
-  (mapc #'(lambda (x) 
+  (mapc (lambda (x) 
 	   (if (not (eq x (selected-frame)))
 	       (delete-frame x)))
 	(frame-list))

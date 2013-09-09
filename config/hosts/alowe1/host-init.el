@@ -17,12 +17,12 @@
 				     (last (get-directory-files (fw "m") t "phone.*.csv$"))
 				     (and (file-exists-p "~/n/people") (list "~/n/people"))))))
 (add-hook 'xz-load-hook 
-	  '(lambda ()
+	  (lambda ()
 	     (mapcar
-	      '(lambda (x) (load x t t)) 
+	      (lambda (x) (load x t t)) 
 	      '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
 
-(add-hook 'world-init-hook '(lambda ()
+(add-hook 'world-init-hook (lambda ()
   ; 			      (load "world-advice")
 			      (load "post-worlds")
 			      )
@@ -107,7 +107,7 @@
   (loop for e in r do 
 	(setq load-path
   ; first remove published versions, if any
-	      (nconc (remove-if '(lambda (x) (string-match (car e) x)) load-path)
+	      (nconc (remove-if (lambda (x) (string-match (car e) x)) load-path)
   ; then add working versions
 		     (cdr e))
 	      )
@@ -144,7 +144,7 @@
 (fset 'try 'condition-case)
 
 
-(add-file-association "html" '(lambda (x) (let ((f (canonify (expand-file-name x))) (default-directory "/")) (html-view f))))
-(add-file-association "htm" '(lambda (x) (let ((f (canonify (expand-file-name x))) (default-directory "/")) (html-view f))))
+(add-file-association "html" (lambda (x) (let ((f (canonify (expand-file-name x))) (default-directory "/")) (html-view f))))
+(add-file-association "htm" (lambda (x) (let ((f (canonify (expand-file-name x))) (default-directory "/")) (html-view f))))
 
 (provide 'host-init)

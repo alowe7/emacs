@@ -27,12 +27,12 @@
 				     (last (get-directory-files (xwf "n" "broadjump") t "people.*\.csv$"))
 				     (list "~/n/people")))))
 (add-hook 'xz-load-hook 
-	  '(lambda ()
+	  (lambda ()
 	     (mapcar
-	      '(lambda (x) (load x t t)) 
+	      (lambda (x) (load x t t)) 
 		     '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
 
-(add-hook 'after-init-hook '(lambda () 
+(add-hook 'after-init-hook (lambda () 
 			      (defadvice info (before 
 					       hook-info
 					       first 
@@ -40,7 +40,7 @@
 				(cd "/")
 				)))
 
-(add-hook 'world-init-hook '(lambda ()
+(add-hook 'world-init-hook (lambda ()
 ;; 
 ;; 			      (setq *howto-path* 
 ;; 				    (loop for w in (la) 

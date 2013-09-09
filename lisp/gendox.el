@@ -36,14 +36,14 @@
 	  )
     )
   )
-(defvar footer "</ul>
+(defvar *footer* "</ul>
 ]]>
 
 </body>
 
 </blog>
 ")
-(defvar header "<blog>
+(defvar *header* "<blog>
 <title>dox</title>
 
 <body>
@@ -64,12 +64,12 @@
 		collect
 		(cons (cringe x) (cringe1 x)))
   ; wow.	
-	  '(lambda (x y) (let ((x (car x)) (y (car y))) (or (< (length x) (length y)) (and (not (string-match "/" x)) (string-match "/" y)) (string-lessp x y)))))
+	  (lambda (x y) (let ((x (car x)) (y (car y))) (or (< (length x) (length y)) (and (not (string-match "/" x)) (string-match "/" y)) (string-lessp x y)))))
 
 	 ))
 
     (set-buffer b)
-    (insert header)
+    (insert *header*)
     (let (seen)
       (loop for x in dox 
 	    unless (or
@@ -81,7 +81,7 @@
 	    (push (car x) seen)
 	    )
       )
-    (insert footer)
+    (insert *footer*)
 
     (goto-char (point-min))
     (set-buffer-modified-p nil)

@@ -70,7 +70,7 @@
   (call-process "/usr/bin/nautilus" nil nil nil default-directory)
   )
 (global-set-key (vector 'f12) 'nautilus)
-(global-set-key (vector 'f2) '(lambda () (interactive) (shell2 2)))
+(global-set-key (vector 'f2) (lambda () (interactive) (shell2 2)))
 
 ; (setq comint-use-prompt-regexp-instead-of-fields nil)
 

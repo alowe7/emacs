@@ -24,4 +24,4 @@
 ;  )
 
 ; I think lazy-lock-mode is no longer supported?
-; (add-hook 'perl-mode-hook '(lambda () (lazy-lock-mode)))
+; (add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))

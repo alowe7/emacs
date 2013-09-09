@@ -11,10 +11,10 @@
   )
 
 ;; if you drop a windows lnk file into emacs, this hook redirects to the link target
-(setq lnk-mode-hook '(lambda () 
+(setq lnk-mode-hook (function (lambda () 
 		       (let ((b (current-buffer))
 			     (f (expand-file-name (cadr (split (clean-string (eval-process "shortcut" "-u" "t" (buffer-file-name))))))))
 			 (if (file-exists-p f)
 			     (find-file f)
-			   (kill-buffer b))))
+			   (kill-buffer b)))))
       )

@@ -3,7 +3,7 @@
 (require 'indicate)
 
 (add-hook 'perl-mode-hook
-	  '(lambda () 
+	  (lambda () 
 	     (define-key perl-mode-map "" 'help-for-perl)
 	     (define-key perl-mode-map (vector 'f1) 'pod)
 	     (define-key perl-mode-map "" 'perlfunc)
@@ -107,7 +107,7 @@ else if `thing-at-point' looks like a filename, try that
 	(pod2text f (concat (file-name-sans-extension f) " *pod*"))))
 
 (add-hook 'dired-load-hook
-	  '(lambda () 
+	  (lambda () 
 	     (define-key  dired-mode-map (vector 'f9) 'dired-pod)
 	     )
 	  )

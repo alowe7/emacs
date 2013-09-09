@@ -49,8 +49,8 @@ see `xz-query-format`
   )
 
 ; this finds hits on the same line -- equivalent to above
-; (xz-query-predicate ".fDetach" ".fRelease" '(lambda (x y) (and (string= (cadr x) (cadr y)) (= (caddr x) (caddr y)))))
-; (xz-query-predicate "CreateInstance" "Release" '(lambda (x y) (and (string= (cadr x) (cadr y)) (<= (abs (- (caddr x) (caddr y))) 50))))
+; (xz-query-predicate ".fDetach" ".fRelease" (function (lambda (x y) (and (string= (cadr x) (cadr y)) (= (caddr x) (caddr y))))))
+; (xz-query-predicate "CreateInstance" "Release" (function (lambda (x y) (and (string= (cadr x) (cadr y)) (<= (abs (- (caddr x) (caddr y))) 50)))))
 
 
 (defun xz-stats ()

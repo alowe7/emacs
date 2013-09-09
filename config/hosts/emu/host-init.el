@@ -27,7 +27,7 @@
 (setq *people-database*  (expand-file-name (concat (getenv "HOME") "/n/people")))
 
 ; xz-squish is currently global.  todo: make per process
-(add-hook 'xz-load-hook '(lambda () 
+(add-hook 'xz-load-hook (lambda () 
 			   (xz-squish 2)
 			   (setq *xz-lastdb* "~/emacs/.xz.dat")
 			   )
@@ -53,7 +53,7 @@
   (loop for e in r do 
 	(setq load-path
   ; first remove published versions, if any
-	      (nconc (remove-if '(lambda (x) 
+	      (nconc (remove-if (lambda (x) 
 				   (string-match (car e) x)) load-path)
   ; then add working versions
 		     (cdr e))
@@ -80,7 +80,7 @@
   (loop for e in r do 
 	(setq load-path
   ; first remove published versions, if any
-	      (nconc (remove-if '(lambda (x) (string-match (car e) x)) load-path)
+	      (nconc (remove-if (lambda (x) (string-match (car e) x)) load-path)
   ; then add working versions
 		     (cdr e))
 	      )

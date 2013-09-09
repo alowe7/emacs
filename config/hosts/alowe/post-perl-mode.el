@@ -23,4 +23,4 @@
 ;   (perldoc "perlref")
 ;  )
 
-(add-hook 'perl-mode-hook '(lambda () (lazy-lock-mode)))
+(add-hook 'perl-mode-hook (lambda () (lazy-lock-mode)))

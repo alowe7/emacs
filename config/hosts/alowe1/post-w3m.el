@@ -15,6 +15,6 @@
     (pluck "http://localhost/specs.nav")
     )
    :test (lambda (x y) (string= (car x) (car y))))
-  '(lambda (x y) (string< (car x) (car y))))
+  (lambda (x y) (string< (car x) (car y))))
  )
 

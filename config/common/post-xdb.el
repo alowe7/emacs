@@ -9,7 +9,7 @@
     (setq *txel-options* (list "-b" ($ "$ZDB") "-h" ($ "$ZDBHOST"))))
 
 
-(add-hook 'x-query-mode-hook '(lambda ()
+(add-hook 'x-query-mode-hook (lambda ()
 				(loop for x across "/:\.-" do (modify-syntax-entry x "w"))
 				))
 

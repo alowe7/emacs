@@ -132,7 +132,7 @@ warns if more than one file is to be moved and target is not a directory"
   )
 
 ;(defun dired-move-marked-files (to) (interactive "Ddir: ")
-;  (mapcar '(lambda (x) (dired-move-file to x)) (dired-get-marked-files)))
+;  (mapcar (lambda (x) (dired-move-file to x)) (dired-get-marked-files)))
 
 ;; yet another way to do this
 
@@ -360,9 +360,26 @@ see `file-assoc-list'"
   (kill-new (message (format-time-string "%a %b %d %H:%M:%S %Y" (filemodtime (dired-get-filename)))))
   )
 
-(defun dired-md5-compare ()
-  (interactive)
-  (eval-process "md5sum " (dired-get-filename))
+(defvar *last-dired-digest* nil)
+(defvar *digest-program* (or (whence "sha256sum") (whence "md5sum")))
+(defun dired-digest-maybe-compare (&optional arg)
+  "run md5sum on file under point.  with optional prefix arg or if `*last-dired-md5sum*' is nil, just display the result.
+otherwise, compare the sum with the previously computed sum and display the result of that comparison
+"
+  (interactive "P")
+
+  (let* ((ret (split (eval-process *digest-program* (dired-get-filename))))
+	 (val (car ret)))
+    (if (or arg (null *last-dired-digest*))
+	(message val)
+
+      (if (string= val (car *last-dired-digest*))
+	  (message (format "digests match: %s  %s" (cadr *last-dired-digest*) (cadr ret)))
+	  (message (format "digests do not match: %s  %s" (cadr *last-dired-digest*) (cadr ret)))
+	)
+      )
+    (setq *last-dired-digest* ret)
+    )
   )
 
 (defvar dired-mode-syntax-table (copy-syntax-table))
@@ -370,21 +387,22 @@ see `file-assoc-list'"
 (modify-syntax-entry ?. "w" dired-mode-syntax-table)  
 
 (add-hook 'dired-mode-hook 
-	  '(lambda nil 
+	  (lambda nil 
 	     (define-key dired-mode-map "t" 'dired-change-file-type)
 	     (define-key dired-mode-map "" 'dired-enumerate-scripts)
-	     (define-key  dired-mode-map "b" '(lambda () (interactive)
+	     (define-key  dired-mode-map "b" (lambda () (interactive)
 						(find-file-binary (dired-get-filename))))
-	     (define-key  dired-mode-map "I" '(lambda () (interactive)
+	     (define-key  dired-mode-map "I" (lambda () (interactive)
 						(info (dired-get-filename))))
 	     (define-key dired-mode-map "r" 'dired-move-file)
+	     (define-key dired-mode-map "\C-i" 'dired-digest-maybe-compare)
 	     (define-key dired-mode-map "t" 'dired-touch-file)
 	     (define-key dired-mode-map "c" 'dired-copy-file-1)
 	     (define-key dired-mode-map "%~" 'dired-diff-backup)
 	     (define-key dired-mode-map "%M" 'dired-move-marked-files)
 	     (define-key dired-mode-map "%t" 'dired-change-file-type)
-	     (define-key dired-mode-map "%%" '(lambda (beg end) (interactive "r") (dired-mark-files-in-region beg end)))
-	     (define-key dired-mode-map "%x" '(lambda (beg end) (interactive "r") (dired-mark-files-in-region beg end) (mapcar 'delete-file (dired-get-marked-files))))
+	     (define-key dired-mode-map "%%" (lambda (beg end) (interactive "r") (dired-mark-files-in-region beg end)))
+	     (define-key dired-mode-map "%x" (lambda (beg end) (interactive "r") (dired-mark-files-in-region beg end) (mapcar 'delete-file (dired-get-marked-files))))
 
 	     (define-key dired-mode-map "e" 'dired-decrypt-find-file)
 
@@ -395,7 +413,7 @@ see `file-assoc-list'"
 	     (define-key dired-mode-map (vector '\C-return ?\C-r) 'dired-rename-file)
 	     (define-key dired-mode-map (vector '\C-return ?\C-y) 'dired-yank-filename)
 
-			      (define-key  dired-mode-map "P" '(lambda () (interactive) (dos-print (dired-get-filename))))
+			      (define-key  dired-mode-map "P" (lambda () (interactive) (dos-print (dired-get-filename))))
 			      (define-key  dired-mode-map (vector ? ?\C-0) 'kill-dired-filename)
 			      (define-key dired-mode-map "|" 'dired-pipe-file)
 			      (define-key  dired-mode-map "\C-cw" 'dired-what-file)

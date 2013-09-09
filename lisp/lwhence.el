@@ -27,8 +27,8 @@
   "finds LIBRARY along load-path"
   (interactive "swhence library: ")
   (let* ((l (if (file-name-extension library)
-		'(lambda (f) (-f (concat x "/" library)))
-	      '(lambda (f) (-f (concat x "/" library ".el")))))
+		(function (lambda (f) (-f (concat x "/" library))))
+	      (function (lambda (f) (-f (concat x "/" library ".el"))))))
 	 (v (loop for x in load-path thereis (funcall l x))))
     (if (interactive-p) (message "%s" v) v)
     )

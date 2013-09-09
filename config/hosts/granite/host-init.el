@@ -67,7 +67,7 @@
 (require 'comint-keys)
 
 ; really only want this 
-(add-hook 'dired-load-hook '(lambda () 
+(add-hook 'dired-load-hook (lambda () 
 			      (define-key dired-mode-map "e" 'dired-decrypt-find-file)
 			      ))
 

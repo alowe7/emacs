@@ -13,7 +13,7 @@ see `roll-list` for roll navigation"
   )
 (global-set-key "" 'yank-like)
 
-(global-set-key "?" '(lambda () (interactive) (message (car kill-ring))))
+(global-set-key "?" (function (lambda () (interactive) (message (car kill-ring)))))
 
 
 (defun copy-cwd-as-kill (arg) 

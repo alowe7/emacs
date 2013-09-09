@@ -9,5 +9,5 @@
 
 ; (require 'w3m)
 ; lazy load post-w3m features
-(add-hook 'w3m-load-hook '(lambda () (load-library "post-w3m")))
+(add-hook 'w3m-load-hook (lambda () (load-library "post-w3m")))
 

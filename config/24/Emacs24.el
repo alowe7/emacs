@@ -10,7 +10,7 @@
 (define-key minibuffer-local-completion-map "	" 'minibuffer-complete-word)
 
 ; silence the dinger
-(setq ring-bell-function '(lambda () nil))
+(setq ring-bell-function (lambda () nil))
 
 ; uncomment to disable tooltips entirely
 (tooltip-mode -1)

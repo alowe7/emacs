@@ -34,15 +34,15 @@
   )
 
 
-(setq html-mode-hook '(lambda () 
+(setq html-mode-hook (function (lambda () 
   ; binds funky local keys
-			(mapcar '(lambda (x) (local-set-key (car x) (cadr x)))
+			(mapc (function (lambda (x) (local-set-key (car x) (cadr x))))
 				html-mode-keys 
 				)
 			(setq paragraph-start "[ 	
 ]\\|\\(</?\\([A-Za-z]\\([-.A-Za-z0-9= 	
 ]\\|\"[^\"]*\"\\|'[^']*'\\)*\\)?>\\)")
-			))
+			)))
 
 
 (defun insert-quote () (interactive)
@@ -145,12 +145,12 @@
 (require 'indicate)
 (require 'fapropos)
 
-(add-hook 'html-mode-hook '(lambda ()
+(add-hook 'html-mode-hook (function (lambda ()
 			     (define-key html-mode-map "?" 'find-w32-fn)
 			     (global-set-key "?" 'find-w32-fn)
 			     (define-key html-mode-map "" 'fapropos)
 			     (define-key html-mode-map "" 'find-win32-sig)
-			     ))
+			     )))
 
 
 (defalias 'fix-angles (read-kbd-macro

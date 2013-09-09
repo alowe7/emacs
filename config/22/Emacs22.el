@@ -8,7 +8,7 @@
 (define-key minibuffer-local-completion-map "	" 'minibuffer-complete-word)
 
 ; silence the dinger
-(setq ring-bell-function '(lambda () nil))
+(setq ring-bell-function (lambda () nil))
 
 (defvar default-weight "normal")
 (defvar *default-font-family* "tahoma")

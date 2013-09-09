@@ -11,7 +11,7 @@ items get added at the head so in effect override any previous definition.
 	)
   )
 
-(mapc #'(lambda (x) (add-auto-mode (car x) (cdr x)))
+(mapc (lambda (x) (add-auto-mode (car x) (cdr x)))
 	'(
 	  ("\\.HTM$" . html-mode)
 	  ("\\.htm$" . html-mode)
@@ -97,11 +97,14 @@ items get added at the head so in effect override any previous definition.
 	   (save-excursion (goto-char (point-min)) (and (string-match "^#!\\(.*\\)$" (thing-at-point 'line)))))
 
       (let* ((command  (buffer-substring (1+ (match-beginning 1))  (1+ (match-end 1))))
-	     (mode (loop for x in guess-auto-mode-alist when (string-match (car x) command) return (cdr x))))
+  ; for some reason this loop didn't behave correctly when compiled
+  ; 	     (mode (loop for x in guess-auto-mode-alist when (string-match (car x) command) return (cdr x)))
+	     (mode (catch 'ret (mapcar (lambda (x) (if (string-match (car x) command) (throw 'ret (cdr x))))  guess-auto-mode-alist))))
+
 	(when (and mode (fboundp mode))
 	  (condition-case err
 	      (funcall mode)
-	    (error nil))
+	    (error (debug)))
 	  )
 	)
     )

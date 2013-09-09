@@ -8,5 +8,5 @@
 (setq shell-wrap nil)
 
 (add-hook 'shell-mode-hook 
-    '(lambda () (define-key shell-mode-map "ß" '(lambda () (interactive) (insert "$_")))))
+    (lambda () (define-key shell-mode-map "ß" (lambda () (interactive) (insert "$_")))))
 

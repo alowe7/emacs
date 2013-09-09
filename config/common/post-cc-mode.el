@@ -50,7 +50,7 @@ The expansion is entirely correct because it uses the C preprocessor."
     (with-current-buffer outbuf
       (erase-buffer))
     (setq process (start-process "macros" outbuf "/lib/cpp" default-cpp-options))
-    (set-process-sentinel process '(lambda (&rest x)))
+    (set-process-sentinel process (lambda (&rest x)))
     (save-restriction
       (widen)
       (save-excursion
@@ -87,14 +87,14 @@ The expansion is entirely correct because it uses the C preprocessor."
 (defvar *grep-source-file-types* '("c" "cpp" "h" "rc" "idl" "java" "pl" "el"))
 (defun grep-source (arg)
   (interactive (list (read-string (format "grep source for (%s): " (indicated-word)))))
-  (grep (format "%s %s %s" grep-command (string* arg (indicated-word))  (mapconcat '(lambda (x) (concat "\*\." x)) *grep-source-file-types* " ")))
+  (grep (format "%s %s %s" grep-command (string* arg (indicated-word))  (mapconcat (lambda (x) (concat "\*\." x)) *grep-source-file-types* " ")))
   )
 
 (global-set-key "g" 'grep-source)
 
 
 (add-hook 'c++-mode-hook 
-	  '(lambda () 
+	  (lambda () 
 	     (modify-syntax-entry ?_ "w")
 	     (setq comment-column 2)
 	     (setq c-tab-always-indent t)

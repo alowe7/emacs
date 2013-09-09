@@ -116,17 +116,25 @@ if dir is not specified, uses `default-directory '
     )
   )
 ; (set-sisdirs-p "/home/a/emacs/config/hosts/lt-alowe")
+(defvar *sisdir-prefer-other* nil "prefer to switch to other window to view sisdir or file")
+; (setq *sisdir-prefer-other* t)
 
-(defun sisdir ()
+(defun sisdir (&optional arg)
   "switch to buffer in a parallel directory as defined by `*sisdirs*'
 if currently visiting a file, search for a file by the same name in the first sister directory
 else just dired there
+
+other window preference respects value of `*sisdir-prefer-other*', except with optional prefix arg, prefer other window
 "
-  (interactive)
+  (interactive "P")
 
   (sisdirs-maybe-load-default-file)
 
-  (let* ((dir default-directory)
+  (let* (
+	 (arg (if *sisdir-prefer-other* (not arg) arg))
+	 (sis-find-file (if arg 'find-file-other-window 'find-file))
+	 (sis-dired  (if arg 'dired-other-window 'dired))
+	 (dir default-directory)
 	 (sub
 	  (loop for x in *sisdirs* 
 		when (string-match (car x) dir)
@@ -144,17 +152,27 @@ else just dired there
 		)
 	  )
 	 (fn (buffer-file-name)))
+
     (cond
      ((not sub)
       (if (interactive-p) (set-sisdirs-p)))
+
      (fn
       (let ((other-file (expand-file-name (file-name-nondirectory fn)  sub)))
-	(cond ((file-exists-p other-file) (find-file-other-window other-file))
-	      ((file-directory-p sub) (dired-other-window sub))
-	      (t (message (format "%s does not exist" sub) )))
-	))
-     (t  (cond ((file-directory-p sub) (dired-other-window sub))
-	       (t (message (format "%s does not exist" sub) ))))
+	(cond
+	 ((file-exists-p other-file) (funcall sis-find-file other-file))
+	 ((file-directory-p sub) (funcall sis-dired sub))
+	 ((y-or-n-p (format "%s does not exist.  create it?" sub))
+	  (progn (mkdir sub) (funcall sis-dired sub)))
+	 (t (debug))
+	 )
+	)
+      )
+     ((file-directory-p sub) (funcall sis-dired sub))
+     ((y-or-n-p (format "%s does not exist.  create it?" sub))
+      (progn (mkdir sub) (funcall sis-dired sub)))
+
+     (t (debug))
      )
     )
   )

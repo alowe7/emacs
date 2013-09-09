@@ -25,7 +25,7 @@
   (interactive)
   (roll-list
    (cdr (collect-buffers-mode 'Man-mode))
-   '(lambda (x) (progn (switch-to-buffer x) (buffer-name x))) 'kill-buffer-1 'switch-to-buffer)
+   (lambda (x) (progn (switch-to-buffer x) (buffer-name x))) 'kill-buffer-1 'switch-to-buffer)
   )
 
 (define-key help-map "\C-l" 'switch-to-man-buffer)

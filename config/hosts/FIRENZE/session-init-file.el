@@ -1,0 +1,1 @@
+(setq *session-db* 'nil)

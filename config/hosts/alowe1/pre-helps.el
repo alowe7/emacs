@@ -1,7 +1,7 @@
 (setq wdirs (split (apply 'tw-command (nconc (list "fw") (lw)))))
 ; todo uniquify duplicates
 (setq *howto-alist*
-      (mapcar '(lambda (x) (list (basename x) x))
+      (mapcar (lambda (x) (list (basename x) x))
 	      (loop for x in 
 		    (loop for w in wdirs
 			  with u=nil

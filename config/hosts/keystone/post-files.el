@@ -8,7 +8,7 @@
 					 first activate)
 
   (let* ((l default-frame-alist))
-    (loop for x in (quote (top left width height)) do (nsubst (cons x (frame-parameter nil x)) x l :test '(lambda (y z) (and (listp z) (eq y (car z))))))
+    (loop for x in (quote (top left width height)) do (nsubst (cons x (frame-parameter nil x)) x l :test (lambda (y z) (and (listp z) (eq y (car z))))))
     ad-do-it
     )
   )

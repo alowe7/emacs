@@ -15,7 +15,7 @@
   (interactive)
   (let* ((bounds (bounds-of-thing-at-point 'word))
 	 (word (thing-at-point 'word))
-	 (completions (mapcar '(lambda (x) (list (symbol-name x) x)) (symbols-like (concat "^" word))))
+	 (completions (mapcar (lambda (x) (list (symbol-name x) x)) (symbols-like (concat "^" word))))
 	 (completion (and completions
 			  (cond ((= (length completions) 1) (caar completions))
 				(t (completing-read  "Complete: " completions nil nil word))))))

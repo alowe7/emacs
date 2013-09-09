@@ -6,7 +6,7 @@
 ; tbd factor with tw/site-lisp/log.el
 
 (defun glob (&rest args)
-  (mapconcat '(lambda (arg) (format "%s" arg)) args " ")
+  (mapconcat (lambda (arg) (format "%s" arg)) args " ")
   )
 ; (glob "b" 5 'c)
 

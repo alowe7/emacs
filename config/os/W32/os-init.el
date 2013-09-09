@@ -11,9 +11,6 @@
 
 (load "frames" t t)
 
-(defvar semicolon (read "?;"))
-(defvar w32 'w32)
-
 ; definitions specific to the win32 window system
 
 (defvar *systemroot*	(getenv "SYSTEMROOT"))
@@ -50,8 +47,11 @@
   (interactive   
    (list (read-file-name* "explore (%s): " (thing-at-point (quote filename)))))
 
-  (let ((d   (replace-regexp-in-string "\\\\" "\\\\\\\\" (w32-canonify (or f default-directory)))))
-    (shell-command (format "explorer %s" d))
+  (let* (
+	 (d   (replace-regexp-in-string "\\\\" "\\\\\\\\" (w32-canonify (or f default-directory))))
+	 (d2   (replace-regexp-in-string "\(" "\\\\("  d))
+	 (d3   (replace-regexp-in-string "\)" "\\\\)"  d2)))
+    (shell-command (format "explorer %s" d3))
     (run-hooks 'explore-hooks)
     )
   )
@@ -104,7 +104,13 @@
 				   )
 				  )
 			    default-directory)
-	  ))
+	  )
+	(process-environment (substitute 
+			      (concat "PATH=" (w32-canonify-path (getenv "PATH") (getenv "SYSTEMDRIVE")))
+			      "PATH="
+			      process-environment
+			      :test (lambda (x y)  (equal 0 (string-match x y)))
+			      )))
     (shell2 (or num -1) nil *cmd* 'cmd-mode)
     )
   )
@@ -147,10 +153,13 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
   (interactive "r")
 
   (let ((txt (w32-canonify-environment-variable (string* begin (buffer-substring begin end)))))
-    (kill-new txt)
-    (if interprogram-cut-function
-	(funcall interprogram-cut-function txt t))
-    txt))
+    (when (string* txt)
+      (kill-new txt)
+      (if interprogram-cut-function
+	  (funcall interprogram-cut-function txt t))
+      )
+    txt)
+  )
 
 (global-set-key "e" 'yank-dos-environment-variable)
 
@@ -219,23 +228,21 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
   (kill-new (canonify (dired-get-filename) 0))
   )
 
-(add-hook 'dired-mode-hook '(lambda () 
+(add-hook 'dired-mode-hook (lambda () 
 			      (define-key dired-mode-map "" 'dired-kill-filename)
 			      (define-key dired-mode-map "S" 'dired-w32-shortcut)))
-(add-hook 'buffer-menu-mode-hook '(lambda () 
+(add-hook 'buffer-menu-mode-hook (lambda () 
 				    (define-key Buffer-menu-mode-map "" 'dired-kill-filename)))
 
 
 
-(setq w3-load-hooks '(lambda () 
+(setq w3-load-hooks (lambda () 
 		       (load-library "w3-helpers") 
 		       (load-library "url-helpers")
 		       ))
 
-(defvar catalogs '("c:/tmp/f")) ;  "d:/f"
-
 (add-hook 'dired-load-hook
-	  '(lambda () 
+	  (lambda () 
 	     (define-key dired-mode-map "R" 'dired-move-marked-files)
 	     (define-key dired-mode-map "C" 'dired-copy-marked-files)
   ; override default dired drag drop behavior to open dropped files, not copy them
@@ -250,7 +257,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 
 (add-hook 
  'people-load-hook 
- '(lambda ()
+ (lambda ()
     (require 'advice)
   ; some goofy advice to handle lists of filenames that may have spaces in them
     (defadvice contact-cachep (after hanger activate)
@@ -261,7 +268,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
  )
 
 (add-hook 'make-frame-hook 
-	  '(lambda () 
+	  (lambda () 
 	     (modify-frame-parameters
 	      nil
 	      '((left . 140) (top . 80) (height . 30) (width . 72)))))
@@ -348,7 +355,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
     (replace-match "
 " nil t))
     (goto-char (point-min))
-    (local-set-key "" '(lambda () (interactive) (throw 'exit nil)))
+    (local-set-key "" (lambda () (interactive) (throw 'exit nil)))
     (recursive-edit)
     (goto-char (point-min))
   (while (search-forward "
@@ -372,7 +379,6 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
 		      default-fontspec
 		      explore-hooks
 		      last-dosexec
-		      catalogs
 		      print-processes
 		      grep-null-device
 		      w32-documents
@@ -537,7 +543,7 @@ host must respond within optional TIMEOUT msec"
 (provide 'unicode) ; adds a hook to hammer unicode files
 
 ; make sure post-man gets loaded the first time man is called.
-(global-set-key "\C-h\C-m" '(lambda () (interactive) (load-library "post-man") (global-set-key "\C-h\C-m" 'man) (call-interactively 'man)))
+(global-set-key "\C-h\C-m" (lambda () (interactive) (load-library "post-man") (global-set-key "\C-h\C-m" 'man) (call-interactively 'man)))
 
 ;; this works, but breaks host-ok...
 
@@ -611,7 +617,7 @@ keys for the alist include:
 (global-set-key "\C-z" 'undo)
 
 (defun member-ignore-case (cl-item cl-list)
-  (member* cl-item cl-list :test '(lambda (x y) (string= (downcase x) (downcase y))))
+  (member* cl-item cl-list :test (lambda (x y) (string= (downcase x) (downcase y))))
   ) 
 
 ;; ignore case when determining whether a filename is a member of a list
@@ -629,6 +635,20 @@ keys for the alist include:
 
 (provide 'w32)
 
-(add-file-association "key" '(lambda (f) (interactive) (let ((key (comint-read-noecho "key: " t))) (decrypt-find-file f key))))
+(add-file-association "key" (lambda (f) (interactive) (let ((key (comint-read-noecho "key: " t))) (decrypt-find-file f key))))
 (add-file-association "htm" 'html-view)
 (add-file-association "html" 'html-view)
+
+(condition-case whatever
+    (require 'regtool)
+  (let ((key  "/HKCU/SOFTWARE/Microsoft/Internet Explorer/Main/") (val "about:blank")) 
+    (dolist (x '("Start Page" "Default_Page_URL") )  (regtool "set" (concat key x) val))
+    )
+  ;   (regtool "get" "/HKCU/SOFTWARE/Microsoft/Internet Explorer/Main/Start Page")
+
+  (require 'cygwin)
+;  (add-hook 'find-file-not-found-functions 'cygwin-file-not-found)
+;  (remove-hook 'find-file-not-found-functions 'cygwin-file-not-found)
+  (error (debug))
+  )
+

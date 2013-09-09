@@ -1,6 +1,8 @@
 (put 'aexec 'rcsid
  "$Id$")
 
+(require 'typesafe)
+
 ; (aexec-handler "jar")
 
 (defun aexec-handler (ext)
@@ -35,7 +37,7 @@ name is generated from basename of command
 process is given an output buffer matching its name and a sentinel `aexec-sentinel'
 "
 
-  (unless (and (string* (trim cmd)) (string* (trim f)))
+  (unless (and (string* (trim-white-space-string cmd)) (string* (trim-white-space-string f)))
     (debug)
     )
 

@@ -8,7 +8,7 @@
   )
 
 (add-hook 'dired-mode-hook 
-	  '(lambda nil 
+	  (lambda nil 
 	     (define-key dired-mode-map "w" 'dired-w3-file)
 ))
 

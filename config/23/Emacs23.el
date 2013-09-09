@@ -10,7 +10,7 @@
 (define-key minibuffer-local-completion-map "	" 'minibuffer-complete-word)
 
 ; silence the dinger
-(setq ring-bell-function '(lambda () nil))
+(setq ring-bell-function (lambda () nil))
 
 ; prevent tooltips on modeline hover
 (setq tooltip-use-echo-area t)

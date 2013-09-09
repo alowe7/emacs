@@ -21,7 +21,7 @@
 ;; 
 ;; (add-hook 'comint-mode-hook 'my-comint-mode-hook)
 
-(add-hook 'comint-mode-hook '(lambda ()
+(add-hook 'comint-mode-hook (lambda ()
   ;			       (debug)
 			       (let ((process (get-buffer-process (current-buffer))))
 				 (and process (set-process-query-on-exit-flag process nil)))
@@ -32,7 +32,7 @@
   (interactive)
   (let* ((process (get-buffer-process (or buffer (current-buffer))))
 	 (flag (and process (set-process-query-on-exit-flag process nil))))
-    (if (interactive-p) (message "query on exit: %s" flag) flag)
+    (if (called-interactively-p 'any) (message "query on exit: %s" flag) flag)
     )
   )
 ; (buffer-process-query-on-exit)

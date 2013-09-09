@@ -2,7 +2,52 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("Python Index"
+(("contacts"
+ (filename . "c:/work/inscom/contacts/")
+ (front-context-string . "contacts-130711\n")
+ (rear-context-string . "-07-17 18:13:48 ")
+ (position . 119))
+("mission_threads"
+ (filename . "c:/d/subversion.teaminvertix.int/svn/reddisk/documentation-staging/capabilities/IT17/mission_threads/")
+ (front-context-string . "IT17 Demo Script")
+ (rear-context-string . "-07-25 19:11:27 ")
+ (position . 843))
+("status"
+ (filename . "c:/work/inscom/status/")
+ (front-context-string . "GSSC\n  drwxrwxrw")
+ (rear-context-string . "-07-19 08:48:55 ")
+ (position . 116))
+("reddisk"
+ (filename . "c:/d/subversion.teaminvertix.int/svn/reddisk/")
+ (front-context-string . "  drwxrwxrwx  1 ")
+ (rear-context-string . ":14 abcsinterop\n")
+ (position . 207))
+("Data Management"
+ (filename . "c:/work/inscom/Data Management/")
+ (front-context-string . "mashup\n  drwxrwx")
+ (rear-context-string . "-07-18 21:49:54 ")
+ (position . 129))
+("source-data"
+ (filename . "c:/d/subversion.teaminvertix.int/svn/reddisk/documentation-staging/source-data/")
+ (front-context-string . "Data_Source_Refe")
+ (rear-context-string . "-07-11 10:06:01 ")
+ (position . 173))
+("workplans"
+ (filename . "c:/d/svn.inscomfutures.com/documentation-staging/workplans/")
+ (front-context-string)
+ (rear-context-string . "-05-07 16:07:00 ")
+ (position . 191))
+("CiscoAnyConnect"
+ (filename . "c:/ProgramData/Cisco/Cisco AnyConnect Secure Mobility Client/Profile/")
+ (front-context-string . "  c:/ProgramData")
+ (rear-context-string)
+ (position . 1))
+("inscom"
+ (filename . "c:/work/inscom/")
+ (front-context-string . "PII\n  drwxrwxrwx")
+ (rear-context-string . "-08-07 09:10:28 ")
+ (position . 110))
+("Python Index"
  (front-context-string . "File: python.inf")
  (rear-context-string)
  (position . 6689291)
@@ -14,26 +59,11 @@
  (front-context-string . "Low\n  -rw-rw-rw-")
  (rear-context-string . "  0 07-16 12:44 ")
  (position . 273))
-("Messaging Performance"
- (filename . "c:/work/messaging-performance/")
- (front-context-string)
- (rear-context-string . " 05-08 10:45 ..\n")
- (position . 184))
-("IMPACT"
- (filename . "c:/ProgramData/IMPACT/")
- (front-context-string . "Log\n  drwxrwxrwx")
- (rear-context-string . "  0 04-05 13:58 ")
- (position . 142))
 ("Documents"
  (filename . "c:/Users/alowe/Documents/")
  (front-context-string . "contacts-111202.")
  (rear-context-string . "519 12-02 15:00 ")
  (position . 145))
-("AF DCGS"
- (filename . "//ows.com/storage/Development/IS/Documents/AF DCGS/")
- (front-context-string . "Thumbs.db\n  drwx")
- (rear-context-string . "840 12-02 10:46 ")
- (position . 160))
 ("svn servers proxy"
  (filename . "~/.subversion/servers")
  (front-context-string . "http-proxy-host ")

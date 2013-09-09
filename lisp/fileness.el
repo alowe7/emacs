@@ -5,11 +5,13 @@
 (defvar *file-name-chars* '(?/ ?: ?.))
 (defvar *file-name-chars-prior-syntax* nil)
 
-(defun wordness ()
+(defun wordness (&optional arg)
   "treat file descriptors as words in their entirety
 with optional ARG, toggles current behavior.  see `fileness'
+
+bug: toggle not implemented
 "
-  (interactive)
+  (interactive "P")
   (if (member major-mode *no-fileness-modes*)
   ; this messes up fontification, apparently undoably.
       (progn
@@ -17,24 +19,24 @@ with optional ARG, toggles current behavior.  see `fileness'
 	(minibuffer-wordness))
 
     (loop for x in *file-name-chars* do
-	  (let ((c (assoc x *file-name-chars-prior-syntax*)))
-	    (and c (modify-syntax-entry x (format "%s" c) (syntax-table)))
-	    ))
+	  (modify-syntax-entry x c (syntax-table))
+	  )
     )
   )
 
 (defun fileness ()
   "treat individual elements of file descriptors as words
 with optional ARG, toggles current behavior.  see `wordness'
+
+bug: toggle behavior not implemented
 "
   (interactive)
+
   (if (member major-mode *no-fileness-modes*)
   ; this messes up fontification, apparently undoably.
-      (progn
-	(message "you probably mean minibuffer-fileness")
-	(minibuffer-fileness))
+      (error "fileness not supported in this mode.  did you mean minibuffer-fileness?")
+
     (loop for x in *file-name-chars* do
-	  (add-association (list x (char-syntax x)) '*file-name-chars-prior-syntax*)
 	  (modify-syntax-entry x "." (syntax-table))
 	  )
     )

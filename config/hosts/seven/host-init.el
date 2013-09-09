@@ -41,6 +41,6 @@
 
 (require 'xz-loads)
 ; tbd figure out why post-xz is not getting invoked
-(add-hook 'xz-load-hook '(lambda () (post-after-load "xz")))
+(add-hook 'xz-load-hook (lambda () (post-after-load "xz")))
 
 (display-time)

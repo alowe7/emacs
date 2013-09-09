@@ -1,41 +1,25 @@
-;; maybe it would be better to comb the registry.
-(cond ((string-match "1.3.2" (eval-process "uname" "-r"))
-
-       ;; mount output format for (beta) release 1.3.2
-       (defun cygmounts ()
-	 " list of cygwin mounts"
-	 (setq cygmounts
-	       (loop for x in (split (eval-process "mount") "
-")
-		     collect 
-		     (let ((l (split x " ")))
-		       (list (caddr l) (car l))))
-	       )
-	 )
-       )
-      ((string-match "1.5" (eval-process "uname" "-r"))
-;;  this was originally intended to catch interminable timeouts on disconnected drives
-       (defun cygmounts () (setq cygmounts nil))
-       )
-      (t 
-       ;; mount output format for release 1.0
-       (defun cygmounts ()
-	 " list of cygwin mounts"
-	 (setq cygmounts
-	       (loop for x in (cdr (split (eval-process "mount") "
-"))
-		     collect
-		     (let
-			 ((l (split (replace-regexp-in-string "[ ]+" " " x))))
-		       (list (cadr l) (car l))))
-	       )
-	 )
-       )
-      )
-
+(require 'long-comment)
 
 ; initialize mount table
-(cygmounts)
+(defvar *cygdrive-prefix*  (car
+			    (split
+			     (cadr (split (eval-process "mount -p") "
+"))
+			     )
+			    )
+"prefix for cygwin mounts"
+  )
+
+(defvar *cygmounts*
+  (remove-if (function (lambda (x) (not (string-match (concat "^" *cygdrive-prefix*)  (car x)))))
+	     (loop for x in (split (eval-process "mount") "
+")
+		   collect 
+		   (let ((l (split x " ")))
+		     (list (caddr l) (car l))))
+	     )
+  "list of mounted file systems"
+  )
 
 
 (defun mount-hook (f)
@@ -44,8 +28,8 @@
 	 (check-unc-path f))
 	(t
 	 (let ((e (if (absolute-path default-directory)
-		      (concat (cadr (assoc "/" cygmounts)) f)
-		    (loop for y in cygmounts
+		      (concat (cadr (assoc "/" *cygmounts*)) f)
+		    (loop for y in *cygmounts*
 			  if (or
 			      (string-match (concat "^" (car y) "/") f)
 			      (string-match (concat "^" (car y) "$") f))
@@ -79,14 +63,16 @@
       (find-file (substring (buffer-string) (match-end 0))))
   )
 
-(add-hook 'find-file-hooks 'cygwin-find-file-hook)
+;; add this to host-init:
+; (add-hook 'find-file-hooks 'cygwin-find-file-hook)
 
-;; advise expand-file-name to be aware of cygmounts
+
+;; advise expand-file-name to be aware of *cygmounts*
 
 ;; (defadvice expand-file-name (around expand-file-name-hook activate)
 ;;   (let* ((d (ad-get-arg 0))
 ;; 	 (d1 (unless (string-match "^//\\|^~\\|^[a-zA-`]:" d)
-;; 	       (loop for y in cygmounts 
+;; 	       (loop for y in *cygmounts* 
 ;; 		     if (or
 ;; 			 (string-match (concat "^" (car y) "/") d)
 ;; 			 (string-match (concat "^" (car y) "$") d))
@@ -101,3 +87,44 @@
 
 ; (if (ad-is-advised 'expand-file-name) (ad-unadvise 'expand-file-name))
 ; (expand-file-name (fw "broadjump"))
+
+;; another way to do this:
+
+(defun cygwin-canonify-mount (fn)
+  (let* ((fn (canonify fn 0))
+	 (real-fn
+	  (loop for y in *cygmounts* when
+		(string-match (car y) fn)
+		return 
+		(concat (cadr y) (substring fn (match-end 0))))))
+    real-fn
+    )
+  )
+
+(defun cygwin-file-not-found ()
+  "automatically follow symlink unless prefix is given"
+  (let ((real-fn (cygwin-canonify-mount (buffer-file-name))))
+    (if (and real-fn (file-exists-p real-fn)) (find-file real-fn))
+    )
+  )
+
+;; add this to host-init:
+; (add-hook 'find-file-not-found-functions 'cygwin-file-not-found)
+
+(/*
+ (defadvice fb-indicated-file (around fb-indicated-file-hook activate)
+   ad-do-it
+
+   (let ((f ad-return-value))
+     (cond
+      ((and f (file-exists-p f) f))
+      (t
+       (setq f (cygwin-canonify-mount f))
+       (if (and f (file-exists-p f)) (setq ad-return-value f))
+       ))
+     )
+   )
+  ; (if (ad-is-advised 'fb-indicated-file) (ad-unadvise 'fb-indicated-file))
+ */)
+
+(provide 'cygwin)

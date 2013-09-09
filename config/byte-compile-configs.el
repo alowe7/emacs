@@ -12,7 +12,7 @@
 			      (expand-file-name "x" "./os")
 			      (expand-file-name "./common")))
 
-(mapc '(lambda (x) (add-to-list 'load-path x))
+(mapc (lambda (x) (add-to-list 'load-path x))
       (nconc
        (list
 	(expand-file-name "~/emacs/lisp")
@@ -28,7 +28,7 @@
 ; (message (pp load-path))
 
 ; (mapc
-;  '(lambda (d) (mapc 'byte-compile-file (directory-files d t ".el$")))
+;  (lambda (d) (mapc 'byte-compile-file (directory-files d t ".el$")))
 ;  *configdirlist*
 ; )
 

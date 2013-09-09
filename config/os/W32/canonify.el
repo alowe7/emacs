@@ -86,7 +86,7 @@ if MIXED is 0, then ignore letter drive names.
 
 (defun unix-canonify-path (path)
   " `unix-canonify' elements of w32 style PATH"
-  (join (mapcar #'(lambda (x) (unix-canonify x 0)) (split  path ";")) ":")
+  (join (mapcar (lambda (x) (unix-canonify x 0)) (split  path ";")) ":")
   )
 
 
@@ -111,7 +111,7 @@ if MIXED is 0, then ignore letter drive names.
 
 (defun w32-canonify-path (path &optional drive)
   " `w32-canonify' elements of w32 style PATH"
-  (join (mapcar #'(lambda (x) (w32-canonify x drive)) (split  path ":")) ";")
+  (join (mapcar (lambda (x) (w32-canonify x drive)) (split  path ":")) ";")
   )
 ; (w32-canonify-path (getenv "PATH"))
 

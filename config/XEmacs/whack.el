@@ -6,7 +6,7 @@
 		(cadr (member 'key (event-properties  (aref x 0))))
  		'((backspace ?))))
 	 )
-       (fset 'read-key-p '(lambda ()  
+       (fset 'read-key-p (lambda ()  
 			    (let ((k (read-key-sequence "")))
 			      (or last-input-char
 				  (whack-key-sequence k))))))

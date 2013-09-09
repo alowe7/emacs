@@ -6,7 +6,7 @@ INSTALL = install
 LOCALBIN = /usr/local/bin
 SHARE=/usr/share/emacs
 SITESTART = $(SHARE)/site-lisp/site-start.d
-COMPILE_AUTOLOADS = --compiled
+# COMPILE_AUTOLOADS = --compiled
 
 TOP=$(shell pwd)
 
@@ -32,7 +32,7 @@ ETAGS=etags
 all: ship
 
 # you want to make ship to get a-autoloads into sitestart
-ship: compile autoloads
+ship: autoloads
 	mkdir -p $(SITESTART)
 	install -m 444 $(AUTOLOADS) $(SITESTART)
 

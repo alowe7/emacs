@@ -26,7 +26,7 @@
 the current directory.  otherwise, just use tags-file-name")
 
 (setq default-tags-table-function
-      '(lambda ()
+      (lambda ()
 	 (cond ((and *use-local-tags-table* (file-exists-p "TAGS") "TAGS"))
 	       (t tags-file-name))))
 

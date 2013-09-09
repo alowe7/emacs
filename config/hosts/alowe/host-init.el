@@ -82,7 +82,7 @@
       do 
       (setq load-path
   ; first remove published versions, if any
-	    (nconc (remove-if '(lambda (x) (string-match (car e) x)) load-path)
+	    (nconc (remove-if (lambda (x) (string-match (car e) x)) load-path)
   ; then add working versions
 		   (cdr e))
 	    )
@@ -91,9 +91,9 @@
 (add-to-load-path "/z/el" t)
 
 (add-hook 'xz-load-hook 
-	  '(lambda ()
+	  (lambda ()
 	     (mapcar
-	      '(lambda (x) (load x t t)) 
+	      (lambda (x) (load x t t)) 
 		     '("xz-compound" "xz-fancy-keys" "xz-constraints"))))
 
 
@@ -165,7 +165,7 @@
   )
 
 (add-hook 'perl-mode-hook
-	  '(lambda () (font-lock-mode t)))
+	  (lambda () (font-lock-mode t)))
 
 (defun makeunbound (symbol-name)
   (interactive (list (read-string* "make unbound (%s): " (thing-at-point 'symbol))))

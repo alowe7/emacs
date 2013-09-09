@@ -11,7 +11,7 @@
 
 (define-key ctl-x-5-map "-" 'delete-all-other-frames)
 (define-key ctl-x-5-map "=" 'delete-duplicate-frames)
-(define-key ctl-x-5-map "\C-m" '(lambda () (interactive) (switch-to-buffer-other-frame (current-buffer)))) 
+(define-key ctl-x-5-map "\C-m" (function (lambda () (interactive) (switch-to-buffer-other-frame (current-buffer))))) 
 
 (global-set-key (vector 24 67108923) 'indent-for-comment) ; C-x C-;
 
@@ -31,8 +31,8 @@
 (global-set-key "" 'pwd)
 
 (global-set-key "3" 'three)
-; (global-set-key "<" '(lambda () (interactive) (scroll-left horizontal-scroll-delta)))
-; (global-set-key ">" '(lambda () (interactive) (scroll-right horizontal-scroll-delta)))
+; (global-set-key "<" (lambda () (interactive) (scroll-left horizontal-scroll-delta)))
+; (global-set-key ">" (lambda () (interactive) (scroll-right horizontal-scroll-delta)))
 (global-set-key "<" 'scroll-left)
 (global-set-key ">" 'scroll-right)
 ; (global-set-key "c" ' compare-windows-2)
@@ -58,7 +58,7 @@
 ; (global-set-key "." 'find-tag-on-key)
 (global-set-key "." 'modify-syntax-entry)
 
-(global-set-key "" '(lambda () (interactive) (roll-buffer-list t)))
+(global-set-key "" (function (lambda () (interactive) (roll-buffer-list t))))
 
 (global-set-key "" 'fill-region)
 (global-set-key "" 'current-word-search-backward)
@@ -76,7 +76,7 @@
 (global-set-key "g" 'grep)
 (global-set-key "h" 'howto)
 (global-set-key "l" 'move-to-window-line)
-(global-set-key "m" '(lambda (dir) (interactive "screate dir: ") (shell-command (format "mkdir %s" dir)) (and (eq major-mode 'dired-mode) (revert-buffer))))
+(global-set-key "m" (function (lambda (dir) (interactive "screate dir: ") (shell-command (format "mkdir %s" dir)) (and (eq major-mode 'dired-mode) (revert-buffer)))))
 (global-set-key "n" 'note)
 ; (global-set-key "r" 'vm)
 ; (global-set-key "r" 'rmail)
@@ -97,8 +97,8 @@
 
 
 (global-set-key "" 'eval-current-buffer)
-; (global-set-key "" '(lambda nil (interactive) (shell 1)))
-; (global-set-key "<CONTROL-J>" '(lambda nil (interactive) (shell 2)))
+; (global-set-key "" (function (lambda nil (interactive) (shell 1))))
+; (global-set-key "<CONTROL-J>" (function (lambda nil (interactive) (shell 2))))
 (global-set-key "" 'shell2)
 (global-set-key (vector ? 'C-return) 'eshell)
 (global-set-key "&" 'replace-string)
@@ -146,7 +146,7 @@
 (define-key ctl-x-4-map "q" 'flame)
 (define-key ctl-x-4-map "r" 'rename-buffer)
 (define-key ctl-x-4-map "v" 'inv)
-(define-key ctl-x-4-map "w" '(lambda () (interactive) (findwhence (indicated-word))))
+(define-key ctl-x-4-map "w" (function (lambda () (interactive) (findwhence (indicated-word)))))
 (define-key ctl-x-4-map "y" 'yow)
 
 
@@ -189,8 +189,8 @@
 (global-set-key (vector '\M-prior) 'bury-buffer-1)
 (global-set-key (vector '\M-next) 'unbury-buffer)
 
-;(global-set-key "\M-n" '(lambda () (interactive) (let* ((l (real-buffer-list)) (b (pop l))) (switch-to-buffer b))))
-;(global-set-key "\M-p" '(lambda () (interactive) (let* ((l (real-buffer-list t)) (b (pop l))) (switch-to-buffer b))))
+;(global-set-key "\M-n" (function (lambda () (interactive) (let* ((l (real-buffer-list)) (b (pop l))) (switch-to-buffer b)))))
+;(global-set-key "\M-p" (function (lambda () (interactive) (let* ((l (real-buffer-list t)) (b (pop l))) (switch-to-buffer b)))))
 
 (require 'alt-spc)
 
@@ -202,16 +202,16 @@
 (define-key alt-SPC-map " " 'roll-buffer-list)
 
 
-(define-key alt-SPC-map "?" '(lambda () (interactive) (message "")))
+(define-key alt-SPC-map "?" (function (lambda () (interactive) (message ""))))
 (define-key alt-SPC-map "\M-/" 'list-buffers-with)
 (define-key alt-SPC-map "\M-6" 'list-buffers-not-modified)
 (define-key alt-SPC-map "\M-8" 'list-buffers-modified)
-(define-key alt-SPC-map "\M-?" '(lambda () (interactive) (help-for-map alt-SPC-map)))
+(define-key alt-SPC-map "\M-?" (function (lambda () (interactive) (help-for-map alt-SPC-map))))
 (define-key alt-SPC-map "\M-i" 'list-buffers-in)
 (define-key alt-SPC-map "\M-k" 'kill-buffers-mode)
 (define-key alt-SPC-map "\M-m" 'list-buffers-mode)
 (define-key alt-SPC-map "\M-~" 'kill-buffers-not-modified)
-(define-key alt-SPC-map "b" '(lambda () (interactive) (list-buffers-mode 'scratch-mode)))
+(define-key alt-SPC-map "b" (function (lambda () (interactive) (list-buffers-mode 'scratch-mode))))
 (define-key alt-SPC-map "l" 'roll-buffer-like)
 (define-key alt-SPC-map "m" 'roll-buffer-named)
 (define-key alt-SPC-map "n" 'iconify-frame)
@@ -235,10 +235,10 @@
 
 (global-set-key (vector (ctl ??)) 'ctl-\?-prefix)
 
-(define-key ctl-\?-map "	" '(lambda () (interactive)   (message "tab-width: %d" tab-width)))
+(define-key ctl-\?-map "	" (function (lambda () (interactive)   (message "tab-width: %d" tab-width))))
 
 ; mail-quote
-(global-set-key ">" '(lambda () (interactive) (save-excursion (goto-char (point-min)) (replace-regexp "^" "> " nil))))
+(global-set-key ">" (function (lambda () (interactive) (save-excursion (goto-char (point-min)) (while (re-search-forward  "^" nil t) (replace-match "> " nil nil))))))
 
 (define-key ctl-x-4-map "" 'bury-buffer)
 

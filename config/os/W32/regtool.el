@@ -13,7 +13,13 @@
 		(read-string "key: ")
 		(string* (read-string "options: "))))
 
-  (eval-process "regtool" action key)
+  (apply 'eval-process   
+  ; tbd figure out why this is necessary
+	 (if options
+	     (list "regtool" action key options)
+	   (list "regtool" action key)
+	   )
+	 )
   )
 
 ; (regtool "get" "/HKLM/SOFTWARE/Technology X/tw/wtop")

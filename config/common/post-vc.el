@@ -38,7 +38,7 @@
   )
 
 ;; fixup crlf eol encoding
-(add-hook 'vc-checkin-hook '(lambda () (find-file-force-refresh)))
+(add-hook 'vc-checkin-hook (lambda () (find-file-force-refresh)))
 
 (defun rcsid (&optional arg) 
   "return rcsid associated with current buffer.
@@ -96,7 +96,7 @@ see `chain-parent-file'
   diff-switches)
 
 (define-key vc-prefix-map "!" 'cvshack)
-(define-key vc-prefix-map "?" '(lambda () (interactive) (message "file %s is %s" (buffer-file-name) (vc-cvs-status (buffer-file-name)))))
+(define-key vc-prefix-map "?" (lambda () (interactive) (message "file %s is %s" (buffer-file-name) (vc-cvs-status (buffer-file-name)))))
 
 (autoload 'ediff-revision "ediff")
 (define-key vc-prefix-map "@" 'ediff-revision)

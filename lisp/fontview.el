@@ -22,7 +22,7 @@ see fontview-mode-map keymap & fontview-mode-syntax-table
    (or fontview-mode-map (prog1
 			     (setq fontview-mode-map (copy-keymap view-mode-map))
 			   (define-key fontview-mode-map "" 
-			     '(lambda () (interactive) (set-indicated-font) (next-line 1)))
+			     (lambda () (interactive) (set-indicated-font) (forward-line 1)))
 			   )
        ))
 

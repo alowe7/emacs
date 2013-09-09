@@ -3,7 +3,7 @@
 
 (defvar *share* (expand-file-name (or (getenv "SHARE") "/usr/share/emacs")))
 
-(mapc #'(lambda (x) (add-to-list 'load-path x))
+(mapc (lambda (x) (add-to-list 'load-path x))
       (nconc (directory-files (concat *share* "/site-lisp") t "^[a-zA-Z]")
 	     (list "." (concat *share* "/site-lisp"))))
 

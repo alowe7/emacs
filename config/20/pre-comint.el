@@ -10,6 +10,6 @@
   ;  (setq comint-prompt-regexp "^[a-zA-Z0-9]+[>$%] *")
 
   ;; used to initialize `comint-mode-hook'
-  (mapcar '(lambda (f) (apply f '(comint-prompt-regexp "^[a-zA-Z0-9]*[$%] *"))) '(set-default set))
+  (mapcar (lambda (f) (apply f '(comint-prompt-regexp "^[a-zA-Z0-9]*[$%] *"))) '(set-default set))
 
   )

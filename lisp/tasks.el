@@ -64,7 +64,7 @@
     (goto-char (point-min))
     (setq buffer-read-only t)
     (view-mode)
-    (local-set-key "" '(lambda () (interactive) (setq buffer-read-only t) (call-interactively 'edit-task-stack)))
+    (local-set-key "" (function (lambda () (interactive) (setq buffer-read-only t) (call-interactively 'edit-task-stack))))
     )
   )
 

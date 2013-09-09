@@ -1,8 +1,8 @@
 (put 'post-sgml-mode 'rcsid 
  "$Id$")
-;(setq html-mode-hook '(lambda () (setq paragraph-start "<P>"))
+;(setq html-mode-hook (lambda () (setq paragraph-start "<P>"))
 
-;; (setq sgml-mode-hook '(lambda () (run-hooks 'html-mode-hook)
+;; (setq sgml-mode-hook (lambda () (run-hooks 'html-mode-hook)
 ;;   ;			(require 'sgml-helpers)
 ;;   ;			(define-key sgml-mode-map "" 'docbook-help)
 ;; 	     (setq tab-width 4)
@@ -30,12 +30,12 @@
   (html-quick-view fn)
   )
 
-(setq html-mode-hook '(lambda () 
+(setq html-mode-hook (lambda () 
 
 			(define-key html-mode-map "" 'html-quick-view-buffer)
 			(define-key html-mode-map "" 'html-quick-find-file)
 
-			(define-key html-mode-map "w" '(lambda () (interactive)
+			(define-key html-mode-map "w" (lambda () (interactive)
 							   (w3-parse-partial (buffer-string)))) 
 			) 
       )

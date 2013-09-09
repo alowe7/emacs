@@ -88,9 +88,9 @@ otherwise if `*cache-sword-key*' is set and a key is cached, use that.
 ; (makunbound 'sword-mode-hook)
 ; (makunbound 'sword-after-insert-hook)
 (defvar sword-after-insert-hook 
-  '(lambda () 
+  (function (lambda () 
      (font-lock-mode)
-     )
+     ))
   )
 
 (defun sword (arg)
