@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("contacts"
+(("pilotwave"
+ (filename . "c:/phi/p/pilotwave/")
+ (front-context-string . "receipts\n  drwxr")
+ (rear-context-string . "-09-12 11:30:27 ")
+ (position . 112))
+("contacts"
  (filename . "c:/work/inscom/contacts/")
  (front-context-string . "contacts-130711\n")
  (rear-context-string . "-07-17 18:13:48 ")

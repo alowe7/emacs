@@ -50,3 +50,7 @@
 
 (define-key ctl-RET-map  "b" 'list-bookmarks)
 
+(define-key ctl-x-map (vector 'up) 'increment-screen-height)
+(define-key ctl-x-map (vector 'right) 'increment-screen-width)
+(define-key ctl-x-map (vector 'down) (function (lambda (x) (interactive "p") (increment-screen-height (- x)))))
+(define-key ctl-x-map (vector 'left) (function (lambda (x) (interactive "p") (increment-screen-width (- x)))))

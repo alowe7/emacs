@@ -1,6 +1,7 @@
 (put 'frameplay 'rcsid
  "$Id$")
 
+
 (defun increment-screen-height (&optional arg) 
   (interactive "p")
   (let ((f (current-frame))
@@ -49,8 +50,8 @@
     )
   )
 
-(define-key ctl-x-map (vector 'f12) 'increment-screen-height)
-
-(define-key ctl-x-map (vector 'f11) 'increment-screen-width)
+;; suggested use:
+; (define-key ctl-x-map (vector 'up) 'increment-screen-height)
+; (define-key ctl-x-map (vector 'right) 'increment-screen-width)
 
 
