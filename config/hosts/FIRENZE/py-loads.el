@@ -1,17 +1,6 @@
 (put 'py-loads 'rcsid
  "$Id: py-loads.el 1080 2012-09-16 19:55:25Z alowe $")
 
-(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
-(autoload 'python-mode "python-mode" "Python editing mode." t)
-(autoload 'py-shell "python-mode" "Python editing mode." t)
-(setq py-shell-name "/Python27/pythonw")
-; (setq py-shell-name "/Python27/python")
-; (setq py-shell-name "python")
-
-; (add-to-list 'load-path "~/.emacs.d/vendor/pymacs-0.24-beta2")
-; (add-to-list 'load-path "~/.emacs.d/vendor/auto-complete-1.2")
-
 ;; some python mode customizations
 (defun my-python-mode-hook ()
 ;  (debug)

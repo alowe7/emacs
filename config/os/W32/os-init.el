@@ -487,6 +487,20 @@ host must respond within optional TIMEOUT msec"
 
 (setq mount-hook-file-commands '(cd dired find-file-noselect file-exists-p w32-canonify read-file))
 
+(defun mount-hook-file-commands ()
+  (mount-unhook-file-commands)
+  (loop for x in mount-hook-file-commands do
+	(let ((hook-name (intern (concat "hook-" (symbol-name x)))))
+	  (eval `(defadvice ,x (around ,hook-name first activate) 
+		   (ad-set-arg 0 (mount-hook (ad-get-arg 0)))
+		   ad-do-it
+		   )
+		)
+	  )
+	)
+  )
+; (mount-hook-file-commands)
+
 (defun mount-unhook-file-commands ()
   (loop for x in mount-hook-file-commands do
 	(eval `(if (ad-is-advised (quote ,x)) (ad-unadvise (quote ,x))))))

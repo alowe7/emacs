@@ -105,17 +105,6 @@
 	    collect handler)
       )
 
-(/*
-  ; --- this whole thing is a waste of time ---
-
-  ; this should  have the side effect of defining some environment vars
- (scan-file-p "~/.bashrc")
- (scan-file-p (expand-file-name ".bashrc" (host-config)))
-
-  ; however, setting PATH to unix-style breaks call-process, etc.
- (setenv "PATH" (w32-canonify-path (getenv "PATH") "c:"))
- */)
-
 (setq path-separator ":")
 
 (requirep 'w3m-loads)
@@ -123,11 +112,6 @@
 (requirep 'zt-loads)
 
 (requirep 'tw)
-
-; TBD lazy load hairy python setups... 
-(require 'ctl-ret)
-; its a lie, but the second time, will be true...
-(define-key ctl-RET-map "" (lambda () (interactive) (require 'py-loads)))
 
 (autoload 'w3m-goto-url "w3m")
 (define-key ctl-RET-map "g" (lambda () (interactive) (let ((url (thing-at-point 'url))) (if url (w3m-goto-url url) (message "thing-at-point doesn't appear to be a url")))))
@@ -140,13 +124,108 @@
 (setq *sword-file* "/src/.private/swords"
       *default-swordfile* *sword-file* )
 
-(scan-file-p "/src/.private/.xdbrc")
-(setq *dired-path* '("/work/inscom" "/work" "/src"))
-
-;; for now...
-;; (setenv "PATH" "c:\\Program Files\\Common Files\\Microsoft Shared\\Windows Live;c:\\Program Files (x86)\\Common Files\\Microsoft Shared\\Windows Live;c:\\home\\alowe\\config\\os\\W32\\bin;c:\\home\\alowe\\bin;c:\\Perl\\site\\bin;c:\\Perl\\bin;c:\\usr\\local\\bin;c:\\usr\\bin;c:\\usr\\bin;c:\\usr\\local\\lib\\emacs-24.1\\bin;c:\\Windows\\system32;c:\\Windows;c:\\Windows\\System32\\Wbem;c:\\Windows\\System32\\WindowsPowerShell\\v1.0;c:\\Program Files\\CREDANT\\Shield v6.7;c:\\Program Files (x86)\\Windows Live\\Shared;c:\\Program Files\\TortoiseSVN\\bin")
+(scan-file-p "/psi/.private/.xdbrc")
+(setq *txdb-options* (nconc (and (getenv "XDB") (list "-b" (getenv "XDB"))) (and (getenv "XDBHOST") (list "-h" (getenv "XDBHOST")))))
+(setq *dired-path* '("/work" "/src" "/phi" "/psi" "/chi"))
 
 (require 'xdb)
 
-(require 'cygwin)
-(add-hook 'find-file-not-found-functions 'cygwin-file-not-found)
+; (require 'cygwin)
+; (add-hook 'find-file-not-found-functions 'cygwin-file-not-found)
+
+(defun pyflake ()
+  (interactive)
+
+  ; TBD lazy load hairy python setups... 
+
+  ; set magic unbuffered flag needed for pdb to work as subprocess
+  ; (setq gud-pdb-command-name "python -u -mpdb")
+  (setenv "PYTHONUNBUFFERED" "true")
+  (setq gud-pdb-command-name "python -mpdb")
+
+  ; put this here, since python-mode is not always be available
+  ; see auto-modes.el
+
+  ; also see py-loads.el
+  (autoload 'python-mode "python")
+
+  ; this is for files that begin with shebang
+  (add-to-list 'guess-auto-mode-alist
+	       '("python" . python-mode)
+	       )
+  ; this is for files with a .py extension
+  (add-auto-mode "\\.py$" 'python-mode)
+
+  (add-to-list 'interpreter-mode-alist '("python" . python-mode))
+
+  ; (autoload 'py-shell "python-mode" "Start an interactive Python interpreter in another window." t)
+  ; (define-key ctl-RET-map  "\C-y" 'py-shell)
+
+  (when (and
+	 (not (boundp 'epy-install-dir))
+	 (file-directory-p "/u/emacs-for-python"))
+  ;    (add-to-list 'load-path (expand-file-name "/u/emacs-for-python"))
+    (load-file "/u/emacs-for-python/epy-init.el")
+  ; pretty sure epy is not using abbrevs tables correctly.
+  ; anyway, for now... 
+    (setq abbrevs-changed nil)
+    )
+
+  ; undo some weird things epy does
+
+  ; default is nil, epy-completion turns it on.  turn it back off.
+  (setq skeleton-pair nil)
+
+  ; undo some weird keymappings
+  (when (boundp 'ido-common-completion-map)
+    (let ((map ido-common-completion-map))
+      (define-key map "\C-j" 'ido-select-text)
+      (define-key map "\C-m" 'ido-exit-minibuffer)
+      (define-key map "\C-a" 'ido-toggle-ignore)
+      )
+    )
+
+  (require 'pydoc)
+
+  (require 'flymake)
+
+  ; default behavior of flymake is to silently fail
+  (setq flymake-log-level 4)
+
+  ; something along the lines of guess-auto-mode for shebang files
+  (defadvice flymake-get-init-function (around 
+					hook-flymake-get-init-function
+					first activate)
+    ""
+
+    ad-do-it
+
+    (let ((filename (ad-get-arg 0))
+	  (return-value ad-return-value))
+
+      (unless ad-return-value
+	(cond
+	 ((eq major-mode 'perl-mode)
+	  (setq ad-return-value 'flymake-perl-init))
+	 ((eq major-mode 'python-mode) 
+	  (setq ad-return-value 'flymake-pylint-init))
+	 )
+	)
+      )
+    )
+
+  ; (if (ad-is-advised 'flymake-get-init-function) (ad-unadvise 'flymake-get-init-function))
+
+  (add-hook 'python-mode-hook
+	    (lambda ()
+	      (setq indent-tabs-mode nil)
+	      (setq tab-width 4)
+	      (setq python-indent 4)))
+  ; (pop python-mode-hook)
+
+  (setq save-abbrevs 'silently)
+  )
+
+(define-key ctl-RET-map  "\C-p" 'pyflake)
+
+(setq write-region-inhibit-fsync t)

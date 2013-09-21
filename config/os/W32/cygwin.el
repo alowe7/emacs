@@ -1,29 +1,38 @@
 (require 'long-comment)
 
-; initialize mount table
-(defvar *cygdrive-prefix*  (car
-			    (split
-			     (cadr (split (eval-process "mount -p") "
+; lazy load 
+(defvar *cygwin-init* nil)
+
+(defun cygwin-init ()
+  (setq *cygwin-init* t)
+
+  ; initialize mount table
+  (defvar *cygdrive-prefix*  (car
+			      (split
+			       (cadr (split (eval-process "mount -p") "
 "))
-			     )
-			    )
-"prefix for cygwin mounts"
-  )
+			       )
+			      )
+    "prefix for cygwin mounts"
+    )
 
-(defvar *cygmounts*
-  (remove-if (function (lambda (x) (not (string-match (concat "^" *cygdrive-prefix*)  (car x)))))
-	     (loop for x in (split (eval-process "mount") "
+  (defvar *cygmounts*
+    (remove-if (function (lambda (x) (not (string-match (concat "^" *cygdrive-prefix*)  (car x)))))
+	       (loop for x in (split (eval-process "mount") "
 ")
-		   collect 
-		   (let ((l (split x " ")))
-		     (list (caddr l) (car l))))
-	     )
-  "list of mounted file systems"
+		     collect 
+		     (let ((l (split x " ")))
+		       (list (caddr l) (car l))))
+	       )
+    "list of mounted file systems"
+    )
   )
-
 
 (defun mount-hook (f)
   "apply mounts to FILE if applicable"
+
+  (unless *cygwin-init* (cygwin-init))
+
   (cond ((absolute-path f)
 	 (check-unc-path f))
 	(t
@@ -41,21 +50,8 @@
 	 )
 	)
   )
-(defun mount-hook-file-commands ()
-  (mount-unhook-file-commands)
-  (loop for x in mount-hook-file-commands do
-	(let ((hook-name (intern (concat "hook-" (symbol-name x)))))
-	  (eval `(defadvice ,x (around ,hook-name first activate) 
-		   (ad-set-arg 0 (mount-hook (ad-get-arg 0)))
-		   ad-do-it
-		   )
-		)
-	  )
-	)
-  )
 
-; this is best done in host-init
-; (mount-hook-file-commands)
+
 
 (defun cygwin-find-file-hook ()
   "automatically follow symlink unless prefix is given"
@@ -91,6 +87,7 @@
 ;; another way to do this:
 
 (defun cygwin-canonify-mount (fn)
+  (unless *cygwin-init* (cygwin-init))
   (let* ((fn (canonify fn 0))
 	 (real-fn
 	  (loop for y in *cygmounts* when

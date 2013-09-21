@@ -17,6 +17,7 @@
     (view-mode)
     )
   )
+(define-key help-map "d" 'perldoc)
 
 ; (perldoc "perlref")
 ; (let ((*perl-command* "/bin/perl"))

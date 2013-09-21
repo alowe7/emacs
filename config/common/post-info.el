@@ -1,81 +1,57 @@
 (put 'post-info 'rcsid
  "$Id$")
 
-(setq info-files-alist
-      '(
-	("ada-mode" "ada-mode")
-	("as" "as")
-	("autosprintf" "autosprintf")
-	("autotype" "autotype")
-	("bash" "bash")
-	("bfd" "bfd")
-	("binutils" "binutils")
-	("ccmode" "ccmode")
-	("cl" "cl")
-	("configure" "configure")
-	("coreutils" "coreutils")
-	("cpp" "cpp")
-	("cppinternals" "cppinternals")
-	("cygwin-api" "cygwin-api")
-	("cygwin-ug-net" "cygwin-ug-net")
-	("cygwin" "cygwin")
-	("diff" "diff")
-	("dir" "dir")
-	("dired-x" "dired-x")
-	("ebrowse" "ebrowse")
-	("ediff" "ediff")
-	("efaq" "efaq")
-	("elisp" "elisp")
-	("emacs" "emacs")
-	("emacs-mime" "emacs-mime")
-	("eshell" "eshell")
-	("eudc" "eudc")
-	("find" "find")
-	("forms" "forms")
-	("gawk" "gawk")
-	("gawkinet" "gawkinet")
-	("gcc" "gcc")
-	("gccinstall" "gccinstall")
-	("gccint" "gccint")
-	("gdbm" "gdbm")
-	("gmp" "gmp")
-	("gnus" "gnus")
-	("gprof" "gprof")
-	("grep" "grep")
-	("idlwave" "idlwave")
-	("info" "info")
-	("info-stnd" "info-stnd")
-	("info" "info")
-	("ld" "ld")
-	("libc" "libc")
-	("libm" "libm")
-	("message" "message")
-	("mh-e" "mh-e")
-	("mpfr" "mpfr")
-	("pcl-cvs" "pcl-cvs")
-	("psgml-api" "psgml-api")
-	("psgml" "psgml")
-	("reftex" "reftex")
-	("sc" "sc")
-	("sed" "sed")
-	("speedbar" "speedbar")
-	("standards" "standards")
-	("tar" "tar")
-	("texinfo" "texinfo")
-	("vip" "vip")
-	("viper" "viper")
-	("wget" "wget")
-	("widget" "widget")
-	("woman" "woman")
-	))
+(defvar *info-files*
+  (apply 'nconc 
+	 (mapcar
+	  (function (lambda (d)
+		      (mapcar
+		       (function (lambda (x)
+				   (replace-regexp-in-string "\.info\\(\.gz\\)*$" "" x)))
+		       (remove* "info-[0-9]+"
+				(get-directory-files d nil "\.info")
+				:test (function (lambda (x y) (string-match x y))))
+		       )))
+
+	  (nconc Info-default-directory-list Info-additional-directory-list)
+	  )
+	 )
+  )
+(defvar *last-info-file* "")
+(defvar *last-info-thing* "")
 
 (defun maninfo (thing)
-  (interactive 
-   (list (completing-read "info for thing: " info-files-alist)))
-  ; todo error checking
-  (let ((node (format "(%s)Top" thing)))
-    (Info-goto-node node)
+  "jump to an info page for THING
+thing may be of the format (FILE)thing
+in this case thing is optional, and if not specified, you go to the main menu for file.
+"
+  (interactive (list
+		(read-string* "info for (%s): " (format "(%s)%s" *last-info-file* *last-info-thing*))
+		))
+
+  (cond
+   ((string-match "^\(.*\)" thing)
+    (let ((last-info-file (substring thing (1+ (match-beginning 0)) (1- (match-end 0))))
+	  (last-info-thing (substring thing (match-end 0))))
+      (info thing)
+      ; need this gyration to preserve match-beginning and match-end, and also to avoid setting defaults if there was an error
+      (setq *last-info-file* last-info-file)
+      (setq *last-info-thing* last-info-thing)
+      )
     )
+   (t
+    (let ((info-file
+	   (or info-file
+	       (and (called-interactively-p 'any)
+		    (completing-read* "in (%s): "  *info-files* *last-info-file* '(nil t)))
+	       *last-info-file*
+	       (error "info-file is required unless called interactively or specified as part of thing"))))
+
+      (info (format "(%s)%s" info-file thing))
+      (setq *last-info-file* info-file)
+      (setq *last-info-thing* thing)
+      ))
+   )
   )
 
 (define-key help-map "\C-i" 'maninfo)
