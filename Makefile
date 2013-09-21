@@ -1,20 +1,17 @@
 # $Id$
 
-SHELL=/bin/sh
-
 INSTALL = install
 LOCALBIN = /usr/local/bin
 SHARE=/usr/share/emacs
 SITESTART = $(SHARE)/site-lisp/site-start.d
 # COMPILE_AUTOLOADS = --compiled
-
-TOP=$(shell pwd)
+EMACS := $(shell which emacs  2> /dev/null)
 
 .PHONY: FORCE
 
-MAKE_AUTOLOADS  := $(shell which make-autoloads  2> /dev/null)
 PKG=a
 AUTOLOADS=$(PKG)-autoloads
+TOP=$(subst c:,,$(PWD))
 
 XZ=xz
 XZFLAGS = -t1 -r
@@ -37,8 +34,7 @@ ship: autoloads
 	install -m 444 $(AUTOLOADS) $(SITESTART)
 
 autoloads: FORCE 
-	$(MAKE_AUTOLOADS) $(COMPILE_AUTOLOADS)  --top=$(TOP) --prefix=$(PKG)  $(CONFIGS) $(SOURCES)  > $(AUTOLOADS)
-	@echo $(AUTOLOADS) rebuilt
+	$(EMACS) -batch --directory "/usr/share/emacs/site-lisp/x-1.0" --load="make-autoloads" --eval "(make-autoloads \"$(TOP)\" nil \"$(PKG)\")"
 
 .xz.dat: FORCE
 	$(XZ) $(XZFLAGS) -n $(SOURCES) $(CONFIGS) ~/.emacs
