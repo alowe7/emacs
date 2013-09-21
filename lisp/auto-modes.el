@@ -6,9 +6,18 @@
 items get added at the head so in effect override any previous definition.
 "
 
-  (setq auto-mode-alist 
-	(nconc (list (cons extension mode))  auto-mode-alist)
-	)
+  (let ((a (assoc extension auto-mode-alist)))
+
+    (cond
+     (a
+      (setcdr a mode))
+     (t
+      (setq auto-mode-alist 
+	    (nconc auto-mode-alist (list (cons extension mode))  )
+	    )
+      )
+     )
+    )
   )
 
 (mapc (lambda (x) (add-auto-mode (car x) (cdr x)))
@@ -86,7 +95,6 @@ items get added at the head so in effect override any previous definition.
 
 (defvar guess-auto-mode-alist
   '(
-    ("python" . python-mode)
     ("perl" . perl-mode)
     )
   "try to deduce mode for scripts in files without filename extension, beginning with shbang construct"
@@ -96,10 +104,14 @@ items get added at the head so in effect override any previous definition.
   (if (and (eq major-mode 'fundamental-mode) (> (point-max) 3)
 	   (save-excursion (goto-char (point-min)) (and (string-match "^#!\\(.*\\)$" (thing-at-point 'line)))))
 
-      (let* ((command  (buffer-substring (1+ (match-beginning 1))  (1+ (match-end 1))))
+      (let* ((command-line (buffer-substring (1+ (match-beginning 1))  (1+ (match-end 1))))
+	     (command (substring command-line (or (string-match "[^ ]+$" command-line) 0))
+		      )
   ; for some reason this loop didn't behave correctly when compiled
   ; 	     (mode (loop for x in guess-auto-mode-alist when (string-match (car x) command) return (cdr x)))
-	     (mode (catch 'ret (mapcar (lambda (x) (if (string-match (car x) command) (throw 'ret (cdr x))))  guess-auto-mode-alist))))
+  ; and this is just stupid
+  ;	     (mode (catch 'ret (mapcar (lambda (x) (if (string-match (car x) command) (throw 'ret (cdr x))))  guess-auto-mode-alist)))
+	     (mode (cdr (assoc command guess-auto-mode-alist))))
 
 	(when (and mode (fboundp mode))
 	  (condition-case err
