@@ -3,11 +3,7 @@
 
 (require 'ctl-meta)
 
-;; all key bindings
-
-; note:
-; on win32 literal ^M characters don't survive some operations (such as cut and paste)
-; so use \C-m construct instead
+;; these is some fancy key bindings
 
 (define-key ctl-x-5-map "-" 'delete-all-other-frames)
 (define-key ctl-x-5-map "=" 'delete-duplicate-frames)
@@ -15,110 +11,109 @@
 
 (global-set-key (vector 24 67108923) 'indent-for-comment) ; C-x C-;
 
-;(global-set-key "y" 'clipboard-yank)	;; emacs works as a clipboard viewer
-(global-set-key "" 'goto-char)
-(global-set-key "	" 'move-to-column)
+(global-set-key "\M-\C-y" 'clipboard-yank)
+(global-set-key "\C-c\C-]" 'goto-char)
+(global-set-key "\C-c\C-i" 'move-to-column)
 
-(global-set-key "" 'auto-fill-mode) ; gets clobbered when cscope comes in
-(global-set-key "c" 'calendar) ;
-(global-set-key "x" 'calc) ;
+(global-set-key "\C-c\C-\\" 'auto-fill-mode)
+(global-set-key "\C-cc" 'calendar) ;
+(global-set-key "\C-cx" 'calc) ;
 
-(global-set-key "r." 'register-to-point)
+(global-set-key "\C-xr." 'register-to-point)
 
 ; ctl-x-map
-(global-set-key  "" 'kill-buffer)
-(global-set-key "\C-m" 'compile)
-(global-set-key "" 'pwd)
+(global-set-key  "\C-x\C-k" 'kill-buffer)
+(global-set-key "\C-x\C-m" 'compile)
+(global-set-key "\C-x\C-p" 'pwd)
 
-(global-set-key "3" 'three)
-; (global-set-key "<" (lambda () (interactive) (scroll-left horizontal-scroll-delta)))
-; (global-set-key ">" (lambda () (interactive) (scroll-right horizontal-scroll-delta)))
-(global-set-key "<" 'scroll-left)
-(global-set-key ">" 'scroll-right)
-; (global-set-key "c" ' compare-windows-2)
-(global-set-key "c" 'compare-windows)
-(global-set-key "l" 'what-line)
-(global-set-key "t" 'todo)
+(global-set-key "\C-x3" 'three)
+; (global-set-key "\C-x<" (lambda () (interactive) (scroll-left horizontal-scroll-delta)))
+; (global-set-key "\C-x>" (lambda () (interactive) (scroll-right horizontal-scroll-delta)))
+(global-set-key "\C-x<" 'scroll-left)
+(global-set-key "\C-x>" 'scroll-right)
+; (global-set-key "\C-xc" ' compare-windows-2)
+(global-set-key "\C-xc" 'compare-windows)
+(global-set-key "\C-xl" 'what-line)
+(global-set-key "\C-xt" 'todo)
 
 ; ctl-c-map
-(global-set-key "" 'auto-save-mode)
-(global-set-key "" 'bottom-of-window)
-(global-set-key "" 'kill-compilation)
+(global-set-key "\C-c\C-a" 'auto-save-mode)
+(global-set-key "\C-c\C-b" 'bottom-of-window)
+(global-set-key "\C-c\C-c" 'kill-compilation)
 
 
-(global-set-key "" 'find-file-force-refresh)
-(global-set-key "f" 'find-indicated-file)
-(global-set-key "" 'search-forward-indicated-word)
+(global-set-key "\C-c\C-f" 'find-file-force-refresh)
+(global-set-key "\C-cf" 'find-indicated-file)
+(global-set-key "\C-c\C-s" 'search-forward-indicated-word)
 
-(global-set-key "" 'insert-buffer)
-(global-set-key "" 'kill-rectangle)
-(global-set-key "" 'goto-line)
-; (global-set-key "" 'manual-entry)
+(global-set-key "\C-c\C-g" 'insert-buffer)
+(global-set-key "\C-c\C-k" 'kill-rectangle)
+(global-set-key "\C-c\C-l" 'goto-line)
+; (global-set-key "\C-c" 'manual-entry)
 
-; (global-set-key "." 'find-tag-on-key)
-(global-set-key "." 'modify-syntax-entry)
+; (global-set-key "\C-c." 'find-tag-on-key)
+(global-set-key "\C-c." 'modify-syntax-entry)
 
-(global-set-key "" (function (lambda () (interactive) (roll-buffer-list t))))
+(global-set-key "\C-c\C-o" (function (lambda () (interactive) (roll-buffer-list t))))
 
-(global-set-key "" 'fill-region)
-(global-set-key "" 'current-word-search-backward)
-(global-set-key "" 'current-word-search-forward)
-(global-set-key "" 'top-of-window)
-(global-set-key "" 'insert-eval-environment-variable)
-(global-set-key "" 'kill-to-cut-buffer)
-(global-set-key "" 'yank-rectangle)
-(global-set-key "<" 'enlarge-window-horizontally)
-(global-set-key "=" 'count-lines-page)
-(global-set-key "`" 'ftp-find-file)
+(global-set-key "\C-c\C-q" 'fill-region)
+(global-set-key "\C-c\C-r" 'current-word-search-backward)
+(global-set-key "\C-c\C-s" 'current-word-search-forward)
+(global-set-key "\C-c\C-t" 'top-of-window)
+(global-set-key "\C-c\C-v" 'insert-eval-environment-variable)
+(global-set-key "\C-c\C-w" 'kill-to-cut-buffer)
+(global-set-key "\C-c\C-y" 'yank-rectangle)
+(global-set-key "\C-c<" 'enlarge-window-horizontally)
+(global-set-key "\C-c=" 'count-lines-page)
+(global-set-key "\C-c`" 'ftp-find-file)
 
-(global-set-key "f" 'find-alternate-file)
-(global-set-key "f" (quote view-file))
-(global-set-key "g" 'grep)
-(global-set-key "h" 'howto)
-(global-set-key "l" 'move-to-window-line)
-(global-set-key "m" (function (lambda (dir) (interactive "screate dir: ") (shell-command (format "mkdir %s" dir)) (and (eq major-mode 'dired-mode) (revert-buffer)))))
-(global-set-key "n" 'note)
-; (global-set-key "r" 'vm)
-; (global-set-key "r" 'rmail)
-(global-set-key "s" 'spell-region)
-(global-set-key "v" 'html-view)
-;(global-set-key "m" 'x-flush-mouse-queue)
-;; (global-set-key "t" 'telnet)
-;; see below. (global-set-key "n" 'rnews)
-;;(global-set-key "" 'cd)
-;;(global-set-key "d" 'indicated-dec)
-;;(global-set-key "h" 'indicated-hex)
-;;(global-set-key "m" 'mymail)
+(global-set-key "\C-cf" 'find-alternate-file)
+(global-set-key "\C-cf" (quote view-file))
+(global-set-key "\C-cg" 'grep)
+(global-set-key "\C-ch" 'howto)
+(global-set-key "\C-cl" 'move-to-window-line)
+(global-set-key "\C-cm" (function (lambda (dir) (interactive "screate dir: ") (shell-command (format "mkdir %s" dir)) (and (eq major-mode 'dired-mode) (revert-buffer)))))
+(global-set-key "\C-cn" 'note)
+; (global-set-key "\C-cr" 'vm)
+; (global-set-key "\C-cr" 'rmail)
+(global-set-key "\C-cs" 'spell-region)
+(global-set-key "\C-cv" 'html-view)
+;(global-set-key "\C-cm" 'x-flush-mouse-queue)
+;; (global-set-key "\C-ct" 'telnet)
+;; see below. (global-set-key "\C-cn" 'rnews)
+;;(global-set-key "\C-c\C-d" 'cd)
+;;(global-set-key "\C-cd" 'indicated-dec)
+;;(global-set-key "\C-ch" 'indicated-hex)
+;;(global-set-key "\C-cm" 'mymail)
 
 
 ; esc-map
-(global-set-key "+" 'toggle-debug-on-error)
-(global-set-key "_" 'debug-indicated-word)
+(global-set-key "\M-+" 'toggle-debug-on-error)
+(global-set-key "\M-_" 'debug-indicated-word)
 
 
-(global-set-key "" 'eval-current-buffer)
-; (global-set-key "" (function (lambda nil (interactive) (shell 1))))
-; (global-set-key "<CONTROL-J>" (function (lambda nil (interactive) (shell 2))))
-(global-set-key "" 'shell2)
-(global-set-key (vector ? 'C-return) 'eshell)
-(global-set-key "&" 'replace-string)
-(global-set-key "*" 'replace-regexp)
-(global-set-key "c" 'capitalize-word)
-(global-set-key "m" 'other-window)
-(global-set-key "o" 'other-window-1)
-(global-set-key "r" 'word-search-backward)
-(global-set-key "s" 'word-search-forward)
-(global-set-key "{" 'backward-up-list)
-(global-set-key "}" 'up-list)
+(global-set-key "\M-\C-l" 'eval-buffer)
+; (global-set-key "\M-" (function (lambda nil (interactive) (shell 1))))
+; (global-set-key "\C-x<CONTROL-J>" (function (lambda nil (interactive) (shell 2))))
+(global-set-key "\M-" 'shell2)
+(global-set-key (vector ?\M- 'C-return) 'eshell)
+(global-set-key "\M-&" 'replace-string)
+(global-set-key "\M-*" 'replace-regexp)
+(global-set-key "\M-c" 'capitalize-word)
+(global-set-key "\M-m" 'other-window)
+(global-set-key "\M-o" 'other-window-1)
+(global-set-key "\M-r" 'word-search-backward)
+(global-set-key "\M-s" 'word-search-forward)
+(global-set-key "\M-{" 'backward-up-list)
+(global-set-key "\M-}" 'up-list)
 
 ; function keys
-(global-set-key "OT" 'findwhence)
-(global-set-key "OV" 'cd)
+(global-set-key "\M-OT" 'findwhence)
+(global-set-key "\M-OV" 'cd)
 
-; (global-set-key "" 'yow)
-; (global-set-key "" 'flame)
-; (global-set-key "" 'caesar-region)
-; (global-set-key "" 'caesar-region)
+; (global-set-key "\M-\C-y" 'yow)
+; (global-set-key "\M-\C-q" 'flame)
+; (global-set-key "\M-\C-r" 'caesar-region)
 
 ; define standard cursor keys, etc
 
@@ -152,10 +147,9 @@
 
 ; (define-key help-map "" 'indicated-manual-entry)
 
-(define-key help-map "" 'fapropos3)
-(define-key help-map "" 'refine-apropos)
-(define-key help-map "" 'help-for-map)
-(define-key help-map "d" 'perldoc)
+(define-key help-map "\C-a" 'fapropos3)
+(define-key help-map "\C-r" 'refine-apropos)
+(define-key help-map "\C-k" 'help-for-map)
 (define-key help-map "." 'lwhence)
 
 ;; (global-set-key "º" 'tags-apropos)
@@ -163,11 +157,11 @@
 
 (global-set-key "\e#" 'calc-dispatch)
 
-(global-set-key "44" 'split-window-horizontally)
+(global-set-key "\C-x44" 'split-window-horizontally)
 
 
-(define-key emacs-lisp-mode-map ","  'debug-indicated-word)
-(global-set-key "d"  'cd)
+(define-key emacs-lisp-mode-map "\C-x,"  'debug-indicated-word)
+(global-set-key "\C-cd"  'cd)
 
 (global-set-key "\C-h\C-m" 'man)
 (global-set-key "\215"  'cmd) ; alt-ret
@@ -176,12 +170,12 @@
 ; (dec "0x400002f")
 (global-set-key (vector 3 67108911) 'fb/)
 
-(global-set-key  "" 'decrypt-find-file)
-(global-set-key  "" 'encrypt-save-buffer)
-(global-set-key  "" 'encrypt-write-buffer)
+(global-set-key  "\C-cC-x" 'decrypt-find-file)
+(global-set-key  "\C-cC-x" 'encrypt-save-buffer)
+(global-set-key  "\C-cC-x" 'encrypt-write-buffer)
 
 
-(global-set-key "k" 'bootstrap-task)
+(global-set-key "\C-ck" 'bootstrap-task)
 
 
 (global-set-key "\M-;" (quote eval-expression))
@@ -223,7 +217,7 @@
 (define-key ctl-x-map " " 'roll-buffer-list)
 
 (global-set-key (vector '\C-tab) 'set-tabs)
-(global-set-key "" 'describe-key-sequence)
+(global-set-key "\C-c" 'describe-key-sequence)
 (define-key help-map "" 'find-function-or-variable)
 
 ; use generally for info commands
@@ -238,7 +232,7 @@
 (define-key ctl-\?-map "	" (function (lambda () (interactive)   (message "tab-width: %d" tab-width))))
 
 ; mail-quote
-(global-set-key ">" (function (lambda () (interactive) (save-excursion (goto-char (point-min)) (while (re-search-forward  "^" nil t) (replace-match "> " nil nil))))))
+(global-set-key "\C-c>" (function (lambda () (interactive) (save-excursion (goto-char (point-min)) (while (re-search-forward  "^" nil t) (replace-match "> " nil nil))))))
 
 (define-key ctl-x-4-map "" 'bury-buffer)
 
