@@ -76,9 +76,6 @@
 
 ;; other requires
 
-(setq *gnuserv-dired-files* t)
-(require 'gnuserv)
-
 (defmacro requirep (feature) `(condition-case err (require ,feature) (file-error nil)))
 (requirep 'xz-loads)
 
@@ -192,6 +189,14 @@
   ; default behavior of flymake is to silently fail
   (setq flymake-log-level 4)
 
+  (defun flymake-pylint-init ()
+    (let* ((temp-file (flymake-init-create-temp-buffer-copy
+		       'flymake-create-temp-inplace))
+           (local-file (file-relative-name
+                        temp-file
+                        (file-name-directory buffer-file-name))))
+      (list "epylint" (list local-file))))
+
   ; something along the lines of guess-auto-mode for shebang files
   (defadvice flymake-get-init-function (around 
 					hook-flymake-get-init-function
@@ -229,3 +234,7 @@
 (define-key ctl-RET-map  "\C-p" 'pyflake)
 
 (setq write-region-inhibit-fsync t)
+
+(ignore-errors
+  (server-start)
+  )
