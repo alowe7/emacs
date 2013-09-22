@@ -84,19 +84,16 @@ see `chain-parent-file'
 ; (ad-is-advised 'vc-diff)
 ; (ad-unadvise 'vc-diff)
 
-(defun cvshack () (interactive) (perl-command-1 "cvshack" :show t :args '("-r" "-v")))
 
 ;; non-terse makes more sense for cvs 
 (setq vc-dired-terse-display nil)
 
-(let ((new-diff-switches (list "-b")))
-  (if (stringp diff-switches)
-      (setq diff-switches (list diff-switches)))
-  (loop for x in new-diff-switches do (add-to-list 'diff-switches x))
-  diff-switches)
-
-(define-key vc-prefix-map "!" 'cvshack)
-(define-key vc-prefix-map "?" (lambda () (interactive) (message "file %s is %s" (buffer-file-name) (vc-cvs-status (buffer-file-name)))))
+;; (let ((new-diff-switches (list "-b")))
+;;   (if (stringp diff-switches)
+;;       (setq diff-switches (list diff-switches)))
+;;   (loop for x in new-diff-switches do (add-to-list 'diff-switches x))
+;;   diff-switches)
 
 (autoload 'ediff-revision "ediff")
-(define-key vc-prefix-map "@" 'ediff-revision)
+
+(define-key vc-prefix-map "-" 'ediff-revision)
