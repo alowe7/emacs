@@ -7,11 +7,7 @@ SHELL=/bin/sh
 CONFIGS := $(shell ../find-configs)
 TARGETS := $(CONFIGS:.el=.elc)
 
-ifneq ($(strip $(EMACSPATH)),)
-EMACS := $(EMACSPATH)/emacs
-else
 EMACS := $(shell which emacs  2> /dev/null)
-endif
 
 all: $(TARGETS)
 

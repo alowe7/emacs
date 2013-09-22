@@ -5,6 +5,7 @@ LOCALBIN = /usr/local/bin
 SHARE=/usr/share/emacs
 SITESTART = $(SHARE)/site-lisp/site-start.d
 # COMPILE_AUTOLOADS = --compiled
+
 EMACS := $(shell which emacs  2> /dev/null)
 
 .PHONY: FORCE
@@ -34,7 +35,7 @@ ship: autoloads
 	install -m 444 $(AUTOLOADS) $(SITESTART)
 
 autoloads: FORCE 
-	$(EMACS) -batch --directory "/usr/share/emacs/site-lisp/x-1.0" --load="make-autoloads" --eval "(make-autoloads \"$(TOP)\" nil \"$(PKG)\")"
+	$(EMACS) -batch --directory "/usr/share/emacs/site-lisp" --load="make-autoloads" --eval "(make-autoloads \"$(TOP)\" nil \"$(PKG)\")"
 
 .xz.dat: FORCE
 	$(XZ) $(XZFLAGS) -n $(SOURCES) $(CONFIGS) ~/.emacs
