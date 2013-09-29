@@ -156,7 +156,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
     (when (string* txt)
       (kill-new txt)
       (if interprogram-cut-function
-	  (funcall interprogram-cut-function txt t))
+	  (funcall interprogram-cut-function txt))
       )
     txt)
   )
@@ -173,7 +173,7 @@ when called from a program, if BEGIN is a string, then use it as the kill text i
   (let ((txt (w32-canonify (string* begin (buffer-substring begin end)))))
     (kill-new txt)
     (if interprogram-cut-function
-	(funcall interprogram-cut-function txt t))
+	(funcall interprogram-cut-function txt))
     txt))
 
 (defun cut-unix-filename (begin &optional end)
