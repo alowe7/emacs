@@ -2,8 +2,8 @@
 
 INSTALL = install
 LOCALBIN = /usr/local/bin
-SHARE=/usr/share/emacs
-SITESTART = $(SHARE)/site-lisp/site-start.d
+HOME := $(HOME)
+SITESTART =  $(HOME)/"/.emacs.d/site-start.d"
 # COMPILE_AUTOLOADS = --compiled
 
 EMACS := $(shell which emacs  2> /dev/null)
@@ -20,7 +20,7 @@ XZFLAGS = -t1 -r
 SOURCES := $(shell find ./lisp -type f -name "*.el")
 
 # only search for relevant configs -- use perl hostname to ensure portability
-CONFIGS := $(shell ./find-configs ./config)
+CONFIGS := $(perl ./find-configs ./config)
 
 # search all configs
 # CONFIGS := $(shell find ./config -type f -name "*.el")
