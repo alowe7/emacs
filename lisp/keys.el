@@ -96,7 +96,6 @@
 ; (global-set-key "\M-" (function (lambda nil (interactive) (shell 1))))
 ; (global-set-key "\C-x<CONTROL-J>" (function (lambda nil (interactive) (shell 2))))
 (global-set-key "\M-" 'shell2)
-(global-set-key (vector ?\M- 'C-return) 'eshell)
 (global-set-key "\M-&" 'replace-string)
 (global-set-key "\M-*" 'replace-regexp)
 (global-set-key "\M-c" 'capitalize-word)
