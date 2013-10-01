@@ -109,13 +109,12 @@ with optional prefix arg, dired containing directory
   (interactive
    (list
     (let* ((config-dir (concat (expand-file-name (hostname) "~/config/hosts") "/"))
-	   (default-directory config-dir)
+	   (default-directory (default-directory* config-dir))
 	   (completion-list (mapcar (function (lambda (x) (list (file-name-nondirectory x) x))) (split (eval-process "find . ") "\n")))
 	   (thing (cadr (assoc (completing-read* "visit host config file (%s): " completion-list *last-host-config-thing* '(nil t)) completion-list))))
       thing)))
 
-  (let* ((config-dir (concat (expand-file-name (hostname) "~/config/hosts") "/"))
-	 (default-directory config-dir))
+  (let* ((config-dir (default-directory* (concat (expand-file-name (hostname) "~/config/hosts") "/"))))
 
     (cond 
      ((null thing) (dired config-dir))
