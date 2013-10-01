@@ -235,6 +235,8 @@
 
 (setq write-region-inhibit-fsync t)
 
-(ignore-errors
+(require 'server)
+(unless (server-running-p server-name)
   (server-start)
   )
+
