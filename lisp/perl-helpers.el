@@ -8,19 +8,20 @@
 
 ; ask perl where it lives
 ; xxx tbd use config tree
+
 (defvar *perldir*
- (expand-file-name (eval-process "perl" "-MConfig" "-e" 
-				 (format "print  $Config{%s}"
-					 (if (string= "Linux" (uname)) "installprivlib" "prefix")
-					 )
-				 )
-		   )
-)
+  (expand-file-name (eval-process *perl-command* "-MConfig" "-e" 
+				  (format "print  $Config{%s}"
+					  (if (string= "Linux" (uname)) "installprivlib" "prefix")
+					  )
+				  )
+		    )
+  )
 ;; alternative methods:
 ; (expand-file-name (eval-process "perl" "/usr/local/bin/perl-config" "prefix")))
 ; (clean-string (reg-query "machine" "software/perl" "")) ; windows only
 (defvar *perldocdir* (expand-file-name "doc" *perldir*))
-(defvar perldoc-cmd (whence "perldoc"))
+(defvar perldoc-cmd (executable-find "perldoc"))
 (defvar perlfunc-pod (concat (expand-file-name "lib/pods" *perldir*)  "/perlfunc.pod"))
 (defvar perlfunc-file (expand-file-name "perlfunc" *perldocdir*))
 (defvar perlop-file (expand-file-name "perlop" *perldocdir*))
