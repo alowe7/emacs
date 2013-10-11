@@ -9,7 +9,7 @@
 		      when (string-match *ipconfig-line-tag* line)
 		      collect (cadr (split line "[ ]*:[ ]*")))))
     (if 
-	(interactive-p)
+	(called-interactively-p 'any)
 	(message 
 	 (cond
 	  ((null addrs) "")

@@ -80,7 +80,7 @@ a null argument means pop-world from world-stack"
 
     (ff1 *fb-db* pat b top)
 
-    (if (interactive-p) 
+    (if (called-interactively-p 'any)
 	(pop-to-buffer b)
       (split (buffer-string) ?\C-j)
       )

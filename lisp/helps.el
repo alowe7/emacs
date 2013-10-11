@@ -52,7 +52,7 @@
   display a relatively nice wall chart of keys on map.
 MAP may be also be a string or symbol name of a map
 "
-  (interactive (list (intern (completing-read "map: "  (mapcar 'list (symbols-like "-map" t))))))
+  (interactive (list (intern (completing-read "map: "  (mapcar 'list (symbols-like "-map"))))))
   (let* ((m (if (symbolp map) (eval map) map)))
     (with-output-to-temp-buffer "*Help*"
       (if (vectorp m)
@@ -470,7 +470,7 @@ with optional prefix arg, wrap by line "
   )
 
 (defun prettify-keymap (m)
-  (interactive (list (intern (completing-read "map: "  (mapcar 'list (symbols-like "-map" t))))))
+  (interactive (list (intern (completing-read "map: "  (mapcar 'list (symbols-like "-map"))))))
 
   (let* ((m 
 	  (cond ((and (symbolp m) (boundp m)) (eval m))

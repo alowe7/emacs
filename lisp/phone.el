@@ -1,7 +1,7 @@
 (put 'phone 'rcsid 
  "$Id$")
 
-(defvar lastdial nil)
+(defvar *lastdial* nil)
 
 (defun lastdial ()
   "figure out the currently selected dialup entry"
@@ -15,7 +15,7 @@
 		 )
 		)))
 
-    (setq  lastdial
+    (setq *lastdial*
 	   (clean-string (eval-process
 			  "perl" 
 			  "/a/bin/queryval"
@@ -51,12 +51,12 @@
   (interactive (list 
 		(completing-read (format "entry (%s): " (lastdial))
 				 dial-entries nil t)))
-  (setq lastdial (if (> (length entry) 0) entry lastdial))
-  (phone  "-d" (format "\"%s\"" lastdial))
+  (setq *lastdial* (if (> (length entry) 0) entry *lastdial*))
+  (phone  "-d" (format "\"%s\"" *lastdial*))
 
   (if (functionp 'swap-mail-domain)
       (let ((l (all-completions 
-		(string-to-word lastdial) *mail-domain-list*)))
+		(string-to-word *lastdial*) *mail-domain-list*)))
 	(if (= (length l) 1)
 	    (swap-mail-domain (car l)))))
   )
@@ -69,6 +69,6 @@
   (interactive (list 
 		(completing-read (format "entry (%s): " (lastdial))
 				 dial-entries nil t)))
-  (setq lastdial (if (> (length entry) 0) entry lastdial))
-  (phone  "-h" (format "\"%s\"" lastdial))
+  (setq *lastdial* (if (> (length entry) 0) entry *lastdial*))
+  (phone  "-h" (format "\"%s\"" *lastdial*))
   )

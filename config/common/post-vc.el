@@ -56,7 +56,7 @@ see `chain-parent-file'
 	 (id (and base (get base (quote rcsid))))
 	 (chain (and base (get base (quote rcsid-chain))))
 	 )
-    (if (interactive-p)
+    (if (called-interactively-p 'any)
 	(cond
 	 (id
 	  (message (chomp (pp (nconc (list id) chain)))))

@@ -24,8 +24,8 @@
 
 ; see reg.el
 
-(defvar pod2text (find-script "pod2text"))
-(when (null pod2text) (error "script not found: pod2text"))
+(defvar *pod2text* (find-script "pod2text"))
+(when (null *pod2text*) (error "script not found: pod2text"))
 
 (defun pod2text (f &optional buffer)
   "find pod for FILE in optional BUFFER"
@@ -34,7 +34,7 @@
 		  (t (zap-buffer (or buffer "*pod*"))))))
     (set-buffer b)
     (insert 
-     (perl-command pod2text f))
+     (perl-command *pod2text* f))
 
   ; if window is visible in another frame, then raise it
     (if (and (not (get-buffer-window b))  

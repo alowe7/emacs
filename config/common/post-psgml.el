@@ -3,7 +3,7 @@
 
 ;; override sgml-list-implications to not popup the stupid error buffer
 
-(defvar bang nil "this is a hack to avoid popping up the all too frequent error buffer")
+(defvar *bang* nil "this is a hack to avoid popping up the all too frequent error buffer")
 
 (define-key sgml-mode-map (vector '\C-right) 'sgml-forward-element)
 (define-key sgml-mode-map (vector '\C-left) 'sgml-backward-element)
@@ -125,7 +125,7 @@ Where the latter represents end-tags."
 	  t)
 	 ;; No implictions and not accepted
 	 (t
-	  (and bang (debug)) ;;; XXX
+	  (and *bang* (debug)) ;;; XXX
 	  (sgml-log-warning "Out of context %s" type)
 	  (setq imps nil))))
     ;; Return the implications in correct order

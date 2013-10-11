@@ -6,7 +6,7 @@
   (let* ((thing (intern thingname))
 	 (class (cond ((boundp thing) (makunbound thing) "symbol")
 		      ((fboundp thing) (fmakunbound thing) "function"))))
-    (and (interactive-p)
+    (and (called-interactively-p 'any)
 	 (message
 	  (if class 
 	      (format "%s %s unbound" class thingname)

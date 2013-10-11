@@ -107,6 +107,8 @@
 (requirep 'w3m-loads)
 
 (requirep 'zt-loads)
+(setq *zt-db-driver* (set-zt-db-driver "mongo"))
+(require (intern (concat "zt-" *zt-db-driver*)))
 
 (requirep 'tw)
 

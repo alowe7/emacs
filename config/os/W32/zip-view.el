@@ -1,10 +1,8 @@
 (put 'zip-view 'rcsid 
  "$Id$")
 
-(require 'whence)
-
 (cond 
- ((whence "pkzip")
+ ((executable-find "pkzip")
   (setq *unzip-command* "pkzip"
 	*unzip-view-options* "-view"
 	*zip-command* "pkzip"
@@ -12,10 +10,10 @@
 	*zip-add-options* "-add")
   )
  (t
-  (when (whence "zip")
+  (when (executable-find "zip")
     (setq *zip-command* "zip"
 	  *zip-add-options* nil))
-  (when (whence "unzip")
+  (when (executable-find "unzip")
     (setq *unzip-command* "unzip"
 	  *zip-extract-options* nil
 	  *unzip-view-options* "-l")

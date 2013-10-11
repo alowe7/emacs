@@ -97,12 +97,12 @@ with optional FAMILY, changes it"
 
 (defun font-1 (arg) (interactive "p")
   (default-font (default-font-family) (- (default-pointsize) (or arg 1)) nil)
-  (if (interactive-p) (message default-fontspec))
+  (if (called-interactively-p 'any) (message default-fontspec))
   )
 
 (defun font+1 (arg) (interactive "p")
   (default-font (default-font-family)  (+ (default-pointsize) (or arg 1)) nil)
-  (if (interactive-p) (message default-fontspec))
+  (if (called-interactively-p 'any) (message default-fontspec))
   )
 
 

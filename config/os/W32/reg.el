@@ -108,7 +108,7 @@
 		   (split hive  "\\\\"))))
 	 (hive (if x (car x) hive))
 	 (key (or key (if x (join (cdr x) "/") 
-			(if (interactive-p)
+			(if (called-interactively-p 'any)
 			    (read-string "key: ")))))
   ; if key is empty and *reg* exists, just show it.
 
@@ -125,7 +125,7 @@
 (defun queryvalue (hive key &optional value)
   (interactive "shive: \nskey: ")
   (let ((value (or value "")))
-    (if (interactive-p)
+    (if (called-interactively-p 'any)
 	(reg-command "queryvalue" hive key value)
       (perl-command  "queryvalue" "-v" hive key value)
       )

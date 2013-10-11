@@ -653,16 +653,20 @@ keys for the alist include:
 (add-file-association "htm" 'html-view)
 (add-file-association "html" 'html-view)
 
-(condition-case whatever
-    (require 'regtool)
-  (let ((key  "/HKCU/SOFTWARE/Microsoft/Internet Explorer/Main/") (val "about:blank")) 
-    (dolist (x '("Start Page" "Default_Page_URL") )  (regtool "set" (concat key x) val))
-    )
+(/*
+ (condition-case whatever
+     (require 'regtool)
+   (let ((key  "/HKCU/SOFTWARE/Microsoft/Internet Explorer/Main/")
+	 (val "about:blank")) 
+     (dolist (x '("Start Page" "Default_Page_URL") )  (regtool "set" (concat key x) val))
+     )
   ;   (regtool "get" "/HKCU/SOFTWARE/Microsoft/Internet Explorer/Main/Start Page")
 
-  (require 'cygwin)
-;  (add-hook 'find-file-not-found-functions 'cygwin-file-not-found)
-;  (remove-hook 'find-file-not-found-functions 'cygwin-file-not-found)
-  (error (debug))
-  )
+   (require 'cygwin)
+  ;  (add-hook 'find-file-not-found-functions 'cygwin-file-not-found)
+  ;  (remove-hook 'find-file-not-found-functions 'cygwin-file-not-found)
+   (error (debug))
+   )
+ */)
+
 
