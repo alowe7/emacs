@@ -361,7 +361,7 @@ see `file-assoc-list'"
   )
 
 (defvar *last-dired-digest* nil)
-(defvar *digest-program* (or (whence "sha256sum") (whence "md5sum")))
+(defvar *digest-program* (or (executable-find "sha256sum") (executable-find "md5sum")))
 (defun dired-digest-maybe-compare (&optional arg)
   "run md5sum on file under point.  with optional prefix arg or if `*last-dired-md5sum*' is nil, just display the result.
 otherwise, compare the sum with the previously computed sum and display the result of that comparison
