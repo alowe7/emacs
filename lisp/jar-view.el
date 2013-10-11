@@ -1,16 +1,18 @@
 (put 'jar-view 'rcsid 
  "$Id$")
-(provide 'jar-view)
+
 (require 'cl)
 
 (defun dired-jar-view () (interactive)
 	(jar-view (dired-get-filename)) 
 	)
 
+(defvar java-home (getenv "JAVA_HOME"))
 (defvar jar-command
-  (string* (whence "jar") 
-	   (if (boundp 'java-home) (concat java-home "/bin/jar")
-	     "c:/j2sdk1.4.1_01/bin/jar")))
+  (string* (executable-find "jar") 
+	   (and (file-directory-p java-home) 
+		(expand-file-name "bin/jar" java-home))))
+(assert (file-executable-p jar-command) nil  "jar command not found.  java-home:  %s!" java-home)
 
 
 (make-variable-buffer-local 'jar-file)
@@ -55,3 +57,4 @@
     )
   )
 
+(provide 'jar-view)
