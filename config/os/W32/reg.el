@@ -3,11 +3,7 @@
 (require 'qsave)
 
 (defun reg-canonify (s) (if (and s (stringp s) (> (length s) 0)) (replace-regexp-in-string "\\\\"  "/" s) ""))
-
-; 
-; (reg-query "machine" "software/Technology-X/tw" "wbase")
-; (eval-process  "perl" "e:/a/bin/queryval -v machine software/Technology-x/tw wbase")
-; (perl-command "queryval" "-v machine software/Technology-x/tw wbase")
+; (assert (string= (reg-canonify "foo\\bar") "foo/bar") )
 
 (defun reg-query (hive key val) 
   " evaluates to the contents of HIVE stored in KEY"
@@ -17,19 +13,31 @@
 		(read-string "key: ")
 		(read-string "value: ")))
 
-  (perl-command
-   "queryvalue" 
-   "-v" 
-   hive
-   key 
-   val
-   )
+  (eval-process "regtool" "get" (format "/%s/%s/%s" hive key val))
   )
 
+; (assert (string= (reg-query "machine" "SYSTEM/CurrentControlSet/Control/Session Manager/Environment" "Path") (eval-process "regtool" "get" "/machine/SYSTEM/CurrentControlSet/Control/Session Manager/Environment/Path")))
+
+(defun reg-list (hive key) 
+  " evaluates to the contents of HIVE stored in KEY"
+
+  (interactive (list 
+		(completing-read "hive: " '(("machine" "machine") ("users" "users") ("user" "user") ("config" "config")) nil t)
+		(read-string "key: ")))
+
+  (eval-process "regtool" "list" (format "/%s/%s" hive key))
+  )
+
+; (assert (string= (reg-list "machine" "SOFTWARE/Microsoft/Windows/CurrentVersion/Explorer/User Shell Folders") (eval-process "regtool" "list" "/machine/SOFTWARE/Microsoft/Windows/CurrentVersion/Explorer/User Shell Folders")))
+
+(defun enumerate-keys (hive key)
+  (split (reg-list hive key) "\n")
+  )
+; (enumerate-keys "machine" "SOFTWARE/Microsoft/Windows/CurrentVersion/Explorer/User Shell Folders")
 
 (defun complete-key (prompt hive key)
   "build a completion list in HIVE from subkeys of KEY"
-  (let* ((v (mapcar (enumerate-keys hive key) 'list))
+  (let* ((v (mapcar 'list (enumerate-keys hive key)))
 	 (subkey (completing-read prompt v)))
     (if subkey
 	 (complete-key
@@ -39,8 +47,8 @@
 	 key)
     )
   )
+; (complete-key "ur here: " "machine" "SYSTEM")
 
-; (reg-query "machine" "" "boo")
 
 (defun complete-hive (prompt)
   (completing-read prompt '(("machine") ("users") ("current user") ("config")) 
@@ -126,6 +134,7 @@
 (fset 'getvalue 'queryvalue)
 
 ;; xxx reg view stuff
+;; would be so much simpler to just use cygwins /proc/registry pseudo file system
 
 (defvar *reg-query* nil " last query as a list: (hive key &optional value)
 default hive is machine." )
