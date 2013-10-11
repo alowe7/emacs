@@ -4,7 +4,6 @@ INSTALL = install
 LOCALBIN = /usr/local/bin
 HOME := $(HOME)
 SITESTART =  $(HOME)/"/.emacs.d/site-start.d"
-# COMPILE_AUTOLOADS = --compiled
 
 EMACS := $(shell which emacs  2> /dev/null)
 
@@ -30,12 +29,12 @@ ETAGS=etags
 all: ship
 
 # you want to make ship to get a-autoloads into sitestart
-ship: autoloads
+ship: compile autoloads
 	mkdir -p $(SITESTART)
 	install -m 444 $(AUTOLOADS) $(SITESTART)
 
 autoloads: FORCE 
-	$(EMACS) -batch --directory "/usr/share/emacs/site-lisp" --load="make-autoloads" --eval "(make-autoloads \"$(TOP)\" nil \"$(PKG)\")"
+	$(EMACS) -batch --directory "/usr/share/emacs/site-lisp" --load="make-autoloads" --eval "(make-autoloads \"$(TOP)\" nil \"$(PKG)\" t)"
 
 .xz.dat: FORCE
 	$(XZ) $(XZFLAGS) -n $(SOURCES) $(CONFIGS) ~/.emacs
