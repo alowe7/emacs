@@ -2,8 +2,8 @@
  "$Id$")
 (require 'cl)
 
-(defvar *shortcut-helper*  (whence "shortcut"))
-(defvar *readshortcut-helper* (whence "readshortcut"))
+(defvar *shortcut-helper*  (executable-find "shortcut"))
+(defvar *readshortcut-helper* (executable-find "readshortcut"))
 
 (defun read-shortcut (b f)
   " prefer shortcut-helper, use readshortcut as backup
