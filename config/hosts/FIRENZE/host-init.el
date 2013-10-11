@@ -121,6 +121,7 @@
 (setq *sword-file* "/src/.private/swords"
       *default-swordfile* *sword-file* )
 
+(require 'sh)
 (scan-file-p "/psi/.private/.xdbrc")
 (setq *txdb-options* (nconc (and (getenv "XDB") (list "-b" (getenv "XDB"))) (and (getenv "XDBHOST") (list "-h" (getenv "XDBHOST")))))
 (setq *dired-path* '("/work" "/src" "/phi" "/psi" "/chi"))
@@ -129,6 +130,8 @@
 
 ; (require 'cygwin)
 ; (add-hook 'find-file-not-found-functions 'cygwin-file-not-found)
+
+(defvar *pyflake* nil)
 
 (defun pyflake ()
   (interactive)
@@ -139,24 +142,6 @@
   ; (setq gud-pdb-command-name "python -u -mpdb")
   (setenv "PYTHONUNBUFFERED" "true")
   (setq gud-pdb-command-name "python -mpdb")
-
-  ; put this here, since python-mode is not always be available
-  ; see auto-modes.el
-
-  ; also see py-loads.el
-  (autoload 'python-mode "python")
-
-  ; this is for files that begin with shebang
-  (add-to-list 'guess-auto-mode-alist
-	       '("python" . python-mode)
-	       )
-  ; this is for files with a .py extension
-  (add-auto-mode "\\.py$" 'python-mode)
-
-  (add-to-list 'interpreter-mode-alist '("python" . python-mode))
-
-  ; (autoload 'py-shell "python-mode" "Start an interactive Python interpreter in another window." t)
-  ; (define-key ctl-RET-map  "\C-y" 'py-shell)
 
   (when (and
 	 (not (boundp 'epy-install-dir))
@@ -229,9 +214,29 @@
   ; (pop python-mode-hook)
 
   (setq save-abbrevs 'silently)
+
+  (setq *pyflake* t)
   )
 
 (define-key ctl-RET-map  "\C-p" 'pyflake)
+
+  ; put this here, since python-mode is not always be available
+  ; see auto-modes.el
+
+  ; also see py-loads.el
+(autoload 'python-mode "python")
+
+  ; this is for files that begin with shebang
+(add-to-list 'guess-auto-mode-alist
+	     '("python" . python-mode)
+	     )
+  ; this is for files with a .py extension
+(add-auto-mode "\\.py$" 'python-mode)
+
+(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+
+  ; (autoload 'py-shell "python-mode" "Start an interactive Python interpreter in another window." t)
+  ; (define-key ctl-RET-map  "\C-y" 'py-shell)
 
 (setq write-region-inhibit-fsync t)
 
