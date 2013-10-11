@@ -106,3 +106,14 @@
 ; prefer split-window-vertically
 (setq split-width-threshold nil)
 
+; 
+(require 'fixframe)
+(setq calendar-setup 'calendar-only)
+
+(setq calendar-frame-parameters
+  `((name . "Calendar") (title . "Calendar") (height . 10) (width . 90)
+		    (font . ,(fixed-font))
+    (unsplittable . t) (minibuffer . nil) (vertical-scroll-bars . nil))
+)
+
+; (call-interactively 'calendar)
