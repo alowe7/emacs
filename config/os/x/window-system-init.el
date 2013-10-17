@@ -7,3 +7,8 @@
 ; this should be done with .Xresources
 ; (when (and (boundp 'default-font) (string* default-font))
 ;  (set-face-font 'default default-font))
+
+
+(require 'ls-lisp)
+(setq ls-lisp-use-insert-directory-program nil)
+(setq ls-lisp-verbosity nil)
