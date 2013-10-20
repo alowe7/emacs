@@ -114,7 +114,8 @@ with optional prefix arg, dired containing directory
 	   (thing (cadr (assoc (completing-read* "visit host config file (%s): " completion-list *last-host-config-thing* '(nil t)) completion-list))))
       thing)))
 
-  (let* ((config-dir (default-directory* (concat (expand-file-name (hostname) "~/config/hosts") "/"))))
+  (let* ((config-dir (default-directory* (concat (expand-file-name (hostname) "~/config/hosts") "/")))
+	 (thing (expand-file-name thing config-dir)))
 
     (cond 
      ((null thing) (dired config-dir))
