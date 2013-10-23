@@ -9,6 +9,8 @@
 ;  (set-face-font 'default default-font))
 
 
-(require 'ls-lisp)
-(setq ls-lisp-use-insert-directory-program nil)
-(setq ls-lisp-verbosity nil)
+(set-default 'cursor-type '(bar . 2))
+(set-default 'cursor-in-non-selected-windows nil)
+(setq resize-mini-windows nil)
+
+(require 'comint-keys)

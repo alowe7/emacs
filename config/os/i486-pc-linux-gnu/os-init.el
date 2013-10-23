@@ -10,3 +10,7 @@
 (setq ls-lisp-use-insert-directory-program t)
 (setq dired-listing-switches "-lt")
 (setq dired-use-ls-dired t)
+
+; (require 'ls-lisp)
+; (setq ls-lisp-use-insert-directory-program nil)
+; (setq ls-lisp-verbosity nil)
