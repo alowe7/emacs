@@ -8,7 +8,7 @@
 
 ; use external program for dired
 (setq ls-lisp-use-insert-directory-program t)
-(setq dired-listing-switches "-lt")
+(setq dired-listing-switches "-alt")
 (setq dired-use-ls-dired t)
 
 ; (require 'ls-lisp)
