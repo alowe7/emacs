@@ -6,3 +6,7 @@
 (and (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (and (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
 
+; use external program for dired
+(setq ls-lisp-use-insert-directory-program t)
+(setq dired-listing-switches "-lt")
+(setq dired-use-ls-dired t)
