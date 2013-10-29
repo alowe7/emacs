@@ -6,6 +6,33 @@
 
 (require 'uname)
 
+
+; suppress callargs byte-compile-warnings  we know what we're doing?
+(let ((byte-compile-warnings byte-compile-warnings))
+
+  (if (listp byte-compile-warnings) 
+      (add-to-list 'byte-compile-warnings 'callargs)
+    (setq byte-compile-warnings '(callargs))
+    )
+
+
+  (defmacro called-interactively-p* (&optional kind)
+    "A backward-compatible version of `called-interactively-p'.
+
+Optional KIND is as documented at `called-interactively-p'
+in GNU Emacs 24.1 or higher."
+    (cond
+     ((not (fboundp 'called-interactively-p))
+      '(interactive-p))
+     ((> 0 (cdr (subr-arity (symbol-function 'called-interactively-p))))
+      `(called-interactively-p ,kind))
+     (t
+      `(called-interactively-p))
+     ))
+
+  )
+
+
 (defun locate-config-file (fn)
   "find CONFIG along load-path.
 searches first for config unadorned, then with extension .el
@@ -76,18 +103,18 @@ with optional prefix arg, dired containing directory
   (let ((hostname (hostname)))
     (cond
      ((null hostname)
-      (when (called-interactively-p 'any) (message "hostname not defined")))
+      (when (called-interactively-p* 'any) (message "hostname not defined")))
      (t
       (let ((dir (expand-file-name hostname "~/config/hosts")))
 	(cond 
 	 ((not (file-directory-p dir))
-	  (when (called-interactively-p 'any) (message "%s not found" dir)))
+	  (when (called-interactively-p* 'any) (message "%s not found" dir)))
 	 (t
 	  (let ((rcfile (expand-file-name ".bashrc" dir)))
 	    (cond
 	     ((not (file-exists-p rcfile))
 	      (when
-		  (called-interactively-p 'any) (message "%s not found" rcfile)))
+		  (called-interactively-p* 'any) (message "%s not found" rcfile)))
 	     (t
 	      (find-file rcfile))
 	     )
