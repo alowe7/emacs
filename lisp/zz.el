@@ -32,7 +32,7 @@
 
 					; wrap compilation-sentinel 
     (fset 'compilation-sentinel
-	  (function(function (lambda (proc msg)  (set-buffer (process-buffer proc)) (setq truncate-lines t) (funcall orig-compilation-sentinel proc msg)))))
+	  (function (lambda (proc msg)  (set-buffer (process-buffer proc)) (setq truncate-lines t) (funcall orig-compilation-sentinel proc msg))))
 
     (grep (format "grep -n -i -e %s %s"
 		  thing
