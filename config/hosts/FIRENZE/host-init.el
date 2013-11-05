@@ -101,8 +101,6 @@
 
 (setq path-separator ":")
 
-(requirep 'w3m-loads)
-
 (requirep 'zt-loads)
 (setq *zt-db-driver* (set-zt-db-driver "mongo"))
 (require (intern (concat "zt-" *zt-db-driver*)))
@@ -244,3 +242,7 @@
   (server-start)
   )
 
+;   browse-url-w3 will (require 'w3), so make sure it is on your load path.  
+(setq browse-url-browser-function 'browse-url-w3)
+; (add-to-list 'find-file-not-found-functions  '(lambda () (browse-url buffer-file-name)))
+(load-library "color-theme-autoloads")

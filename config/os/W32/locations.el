@@ -32,6 +32,7 @@
 		 (desktop "$USERPROFILE/Desktop")
 		 (downloads "$USERPROFILE/Downloads")
 		 (documents "$USERPROFILE/Documents")
+		 (pictures "$USERPROFILE/Pictures")
 		 (my-documents
 		  ,(or
 		    (string*
@@ -41,12 +42,15 @@
 		 (my-favorites "$USERPROFILE/Favorites")
 		 (my-links "$USERPROFILE/Favorites/Links")
 		 (start-menu "$USERPROFILE/Start Menu")
-; 		 (quicklaunch "$USERPROFILE/Application Data/Microsoft/Internet Explorer/Quick Launch")
+  ; 		 (quicklaunch "$USERPROFILE/Application Data/Microsoft/Internet Explorer/Quick Launch")
 		 (my-templates "C:/Documents and settings/$USERNAME/Application Data/Microsoft/Templates")
 		 )
       do
-      (eval `(defun ,(car x)  () (interactive) (dired (substitute-expand-file-name ,(cadr x)))))
-      (eval `(defvar ,(car x)  ,(canonify (cadr x))))
+      (unless (fboundp `,(car x))
+	(eval `(defun ,(car x)  () (interactive) (dired (substitute-expand-file-name ,(cadr x))))))
+      (unless (boundp `,(car x))
+	(eval `(defvar ,(car x)  ,(canonify (cadr x))))
+	)
       )
 
 (provide 'locations)
