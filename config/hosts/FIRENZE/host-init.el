@@ -245,4 +245,8 @@
 ;   browse-url-w3 will (require 'w3), so make sure it is on your load path.  
 (setq browse-url-browser-function 'browse-url-w3)
 ; (add-to-list 'find-file-not-found-functions  '(lambda () (browse-url buffer-file-name)))
+
 (load-library "color-theme-autoloads")
+(color-theme-hober)
+; to scroll through available color themes
+; (call-interactively 'doremi-color-themes+)
