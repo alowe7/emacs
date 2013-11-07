@@ -6,30 +6,31 @@
 
 (require 'uname)
 
+(eval-when-compile
+					; suppress callargs byte-compile-warnings  we know what we're doing?
+  (lexical-let ((byte-compile-warnings (and (boundp 'byte-compile-warnings) byte-compile-warnings)))
 
-; suppress callargs byte-compile-warnings  we know what we're doing?
-(let ((byte-compile-warnings byte-compile-warnings))
-
-  (if (listp byte-compile-warnings) 
-      (add-to-list 'byte-compile-warnings 'callargs)
-    (setq byte-compile-warnings '(callargs))
-    )
+    (if (listp byte-compile-warnings) 
+	(add-to-list 'byte-compile-warnings 'callargs)
+      (setq byte-compile-warnings '(callargs))
+      )
 
 
-  (defmacro called-interactively-p* (&optional kind)
-    "A backward-compatible version of `called-interactively-p'.
+    (defmacro called-interactively-p* (&optional kind)
+      "A backward-compatible version of `called-interactively-p'.
 
 Optional KIND is as documented at `called-interactively-p'
 in GNU Emacs 24.1 or higher."
-    (cond
-     ((not (fboundp 'called-interactively-p))
-      '(interactive-p))
-     ((> 0 (cdr (subr-arity (symbol-function 'called-interactively-p))))
-      `(called-interactively-p ,kind))
-     (t
-      `(called-interactively-p))
-     ))
+      (cond
+       ((not (fboundp 'called-interactively-p))
+	'(interactive-p))
+       ((> 0 (cdr (subr-arity (symbol-function 'called-interactively-p))))
+	`(called-interactively-p ,kind))
+       (t
+	`(called-interactively-p))
+       ))
 
+    )
   )
 
 

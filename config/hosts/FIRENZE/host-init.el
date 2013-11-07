@@ -74,6 +74,7 @@
 ;; other requires
 
 (defmacro requirep (feature) `(condition-case err (require ,feature) (file-error nil)))
+
 (requirep 'xz-loads)
 
 (require 'comint-keys)
@@ -101,9 +102,10 @@
 
 (setq path-separator ":")
 
-(requirep 'zt-loads)
-(setq *zt-db-driver* (set-zt-db-driver "mongo"))
-(require (intern (concat "zt-" *zt-db-driver*)))
+(when (requirep 'zt-loads)
+  (setq *zt-db-driver* (set-zt-db-driver "mongo"))
+  (require (intern (concat "zt-" *zt-db-driver*)))
+  )
 
 (requirep 'tw)
 
@@ -247,6 +249,6 @@
 ; (add-to-list 'find-file-not-found-functions  '(lambda () (browse-url buffer-file-name)))
 
 (load-library "color-theme-autoloads")
-(color-theme-hober)
+; (color-theme-hober)
 ; to scroll through available color themes
 ; (call-interactively 'doremi-color-themes+)
