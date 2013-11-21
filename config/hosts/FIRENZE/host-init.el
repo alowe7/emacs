@@ -79,7 +79,10 @@
 
 (require 'comint-keys)
 
-; really only want this 
+; use ls-lisp on this host.  or dired on drives other than $SYSTEMDRIVE acts weird.
+; (setq ls-lisp-use-insert-directory-program t)
+(setq ls-lisp-use-insert-directory-program nil)
+
 (add-hook 'dired-load-hook (lambda () 
 			      (define-key dired-mode-map "e" 'dired-decrypt-find-file)
 			      ))
@@ -132,89 +135,100 @@
 
 (defvar *pyflake* nil)
 
-(defun pyflake ()
-  (interactive)
+(defun pyflake (&optional arg)
+  (interactive "p")
 
   ; TBD lazy load hairy python setups... 
 
+  ; initialize if not already initialized, or called with arg or called interactively and confirmed
+  (when 
+      (or  
+       (not *pyflake*)
+       arg
+       (and (called-interactively-p 'any) (y-or-n-p "python environment already initialized.  reinitialize?"))
+       )
+
   ; set magic unbuffered flag needed for pdb to work as subprocess
   ; (setq gud-pdb-command-name "python -u -mpdb")
-  (setenv "PYTHONUNBUFFERED" "true")
-  (setq gud-pdb-command-name "python -mpdb")
+    (setenv "PYTHONUNBUFFERED" "true")
+    (setq gud-pdb-command-name "python -mpdb")
 
-  (when (and
-	 (not (boundp 'epy-install-dir))
-	 (file-directory-p "/u/emacs-for-python"))
+    (when (and
+	   (not (boundp 'epy-install-dir))
+	   (file-directory-p "/u/emacs-for-python"))
   ;    (add-to-list 'load-path (expand-file-name "/u/emacs-for-python"))
-    (load-file "/u/emacs-for-python/epy-init.el")
+      (load-file "/u/emacs-for-python/epy-init.el")
   ; pretty sure epy is not using abbrevs tables correctly.
   ; anyway, for now... 
-    (setq abbrevs-changed nil)
-    )
+      (setq abbrevs-changed nil)
+      )
 
   ; undo some weird things epy does
 
   ; default is nil, epy-completion turns it on.  turn it back off.
-  (setq skeleton-pair nil)
+    (setq skeleton-pair nil)
 
   ; undo some weird keymappings
-  (when (boundp 'ido-common-completion-map)
-    (let ((map ido-common-completion-map))
-      (define-key map "\C-j" 'ido-select-text)
-      (define-key map "\C-m" 'ido-exit-minibuffer)
-      (define-key map "\C-a" 'ido-toggle-ignore)
-      )
-    )
-
-  (require 'pydoc)
-
-  (require 'flymake)
-
-  ; default behavior of flymake is to silently fail
-  (setq flymake-log-level 4)
-
-  (defun flymake-pylint-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-		       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-      (list "epylint" (list local-file))))
-
-  ; something along the lines of guess-auto-mode for shebang files
-  (defadvice flymake-get-init-function (around 
-					hook-flymake-get-init-function
-					first activate)
-    ""
-
-    ad-do-it
-
-    (let ((filename (ad-get-arg 0))
-	  (return-value ad-return-value))
-
-      (unless ad-return-value
-	(cond
-	 ((eq major-mode 'perl-mode)
-	  (setq ad-return-value 'flymake-perl-init))
-	 ((eq major-mode 'python-mode) 
-	  (setq ad-return-value 'flymake-pylint-init))
-	 )
+    (when (boundp 'ido-common-completion-map)
+      (let ((map ido-common-completion-map))
+	(define-key map "\C-j" 'ido-select-text)
+	(define-key map "\C-m" 'ido-exit-minibuffer)
+	(define-key map "\C-a" 'ido-toggle-ignore)
 	)
       )
-    )
+
+    (require 'pydoc)
+
+    (require 'flymake)
+
+  ; default behavior of flymake is to silently fail
+    (setq flymake-log-level 4)
+
+    (defun flymake-pylint-init ()
+      (let* ((temp-file (flymake-init-create-temp-buffer-copy
+			 'flymake-create-temp-inplace))
+	     (local-file (file-relative-name
+			  temp-file
+			  (file-name-directory buffer-file-name))))
+	(list "epylint" (list local-file))))
+
+  ; something along the lines of guess-auto-mode for shebang files
+    (defadvice flymake-get-init-function (around 
+					  hook-flymake-get-init-function
+					  first activate)
+      ""
+
+      ad-do-it
+
+      (let ((filename (ad-get-arg 0))
+	    (return-value ad-return-value))
+
+	(unless ad-return-value
+	  (cond
+	   ((eq major-mode 'perl-mode)
+	    (setq ad-return-value 'flymake-perl-init))
+	   ((eq major-mode 'python-mode) 
+	    (setq ad-return-value 'flymake-pylint-init))
+	   )
+	  )
+	)
+      )
 
   ; (if (ad-is-advised 'flymake-get-init-function) (ad-unadvise 'flymake-get-init-function))
 
-  (add-hook 'python-mode-hook
-	    (lambda ()
-	      (setq indent-tabs-mode nil)
-	      (setq tab-width 4)
-	      (setq python-indent 4)))
+    (add-hook 'python-mode-hook
+	      (lambda ()
+		(setq indent-tabs-mode nil)
+		(setq tab-width 4)
+		(setq python-indent 4)))
   ; (pop python-mode-hook)
 
-  (setq save-abbrevs 'silently)
+    (setq save-abbrevs 'silently)
 
-  (setq *pyflake* t)
+; clobber key binding
+    (define-key ctl-RET-map  "\C-p" 'run-python)
+    (setq *pyflake* t)
+    )
   )
 
 (define-key ctl-RET-map  "\C-p" 'pyflake)

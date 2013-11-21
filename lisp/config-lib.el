@@ -130,28 +130,29 @@ with optional prefix arg, dired containing directory
 ; (call-interactively 'hostrc)
 
 (defvar *last-host-config-thing* ".")
+(defvar *host-config-dir* (file-name-as-directory (expand-file-name (hostname) "~/config/hosts")))
 
 (defun host-config (&optional thing)
   "find shell config dir"
 
   (interactive
    (list
-    (let* ((config-dir (concat (expand-file-name (hostname) "~/config/hosts") "/"))
-	   (default-directory (default-directory* config-dir))
-	   (completion-list (mapcar (function (lambda (x) (list (file-name-nondirectory x) x))) (split (eval-process "find . ") "\n")))
+    (let* (
+	   (completion-list
+	    (mapcar (function (lambda (x) (list (file-name-nondirectory x) x))) (split (eval-process "find" *host-config-dir* "-type" "f") "\n")))
 	   (thing (cadr (assoc (completing-read* "visit host config file (%s): " completion-list *last-host-config-thing* '(nil t)) completion-list))))
       thing)))
 
-  (let* ((config-dir (default-directory* (concat (expand-file-name (hostname) "~/config/hosts") "/")))
-	 (thing (expand-file-name thing config-dir)))
+  (let* ((thing (expand-file-name thing *host-config-dir*)))
 
     (cond 
-     ((null thing) (dired config-dir))
+     ((null thing) (dired *host-config-dir*))
      ((file-directory-p thing) (dired thing))
      (t (find-file thing))
      )
     )
   )
+
 ; (call-interactively 'host-config)
 ; (host-config)
 
