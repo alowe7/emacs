@@ -33,7 +33,7 @@
     (if (interactive-p) (message u) u))
   )
 
-(fset 'hostname 'system-name)
+(unless (fboundp 'hostname) (fset 'hostname 'system-name))
 ; (hostname)
 
 (defun hostname-non-domain ()
