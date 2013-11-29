@@ -1,0 +1,87 @@
+;;;; Emacs Bookmark Format Version 1 ;;;;
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+((".private"
+ (filename . "c:/psi/.private/")
+ (front-context-string . "swords\n  -rw-rw-")
+ (rear-context-string . "-09-12 14:52:30 ")
+ (position . 161))
+("pilotwave"
+ (filename . "c:/phi/p/pilotwave/")
+ (front-context-string . "receipts\n  drwxr")
+ (rear-context-string . "-09-12 11:30:27 ")
+ (position . 112))
+("contacts"
+ (filename . "c:/work/inscom/contacts/")
+ (front-context-string . "contacts-130711\n")
+ (rear-context-string . "-07-17 18:13:48 ")
+ (position . 119))
+("mission_threads"
+ (filename . "c:/d/subversion.teaminvertix.int/svn/reddisk/documentation-staging/capabilities/IT17/mission_threads/")
+ (front-context-string . "IT17 Demo Script")
+ (rear-context-string . "-07-25 19:11:27 ")
+ (position . 843))
+("status"
+ (filename . "c:/work/inscom/status/")
+ (front-context-string . "GSSC\n  drwxrwxrw")
+ (rear-context-string . "-07-19 08:48:55 ")
+ (position . 116))
+("reddisk"
+ (filename . "c:/d/subversion.teaminvertix.int/svn/reddisk/")
+ (front-context-string . "  drwxrwxrwx  1 ")
+ (rear-context-string . ":14 abcsinterop\n")
+ (position . 207))
+("Data Management"
+ (filename . "c:/work/inscom/Data Management/")
+ (front-context-string . "mashup\n  drwxrwx")
+ (rear-context-string . "-07-18 21:49:54 ")
+ (position . 129))
+("source-data"
+ (filename . "c:/d/subversion.teaminvertix.int/svn/reddisk/documentation-staging/source-data/")
+ (front-context-string . "Data_Source_Refe")
+ (rear-context-string . "-07-11 10:06:01 ")
+ (position . 173))
+("workplans"
+ (filename . "c:/d/svn.inscomfutures.com/documentation-staging/workplans/")
+ (front-context-string)
+ (rear-context-string . "-05-07 16:07:00 ")
+ (position . 191))
+("CiscoAnyConnect"
+ (filename . "c:/ProgramData/Cisco/Cisco AnyConnect Secure Mobility Client/Profile/")
+ (front-context-string . "  c:/ProgramData")
+ (rear-context-string)
+ (position . 1))
+("inscom"
+ (filename . "c:/work/inscom/")
+ (front-context-string . "PII\n  drwxrwxrwx")
+ (rear-context-string . "-08-07 09:10:28 ")
+ (position . 110))
+("Python Index"
+ (front-context-string . "File: python.inf")
+ (rear-context-string)
+ (position . 6689291)
+ (filename . "c:/usr/share/info/python.info")
+ (info-node . "Index")
+ (handler . Info-bookmark-jump))
+("Cookies"
+ (filename . "c:/Users/alowe/AppData/Roaming/Microsoft/Windows/Cookies/")
+ (front-context-string . "Low\n  -rw-rw-rw-")
+ (rear-context-string . "  0 07-16 12:44 ")
+ (position . 273))
+("Documents"
+ (filename . "c:/Users/alowe/Documents/")
+ (front-context-string . "contacts-111202.")
+ (rear-context-string . "519 12-02 15:00 ")
+ (position . 145))
+("etc"
+ ((filename . "c:/WINDOWS/system32/drivers/etc")
+  (front-context-string . "hosts\n  drwxrwxr")
+  (rear-context-string . "50 Dec 27 14:14 ")
+  (position . 169)))
+("hosts"
+ (filename . "c:/Windows/System32/drivers/etc/hosts")
+ (front-context-string . "# Copyright (c) ")
+ (rear-context-string)
+ (position . 1))
+)
