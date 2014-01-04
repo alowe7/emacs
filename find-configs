@@ -5,6 +5,8 @@ use Sys::Hostname;
 use POSIX qw(uname);
 use Getopt::Long;
 
+my($dir);
+
 GetOptions(
  	   'dir|d=s' => \$dir);
 
@@ -18,11 +20,12 @@ my($sysname, $nodename, $release, $version, $machine) = uname();
 $sysname="W32" unless ($sysname cmp "Windows NT");
 
 # use bare hostname in case its fully qualified
-($host,undef,$domain)=($hostname=~ /^(\w+)(\.)(.*)/);
+my($host,undef,$domain)=($hostname=~ /^(\w+)(\.)(.*)/);
 $hostname=$host if ($host);
 
 # XXX this reflects config.el paths.  should just ask it to tell me, or let emacs compute it.
 
+my($emacs);
 if (defined $ENV{EMACSPATH}) {
     $emacs= $ENV{EMACSPATH} . "/emacs";
 }
@@ -34,11 +37,15 @@ else {
 # this fails under cygwin
 # die "you lose ($emacs)" unless (-x $emacs);
 
+my($cmd);
+
 # $cmd="$emacs --batch --eval \"(message (format \\\"%d %d.%d\\\" emacs-major-version emacs-major-version emacs-minor-version))\"";
 $cmd="$emacs --batch --eval \"(message (format \\\"%d\\\" emacs-major-version))\"";
 $emacscfg=`$cmd 2>&1`;
 chomp $emacscfg;
-$cmd="find $dir -type f -name \"*.el\" -a \\( -path \"*common*\" -o -path \"*$sysname*\" -o -path \"*/$hostname/*\" -o -path \"*$emacscfg*\" \\)";
+
+# search case insensitive
+$cmd="find $dir -type f -iname \"*.el\" -a \\( -ipath \"*common*\" -o -ipath \"*$sysname*\" -o -ipath \"*/$hostname/*\" -o -ipath \"*$emacscfg*\" \\)";
 map {print} (`$cmd`);
 
 
