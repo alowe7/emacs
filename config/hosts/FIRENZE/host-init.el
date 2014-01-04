@@ -1,6 +1,9 @@
 (put 'host-init 'rcsid 
  "$Id: host-init.el 1080 2012-09-16 19:55:25Z alowe $")
 
+(eval-when-compile
+  (setq byte-compile-warnings '(not cl-functions free-vars unresolved)))
+
 ; for visual preferences, prefer X resources, Windows registry, or command line options, in that order.
 ; see:
 ;  (info "(emacs) Table of Resources")
@@ -262,7 +265,7 @@
 (setq browse-url-browser-function 'browse-url-w3)
 ; (add-to-list 'find-file-not-found-functions  '(lambda () (browse-url buffer-file-name)))
 
-(load-library "color-theme-autoloads")
+(load "color-theme-autoloads" nil t)
 ; (color-theme-hober)
 ; to scroll through available color themes
 ; (call-interactively 'doremi-color-themes+)
