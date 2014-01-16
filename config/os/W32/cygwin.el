@@ -1,3 +1,6 @@
+(put 'cygwin 'rcsid
+ "$Id$")
+
 (require 'long-comment)
 
 ; lazy load 
@@ -108,20 +111,23 @@
 ;; add this to host-init:
 ; (add-hook 'find-file-not-found-functions 'cygwin-file-not-found)
 
-(/*
- (defadvice fb-indicated-file (around fb-indicated-file-hook activate)
-   ad-do-it
+(defadvice fb-indicated-file (around fb-indicated-file-hook activate)
+  ad-do-it
 
-   (let ((f ad-return-value))
-     (cond
-      ((and f (file-exists-p f) f))
-      (t
-       (setq f (cygwin-canonify-mount f))
-       (if (and f (file-exists-p f)) (setq ad-return-value f))
-       ))
-     )
-   )
-  ; (if (ad-is-advised 'fb-indicated-file) (ad-unadvise 'fb-indicated-file))
- */)
+  (let ((f ad-return-value))
+
+    (cond
+     ((and f (file-exists-p f)) f)
+     (t
+      (setq f (cygwin-canonify-mount f))
+      (if (and f (file-exists-p f)) (setq ad-return-value f))
+      ))
+    )
+  )
+
+; (if (ad-is-advised 'fb-indicated-file) (ad-unadvise 'fb-indicated-file))
+
+
+
 
 (provide 'cygwin)
