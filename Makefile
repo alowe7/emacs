@@ -19,7 +19,7 @@ XZFLAGS = -t1 -r
 SOURCES := $(shell find ./lisp -type f -name "*.el")
 
 # only search for relevant configs -- use perl hostname to ensure portability
-CONFIGS := $(perl ./find-configs ./config)
+CONFIGS := $(shell perl ./find-configs ./config)
 
 # search all configs
 # CONFIGS := $(shell find ./config -type f -name "*.el")
@@ -35,6 +35,9 @@ ship: compile autoloads
 
 autoloads: FORCE 
 	$(EMACS) -batch --directory "/usr/share/emacs/site-lisp" --load="make-autoloads" --eval "(make-autoloads \"$(TOP)\" nil \"$(PKG)\" t)"
+
+check: FORCE
+	echo $(CONFIGS)
 
 .xz.dat: FORCE
 	$(XZ) $(XZFLAGS) -n $(SOURCES) $(CONFIGS) ~/.emacs

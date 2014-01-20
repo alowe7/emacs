@@ -1,5 +1,5 @@
 (put 'keys 'rcsid
- "$Id: keys.el 1068 2012-08-15 17:33:58Z alowe $")
+ "$Id$")
 
 (chain-parent-file t)
 

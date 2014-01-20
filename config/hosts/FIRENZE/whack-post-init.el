@@ -1,5 +1,5 @@
 (put 'whack-post-init 'rcsid
- "$Id: whack-post-init.el 1069 2012-08-15 17:34:18Z alowe $")
+ "$Id$")
 
 ; post load hooks don't work on autoloads
 (eval-when-compile

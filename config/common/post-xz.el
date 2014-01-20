@@ -120,7 +120,6 @@ if found, pop that to top of stack"
 			   (define-key xz-mode-map "d" 'prune-xz-search)
 			   (define-key xz-mode-map "f" 'xz-goto-hits)
 			   (define-key xz-mode-map "n" 'next-xz-search)
-			   (define-key xz-mode-map "n" 'next-xz-search)
 			   (define-key xz-mode-map "p" 'previous-xz-search)
 			   (define-key xz-mode-map "i" 'xz-which-hit)
 			   (define-key xz-mode-map "[" (lambda () (interactive) (xz-squish (max 0 (1- *xz-squish*)) t)))

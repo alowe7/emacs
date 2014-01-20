@@ -1,5 +1,5 @@
 (put 'post-comint 'rcsid
- "$Id: post-comint.el 1043 2012-02-22 16:25:27Z alowe $")
+ "$Id$")
 
 (chain-parent-file t)
 

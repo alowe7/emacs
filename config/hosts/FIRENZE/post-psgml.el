@@ -1,5 +1,5 @@
 (put 'post-psgml 'rcsid
- "$Id: post-psgml.el 1043 2012-02-22 16:25:27Z alowe $")
+ "$Id$")
 
 (add-hook 'sgml-mode-hook 'debug)
 

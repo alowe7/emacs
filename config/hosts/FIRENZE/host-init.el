@@ -1,5 +1,5 @@
 (put 'host-init 'rcsid 
- "$Id: host-init.el 1080 2012-09-16 19:55:25Z alowe $")
+ "$Id$")
 
 (eval-when-compile
   (setq byte-compile-warnings '(not cl-functions free-vars unresolved)))
@@ -79,6 +79,7 @@
 (defmacro requirep (feature) `(condition-case err (require ,feature) (file-error nil)))
 
 (requirep 'xz-loads)
+(setq *xz-squish* 0)
 
 (require 'comint-keys)
 
@@ -115,9 +116,9 @@
 
 (requirep 'tw)
 
-(autoload 'w3m-goto-url "w3m")
-(define-key ctl-RET-map "g" (lambda () (interactive) (let ((url (thing-at-point 'url))) (if url (w3m-goto-url url) (message "thing-at-point doesn't appear to be a url")))))
-
+;  tbd use `lynx -dump`
+; (autoload 'w3m-goto-url "w3m")
+; (define-key ctl-RET-map "g" (lambda () (interactive) (let ((url (thing-at-point 'url))) (if url (w3m-goto-url url) (message "thing-at-point doesn't appear to be a url")))))
 
 (require 'auto-modes)
 
@@ -255,6 +256,12 @@
   ; (define-key ctl-RET-map  "\C-y" 'py-shell)
 
 (setq write-region-inhibit-fsync t)
+
+(add-hook 'nxml-mode-hook
+	  (lambda ()
+	    (modify-syntax-entry ?{ "(" nxml-mode-syntax-table)
+	    (modify-syntax-entry ?} ")" nxml-mode-syntax-table)
+	    ))
 
 (require 'server)
 (unless (server-running-p server-name)

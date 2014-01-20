@@ -1,5 +1,5 @@
 (put 'post-perl-mode 'rcsid
- "$Id: post-perl-mode.el 1043 2012-02-22 16:25:27Z alowe $")
+ "$Id$")
 
 (defun perldoc (thing)
   "find perldoc for THING"
