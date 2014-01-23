@@ -9,9 +9,13 @@ EMACS := $(shell which emacs  2> /dev/null)
 
 .PHONY: FORCE
 
-PKG=a
-AUTOLOADS=$(PKG)-autoloads
-TOP=$(subst c:,,$(PWD))
+PKGA=a
+ATOP=$(subst c:,,$(PWD))/lisp
+
+PKGC=config
+CTOP=$(subst c:,,$(PWD))/config
+
+AUTOLOADS=$(PKGA)-autoloads $(PKGC)-autoloads
 
 XZ=xz
 XZFLAGS = -t1 -r
@@ -34,7 +38,7 @@ ship: compile autoloads
 	install -m 444 $(AUTOLOADS) $(SITESTART)
 
 autoloads: FORCE 
-	$(EMACS) -batch --directory "/usr/share/emacs/site-lisp" --load="make-autoloads" --eval "(make-autoloads \"$(TOP)\" nil \"$(PKG)\" t)"
+	$(EMACS) -batch --directory "/usr/share/emacs/site-lisp" --load="make-autoloads" --eval "(make-autoloads \"$(TOP)\" nil \"$(PKGA)\" t)" --eval "(make-config-autoloads \"$(CTOP)\" nil \"$(PKGC)\" t)"
 
 check: FORCE
 	echo $(CONFIGS)
