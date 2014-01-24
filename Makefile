@@ -38,7 +38,7 @@ ship: compile autoloads
 	install -m 444 $(AUTOLOADS) $(SITESTART)
 
 autoloads: FORCE 
-	$(EMACS) -batch --directory "/usr/share/emacs/site-lisp" --load="make-autoloads" --eval "(make-autoloads \"$(TOP)\" nil \"$(PKGA)\" t)" --eval "(make-config-autoloads \"$(CTOP)\" nil \"$(PKGC)\" t)"
+	$(EMACS) -batch --directory "/usr/share/emacs/site-lisp" --load="make-autoloads" --eval "(make-autoloads \"$(ATOP)\" nil \"$(PKGA)\" t)" --eval "(make-config-autoloads \"$(CTOP)\" nil \"$(PKGC)\" t)"
 
 check: FORCE
 	echo $(CONFIGS)
