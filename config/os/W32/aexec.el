@@ -31,22 +31,38 @@ if the new state is 'finished', deletes the associated buffer
 	)
   )
 
+(defun w32-substitute-in-file-name (file)
+  (let ((file 
+	 (if (string-match "%[a-zA-Z][a-zA-Z0-9]*%" file)
+	     (let ((env-var (substring file (1+ (match-beginning 0)) (1- (match-end 0)))))
+	       (replace-match (concat "$" env-var) nil nil file)
+	       )
+	   file)
+	 ))
+    (canonify file)
+    )
+  )
+; (w32-substitute-in-file-name file)
+
 (defun aexec-start-process (cmd f)
   "create process running COMMAND on input FILE
 name is generated from basename of command
 process is given an output buffer matching its name and a sentinel `aexec-sentinel'
 "
 
-  (unless (and (string* (trim-white-space-string cmd)) (string* (trim-white-space-string f)))
-    (debug)
-    )
+  (let ((cmd (w32-substitute-in-file-name cmd)))
 
-  (let* ((name (symbol-name (gensym (downcase (basename cmd)))))
-	 (buffer-name (generate-new-buffer-name name))
-	 p)
-    (setq p (start-process name buffer-name cmd (w32-canonify f)))
-    (put 'aexec-process-sentinel 'parameters (list name buffer-name cmd f))
-    (set-process-sentinel p 'aexec-sentinel)		 
+    (unless (and (string* (trim-white-space-string cmd)) (string* (trim-white-space-string f)))
+      (debug)
+      )
+
+    (let* ((name (symbol-name (gensym (downcase (basename cmd)))))
+	   (buffer-name (generate-new-buffer-name name))
+	   p)
+      (setq p (start-process name buffer-name cmd (w32-canonify f)))
+      (put 'aexec-process-sentinel 'parameters (list name buffer-name cmd f))
+      (set-process-sentinel p 'aexec-sentinel)		 
+      )
     )
   )
 
