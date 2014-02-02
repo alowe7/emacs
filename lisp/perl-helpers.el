@@ -139,14 +139,6 @@
       (insert s)
       (pop-to-buffer b)
       (goto-char (point-min))
-  ; fix man page
-      (let ((buffer-read-only nil))
-	(save-excursion
-	  (kill-pattern "_") ; hack for roff underlining
-	  (kill-pattern ".")
-	  (kill-pattern "8")
-	  (kill-pattern "9")
-	  ))
       (view-mode)
       )
     )
@@ -176,17 +168,36 @@
 		"perlvar"))
   )
 
-(defvar *perl-libs* 
+(defvar *perl-libs*
   (remove-duplicates
    (loop for val in '("lib" "sitelib")
 	 with l=nil
 	 nconc 
-	 (split (perl-command-2 "map {print \"$_ \"} @INC"))
+	 (remove* "." (split (perl-command-2 "map {print \"$_ \"} @INC")) :test 'string=)
 	 into l
 	 finally return (mapcar (function (lambda (x) (downcase (expand-file-name x)))) l))
    :test 'string=)
   "list of known perl libraries"
   )
+
+(defvar *perl-modules*
+  (loop
+   with ret = nil
+   for dir in *perl-libs* nconc 
+   (let ((default-directory dir)) 
+     (mapcar
+      (function (lambda (x) (list (replace-regexp-in-string ".pm$" "" (replace-regexp-in-string "/" "::" (substring x 2))) (expand-file-name x dir))))
+      (split
+       (eval-shell-command (format "cd %s;find . -type f -name \"*.pm\"" dir))
+       "\n"
+       )
+      )
+     )
+   into ret
+   finally return ret
+   )
+  )
+; (let ((completion-ignore-case t)) (completing-read "perl module:"  *perl-modules*))
 
 
 (defun browse-perl-modules ()
@@ -243,9 +254,14 @@ see `*perl-libs*'"
 
 (defun perlmod (m)
   "find pod for perl module found along library path"
-  (interactive (list
-		(let ((w (indicated-word ":"))) (string* (read-string (format "perl module (%s): " w)) w))
-		))
+  (interactive 
+   (list 
+    (let ((completion-ignore-case t)
+	  (w (indicated-word ":")))
+      (completing-read* "perl module (%s):"  *perl-modules* w)
+      )
+    )
+   )
 
   (let ((mm  (replace-regexp-in-string "::" "/" m)))
     (or
