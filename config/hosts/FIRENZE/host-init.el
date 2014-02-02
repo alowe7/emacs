@@ -263,16 +263,31 @@
 	    (modify-syntax-entry ?} ")" nxml-mode-syntax-table)
 	    ))
 
-(require 'server)
-(unless (server-running-p server-name)
-  (server-start)
-  )
-
 ;   browse-url-w3 will (require 'w3), so make sure it is on your load path.  
 (setq browse-url-browser-function 'browse-url-w3)
 ; (add-to-list 'find-file-not-found-functions  '(lambda () (browse-url buffer-file-name)))
+
+; (require 'server)
+(unless (server-running-p "server") (server-start) )
 
 (load "color-theme-autoloads" nil t)
 ; (color-theme-hober)
 ; to scroll through available color themes
 ; (call-interactively 'doremi-color-themes+)
+
+(let ((extra-projects '("/z/w" "/z/sync")))
+  (loop for x in extra-projects do
+	(let* (
+	       (load-directory (expand-file-name ".emacs.d" x))
+	       (files (get-directory-files load-directory t ".el$")))
+	  (loop for y in files do
+		(let ((basename (file-name-sans-extension y)))
+  ; this is so if happens to be a compiled version in there, load that instead of the source
+		  (load basename t t)
+		  )
+		)
+	  )
+	)
+  )
+
+

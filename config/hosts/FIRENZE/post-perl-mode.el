@@ -6,8 +6,9 @@
   (interactive "sperldoc: ")
   (let* ((*perl-command* "/bin/perl")
 	 (b (zap-buffer (format "*perldoc %s*" thing)))
-	 (s1 (perl-command perldoc-cmd thing))
-	 (s (replace-in-string "\[[0-9]+m" "" s1))
+	 (s (perl-command perldoc-cmd thing))
+;	 (s1 (perl-command perldoc-cmd thing))
+;	 (s (replace-in-string "\[[0-9]+m" "" s1))
 	 )
 
     (set-buffer b)

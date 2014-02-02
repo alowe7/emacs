@@ -47,3 +47,8 @@
 (define-key ctl-x-map (vector 'right) 'increment-screen-width)
 (define-key ctl-x-map (vector 'down) (function (lambda (x) (interactive "p") (increment-screen-height (- x)))))
 (define-key ctl-x-map (vector 'left) (function (lambda (x) (interactive "p") (increment-screen-width (- x)))))
+
+; (autoload 'py-shell "python-mode" "Start an interactive Python interpreter in another window." t)
+; (define-key ctl-RET-map  "\C-y" 'py-shell)
+(define-key ctl-RET-map  "\C-y" 'pdb)
+
