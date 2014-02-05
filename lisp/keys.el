@@ -25,6 +25,7 @@
 (global-set-key  "\C-x\C-k" 'kill-buffer)
 (global-set-key "\C-x\C-m" 'compile)
 (global-set-key "\C-x\C-p" 'pwd)
+; (global-set-key  "\C-x\C-b" 'list-buffers)
 
 (global-set-key "\C-x3" 'three)
 ; (global-set-key "\C-x<" (lambda () (interactive) (scroll-left horizontal-scroll-delta)))

@@ -41,7 +41,7 @@
 (defun make-perldoc-file (thing)
   (let* ((perlpods
 	  (loop
-	   with ret=nil
+	   with ret = nil
 	   for x in *perl-libs*
 	   when (file-directory-p (setq ret (expand-file-name "pods" x)))
 	   return ret))
@@ -237,7 +237,7 @@ see `*perl-libs*'"
 	       nconc (get-directory-files x t m) into l
 	       finally return l
 	       )))
-    (if (interactive-p) 
+    (if (called-interactively-p 'any) 
 	(let ((b (zap-buffer "*Help*")))
 	  (set-buffer b)
 	  (loop for x in mmm do
@@ -258,7 +258,7 @@ see `*perl-libs*'"
    (list 
     (let ((completion-ignore-case t)
 	  (w (indicated-word ":")))
-      (completing-read* "perl module (%s):"  *perl-modules* w)
+      (completing-read* "perl module (%s): "  *perl-modules* w)
       )
     )
    )
