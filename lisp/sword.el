@@ -7,7 +7,7 @@
 )
 
 (defvar *key-program* "key")
-(defvar *default-swordfile* "~/.private/swords")
+(defvar *default-swordfile* "/psi/.private/swords")
 
 (defvar *cache-sword-key* t 
   "if set, keys are cached on the 'key property of the interned filename.

@@ -234,46 +234,6 @@ see `file-assoc-list'"
   (cdr (assoc (file-name-extension f) file-assoc-list))
   )
 
-; tbd this needs to move to ../os/w32
-(defun elassoc (ext)
-  "find file-association for extension"
-  (let* ((ext (if (string-match "^\\." ext) ext (concat "." ext)))
-	 (class (eval-process "regtool" "get" (format "/HKLM/SOFTWARE/Classes/%s/" ext)))
-	 (program (eval-process "regtool" "get" (format "/HKLM/SOFTWARE/Classes/%s/shell/open/command/" class))))
-    program
-    )
-  )
-; (assert (string= (elassoc "docx") (elassoc ".docx")))
-; (elassoc ".doc")
-
-(defun file-association (f &optional notrim)
-  "find command associated with filetype of specified file"
-  (interactive "sFile: ")
-  (let ((cmd (elassoc (file-name-extension f)) ))
-    ;; sometimes command line args are appended to cmd.
-    ;; we usually want just the executable
-
-    (if cmd 
-	(if notrim cmd
-	  (car (catlist cmd ?\"))
-	  )
-      )
-    )
-  )
-; (file-association "foo.doc" t)
-; (file-association "foo.el" t)
-
-(defun dired-cvs-cmd (cmd) (interactive "scmd: ")
-  (cvs cmd (format "\"%s\"" (dired-get-filename)))
-  )
-
-(defun dired-cvs-log () (interactive)
-  (dired-cvs-cmd "log")
-  )
-
-(defun dired-cvs-update () (interactive)
-  (dired-cvs-cmd "up")
-  )
 
 (defun dired-make-backup ()
   "make a backup of `dired-get-filename' using `make-backup-file-name'"
@@ -448,7 +408,5 @@ otherwise, compare the sum with the previously computed sum and display the resu
 (defun dired-diff-backup () (interactive)
   (diff-backup (dired-get-filename))
   )
-
-
 
 (provide 'post-dired)

@@ -267,7 +267,7 @@
 (setq browse-url-browser-function 'browse-url-w3)
 ; (add-to-list 'find-file-not-found-functions  '(lambda () (browse-url buffer-file-name)))
 
-; (require 'server)
+(require 'server)
 (unless (server-running-p "server") (server-start) )
 
 (load "color-theme-autoloads" nil t)

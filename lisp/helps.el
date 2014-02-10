@@ -427,28 +427,24 @@ if *howto-path* is not set, searches in current directory
     )
   )
 (defun enquote-string (s)
+"quotes white space in STRING
+"
   (replace-regexp-in-string " " "\\\\ " s)
   )
-; (enquote-string "DCGS-A V3 Quality Audit Assessment Technical Brief.pdf")
+; (enquote-string "RANDOM UNSPECIFIED PROGRAM Quality Audit Assessment Technical Brief.pdf")
 
 (defun enquote (arg)
   " wrap all words in quotes.
-with optional prefix arg, wrap by line "
+words are separated by white space (see `split')
+with optional prefix arg, split by line instead
+
+non-destructive result is placed in a scratch buffer"
   (interactive "P")
-  (save-excursion
-    (goto-char (point-min))
-    (if arg
-	(progn
-	  (while (re-search-forward  "$"  nil t)
-	    (replace-match "\"" nil nil))
-	  (goto-char (point-min))
-	  (while (re-search-forward "^" nil t)
-	    (replace-match "\"" nil nil))
-	  )
-	  (while (re-search-forward  "[a-zA-Z0-9_-]+" nil t)
-	    (replace-match  " \"\\\&\" " nil nil))
-      )
+
+  (with-output-to-temp-buffer "*enquote*"
+    (loop for l in (split (buffer-string) (and arg "\n")) do (princ (format "\"%s\"\n" l)) ) 
     )
+
   )
 
 (defun show-code (x)
