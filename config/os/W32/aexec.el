@@ -124,7 +124,7 @@ process is given an output buffer matching its name and a sentinel `aexec-sentin
 	)
       )
      (t
-      (error "file association for %s not found f")
+      (error "file association for %s not found" f)
       )
      )
     )
