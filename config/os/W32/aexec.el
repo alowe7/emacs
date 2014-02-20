@@ -6,17 +6,39 @@
 (defun w32-substitute-in-file-name (file)
   "expand windows style environment variables in FILE
 "
+
   (let ((file 
-	 (loop while (string-match "%[a-zA-Z][a-zA-Z0-9]*%" file) do
+; this loop just converts win32 style environment variable expressions with unix style
+; it doesn't evaluate them
+	 (cl-loop while (string-match "%[a-zA-Z][a-zA-Z0-9]*%" file) do
 	       (let ((env-var (substring file (1+ (match-beginning 0)) (1- (match-end 0)))))
 		 (setq file (replace-match (concat "$" env-var) nil nil file))
 		 )
 	       finally return file
-	       )))
-    (canonify file)
+	       )
+	 )
+	)
+
+    (/*
+     this is broken!
+
+  ; hack to handle weird w32 quoting behavior
+  ; as in:
+  ;   "\"C:\\Program Files\\Microsoft Office 15\\Root\\Office15\\WINWORD.EXE\" /n \"%1\" /o \"%u\"")
+     (canonify
+      (cond
+       ((string-match "/n" file)
+	(trim-white-space-string (car (split (replace-regexp-in-string "\\\"" "" file)  "/n"))))
+       (t file)
+       )
+      )
+     )
+
+    file
     )
   )
 ; (let ((file (elassoc ".jpg"))) (w32-substitute-in-file-name file))
+; (let ((file (elassoc ".doc"))) (w32-substitute-in-file-name file))
 
 (defun w32-substitute-parameters (file &rest parameters)
   "expand windows style environment variables in FILE
@@ -70,7 +92,7 @@
   "sentinel called from when processes created by `aexec-start-process' change state
 if the new state is 'finished', deletes the associated buffer
 "
-  (debug)
+
   (cond ((or (string= (chomp s) "finished") (not  *aexec-process-abnormal-exit-debug*))
 	 (let ((b (process-buffer p)))
 	   (if (buffer-live-p b)
@@ -86,12 +108,14 @@ if the new state is 'finished', deletes the associated buffer
 
 (defun aexec-start-process (cmd &optional f)
   "create process running COMMAND on input FILE
-name is generated from basename of command
+command may be a whole command line, with parameters.  
+
+process name is generated from basename of command.
 process is given an output buffer matching its name and a sentinel `aexec-sentinel'
 "
 
   (let ((cmd (w32-substitute-in-file-name cmd)))
-      (debug)
+
     (cond
      ((and cmd (file-exists-p cmd))
   ; cmd is a plain file name.  apply it to file
