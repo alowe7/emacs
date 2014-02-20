@@ -6,8 +6,10 @@
 (/*
 )
 
-(defvar *key-program* "key")
-(defvar *default-swordfile* "/psi/.private/swords")
+(defvar *key-program-name* "key")
+(defvar *key-program* (executable-find *key-program-name*))
+(unless (file-executable-p *key-program*) (error "program not found: %s" *key-program-name*))
+(defvar *default-swordfile* nil "default location of swords")
 
 (defvar *cache-sword-key* t 
   "if set, keys are cached on the 'key property of the interned filename.
@@ -120,6 +122,8 @@ if `*cache-sword-key*' is set and a key is cached, return it, otherwise use read
 			 when (string-match word x)
 			 collect x))))
 
+    (unless (file-exists-p swordfile) (error "sword file not found: %s" swordfile))
+
     (kill-buffer b)
 
     (setq *sword-buffer* (zap-buffer "*swords*" '(sword-mode)))
@@ -147,13 +151,16 @@ if `*cache-sword-key*' is set and a key is cached, return it, otherwise use read
 (defun swords (arg) 
   (interactive "P")
   (let* ((swordfile
-	 (if arg
-	     (read-file-name "file: " 
-			     (file-name-directory *default-swordfile*)
-			     *default-swordfile*)
-	   *default-swordfile*))
-	(key 
-	 (get-key swordfile arg)))
+	  (if arg
+	      (read-file-name "file: " 
+			      (file-name-directory *default-swordfile*)
+			      *default-swordfile*)
+	    *default-swordfile*))
+	 (key 
+	  (get-key swordfile arg)))
+
+    (unless (file-exists-p swordfile) (error "sword file not found: %s" swordfile))
+
     (decrypt-find-file 
      swordfile
      key)
