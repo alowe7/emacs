@@ -123,8 +123,8 @@
 (require 'auto-modes)
 
 
-(setq *key-program*  "/home/alowe/bin/key.exe")
-(setq *sword-file* "/src/.private/swords"
+(setq *key-program* (locate-file "key" exec-path '(".exe")))
+(setq *sword-file* "/psi/.private/swords"
       *default-swordfile* *sword-file* )
 
 (require 'sh)
@@ -275,19 +275,21 @@
 ; to scroll through available color themes
 ; (call-interactively 'doremi-color-themes+)
 
-(let ((extra-projects '("/z/w" "/z/sync")))
-  (loop for x in extra-projects do
-	(let* (
-	       (load-directory (expand-file-name ".emacs.d" x))
-	       (files (get-directory-files load-directory t ".el$")))
-	  (loop for y in files do
-		(let ((basename (file-name-sans-extension y)))
+(mapc
+ (lambda (x)
+   (let* (
+	  (load-directory (expand-file-name ".emacs.d" x))
+	  (files (get-directory-files load-directory t ".el$")))
+     (loop for y in files do
+	   ;; todo prevent loading twice?
+	   (let ((basename (file-name-sans-extension y)))
   ; this is so if happens to be a compiled version in there, load that instead of the source
-		  (load basename t t)
-		  )
-		)
-	  )
-	)
-  )
+	     (load basename t t)
+	     )
+	   )
+     )
+   )
+ '("/z/w" "/z/sync" "/work")
+ )
 
 
