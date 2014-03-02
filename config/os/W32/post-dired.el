@@ -52,7 +52,7 @@
       (explore (dired-get-filename)))
      (t
       (aexec
-       (file-name-nondirectory (dired-get-filename))
+       (dired-get-filename)
        )
       )
      )

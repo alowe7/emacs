@@ -2,18 +2,30 @@
  "$Id$")
 (require 'cl)
 
-(defvar *shortcut-helper*  (executable-find "shortcut"))
-(defvar *readshortcut-helper* (executable-find "readshortcut"))
+(defvar *shortcut-helper* (executable-find "shortcut"))
 
-(defun read-shortcut (b f)
-  " prefer shortcut-helper, use readshortcut as backup
+(if *shortcut-helper*
+    (fset 'read-shortcut
+	  `(lambda (b f)
+	     " use shortcut
 "
-  (cond (*shortcut-helper*
-	 (call-process *shortcut-helper* nil b nil "-t" f "-u" "all"))
-	(*readshortcut-helper*
-	 (call-process *readshortcut-helper* nil b nil f)
-	 ))
+	     (call-process ,*shortcut-helper* nil b nil "-t" f "-u" "all"))
+	  )
+
+  (defvar *readshortcut-helper* (executable-find "readshortcut"))
+  (if *readshortcut-helper*
+      (fset 'read-shortcut
+	    `(lambda (b f)
+	       " use readshortcut
+"
+	       (call-process ,*readshortcut-helper* nil b nil f)
+	       )
+	    )
+    (error "cannot find shortcut or readshortcut executables")
+    )
   )
+
+; (read-shortcut (zap-buffer "foo") "c:/Users/alowe/AppData/Roaming/Microsoft/Windows/Recent/1999 bmw e36 m3.lnk")
 
 (defun dired-lnk-view () (interactive)
 	(lnk-view (dired-get-filename)) 

@@ -267,9 +267,6 @@
 (setq browse-url-browser-function 'browse-url-w3)
 ; (add-to-list 'find-file-not-found-functions  '(lambda () (browse-url buffer-file-name)))
 
-(require 'server)
-(unless (server-running-p "server") (server-start) )
-
 (load "color-theme-autoloads" nil t)
 ; (color-theme-hober)
 ; to scroll through available color themes
@@ -292,4 +289,9 @@
  '("/z/w" "/z/sync" "/work")
  )
 
+; if kbf can be found, call it
+; (let ((kbf (executable-find "kbf")))  (and kbf (call-process kbf))  )
+
+(require 'server)
+(unless (server-running-p "server") (server-start) )
 

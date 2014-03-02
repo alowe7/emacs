@@ -56,6 +56,32 @@
   )
 ; (assert (string= (w32-substitute-parameters "program %1 /switch %2" "foo" "bar") "program foo /switch bar"))
 
+
+(defun cleanup-nasty-windows-quoting-from-string (s)
+  (car 
+   (last
+    (loop
+     with ret = nil
+     with x = 0
+     while (< x (length s))
+     do (if (char-equal (aref s x) 34)
+  ;	  (debug)
+	    (push
+	     (loop with y = (1+ x)
+		   while (and (< y (length s)) (not (char-equal (aref s y) 34)))
+		   do 
+  ;		(debug)
+		   (setq y (1+ y))
+		   finally return (prog1 (substring s (1+ x) y) (setq x y))) 
+	     ret)
+	  )
+     finally return ret
+     )
+    )
+   )
+  )
+; (cleanup-nasty-windows-quoting-from-string (elassoc ".docx"))
+
 ; this is w32 specific, need to factor for workalike on other platforms?
 (defun elassoc (ext)
   "find file-association for extension"
@@ -66,6 +92,7 @@
     )
   )
 ; (assert (string= (elassoc "docx") (elassoc ".docx")))
+; (elassoc ".docx")
 ; (elassoc ".doc")
 ; (elassoc ".jpg")
 
@@ -200,7 +227,13 @@ if optional VISIT is non-nil and no file association can be found just visit fil
 	     )
   ; shouldn't happen 
 	  (file-error
-	   (debug))
+  ; try a little harder
+	   (condition-case err2
+	       (call-process "cmd" nil nil nil "/c" (format "rundll32 url.dll,FileProtocolHandler %s" (w32-canonify f 0)))
+	     (error
+	      (debug))
+	     )
+	   )
 	  )
 	)
       )

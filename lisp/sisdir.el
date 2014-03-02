@@ -78,8 +78,10 @@ if dir is not specified, uses `default-directory '
   (if (null no-msg)
       (message "Loading sisdirs from %s..." file))
 
-  (setq *sisdirs* (read (read-file sisdirs-default-file t)))
+  (let ((goods (read-file sisdirs-default-file t)))
+    (setq *sisdirs* (and (stringp goods) (read goods)))
   )
+)
 ; (call-interactively 'sisdirs-load)
 
 (defun sisdirs-exit-hook-internal ()
