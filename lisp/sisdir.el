@@ -2,6 +2,7 @@
  "$Id$")
 
 (require 'directories)
+(require 'long-comment)
 
 (defvar *sisdirs* nil "alist of related directories to cycle through using `sisdir'")
 
