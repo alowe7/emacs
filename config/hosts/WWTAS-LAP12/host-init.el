@@ -112,9 +112,6 @@
 
 (requirep 'tw)
 
-(autoload 'w3m-goto-url "w3m")
-(define-key ctl-RET-map "g" (lambda () (interactive) (let ((url (thing-at-point 'url))) (if url (w3m-goto-url url) (message "thing-at-point doesn't appear to be a url")))))
-
 
 (require 'auto-modes)
 
@@ -128,127 +125,26 @@
 ; (require 'cygwin)
 ; (add-hook 'find-file-not-found-functions 'cygwin-file-not-found)
 
-(defvar *pyflake* nil)
-
-(defun pyflake (&optional arg)
-  (interactive "p")
-
-  ; TBD lazy load hairy python setups... 
-
-  ; initialize if not already initialized, or called with arg or called interactively and confirmed
-  (when 
-      (or  
-       (not *pyflake*)
-       arg
-       (and (called-interactively-p 'any) (y-or-n-p "python environment already initialized.  reinitialize?"))
-       )
-
-  ; set magic unbuffered flag needed for pdb to work as subprocess
-  ; (setq gud-pdb-command-name "python -u -mpdb")
-    (setenv "PYTHONUNBUFFERED" "true")
-    (setq gud-pdb-command-name "python -mpdb")
-
-    (when (and
-	   (not (boundp 'epy-install-dir))
-	   (file-directory-p "/u/emacs-for-python"))
-  ;    (add-to-list 'load-path (expand-file-name "/u/emacs-for-python"))
-      (load-file "/u/emacs-for-python/epy-init.el")
-  ; pretty sure epy is not using abbrevs tables correctly.
-  ; anyway, for now... 
-      (setq abbrevs-changed nil)
-      )
-
-  ; undo some weird things epy does
-
-  ; default is nil, epy-completion turns it on.  turn it back off.
-    (setq skeleton-pair nil)
-
-  ; undo some weird keymappings
-    (when (boundp 'ido-common-completion-map)
-      (let ((map ido-common-completion-map))
-	(define-key map "\C-j" 'ido-select-text)
-	(define-key map "\C-m" 'ido-exit-minibuffer)
-	(define-key map "\C-a" 'ido-toggle-ignore)
-	)
-      )
-
-    (require 'pydoc)
-
-    (require 'flymake)
-
-  ; default behavior of flymake is to silently fail
-    (setq flymake-log-level 4)
-
-    (defun flymake-pylint-init ()
-      (let* ((temp-file (flymake-init-create-temp-buffer-copy
-			 'flymake-create-temp-inplace))
-	     (local-file (file-relative-name
-			  temp-file
-			  (file-name-directory buffer-file-name))))
-	(list "epylint" (list local-file))))
-
-  ; something along the lines of guess-auto-mode for shebang files
-    (defadvice flymake-get-init-function (around 
-					  hook-flymake-get-init-function
-					  first activate)
-      ""
-
-      ad-do-it
-
-      (let ((filename (ad-get-arg 0))
-	    (return-value ad-return-value))
-
-	(unless ad-return-value
-	  (cond
-	   ((eq major-mode 'perl-mode)
-	    (setq ad-return-value 'flymake-perl-init))
-	   ((eq major-mode 'python-mode) 
-	    (setq ad-return-value 'flymake-pylint-init))
-	   )
-	  )
-	)
-      )
-
-  ; (if (ad-is-advised 'flymake-get-init-function) (ad-unadvise 'flymake-get-init-function))
-
-    (add-hook 'python-mode-hook
-	      (lambda ()
-		(setq indent-tabs-mode nil)
-		(setq tab-width 4)
-		(setq python-indent 4)))
-  ; (pop python-mode-hook)
-
-    (setq save-abbrevs 'silently)
-
-; clobber key binding
-    (define-key ctl-RET-map  "\C-p" 'run-python)
-    (setq *pyflake* t)
-    )
-  )
-
-(define-key ctl-RET-map  "\C-p" 'pyflake)
-
-  ; put this here, since python-mode is not always be available
-  ; see auto-modes.el
-
-  ; also see py-loads.el
-(autoload 'python-mode "python")
-
-  ; this is for files that begin with shebang
-(add-to-list 'guess-auto-mode-alist
-	     '("python" . python-mode)
-	     )
-  ; this is for files with a .py extension
-(add-auto-mode "\\.py$" 'python-mode)
-
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
-
-  ; (autoload 'py-shell "python-mode" "Start an interactive Python interpreter in another window." t)
-  ; (define-key ctl-RET-map  "\C-y" 'py-shell)
-
 (setq write-region-inhibit-fsync t)
 
 ;   browse-url-w3 will (require 'w3), so make sure it is on your load path.  
 (setq browse-url-browser-function 'browse-url-w3)
 ; (add-to-list 'find-file-not-found-functions  '(lambda () (browse-url buffer-file-name)))
 
+(require 'server)
+(unless (eq (server-running-p "server") t) (server-start) )
+
+(let ((extra-projects '("/z/w")))
+  (loop for x in extra-projects do
+	(let* (
+	       (load-directory (expand-file-name ".emacs.d" x))
+	       (files (get-directory-files load-directory t ".el$")))
+	  (loop for y in files do
+		(let ((basename (file-name-sans-extension y)))
+  ; this is so if happens to be a compiled version in there, load that instead of the source
+		  (load basename t t)
+		  )
+		)
+	  )
+	)
+  )
