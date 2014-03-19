@@ -84,8 +84,11 @@
 (require 'comint-keys)
 
 ; use ls-lisp on this host.  or dired on drives other than $SYSTEMDRIVE acts weird.
-; (setq ls-lisp-use-insert-directory-program t)
-(setq ls-lisp-use-insert-directory-program nil)
+; (setq ls-lisp-use-insert-directory-program nil)
+
+(setq ls-lisp-use-insert-directory-program t)
+(setq dired-listing-switches "-AGl")
+; (setq dired-listing-switches "-l -g -t --time-style='+%Y-%m-%d %H:%M:%S'" )
 
 (add-hook 'dired-load-hook (lambda () 
 			      (define-key dired-mode-map "e" 'dired-decrypt-find-file)
@@ -293,5 +296,5 @@
 ; (let ((kbf (executable-find "kbf")))  (and kbf (call-process kbf))  )
 
 (require 'server)
-(unless (server-running-p "server") (server-start) )
+(unless (eq (server-running-p "server") t) (server-start) )
 
