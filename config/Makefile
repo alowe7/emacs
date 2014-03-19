@@ -18,12 +18,12 @@ compile:
 ifeq ($(strip $(EMACS)),)
 	@echo "EMACS not found"
 else
-	$(EMACS) --batch -l byte-compile-configs.el -e batch-byte-compile-if-not-done $(CONFIGS)
+	$(EMACS) --batch -l byte-compile-configs.el -e batch-byte-compile $(CONFIGS)
 endif
 
 %.elc : %.el
 ifeq ($(strip $(EMACS)),)
 	@echo "EMACS not found"
 else
-	$(EMACS) --batch -l byte-compile-configs.el -e batch-byte-compile-if-not-done $<
+	$(EMACS) --batch -l byte-compile-configs.el -e batch-byte-compile $<
 endif
