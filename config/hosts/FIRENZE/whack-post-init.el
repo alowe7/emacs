@@ -1,6 +1,8 @@
 (put 'whack-post-init 'rcsid
  "$Id$")
 
+(require 'directories)
+
 ; post load hooks don't work on autoloads
 (eval-when-compile
   (let* ((default-directory "/src/emacs/config/common")
