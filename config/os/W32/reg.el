@@ -1,5 +1,6 @@
 (put 'reg 'rcsid
  "$Id$")
+
 (require 'qsave)
 
 (defun reg-canonify (s) (if (and s (stringp s) (> (length s) 0)) (replace-regexp-in-string "\\\\"  "/" s) ""))

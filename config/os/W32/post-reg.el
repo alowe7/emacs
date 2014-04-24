@@ -1,7 +1,9 @@
 (put 'post-reg 'rcsid
  "$Id$")
 
-(require 'reg)
+(eval-when-compile
+  (require 'reg)
+  )
 
 (defun lsrun (arg) (interactive "P") 
   "show the contents of the windows/currentversion/run key in the machine hive.

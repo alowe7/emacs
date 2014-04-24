@@ -23,6 +23,8 @@
        )
       )
 
+(message (pp load-path))
+
 (setq byte-compile-warnings '(not cl-functions free-vars unresolved))
 
 ; (message (pp load-path))

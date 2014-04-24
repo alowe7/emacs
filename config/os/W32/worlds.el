@@ -1,4 +1,9 @@
-(require 'reg)
+(put 'worlds 'rcsid
+ "$Id$")
+
+(eval-when-compile
+  (require 'reg)
+  )
 
 ;; default is to take these from the environment.
 ;; in windows land, try to pull initial values for these from the registry if env. vars not defined.

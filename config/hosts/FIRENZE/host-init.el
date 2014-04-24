@@ -298,3 +298,4 @@
 (require 'server)
 (unless (eq (server-running-p "server") t) (server-start) )
 
+(require 'opps)
