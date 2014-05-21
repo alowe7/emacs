@@ -5,6 +5,8 @@
 
 ;; these is some fancy key bindings
 
+(define-key ctl-x-4-map "3" 'three)
+
 (define-key ctl-x-5-map "-" 'delete-all-other-frames)
 (define-key ctl-x-5-map "=" 'delete-duplicate-frames)
 (define-key ctl-x-5-map "\C-m" (function (lambda () (interactive) (switch-to-buffer-other-frame (current-buffer))))) 
@@ -27,7 +29,6 @@
 (global-set-key "\C-x\C-p" 'pwd)
 ; (global-set-key  "\C-x\C-b" 'list-buffers)
 
-(global-set-key "\C-x3" 'three)
 ; (global-set-key "\C-x<" (lambda () (interactive) (scroll-left horizontal-scroll-delta)))
 ; (global-set-key "\C-x>" (lambda () (interactive) (scroll-right horizontal-scroll-delta)))
 (global-set-key "\C-x<" 'scroll-left)
@@ -54,8 +55,6 @@
 
 ; (global-set-key "\C-c." 'find-tag-on-key)
 (global-set-key "\C-c." 'modify-syntax-entry)
-
-(global-set-key "\C-c\C-o" (function (lambda () (interactive) (roll-buffer-list t))))
 
 (global-set-key "\C-c\C-q" 'fill-region)
 (global-set-key "\C-c\C-r" 'current-word-search-backward)
@@ -190,10 +189,8 @@
 
 ;; this particular set of key bindings are so obscure, they're a barrier to use.
 
-(define-key alt-SPC-map " " 'roll-buffer-with-mode)
 (define-key alt-SPC-map "\M-," 'roll-scratch-buffers)
 (define-key alt-SPC-map "." 'roll-server-clients)
-(define-key alt-SPC-map " " 'roll-buffer-list)
 
 
 (define-key alt-SPC-map "?" (function (lambda () (interactive) (message ""))))
@@ -205,12 +202,15 @@
 (define-key alt-SPC-map "\M-k" 'kill-buffers-mode)
 (define-key alt-SPC-map "\M-m" 'list-buffers-mode)
 (define-key alt-SPC-map "\M-~" 'kill-buffers-not-modified)
+(define-key alt-SPC-map "\M-s" (function (lambda () (interactive) (list-buffers-mode 'shell-mode))))
 (define-key alt-SPC-map "b" (function (lambda () (interactive) (list-buffers-mode 'scratch-mode))))
 (define-key alt-SPC-map "l" 'roll-buffer-like)
+(define-key alt-SPC-map " " 'roll-buffer-list)
+(define-key alt-SPC-map "\M-o" 'roll-buffer-mode)
+(define-key alt-SPC-map "o" 'roll-buffer-mode)
+(define-key alt-SPC-map "w" 'roll-buffer-with-mode)
 (define-key alt-SPC-map "m" 'roll-buffer-named)
 (define-key alt-SPC-map "n" 'iconify-frame)
-(define-key alt-SPC-map "o" 'roll-buffer-mode)
-(define-key alt-SPC-map "\M-o" 'roll-buffer-mode)
 (define-key alt-SPC-map "s" 'first-shell)
 (define-key alt-SPC-map "" 'roll-buffer-no-files)
 (define-key alt-SPC-map (vector 'return) 'bury-buffer)
@@ -234,8 +234,22 @@
 ; mail-quote
 (global-set-key "\C-c>" (function (lambda () (interactive) (save-excursion (goto-char (point-min)) (while (re-search-forward  "^" nil t) (replace-match "> " nil nil))))))
 
-(define-key ctl-x-4-map "" 'bury-buffer)
 
+(require 'long-comment)
+(/* 
+;; try not to override these default maps:
+(define-key ctl-x-map "0" 'delete-window)
+(define-key ctl-x-map "1" 'delete-other-windows)
+(define-key ctl-x-map "2" 'split-window-below)
+(define-key ctl-x-map "3" 'split-window-right)
+(define-key ctl-x-map "o" 'other-window)
+(define-key ctl-x-map "^" 'enlarge-window)
+(define-key ctl-x-map "}" 'enlarge-window-horizontally)
+(define-key ctl-x-map "{" 'shrink-window-horizontally)
+(define-key ctl-x-map "-" 'shrink-window-if-larger-than-buffer)
+(define-key ctl-x-map "+" 'balance-windows)
+(define-key ctl-x-4-map "0" 'kill-buffer-and-window)
+*/)
 
 (require 'ctl-slash)
 

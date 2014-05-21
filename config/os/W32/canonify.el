@@ -54,9 +54,11 @@ if MIXED is 0, then ignore letter drive names.
     )
   )
 
-(defun unix-canonify-0 (f) (unix-canonify f 0))
-
 (defalias 'canonify 'unix-canonify)
+
+(defun unix-canonify-0 (f) (unix-canonify f 0))
+(defalias 'canonify0 'unix-canonify-0)
+
 
 
 

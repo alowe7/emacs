@@ -298,4 +298,7 @@
 (require 'server)
 (unless (eq (server-running-p "server") t) (server-start) )
 
-(require 'opps)
+(require 'cases)
+
+(require 'ctl-slash)
+(define-key ctl-/-map "h" 'host-config)

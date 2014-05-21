@@ -14,6 +14,10 @@
 
 (define-key ctl-RET-map (vector ?\C-7) 'lru-shell)
 (define-key ctl-RET-map (vector ?\C-8) 'mru-shell)
+
+(define-key ctl-RET-map (vector ?\C--) 'lru-shell)
+(define-key ctl-RET-map (vector ?\C-=) 'mru-shell)
+
 (define-key ctl-RET-map "\C-f" 'find-indicated-file)
 
 (require 'ctl-slash)

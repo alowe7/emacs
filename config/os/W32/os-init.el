@@ -13,8 +13,8 @@
 
 ; definitions specific to the win32 window system
 
-(defvar *systemroot*	(getenv "SYSTEMROOT"))
-(defvar *systemdrive*	(getenv "SYSTEMDRIVE"))
+(defvar *systemroot*	(expand-file-name (getenv "SYSTEMROOT")))
+(defvar *systemdrive*	(expand-file-name (getenv "SYSTEMDRIVE")))
 (defvar *username*	(getenv "USERNAME"))
 
 (autoload 'reg-query "reg" nil t)
