@@ -227,13 +227,20 @@
 	      (lambda ()
 		(setq indent-tabs-mode nil)
 		(setq tab-width 4)
-		(setq python-indent 4)))
+		(setq python-indent-offset 4)))
   ; (pop python-mode-hook)
 
     (setq save-abbrevs 'silently)
 
 ; clobber key binding
-    (define-key ctl-RET-map  "\C-p" 'run-python)
+    (defun my-run-python (&optional dedicated show) 
+      (interactive)
+      (let* ((process (python-shell-get-or-create-process))
+	     (buffer (and process (process-buffer process))))
+	(if (buffer-live-p buffer) (pop-to-buffer buffer) (run-python dedicated show) )
+	)
+      )
+    (define-key ctl-RET-map  "\C-p" 'my-run-python)
     (setq *pyflake* t)
     )
   )
@@ -283,13 +290,14 @@
      (loop for y in files do
 	   ;; todo prevent loading twice?
 	   (let ((basename (file-name-sans-extension y)))
-  ; this is so if happens to be a compiled version in there, load that instead of the source
+					; this is so if happens to be a compiled version in there, load that instead of the source
 	     (load basename t t)
 	     )
 	   )
      )
    )
- '("/z/w" "/z/sync" "/work")
+					; '("/z/w" "/z/sync")
+ '("/z/sync")
  )
 
 ; if kbf can be found, call it
@@ -298,7 +306,16 @@
 (require 'server)
 (unless (eq (server-running-p "server") t) (server-start) )
 
-(require 'cases)
+; (require 'cases)
 
 (require 'ctl-slash)
 (define-key ctl-/-map "h" 'host-config)
+
+(defun bootstrap-bookmark-jump-hosts () (interactive)
+  (require 'bookmark)
+  (bookmark-maybe-load-default-file) 
+  (define-key ctl-RET-map "h" (lambda () (interactive) (bookmark-jump "hosts")))
+  (bookmark-jump "hosts")
+  )
+
+(define-key ctl-RET-map "h" 'bootstrap-bookmark-jump-hosts)

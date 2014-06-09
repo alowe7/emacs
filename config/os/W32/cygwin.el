@@ -9,27 +9,41 @@
 (defun cygwin-init ()
   (setq *cygwin-init* t)
 
-  ; initialize mount table
-  (defvar *cygdrive-prefix*  (car
-			      (split
-			       (cadr (split (eval-process "mount -p") "
-"))
-			       )
-			      )
+					; initialize mount table
+  (defvar *cygdrive-prefix* "/cygdrive"
     "prefix for cygwin mounts"
     )
 
+; alternatively, could compute *cygdrive-prefix* as follows: 
+; (car (split (cadr (split (eval-process "mount -p") "\n"))))
+
+; but in some environments, mount can take a long time to time out, so try to avoid doing that during initialization...
+; for example, if persistent cifs shares are mapped, but are not visible on your current network...
+
+(defvar *w32-compute-cygmounts* t "if set, use w32 command to compute cygmounts")
+
   (defvar *cygmounts*
-    (remove-if (function (lambda (x) (not (string-match (concat "^" *cygdrive-prefix*)  (car x)))))
-	       (loop for x in (split (eval-process "mount") "
+    (if *w32-compute-cygmounts*
+	(loop for mount in 
+	      (loop for x in (split  (eval-process "net use") "\n") when (string-match "[A-Z]:" x) collect
+		    (loop for field in (split x "        ") collect (trim-white-space field))
+		    )
+	      collect
+	      (list (unix-canonify (cadr mount)) (car mount))
+	      )
+
+
+      (remove-if (function (lambda (x) (not (string-match (concat "^" *cygdrive-prefix*)  (car x)))))
+		 (loop for x in (split (eval-process "mount") "
 ")
-		     collect 
-		     (let ((l (split x " ")))
-		       (list (caddr l) (car l))))
-	       )
+		       collect 
+		       (let ((l (split x " ")))
+			 (list (caddr l) (car l))))
+		 )
+      )
     "list of mounted file systems"
-    )
   )
+)
 
 (defun mount-hook (f)
   "apply mounts to FILE if applicable"
