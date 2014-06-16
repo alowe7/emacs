@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-((".private"
+(("AndroidStudioProjects"
+ (filename . "c:/Users/alowe/AndroidStudioProjects/")
+ (front-context-string . "Markers\n  drwxr-")
+ (rear-context-string . " 0 Jun  9 12:41 ")
+ (position . 124))
+(".private"
  (filename . "c:/psi/.private/")
  (front-context-string . "swords\n  -rw-rw-")
  (rear-context-string . "-09-12 14:52:30 ")
