@@ -319,3 +319,11 @@
   )
 
 (define-key ctl-RET-map "h" 'bootstrap-bookmark-jump-hosts)
+
+; get rid of annoying bash bug when run as subprocess
+; bash: cannot set terminal process group (-1): Inappropriate ioctl for device 
+
+(if (executable-find "fakecygpty")
+    (setq explicit-shell-file-name "fakecygpty"
+	  explicit-fakecygpty-args '("bash" "-i"))
+  )
