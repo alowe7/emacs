@@ -324,6 +324,8 @@
 ; bash: cannot set terminal process group (-1): Inappropriate ioctl for device 
 
 (if (executable-find "fakecygpty")
-    (setq explicit-shell-file-name "fakecygpty"
-	  explicit-fakecygpty-args '("bash" "-i"))
+    (progn
+      (set-default 'explicit-shell-file-name "fakecygpty")
+      (setq explicit-fakecygpty-args '("bash" "--noediting" "-i"))
+      )
   )
